@@ -351,9 +351,11 @@ Preedit::append_str (const String & str)
     for (unsigned int i = 0; i < m_char_caret; i++)
         m_caret += m_char_list[i].kana.length();
 
+#if 0
     if (m_input_mode == MODE_LATIN ||
         m_input_mode == MODE_WIDE_LATIN)
-        return true;
+        return RESULT_NEED_COMMIT;
+#endif
 
     if (is_comma_or_period (m_char_list[m_char_caret - 1].key) && m_auto_convert)
         return true;

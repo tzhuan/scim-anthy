@@ -562,12 +562,19 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
 
         bool need_convert = m_preedit.append (key);
 
-        if (need_convert)
-            action_convert ();
-        show_preedit_string ();
-        update_preedit_string (m_preedit.get_string (),
-                               m_preedit.get_attribute_list ());
-        update_preedit_caret (m_preedit.get_caret_pos());
+        if (m_preedit.get_input_mode () == MODE_LATIN ||
+            m_preedit.get_input_mode () == MODE_WIDE_LATIN)
+        {
+            action_commit ();
+            m_preedit.clear ();
+        } else {
+            if (need_convert)
+                action_convert ();
+            show_preedit_string ();
+            update_preedit_string (m_preedit.get_string (),
+                                   m_preedit.get_attribute_list ());
+            update_preedit_caret (m_preedit.get_caret_pos());
+        }
 
         return true;
     }
