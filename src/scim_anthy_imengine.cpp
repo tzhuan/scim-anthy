@@ -631,7 +631,7 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
     {
         return false;
     }
-    
+   
     if (isprint(key.get_ascii_code ())) {
         // commit old conversion string before update preedit string
         if (m_preedit.is_converting ())
@@ -778,7 +778,10 @@ void
 AnthyInstance::focus_out ()
 {
     SCIM_DEBUG_IMENGINE(2) << "focus_out.\n";
-    action_commit();
+    
+    // the following line should be commented out because of 
+    // crashing evolution.
+    //action_commit();
 }
 
 void

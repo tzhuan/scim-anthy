@@ -1,3 +1,8 @@
+2004-12-17 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* src/scim_anthy_imengine.cpp:
+	Comment out action_commit() in foucs_out().
+
 2004-12-15 Hiroyuki Ikezoe <poincare@ikezoe.net>
 
 	* src/scim_anthy_imengine.cpp, src/scim_anthy_preedit.cpp:
