@@ -502,11 +502,11 @@ static KeyboardConfigData __config_keyboards_mode [] =
 static struct KeyboardConfigPage __key_conf_pages[] =
 {
     {"Common keys",     __config_keyboards_common},
+    {"Mode keys",       __config_keyboards_mode},
     {"Caret keys",      __config_keyboards_caret},
     {"Segments keys",   __config_keyboards_segments},
     {"Candidates keys", __config_keyboards_candidates},
     {"Converting keys", __config_keyboards_converting},
-    {"Mode keys",       __config_keyboards_mode},
 };
 static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (KeyboardConfigPage);
 
