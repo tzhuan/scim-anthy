@@ -1,0 +1,9 @@
+Makefile
+Makefile.in
+POTFILES
+*.rej
+*.orig
+*.gmo
+*.bak
+*~
+scim-anthy.pot
