@@ -701,7 +701,7 @@ AnthyInstance::lookup_table_page_down ()
 {
     if (!is_selecting_candidates () ||
         m_lookup_table.get_current_page_start () + m_lookup_table.get_current_page_size () >=
-        (int) m_lookup_table.number_of_candidates ())
+        (int) m_lookup_table.number_of_candidates ()) 
         return;
 
     SCIM_DEBUG_IMENGINE(2) << "lookup_table_page_down.\n";
@@ -954,16 +954,21 @@ AnthyInstance::action_convert (void)
         // show candidates window
         // FIXME!
         m_preedit.setup_lookup_table(m_lookup_table);
-        int page = m_preedit.get_selected_candidate () / m_lookup_table.get_page_size ();
+	int page = m_preedit.get_selected_candidate () / m_lookup_table.get_page_size ();
         int pos  = m_preedit.get_selected_candidate () % m_lookup_table.get_page_size ();
-        for (int i = 0; i < page; i++)
-            m_lookup_table.page_down ();
-        if (pos + 1 >= m_lookup_table.get_page_size ()) {
-            m_lookup_table.page_down ();
-            select_candidate (0);
-        } else {
-            select_candidate (pos + 1);
-        }
+        if (m_preedit.get_selected_candidate () >= m_lookup_table.number_of_candidates () - 1) {
+	    m_lookup_table.set_cursor_pos (0);
+	    select_candidate (0);
+	} else {
+	    for (int i = 0; i < page; i++)
+                m_lookup_table.page_down ();
+            if (pos + 1 >= m_lookup_table.get_page_size ()) {
+	        m_lookup_table.page_down ();
+	        select_candidate (0);
+            } else {
+                select_candidate (pos + 1);
+            }
+	}
         show_lookup_table ();
     }
 
