@@ -1,4 +1,8 @@
 2004-12-02 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine.cpp: Remove dictionary label string.
+
+2004-12-02 Takuro Ashie <ashie@homa.ne.jp>
 	* po/ja.po, src/scim_anthy_imengine.cpp, src/scim_anthy_imengine.h,
 	  src/scim_anthy_imengine_setup.cpp, src/scim_anthy_prefs.h:
 	Added key bindings for dictionary related actions.

@@ -857,7 +857,7 @@ AnthyInstance::install_properties (void)
 
         if (m_factory->m_show_dict_label) {
             prop = Property (SCIM_PROP_DICT,
-                             _("Dictionary"),
+                             String(""), //_("Dictionary"),
                              String (SCIM_ICONDIR "/" "scim-anthy-dict.png"),
                              _("Dictionary menu"));
             m_properties.push_back (prop);
