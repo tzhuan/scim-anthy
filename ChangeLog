@@ -1,3 +1,9 @@
+2005-01-02 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* src/scim_anthy_imengine.cpp:
+	Applied the patch from james Su <james.su@gmail.com>.
+	Do not disconnect a signal-slot with in the slot function.
+
 2004-12-24 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.cpp: Clear preedit string on reset().

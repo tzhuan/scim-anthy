@@ -136,7 +136,7 @@ AnthyFactory::AnthyFactory (const String &lang,
                             const String &uuid,
                             const ConfigPointer &config)
     : m_uuid (uuid),
-      m_config (0),
+      m_config (config),
       m_typing_method (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
       m_period_style (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
       m_auto_convert (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT),
@@ -160,7 +160,8 @@ AnthyFactory::AnthyFactory (const String &lang,
         return;
 
     /* config */
-    reload_config (config);
+    reload_config (m_config);
+    m_reload_signal_connection = m_config->signal_connect_reload (slot (this, &AnthyFactory::reload_config));
 }
 
 AnthyFactory::~AnthyFactory ()
@@ -262,8 +263,6 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
 void
 AnthyFactory::reload_config (const ConfigPointer &config)
 {
-    m_reload_signal_connection.disconnect ();
-
     if (config) {
         String str;
 
@@ -435,9 +434,6 @@ AnthyFactory::reload_config (const ConfigPointer &config)
                             String (SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT));
         scim_string_to_key_list (m_add_word_keys, str);
     }
-
-    m_config = config;
-    m_reload_signal_connection = m_config->signal_connect_reload (slot (this, &AnthyFactory::reload_config));
 }
 
 AnthyInstance::~AnthyInstance ()
