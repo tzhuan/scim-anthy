@@ -26,8 +26,9 @@ anthy_la_CXXFLAGS = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@
 
 anthy_la_LDFLAGS = \
 	-avoid-version \
-	-module \
 	-rpath $(moduledir) \
+	-module \
+	@LIBTOOL_EXPORT_OPTIONS@ \
 	@SCIM_LIBS@ \
 	@ANTHY_LIBS@
 
