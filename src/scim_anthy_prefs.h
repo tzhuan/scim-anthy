@@ -28,6 +28,7 @@
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE                "/IMEngine/Anthy/PeriodStyle"
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE                  "/IMEngine/Anthy/SpaceType"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD      "/IMEngine/Anthy/AutoConvertOnPeriod"
+#define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND          "/IMEngine/Anthy/DictAdminCommand"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND            "/IMEngine/Anthy/AddWordCommand"
 
@@ -97,6 +98,7 @@
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT                "Japanese"
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT                  "Wide"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT      false
+#define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    false
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT          "kasumi"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT            "kasumi --add"
 

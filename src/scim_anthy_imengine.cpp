@@ -140,6 +140,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_typing_method (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
       m_period_style (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
       m_auto_convert (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT),
+      m_close_cand_win_on_select (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT),
       m_dict_admin_command (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
       m_add_word_command (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
       m_show_input_mode_label (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
@@ -278,6 +279,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_auto_convert
             = config->read (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD,
                             m_auto_convert);
+        m_close_cand_win_on_select
+            = config->read (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
+                            m_close_cand_win_on_select);
         m_dict_admin_command
             = config->read (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
                             m_dict_admin_command);
@@ -750,11 +754,11 @@ AnthyInstance::move_preedit_caret (unsigned int pos)
 }
 
 void
-AnthyInstance::select_candidate (unsigned int item)
+AnthyInstance::select_candidate_no_direct (unsigned int item)
 {
     if (!is_selecting_candidates ()) return;
 
-    SCIM_DEBUG_IMENGINE(2) << "select_candidate.\n";
+    SCIM_DEBUG_IMENGINE(2) << "select_candidate_no_direct.\n";
  
     // update lookup table
     m_lookup_table.set_cursor_pos_in_current_page (item);
@@ -765,6 +769,20 @@ AnthyInstance::select_candidate (unsigned int item)
     update_preedit_string (m_preedit.get_string (),
                            m_preedit.get_attribute_list ());
     update_preedit_caret (m_preedit.get_caret_pos ());
+}
+
+void
+AnthyInstance::select_candidate (unsigned int item)
+{
+    SCIM_DEBUG_IMENGINE(2) << "select_candidate.\n";
+
+    select_candidate_no_direct (item);
+
+    if (m_factory->m_close_cand_win_on_select) {
+        m_lookup_table.clear ();
+        hide_lookup_table ();
+        action_select_next_segment();
+    }
 }
 
 void
@@ -1100,15 +1118,15 @@ AnthyInstance::action_convert (void)
         int pos  = m_preedit.get_selected_candidate () % m_lookup_table.get_page_size ();
         if (m_preedit.get_selected_candidate () >= (int) (m_lookup_table.number_of_candidates () - 1)) {
             m_lookup_table.set_cursor_pos (0);
-            select_candidate (0);
+            select_candidate_no_direct (0);
         } else {
             for (int i = 0; i < page; i++)
                 m_lookup_table.page_down ();
             if (pos + 1 >= m_lookup_table.get_page_size ()) {
                 m_lookup_table.page_down ();
-                select_candidate (0);
+                select_candidate_no_direct (0);
             } else {
-                select_candidate (pos + 1);
+                select_candidate_no_direct (pos + 1);
             }
         }
         show_lookup_table ();
@@ -1442,7 +1460,7 @@ AnthyInstance::action_select_next_candidate (void)
     } else {
         m_lookup_table.cursor_down ();
     }
-    select_candidate (m_lookup_table.get_cursor_pos_in_current_page ());
+    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
 
     return true;
 }
@@ -1459,7 +1477,7 @@ AnthyInstance::action_select_prev_candidate (void)
         m_lookup_table.set_cursor_pos (m_lookup_table.number_of_candidates () - 1);
     else
         m_lookup_table.cursor_up ();
-    select_candidate (m_lookup_table.get_cursor_pos_in_current_page ());
+    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
 
     return true;
 }
@@ -1471,7 +1489,7 @@ AnthyInstance::action_candidates_page_up(void)
     if (!is_selecting_candidates ()) return false;
 
     m_lookup_table.page_up ();
-    select_candidate (m_lookup_table.get_cursor_pos_in_current_page ());
+    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
 
     return true;
 }
@@ -1483,7 +1501,18 @@ AnthyInstance::action_candidates_page_down (void)
     if (!is_selecting_candidates ()) return false;
 
     m_lookup_table.page_down ();
-    select_candidate (m_lookup_table.get_cursor_pos_in_current_page ());
+    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
+
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate (unsigned int i)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (i);
 
     return true;
 }
@@ -1491,102 +1520,62 @@ AnthyInstance::action_candidates_page_down (void)
 bool
 AnthyInstance::action_select_candidate_1 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (0);
-    return true;
+    return action_select_candidate (0);
 }
 
 bool
 AnthyInstance::action_select_candidate_2 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (1);
-    return true;
+    return action_select_candidate (1);
 }
 
 bool
 AnthyInstance::action_select_candidate_3 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (2);
-    return true;
+    return action_select_candidate (2);
 }
 
 bool
 AnthyInstance::action_select_candidate_4 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (3);
-    return true;
+    return action_select_candidate (3);
 }
 
 bool
 AnthyInstance::action_select_candidate_5 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (4);
-    return true;
+    return action_select_candidate (4);
 }
 
 bool
 AnthyInstance::action_select_candidate_6 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (5);
-    return true;
+    return action_select_candidate (5);
 }
 
 bool
 AnthyInstance::action_select_candidate_7 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (6);
-    return true;
+    return action_select_candidate (6);
 }
 
 
 bool
 AnthyInstance::action_select_candidate_8 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (7);
-    return true;
+    return action_select_candidate (7);
 }
 
 bool
 AnthyInstance::action_select_candidate_9 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (8);
-    return true;
+    return action_select_candidate (8);
 }
 
 bool
 AnthyInstance::action_select_candidate_10 (void)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
-
-    select_candidate (9);
-    return true;
+    return action_select_candidate (9);
 }
 
 bool

@@ -147,6 +147,7 @@ static String __config_space_type               = SCIM_ANTHY_CONFIG_SPACE_TYPE_D
 static String __config_dict_admin_command       = SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT;
 static String __config_add_word_command         = SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT;
 static bool   __config_auto_convert             = SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT;
+static bool   __config_close_cand_win_on_select = SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT;
 static bool   __config_show_input_mode_label    = SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT;
 static bool   __config_show_typing_method_label = SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT;
 static bool   __config_show_period_style_label  = SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT;
@@ -160,6 +161,7 @@ static GtkWidget    * __widget_typing_method            = 0;
 static GtkWidget    * __widget_period_style             = 0;
 static GtkWidget    * __widget_space_type               = 0;
 static GtkWidget    * __widget_auto_convert             = 0;
+static GtkWidget    * __widget_close_cand_win_on_select  = 0;
 static GtkWidget    * __widget_dict_admin_command       = 0;
 static GtkWidget    * __widget_add_word_command         = 0;
 static GtkWidget    * __widget_show_input_mode_label    = 0;
@@ -760,7 +762,16 @@ create_options_page ()
     gtk_box_pack_start (GTK_BOX (vbox), __widget_auto_convert, FALSE, FALSE, 4);
     gtk_container_set_border_width (GTK_CONTAINER (__widget_auto_convert), 4);
 
+    /* close candidate window on select */
+    __widget_close_cand_win_on_select = gtk_check_button_new_with_mnemonic (_("Close candidate window when select a candidate directly."));
+    gtk_widget_show (__widget_close_cand_win_on_select);
+    gtk_box_pack_start (GTK_BOX (vbox), __widget_close_cand_win_on_select, FALSE, FALSE, 4);
+    gtk_container_set_border_width (GTK_CONTAINER (__widget_close_cand_win_on_select), 4);
+
     // Connect all signals.
+    g_signal_connect ((gpointer) __widget_close_cand_win_on_select, "toggled",
+                      G_CALLBACK (on_default_toggle_button_toggled),
+                      &__config_close_cand_win_on_select);
     g_signal_connect ((gpointer) __widget_auto_convert, "toggled",
                       G_CALLBACK (on_default_toggle_button_toggled),
                       &__config_auto_convert);
@@ -1025,6 +1036,12 @@ setup_widget_value ()
             __config_auto_convert);
     }
 
+    if (__widget_close_cand_win_on_select) {
+        gtk_toggle_button_set_active (
+            GTK_TOGGLE_BUTTON (__widget_close_cand_win_on_select),
+            __config_close_cand_win_on_select);
+    }
+
     if (__widget_show_input_mode_label) {
         gtk_toggle_button_set_active (
             GTK_TOGGLE_BUTTON (__widget_show_input_mode_label),
@@ -1100,6 +1117,9 @@ load_config (const ConfigPointer &config)
         __config_auto_convert =
             config->read (String (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD),
                           __config_auto_convert);
+        __config_close_cand_win_on_select =
+            config->read (String (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT),
+                          __config_close_cand_win_on_select);
         __config_dict_admin_command =
             config->read (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND),
                           __config_dict_admin_command);
@@ -1152,6 +1172,8 @@ save_config (const ConfigPointer &config)
                         __config_space_type);
         config->write (String (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD),
                         __config_auto_convert);
+        config->write (String (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT),
+                        __config_close_cand_win_on_select);
         config->write (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND),
                         __config_dict_admin_command);
         config->write (String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND),

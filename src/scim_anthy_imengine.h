@@ -48,6 +48,7 @@ class AnthyFactory : public IMEngineFactoryBase
     String       m_period_style;
     String       m_space_type;
     bool         m_auto_convert;
+    bool         m_close_cand_win_on_select;
     String       m_dict_admin_command;
     String       m_add_word_command;
     bool         m_show_input_mode_label;
@@ -161,6 +162,7 @@ private:
     void   set_period_style                   (PeriodStyle period,
                                                CommaStyle comma);
     bool   is_selecting_candidates            (void);
+    void   select_candidate_no_direct         (unsigned int item);
     bool   convert_kana                       (CandidateType type);
 
     /* processing key event */
@@ -196,6 +198,8 @@ private:
     bool   action_select_prev_candidate       (void);
     bool   action_candidates_page_up          (void);
     bool   action_candidates_page_down        (void);
+
+    bool   action_select_candidate            (unsigned int i);
 
     bool   action_select_candidate_1          (void);
     bool   action_select_candidate_2          (void);
