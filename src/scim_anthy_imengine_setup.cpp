@@ -866,6 +866,10 @@ create_setup_window ()
             gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
         }
 
+        // for preventing enabling left arrow.
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
+        gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+
         setup_widget_value ();
     }
 
