@@ -1289,8 +1289,10 @@ AnthyInstance::action_select_next_candidate (void)
 
     if (!is_selecting_candidates ())
         action_convert ();
-
-    m_lookup_table.cursor_down ();
+    if (m_lookup_table.get_cursor_pos () == m_lookup_table.number_of_candidates () - 1)
+        m_lookup_table.set_cursor_pos (0);
+    else
+        m_lookup_table.cursor_down ();
     select_candidate (m_lookup_table.get_cursor_pos_in_current_page ());
 
     return true;
@@ -1304,7 +1306,10 @@ AnthyInstance::action_select_prev_candidate (void)
     if (!is_selecting_candidates ())
         action_convert ();
 
-    m_lookup_table.cursor_up ();
+    if (m_lookup_table.get_cursor_pos () == 0)
+        m_lookup_table.set_cursor_pos (m_lookup_table.number_of_candidates () - 1);
+    else
+        m_lookup_table.cursor_up ();
     select_candidate (m_lookup_table.get_cursor_pos_in_current_page ());
 
     return true;

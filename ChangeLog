@@ -1,3 +1,9 @@
+2004-11-27 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* src/scim_anthy_imengine.cpp: select next/prev candidate is loop.
+	But there is a bug that pressing space key at the tail of the candidates 
+	cannot be moved at the head of the candidates. Why?
+
 2004-11-26 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.cpp: Bug fix for selecting candidate by
