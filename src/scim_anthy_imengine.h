@@ -1,5 +1,7 @@
+/* -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
  *  Copyright (C) 2004 Hiroyuki Ikezoe
+ *  Copyright (C) 2004 Takuro Ashie
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,7 +27,9 @@
 #define __SCIM_ANTHY_IMENGINE_H__
 
 #define Uses_SCIM_ICONV
+#include <anthy/anthy.h>
 #include <scim.h>
+#include "scim_anthy_preedit.h"
 using namespace scim;
 
 class AnthyFactory : public IMEngineFactoryBase
@@ -35,10 +39,57 @@ class AnthyFactory : public IMEngineFactoryBase
     IConvert m_iconv;
     friend class AnthyInstance;
 
+    /* config */
+    ConfigPointer  m_config;
+    Connection     m_reload_signal_connection;
+
+    /* for preferece */
+    String       m_typing_method;
+    String       m_period_style;
+    bool         m_auto_convert;
+    bool         m_show_input_mode_label;
+    bool         m_show_typing_method_label;
+    bool         m_show_period_style_label;
+
+    /* for key bindings */
+    KeyEventList m_commit_keys;
+    KeyEventList m_convert_keys;
+    KeyEventList m_cancel_keys;
+
+    KeyEventList m_backspace_keys;
+    KeyEventList m_delete_keys;
+
+    KeyEventList m_move_caret_first_keys;
+    KeyEventList m_move_caret_last_keys;
+    KeyEventList m_move_caret_forward_keys;
+    KeyEventList m_move_caret_backward_keys;
+
+    KeyEventList m_select_first_segment_keys;
+    KeyEventList m_select_last_segment_keys;
+    KeyEventList m_select_next_segment_keys;
+    KeyEventList m_select_prev_segment_keys;
+    KeyEventList m_shrink_segment_keys;
+    KeyEventList m_expand_segment_keys;
+
+    KeyEventList m_next_candidate_keys;
+    KeyEventList m_prev_candidate_keys;
+    KeyEventList m_candidates_page_up_keys;
+    KeyEventList m_candidates_page_down_keys;
+
+    KeyEventList m_conv_to_hiragana_keys;
+    KeyEventList m_conv_to_katakana_keys;
+    KeyEventList m_conv_to_half_katakana_keys;
+    KeyEventList m_conv_to_latin_keys;
+    KeyEventList m_conv_to_wide_latin_keys;
+
+    KeyEventList m_latin_mode_keys;
+    KeyEventList m_wide_latin_mode_keys;
+    KeyEventList m_circle_kana_mode_keys;
+
 public:
     AnthyFactory (const String &lang,
-                  const String &uuid);
-
+                  const String &uuid,
+                  const ConfigPointer &config);
     virtual ~AnthyFactory ();
 
     virtual WideString  get_name () const;
@@ -49,30 +100,34 @@ public:
     virtual String      get_icon_file () const;
 
     virtual IMEngineInstancePointer create_instance (const String& encoding, int id = -1);
+
+private:
+    void reload_config (const ConfigPointer &config);
 };
 
 class AnthyInstance : public IMEngineInstanceBase
 {
-    AnthyFactory     *m_factory;
+    AnthyFactory       *m_factory;
 
-    WideString        m_preedit_string;
-    AttributeList     m_preedit_attrs;
-    int               m_preedit_caret;
+    KeyEvent            m_prev_key;
 
-    CommonLookupTable m_lookup_table;
+    /* for preedit */
+    Preedit             m_preedit;
 
-    bool              m_show_lookup_table;
+    /* for candidates window */
+    CommonLookupTable   m_lookup_table;
+    bool                m_show_lookup_table;
 
-    int               m_input_mode;
-    int               m_output_mode;
-    
-    PropertyList      m_properties;
+    /* for toggling latin and wide latin */
+    InputMode           m_prev_input_mode;
+
+    /* for toolbar */
+    PropertyList        m_properties;
 
 public:
     AnthyInstance (AnthyFactory   *factory,
                    const String   &encoding,
                    int             id = -1);
-
     virtual ~AnthyInstance ();
 
     virtual bool process_key_event             (const KeyEvent& key);
@@ -87,9 +142,64 @@ public:
     virtual void trigger_property              (const String &property);
 
 private:
-    /* candidate keys */
-    bool   candidate_key_event (const KeyEvent &key);
+    void   install_properties                 (void);
+    void   set_input_mode                     (InputMode mode);
+    void   set_typing_method                  (TypingMethod method); /* FIXME! */
+    void   set_period_style                   (PeriodStyle style);
+    bool   is_selecting_candidates            (void);
+    bool   convert_kana                       (SpecialCandidate type);
 
+    /* processing key event */
+    bool   process_key_event_lookup_keybind   (const KeyEvent &key);
+    bool   process_key_event_without_preedit  (const KeyEvent &key);
+    bool   process_key_event_with_preedit     (const KeyEvent &key);
+    bool   process_key_event_with_candidate   (const KeyEvent &key);
+    bool   process_remaining_key_event        (const KeyEvent &key);
+
+    /* actinos */
+    bool   action_convert                     (void);
+    bool   action_revert                      (void);
+    bool   action_commit                      (void);
+
+    bool   action_move_caret_backward         (void);
+    bool   action_move_caret_forward          (void);
+    bool   action_move_caret_first            (void);
+    bool   action_move_caret_last             (void);
+
+    bool   action_back                        (void);
+    bool   action_delete                      (void);
+
+    bool   action_select_prev_segment         (void);
+    bool   action_select_next_segment         (void);
+    bool   action_select_first_segment        (void);
+    bool   action_select_last_segment         (void);
+    bool   action_shrink_segment              (void);
+    bool   action_expand_segment              (void);
+
+    bool   action_select_next_candidate       (void);
+    bool   action_select_prev_candidate       (void);
+    bool   action_candidates_page_up          (void);
+    bool   action_candidates_page_down        (void);
+
+    bool   action_convert_to_hiragana         (void);
+    bool   action_convert_to_katakana         (void);
+    bool   action_convert_to_half_katakana    (void);
+    bool   action_convert_to_latin            (void);
+    bool   action_convert_to_wide_latin       (void);
+
+    bool   action_circle_input_mode           (void);
+    bool   action_circle_typing_method        (void);
+    bool   action_circle_kana_mode            (void);
+    bool   action_toggle_latin_mode           (void);
+    bool   action_toggle_wide_latin_mode      (void);
+
+    /*
+    void   actoin_regist_word                 (void);
+    void   actoin_launch_dict_admin           (void);
+    */
+
+    /* utility */
+    bool   match_key_event (const KeyEventList &keys, const KeyEvent &key) const;
 };
 #endif /* __SCIM_ANTHY_IMENGINE_H__ */
 /*

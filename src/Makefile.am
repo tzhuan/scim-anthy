@@ -1,23 +1,53 @@
 AM_CPPFLAGS = \
+	-DSCIM_ANTHY_LOCALEDIR=\"$(datadir)/locale\" \
 	-DSCIM_ICONDIR=\"@SCIM_ICONDIR@\"
 INCLUDE	= \
 	-I$(top_builddir) \
 	-I$(top_srcdir) \
 	-I$(top_srcdir)/src 
 
-noinst_HEADERS = scim_anthy_imengine.h 
+noinst_HEADERS = \
+	scim_anthy_imengine.h \
+	scim_anthy_preedit.h \
+	scim_anthy_automaton.h \
+	scim_anthy_prefs.h
 
 moduledir = @SCIM_MODULEDIR@/IMEngine
 module_LTLIBRARIES = anthy.la
 
-anthy_la_SOURCES = scim_anthy_imengine.cpp
+anthy_la_SOURCES = \
+	scim_anthy_imengine.cpp \
+	scim_anthy_preedit.cpp \
+	scim_anthy_automaton.cpp \
+	conv_table.cpp
 
-anthy_la_CFLAGS = @SCIM_CFLAGS@ 
-anthy_la_CXXFLAGS = @SCIM_CFLAGS@ 
+anthy_la_CFLAGS = @SCIM_CFLAGS@  @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@
+anthy_la_CXXFLAGS = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@
 
 anthy_la_LDFLAGS = \
 	-avoid-version \
 	-module \
-     	-rpath $(moduledir) \
+	-rpath $(moduledir) \
 	@SCIM_LIBS@ \
-	-lanthy -lanthydic
+	@ANTHY_LIBS@
+
+if SCIM_BUILD_SETUP
+SETUP_MODULE = anthy-imengine-setup.la
+endif
+
+setupmoduledir           = @SCIM_MODULEDIR@/SetupUI
+setupmodule_LTLIBRARIES  = $(SETUP_MODULE)
+
+anthy_imengine_setup_la_SOURCES = scim_anthy_imengine_setup.cpp
+
+anthy_imengine_setup_la_CFLAGS  = @SCIM_GTKUTILS_CFLAGS@ @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@
+
+anthy_imengine_setup_la_CXXFLAGS= @SCIM_GTKUTILS_CFLAGS@ @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@
+
+anthy_imengine_setup_la_LDFLAGS = -avoid-version \
+                                   -rpath $(setupmoduledir) \
+                                   -module \
+                                   @LIBTOOL_EXPORT_OPTIONS@ \
+                                   @SCIM_GTKUTILS_LIBS@ \
+                                   @INTLLIBS@ \
+                                   @SCIM_LIBS@

@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(scim-anthy, 0.1.0, poincare@ikezoe.net)
+AC_INIT(scim-anthy, 0.1.8, poincare@ikezoe.net)
 AC_CONFIG_SRCDIR([configure.ac])
 
 # Save this value here, since automake will set cflags and cxxflags later
@@ -8,7 +8,7 @@ cppflags_set=${CPPFLAGS+set}
 
 SCIM_ANTHY_MAJOR_VERSION=0
 SCIM_ANTHY_MINOR_VERSION=1
-SCIM_ANTHY_MICRO_VERSION=0
+SCIM_ANTHY_MICRO_VERSION=8
 
 SCIM_ANTHY_VERSION=$SCIM_ANTHY_MAJOR_VERSION.$SCIM_ANTHY_MINOR_VERSION.$SCIM_ANTHY_MICRO_VERSION
 
@@ -22,12 +22,12 @@ AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h])
 
 # Init gettext
-dnl ALL_LINGUAS="ja"
-dnl AM_GNU_GETTEXT
+ALL_LINGUAS="ja"
+AM_GNU_GETTEXT
 
-dnl GETTEXT_PACKAGE=scim-anthy
-dnl AC_SUBST(GETTEXT_PACKAGE)
-dnl AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [The gettext domain])
+GETTEXT_PACKAGE=scim-anthy
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [The gettext domain])
 
 # Init libtool
 AC_LIBTOOL_DLOPEN
@@ -69,9 +69,18 @@ AC_SUBST(SCIM_BUILD_SETUP)
 
 # Checks for header files.
 AC_HEADER_STDC
+AC_FUNC_ALLOCA
+AC_CHECK_HEADERS([argz.h fcntl.h float.h inttypes.h langinfo.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h unistd.h wchar.h])
 
 # Checks for library functions.
 AC_SUBST(ac_aux_dir)
+
+# Checks for anthy
+AC_CHECK_HEADER(anthy/anthy.h, [], [AC_MSG_ERROR(anthy/anthy.h was not found.)])
+ANTHY_LIBS="-lanthy -lanthydic"
+ANTHY_CFLAGS=""
+AC_SUBST(ANTHY_LIBS)
+AC_SUBST(ANTHY_CFLAGS)
 
 # libtool option to control which symbols are exported
 # right now, symbols starting with _ are not exported
@@ -108,8 +117,14 @@ fi
 
 AC_SUBST(SCIM_ICONDIR)
 AC_SUBST(SCIM_MODULEDIR)
+        
+AC_CONFIG_FILES([
+Makefile
+intl/Makefile
+po/Makefile.in
+m4/Makefile
+src/Makefile
+data/Makefile
+])
 
-AC_CONFIG_FILES([Makefile 
-		 src/Makefile
-		 data/Makefile])
 AC_OUTPUT
