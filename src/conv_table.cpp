@@ -419,6 +419,16 @@ ConvRule kana_latin_period_rule[] = {
 {NULL,	NULL,	NULL},
 };
 
+ConvRule wide_space_rule[] = {
+{" ",	"　",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule space_rule[] = {
+{" ",	" ",	""},
+{NULL,	NULL,	NULL},
+};
+
 HiraganaKatakanaRule ja_hiragana_katakana_table[] = {
 {"あ", "ア", "ｱ"},
 {"い", "イ", "ｲ"},

@@ -46,6 +46,7 @@ class AnthyFactory : public IMEngineFactoryBase
     /* for preferece */
     String       m_typing_method;
     String       m_period_style;
+    String       m_space_type;
     bool         m_auto_convert;
     bool         m_show_input_mode_label;
     bool         m_show_typing_method_label;

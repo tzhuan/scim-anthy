@@ -213,6 +213,8 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
     // set input mode
     if (factory->m_typing_method == "Kana")
         m_preedit.set_typing_method (METHOD_KANA);
+    else if (factory->m_typing_method == "Roma")
+        m_preedit.set_typing_method (METHOD_ROMAKANA);
     else
         m_preedit.set_typing_method (METHOD_ROMAKANA);
 
@@ -221,8 +223,18 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
         m_preedit.set_period_style (PERIOD_WIDE_LATIN);
     else if (factory->m_period_style == "Latin")
         m_preedit.set_period_style (PERIOD_LATIN);
+    else if (factory->m_period_style == "Japanese")
+        m_preedit.set_period_style (PERIOD_JAPANESE);
     else
         m_preedit.set_period_style (PERIOD_JAPANESE);
+
+    // set space type
+    if (factory->m_space_type == "Half")
+        m_preedit.set_space_type (SPACE_NORMAL);
+    else if (factory->m_space_type == "Wide")
+        m_preedit.set_space_type (SPACE_WIDE);
+    else
+        m_preedit.set_space_type (SPACE_WIDE);
 
     // set auto convert
     m_preedit.set_auto_convert (factory->m_auto_convert);
@@ -250,6 +262,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_period_style
             = config->read (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
                             m_period_style);
+        m_space_type
+            = config->read (SCIM_ANTHY_CONFIG_SPACE_TYPE,
+                            m_space_type);
         m_auto_convert
             = config->read (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD,
                             m_auto_convert);
@@ -533,6 +548,9 @@ AnthyInstance::process_key_event_with_candidate (const KeyEvent &key)
     case SCIM_KEY_9: 
         select_candidate (key.code - SCIM_KEY_1);
         return true;
+    case SCIM_KEY_0:
+        select_candidate (10);
+        return true;
 
     default:
         break;
@@ -554,21 +572,16 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
         return false;
     }
 
-    // FIXME!
-    if (isprint(key.code) && !isspace(key.code)) {
+    if (isprint(key.code)) {
         // commit old conversion string before update preedit string
         if (m_preedit.is_converting ())
             action_commit ();
 
-        bool need_convert = m_preedit.append (key);
+        bool need_commit = m_preedit.append (key);
 
-        if (m_preedit.get_input_mode () == MODE_LATIN ||
-            m_preedit.get_input_mode () == MODE_WIDE_LATIN)
-        {
+        if (need_commit) {
             action_commit ();
         } else {
-            if (need_convert)
-                action_convert ();
             show_preedit_string ();
             update_preedit_string (m_preedit.get_string (),
                                    m_preedit.get_attribute_list ());

@@ -1,3 +1,11 @@
+2004-11-25 Takuro Ashie <ashie@homa.ne.jp>
+
+	* po/ja.po, src/conv_table.cpp, src/scim_anthy_imengine.cpp,
+	  src/scim_anthy_imengine.h, src/scim_anthy_imengine_setup.cpp,
+	  src/scim_anthy_preedit.cpp, src/scim_anthy_preedit.h,
+	  src/scim_anthy_prefs.h:
+	Added space type preference.
+
 2004-11-19  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* Makefile.am (SUBDIRS): Add intl,

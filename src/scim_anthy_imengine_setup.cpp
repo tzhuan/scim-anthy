@@ -137,6 +137,7 @@ struct ComboConfigData
 // Internal data declaration.
 static String __config_typing_method            = SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT;
 static String __config_period_style             = SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT;
+static String __config_space_type               = SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT;
 static bool   __config_auto_convert             = SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT;
 static bool   __config_show_input_mode_label    = SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT;
 static bool   __config_show_typing_method_label = SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT;
@@ -146,6 +147,7 @@ static bool __have_changed    = true;
 
 static GtkWidget    * __widget_typing_method            = 0;
 static GtkWidget    * __widget_period_style             = 0;
+static GtkWidget    * __widget_space_type               = 0;
 static GtkWidget    * __widget_auto_convert             = 0;
 static GtkWidget    * __widget_show_input_mode_label    = 0;
 static GtkWidget    * __widget_show_typing_method_label = 0;
@@ -451,6 +453,13 @@ static ComboConfigData period_styles[] =
     {NULL, NULL},
 };
 
+static ComboConfigData space_types[] =
+{
+    {N_("Wide"), "Wide"},
+    {N_("Half"), "Half"},
+    {NULL, NULL},
+};
+
 
 static void on_default_editable_changed      (GtkEditable     *editable,
                                               gpointer         user_data);
@@ -464,6 +473,36 @@ void setup_widget_value ();
 
 
 static GtkWidget *
+create_combo_widget (const char *label_text, GtkWidget **widget,
+                     gpointer data_p, gpointer candidates_p)
+{
+    GtkWidget *hbox, *label;
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_widget_show (hbox);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+
+    label = gtk_label_new (label_text);
+    gtk_widget_show (label);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+
+    *widget = gtk_combo_new ();
+    gtk_combo_set_value_in_list (GTK_COMBO (*widget), TRUE, FALSE);
+    gtk_combo_set_case_sensitive (GTK_COMBO (*widget), TRUE);
+    gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (*widget)->entry), FALSE);
+    gtk_widget_show (*widget);
+    gtk_box_pack_start (GTK_BOX (hbox), *widget, FALSE, FALSE, 4);
+    g_object_set_data (G_OBJECT (GTK_COMBO (*widget)->entry), DATA_POINTER_KEY,
+                       (gpointer) candidates_p);
+
+    g_signal_connect ((gpointer) GTK_COMBO (*widget)->entry, "changed",
+                      G_CALLBACK (on_default_combo_changed),
+                      data_p);
+
+    return hbox;
+}
+
+static GtkWidget *
 create_options_page ()
 {
     GtkWidget *vbox, *hbox, *label;
@@ -472,6 +511,7 @@ create_options_page ()
     gtk_widget_show (vbox);
 
     /* typing method */
+#if 0
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_widget_show (hbox);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
@@ -485,12 +525,20 @@ create_options_page ()
     gtk_combo_set_value_in_list (GTK_COMBO (__widget_typing_method), TRUE, FALSE);
     gtk_combo_set_case_sensitive (GTK_COMBO (__widget_typing_method), TRUE);
     gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (__widget_typing_method)->entry), FALSE);
-     gtk_widget_show (__widget_typing_method);
+    gtk_widget_show (__widget_typing_method);
     gtk_box_pack_start (GTK_BOX (hbox), __widget_typing_method, FALSE, FALSE, 4);
     g_object_set_data (G_OBJECT (GTK_COMBO (__widget_typing_method)->entry), DATA_POINTER_KEY,
                        (gpointer) &typing_methods);
+#else
+    hbox = create_combo_widget (_("Typing method: "),
+                                &__widget_typing_method,
+                                (gpointer) &__config_typing_method,
+                                (gpointer) &typing_methods);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+#endif
 
     /* comma and period style */
+#if 0
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_widget_show (hbox);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
@@ -509,6 +557,22 @@ create_options_page ()
     gtk_box_pack_start (GTK_BOX (hbox), __widget_period_style, FALSE, FALSE, 4);
     g_object_set_data (G_OBJECT (GTK_COMBO (__widget_period_style)->entry), DATA_POINTER_KEY,
                        (gpointer) &period_styles);
+#else
+    hbox = create_combo_widget (_("Style of comma and period: "),
+                                &__widget_period_style,
+                                (gpointer) &__config_period_style,
+                                (gpointer) &period_styles);
+    gtk_widget_set_size_request (__widget_period_style, 100, -1);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+#endif
+
+    /* space_style */
+    hbox = create_combo_widget (_("Space type: "),
+                                &__widget_space_type,
+                                (gpointer) &__config_space_type,
+                                (gpointer) &space_types);
+    gtk_widget_set_size_request (__widget_space_type, 100, -1);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
 
     /* auto convert */
     __widget_auto_convert = gtk_check_button_new_with_mnemonic (_("Start conversion on inputting a comma or a period."));
@@ -533,12 +597,14 @@ create_options_page ()
     gtk_container_set_border_width (GTK_CONTAINER (__widget_show_period_style_label), 4);
 
     // Connect all signals.
+#if 0
     g_signal_connect ((gpointer) GTK_COMBO (__widget_typing_method)->entry, "changed",
                       G_CALLBACK (on_default_combo_changed),
                       &__config_typing_method);
     g_signal_connect ((gpointer) GTK_COMBO (__widget_period_style)->entry, "changed",
                       G_CALLBACK (on_default_combo_changed),
                       &__config_period_style);
+#endif
     g_signal_connect ((gpointer) __widget_auto_convert, "toggled",
                       G_CALLBACK (on_default_toggle_button_toggled),
                       &__config_auto_convert);
@@ -681,6 +747,11 @@ setup_widget_value ()
                            period_styles, __config_period_style);
     }
 
+    if (__widget_space_type) {
+        setup_combo_value (GTK_COMBO (__widget_space_type),
+                           space_types, __config_space_type);
+    }
+
     if (__widget_auto_convert) {
         gtk_toggle_button_set_active (
             GTK_TOGGLE_BUTTON (__widget_auto_convert),
@@ -724,6 +795,9 @@ load_config (const ConfigPointer &config)
         __config_period_style =
             config->read (String (SCIM_ANTHY_CONFIG_PERIOD_STYLE),
                           __config_period_style);
+        __config_space_type =
+            config->read (String (SCIM_ANTHY_CONFIG_SPACE_TYPE),
+                          __config_space_type);
         __config_auto_convert =
             config->read (String (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD),
                           __config_auto_convert);
@@ -757,6 +831,8 @@ save_config (const ConfigPointer &config)
                         __config_typing_method);
         config->write (String (SCIM_ANTHY_CONFIG_PERIOD_STYLE),
                         __config_period_style);
+        config->write (String (SCIM_ANTHY_CONFIG_SPACE_TYPE),
+                        __config_space_type);
         config->write (String (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD),
                         __config_auto_convert);
         config->write (String (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL),

@@ -25,6 +25,7 @@
 #define SCIM_ANTHY_CONFIG_USE_KANA                  "/IMEngine/Anthy/UseKana"
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD             "/IMEngine/Anthy/TypingMethod"
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE              "/IMEngine/Anthy/PeriodStyle"
+#define SCIM_ANTHY_CONFIG_SPACE_TYPE                "/IMEngine/Anthy/SpaceType"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD    "/IMEngine/Anthy/AutoConvertOnPeriod"
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL     "/IMEngine/Anthy/ShowInputModeLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL  "/IMEngine/Anthy/ShowTypingMethodLabel"
@@ -67,6 +68,7 @@
 
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT             "Roma"
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT              "Japanese"
+#define SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT                "Wide"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT    false
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT     true
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT  true

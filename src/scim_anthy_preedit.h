@@ -60,6 +60,11 @@ typedef enum {
 } PeriodStyle;
 
 typedef enum {
+    SPACE_NORMAL,
+    SPACE_WIDE,
+} SpaceType;
+
+typedef enum {
     PREEDIT_CURRENT,
     PREEDIT_RAW_KEY,
     PREEDIT_NO_CONVERSION,
@@ -96,6 +101,7 @@ private:
     InputMode         m_input_mode;
     TypingMethod      m_typing_method;
     PeriodStyle       m_period_style;
+    SpaceType         m_space_type;
     bool              m_auto_convert;
 
     // raw key code & preedit string
@@ -166,6 +172,8 @@ public:
     virtual TypingMethod  get_typing_method      (void);
     virtual void          set_period_style       (PeriodStyle style);
     virtual PeriodStyle   get_period_style       (void);
+    virtual void          set_space_type         (SpaceType type);
+    virtual SpaceType     get_space_type         (void);
     virtual void          set_auto_convert       (bool autoconv);
     virtual bool          get_auto_convert       (void);
 
@@ -183,7 +191,8 @@ private:
                                                   SpecialCandidate type);
     void          reset_pending                  (void);
     void          set_table                      (TypingMethod method,
-                                                  PeriodStyle  period);
+                                                  PeriodStyle  period,
+                                                  SpaceType    space);
     bool          is_comma_or_period             (const String & str);
 };
 

@@ -36,11 +36,14 @@ extern ConvRule kana_ja_period_rule[];
 extern ConvRule kana_wide_latin_period_rule[];
 extern ConvRule kana_latin_period_rule[];
 
+extern ConvRule wide_space_rule[];
+extern ConvRule space_rule[];
+
 extern HiraganaKatakanaRule ja_hiragana_katakana_table[];
 extern WideRule             ja_wide_table[];
 
 static void
-convert_string_to_wide (const String & str, WideString & wide)
+convert_string_to_wide (const String & str, WideString & wide, SpaceType space)
 {
     if (str.length () < 0)
         return;
@@ -56,6 +59,11 @@ convert_string_to_wide (const String & str, WideString & wide)
                 found = true;
                 break;
             }
+        }
+
+        if (!found && space == SPACE_WIDE && c == ' ') {
+            wide += utf8_mbstowcs ("\xE3\x80\x80");
+            found = true;
         }
 
         if (!found)
@@ -140,6 +148,7 @@ Preedit::Preedit ()
       m_input_mode (MODE_HIRAGANA),
       m_typing_method (METHOD_ROMAKANA),
       m_period_style (PERIOD_JAPANESE),
+      m_space_type (SPACE_WIDE),
       m_auto_convert (false),
       m_char_caret (0),
       m_caret (0),
@@ -154,8 +163,12 @@ Preedit::Preedit ()
     if (!m_iconv.set_encoding ("EUC-JP"))
         return;
 
+    set_table (m_typing_method, m_period_style, m_space_type);
+#if 0
     m_key2kana.set_table (ja_romakana_table);
     m_key2kana.append_table (romakana_ja_period_rule);
+    m_key2kana.append_table (wide_space_rule);
+#endif
 }
 
 Preedit::~Preedit ()
@@ -270,7 +283,7 @@ Preedit::get_preedit_string (void)
     case MODE_WIDE_LATIN:
         for (i = 0; i < m_char_list.size (); i++)
             str += m_char_list[i].key;
-        convert_string_to_wide (str, widestr);
+        convert_string_to_wide (str, widestr, m_space_type);
         return widestr;
     case MODE_HIRAGANA:
     default:
@@ -290,6 +303,9 @@ Preedit::is_preediting (void)
 bool
 Preedit::append (const KeyEvent & key)
 {
+    if (!isprint(key.code))
+        return false;
+
     char str[2];
     str[0] = key.code;
     str[1] = '\0';
@@ -351,14 +367,17 @@ Preedit::append_str (const String & str)
     for (unsigned int i = 0; i < m_char_caret; i++)
         m_caret += m_char_list[i].kana.length();
 
-#if 0
     if (m_input_mode == MODE_LATIN ||
         m_input_mode == MODE_WIDE_LATIN)
-        return RESULT_NEED_COMMIT;
+        return true;
+
+#if 1 /* FIXME! */
+    if (str.length () == 1 && isspace(*(str.c_str())))
+        return true;
 #endif
 
     if (is_comma_or_period (m_char_list[m_char_caret - 1].key) && m_auto_convert)
-        return true;
+        convert ();
 
     return false;
 }
@@ -562,7 +581,7 @@ Preedit::get_kana_substr (WideString & substr,
         substr = utf8_mbstowcs (raw);
         break;
     case CANDIDATE_WIDE_LATIN:
-        convert_string_to_wide (raw, substr);
+        convert_string_to_wide (raw, substr, m_space_type);
         break;
     case CANDIDATE_HIRAGANA:
         substr = kana;
@@ -642,7 +661,7 @@ Preedit::convert_kana (SpecialCandidate type)
         if (type == CANDIDATE_LATIN)
             m_conv_string = utf8_mbstowcs (str);
         else if (type == CANDIDATE_WIDE_LATIN)
-            convert_string_to_wide (str, m_conv_string);
+            convert_string_to_wide (str, m_conv_string, m_space_type);
         break;
 
     case CANDIDATE_HIRAGANA:
@@ -1010,7 +1029,7 @@ Preedit::get_input_mode (void)
 void
 Preedit::set_typing_method (TypingMethod method)
 {
-    set_table (method, m_period_style);
+    set_table (method, m_period_style, m_space_type);
 }
 
 TypingMethod
@@ -1022,13 +1041,25 @@ Preedit::get_typing_method (void)
 void
 Preedit::set_period_style (PeriodStyle style)
 {
-    set_table (m_typing_method, style);
+    set_table (m_typing_method, style, m_space_type);
 }
 
 PeriodStyle
 Preedit::get_period_style (void)
 {
     return m_period_style;
+}
+
+void
+Preedit::set_space_type (SpaceType type)
+{
+    set_table (m_typing_method, m_period_style, type);
+}
+
+SpaceType
+Preedit::get_space_type (void)
+{
+    return m_space_type;
 }
 
 void
@@ -1044,7 +1075,7 @@ Preedit::get_auto_convert (void)
 }
 
 void
-Preedit::set_table (TypingMethod method, PeriodStyle period)
+Preedit::set_table (TypingMethod method, PeriodStyle period, SpaceType space)
 {
     ConvRule *period_rule = get_period_rule (method, period);
 
@@ -1061,8 +1092,19 @@ Preedit::set_table (TypingMethod method, PeriodStyle period)
     if (period_rule)
         m_key2kana.append_table (period_rule);
 
+    switch (space) {
+    case SPACE_NORMAL:
+        m_key2kana.append_table (space_rule);
+        break;
+    case SPACE_WIDE:
+    default:
+        m_key2kana.append_table (wide_space_rule);
+        break;
+    };
+
     m_typing_method = method;
     m_period_style = period;
+    m_space_type = space;
 }
 
 bool
