@@ -432,10 +432,6 @@ Preedit::create_conversion_string (void)
     for (int i = m_start_segment_id; i < conv_stat.nr_segment; i++) {
         int seg = i - m_start_segment_id;
 
-        // get information of this segment
-        struct anthy_segment_stat seg_stat;
-        anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
-
         // get string of this segment
         WideString segment_str = get_segment_string (seg);
 
