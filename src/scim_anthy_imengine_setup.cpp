@@ -647,6 +647,8 @@ create_keyboard_page (unsigned int page)
                           &(__config_keyboards [i].data));
     }
 
+    if (!__widget_tooltips)
+        __widget_tooltips = gtk_tooltips_new();
     for (i = start; i < end /*__config_keyboards [i].key*/; ++ i) {
         gtk_tooltips_set_tip (__widget_tooltips, __config_keyboards [i].entry,
                               _(__config_keyboards [i].tooltip), NULL);
