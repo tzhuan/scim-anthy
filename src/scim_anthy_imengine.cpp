@@ -92,7 +92,6 @@ extern "C" {
     {
         anthy_quit ();
         _scim_config.reset ();
-        _scim_config.reset ();
     }
 
     uint32 scim_imengine_module_init (const ConfigPointer &config)
