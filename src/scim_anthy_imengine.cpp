@@ -566,7 +566,6 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
             m_preedit.get_input_mode () == MODE_WIDE_LATIN)
         {
             action_commit ();
-            m_preedit.clear ();
         } else {
             if (need_convert)
                 action_convert ();

@@ -27,22 +27,22 @@ using namespace scim;
 
 typedef struct _ConvRule
 {
-  char *string;
-  char *result;
-  char *cont;
+    const char *string;
+    const char *result;
+    const char *cont;
 } ConvRule;
 
 typedef struct _HiraganaKatakanaRule
 {
-    char *hiragana;
-    char *katakana;
-    char *half_katakana;
+    const char *hiragana;
+    const char *katakana;
+    const char *half_katakana;
 } HiraganaKatakanaRule;
 
 typedef struct _WideRule
 {
-    char *code;
-    char *wide;
+    const char *code;
+    const char *wide;
 } WideRule;
 
 #if 0
