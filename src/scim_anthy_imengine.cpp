@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
- *  Copyright (C) 2004 Hiroyuki Ikezoe
- *  Copyright (C) 2004 Takuro Ashie
+ *  Copyright (C) Hiroyuki Ikezoe <poincare@ikezoe.net>
+ *  Copyright (C) 2004 Takuro Ashie <ashie@homa.ne.jp>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -753,6 +753,8 @@ AnthyInstance::reset ()
 
     m_preedit.clear ();
     m_lookup_table.clear ();
+    update_preedit_caret (0);
+    update_preedit_string (utf8_mbstowcs (""));
     hide_lookup_table ();
     hide_preedit_string ();
 }

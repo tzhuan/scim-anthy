@@ -1,3 +1,9 @@
+2004-12-24 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine.cpp: Clear preedit string on reset().
+	See http://lists.freedesktop.org/pipermail/scim/2004-December/001298.html
+	for more detail.
+
 2004-12-17 Hiroyuki Ikezoe <poincare@ikezoe.net>
 
 	* src/scim_anthy_imengine.cpp:
