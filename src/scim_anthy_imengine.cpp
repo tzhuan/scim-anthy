@@ -133,7 +133,6 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_config (0),
       m_typing_method (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
       m_period_style (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
-      //m_comma_style (SCIM_ANTHY_CONFIG_COMMA_STYLE_DEFAULT),
       m_auto_convert (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT),
       m_show_input_mode_label (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
       m_show_typing_method_label (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT),
@@ -237,18 +236,6 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
         m_preedit.set_period_style (PERIOD_JAPANESE);
     }
 
-#if 0
-    // set comma style
-    if (factory->m_comma_style == "WideLatin")
-        m_preedit.set_comma_style (COMMA_WIDE_LATIN);
-    else if (factory->m_comma_style == "Latin")
-        m_preedit.set_comma_style (COMMA_LATIN);
-    else if (factory->m_comma_style == "Japanese")
-        m_preedit.set_comma_style (COMMA_JAPANESE);
-    else
-        m_preedit.set_comma_style (COMMA_JAPANESE);
-#endif
-
     // set space type
     if (factory->m_space_type == "Half")
         m_preedit.set_space_type (SPACE_NORMAL);
@@ -283,11 +270,6 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_period_style
             = config->read (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
                             m_period_style);
-#if 0
-        m_comma_style
-            = config->read (SCIM_ANTHY_CONFIG_COMMA_STYLE,
-                            m_comma_style);
-#endif
         m_space_type
             = config->read (SCIM_ANTHY_CONFIG_SPACE_TYPE,
                             m_space_type);
