@@ -1,3 +1,10 @@
+2004-12-15 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* src/scim_anthy_imengine_setup.cpp:
+	Applied two patches from James Su.
+	It fixed 
+	http://lists.sourceforge.jp/mailman/archives/scim-imengine-dev/2004-December/000041.html 
+
 2004-12-02 Hiroyuki Ikezoe <poincare@ikezoe.net>
 
 	* src/scim_anthy_imengine_setup.cpp:

@@ -660,14 +660,9 @@ AnthyInstance::process_key_event (const KeyEvent& key)
     SCIM_DEBUG_IMENGINE(2) << "process_key_event.\n";
     KeyEvent newkey;
 
-    newkey.code = key.code;
-    newkey.mask = key.mask & (SCIM_KEY_ShiftMask | SCIM_KEY_ControlMask | SCIM_KEY_AltMask | SCIM_KEY_ReleaseMask);
-
-    m_prev_key = key;
-
     // ignore key release.
     if (key.is_key_release ())
-        return false;
+        return true;
 
     // ignore modifier keys
     if (key.code == SCIM_KEY_Shift_L || key.code == SCIM_KEY_Shift_R ||
@@ -780,6 +775,7 @@ void
 AnthyInstance::focus_out ()
 {
     SCIM_DEBUG_IMENGINE(2) << "focus_out.\n";
+    action_commit();
 }
 
 void
@@ -1718,11 +1714,7 @@ AnthyInstance::match_key_event (const KeyEventList &keys, const KeyEvent &key) c
 
     for (kit = keys.begin (); kit != keys.end (); ++kit) {
         if (key.code == kit->code && key.mask == kit->mask)
-            if (!(key.mask & SCIM_KEY_ReleaseMask) ||
-                m_prev_key.code == key.code)
-            {
-                return true;
-            }
+             return true;
     }
     return false;
 }
