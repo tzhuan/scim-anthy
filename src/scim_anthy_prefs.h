@@ -114,7 +114,7 @@
 #define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT           "F9"
 #define SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT      "F10"
 
-#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
+#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Shift+space,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         ""
 #define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT        "Control+period,Control+greater,Hiragana_Katakana"
 
