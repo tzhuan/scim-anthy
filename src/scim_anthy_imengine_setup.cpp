@@ -836,6 +836,7 @@ create_setup_window ()
 
     if (!window) {
         GtkWidget *notebook = gtk_notebook_new();
+        gtk_notebook_popup_enable(GTK_NOTEBOOK(notebook));
         gtk_widget_show (notebook);
         window = notebook;
         gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
