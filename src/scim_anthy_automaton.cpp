@@ -37,7 +37,7 @@ Automaton::append (const String & str,
 {
     WideString widestr = utf8_mbstowcs (str);
     WideString newstr = m_pending + widestr;
-    TempTable *exact_match = NULL;
+    ConvRule *exact_match = NULL;
     bool has_partial_match = false;
     bool retval = false;
 
@@ -147,21 +147,21 @@ Automaton::flush_pending (void)
 }
 
 void
-Automaton::set_table (TempTable *table)
+Automaton::set_table (ConvRule *table)
 {
     m_tables.clear ();
     m_tables.push_back (table);
 }
 
 void
-Automaton::append_table (TempTable *table)
+Automaton::append_table (ConvRule *table)
 {
     if (table)
         m_tables.push_back(table);
 }
 
 void
-Automaton::remove_table (TempTable *table)
+Automaton::remove_table (ConvRule *table)
 {
     for (unsigned int i = 0; i < m_tables.size (); i++) {
         if (m_tables[i] == table)

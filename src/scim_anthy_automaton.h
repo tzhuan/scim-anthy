@@ -25,12 +25,12 @@
 #include <scim.h>
 using namespace scim;
 
-typedef struct _TempTable
+typedef struct _ConvRule
 {
   char *string;
   char *result;
   char *cont;
-} TempTable;
+} ConvRule;
 
 typedef struct _HiraganaKatakanaRule
 {
@@ -45,6 +45,7 @@ typedef struct _WideRule
     char *wide;
 } WideRule;
 
+#if 0
 class ConvRule
 {
     WideString *m_string;
@@ -55,14 +56,15 @@ public:
     ConvRule ();
     virtual ~ConvRule();
 };
+#endif
 
 class Automaton
 {
-    WideString    m_pending;
-    TempTable    *m_table;
-    unsigned int  m_table_len;
-    TempTable    *m_exact_match;
-    std::vector<TempTable*> m_tables;
+    WideString              m_pending;
+    ConvRule               *m_table;
+    unsigned int            m_table_len;
+    ConvRule               *m_exact_match;
+    std::vector<ConvRule*>  m_tables;
 
 public:
     enum {
@@ -83,11 +85,9 @@ public:
     virtual WideString get_pending        (void);
     virtual WideString flush_pending      (void);
 
-#if 1 /* FIXME! */
-    virtual void       set_table          (TempTable *table);
-    virtual void       append_table       (TempTable *table);
-    virtual void       remove_table       (TempTable *table);
-#endif
+    virtual void       set_table          (ConvRule *table);
+    virtual void       append_table       (ConvRule *table);
+    virtual void       remove_table       (ConvRule *table);
 };
 #endif /* __SCIM_ANTHY_AUTOMATON_H__ */
 /*

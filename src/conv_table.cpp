@@ -3,7 +3,7 @@
 #include "scim_anthy_automaton.h"
 
 /* from Suikyo */
-TempTable ja_romakana_table[] = {
+ConvRule ja_romakana_table[] = {
 #if 0
 {"va",	"う゛ぁ",	""},
 {"vi",	"う゛ぃ",	""},
@@ -291,7 +291,7 @@ TempTable ja_romakana_table[] = {
 {NULL,	NULL,	NULL}
 };
 
-TempTable ja_kana_table[] = {
+ConvRule ja_kana_table[] = {
 {"#",	"ぁ",	""},
 {"E",	"ぃ",	""},
 {"$",	"ぅ",	""},
@@ -383,37 +383,37 @@ TempTable ja_kana_table[] = {
 {NULL,	NULL,	NULL},
 };
 
-TempTable romakana_ja_period_rule[] = {
+ConvRule romakana_ja_period_rule[] = {
 {",",	"、",	""},
 {".",	"。",	""},
 {NULL,	NULL,	NULL},
 };
 
-TempTable romakana_wide_latin_period_rule[] = {
+ConvRule romakana_wide_latin_period_rule[] = {
 {",",	"，",	""},
 {".",	"．",	""},
 {NULL,	NULL,	NULL},
 };
 
-TempTable romakana_latin_period_rule[] = {
+ConvRule romakana_latin_period_rule[] = {
 {",",	",",	""},
 {".",	".",	""},
 {NULL,	NULL,	NULL},
 };
 
-TempTable kana_ja_period_rule[] = {
+ConvRule kana_ja_period_rule[] = {
 {">",	"。",	""},
 {"<",	"、",	""},
 {NULL,	NULL,	NULL},
 };
 
-TempTable kana_wide_latin_period_rule[] = {
+ConvRule kana_wide_latin_period_rule[] = {
 {">",	"．",	""},
 {"<",	"，",	""},
 {NULL,	NULL,	NULL},
 };
 
-TempTable kana_latin_period_rule[] = {
+ConvRule kana_latin_period_rule[] = {
 {">",	".",	""},
 {"<",	",",	""},
 {NULL,	NULL,	NULL},

@@ -25,16 +25,16 @@
 
 
 #if 1 // FIXME! it's ad-hoc.  linear search kayo!
-extern TempTable ja_romakana_table[];
-extern TempTable ja_kana_table[];
+extern ConvRule ja_romakana_table[];
+extern ConvRule ja_kana_table[];
 
-extern TempTable romakana_ja_period_rule[];
-extern TempTable romakana_wide_latin_period_rule[];
-extern TempTable romakana_latin_period_rule[];
+extern ConvRule romakana_ja_period_rule[];
+extern ConvRule romakana_wide_latin_period_rule[];
+extern ConvRule romakana_latin_period_rule[];
 
-extern TempTable kana_ja_period_rule[];
-extern TempTable kana_wide_latin_period_rule[];
-extern TempTable kana_latin_period_rule[];
+extern ConvRule kana_ja_period_rule[];
+extern ConvRule kana_wide_latin_period_rule[];
+extern ConvRule kana_latin_period_rule[];
 
 extern HiraganaKatakanaRule ja_hiragana_katakana_table[];
 extern WideRule             ja_wide_table[];
@@ -91,7 +91,7 @@ convert_hiragana_to_katakana (const WideString & hira, WideString & kata,
     }
 }
 
-TempTable *
+ConvRule *
 get_period_rule (TypingMethod method, PeriodStyle period)
 {
     switch (method) {
@@ -1044,7 +1044,7 @@ Preedit::get_auto_convert (void)
 void
 Preedit::set_table (TypingMethod method, PeriodStyle period)
 {
-    TempTable *period_rule = get_period_rule (method, period);
+    ConvRule *period_rule = get_period_rule (method, period);
 
     switch (method) {
     case METHOD_KANA:
@@ -1066,7 +1066,7 @@ Preedit::set_table (TypingMethod method, PeriodStyle period)
 bool
 Preedit::is_comma_or_period (const String & str)
 {
-    TempTable *period_rule = get_period_rule (m_typing_method, m_period_style);
+    ConvRule *period_rule = get_period_rule (m_typing_method, m_period_style);
 
     for (unsigned int i = 0; period_rule && period_rule[i].string; i++) {
         if (period_rule[i].string && !strcmp (period_rule[i].string, str.c_str ()))
