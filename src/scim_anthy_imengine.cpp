@@ -32,6 +32,11 @@
   #include <config.h>
 #endif
 
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 #include <scim.h>
 #include "scim_anthy_imengine.h"
 #include "scim_anthy_prefs.h"
@@ -73,12 +78,13 @@
 #define SCIM_PROP_PERIOD_STYLE_LATIN        "/IMEngine/Anthy/PeriodType/Ratin"
 #define SCIM_PROP_PERIOD_STYLE_WIDE_LATIN_JAPANESE   "/IMEngine/Anthy/PeriodType/WideRatin_Japanese"
 
+#define SCIM_PROP_DICT                      "/IMEngine/Anthy/Dictionary"
+#define SCIM_PROP_DICT_ADD_WORD             "/IMEngine/Anthy/Dictionary/AddWord"
+#define SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL    "/IMEngine/Anthy/Dictionary/LaunchAdminTool"
+
 #ifndef SCIM_ANTHY_ICON_FILE
     #define SCIM_ANTHY_ICON_FILE           (SCIM_ICONDIR"/scim-anthy.png")
 #endif
-
-// first = name, second = lang
-static KeyEvent __anthy_on_key;
 
 static ConfigPointer _scim_config (0);
 
@@ -134,9 +140,14 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_typing_method (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
       m_period_style (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
       m_auto_convert (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT),
+      m_dict_admin_command (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
+      m_add_word_command (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
       m_show_input_mode_label (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
       m_show_typing_method_label (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT),
-      m_show_period_style_label (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT)
+      m_show_period_style_label (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT),
+      m_show_dict_label (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT),
+      m_show_dict_admin_label (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT),
+      m_show_add_word_label (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Factory :\n";
     SCIM_DEBUG_IMENGINE(1) << "  Lang : " << lang << "\n";
@@ -256,14 +267,6 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     if (config) {
         String str;
 
-#if 1 // FIXME!
-        String on_key
-            = config->read (SCIM_ANTHY_CONFIG_ON_KEY,
-                            String ("Shift+space"));
-        if (!scim_string_to_key (__anthy_on_key, on_key))
-            __anthy_on_key = KeyEvent (SCIM_KEY_space, SCIM_KEY_ShiftMask);
-#endif
-
         m_typing_method
             = config->read (SCIM_ANTHY_CONFIG_TYPING_METHOD,
                             m_typing_method);
@@ -276,6 +279,12 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_auto_convert
             = config->read (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD,
                             m_auto_convert);
+        m_dict_admin_command
+            = config->read (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
+                            m_dict_admin_command);
+        m_add_word_command
+            = config->read (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND,
+                            m_add_word_command);
         m_show_input_mode_label
             = config->read (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL,
                             m_show_input_mode_label);
@@ -285,6 +294,15 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_show_period_style_label
             = config->read (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL,
                             m_show_period_style_label);
+        m_show_dict_label
+            = config->read (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL,
+                            m_show_dict_label);
+        m_show_dict_admin_label
+            = config->read (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL,
+                            m_show_dict_admin_label);
+        m_show_add_word_label
+            = config->read (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL,
+                            m_show_add_word_label);
 
         // edit keys
         str = config->read (String (SCIM_ANTHY_CONFIG_COMMIT_KEY),
@@ -627,14 +645,6 @@ AnthyInstance::process_key_event (const KeyEvent& key)
     newkey.code = key.code;
     newkey.mask = key.mask & (SCIM_KEY_ShiftMask | SCIM_KEY_ControlMask | SCIM_KEY_AltMask | SCIM_KEY_ReleaseMask);
 
-#if 0
-    // change input mode
-    if (__anthy_on_key.is_key_press ()) {
-        trigger_property (SCIM_PROP_INPUT_MODE);
-        return true;
-    }
-#endif
-
     m_prev_key = key;
 
     // ignore key release.
@@ -825,6 +835,30 @@ AnthyInstance::install_properties (void)
             prop = Property (SCIM_PROP_PERIOD_STYLE_LATIN,
                              ",.", String (""), ",.");
             m_properties.push_back (prop);
+        }
+
+        if (m_factory->m_show_dict_label) {
+            prop = Property (SCIM_PROP_DICT,
+                             _("Dictionary"),
+                             String (SCIM_ICONDIR "/" "scim-anthy-dict.png"),
+                             _("Dictionary menu"));
+            m_properties.push_back (prop);
+
+            if (m_factory->m_show_dict_admin_label) {
+                prop = Property (SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL,
+                                 _("Edit the dictionary"),
+                                 String (SCIM_ICONDIR "/" "scim-anthy-dict.png"),
+                                 _("Launch the dictionary administration tool."));
+                m_properties.push_back (prop);
+            }
+
+            if (m_factory->m_show_add_word_label) {
+                prop = Property (SCIM_PROP_DICT_ADD_WORD,
+                                 _("Add a word"),
+                                 String (SCIM_ICONDIR "/" "scim-anthy-dict.png"),
+                                 _("Add a word to the dictorinay."));
+                m_properties.push_back (prop);
+            }
         }
     }
 
@@ -1538,14 +1572,80 @@ AnthyInstance::action_convert_to_wide_latin (void)
     return convert_kana (CANDIDATE_WIDE_LATIN);
 }
 
-#if 0
-void
-AnthyInstance::action_regist_word (void)
+static void
+launch_program (const char *command)
 {
+    if (!command) return;
+
+    /* split string */
+    unsigned int len = strlen (command);
+    char tmp[len + 1];
+    strncpy (tmp, command, len);
+    tmp[len] = '\0';
+
+    char *str = tmp;
+    std::vector<char *> array;
+
+    for (unsigned int i = 0; i < len + 1; i++) {
+        if (!tmp[i] || isspace (tmp[i])) {
+            if (*str) {
+                tmp[i] = '\0';
+                array.push_back (str);
+                printf("str: %s\n", str);
+            }
+            str = tmp + i + 1;
+        }
+    }
+
+    if (array.size () <= 0) return;
+    array.push_back (NULL);
+
+    char *args[array.size()];
+    for (unsigned int i = 0; i < array.size (); i++)
+        args[i] = array[i];
+
+
+    /* exec command */
+	pid_t child_pid;
+
+	child_pid = fork();
+	if (child_pid < 0) {
+		perror("fork");
+	} else if (child_pid == 0) {		 /* child process  */
+		pid_t grandchild_pid;
+
+		grandchild_pid = fork();
+		if (grandchild_pid < 0) {
+			perror("fork");
+			_exit(1);
+		} else if (grandchild_pid == 0) { /* grandchild process  */
+			execvp(args[0], args);
+			perror("execvp");
+			_exit(1);
+		} else {
+			_exit(0);
+		}
+	} else {                              /* parent process */
+		int status;
+		waitpid(child_pid, &status, 0);
+	}
 }
 
 void
-AnthyInstance::action_launch_dict_admin (void)
+AnthyInstance::action_add_word (void)
+{
+    launch_program (m_factory->m_add_word_command.c_str ());
+}
+
+void
+AnthyInstance::action_launch_dict_admin_tool (void)
+{
+    launch_program (m_factory->m_dict_admin_command.c_str ());
+}
+
+#if 0
+void
+AnthyInstance::action_regist_word (void)
 {
 }
 #endif
@@ -1567,10 +1667,12 @@ AnthyInstance::trigger_property (const String &property)
         set_input_mode (MODE_LATIN);
     } else if (property == SCIM_PROP_INPUT_MODE_WIDE_LATIN) {
         set_input_mode (MODE_WIDE_LATIN);
+
     } else if (property == SCIM_PROP_TYPING_METHOD_ROMAKANA) {
         set_typing_method (METHOD_ROMAKANA);
     } else if (property == SCIM_PROP_TYPING_METHOD_KANA) {
         set_typing_method (METHOD_KANA);
+
     } else if (property == SCIM_PROP_PERIOD_STYLE_JAPANESE) {
         set_period_style (PERIOD_JAPANESE, COMMA_JAPANESE);
     } else if (property == SCIM_PROP_PERIOD_STYLE_WIDE_LATIN_JAPANESE) {
@@ -1579,6 +1681,11 @@ AnthyInstance::trigger_property (const String &property)
         set_period_style (PERIOD_WIDE_LATIN, COMMA_WIDE_LATIN);
     } else if (property == SCIM_PROP_PERIOD_STYLE_LATIN) {
         set_period_style (PERIOD_LATIN, COMMA_LATIN);
+
+    } else if (property == SCIM_PROP_DICT_ADD_WORD) {
+        action_add_word ();
+    } else if (property == SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL) {
+        action_launch_dict_admin_tool ();
     }
 }
 

@@ -1136,6 +1136,7 @@ Preedit::set_table (TypingMethod method,
 
     m_typing_method = method;
     m_period_style = period;
+    m_comma_style = comma;
     m_space_type = space;
 }
 

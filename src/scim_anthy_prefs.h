@@ -28,9 +28,15 @@
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE                "/IMEngine/Anthy/PeriodStyle"
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE                  "/IMEngine/Anthy/SpaceType"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD      "/IMEngine/Anthy/AutoConvertOnPeriod"
+#define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND          "/IMEngine/Anthy/DictAdminCommand"
+#define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND            "/IMEngine/Anthy/AddWordCommand"
+
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL       "/IMEngine/Anthy/ShowInputModeLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL    "/IMEngine/Anthy/ShowTypingMethodLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL     "/IMEngine/Anthy/ShowPeriodStyleLabel"
+#define SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL             "/IMEngine/Anthy/ShowDictLabel"
+#define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL       "/IMEngine/Anthy/ShowDictAdminLabel"
+#define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL         "/IMEngine/Anthy/ShowAddWordLabel"
 
 #define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme" /* not used yet */
 
@@ -78,9 +84,15 @@
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT                "Japanese"
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT                  "Wide"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT      false
+#define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT          "kasumi"
+#define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT            "kasumi --add"
+
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT       true
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT    true
 #define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT     false
+#define SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT             false
+#define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT       true
+#define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT         true
 
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+J,Control+m,Control+M"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"

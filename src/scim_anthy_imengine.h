@@ -48,9 +48,14 @@ class AnthyFactory : public IMEngineFactoryBase
     String       m_period_style;
     String       m_space_type;
     bool         m_auto_convert;
+    String       m_dict_admin_command;
+    String       m_add_word_command;
     bool         m_show_input_mode_label;
     bool         m_show_typing_method_label;
     bool         m_show_period_style_label;
+    bool         m_show_dict_label;
+    bool         m_show_dict_admin_label;
+    bool         m_show_add_word_label;
 
     /* for key bindings */
     KeyEventList m_commit_keys;
@@ -199,9 +204,10 @@ private:
     bool   action_toggle_latin_mode           (void);
     bool   action_toggle_wide_latin_mode      (void);
 
+    void   action_add_word                  (void);
+    void   action_launch_dict_admin_tool      (void);
     /*
     void   actoin_regist_word                 (void);
-    void   actoin_launch_dict_admin           (void);
     */
 
     /* utility */

@@ -144,10 +144,15 @@ struct ComboConfigData
 static String __config_typing_method            = SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT;
 static String __config_period_style             = SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT;
 static String __config_space_type               = SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT;
+static String __config_dict_admin_command       = SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT;
+static String __config_add_word_command         = SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT;
 static bool   __config_auto_convert             = SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT;
 static bool   __config_show_input_mode_label    = SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT;
 static bool   __config_show_typing_method_label = SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT;
 static bool   __config_show_period_style_label  = SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT;
+static bool   __config_show_dict_label          = SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT;
+static bool   __config_show_dict_admin_label    = SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT;
+static bool   __config_show_add_word_label      = SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT;
 
 static bool __have_changed    = true;
 
@@ -155,9 +160,14 @@ static GtkWidget    * __widget_typing_method            = 0;
 static GtkWidget    * __widget_period_style             = 0;
 static GtkWidget    * __widget_space_type               = 0;
 static GtkWidget    * __widget_auto_convert             = 0;
+static GtkWidget    * __widget_dict_admin_command       = 0;
+static GtkWidget    * __widget_add_word_command         = 0;
 static GtkWidget    * __widget_show_input_mode_label    = 0;
 static GtkWidget    * __widget_show_typing_method_label = 0;
 static GtkWidget    * __widget_show_period_style_label  = 0;
+static GtkWidget    * __widget_show_dict_label          = 0;
+static GtkWidget    * __widget_show_dict_admin_label    = 0;
+static GtkWidget    * __widget_show_add_word_label      = 0;
 static GtkTooltips  * __widget_tooltips                 = 0;
 
 static KeyboardConfigData __config_keyboards_common [] =
@@ -542,6 +552,8 @@ static void on_default_key_selection_clicked  (GtkButton       *button,
                                                gpointer         user_data);
 static void on_default_combo_changed          (GtkEditable     *editable,
                                                gpointer         user_data);
+static void on_dict_menu_label_toggled        (GtkToggleButton *togglebutton,
+                                               gpointer         user_data);
 static void setup_widget_value ();
 
 
@@ -612,6 +624,22 @@ create_options_page ()
     gtk_box_pack_start (GTK_BOX (vbox), __widget_auto_convert, FALSE, FALSE, 4);
     gtk_container_set_border_width (GTK_CONTAINER (__widget_auto_convert), 4);
 
+    // Connect all signals.
+    g_signal_connect ((gpointer) __widget_auto_convert, "toggled",
+                      G_CALLBACK (on_default_toggle_button_toggled),
+                      &__config_auto_convert);
+
+    return vbox;
+}
+
+static GtkWidget *
+create_toolbar_page ()
+{
+    GtkWidget *vbox, *hbox, *label;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
     /* show/hide toolbar label */
     __widget_show_input_mode_label = gtk_check_button_new_with_mnemonic (_("Show _input mode label"));
     gtk_widget_show (__widget_show_input_mode_label);
@@ -628,10 +656,33 @@ create_options_page ()
     gtk_box_pack_start (GTK_BOX (vbox), __widget_show_period_style_label, FALSE, FALSE, 4);
     gtk_container_set_border_width (GTK_CONTAINER (__widget_show_period_style_label), 4);
 
+    /* dictionary menu */
+    __widget_show_dict_label = gtk_check_button_new_with_mnemonic (_("Show _dictionary menu label"));
+    gtk_widget_show (__widget_show_dict_label);
+    gtk_box_pack_start (GTK_BOX (vbox), __widget_show_dict_label, FALSE, FALSE, 4);
+    gtk_container_set_border_width (GTK_CONTAINER (__widget_show_dict_label), 4);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+    label = gtk_label_new ("    ");
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+    __widget_show_dict_admin_label = gtk_check_button_new_with_mnemonic (_("Show _edit dictionary label"));
+    gtk_widget_show (__widget_show_dict_admin_label);
+    gtk_box_pack_start (GTK_BOX (hbox), __widget_show_dict_admin_label, FALSE, FALSE, 0);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+    label = gtk_label_new ("    ");
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+    __widget_show_add_word_label = gtk_check_button_new_with_mnemonic (_("Show _add word label"));
+    gtk_widget_show (__widget_show_add_word_label);
+    gtk_box_pack_start (GTK_BOX (hbox), __widget_show_add_word_label, FALSE, FALSE, 0);
+
     // Connect all signals.
-    g_signal_connect ((gpointer) __widget_auto_convert, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_auto_convert);
     g_signal_connect ((gpointer) __widget_show_input_mode_label, "toggled",
                       G_CALLBACK (on_default_toggle_button_toggled),
                       &__config_show_input_mode_label);
@@ -641,8 +692,63 @@ create_options_page ()
     g_signal_connect ((gpointer) __widget_show_period_style_label, "toggled",
                       G_CALLBACK (on_default_toggle_button_toggled),
                       &__config_show_period_style_label);
+    g_signal_connect ((gpointer) __widget_show_dict_label, "toggled",
+                      G_CALLBACK (on_default_toggle_button_toggled),
+                      &__config_show_dict_label);
+    g_signal_connect ((gpointer) __widget_show_dict_label, "toggled",
+                      G_CALLBACK (on_dict_menu_label_toggled),
+                      NULL);
+    g_signal_connect ((gpointer) __widget_show_dict_admin_label, "toggled",
+                      G_CALLBACK (on_default_toggle_button_toggled),
+                      &__config_show_dict_admin_label);
+    g_signal_connect ((gpointer) __widget_show_add_word_label, "toggled",
+                      G_CALLBACK (on_default_toggle_button_toggled),
+                      &__config_show_add_word_label);
 
     return vbox;
+}
+
+#define APPEND_ENTRY(text, widget, i) \
+{ \
+    label = gtk_label_new (NULL); \
+    gtk_label_set_text_with_mnemonic (GTK_LABEL (label), text); \
+    gtk_widget_show (label); \
+    gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5); \
+    gtk_misc_set_padding (GTK_MISC (label), 4, 0); \
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1, \
+                      (GtkAttachOptions) (GTK_FILL), \
+                      (GtkAttachOptions) (GTK_FILL), 4, 4); \
+    widget = gtk_entry_new (); \
+    gtk_widget_show (widget); \
+    gtk_table_attach (GTK_TABLE (table), widget, 1, 2, i, i+1, \
+                      (GtkAttachOptions) (GTK_FILL|GTK_EXPAND), \
+                      (GtkAttachOptions) (GTK_FILL), 4, 4); \
+}
+
+static GtkWidget *
+create_dict_page (void)
+{
+    GtkWidget *table;
+    GtkWidget *label;
+
+    table = gtk_table_new (3, 3, FALSE);
+    gtk_widget_show (table);
+
+    // dict admin command
+    APPEND_ENTRY(_("Edit dictionary command:"), __widget_dict_admin_command, 0);
+
+    // add word command
+    APPEND_ENTRY(_("Add word command:"), __widget_add_word_command, 1);
+
+    // signals
+    g_signal_connect ((gpointer) __widget_dict_admin_command, "changed",
+                      G_CALLBACK (on_default_editable_changed),
+                      &__config_dict_admin_command);
+    g_signal_connect ((gpointer) __widget_add_word_command, "changed",
+                      G_CALLBACK (on_default_editable_changed),
+                      &__config_add_word_command);
+
+    return table;
 }
 
 static GtkWidget *
@@ -661,20 +767,7 @@ create_keyboard_page (unsigned int page)
 
     // Create keyboard setting.
     for (unsigned int i = 0; data[i].key; ++ i) {
-        label = gtk_label_new (NULL);
-        gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(data[i].label));
-        gtk_widget_show (label);
-        gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
-        gtk_misc_set_padding (GTK_MISC (label), 4, 0);
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (GTK_FILL), 4, 4);
-
-        data[i].entry = gtk_entry_new ();
-        gtk_widget_show (data[i].entry);
-        gtk_table_attach (GTK_TABLE (table), data[i].entry, 1, 2, i, i+1,
-                          (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
-                          (GtkAttachOptions) (GTK_FILL), 4, 4);
+        APPEND_ENTRY(_(data[i].label), data[i].entry, i);
         gtk_entry_set_editable (GTK_ENTRY (data[i].entry), FALSE);
 
         data[i].button = gtk_button_new_with_label ("...");
@@ -721,9 +814,19 @@ create_setup_window ()
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
-        setup_widget_value ();
-
         // Create the second page.
+        page = create_toolbar_page ();
+        label = gtk_label_new (_("Toolbar"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the third page.
+        page = create_dict_page ();
+        label = gtk_label_new (_("Dictionary"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the key bind pages.
         for (unsigned int i = 0; i < __key_conf_pages_num; i++) {
             page = create_keyboard_page (i);
             label = gtk_label_new (_(__key_conf_pages[i].label));
@@ -799,6 +902,36 @@ setup_widget_value ()
             __config_show_period_style_label);
     }
 
+    if (__widget_dict_admin_command) {
+        gtk_entry_set_text (
+            GTK_ENTRY (__widget_dict_admin_command),
+            __config_dict_admin_command.c_str ());
+    }
+
+    if (__widget_add_word_command) {
+        gtk_entry_set_text (
+            GTK_ENTRY (__widget_add_word_command),
+            __config_add_word_command.c_str ());
+    }
+
+    if (__widget_show_dict_label) {
+        gtk_toggle_button_set_active (
+            GTK_TOGGLE_BUTTON (__widget_show_dict_label),
+            __config_show_dict_label);
+    }
+
+    if (__widget_show_dict_admin_label) {
+        gtk_toggle_button_set_active (
+            GTK_TOGGLE_BUTTON (__widget_show_dict_admin_label),
+            __config_show_dict_admin_label);
+    }
+
+    if (__widget_show_add_word_label) {
+        gtk_toggle_button_set_active (
+            GTK_TOGGLE_BUTTON (__widget_show_add_word_label),
+            __config_show_add_word_label);
+    }
+
     for (unsigned int j = 0; j < __key_conf_pages_num; ++j) {
         for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
             if (__key_conf_pages[j].data[i].entry) {
@@ -826,6 +959,13 @@ load_config (const ConfigPointer &config)
         __config_auto_convert =
             config->read (String (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD),
                           __config_auto_convert);
+        __config_dict_admin_command =
+            config->read (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND),
+                          __config_dict_admin_command);
+        __config_add_word_command =
+            config->read (String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND),
+                          __config_add_word_command);
+
         __config_show_input_mode_label =
             config->read (String (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL),
                           __config_show_input_mode_label);
@@ -835,6 +975,15 @@ load_config (const ConfigPointer &config)
         __config_show_period_style_label =
             config->read (String (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL),
                           __config_show_period_style_label);
+        __config_show_dict_label =
+            config->read (String (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL),
+                          __config_show_dict_label);
+        __config_show_dict_admin_label =
+            config->read (String (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL),
+                          __config_show_dict_admin_label);
+        __config_show_add_word_label =
+            config->read (String (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL),
+                          __config_show_add_word_label);
 
         for (unsigned int j = 0; j < __key_conf_pages_num; ++ j) {
             for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
@@ -862,12 +1011,23 @@ save_config (const ConfigPointer &config)
                         __config_space_type);
         config->write (String (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD),
                         __config_auto_convert);
+        config->write (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND),
+                        __config_dict_admin_command);
+        config->write (String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND),
+                        __config_add_word_command);
+
         config->write (String (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL),
                         __config_show_input_mode_label);
         config->write (String (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL),
                         __config_show_typing_method_label);
         config->write (String (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL),
                         __config_show_period_style_label);
+        config->write (String (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL),
+                        __config_show_dict_label);
+        config->write (String (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL),
+                        __config_show_dict_admin_label);
+        config->write (String (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL),
+                        __config_show_add_word_label);
 
         for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
             for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
@@ -962,6 +1122,17 @@ on_default_combo_changed (GtkEditable *editable,
             break;
         }
     }
+}
+
+static void
+on_dict_menu_label_toggled (GtkToggleButton *togglebutton,
+                            gpointer         user_data)
+{
+    bool active = gtk_toggle_button_get_active (togglebutton);
+    if (__widget_show_dict_admin_label)
+        gtk_widget_set_sensitive (__widget_show_dict_admin_label, active);
+    if (__widget_show_add_word_label)
+        gtk_widget_set_sensitive (__widget_show_add_word_label, active);
 }
 /*
 vi:ts=4:nowrap:ai:expandtab
