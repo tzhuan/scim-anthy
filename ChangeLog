@@ -1,3 +1,11 @@
+2005-02-01 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* src/scim_anthy_imengine.cpp:
+	Removed comment lines about commiting the preediting string when 
+	focusing out. It should not be so.
+	We need get the event(?) of switching off scim and clear the preedit
+	string at that time.
+
 2005-01-29 Takuro Asie <ashie@homa.ne.jp>
 
 	* Applied patches provided by David Oftedal <david@start.no> and

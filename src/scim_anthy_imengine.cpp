@@ -854,10 +854,6 @@ void
 AnthyInstance::focus_out ()
 {
     SCIM_DEBUG_IMENGINE(2) << "focus_out.\n";
-    
-    // the following line should be commented out because of 
-    // crashing evolution.
-    //action_commit();
 }
 
 void
