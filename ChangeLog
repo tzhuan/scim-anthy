@@ -1,5 +1,9 @@
 2005-01-27 Takuro Asie <ashie@homa.ne.jp>
 
+	* configure.ac: Inclemented version number.
+
+2005-01-27 Takuro Asie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine.cpp, src/scim_anthy_imengine.h, 
 	  src/scim_anthy_imengine_setup.cpp, src/scim_anthy_prefs.h, po/ja.po:
 	Added an option to close candidate window on direct selecting.
