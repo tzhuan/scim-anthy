@@ -341,6 +341,14 @@ AnthyFactory::reload_config (const ConfigPointer &config)
                             String (SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT));
         scim_string_to_key_list (m_expand_segment_keys, str);
 
+        str = config->read (String (SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY),
+                            String (SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT));
+        scim_string_to_key_list (m_commit_first_segment_keys, str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY),
+                            String (SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT));
+        scim_string_to_key_list (m_commit_selected_segment_keys, str);
+
         // candidates keys
         str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY),
                             String (SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT));
@@ -465,6 +473,14 @@ AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
 
     if (match_key_event (m_factory->m_expand_segment_keys, key) &&
         action_expand_segment ())
+        return true;
+
+    if (match_key_event (m_factory->m_commit_first_segment_keys, key) &&
+        action_commit_first_segment ())
+        return true;
+
+    if (match_key_event (m_factory->m_commit_selected_segment_keys, key) &&
+        action_commit_selected_segment ())
         return true;
 
     // candidate
@@ -750,7 +766,8 @@ AnthyInstance::install_properties (void)
             m_properties.push_back (prop);
 
             prop = Property (SCIM_PROP_INPUT_MODE_HALF_KATAKANA,
-                             _("Half width katakana"), String (""), _("Half width katakana"));
+                             _("Half width katakana"), String (""),
+                             _("Half width katakana"));
             m_properties.push_back (prop);
 
             prop = Property (SCIM_PROP_INPUT_MODE_LATIN,
@@ -778,15 +795,18 @@ AnthyInstance::install_properties (void)
 
         if (m_factory->m_show_period_style_label) {
             prop = Property (SCIM_PROP_PERIOD_STYLE,
-                             "\xE3\x80\x81\xE3\x80\x82", String (""), _("Period style"));
+                             "\xE3\x80\x81\xE3\x80\x82", String (""),
+                             _("Period style"));
             m_properties.push_back (prop);
 
             prop = Property (SCIM_PROP_PERIOD_STYLE_JAPANESE,
-                             "\xE3\x80\x81\xE3\x80\x82", String (""), "\xE3\x80\x81\xE3\x80\x82");
+                             "\xE3\x80\x81\xE3\x80\x82", String (""),
+                             "\xE3\x80\x81\xE3\x80\x82");
             m_properties.push_back (prop);
 
             prop = Property (SCIM_PROP_PERIOD_STYLE_WIDE_LATIN,
-                             "\xEF\xBC\x8C\xEF\xBC\x8E", String (""), "\xEF\xBC\x8C\xEF\xBC\x8E");
+                             "\xEF\xBC\x8C\xEF\xBC\x8E", String (""),
+                             "\xEF\xBC\x8C\xEF\xBC\x8E");
             m_properties.push_back (prop);
 
             prop = Property (SCIM_PROP_PERIOD_STYLE_LATIN,
@@ -956,8 +976,15 @@ AnthyInstance::action_revert (void)
 {
     if (!m_preedit.is_preediting ())
         return false;
+
     if (!m_preedit.is_converting ()) {
         reset ();
+        return true;
+    }
+
+    if (is_selecting_candidates ()) {
+        m_lookup_table.clear ();
+        hide_lookup_table ();
         return true;
     }
 
@@ -1042,13 +1069,13 @@ AnthyInstance::action_commit (void)
     if (!m_preedit.is_preediting ())
         return false;
 
-    if (m_preedit.is_converting ()) {
+    commit_string (m_preedit.get_string ());
+
+    if (m_preedit.is_converting ())
         m_preedit.commit ();
-        commit_string (m_preedit.get_string ());
-    } else {
+    else
         m_preedit.flush_pending ();
-        commit_string (m_preedit.get_string ());
-    }
+
     m_lookup_table.clear ();
     m_preedit.clear ();
     hide_lookup_table ();
@@ -1209,6 +1236,45 @@ AnthyInstance::action_expand_segment (void)
     hide_lookup_table ();
 
     m_preedit.resize_segment (1);
+    update_preedit_string (m_preedit.get_string (),
+                           m_preedit.get_attribute_list ());
+    update_preedit_caret (m_preedit.get_caret_pos ());
+
+    return true;
+}
+
+bool
+AnthyInstance::action_commit_first_segment (void)
+{
+    if (!m_preedit.is_converting ())
+        return false;
+
+    m_lookup_table.clear ();
+    hide_lookup_table ();
+
+    commit_string (m_preedit.get_segment_string (0));
+    m_preedit.commit (0);
+
+    update_preedit_string (m_preedit.get_string (),
+                           m_preedit.get_attribute_list ());
+    update_preedit_caret (m_preedit.get_caret_pos ());
+
+    return true;
+}
+
+bool
+AnthyInstance::action_commit_selected_segment (void)
+{
+    if (!m_preedit.is_converting ())
+        return false;
+
+    m_lookup_table.clear ();
+    hide_lookup_table ();
+
+    for (int i = 0; i <= m_preedit.get_selected_segment (); i++)
+        commit_string (m_preedit.get_segment_string (i));
+    m_preedit.commit (m_preedit.get_selected_segment ());
+
     update_preedit_string (m_preedit.get_string (),
                            m_preedit.get_attribute_list ());
     update_preedit_caret (m_preedit.get_caret_pos ());

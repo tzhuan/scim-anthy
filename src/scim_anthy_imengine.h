@@ -71,6 +71,8 @@ class AnthyFactory : public IMEngineFactoryBase
     KeyEventList m_select_prev_segment_keys;
     KeyEventList m_shrink_segment_keys;
     KeyEventList m_expand_segment_keys;
+    KeyEventList m_commit_first_segment_keys;
+    KeyEventList m_commit_selected_segment_keys;
 
     KeyEventList m_next_candidate_keys;
     KeyEventList m_prev_candidate_keys;
@@ -176,6 +178,8 @@ private:
     bool   action_select_last_segment         (void);
     bool   action_shrink_segment              (void);
     bool   action_expand_segment              (void);
+    bool   action_commit_first_segment        (void);
+    bool   action_commit_selected_segment     (void);
 
     bool   action_select_next_candidate       (void);
     bool   action_select_prev_candidate       (void);

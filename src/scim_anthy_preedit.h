@@ -84,46 +84,19 @@ public:
     virtual ~PreeditChar ();
 
 #if 0
-    split    ();
-    to_valid ();
+    void split    (void);
+    void is_valid (void);
+    void to_valid (void);
 #endif
 };
 
 class Preedit
 {
-private:
-    // converter objects
-    Automaton         m_key2kana;
-    IConvert          m_iconv;
-    anthy_context_t   m_anthy_context;
-
-    // mode flags
-    InputMode         m_input_mode;
-    TypingMethod      m_typing_method;
-    PeriodStyle       m_period_style;
-    SpaceType         m_space_type;
-    bool              m_auto_convert;
-
-    // raw key code & preedit string
-    std::vector<PreeditChar> m_char_list;
-    unsigned int             m_char_caret;
-
-    // real position of the caret
-    unsigned int      m_caret;
-
-    // conversion string
-    WideString        m_conv_string;
-    AttributeList     m_conv_attrs;
-    std::vector<int>  m_selected_candidates;
-    int               m_selected_segment_id;
-    int               m_selected_segment_pos;
-    bool              m_kana_converting;      /* FIXME! */
-
 public:
     Preedit (void);
     virtual ~Preedit ();
 
-    // get status
+    // getting status
     virtual unsigned int  get_length             (PreeditStringType type = PREEDIT_CURRENT);
     virtual WideString    get_string             (PreeditStringType type = PREEDIT_CURRENT);
     virtual AttributeList get_attribute_list     (PreeditStringType type = PREEDIT_CURRENT);
@@ -133,6 +106,7 @@ public:
     virtual bool          is_kana_converting     (void);
 
     // manipulating the preedit string
+    // return true if commiting is needed.
     virtual bool          append                 (const KeyEvent & key);
     virtual void          erase                  (bool backward = true);
     virtual void          flush_pending          (void);
@@ -140,10 +114,11 @@ public:
     // manipulating the conversion string
     virtual void          convert                (SpecialCandidate type = CANDIDATE_NORMAL);
     virtual void          revert                 (void);
-    virtual void          commit                 (void);
+    virtual void          commit                 (int segment_id = -1);
 
     // segments of the converted sentence
     virtual int           get_nr_segments        (void);
+    virtual WideString    get_segment_string     (int segment_id = -1);
     virtual int           get_selected_segment   (void);
     virtual void          select_segment         (int segment_id);
     virtual int           get_segment_size       (int segment_id = -1);
@@ -152,7 +127,7 @@ public:
 
     // candidates for a segment
     virtual void          setup_lookup_table     (CommonLookupTable &table,
-                                                  int segment = -1);
+                                                  int segment_id = -1);
     virtual int           get_selected_candidate (int segment_id = -1);
     virtual void          select_candidate       (int candidate_id,
                                                   int segment_id = -1);
@@ -194,6 +169,41 @@ private:
                                                   PeriodStyle  period,
                                                   SpaceType    space);
     bool          is_comma_or_period             (const String & str);
+
+private:
+    // converter objects
+    Automaton         m_key2kana;
+    IConvert          m_iconv;
+    anthy_context_t   m_anthy_context;
+
+    // mode flags
+    InputMode         m_input_mode;
+    TypingMethod      m_typing_method;
+    PeriodStyle       m_period_style;
+    SpaceType         m_space_type;
+    bool              m_auto_convert;
+
+    // raw key code & preedit string
+    std::vector<PreeditChar> m_char_list;     // whole preedit characters includes commited one.
+                                              // start position of non-commited character is
+                                              // pointed by m_start_segment_pos.
+    unsigned int             m_start_char;    // to skip already commited characters.
+                                              // FIXME!! not implemented yet.
+    unsigned int             m_char_caret;    // relative position from m_start_char.
+
+    // real position of the caret
+    unsigned int      m_caret;                // relative position from m_start_segment_pos.
+
+    // conversion string
+    WideString        m_conv_string;          // conversion string for non-commited segments.
+    AttributeList     m_conv_attrs;           // attributes for non-commited segments.
+    std::vector<int>  m_selected_candidates;  // candidates ID for all non-commited segments.
+    int               m_start_segment_id;     // to skip segments which were already commited.
+    int               m_start_segment_pos;    // to skip characters which were already commited.
+    int               m_selected_segment_id;  // relative position from m_start_segment_id
+    int               m_selected_segment_pos; // relative position from m_start_segment_pos
+    bool              m_kana_converting;      // true if whole string is now converting to a
+                                              // special candidate.
 };
 
 #endif /* __SCIM_ANTHY_PREEDIT_H__ */
