@@ -555,7 +555,7 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
     }
 
     // FIXME!
-	if (isprint(key.code) && !isspace(key.code)) {
+    if (isprint(key.code) && !isspace(key.code)) {
         // commit old conversion string before update preedit string
         if (m_preedit.is_converting ())
             action_commit ();
@@ -570,7 +570,7 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
         update_preedit_caret (m_preedit.get_caret_pos());
 
         return true;
-	}
+    }
 
     return false;
 }
