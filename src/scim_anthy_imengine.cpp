@@ -565,7 +565,7 @@ AnthyInstance::process_key_event_with_candidate (const KeyEvent &key)
         select_candidate (key.code - SCIM_KEY_1);
         return true;
     case SCIM_KEY_0:
-        select_candidate (10);
+        select_candidate (9);
         return true;
 
     default:
