@@ -5,79 +5,79 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2004-12-01 22:31+0900\n"
-"PO-Revision-Date: 2004-12-01 22:33+0900\n"
+"POT-Creation-Date: 2004-12-02 00:53+0900\n"
+"PO-Revision-Date: 2004-12-02 00:55+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:775
+#: src/scim_anthy_imengine.cpp:793
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:779
+#: src/scim_anthy_imengine.cpp:797
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:783
+#: src/scim_anthy_imengine.cpp:801
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:787 src/scim_anthy_imengine.cpp:788
+#: src/scim_anthy_imengine.cpp:805 src/scim_anthy_imengine.cpp:806
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:792
+#: src/scim_anthy_imengine.cpp:810
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:792
+#: src/scim_anthy_imengine.cpp:810
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:796
+#: src/scim_anthy_imengine.cpp:814
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:802
+#: src/scim_anthy_imengine.cpp:820
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:806
+#: src/scim_anthy_imengine.cpp:824
 msgid "Roma"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:810
+#: src/scim_anthy_imengine.cpp:828
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:817
+#: src/scim_anthy_imengine.cpp:835
 msgid "Period style"
 msgstr "句読点スタイル"
 
-#: src/scim_anthy_imengine.cpp:842 src/scim_anthy_imengine_setup.cpp:820
+#: src/scim_anthy_imengine.cpp:860 src/scim_anthy_imengine_setup.cpp:857
 msgid "Dictionary"
 msgstr "辞書"
 
-#: src/scim_anthy_imengine.cpp:844
+#: src/scim_anthy_imengine.cpp:862
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:849
+#: src/scim_anthy_imengine.cpp:867
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:851
+#: src/scim_anthy_imengine.cpp:869
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:857
+#: src/scim_anthy_imengine.cpp:875
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:859
+#: src/scim_anthy_imengine.cpp:877
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
@@ -437,98 +437,126 @@ msgstr "全角英数モードキーの設定"
 msgid "The key events to toggle wide latin mode. "
 msgstr "全角英数モードをオン/オフするキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:514
+#: src/scim_anthy_imengine_setup.cpp:517
+msgid "Edit dictionary keys:"
+msgstr "辞書編集キー:"
+
+#: src/scim_anthy_imengine_setup.cpp:518
+msgid "Select edit dictionary keys"
+msgstr "辞書編集キーの設定"
+
+#: src/scim_anthy_imengine_setup.cpp:519
+msgid "The key events to launch dictionary administration tool. "
+msgstr "辞書管理ツールを起動するキーイベント"
+
+#: src/scim_anthy_imengine_setup.cpp:526
+msgid "Add a word keys:"
+msgstr "単語追加キー:"
+
+#: src/scim_anthy_imengine_setup.cpp:527
+msgid "Select add a word keys"
+msgstr "単語追加キーの設定"
+
+#: src/scim_anthy_imengine_setup.cpp:528
+msgid "The key events to launch the tool to add a word. "
+msgstr "単語追加ツールを起動するキーイベント"
+
+#: src/scim_anthy_imengine_setup.cpp:545
 msgid "Common keys"
 msgstr "一般キー"
 
-#: src/scim_anthy_imengine_setup.cpp:515
+#: src/scim_anthy_imengine_setup.cpp:546
 msgid "Mode keys"
 msgstr "モードキー"
 
-#: src/scim_anthy_imengine_setup.cpp:516
+#: src/scim_anthy_imengine_setup.cpp:547
 msgid "Caret keys"
 msgstr "キャレットキー"
 
-#: src/scim_anthy_imengine_setup.cpp:517
+#: src/scim_anthy_imengine_setup.cpp:548
 msgid "Segments keys"
 msgstr "文節キー"
 
-#: src/scim_anthy_imengine_setup.cpp:518
+#: src/scim_anthy_imengine_setup.cpp:549
 msgid "Candidates keys"
 msgstr "候補選択キー"
 
-#: src/scim_anthy_imengine_setup.cpp:519
+#: src/scim_anthy_imengine_setup.cpp:550
 msgid "Converting keys"
 msgstr "変換キー"
 
-#: src/scim_anthy_imengine_setup.cpp:525
+#: src/scim_anthy_imengine_setup.cpp:551
+msgid "Dictionary keys"
+msgstr "辞書関連キー"
+
+#: src/scim_anthy_imengine_setup.cpp:557
 msgid "Roma typing method"
 msgstr "ローマ字入力方式"
 
-#: src/scim_anthy_imengine_setup.cpp:526
+#: src/scim_anthy_imengine_setup.cpp:558
 msgid "Kana typing method"
 msgstr "かな入力方式"
 
-#: src/scim_anthy_imengine_setup.cpp:541
+#: src/scim_anthy_imengine_setup.cpp:573
 msgid "Wide"
 msgstr "全角"
 
-#: src/scim_anthy_imengine_setup.cpp:542
+#: src/scim_anthy_imengine_setup.cpp:574
 msgid "Half"
 msgstr "半角"
 
-#: src/scim_anthy_imengine_setup.cpp:597
+#: src/scim_anthy_imengine_setup.cpp:631
 msgid "Typing method: "
 msgstr "入力方式: "
 
-#: src/scim_anthy_imengine_setup.cpp:604
+#: src/scim_anthy_imengine_setup.cpp:638
 msgid "Style of comma and period: "
 msgstr "句読点のスタイル: "
 
-#: src/scim_anthy_imengine_setup.cpp:612
+#: src/scim_anthy_imengine_setup.cpp:646
 msgid "Space type: "
 msgstr "空白のタイプ: "
 
-#: src/scim_anthy_imengine_setup.cpp:620
+#: src/scim_anthy_imengine_setup.cpp:654
 msgid "Start conversion on inputting a comma or a period."
 msgstr "句読点入力時に変換を開始する"
 
-#: src/scim_anthy_imengine_setup.cpp:642
+#: src/scim_anthy_imengine_setup.cpp:676
 msgid "Show _input mode label"
 msgstr "入力モードラベルを表示"
 
-#: src/scim_anthy_imengine_setup.cpp:647
+#: src/scim_anthy_imengine_setup.cpp:681
 msgid "Show _typing method label"
 msgstr "入力方式ラベルを表示"
 
-#: src/scim_anthy_imengine_setup.cpp:652
+#: src/scim_anthy_imengine_setup.cpp:686
 msgid "Show _period style label"
 msgstr "句読点スタイルラベルを表示"
 
-#: src/scim_anthy_imengine_setup.cpp:658
+#: src/scim_anthy_imengine_setup.cpp:692
 msgid "Show _dictionary menu label"
 msgstr "辞書メニューラベルを表示"
 
-#: src/scim_anthy_imengine_setup.cpp:669
+#: src/scim_anthy_imengine_setup.cpp:703
 msgid "Show _edit dictionary label"
 msgstr "辞書編集ラベルを表示"
 
-#: src/scim_anthy_imengine_setup.cpp:679
+#: src/scim_anthy_imengine_setup.cpp:713
 msgid "Show _add word label"
 msgstr "単語追加ラベルを表示"
 
-#: src/scim_anthy_imengine_setup.cpp:733
+#: src/scim_anthy_imengine_setup.cpp:770
 msgid "Edit dictionary command:"
 msgstr "辞書編集コマンド:"
 
-#: src/scim_anthy_imengine_setup.cpp:736
+#: src/scim_anthy_imengine_setup.cpp:773
 msgid "Add word command:"
 msgstr "単語追加コマンド:"
 
-#: src/scim_anthy_imengine_setup.cpp:808
+#: src/scim_anthy_imengine_setup.cpp:845
 msgid "Options"
 msgstr "オプション"
 
-#: src/scim_anthy_imengine_setup.cpp:814
+#: src/scim_anthy_imengine_setup.cpp:851
 msgid "Toolbar"
 msgstr "ツールバー"

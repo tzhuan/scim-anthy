@@ -76,6 +76,9 @@
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY         "/IMEngine/Anthy/WideLatinModeKey"
 #define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY        "/IMEngine/Anthy/CirclekanaModeKey"
 
+#define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY              "/IMEngine/Anthy/DictAdminKey"
+#define SCIM_ANTHY_CONFIG_ADD_WORD_KEY                "/IMEngine/Anthy/AddWordKey"
+
 
 /* default config values */
 #define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default" /* not used yet */
@@ -125,6 +128,9 @@
 #define SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY_DEFAULT   "F8"
 #define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT           "F9"
 #define SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT      "F10"
+
+#define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT              "F11"
+#define SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT                "F12"
 
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Shift+space,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         ""

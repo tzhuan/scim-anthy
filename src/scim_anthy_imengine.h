@@ -94,6 +94,9 @@ class AnthyFactory : public IMEngineFactoryBase
     KeyEventList m_wide_latin_mode_keys;
     KeyEventList m_circle_kana_mode_keys;
 
+    KeyEventList m_dict_admin_keys;
+    KeyEventList m_add_word_keys;
+
 public:
     AnthyFactory (const String &lang,
                   const String &uuid,
@@ -204,8 +207,8 @@ private:
     bool   action_toggle_latin_mode           (void);
     bool   action_toggle_wide_latin_mode      (void);
 
-    void   action_add_word                  (void);
-    void   action_launch_dict_admin_tool      (void);
+    bool   action_add_word                  (void);
+    bool   action_launch_dict_admin_tool      (void);
     /*
     void   actoin_regist_word                 (void);
     */

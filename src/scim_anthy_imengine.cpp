@@ -425,6 +425,15 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         str = config->read (String (SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY),
                             String (SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT));
         scim_string_to_key_list (m_circle_kana_mode_keys, str);
+
+        // dict keys
+        str = config->read (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY),
+                            String (SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT));
+        scim_string_to_key_list (m_dict_admin_keys, str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_ADD_WORD_KEY),
+                            String (SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT));
+        scim_string_to_key_list (m_add_word_keys, str);
     }
 
     m_config = config;
@@ -558,6 +567,15 @@ AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
 
     if (match_key_event (m_factory->m_wide_latin_mode_keys, key) &&
         action_toggle_wide_latin_mode ())
+        return true;
+
+    // dict
+    if (match_key_event (m_factory->m_dict_admin_keys, key) &&
+        action_launch_dict_admin_tool ())
+        return true;
+
+    if (match_key_event (m_factory->m_add_word_keys, key) &&
+        action_add_word ())
         return true;
 
     return false;
@@ -1631,16 +1649,20 @@ launch_program (const char *command)
 	}
 }
 
-void
+bool
 AnthyInstance::action_add_word (void)
 {
     launch_program (m_factory->m_add_word_command.c_str ());
+
+    return true;
 }
 
-void
+bool
 AnthyInstance::action_launch_dict_admin_tool (void)
 {
     launch_program (m_factory->m_dict_admin_command.c_str ());
+
+    return true;
 }
 
 #if 0

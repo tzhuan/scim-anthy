@@ -509,6 +509,37 @@ static KeyboardConfigData __config_keyboards_mode [] =
     },
 };
 
+static KeyboardConfigData __config_keyboards_dict [] =
+{
+    {
+        SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY,
+        SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT,
+        N_("Edit dictionary keys:"),
+        N_("Select edit dictionary keys"),
+        N_("The key events to launch dictionary administration tool. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_ADD_WORD_KEY,
+        SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT,
+        N_("Add a word keys:"),
+        N_("Select add a word keys"),
+        N_("The key events to launch the tool to add a word. "),
+        NULL,
+        NULL,
+    },
+    {
+        NULL,
+        "",
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+    },
+};
+
 static struct KeyboardConfigPage __key_conf_pages[] =
 {
     {N_("Common keys"),     __config_keyboards_common},
@@ -517,6 +548,7 @@ static struct KeyboardConfigPage __key_conf_pages[] =
     {N_("Segments keys"),   __config_keyboards_segments},
     {N_("Candidates keys"), __config_keyboards_candidates},
     {N_("Converting keys"), __config_keyboards_converting},
+    {N_("Dictionary keys"), __config_keyboards_dict},
 };
 static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (KeyboardConfigPage);
 
