@@ -674,6 +674,9 @@ AnthyInstance::process_key_event (const KeyEvent& key)
     if (process_key_event_lookup_keybind (key))
         return true;
 
+    if (m_preedit.get_input_mode () == MODE_LATIN)
+        return false;
+
     // process hard coded keys
     if (is_selecting_candidates ())
         return process_key_event_with_candidate (key);
