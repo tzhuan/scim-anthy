@@ -76,29 +76,29 @@
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT    true
 #define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT     false
 
-#define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+m"
+#define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+J,Control+m,Control+M"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"
-#define SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT                  "Escape,Control+g"
+#define SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT                  "Escape,Control+g,Control+G"
 
-#define SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT               "BackSpace,Control+h"
-#define SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT                  "Delete,Control+d"
+#define SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT               "BackSpace,Control+h,Control+H"
+#define SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT                  "Delete,Control+d,Control+D"
 
-#define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT        "Control+a,Home"
-#define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT         "Control+e,End"
-#define SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY_DEFAULT      "Right,Control+f"
-#define SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY_DEFAULT     "Left,Control+b"
+#define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT        "Control+a,Control+A,Home"
+#define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT         "Control+e,Control+E,End"
+#define SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY_DEFAULT      "Right,Control+f,Control+F"
+#define SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY_DEFAULT     "Left,Control+b,Control+B"
 
-#define SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY_DEFAULT    "Control+a,Home"
-#define SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY_DEFAULT     "Control+e,End"
-#define SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY_DEFAULT     "Right,Control+f"
-#define SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY_DEFAULT     "Left,Control+b"
-#define SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY_DEFAULT          "Shift+Left,Control+i"
-#define SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT          "Shift+Right,Control+o"
+#define SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY_DEFAULT    "Control+a,Control+A,Home"
+#define SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY_DEFAULT     "Control+e,Control+E,End"
+#define SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY_DEFAULT     "Right,Control+f,Control+F"
+#define SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY_DEFAULT     "Left,Control+b,Control+B"
+#define SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY_DEFAULT          "Shift+Left,Control+i,Control+I"
+#define SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT          "Shift+Right,Control+o,Control+O"
 #define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT    "Shift+Down"
 #define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT "Control+Down"
 
-#define SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT   "space,Down,KP_Add,Control+n"
-#define SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT   "Up,KP_Subtract,Control+p"
+#define SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT   "space,Down,KP_Add,Control+n,Control+N"
+#define SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT   "Up,KP_Subtract,Control+p,Control+P"
 #define SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT      "Page_Up,Prior"
 #define SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT    "Page_Down,KP_Tab,Next"
 
@@ -108,9 +108,9 @@
 #define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT           "F9"
 #define SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT      "F10"
 
-#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Control+j,Muhenkan,Henkan"
+#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         ""
-#define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT        "Hiragana_Katakana"
+#define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT        "Control+period,Control+greater,Hiragana_Katakana"
 
 
 #endif /* __SCIM_ANTHY_PREFS_H__ */
