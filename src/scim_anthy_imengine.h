@@ -113,7 +113,8 @@ public:
     virtual String      get_uuid () const;
     virtual String      get_icon_file () const;
 
-    virtual IMEngineInstancePointer create_instance (const String& encoding, int id = -1);
+    virtual IMEngineInstancePointer create_instance (const String& encoding,
+                                                     int id = -1);
 
 private:
     void reload_config (const ConfigPointer &config);
@@ -224,14 +225,15 @@ private:
     bool   action_toggle_latin_mode           (void);
     bool   action_toggle_wide_latin_mode      (void);
 
-    bool   action_add_word                  (void);
+    bool   action_add_word                    (void);
     bool   action_launch_dict_admin_tool      (void);
     /*
     void   actoin_regist_word                 (void);
     */
 
     /* utility */
-    bool   match_key_event (const KeyEventList &keys, const KeyEvent &key) const;
+    bool   match_key_event (const KeyEventList &keys,
+                            const KeyEvent &key) const;
 };
 #endif /* __SCIM_ANTHY_IMENGINE_H__ */
 /*
