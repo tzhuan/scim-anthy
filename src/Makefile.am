@@ -7,6 +7,8 @@ INCLUDE	= \
 	-I$(top_srcdir)/src 
 
 noinst_HEADERS = \
+	scim_anthy_action.h \
+	scim_anthy_imengine_factory.h \
 	scim_anthy_imengine.h \
 	scim_anthy_preedit.h \
 	scim_anthy_automaton.h \
@@ -16,6 +18,8 @@ moduledir = @SCIM_MODULEDIR@/IMEngine
 module_LTLIBRARIES = anthy.la
 
 anthy_la_SOURCES = \
+	scim_anthy_action.cpp \
+	scim_anthy_imengine_factory.cpp \
 	scim_anthy_imengine.cpp \
 	scim_anthy_preedit.cpp \
 	scim_anthy_automaton.cpp \

@@ -1,3 +1,13 @@
+2005-03-15 Takuro Asie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine_factory.cpp,
+	  src/scim_anthy_imengine_factory.h, intl.h:
+	Divided from scim_anthy_imengine.{cpp,h}.
+	* src/scim_anthy_action.cpp, src/scim_anthy_action.h,
+	  src/scim_anthy_imengine.cpp, src/scim_anthy_imengine.h,
+	Introduced action manager.
+	* po/POTFILES.in, ja.po: Updated.	
+
 2005-02-01 Hiroyuki Ikezoe <poincare@ikezoe.net>
 
 	* src/scim_anthy_imengine.cpp:

@@ -30,98 +30,14 @@
 #include <anthy/anthy.h>
 #include <scim.h>
 #include "scim_anthy_preedit.h"
+
 using namespace scim;
-
-class AnthyFactory : public IMEngineFactoryBase
-{
-    String m_uuid;
-
-    IConvert m_iconv;
-    friend class AnthyInstance;
-
-    /* config */
-    ConfigPointer  m_config;
-    Connection     m_reload_signal_connection;
-
-    /* for preferece */
-    String       m_typing_method;
-    String       m_period_style;
-    String       m_space_type;
-    bool         m_auto_convert;
-    bool         m_close_cand_win_on_select;
-    String       m_dict_admin_command;
-    String       m_add_word_command;
-    bool         m_show_input_mode_label;
-    bool         m_show_typing_method_label;
-    bool         m_show_period_style_label;
-    bool         m_show_dict_label;
-    bool         m_show_dict_admin_label;
-    bool         m_show_add_word_label;
-
-    /* for key bindings */
-    KeyEventList m_commit_keys;
-    KeyEventList m_convert_keys;
-    KeyEventList m_cancel_keys;
-
-    KeyEventList m_backspace_keys;
-    KeyEventList m_delete_keys;
-
-    KeyEventList m_move_caret_first_keys;
-    KeyEventList m_move_caret_last_keys;
-    KeyEventList m_move_caret_forward_keys;
-    KeyEventList m_move_caret_backward_keys;
-
-    KeyEventList m_select_first_segment_keys;
-    KeyEventList m_select_last_segment_keys;
-    KeyEventList m_select_next_segment_keys;
-    KeyEventList m_select_prev_segment_keys;
-    KeyEventList m_shrink_segment_keys;
-    KeyEventList m_expand_segment_keys;
-    KeyEventList m_commit_first_segment_keys;
-    KeyEventList m_commit_selected_segment_keys;
-
-    KeyEventList m_next_candidate_keys;
-    KeyEventList m_prev_candidate_keys;
-    KeyEventList m_candidates_page_up_keys;
-    KeyEventList m_candidates_page_down_keys;
-
-    KeyEventList m_select_candidate_keys[10];
-
-    KeyEventList m_conv_to_hiragana_keys;
-    KeyEventList m_conv_to_katakana_keys;
-    KeyEventList m_conv_to_half_katakana_keys;
-    KeyEventList m_conv_to_latin_keys;
-    KeyEventList m_conv_to_wide_latin_keys;
-
-    KeyEventList m_latin_mode_keys;
-    KeyEventList m_wide_latin_mode_keys;
-    KeyEventList m_circle_kana_mode_keys;
-
-    KeyEventList m_dict_admin_keys;
-    KeyEventList m_add_word_keys;
-
-public:
-    AnthyFactory (const String &lang,
-                  const String &uuid,
-                  const ConfigPointer &config);
-    virtual ~AnthyFactory ();
-
-    virtual WideString  get_name () const;
-    virtual WideString  get_authors () const;
-    virtual WideString  get_credits () const;
-    virtual WideString  get_help () const;
-    virtual String      get_uuid () const;
-    virtual String      get_icon_file () const;
-
-    virtual IMEngineInstancePointer create_instance (const String& encoding,
-                                                     int id = -1);
-
-private:
-    void reload_config (const ConfigPointer &config);
-};
 
 class AnthyInstance : public IMEngineInstanceBase
 {
+    friend class AnthyFactory;
+
+private:
     AnthyFactory       *m_factory;
 
     KeyEvent            m_prev_key;
