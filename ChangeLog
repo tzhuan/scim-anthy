@@ -1,3 +1,7 @@
+2004-11-29 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* version 0.2.0.
+
 2004-11-27 Hiroyuki Ikezoe <poincare@ikezoe.net>
 
 	* src/scim_anthy_imengine.cpp: pressing space key 
