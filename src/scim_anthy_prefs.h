@@ -21,6 +21,7 @@
 #ifndef __SCIM_ANTHY_PREFS_H__
 #define __SCIM_ANTHY_PREFS_H__
 
+/* config keys */
 #define SCIM_ANTHY_CONFIG_ON_KEY                      "/IMEngine/Anthy/OnKey"
 #define SCIM_ANTHY_CONFIG_USE_KANA                    "/IMEngine/Anthy/UseKana"
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD               "/IMEngine/Anthy/TypingMethod"
@@ -30,6 +31,8 @@
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL       "/IMEngine/Anthy/ShowInputModeLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL    "/IMEngine/Anthy/ShowTypingMethodLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL     "/IMEngine/Anthy/ShowPeriodStyleLabel"
+
+#define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme" /* not used yet */
 
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY                  "/IMEngine/Anthy/CommitKey"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY                 "/IMEngine/Anthy/ConvertKey"
@@ -67,6 +70,9 @@
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY         "/IMEngine/Anthy/WideLatinModeKey"
 #define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY        "/IMEngine/Anthy/CirclekanaModeKey"
 
+
+/* default config values */
+#define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default" /* not used yet */
 
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT               "Roma"
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT                "Japanese"
@@ -114,3 +120,6 @@
 
 
 #endif /* __SCIM_ANTHY_PREFS_H__ */
+/*
+vi:ts=4:nowrap:ai:expandtab
+*/

@@ -148,9 +148,10 @@ private:
     void   install_properties                 (void);
     void   set_input_mode                     (InputMode mode);
     void   set_typing_method                  (TypingMethod method); /* FIXME! */
-    void   set_period_style                   (PeriodStyle style);
+    void   set_period_style                   (PeriodStyle period,
+                                               CommaStyle comma);
     bool   is_selecting_candidates            (void);
-    bool   convert_kana                       (SpecialCandidate type);
+    bool   convert_kana                       (CandidateType type);
 
     /* processing key event */
     bool   process_key_event_lookup_keybind   (const KeyEvent &key);

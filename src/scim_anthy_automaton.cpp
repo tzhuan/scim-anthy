@@ -168,3 +168,6 @@ Automaton::remove_table (ConvRule *table)
             m_tables.erase(m_tables.begin() + i);
     }
 }
+/*
+vi:ts=4:nowrap:ai:expandtab
+*/

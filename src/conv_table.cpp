@@ -384,37 +384,61 @@ ConvRule ja_kana_table[] = {
 };
 
 ConvRule romakana_ja_period_rule[] = {
-{",",	"、",	""},
 {".",	"。",	""},
 {NULL,	NULL,	NULL},
 };
 
+ConvRule romakana_ja_comma_rule[] = {
+{",",	"、",	""},
+{NULL,	NULL,	NULL},
+};
+
 ConvRule romakana_wide_latin_period_rule[] = {
-{",",	"，",	""},
 {".",	"．",	""},
 {NULL,	NULL,	NULL},
 };
 
+ConvRule romakana_wide_latin_comma_rule[] = {
+{",",	"，",	""},
+{NULL,	NULL,	NULL},
+};
+
 ConvRule romakana_latin_period_rule[] = {
-{",",	",",	""},
 {".",	".",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule romakana_latin_comma_rule[] = {
+{",",	",",	""},
 {NULL,	NULL,	NULL},
 };
 
 ConvRule kana_ja_period_rule[] = {
 {">",	"。",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule kana_ja_comma_rule[] = {
 {"<",	"、",	""},
 {NULL,	NULL,	NULL},
 };
 
 ConvRule kana_wide_latin_period_rule[] = {
 {">",	"．",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule kana_wide_latin_comma_rule[] = {
 {"<",	"，",	""},
 {NULL,	NULL,	NULL},
 };
 
 ConvRule kana_latin_period_rule[] = {
 {">",	".",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule kana_latin_comma_rule[] = {
 {"<",	",",	""},
 {NULL,	NULL,	NULL},
 };

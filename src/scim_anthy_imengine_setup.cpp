@@ -519,9 +519,10 @@ static ComboConfigData typing_methods[] =
 
 static ComboConfigData period_styles[] =
 {
-    {"\xE3\x80\x81\xE3\x80\x82", "Japanese",},
+    {"\xE3\x80\x81\xE3\x80\x82", "Japanese"},
+    {"\xEF\xBC\x8C\xE3\x80\x82", "WideLatin_Japanese"},
     {"\xEF\xBC\x8C\xEF\xBC\x8E", "WideLatin"},
-    {", .",                      "Latin"},
+    {",.",                       "Latin"},
     {NULL, NULL},
 };
 
@@ -533,14 +534,14 @@ static ComboConfigData space_types[] =
 };
 
 
-static void on_default_editable_changed      (GtkEditable     *editable,
-                                              gpointer         user_data);
-static void on_default_toggle_button_toggled (GtkToggleButton *togglebutton,
-                                              gpointer         user_data);
-static void on_default_key_selection_clicked (GtkButton       *button,
-                                              gpointer         user_data);
-static void on_default_combo_changed         (GtkEditable     *editable,
-                                              gpointer         user_data);
+static void on_default_editable_changed       (GtkEditable     *editable,
+                                               gpointer         user_data);
+static void on_default_toggle_button_toggled  (GtkToggleButton *togglebutton,
+                                               gpointer         user_data);
+static void on_default_key_selection_clicked  (GtkButton       *button,
+                                               gpointer         user_data);
+static void on_default_combo_changed          (GtkEditable     *editable,
+                                               gpointer         user_data);
 static void setup_widget_value ();
 
 
@@ -577,33 +578,33 @@ create_combo_widget (const char *label_text, GtkWidget **widget,
 static GtkWidget *
 create_options_page ()
 {
-    GtkWidget *vbox, *hbox;
+    GtkWidget *vbox, *widget;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
     /* typing method */
-    hbox = create_combo_widget (_("Typing method: "),
-                                &__widget_typing_method,
-                                (gpointer) &__config_typing_method,
-                                (gpointer) &typing_methods);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    widget = create_combo_widget (_("Typing method: "),
+                                  &__widget_typing_method,
+                                  (gpointer) &__config_typing_method,
+                                  (gpointer) &typing_methods);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
-    /* comma and period style */
-    hbox = create_combo_widget (_("Style of comma and period: "),
-                                &__widget_period_style,
-                                (gpointer) &__config_period_style,
-                                (gpointer) &period_styles);
+    /* period style */
+    widget = create_combo_widget (_("Style of comma and period: "),
+                                  &__widget_period_style,
+                                  (gpointer) &__config_period_style,
+                                  (gpointer) &period_styles);
     gtk_widget_set_size_request (__widget_period_style, 100, -1);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     /* space_style */
-    hbox = create_combo_widget (_("Space type: "),
-                                &__widget_space_type,
-                                (gpointer) &__config_space_type,
-                                (gpointer) &space_types);
+    widget = create_combo_widget (_("Space type: "),
+                                  &__widget_space_type,
+                                  (gpointer) &__config_space_type,
+                                  (gpointer) &space_types);
     gtk_widget_set_size_request (__widget_space_type, 100, -1);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     /* auto convert */
     __widget_auto_convert = gtk_check_button_new_with_mnemonic (_("Start conversion on inputting a comma or a period."));
@@ -962,3 +963,6 @@ on_default_combo_changed (GtkEditable *editable,
         }
     }
 }
+/*
+vi:ts=4:nowrap:ai:expandtab
+*/

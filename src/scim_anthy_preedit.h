@@ -51,13 +51,19 @@ typedef enum {
     CANDIDATE_KATAKANA      = -4,
     CANDIDATE_HALF_KATAKANA = -5,
     LAST_SPECIAL_CANDIDATE  = -6,
-} SpecialCandidate;
+} CandidateType;
 
 typedef enum {
     PERIOD_JAPANESE,
     PERIOD_WIDE_LATIN,
     PERIOD_LATIN,
 } PeriodStyle;
+
+typedef enum {
+    COMMA_JAPANESE,
+    COMMA_WIDE_LATIN,
+    COMMA_LATIN,
+} CommaStyle;
 
 typedef enum {
     SPACE_NORMAL,
@@ -112,7 +118,7 @@ public:
     virtual void          flush_pending          (void);
 
     // manipulating the conversion string
-    virtual void          convert                (SpecialCandidate type = CANDIDATE_NORMAL);
+    virtual void          convert                (CandidateType type = CANDIDATE_NORMAL);
     virtual void          revert                 (void);
     virtual void          commit                 (int segment_id = -1);
 
@@ -147,6 +153,8 @@ public:
     virtual TypingMethod  get_typing_method      (void);
     virtual void          set_period_style       (PeriodStyle style);
     virtual PeriodStyle   get_period_style       (void);
+    virtual void          set_comma_style        (CommaStyle style);
+    virtual CommaStyle    get_comma_style        (void);
     virtual void          set_space_type         (SpaceType type);
     virtual SpaceType     get_space_type         (void);
     virtual void          set_auto_convert       (bool autoconv);
@@ -158,15 +166,16 @@ private:
     WideString    get_preedit_string_as_hiragana (void);
 
     bool          append_str                     (const String & str);
-    void          convert_kana                   (SpecialCandidate type);
+    void          convert_kana                   (CandidateType type);
     void          create_conversion_string       (void);
     void          get_kana_substr                (WideString & substr,
                                                   unsigned int start,
                                                   unsigned int end,
-                                                  SpecialCandidate type);
+                                                  CandidateType type);
     void          reset_pending                  (void);
     void          set_table                      (TypingMethod method,
                                                   PeriodStyle  period,
+                                                  CommaStyle   comma,
                                                   SpaceType    space);
     bool          is_comma_or_period             (const String & str);
 
@@ -180,6 +189,7 @@ private:
     InputMode         m_input_mode;
     TypingMethod      m_typing_method;
     PeriodStyle       m_period_style;
+    CommaStyle        m_comma_style;
     SpaceType         m_space_type;
     bool              m_auto_convert;
 

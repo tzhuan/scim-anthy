@@ -32,9 +32,17 @@ extern ConvRule romakana_ja_period_rule[];
 extern ConvRule romakana_wide_latin_period_rule[];
 extern ConvRule romakana_latin_period_rule[];
 
+extern ConvRule romakana_ja_comma_rule[];
+extern ConvRule romakana_wide_latin_comma_rule[];
+extern ConvRule romakana_latin_comma_rule[];
+
 extern ConvRule kana_ja_period_rule[];
 extern ConvRule kana_wide_latin_period_rule[];
 extern ConvRule kana_latin_period_rule[];
+
+extern ConvRule kana_ja_comma_rule[];
+extern ConvRule kana_wide_latin_comma_rule[];
+extern ConvRule kana_latin_comma_rule[];
 
 extern ConvRule wide_space_rule[];
 extern ConvRule space_rule[];
@@ -50,6 +58,8 @@ static void      convert_hiragana_to_katakana (const WideString &hira,
                                                bool              half = false);
 static ConvRule *get_period_rule              (TypingMethod      method,
                                                PeriodStyle       period);
+static ConvRule *get_comma_rule               (TypingMethod      method,
+                                               CommaStyle        period);
 #endif // FIXME! it's ad-hoc.
 
 
@@ -70,6 +80,7 @@ Preedit::Preedit ()
       m_input_mode (MODE_HIRAGANA),
       m_typing_method (METHOD_ROMAKANA),
       m_period_style (PERIOD_JAPANESE),
+      m_comma_style (COMMA_JAPANESE),
       m_space_type (SPACE_WIDE),
       m_auto_convert (false),
       m_start_char (0),
@@ -88,7 +99,7 @@ Preedit::Preedit ()
     if (!m_iconv.set_encoding ("EUC-JP"))
         return;
 
-    set_table (m_typing_method, m_period_style, m_space_type);
+    set_table (m_typing_method, m_period_style, m_comma_style, m_space_type);
 }
 
 Preedit::~Preedit ()
@@ -458,7 +469,7 @@ Preedit::create_conversion_string (void)
 void
 Preedit::get_kana_substr (WideString & substr,
                           unsigned int start, unsigned int end,
-                          SpecialCandidate type)
+                          CandidateType type)
 {
     unsigned int pos = 0, i = 0;
     WideString kana;
@@ -516,7 +527,7 @@ Preedit::get_kana_substr (WideString & substr,
 }
 
 void
-Preedit::convert (SpecialCandidate type)
+Preedit::convert (CandidateType type)
 {
     if (type != CANDIDATE_NORMAL) {
         convert_kana (type);
@@ -558,7 +569,7 @@ Preedit::convert (SpecialCandidate type)
 
 #if 1 // FIXME! it's ad-hoc
 void
-Preedit::convert_kana (SpecialCandidate type)
+Preedit::convert_kana (CandidateType type)
 {
     String str;
     WideString wide;
@@ -715,7 +726,7 @@ Preedit::get_segment_string (int segment_id)
     if (cand < 0) {
         get_kana_substr (segment_str,
                          real_seg_start, real_seg_start + seg_stat.seg_len,
-                         (SpecialCandidate) cand);
+                         (CandidateType) cand);
     } else {
         int len = anthy_get_segment (m_anthy_context, real_seg, cand, NULL, 0);
         char buf[len + 1];
@@ -1032,7 +1043,7 @@ Preedit::get_input_mode (void)
 void
 Preedit::set_typing_method (TypingMethod method)
 {
-    set_table (method, m_period_style, m_space_type);
+    set_table (method, m_period_style, m_comma_style, m_space_type);
 }
 
 TypingMethod
@@ -1044,7 +1055,7 @@ Preedit::get_typing_method (void)
 void
 Preedit::set_period_style (PeriodStyle style)
 {
-    set_table (m_typing_method, style, m_space_type);
+    set_table (m_typing_method, style, m_comma_style, m_space_type);
 }
 
 PeriodStyle
@@ -1054,9 +1065,21 @@ Preedit::get_period_style (void)
 }
 
 void
+Preedit::set_comma_style (CommaStyle style)
+{
+    set_table (m_typing_method, m_period_style, style, m_space_type);
+}
+
+CommaStyle
+Preedit::get_comma_style (void)
+{
+    return m_comma_style;
+}
+
+void
 Preedit::set_space_type (SpaceType type)
 {
-    set_table (m_typing_method, m_period_style, type);
+    set_table (m_typing_method, m_period_style, m_comma_style, type);
 }
 
 SpaceType
@@ -1078,9 +1101,13 @@ Preedit::get_auto_convert (void)
 }
 
 void
-Preedit::set_table (TypingMethod method, PeriodStyle period, SpaceType space)
+Preedit::set_table (TypingMethod method,
+                    PeriodStyle period,
+                    CommaStyle comma,
+                    SpaceType space)
 {
     ConvRule *period_rule = get_period_rule (method, period);
+    ConvRule *comma_rule  = get_comma_rule  (method, comma);
 
     switch (method) {
     case METHOD_KANA:
@@ -1094,6 +1121,8 @@ Preedit::set_table (TypingMethod method, PeriodStyle period, SpaceType space)
 
     if (period_rule)
         m_key2kana.append_table (period_rule);
+    if (comma_rule)
+        m_key2kana.append_table (comma_rule);
 
     switch (space) {
     case SPACE_NORMAL:
@@ -1114,9 +1143,14 @@ bool
 Preedit::is_comma_or_period (const String & str)
 {
     ConvRule *period_rule = get_period_rule (m_typing_method, m_period_style);
+    ConvRule *comma_rule  = get_comma_rule  (m_typing_method, m_comma_style);
 
     for (unsigned int i = 0; period_rule && period_rule[i].string; i++) {
         if (period_rule[i].string && !strcmp (period_rule[i].string, str.c_str ()))
+            return true;
+    }
+    for (unsigned int i = 0; comma_rule && comma_rule[i].string; i++) {
+        if (comma_rule[i].string && !strcmp (comma_rule[i].string, str.c_str ()))
             return true;
     }
 
@@ -1215,4 +1249,39 @@ get_period_rule (TypingMethod method, PeriodStyle period)
 
     return NULL;
 }
+
+static ConvRule *
+get_comma_rule (TypingMethod method, CommaStyle period)
+{
+    switch (method) {
+    case METHOD_KANA:
+        switch (period) {
+        case PERIOD_WIDE_LATIN:
+            return kana_wide_latin_comma_rule;
+        case PERIOD_LATIN:
+            return kana_latin_comma_rule;
+        case PERIOD_JAPANESE:
+        default:
+            return kana_ja_comma_rule;
+        };
+        break;
+    case METHOD_ROMAKANA:
+    default:
+        switch (period) {
+        case PERIOD_WIDE_LATIN:
+            return romakana_wide_latin_comma_rule;
+        case PERIOD_LATIN:
+            return romakana_latin_comma_rule;
+        case PERIOD_JAPANESE:
+        default:
+            return romakana_ja_comma_rule;
+        };
+        break;
+    };
+
+    return NULL;
+}
 #endif // FIXME!
+/*
+vi:ts=4:nowrap:ai:expandtab
+*/
