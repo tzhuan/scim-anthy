@@ -272,7 +272,7 @@ Preedit::is_kana_converting (void)
 bool
 Preedit::append (const KeyEvent & key)
 {
-    if (!isprint(key.code))
+    if (!isprint(key.get_ascii_code ()))
         return false;
 
     char str[2];

@@ -1,5 +1,11 @@
 2004-12-15 Hiroyuki Ikezoe <poincare@ikezoe.net>
 
+	* src/scim_anthy_imengine.cpp, src/scim_anthy_preedit.cpp:
+	Fixed a bug that Up key indicates 'R' on LC_CTYPE=en_US.UTF-8
+	environment.
+
+2004-12-15 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
 	* src/scim_anthy_imengine.cpp:
 	Fixed a bug that dead key does not work.
 

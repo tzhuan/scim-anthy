@@ -631,8 +631,8 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
     {
         return false;
     }
-
-    if (isprint(key.code)) {
+    
+    if (isprint(key.get_ascii_code ())) {
         // commit old conversion string before update preedit string
         if (m_preedit.is_converting ())
             action_commit ();
