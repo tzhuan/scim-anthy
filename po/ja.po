@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2004-11-25 19:40+0900\n"
+"POT-Creation-Date: 2004-11-30 11:28+0900\n"
 "PO-Revision-Date: 2004-11-25 19:42+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,47 +13,47 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:757
+#: src/scim_anthy_imengine.cpp:756
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:761
+#: src/scim_anthy_imengine.cpp:760
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:765
+#: src/scim_anthy_imengine.cpp:764
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:769 src/scim_anthy_imengine.cpp:770
+#: src/scim_anthy_imengine.cpp:768 src/scim_anthy_imengine.cpp:769
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:774
+#: src/scim_anthy_imengine.cpp:773
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:774
+#: src/scim_anthy_imengine.cpp:773
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:778
+#: src/scim_anthy_imengine.cpp:777
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:784
+#: src/scim_anthy_imengine.cpp:783
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:788
+#: src/scim_anthy_imengine.cpp:787
 msgid "Roma"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:792
+#: src/scim_anthy_imengine.cpp:791
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:799
+#: src/scim_anthy_imengine.cpp:798
 msgid "Period style"
 msgstr "句読点スタイル"
 
@@ -481,6 +481,6 @@ msgstr "入力方式ラベルを表示"
 msgid "Show _period style label"
 msgstr "句読点スタイルラベルを表示"
 
-#: src/scim_anthy_imengine_setup.cpp:671
+#: src/scim_anthy_imengine_setup.cpp:673
 msgid "Options"
 msgstr "オプション"

@@ -128,6 +128,12 @@ struct KeyboardConfigData
     GtkWidget  *button;
 };
 
+struct KeyboardConfigPage
+{
+    const char         *label;
+    KeyboardConfigData *data;
+};
+
 struct ComboConfigData
 {
     const char *label;
@@ -154,9 +160,8 @@ static GtkWidget    * __widget_show_typing_method_label = 0;
 static GtkWidget    * __widget_show_period_style_label  = 0;
 static GtkTooltips  * __widget_tooltips                 = 0;
 
-static KeyboardConfigData __config_keyboards [] =
+static KeyboardConfigData __config_keyboards_common [] =
 {
-    /* edit */
     {
         SCIM_ANTHY_CONFIG_COMMIT_KEY,
         SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT,
@@ -202,8 +207,19 @@ static KeyboardConfigData __config_keyboards [] =
         NULL,
         NULL,
     },
+    {
+        NULL,
+        "",
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+    },
+};
 
-    /* caret */
+static KeyboardConfigData __config_keyboards_caret [] =
+{
     {
         SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY,
         SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT,
@@ -240,8 +256,19 @@ static KeyboardConfigData __config_keyboards [] =
         NULL,
         NULL,
     },
+    {
+        NULL,
+        "",
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+    },
+};
 
-    /* segment */
+static KeyboardConfigData __config_keyboards_segments [] =
+{
     {
         SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY,
         SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY_DEFAULT,
@@ -314,8 +341,19 @@ static KeyboardConfigData __config_keyboards [] =
         NULL,
         NULL,
     },
+    {
+        NULL,
+        "",
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+    },
+};
 
-    /* candidates */
+static KeyboardConfigData __config_keyboards_candidates [] =
+{
     {
         SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY,
         SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT,
@@ -352,8 +390,19 @@ static KeyboardConfigData __config_keyboards [] =
         NULL,
         NULL,
     },
+    {
+        NULL,
+        "",
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+    },
+};
 
-    /* convert */
+static KeyboardConfigData __config_keyboards_converting [] =
+{
     {
         SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY,
         SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT,
@@ -399,8 +448,19 @@ static KeyboardConfigData __config_keyboards [] =
         NULL,
         NULL,
     },
+    {
+        NULL,
+        "",
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+    },
+};
 
-    /* mode */
+static KeyboardConfigData __config_keyboards_mode [] =
+{
     {
         SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY,
         SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT,
@@ -438,28 +498,17 @@ static KeyboardConfigData __config_keyboards [] =
         NULL,
     },
 };
-/* FIXME! */
-#if 1
-static unsigned int key_nums[] =
+
+static struct KeyboardConfigPage __key_conf_pages[] =
 {
-    5, // edit
-    4, // caret
-    8, // segment
-    4, // candidates
-    5, // convert
-    3, // mode
+    {"Common keys",     __config_keyboards_common},
+    {"Caret keys",      __config_keyboards_caret},
+    {"Segments keys",   __config_keyboards_segments},
+    {"Candidates keys", __config_keyboards_candidates},
+    {"Converting keys", __config_keyboards_converting},
+    {"Mode keys",       __config_keyboards_mode},
 };
-static char *key_conf_page_labels[] =
-{
-    N_("Common keys"),
-    N_("Caret keys"),
-    N_("Segments keys"),
-    N_("Candidates keys"),
-    N_("Converting keys"),
-    N_("Mode keys"),
-};
-static unsigned int key_conf_pages = sizeof (key_nums) / sizeof (unsigned int);
-#endif
+static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (KeyboardConfigPage);
 
 static ComboConfigData typing_methods[] =
 {
@@ -492,7 +541,7 @@ static void on_default_key_selection_clicked (GtkButton       *button,
                                               gpointer         user_data);
 static void on_default_combo_changed         (GtkEditable     *editable,
                                               gpointer         user_data);
-void setup_widget_value ();
+static void setup_widget_value ();
 
 
 static GtkWidget *
@@ -600,22 +649,19 @@ create_keyboard_page (unsigned int page)
 {
     GtkWidget *table;
     GtkWidget *label;
-    unsigned int i, start = 0, end = 0;
 
-    if (page >= key_conf_pages)
+    if (page >= __key_conf_pages_num)
         return NULL;
 
-    for (i = 0; i < page; i++)
-        start += key_nums[i];
-    end = start + key_nums[page];
+    KeyboardConfigData *data = __key_conf_pages[page].data;
 
     table = gtk_table_new (3, 3, FALSE);
     gtk_widget_show (table);
 
     // Create keyboard setting.
-    for (i = start; i < end /*__config_keyboards [i].key*/; ++ i) {
+    for (unsigned int i = 0; data[i].key; ++ i) {
         label = gtk_label_new (NULL);
-        gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(__config_keyboards[i].label));
+        gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(data[i].label));
         gtk_widget_show (label);
         gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
         gtk_misc_set_padding (GTK_MISC (label), 4, 0);
@@ -623,35 +669,35 @@ create_keyboard_page (unsigned int page)
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (GTK_FILL), 4, 4);
 
-        __config_keyboards [i].entry = gtk_entry_new ();
-        gtk_widget_show (__config_keyboards [i].entry);
-        gtk_table_attach (GTK_TABLE (table), __config_keyboards [i].entry, 1, 2, i, i+1,
+        data[i].entry = gtk_entry_new ();
+        gtk_widget_show (data[i].entry);
+        gtk_table_attach (GTK_TABLE (table), data[i].entry, 1, 2, i, i+1,
                           (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
                           (GtkAttachOptions) (GTK_FILL), 4, 4);
-        gtk_entry_set_editable (GTK_ENTRY (__config_keyboards[i].entry), FALSE);
+        gtk_entry_set_editable (GTK_ENTRY (data[i].entry), FALSE);
 
-        __config_keyboards[i].button = gtk_button_new_with_label ("...");
-        gtk_widget_show (__config_keyboards[i].button);
-        gtk_table_attach (GTK_TABLE (table), __config_keyboards[i].button, 2, 3, i, i+1,
+        data[i].button = gtk_button_new_with_label ("...");
+        gtk_widget_show (data[i].button);
+        gtk_table_attach (GTK_TABLE (table), data[i].button, 2, 3, i, i+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (GTK_FILL), 4, 4);
-        gtk_label_set_mnemonic_widget (GTK_LABEL (label), __config_keyboards[i].button);
+        gtk_label_set_mnemonic_widget (GTK_LABEL (label), data[i].button);
     }
 
-    for (i = start; i < end /*__config_keyboards [i].key*/; ++ i) {
-        g_signal_connect ((gpointer) __config_keyboards [i].button, "clicked",
+    for (unsigned int i = 0; data[i].key; ++ i) {
+        g_signal_connect ((gpointer) data[i].button, "clicked",
                           G_CALLBACK (on_default_key_selection_clicked),
-                          &(__config_keyboards [i]));
-        g_signal_connect ((gpointer) __config_keyboards [i].entry, "changed",
+                          &(data[i]));
+        g_signal_connect ((gpointer) data[i].entry, "changed",
                           G_CALLBACK (on_default_editable_changed),
-                          &(__config_keyboards [i].data));
+                          &(data[i].data));
     }
 
     if (!__widget_tooltips)
         __widget_tooltips = gtk_tooltips_new();
-    for (i = start; i < end /*__config_keyboards [i].key*/; ++ i) {
-        gtk_tooltips_set_tip (__widget_tooltips, __config_keyboards [i].entry,
-                              _(__config_keyboards [i].tooltip), NULL);
+    for (unsigned int i = 0; data[i].key; ++ i) {
+        gtk_tooltips_set_tip (__widget_tooltips, data[i].entry,
+                              _(data[i].tooltip), NULL);
     }
 
     return table;
@@ -677,9 +723,9 @@ create_setup_window ()
         setup_widget_value ();
 
         // Create the second page.
-        for (unsigned int i = 0; i < key_conf_pages; i++) {
+        for (unsigned int i = 0; i < __key_conf_pages_num; i++) {
             page = create_keyboard_page (i);
-            label = gtk_label_new (_(key_conf_page_labels[i]));
+            label = gtk_label_new (_(__key_conf_pages[i].label));
             gtk_widget_show (label);
             gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
         }
@@ -690,7 +736,7 @@ create_setup_window ()
     return window;
 }
 
-void
+static void
 setup_combo_value (GtkCombo *combo,
                    ComboConfigData *data, const String & str)
 {
@@ -710,7 +756,7 @@ setup_combo_value (GtkCombo *combo,
         gtk_entry_set_text (GTK_ENTRY (combo->entry), defval);
 }
 
-void
+static void
 setup_widget_value ()
 {
     if (__widget_typing_method) {
@@ -752,16 +798,18 @@ setup_widget_value ()
             __config_show_period_style_label);
     }
 
-    for (int i = 0; __config_keyboards [i].key; ++ i) {
-        if (__config_keyboards [i].entry) {
-            gtk_entry_set_text (
-                GTK_ENTRY (__config_keyboards [i].entry),
-                __config_keyboards [i].data.c_str ());
+    for (unsigned int j = 0; j < __key_conf_pages_num; ++j) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+            if (__key_conf_pages[j].data[i].entry) {
+                gtk_entry_set_text (
+                    GTK_ENTRY (__key_conf_pages[j].data[i].entry),
+                    __key_conf_pages[j].data[i].data.c_str ());
+            }
         }
     }
 }
 
-void
+static void
 load_config (const ConfigPointer &config)
 {
     if (!config.null ()) {
@@ -787,10 +835,12 @@ load_config (const ConfigPointer &config)
             config->read (String (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL),
                           __config_show_period_style_label);
 
-        for (int i = 0; __config_keyboards [i].key; ++ i) {
-            __config_keyboards [i].data =
-                config->read (String (__config_keyboards [i].key),
-                              __config_keyboards [i].data);
+        for (unsigned int j = 0; j < __key_conf_pages_num; ++ j) {
+            for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+                __key_conf_pages[j].data[i].data =
+                    config->read (String (__key_conf_pages[j].data[i].key),
+                                  __key_conf_pages[j].data[i].data);
+            }
         }
 
         setup_widget_value ();
@@ -799,7 +849,7 @@ load_config (const ConfigPointer &config)
     }
 }
 
-void
+static void
 save_config (const ConfigPointer &config)
 {
     if (!config.null ()) {
@@ -818,16 +868,18 @@ save_config (const ConfigPointer &config)
         config->write (String (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL),
                         __config_show_period_style_label);
 
-        for (int i = 0; __config_keyboards [i].key; ++ i) {
-            config->write (String (__config_keyboards [i].key),
-                          __config_keyboards [i].data);
+        for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
+            for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+                config->write (String (__key_conf_pages[j].data[i].key),
+                               __key_conf_pages[j].data[i].data);
+            }
         }
 
         __have_changed = false;
     }
 }
 
-bool
+static bool
 query_changed ()
 {
     return __have_changed;
