@@ -84,6 +84,8 @@ class AnthyFactory : public IMEngineFactoryBase
     KeyEventList m_candidates_page_up_keys;
     KeyEventList m_candidates_page_down_keys;
 
+    KeyEventList m_select_candidate_keys[10];
+
     KeyEventList m_conv_to_hiragana_keys;
     KeyEventList m_conv_to_katakana_keys;
     KeyEventList m_conv_to_half_katakana_keys;
@@ -194,6 +196,17 @@ private:
     bool   action_select_prev_candidate       (void);
     bool   action_candidates_page_up          (void);
     bool   action_candidates_page_down        (void);
+
+    bool   action_select_candidate_1          (void);
+    bool   action_select_candidate_2          (void);
+    bool   action_select_candidate_3          (void);
+    bool   action_select_candidate_4          (void);
+    bool   action_select_candidate_5          (void);
+    bool   action_select_candidate_6          (void);
+    bool   action_select_candidate_7          (void);
+    bool   action_select_candidate_8          (void);
+    bool   action_select_candidate_9          (void);
+    bool   action_select_candidate_10         (void);
 
     bool   action_convert_to_hiragana         (void);
     bool   action_convert_to_katakana         (void);

@@ -411,6 +411,109 @@ static KeyboardConfigData __config_keyboards_candidates [] =
     },
 };
 
+static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
+{
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY_DEFAULT,
+        N_("1st candidate keys:"),
+        N_("Select keys to select 1st candidate"),
+        N_("The key events to select 1st candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY_DEFAULT,
+        N_("2nd candidate keys:"),
+        N_("Select keys to select 2nd candidate"),
+        N_("The key events to select 2nd candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY_DEFAULT,
+        N_("3rd candidate keys:"),
+        N_("Select keys to select 3rd candidate"),
+        N_("The key events to select 3rd candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY_DEFAULT,
+        N_("4th candidate keys:"),
+        N_("Select keys to select 4th candidate"),
+        N_("The key events to select 4th candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY_DEFAULT,
+        N_("5th candidate keys:"),
+        N_("Select keys to select 5th candidate"),
+        N_("The key events to select 5th candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY_DEFAULT,
+        N_("6th candidate keys:"),
+        N_("Select keys to select 6th candidate"),
+        N_("The key events to select 6th candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY_DEFAULT,
+        N_("7th candidate keys:"),
+        N_("Select keys to select 7th candidate"),
+        N_("The key events to select 7th candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY_DEFAULT,
+        N_("8th candidate keys:"),
+        N_("Select keys to select 8th candidate"),
+        N_("The key events to select 8th candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY_DEFAULT,
+        N_("9th candidate keys:"),
+        N_("Select keys to select 9th candidate"),
+        N_("The key events to select 9th candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY_DEFAULT,
+        N_("10th candidate keys:"),
+        N_("Select keys to select 10th candidate"),
+        N_("The key events to select 10th candidate. "),
+        NULL,
+        NULL,
+    },
+    {
+        NULL,
+        "",
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+    },
+};
+
 static KeyboardConfigData __config_keyboards_converting [] =
 {
     {
@@ -547,6 +650,7 @@ static struct KeyboardConfigPage __key_conf_pages[] =
     {N_("Caret keys"),      __config_keyboards_caret},
     {N_("Segments keys"),   __config_keyboards_segments},
     {N_("Candidates keys"), __config_keyboards_candidates},
+    {N_("Candidates keys (Direct select)"), __config_keyboards_direct_select_candidate},
     {N_("Converting keys"), __config_keyboards_converting},
     {N_("Dictionary keys"), __config_keyboards_dict},
 };

@@ -391,6 +391,46 @@ AnthyFactory::reload_config (const ConfigPointer &config)
                             String (SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT));
         scim_string_to_key_list (m_candidates_page_down_keys, str);
 
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[0], str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[1], str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[2], str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[3], str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[4], str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[5], str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[6], str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[7], str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[8], str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY),
+                            String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY_DEFAULT));
+        scim_string_to_key_list (m_select_candidate_keys[9], str);
+
         // convert keys
         str = config->read (String (SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY),
                             String (SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT));
@@ -531,6 +571,46 @@ AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
         action_candidates_page_down ())
         return true;
 
+    if (match_key_event (m_factory->m_select_candidate_keys[0], key) &&
+        action_select_candidate_1 ())
+        return true;
+
+    if (match_key_event (m_factory->m_select_candidate_keys[1], key) &&
+        action_select_candidate_2 ())
+        return true;
+
+    if (match_key_event (m_factory->m_select_candidate_keys[2], key) &&
+        action_select_candidate_3 ())
+        return true;
+
+    if (match_key_event (m_factory->m_select_candidate_keys[3], key) &&
+        action_select_candidate_4 ())
+        return true;
+
+    if (match_key_event (m_factory->m_select_candidate_keys[4], key) &&
+        action_select_candidate_5 ())
+        return true;
+
+    if (match_key_event (m_factory->m_select_candidate_keys[5], key) &&
+        action_select_candidate_6 ())
+        return true;
+
+    if (match_key_event (m_factory->m_select_candidate_keys[6], key) &&
+        action_select_candidate_7 ())
+        return true;
+
+    if (match_key_event (m_factory->m_select_candidate_keys[7], key) &&
+        action_select_candidate_8 ())
+        return true;
+
+    if (match_key_event (m_factory->m_select_candidate_keys[8], key) &&
+        action_select_candidate_9 ())
+        return true;
+
+    if (match_key_event (m_factory->m_select_candidate_keys[9], key) &&
+        action_select_candidate_10 ())
+        return true;
+
     // convert
     if (match_key_event (m_factory->m_conv_to_hiragana_keys, key) &&
         action_convert_to_hiragana ())
@@ -592,26 +672,6 @@ AnthyInstance::process_key_event_with_preedit (const KeyEvent& key)
 bool
 AnthyInstance::process_key_event_with_candidate (const KeyEvent &key)
 {
-    switch (key.code) {
-    case SCIM_KEY_1: 
-    case SCIM_KEY_2: 
-    case SCIM_KEY_3: 
-    case SCIM_KEY_4: 
-    case SCIM_KEY_5: 
-    case SCIM_KEY_6: 
-    case SCIM_KEY_7: 
-    case SCIM_KEY_8: 
-    case SCIM_KEY_9: 
-        select_candidate (key.code - SCIM_KEY_1);
-        return true;
-    case SCIM_KEY_0:
-        select_candidate (9);
-        return true;
-
-    default:
-        break;
-    }
-
     return process_remaining_key_event (key);
 }
 
@@ -1425,6 +1485,107 @@ AnthyInstance::action_candidates_page_down (void)
     m_lookup_table.page_down ();
     select_candidate (m_lookup_table.get_cursor_pos_in_current_page ());
 
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate_1 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (0);
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate_2 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (1);
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate_3 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (2);
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate_4 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (3);
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate_5 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (4);
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate_6 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (5);
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate_7 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (6);
+    return true;
+}
+
+
+bool
+AnthyInstance::action_select_candidate_8 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (7);
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate_9 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (8);
+    return true;
+}
+
+bool
+AnthyInstance::action_select_candidate_10 (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    select_candidate (9);
     return true;
 }
 
