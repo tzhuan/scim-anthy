@@ -443,13 +443,13 @@ AnthyInstance::set_input_mode (InputMode mode)
         label = "\xE3\x82\xA2";
         break;
     case MODE_HALF_KATAKANA:
-        label = "\xEF\xBD\xB1";
+        label = "_\xEF\xBD\xB1";
         break;
     case MODE_LATIN:
-        label = "a";
+        label = "_A";
         break;
     case MODE_WIDE_LATIN:
-        label = "\xEF\xBD\x81";
+        label = "\xEF\xBC\xA1";
         break;
     default:
         break; 

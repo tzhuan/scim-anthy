@@ -1,4 +1,9 @@
-2005-03-15 Takuro Asie <ashie@homa.ne.jp>
+2005-03-21 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine.cpp: Modified labels for input mode to make
+	easy to recognize.
+
+2005-03-15 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine_factory.cpp,
 	  src/scim_anthy_imengine_factory.h, intl.h:
