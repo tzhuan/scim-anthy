@@ -3,7 +3,7 @@
 #include "scim_anthy_automaton.h"
 
 /* from Suikyo */
-ConvRule ja_romakana_table[] = {
+ConvRule scim_anthy_romakana_typing_rule[] = {
 #if 0
 {"va",	"う゛ぁ",	""},
 {"vi",	"う゛ぃ",	""},
@@ -47,7 +47,6 @@ ConvRule ja_romakana_table[] = {
 {"gyo",	"ぎょ",	""},
 {"sya",	"しゃ",	""},
 {"syi",	"しぃ",	""},
-
 {"syu",	"しゅ",	""},
 {"sye",	"しぇ",	""},
 {"syo",	"しょ",	""},
@@ -124,26 +123,6 @@ ConvRule ja_romakana_table[] = {
 {"n'",	"ん",	""},
 {"nn",	"ん",	""},
 {"n",	"ん",	""},
-//{"nb",	"ん",	"b"},
-//{"nc",	"ん",	"c"},
-//{"nd",	"ん",	"d"},
-//{"nf",	"ん",	"f"},
-//{"ng",	"ん",	"g"},
-//{"nh",	"ん",	"h"},
-//{"nj",	"ん",	"j"},
-//{"nk",	"ん",	"k"},
-//{"nl",	"ん",	"l"},
-//{"nm",	"ん",	"m"},
-//{"np",	"ん",	"p"},
-//{"nq",	"ん",	"q"},
-//{"nr",	"ん",	"r"},
-//{"ns",	"ん",	"s"},
-//{"nt",	"ん",	"t"},
-//{"nu",	"ん",	"u"},
-//{"nv",	"ん",	"v"},
-//{"nw",	"ん",	"w"},
-//{"nx",	"ん",	"x"},
-//{"nz",	"ん",	"z"},
 {"a",	"あ",	""},
 {"i",	"い",	""},
 {"u",	"う",	""},
@@ -255,7 +234,58 @@ ConvRule ja_romakana_table[] = {
 {"who",	"うぉ",	""},
 {"wyi",	"ゐ",	""},
 {"wye",	"ゑ",	""},
-#if 1 /* should be separated and customizable */
+#if 1 /* emulate dead key */
+{"\\.",	"・",	""},
+{";r",	"→",	""},
+{";l",	"←",	""},
+{";u","↑",	""},
+{";d",	"↓",	""},
+{";p",	"〒",	""},
+{";e",	"€",	""},	
+{";t",	"™",	""},
+{";s",	"®",	""},
+{";c",	"©",	""},
+#endif
+{NULL,	NULL,	NULL}
+};
+
+ConvRule scim_anthy_romakana_symbol_rule[] = {
+{"-",	"-",	""},
+{",",	",",	""},
+{".",	".",	""},
+{"!",	"!",	""},
+{"\"",	"\"",	""},
+{"#",	"#",	""},
+{"$",	"$",	""},
+{"%",	"%",	""},
+{"&",	"&",	""},
+{"'",	"'",	""},
+{"(",	"(",	""},
+{")",	")",	""},
+{"~",	"~",	""},
+{"=",	"=",	""},
+{"^",	"^",	""},
+{"\\",	"\\",	""},
+{"|",	"|",	""},
+{"`",	"`",	""},
+{"@",	"@",	""},
+{"{",	"{",	""},
+{"[",	"[",	""},
+{"+",	"+",	""},
+{";",	";",	""},
+{"*",	"*",	""},
+{":",	":",	""},
+{"}",	"}",	""},
+{"]",	"]",	""},
+{"<",	"<",	""},
+{">",	">",	""},
+{"?",	"?",	""},
+{"/",	"/",	""},
+{"_",	"_",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_romakana_wide_symbol_rule[] = {
 {"-",	"ー",	""},
 {",",	"、",	""},
 {".",	"。",	""},
@@ -288,46 +318,39 @@ ConvRule ja_romakana_table[] = {
 {"?",	"？",	""},
 {"/",	"／",	""},
 {"_",	"＿",	""},
-#endif
-#if 0
-{"1", "１"},
-{"2", "２"},
-{"3", "３"},
-{"4", "４"},
-{"5", "５"},
-{"6", "６"},
-{"7", "７"},
-{"8", "８"},
-{"9", "９"},
-{"0", "０"},
-#else
-{"1", "１"},
-{"2", "２"},
-{"3", "３"},
-{"4", "４"},
-{"5", "５"},
-{"6", "６"},
-{"7", "７"},
-{"8", "８"},
-{"9", "９"},
-{"0", "０"},
-#endif
-#if 1 /* emulate dead key */
-{"\\.",	"・",	""},
-{";r",	"→",	""},
-{";l",	"←",	""},
-{";u","↑",	""},
-{";d",	"↓",	""},
-{";p",	"〒",	""},
-{";e",	"€",	""},	
-{";t",	"™",	""},
-{";s",	"®",	""},
-{";c",	"©",	""},
-#endif
 {NULL,	NULL,	NULL}
 };
 
-ConvRule ja_kana_table[] = {
+ConvRule scim_anthy_romakana_number_rule[] = {
+{"1", "1", ""},
+{"2", "2", ""},
+{"3", "3", ""},
+{"4", "4", ""},
+{"5", "5", ""},
+{"6", "6", ""},
+{"7", "7", ""},
+{"8", "8", ""},
+{"9", "9", ""},
+{"0", "0", ""},
+{NULL,	NULL,	NULL}
+};
+
+
+ConvRule scim_anthy_romakana_wide_number_rule[] = {
+{"1", "１", ""},
+{"2", "２", ""},
+{"3", "３", ""},
+{"4", "４", ""},
+{"5", "５", ""},
+{"6", "６", ""},
+{"7", "７", ""},
+{"8", "８", ""},
+{"9", "９", ""},
+{"0", "０", ""},
+{NULL,	NULL,	NULL}
+};
+
+ConvRule scim_anthy_kana_typing_rule[] = {
 {"#",	"ぁ",	""},
 {"E",	"ぃ",	""},
 {"$",	"ぅ",	""},
@@ -419,77 +442,77 @@ ConvRule ja_kana_table[] = {
 {NULL,	NULL,	NULL},
 };
 
-ConvRule romakana_ja_period_rule[] = {
+ConvRule scim_anthy_romakana_ja_period_rule[] = {
 {".",	"。",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule romakana_ja_comma_rule[] = {
+ConvRule scim_anthy_romakana_ja_comma_rule[] = {
 {",",	"、",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule romakana_wide_latin_period_rule[] = {
+ConvRule scim_anthy_romakana_wide_latin_period_rule[] = {
 {".",	"．",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule romakana_wide_latin_comma_rule[] = {
+ConvRule scim_anthy_romakana_wide_latin_comma_rule[] = {
 {",",	"，",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule romakana_latin_period_rule[] = {
+ConvRule scim_anthy_romakana_latin_period_rule[] = {
 {".",	".",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule romakana_latin_comma_rule[] = {
+ConvRule scim_anthy_romakana_latin_comma_rule[] = {
 {",",	",",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule kana_ja_period_rule[] = {
+ConvRule scim_anthy_kana_ja_period_rule[] = {
 {">",	"。",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule kana_ja_comma_rule[] = {
+ConvRule scim_anthy_kana_ja_comma_rule[] = {
 {"<",	"、",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule kana_wide_latin_period_rule[] = {
+ConvRule scim_anthy_kana_wide_latin_period_rule[] = {
 {">",	"．",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule kana_wide_latin_comma_rule[] = {
+ConvRule scim_anthy_kana_wide_latin_comma_rule[] = {
 {"<",	"，",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule kana_latin_period_rule[] = {
+ConvRule scim_anthy_kana_latin_period_rule[] = {
 {">",	".",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule kana_latin_comma_rule[] = {
+ConvRule scim_anthy_kana_latin_comma_rule[] = {
 {"<",	",",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule wide_space_rule[] = {
+ConvRule scim_anthy_wide_space_rule[] = {
 {" ",	"　",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule space_rule[] = {
+ConvRule scim_anthy_space_rule[] = {
 {" ",	" ",	""},
 {NULL,	NULL,	NULL},
 };
 
-HiraganaKatakanaRule ja_hiragana_katakana_table[] = {
+HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[] = {
 {"あ", "ア", "ｱ"},
 {"い", "イ", "ｲ"},
 {"う", "ウ", "ｳ"},
@@ -625,7 +648,7 @@ HiraganaKatakanaRule ja_hiragana_katakana_table[] = {
 };
 
 /* from uim */
-WideRule ja_wide_table[] = {
+WideRule scim_anthy_wide_table[] = {
 {"a", "ａ"},
 {"b", "ｂ"},
 {"c", "ｃ"},

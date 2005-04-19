@@ -1087,35 +1087,37 @@ AnthyPreedit::get_auto_convert (void)
 
 void
 AnthyPreedit::set_table (TypingMethod method,
-                    PeriodStyle period,
-                    CommaStyle comma,
-                    SpaceType space)
+                         PeriodStyle period,
+                         CommaStyle comma,
+                         SpaceType space)
 {
-    ConvRule *period_rule = get_period_rule (method, period);
-    ConvRule *comma_rule  = get_comma_rule  (method, comma);
-
     switch (method) {
     case METHOD_KANA:
-        m_key2kana.set_table (ja_kana_table);
+        m_key2kana.set_table (scim_anthy_kana_typing_rule);
         break;
     case METHOD_ROMAKANA:
     default:
-        m_key2kana.set_table (ja_romakana_table);
+        m_key2kana.set_table (scim_anthy_romakana_typing_rule);
+        m_key2kana.append_table (scim_anthy_romakana_wide_symbol_rule);
+        m_key2kana.append_table (scim_anthy_romakana_wide_number_rule);
         break;
     };
 
+    ConvRule *period_rule = get_period_rule (method, period);
     if (period_rule)
         m_key2kana.append_table (period_rule);
+
+    ConvRule *comma_rule  = get_comma_rule  (method, comma);
     if (comma_rule)
         m_key2kana.append_table (comma_rule);
 
     switch (space) {
     case SPACE_NORMAL:
-        m_key2kana.append_table (space_rule);
+        m_key2kana.append_table (scim_anthy_space_rule);
         break;
     case SPACE_WIDE:
     default:
-        m_key2kana.append_table (wide_space_rule);
+        m_key2kana.append_table (scim_anthy_wide_space_rule);
         break;
     };
 
@@ -1158,9 +1160,9 @@ convert_string_to_wide (const String & str, WideString & wide, SpaceType space)
         char cc[2]; cc[0] = c; cc[1] = '\0';
         bool found = false;
 
-        for (unsigned int j = 0; ja_wide_table[j].code; j++) {
-            if (ja_wide_table[j].code && *ja_wide_table[j].code == c) {
-                wide += utf8_mbstowcs (ja_wide_table[j].wide);
+        for (unsigned int j = 0; scim_anthy_wide_table[j].code; j++) {
+            if (scim_anthy_wide_table[j].code && *scim_anthy_wide_table[j].code == c) {
+                wide += utf8_mbstowcs (scim_anthy_wide_table[j].wide);
                 found = true;
                 break;
             }
@@ -1187,13 +1189,13 @@ convert_hiragana_to_katakana (const WideString & hira, WideString & kata,
         WideString tmpwide;
         bool found = false;
 
-        for (unsigned int j = 0; ja_hiragana_katakana_table[j].hiragana; j++) {
-            tmpwide = utf8_mbstowcs (ja_hiragana_katakana_table[j].hiragana);
+        for (unsigned int j = 0; scim_anthy_hiragana_katakana_table[j].hiragana; j++) {
+            tmpwide = utf8_mbstowcs (scim_anthy_hiragana_katakana_table[j].hiragana);
             if (hira.substr(i, 1) == tmpwide) {
                 if (half)
-                    kata += utf8_mbstowcs (ja_hiragana_katakana_table[j].half_katakana);
+                    kata += utf8_mbstowcs (scim_anthy_hiragana_katakana_table[j].half_katakana);
                 else
-                    kata += utf8_mbstowcs (ja_hiragana_katakana_table[j].katakana);
+                    kata += utf8_mbstowcs (scim_anthy_hiragana_katakana_table[j].katakana);
                 found = true;
                 break;
             }
@@ -1211,24 +1213,24 @@ get_period_rule (TypingMethod method, PeriodStyle period)
     case METHOD_KANA:
         switch (period) {
         case PERIOD_WIDE_LATIN:
-            return kana_wide_latin_period_rule;
+            return scim_anthy_kana_wide_latin_period_rule;
         case PERIOD_LATIN:
-            return kana_latin_period_rule;
+            return scim_anthy_kana_latin_period_rule;
         case PERIOD_JAPANESE:
         default:
-            return kana_ja_period_rule;
+            return scim_anthy_kana_ja_period_rule;
         };
         break;
     case METHOD_ROMAKANA:
     default:
         switch (period) {
         case PERIOD_WIDE_LATIN:
-            return romakana_wide_latin_period_rule;
+            return scim_anthy_romakana_wide_latin_period_rule;
         case PERIOD_LATIN:
-            return romakana_latin_period_rule;
+            return scim_anthy_romakana_latin_period_rule;
         case PERIOD_JAPANESE:
         default:
-            return romakana_ja_period_rule;
+            return scim_anthy_romakana_ja_period_rule;
         };
         break;
     };
@@ -1243,24 +1245,24 @@ get_comma_rule (TypingMethod method, CommaStyle period)
     case METHOD_KANA:
         switch (period) {
         case PERIOD_WIDE_LATIN:
-            return kana_wide_latin_comma_rule;
+            return scim_anthy_kana_wide_latin_comma_rule;
         case PERIOD_LATIN:
-            return kana_latin_comma_rule;
+            return scim_anthy_kana_latin_comma_rule;
         case PERIOD_JAPANESE:
         default:
-            return kana_ja_comma_rule;
+            return scim_anthy_kana_ja_comma_rule;
         };
         break;
     case METHOD_ROMAKANA:
     default:
         switch (period) {
         case PERIOD_WIDE_LATIN:
-            return romakana_wide_latin_comma_rule;
+            return scim_anthy_romakana_wide_latin_comma_rule;
         case PERIOD_LATIN:
-            return romakana_latin_comma_rule;
+            return scim_anthy_romakana_latin_comma_rule;
         case PERIOD_JAPANESE:
         default:
-            return romakana_ja_comma_rule;
+            return scim_anthy_romakana_ja_comma_rule;
         };
         break;
     };

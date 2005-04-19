@@ -40,33 +40,39 @@ typedef struct _WideRule
     const char *wide;
 } WideRule;
 
-extern ConvRule ja_romakana_table[];
-extern ConvRule ja_kana_table[];
+extern ConvRule scim_anthy_romakana_typing_rule[];
+extern ConvRule scim_anthy_kana_typing_rule[];
+
+// symbol & number
+extern ConvRule scim_anthy_romakana_symbol_rule[];
+extern ConvRule scim_anthy_romakana_wide_symbol_rule[];
+extern ConvRule scim_anthy_romakana_number_rule[];
+extern ConvRule scim_anthy_romakana_wide_number_rule[];
 
 // period rule
-extern ConvRule romakana_ja_period_rule[];
-extern ConvRule romakana_wide_latin_period_rule[];
-extern ConvRule romakana_latin_period_rule[];
+extern ConvRule scim_anthy_romakana_ja_period_rule[];
+extern ConvRule scim_anthy_romakana_wide_latin_period_rule[];
+extern ConvRule scim_anthy_romakana_latin_period_rule[];
 
-extern ConvRule kana_ja_period_rule[];
-extern ConvRule kana_wide_latin_period_rule[];
-extern ConvRule kana_latin_period_rule[];
+extern ConvRule scim_anthy_kana_ja_period_rule[];
+extern ConvRule scim_anthy_kana_wide_latin_period_rule[];
+extern ConvRule scim_anthy_kana_latin_period_rule[];
 
 // comma rule
-extern ConvRule romakana_ja_comma_rule[];
-extern ConvRule romakana_wide_latin_comma_rule[];
-extern ConvRule romakana_latin_comma_rule[];
+extern ConvRule scim_anthy_romakana_ja_comma_rule[];
+extern ConvRule scim_anthy_romakana_wide_latin_comma_rule[];
+extern ConvRule scim_anthy_romakana_latin_comma_rule[];
 
-extern ConvRule kana_ja_comma_rule[];
-extern ConvRule kana_wide_latin_comma_rule[];
-extern ConvRule kana_latin_comma_rule[];
+extern ConvRule scim_anthy_kana_ja_comma_rule[];
+extern ConvRule scim_anthy_kana_wide_latin_comma_rule[];
+extern ConvRule scim_anthy_kana_latin_comma_rule[];
 
 // space rule
-extern ConvRule wide_space_rule[];
-extern ConvRule space_rule[];
+extern ConvRule scim_anthy_wide_space_rule[];
+extern ConvRule scim_anthy_space_rule[];
 
 // misc
-extern HiraganaKatakanaRule ja_hiragana_katakana_table[];
-extern WideRule             ja_wide_table[];
+extern HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[];
+extern WideRule             scim_anthy_wide_table[];
 
 #endif /* __SCIM_ANTHY_CONV_TABLE_H__ */
