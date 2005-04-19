@@ -231,58 +231,58 @@ AnthyFactory::reload_config (const ConfigPointer &config)
                             m_show_add_word_label);
 
         // edit keys
-	APPEND_ACTION (COMMIT,                  action_commit);
-	APPEND_ACTION (CONVERT,                 action_convert);
-	APPEND_ACTION (CANCEL,                  action_revert);
-	APPEND_ACTION (BACKSPACE,               action_back);
-	APPEND_ACTION (DELETE,                  action_delete);
+        APPEND_ACTION (COMMIT,                  action_commit);
+        APPEND_ACTION (CONVERT,                 action_convert);
+        APPEND_ACTION (CANCEL,                  action_revert);
+        APPEND_ACTION (BACKSPACE,               action_back);
+        APPEND_ACTION (DELETE,                  action_delete);
 
         // caret keys
-	APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_first);
-	APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_last);
-	APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_forward);
-	APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_backward);
+        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_first);
+        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_last);
+        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_forward);
+        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_backward);
 
         // segment keys
-	APPEND_ACTION (SELECT_FIRST_SEGMENT,    action_select_first_segment);
-	APPEND_ACTION (SELECT_LAST_SEGMENT,     action_select_last_segment);
-	APPEND_ACTION (SELECT_NEXT_SEGMENT,     action_select_next_segment);
-	APPEND_ACTION (SELECT_PREV_SEGMENT,     action_select_prev_segment);
-	APPEND_ACTION (SHRINK_SEGMENT,          action_shrink_segment);
-	APPEND_ACTION (EXPAND_SEGMENT,          action_expand_segment);
-	APPEND_ACTION (COMMIT_FIRST_SEGMENT,    action_commit_first_segment);
-	APPEND_ACTION (COMMIT_SELECTED_SEGMENT, action_commit_selected_segment);
+        APPEND_ACTION (SELECT_FIRST_SEGMENT,    action_select_first_segment);
+        APPEND_ACTION (SELECT_LAST_SEGMENT,     action_select_last_segment);
+        APPEND_ACTION (SELECT_NEXT_SEGMENT,     action_select_next_segment);
+        APPEND_ACTION (SELECT_PREV_SEGMENT,     action_select_prev_segment);
+        APPEND_ACTION (SHRINK_SEGMENT,          action_shrink_segment);
+        APPEND_ACTION (EXPAND_SEGMENT,          action_expand_segment);
+        APPEND_ACTION (COMMIT_FIRST_SEGMENT,    action_commit_first_segment);
+        APPEND_ACTION (COMMIT_SELECTED_SEGMENT, action_commit_selected_segment);
 
         // candidates keys
-	APPEND_ACTION (SELECT_NEXT_CANDIDATE,   action_select_next_candidate);
-	APPEND_ACTION (SELECT_PREV_CANDIDATE,   action_select_prev_candidate);
-	APPEND_ACTION (CANDIDATES_PAGE_UP,      action_candidates_page_up);
-	APPEND_ACTION (CANDIDATES_PAGE_DOWN,    action_candidates_page_down);
-	APPEND_ACTION (SELECT_CANDIDATE_1,      action_select_candidate_1);
-	APPEND_ACTION (SELECT_CANDIDATE_2,      action_select_candidate_2);
-	APPEND_ACTION (SELECT_CANDIDATE_3,      action_select_candidate_3);
-	APPEND_ACTION (SELECT_CANDIDATE_4,      action_select_candidate_4);
-	APPEND_ACTION (SELECT_CANDIDATE_5,      action_select_candidate_5);
-	APPEND_ACTION (SELECT_CANDIDATE_6,      action_select_candidate_6);
-	APPEND_ACTION (SELECT_CANDIDATE_7,      action_select_candidate_7);
-	APPEND_ACTION (SELECT_CANDIDATE_8,      action_select_candidate_8);
-	APPEND_ACTION (SELECT_CANDIDATE_9,      action_select_candidate_9);
-	APPEND_ACTION (SELECT_CANDIDATE_10,     action_select_candidate_10);
+        APPEND_ACTION (SELECT_NEXT_CANDIDATE,   action_select_next_candidate);
+        APPEND_ACTION (SELECT_PREV_CANDIDATE,   action_select_prev_candidate);
+        APPEND_ACTION (CANDIDATES_PAGE_UP,      action_candidates_page_up);
+        APPEND_ACTION (CANDIDATES_PAGE_DOWN,    action_candidates_page_down);
+        APPEND_ACTION (SELECT_CANDIDATE_1,      action_select_candidate_1);
+        APPEND_ACTION (SELECT_CANDIDATE_2,      action_select_candidate_2);
+        APPEND_ACTION (SELECT_CANDIDATE_3,      action_select_candidate_3);
+        APPEND_ACTION (SELECT_CANDIDATE_4,      action_select_candidate_4);
+        APPEND_ACTION (SELECT_CANDIDATE_5,      action_select_candidate_5);
+        APPEND_ACTION (SELECT_CANDIDATE_6,      action_select_candidate_6);
+        APPEND_ACTION (SELECT_CANDIDATE_7,      action_select_candidate_7);
+        APPEND_ACTION (SELECT_CANDIDATE_8,      action_select_candidate_8);
+        APPEND_ACTION (SELECT_CANDIDATE_9,      action_select_candidate_9);
+        APPEND_ACTION (SELECT_CANDIDATE_10,     action_select_candidate_10);
 
         // convert keys
-	APPEND_ACTION (CONV_TO_HIRAGANA,        action_convert_to_hiragana);
-	APPEND_ACTION (CONV_TO_KATAKANA,        action_convert_to_katakana);
-	APPEND_ACTION (CONV_TO_HALF_KATAKANA,   action_convert_to_half_katakana);
-	APPEND_ACTION (CONV_TO_LATIN,           action_convert_to_latin);
-	APPEND_ACTION (CONV_TO_WIDE_LATIN,      action_convert_to_wide_latin);
+        APPEND_ACTION (CONV_TO_HIRAGANA,        action_convert_to_hiragana);
+        APPEND_ACTION (CONV_TO_KATAKANA,        action_convert_to_katakana);
+        APPEND_ACTION (CONV_TO_HALF_KATAKANA,   action_convert_to_half_katakana);
+        APPEND_ACTION (CONV_TO_LATIN,           action_convert_to_latin);
+        APPEND_ACTION (CONV_TO_WIDE_LATIN,      action_convert_to_wide_latin);
 
         // mode keys
-	APPEND_ACTION (LATIN_MODE,              action_toggle_latin_mode);
-	APPEND_ACTION (WIDE_LATIN_MODE,         action_toggle_wide_latin_mode);
-	APPEND_ACTION (CIRCLE_KANA_MODE,        action_circle_kana_mode);
+        APPEND_ACTION (LATIN_MODE,              action_toggle_latin_mode);
+        APPEND_ACTION (WIDE_LATIN_MODE,         action_toggle_wide_latin_mode);
+        APPEND_ACTION (CIRCLE_KANA_MODE,        action_circle_kana_mode);
 
         // dict keys
-	APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);
-	APPEND_ACTION (ADD_WORD,                action_add_word);
+        APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);
+        APPEND_ACTION (ADD_WORD,                action_add_word);
     }
 }
