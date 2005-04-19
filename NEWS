@@ -1,0 +1,17 @@
+Overview of Changes from scim-anthy-0.3.0 to scim-anthy-0.3.1
+=============================================================
+* Update automake version.
+
+Overview of Changes from scim-anthy-0.2.0 to scim-anthy-0.3.0
+=============================================================
+* Enable to select short cut keys to choose candidate directly.
+* Added an option to close candidate window on direct selecting.
+* Added period and comma style preference.
+* Launch dictionary administration tools from toolbar or short cut key.
+* Fixed a bug which clashes the scim-setup when reload the config.
+  (Thanks! James Su)
+* Other minor fixes (Thanks! UTUMI-san, Bando-san)
+
+scim-anthy-0.2.0
+=============================================================
+* Initial release.
