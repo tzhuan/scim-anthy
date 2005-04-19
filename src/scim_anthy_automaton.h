@@ -23,27 +23,10 @@
 
 #define Uses_SCIM_ICONV
 #include <scim.h>
+
+#include "scim_anthy_conv_table.h"
+
 using namespace scim;
-
-typedef struct _ConvRule
-{
-    const char *string;
-    const char *result;
-    const char *cont;
-} ConvRule;
-
-typedef struct _HiraganaKatakanaRule
-{
-    const char *hiragana;
-    const char *katakana;
-    const char *half_katakana;
-} HiraganaKatakanaRule;
-
-typedef struct _WideRule
-{
-    const char *code;
-    const char *wide;
-} WideRule;
 
 #if 0
 class ConvRule

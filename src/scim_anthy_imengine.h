@@ -43,7 +43,7 @@ private:
     KeyEvent            m_prev_key;
 
     /* for preedit */
-    Preedit             m_preedit;
+    AnthyPreedit        m_preedit;
 
     /* for candidates window */
     CommonLookupTable   m_lookup_table;

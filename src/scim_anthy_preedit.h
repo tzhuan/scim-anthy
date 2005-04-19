@@ -76,9 +76,9 @@ typedef enum {
     PREEDIT_NO_CONVERSION,
     PREEDIT_NO_CONVERSION_HIRAGANA,
     PREEDIT_CONVERSION,
-} PreeditStringType;
+} AnthyPreeditStringType;
 
-class PreeditChar
+class AnthyPreeditChar
 {
 public:
     String     key;
@@ -86,8 +86,8 @@ public:
     bool       pending;
 
 public:
-    PreeditChar (void);
-    virtual ~PreeditChar ();
+    AnthyPreeditChar (void);
+    virtual ~AnthyPreeditChar ();
 
 #if 0
     void split    (void);
@@ -96,16 +96,16 @@ public:
 #endif
 };
 
-class Preedit
+class AnthyPreedit
 {
 public:
-    Preedit (void);
-    virtual ~Preedit ();
+    AnthyPreedit (void);
+    virtual ~AnthyPreedit ();
 
     // getting status
-    virtual unsigned int  get_length             (PreeditStringType type = PREEDIT_CURRENT);
-    virtual WideString    get_string             (PreeditStringType type = PREEDIT_CURRENT);
-    virtual AttributeList get_attribute_list     (PreeditStringType type = PREEDIT_CURRENT);
+    virtual unsigned int  get_length             (AnthyPreeditStringType type = PREEDIT_CURRENT);
+    virtual WideString    get_string             (AnthyPreeditStringType type = PREEDIT_CURRENT);
+    virtual AttributeList get_attribute_list     (AnthyPreeditStringType type = PREEDIT_CURRENT);
 
     virtual bool          is_preediting          (void);
     virtual bool          is_converting          (void);
@@ -194,7 +194,7 @@ private:
     bool              m_auto_convert;
 
     // raw key code & preedit string
-    std::vector<PreeditChar> m_char_list;     // whole preedit characters includes commited one.
+    std::vector<AnthyPreeditChar> m_char_list;// whole preedit characters includes commited one.
                                               // start position of non-commited character is
                                               // pointed by m_start_segment_pos.
     unsigned int             m_start_char;    // to skip already commited characters.
