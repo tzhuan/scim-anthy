@@ -1,3 +1,8 @@
+2005-04-18 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/conv_table.cpp: Added wide number rule.
+	* src/scim_anthy_prefs.h: Fixed some key name.
+
 2005-03-21 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.cpp: Modified labels for input mode to make
