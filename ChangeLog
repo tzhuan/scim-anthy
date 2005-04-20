@@ -1,5 +1,10 @@
 2005-04-20 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_prefs.cpp: Don't show the typing method label by
+	default.
+
+2005-04-20 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine.cpp, src/scim_anthy_imengine_factory.cpp,
 	  src/scim_anthy_imengine_factory.h, src/scim_anthy_imengine_setup.cpp,
 	  src/scim_anthy_preedit.cpp, src/scim_anthy_preedit.h,
