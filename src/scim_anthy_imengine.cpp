@@ -59,7 +59,8 @@
 #define SCIM_PROP_PERIOD_STYLE_JAPANESE     "/IMEngine/Anthy/PeriodType/Japanese"
 #define SCIM_PROP_PERIOD_STYLE_WIDE_LATIN   "/IMEngine/Anthy/PeriodType/WideRatin"
 #define SCIM_PROP_PERIOD_STYLE_LATIN        "/IMEngine/Anthy/PeriodType/Ratin"
-#define SCIM_PROP_PERIOD_STYLE_WIDE_LATIN_JAPANESE   "/IMEngine/Anthy/PeriodType/WideRatin_Japanese"
+#define SCIM_PROP_PERIOD_STYLE_WIDE_LATIN_JAPANESE \
+                                            "/IMEngine/Anthy/PeriodType/WideRatin_Japanese"
 
 #define SCIM_PROP_DICT                      "/IMEngine/Anthy/Dictionary"
 #define SCIM_PROP_DICT_ADD_WORD             "/IMEngine/Anthy/Dictionary/AddWord"

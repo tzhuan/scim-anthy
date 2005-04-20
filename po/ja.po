@@ -663,7 +663,7 @@ msgstr "直接選択キーの設定"
 
 #: src/scim_anthy_imengine_setup.cpp:773
 msgid "Convert keys"
-msgstr "変換キー:"
+msgstr "変換キー"
 
 #: src/scim_anthy_imengine_setup.cpp:774
 msgid "Dictionary keys"
