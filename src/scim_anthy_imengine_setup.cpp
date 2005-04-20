@@ -149,7 +149,7 @@ static BoolConfigData __config_bool_common [] =
     {
         SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD,
         SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT,
-        N_("Start conversion on inputting a comma or a period."),
+        N_("Start _conversion on inputting a comma or a period."),
         NULL,
         NULL,
         NULL,
@@ -158,7 +158,25 @@ static BoolConfigData __config_bool_common [] =
     {
         SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
         SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT,
-        N_("Close candidate window when select a candidate directly."),
+        N_("Close candidate window when select a candidate _directly."),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL,
+        SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT,
+        N_("Use half-width characters for _symbols"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER,
+        SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT,
+        N_("Use half-width characters for _numbers"),
         NULL,
         NULL,
         NULL,
@@ -186,24 +204,6 @@ static BoolConfigData __config_bool_common [] =
         SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL,
         SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT,
         N_("Show _period style label"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL,
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT,
-        N_("Use half-width characters for symbols"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER,
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT,
-        N_("Use half-width characters for numbers"),
         NULL,
         NULL,
         NULL,
@@ -244,7 +244,7 @@ static StringConfigData __config_string_common [] =
     {
         SCIM_ANTHY_CONFIG_TYPING_METHOD,
         SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT,
-        N_("Typing method: "),
+        N_("_Typing method: "),
         NULL,
         NULL,
         NULL,
@@ -253,7 +253,7 @@ static StringConfigData __config_string_common [] =
     {
         SCIM_ANTHY_CONFIG_PERIOD_STYLE,
         SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT,
-        N_("Style of comma and period: "),
+        N_("St_yle of comma and period: "),
         NULL,
         NULL,
         NULL,
@@ -262,7 +262,7 @@ static StringConfigData __config_string_common [] =
     {
         SCIM_ANTHY_CONFIG_SPACE_TYPE,
         SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT,
-        N_("Space type: "),
+        N_("_Space type: "),
         NULL,
         NULL,
         NULL,
@@ -271,7 +271,7 @@ static StringConfigData __config_string_common [] =
     {
         SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
         SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,
-        N_("Edit dictionary command:"),
+        N_("_Edit dictionary command:"),
         NULL,
         NULL,
         NULL,
@@ -280,7 +280,7 @@ static StringConfigData __config_string_common [] =
     {
         SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND,
         SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT,
-        N_("Add word command:"),
+        N_("_Add word command:"),
         NULL,
         NULL,
         NULL,
@@ -878,11 +878,13 @@ create_combo_widget (const char *config_key, gpointer candidates_p)
     gtk_widget_show (hbox);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
 
-    label = gtk_label_new (_(entry->label));
+    label = gtk_label_new_with_mnemonic (_(entry->label));
     gtk_widget_show (label);
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
 
     entry->widget = gtk_combo_new ();
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label),
+                                   GTK_COMBO (entry->widget)->entry);
     gtk_combo_set_value_in_list (GTK_COMBO (entry->widget), TRUE, FALSE);
     gtk_combo_set_case_sensitive (GTK_COMBO (entry->widget), TRUE);
     gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (entry->widget)->entry), FALSE);
@@ -1022,6 +1024,7 @@ create_toolbar_page ()
                       (GtkAttachOptions) (GTK_FILL),                           \
                       (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
     (data)->widget = gtk_entry_new ();                                         \
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), (data)->widget);         \
     g_signal_connect ((gpointer) (data)->widget, "changed",                    \
                       G_CALLBACK (on_default_editable_changed),                \
                       (data));                                                 \

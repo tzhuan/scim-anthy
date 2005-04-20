@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-04-20 16:46+0900\n"
+"POT-Creation-Date: 2005-04-20 19:58+0900\n"
 "PO-Revision-Date: 2004-12-02 00:55+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,67 +13,67 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:336
+#: src/scim_anthy_imengine.cpp:341
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:340
+#: src/scim_anthy_imengine.cpp:345
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:344
+#: src/scim_anthy_imengine.cpp:349
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:348 src/scim_anthy_imengine.cpp:349
+#: src/scim_anthy_imengine.cpp:353 src/scim_anthy_imengine.cpp:354
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:353
+#: src/scim_anthy_imengine.cpp:358
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:353
+#: src/scim_anthy_imengine.cpp:358
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:357
+#: src/scim_anthy_imengine.cpp:362
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:363
+#: src/scim_anthy_imengine.cpp:368
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:367
+#: src/scim_anthy_imengine.cpp:372
 msgid "Roma"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:371
+#: src/scim_anthy_imengine.cpp:376
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:378
+#: src/scim_anthy_imengine.cpp:383
 msgid "Period style"
 msgstr "句読点スタイル"
 
-#: src/scim_anthy_imengine.cpp:405
+#: src/scim_anthy_imengine.cpp:410
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:410
+#: src/scim_anthy_imengine.cpp:415
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:412
+#: src/scim_anthy_imengine.cpp:417
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:418
+#: src/scim_anthy_imengine.cpp:423
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:420
+#: src/scim_anthy_imengine.cpp:425
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
@@ -86,64 +86,64 @@ msgid "An Anthy IMEngine Module."
 msgstr "Anthy IMEngineモジュール"
 
 #: src/scim_anthy_imengine_setup.cpp:152
-msgid "Start conversion on inputting a comma or a period."
-msgstr "句読点入力時に変換を開始する"
+msgid "Start _conversion on inputting a comma or a period."
+msgstr "句読点入力時に変換を開始する(_C)"
 
 #: src/scim_anthy_imengine_setup.cpp:161
-msgid "Close candidate window when select a candidate directly."
-msgstr "候補を直接選択した時に候補ウィンドウを閉じる"
+msgid "Close candidate window when select a candidate _directly."
+msgstr "候補を直接選択した時に候補ウィンドウを閉じる(_D)"
 
 #: src/scim_anthy_imengine_setup.cpp:170
-msgid "Show _input mode label"
-msgstr "入力モードラベルを表示"
+msgid "Use half-width characters for _symbols"
+msgstr "記号は半角で入力する(_S)"
 
 #: src/scim_anthy_imengine_setup.cpp:179
-msgid "Show _typing method label"
-msgstr "入力方式ラベルを表示"
+msgid "Use half-width characters for _numbers"
+msgstr "数字は半角で入力する(_N)"
 
 #: src/scim_anthy_imengine_setup.cpp:188
-msgid "Show _period style label"
-msgstr "句読点スタイルラベルを表示"
+msgid "Show _input mode label"
+msgstr "入力モードラベルを表示(_I)"
 
 #: src/scim_anthy_imengine_setup.cpp:197
-msgid "Use half-width characters for symbols"
-msgstr "記号は半角で入力する"
+msgid "Show _typing method label"
+msgstr "入力方式ラベルを表示(_T)"
 
 #: src/scim_anthy_imengine_setup.cpp:206
-msgid "Use half-width characters for numbers"
-msgstr "数字は半角で入力する"
+msgid "Show _period style label"
+msgstr "句読点スタイルラベルを表示(_P)"
 
 #: src/scim_anthy_imengine_setup.cpp:215
 msgid "Show _dictionary menu label"
-msgstr "辞書メニューラベルを表示"
+msgstr "辞書メニューラベルを表示(_D)"
 
 #: src/scim_anthy_imengine_setup.cpp:224
 msgid "Show _edit dictionary label"
-msgstr "辞書編集ラベルを表示"
+msgstr "辞書編集ラベルを表示(_E)"
 
 #: src/scim_anthy_imengine_setup.cpp:233
 msgid "Show _add word label"
-msgstr "単語追加ラベルを表示"
+msgstr "単語追加ラベルを表示(_A)"
 
 #: src/scim_anthy_imengine_setup.cpp:247
-msgid "Typing method: "
-msgstr "入力方式: "
+msgid "_Typing method: "
+msgstr "入力方式(_T): "
 
 #: src/scim_anthy_imengine_setup.cpp:256
-msgid "Style of comma and period: "
-msgstr "句読点のスタイル: "
+msgid "St_yle of comma and period: "
+msgstr "句読点のスタイル(_Y): "
 
 #: src/scim_anthy_imengine_setup.cpp:265
-msgid "Space type: "
-msgstr "空白のタイプ: "
+msgid "_Space type: "
+msgstr "空白のタイプ(_S): "
 
 #: src/scim_anthy_imengine_setup.cpp:274
-msgid "Edit dictionary command:"
-msgstr "辞書編集コマンド:"
+msgid "_Edit dictionary command:"
+msgstr "辞書編集コマンド(_E):"
 
 #: src/scim_anthy_imengine_setup.cpp:283
-msgid "Add word command:"
-msgstr "単語追加コマンド:"
+msgid "_Add word command:"
+msgstr "単語追加コマンド(_A):"
 
 #: src/scim_anthy_imengine_setup.cpp:297
 msgid "Commit keys:"
@@ -659,7 +659,7 @@ msgstr "候補選択キー"
 
 #: src/scim_anthy_imengine_setup.cpp:772
 msgid "Direct select keys"
-msgstr "直接選択キーの設定"
+msgstr "直接選択キー"
 
 #: src/scim_anthy_imengine_setup.cpp:773
 msgid "Convert keys"
@@ -685,19 +685,19 @@ msgstr "全角"
 msgid "Half"
 msgstr "半角"
 
-#: src/scim_anthy_imengine_setup.cpp:1108
+#: src/scim_anthy_imengine_setup.cpp:1111
 msgid "Options"
 msgstr "オプション"
 
-#: src/scim_anthy_imengine_setup.cpp:1114
+#: src/scim_anthy_imengine_setup.cpp:1117
 msgid "Romaji Typing"
 msgstr "ローマ字入力"
 
-#: src/scim_anthy_imengine_setup.cpp:1120
+#: src/scim_anthy_imengine_setup.cpp:1123
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: src/scim_anthy_imengine_setup.cpp:1126
+#: src/scim_anthy_imengine_setup.cpp:1129
 msgid "Dictionary"
 msgstr "辞書"
 
