@@ -106,62 +106,172 @@ extern "C" {
 
 
 // Internal data structure
-struct KeyboardConfigData
+struct BoolConfigData
 {
     const char *key;
-    String      data;
+    bool        value;
     const char *label;
     const char *title;
     const char *tooltip;
-    GtkWidget  *entry;
-    GtkWidget  *button;
+    GtkWidget  *widget;
+    bool        changed;
+};
+
+struct StringConfigData
+{
+    const char *key;
+    String      value;
+    const char *label;
+    const char *title;
+    const char *tooltip;
+    GtkWidget  *widget;
+    bool        changed;
 };
 
 struct KeyboardConfigPage
 {
-    const char         *label;
-    KeyboardConfigData *data;
+    const char       *label;
+    StringConfigData *data;
 };
 
-struct ComboConfigData
+struct ComboConfigCandidate
 {
     const char *label;
     const char *data;
 };
 
 // Internal data declaration.
-static String __config_typing_method            = SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT;
-static String __config_period_style             = SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT;
-static String __config_space_type               = SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT;
-static String __config_dict_admin_command       = SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT;
-static String __config_add_word_command         = SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT;
-static bool   __config_auto_convert             = SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT;
-static bool   __config_close_cand_win_on_select = SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT;
-static bool   __config_show_input_mode_label    = SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT;
-static bool   __config_show_typing_method_label = SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT;
-static bool   __config_show_period_style_label  = SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT;
-static bool   __config_show_dict_label          = SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT;
-static bool   __config_show_dict_admin_label    = SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT;
-static bool   __config_show_add_word_label      = SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT;
+static bool __have_changed = true;
+static GtkTooltips * __widget_tooltips = 0;
 
-static bool __have_changed    = true;
+static BoolConfigData __config_bool_common [] =
+{
+    {
+        SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD,
+        SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT,
+        N_("Start conversion on inputting a comma or a period."),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
+        SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT,
+        N_("Close candidate window when select a candidate directly."),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL,
+        SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT,
+        N_("Show _input mode label"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL,
+        SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT,
+        N_("Show _typing method label"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL,
+        SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT,
+        N_("Show _period style label"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL,
+        SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT,
+        N_("Show _dictionary menu label"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL,
+        SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT,
+        N_("Show _edit dictionary label"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL,
+        SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT,
+        N_("Show _add word label"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+};
+static unsigned int __config_bool_common_num = sizeof (__config_bool_common) / sizeof (BoolConfigData);
 
-static GtkWidget    * __widget_typing_method            = 0;
-static GtkWidget    * __widget_period_style             = 0;
-static GtkWidget    * __widget_space_type               = 0;
-static GtkWidget    * __widget_auto_convert             = 0;
-static GtkWidget    * __widget_close_cand_win_on_select  = 0;
-static GtkWidget    * __widget_dict_admin_command       = 0;
-static GtkWidget    * __widget_add_word_command         = 0;
-static GtkWidget    * __widget_show_input_mode_label    = 0;
-static GtkWidget    * __widget_show_typing_method_label = 0;
-static GtkWidget    * __widget_show_period_style_label  = 0;
-static GtkWidget    * __widget_show_dict_label          = 0;
-static GtkWidget    * __widget_show_dict_admin_label    = 0;
-static GtkWidget    * __widget_show_add_word_label      = 0;
-static GtkTooltips  * __widget_tooltips                 = 0;
+static StringConfigData __config_string_common [] =
+{
+    {
+        SCIM_ANTHY_CONFIG_TYPING_METHOD,
+        SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT,
+        N_("Typing method: "),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_PERIOD_STYLE,
+        SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT,
+        N_("Style of comma and period: "),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SPACE_TYPE,
+        SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT,
+        N_("Space type: "),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
+        SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,
+        N_("Edit dictionary command:"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND,
+        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT,
+        N_("Add word command:"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+};
+static unsigned int __config_string_common_num = sizeof (__config_string_common) / sizeof (StringConfigData);
 
-static KeyboardConfigData __config_keyboards_common [] =
+static StringConfigData __config_keyboards_common [] =
 {
     {
         SCIM_ANTHY_CONFIG_COMMIT_KEY,
@@ -170,7 +280,7 @@ static KeyboardConfigData __config_keyboards_common [] =
         N_("Select commit keys"),
         N_("The key events to commit the preedit string. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_CONVERT_KEY,
@@ -179,7 +289,7 @@ static KeyboardConfigData __config_keyboards_common [] =
         N_("Select convert keys"),
         N_("The key events to convert the preedit string to kanji. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_CANCEL_KEY,
@@ -188,7 +298,7 @@ static KeyboardConfigData __config_keyboards_common [] =
         N_("Select cancel keys"),
         N_("The key events to cancel preediting or converting. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_BACKSPACE_KEY,
@@ -197,7 +307,7 @@ static KeyboardConfigData __config_keyboards_common [] =
         N_("Select backspace keys"),
         N_("The key events to delete a character before caret. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_DELETE_KEY,
@@ -206,7 +316,7 @@ static KeyboardConfigData __config_keyboards_common [] =
         N_("Select delete keys"),
         N_("The key events to delete a character after caret. "),
         NULL,
-        NULL,
+        false,
     },
     {
         NULL,
@@ -215,11 +325,11 @@ static KeyboardConfigData __config_keyboards_common [] =
         NULL,
         NULL,
         NULL,
-        NULL,
+        false,
     },
 };
 
-static KeyboardConfigData __config_keyboards_caret [] =
+static StringConfigData __config_keyboards_caret [] =
 {
     {
         SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY,
@@ -228,7 +338,7 @@ static KeyboardConfigData __config_keyboards_caret [] =
         N_("Select move caret to first keys"),
         N_("The key events to move the caret to the first of preedit string. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY,
@@ -237,7 +347,7 @@ static KeyboardConfigData __config_keyboards_caret [] =
         N_("Select move caret to last keys"),
         N_("The key events to move the caret to the last of the preedit string. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY,
@@ -246,7 +356,7 @@ static KeyboardConfigData __config_keyboards_caret [] =
         N_("Select move caret forward keys"),
         N_("The key events to move the caret to forward. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY,
@@ -255,7 +365,7 @@ static KeyboardConfigData __config_keyboards_caret [] =
         N_("Select move caret backward keys"),
         N_("The key events to move the caret to backward. "),
         NULL,
-        NULL,
+        false,
     },
     {
         NULL,
@@ -264,11 +374,11 @@ static KeyboardConfigData __config_keyboards_caret [] =
         NULL,
         NULL,
         NULL,
-        NULL,
+        false,
     },
 };
 
-static KeyboardConfigData __config_keyboards_segments [] =
+static StringConfigData __config_keyboards_segments [] =
 {
     {
         SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY,
@@ -277,7 +387,7 @@ static KeyboardConfigData __config_keyboards_segments [] =
         N_("Select first segment keys"),
         N_("The key events to select first segment. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY,
@@ -286,7 +396,7 @@ static KeyboardConfigData __config_keyboards_segments [] =
         N_("Select last segment keys"),
         N_("The key events to select last segment. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY,
@@ -295,7 +405,7 @@ static KeyboardConfigData __config_keyboards_segments [] =
         N_("Select next segment keys"),
         N_("The key events to select next segment. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY,
@@ -304,7 +414,7 @@ static KeyboardConfigData __config_keyboards_segments [] =
         N_("Select previous segment keys"),
         N_("The key events to select previous segment. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY,
@@ -313,7 +423,7 @@ static KeyboardConfigData __config_keyboards_segments [] =
         N_("Select shrink segment keys"),
         N_("The key events to shrink the selected segment. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY,
@@ -322,7 +432,7 @@ static KeyboardConfigData __config_keyboards_segments [] =
         N_("Select expand segment keys"),
         N_("The key events to expand the selected segment. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY,
@@ -331,7 +441,7 @@ static KeyboardConfigData __config_keyboards_segments [] =
         N_("Select commiting the first segment keys"),
         N_("The key events to commit the first segment. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY,
@@ -340,7 +450,7 @@ static KeyboardConfigData __config_keyboards_segments [] =
         N_("Select commiting the selected segment keys"),
         N_("The key events to commit the selected segment. "),
         NULL,
-        NULL,
+        false,
     },
     {
         NULL,
@@ -349,11 +459,11 @@ static KeyboardConfigData __config_keyboards_segments [] =
         NULL,
         NULL,
         NULL,
-        NULL,
+        false,
     },
 };
 
-static KeyboardConfigData __config_keyboards_candidates [] =
+static StringConfigData __config_keyboards_candidates [] =
 {
     {
         SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY,
@@ -362,7 +472,7 @@ static KeyboardConfigData __config_keyboards_candidates [] =
         N_("Select next candidate keys"),
         N_("The key events to select next candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY,
@@ -371,7 +481,7 @@ static KeyboardConfigData __config_keyboards_candidates [] =
         N_("Select previous candidate keys"),
         N_("The key events to select previous candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY,
@@ -380,7 +490,7 @@ static KeyboardConfigData __config_keyboards_candidates [] =
         N_("Select page up candidates keys"),
         N_("The key events to select page up candidates. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY,
@@ -389,7 +499,7 @@ static KeyboardConfigData __config_keyboards_candidates [] =
         N_("Select page down candidates keys"),
         N_("The key events to select page down candidates. "),
         NULL,
-        NULL,
+        false,
     },
     {
         NULL,
@@ -398,11 +508,11 @@ static KeyboardConfigData __config_keyboards_candidates [] =
         NULL,
         NULL,
         NULL,
-        NULL,
+        false,
     },
 };
 
-static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
+static StringConfigData __config_keyboards_direct_select [] =
 {
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY,
@@ -411,7 +521,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 1st candidate"),
         N_("The key events to select 1st candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY,
@@ -420,7 +530,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 2nd candidate"),
         N_("The key events to select 2nd candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY,
@@ -429,7 +539,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 3rd candidate"),
         N_("The key events to select 3rd candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY,
@@ -438,7 +548,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 4th candidate"),
         N_("The key events to select 4th candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY,
@@ -447,7 +557,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 5th candidate"),
         N_("The key events to select 5th candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY,
@@ -456,7 +566,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 6th candidate"),
         N_("The key events to select 6th candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY,
@@ -465,7 +575,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 7th candidate"),
         N_("The key events to select 7th candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY,
@@ -474,7 +584,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 8th candidate"),
         N_("The key events to select 8th candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY,
@@ -483,7 +593,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 9th candidate"),
         N_("The key events to select 9th candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY,
@@ -492,7 +602,7 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         N_("Select keys to select 10th candidate"),
         N_("The key events to select 10th candidate. "),
         NULL,
-        NULL,
+        false,
     },
     {
         NULL,
@@ -501,11 +611,11 @@ static KeyboardConfigData __config_keyboards_direct_select_candidate [] =
         NULL,
         NULL,
         NULL,
-        NULL,
+        false,
     },
 };
 
-static KeyboardConfigData __config_keyboards_converting [] =
+static StringConfigData __config_keyboards_converting [] =
 {
     {
         SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY,
@@ -514,7 +624,7 @@ static KeyboardConfigData __config_keyboards_converting [] =
         N_("Select convert to hiragana keys"),
         N_("The key events to convert the preedit string to hiragana. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY,
@@ -523,7 +633,7 @@ static KeyboardConfigData __config_keyboards_converting [] =
         N_("Select convert to katakana keys"),
         N_("The key events to convert the preedit string to katakana. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY,
@@ -532,7 +642,7 @@ static KeyboardConfigData __config_keyboards_converting [] =
         N_("Select convert to half width katakana keys"),
         N_("The key events to convert the preedit string to half width katakana. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY,
@@ -541,7 +651,7 @@ static KeyboardConfigData __config_keyboards_converting [] =
         N_("Select convert to latin keys"),
         N_("The key events to convert the preedit string to latin. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY,
@@ -550,7 +660,7 @@ static KeyboardConfigData __config_keyboards_converting [] =
         N_("Select convert to wide latin keys"),
         N_("The key events to convert the preedit string to wide latin. "),
         NULL,
-        NULL,
+        false,
     },
     {
         NULL,
@@ -559,11 +669,11 @@ static KeyboardConfigData __config_keyboards_converting [] =
         NULL,
         NULL,
         NULL,
-        NULL,
+        false,
     },
 };
 
-static KeyboardConfigData __config_keyboards_mode [] =
+static StringConfigData __config_keyboards_mode [] =
 {
     {
         SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY,
@@ -572,7 +682,7 @@ static KeyboardConfigData __config_keyboards_mode [] =
         N_("Select circle kana mode keys"),
         N_("The key events to circle kana mode. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_LATIN_MODE_KEY,
@@ -581,7 +691,7 @@ static KeyboardConfigData __config_keyboards_mode [] =
         N_("Select latin mode keys"),
         N_("The key events to toggle latin mode. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY,
@@ -590,7 +700,7 @@ static KeyboardConfigData __config_keyboards_mode [] =
         N_("Select wide latin mode keys"),
         N_("The key events to toggle wide latin mode. "),
         NULL,
-        NULL,
+        false,
     },
     {
         NULL,
@@ -599,11 +709,11 @@ static KeyboardConfigData __config_keyboards_mode [] =
         NULL,
         NULL,
         NULL,
-        NULL,
+        false,
     },
 };
 
-static KeyboardConfigData __config_keyboards_dict [] =
+static StringConfigData __config_keyboards_dict [] =
 {
     {
         SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY,
@@ -612,7 +722,7 @@ static KeyboardConfigData __config_keyboards_dict [] =
         N_("Select edit dictionary keys"),
         N_("The key events to launch dictionary administration tool. "),
         NULL,
-        NULL,
+        false,
     },
     {
         SCIM_ANTHY_CONFIG_ADD_WORD_KEY,
@@ -621,7 +731,7 @@ static KeyboardConfigData __config_keyboards_dict [] =
         N_("Select add a word keys"),
         N_("The key events to launch the tool to add a word. "),
         NULL,
-        NULL,
+        false,
     },
     {
         NULL,
@@ -630,31 +740,31 @@ static KeyboardConfigData __config_keyboards_dict [] =
         NULL,
         NULL,
         NULL,
-        NULL,
+        false,
     },
 };
 
 static struct KeyboardConfigPage __key_conf_pages[] =
 {
-    {N_("Common keys"),     __config_keyboards_common},
-    {N_("Mode keys"),       __config_keyboards_mode},
-    {N_("Caret keys"),      __config_keyboards_caret},
-    {N_("Segments keys"),   __config_keyboards_segments},
-    {N_("Candidates keys"), __config_keyboards_candidates},
-    {N_("Candidates keys (Direct select)"), __config_keyboards_direct_select_candidate},
-    {N_("Converting keys"), __config_keyboards_converting},
-    {N_("Dictionary keys"), __config_keyboards_dict},
+    {N_("Common keys"),        __config_keyboards_common},
+    {N_("Mode keys"),          __config_keyboards_mode},
+    {N_("Caret keys"),         __config_keyboards_caret},
+    {N_("Segments keys"),      __config_keyboards_segments},
+    {N_("Candidates keys"),    __config_keyboards_candidates},
+    {N_("Direct select keys"), __config_keyboards_direct_select},
+    {N_("Convert keys"),       __config_keyboards_converting},
+    {N_("Dictionary keys"),    __config_keyboards_dict},
 };
 static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (KeyboardConfigPage);
 
-static ComboConfigData typing_methods[] =
+static ComboConfigCandidate typing_methods[] =
 {
     {N_("Roma typing method"), "Roma"},
     {N_("Kana typing method"), "Kana"},
     {NULL, NULL},
 };
 
-static ComboConfigData period_styles[] =
+static ComboConfigCandidate period_styles[] =
 {
     {"\xE3\x80\x81\xE3\x80\x82", "Japanese"},
     {"\xEF\xBC\x8C\xE3\x80\x82", "WideLatin_Japanese"},
@@ -663,7 +773,7 @@ static ComboConfigData period_styles[] =
     {NULL, NULL},
 };
 
-static ComboConfigData space_types[] =
+static ComboConfigCandidate space_types[] =
 {
     {N_("Wide"), "Wide"},
     {N_("Half"), "Half"},
@@ -684,32 +794,94 @@ static void on_dict_menu_label_toggled        (GtkToggleButton *togglebutton,
 static void setup_widget_value ();
 
 
-static GtkWidget *
-create_combo_widget (const char *label_text, GtkWidget **widget,
-                     gpointer data_p, gpointer candidates_p)
+static BoolConfigData *
+find_bool_config_entry (const char *config_key)
 {
+    if (!config_key)
+        return NULL;
+
+    for (unsigned int i = 0; i < __config_bool_common_num; i++) {
+        BoolConfigData *entry = &__config_bool_common[i];
+        if (entry->key && !strcmp (entry->key, config_key))
+            return entry;
+    }
+
+    return NULL;
+}
+
+static StringConfigData *
+find_string_config_entry (const char *config_key)
+{
+    if (!config_key)
+        return NULL;
+
+    for (unsigned int i = 0; i < __config_string_common_num; i++) {
+        StringConfigData *entry = &__config_string_common[i];
+        if (entry->key && !strcmp (entry->key, config_key))
+            return entry;
+    }
+
+    return NULL;
+}
+
+static GtkWidget *
+create_check_button (const char *config_key)
+{
+    BoolConfigData *entry = find_bool_config_entry (config_key);
+    if (!entry)
+        return NULL;
+
+    entry->widget = gtk_check_button_new_with_mnemonic (_(entry->label));
+    gtk_container_set_border_width (GTK_CONTAINER (entry->widget), 4);
+    g_signal_connect (G_OBJECT (entry->widget), "toggled",
+                      G_CALLBACK (on_default_toggle_button_toggled),
+                      entry);
+    gtk_widget_show (entry->widget);
+
+    if (!__widget_tooltips)
+        __widget_tooltips = gtk_tooltips_new();
+    if (entry->tooltip)
+        gtk_tooltips_set_tip (__widget_tooltips, entry->widget,
+                              _(entry->tooltip), NULL);
+
+    return entry->widget;
+}
+
+static GtkWidget *
+create_combo_widget (const char *config_key, gpointer candidates_p)
+{
+    StringConfigData *entry = find_string_config_entry (config_key);
+    if (!entry)
+        return NULL;
+
     GtkWidget *hbox, *label;
 
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_widget_show (hbox);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
 
-    label = gtk_label_new (label_text);
+    label = gtk_label_new (_(entry->label));
     gtk_widget_show (label);
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
 
-    *widget = gtk_combo_new ();
-    gtk_combo_set_value_in_list (GTK_COMBO (*widget), TRUE, FALSE);
-    gtk_combo_set_case_sensitive (GTK_COMBO (*widget), TRUE);
-    gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (*widget)->entry), FALSE);
-    gtk_widget_show (*widget);
-    gtk_box_pack_start (GTK_BOX (hbox), *widget, FALSE, FALSE, 4);
-    g_object_set_data (G_OBJECT (GTK_COMBO (*widget)->entry), DATA_POINTER_KEY,
+    entry->widget = gtk_combo_new ();
+    gtk_combo_set_value_in_list (GTK_COMBO (entry->widget), TRUE, FALSE);
+    gtk_combo_set_case_sensitive (GTK_COMBO (entry->widget), TRUE);
+    gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (entry->widget)->entry), FALSE);
+    gtk_widget_show (entry->widget);
+    gtk_box_pack_start (GTK_BOX (hbox), entry->widget, FALSE, FALSE, 4);
+    g_object_set_data (G_OBJECT (GTK_COMBO (entry->widget)->entry), DATA_POINTER_KEY,
                        (gpointer) candidates_p);
 
-    g_signal_connect ((gpointer) GTK_COMBO (*widget)->entry, "changed",
+    g_signal_connect ((gpointer) GTK_COMBO (entry->widget)->entry, "changed",
                       G_CALLBACK (on_default_combo_changed),
-                      data_p);
+                      entry);
+
+    if (!__widget_tooltips)
+        __widget_tooltips = gtk_tooltips_new();
+    if (entry->tooltip)
+        gtk_tooltips_set_tip (__widget_tooltips, entry->widget,
+                              _(entry->tooltip), NULL);
 
     return hbox;
 }
@@ -718,52 +890,37 @@ static GtkWidget *
 create_options_page ()
 {
     GtkWidget *vbox, *widget;
+    StringConfigData *entry;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
     /* typing method */
-    widget = create_combo_widget (_("Typing method: "),
-                                  &__widget_typing_method,
-                                  (gpointer) &__config_typing_method,
+    widget = create_combo_widget (SCIM_ANTHY_CONFIG_TYPING_METHOD,
                                   (gpointer) &typing_methods);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     /* period style */
-    widget = create_combo_widget (_("Style of comma and period: "),
-                                  &__widget_period_style,
-                                  (gpointer) &__config_period_style,
+    widget = create_combo_widget (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
                                   (gpointer) &period_styles);
-    gtk_widget_set_size_request (__widget_period_style, 100, -1);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_PERIOD_STYLE);
+    gtk_widget_set_size_request (entry->widget, 100, -1);
 
     /* space_style */
-    widget = create_combo_widget (_("Space type: "),
-                                  &__widget_space_type,
-                                  (gpointer) &__config_space_type,
+    widget = create_combo_widget (SCIM_ANTHY_CONFIG_SPACE_TYPE,
                                   (gpointer) &space_types);
-    gtk_widget_set_size_request (__widget_space_type, 100, -1);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_SPACE_TYPE);
+    gtk_widget_set_size_request (entry->widget, 100, -1);
 
     /* auto convert */
-    __widget_auto_convert = gtk_check_button_new_with_mnemonic (_("Start conversion on inputting a comma or a period."));
-    gtk_widget_show (__widget_auto_convert);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_auto_convert, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_auto_convert), 4);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     /* close candidate window on select */
-    __widget_close_cand_win_on_select = gtk_check_button_new_with_mnemonic (_("Close candidate window when select a candidate directly."));
-    gtk_widget_show (__widget_close_cand_win_on_select);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_close_cand_win_on_select, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_close_cand_win_on_select), 4);
-
-    // Connect all signals.
-    g_signal_connect ((gpointer) __widget_close_cand_win_on_select, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_close_cand_win_on_select);
-    g_signal_connect ((gpointer) __widget_auto_convert, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_auto_convert);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     return vbox;
 }
@@ -771,94 +928,76 @@ create_options_page ()
 static GtkWidget *
 create_toolbar_page ()
 {
-    GtkWidget *vbox, *hbox, *label;
+    GtkWidget *vbox, *hbox, *label, *widget;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
     /* show/hide toolbar label */
-    __widget_show_input_mode_label = gtk_check_button_new_with_mnemonic (_("Show _input mode label"));
-    gtk_widget_show (__widget_show_input_mode_label);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_show_input_mode_label, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_show_input_mode_label), 4);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
-    __widget_show_typing_method_label = gtk_check_button_new_with_mnemonic (_("Show _typing method label"));
-    gtk_widget_show (__widget_show_typing_method_label);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_show_typing_method_label, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_show_typing_method_label), 4);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
-    __widget_show_period_style_label = gtk_check_button_new_with_mnemonic (_("Show _period style label"));
-    gtk_widget_show (__widget_show_period_style_label);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_show_period_style_label, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_show_period_style_label), 4);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     /* dictionary menu */
-    __widget_show_dict_label = gtk_check_button_new_with_mnemonic (_("Show _dictionary menu label"));
-    gtk_widget_show (__widget_show_dict_label);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_show_dict_label, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_show_dict_label), 4);
-
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
-    gtk_widget_show (hbox);
-    label = gtk_label_new ("    ");
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
-    __widget_show_dict_admin_label = gtk_check_button_new_with_mnemonic (_("Show _edit dictionary label"));
-    gtk_widget_show (__widget_show_dict_admin_label);
-    gtk_box_pack_start (GTK_BOX (hbox), __widget_show_dict_admin_label, FALSE, FALSE, 0);
-
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
-    gtk_widget_show (hbox);
-    label = gtk_label_new ("    ");
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
-    __widget_show_add_word_label = gtk_check_button_new_with_mnemonic (_("Show _add word label"));
-    gtk_widget_show (__widget_show_add_word_label);
-    gtk_box_pack_start (GTK_BOX (hbox), __widget_show_add_word_label, FALSE, FALSE, 0);
-
-    // Connect all signals.
-    g_signal_connect ((gpointer) __widget_show_input_mode_label, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_show_input_mode_label);
-    g_signal_connect ((gpointer) __widget_show_typing_method_label, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_show_typing_method_label);
-    g_signal_connect ((gpointer) __widget_show_period_style_label, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_show_period_style_label);
-    g_signal_connect ((gpointer) __widget_show_dict_label, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_show_dict_label);
-    g_signal_connect ((gpointer) __widget_show_dict_label, "toggled",
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL);
+    g_signal_connect ((gpointer) widget, "toggled",
                       G_CALLBACK (on_dict_menu_label_toggled),
                       NULL);
-    g_signal_connect ((gpointer) __widget_show_dict_admin_label, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_show_dict_admin_label);
-    g_signal_connect ((gpointer) __widget_show_add_word_label, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_show_add_word_label);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+    label = gtk_label_new ("    ");
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL);
+    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+    label = gtk_label_new ("    ");
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL);
+    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+    // set initial state
+    on_dict_menu_label_toggled (GTK_TOGGLE_BUTTON (widget), NULL);
 
     return vbox;
 }
 
-#define APPEND_ENTRY(text, widget, i) \
-{ \
-    label = gtk_label_new (NULL); \
-    gtk_label_set_text_with_mnemonic (GTK_LABEL (label), text); \
-    gtk_widget_show (label); \
-    gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5); \
-    gtk_misc_set_padding (GTK_MISC (label), 4, 0); \
-    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1, \
-                      (GtkAttachOptions) (GTK_FILL), \
-                      (GtkAttachOptions) (GTK_FILL), 4, 4); \
-    widget = gtk_entry_new (); \
-    gtk_widget_show (widget); \
-    gtk_table_attach (GTK_TABLE (table), widget, 1, 2, i, i+1, \
-                      (GtkAttachOptions) (GTK_FILL|GTK_EXPAND), \
-                      (GtkAttachOptions) (GTK_FILL), 4, 4); \
+#define APPEND_ENTRY(data, i)                                                  \
+{                                                                              \
+    label = gtk_label_new (NULL);                                              \
+    gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _((data)->label));    \
+    gtk_widget_show (label);                                                   \
+    gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);                       \
+    gtk_misc_set_padding (GTK_MISC (label), 4, 0);                             \
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,                  \
+                      (GtkAttachOptions) (GTK_FILL),                           \
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
+    (data)->widget = gtk_entry_new ();                                         \
+    g_signal_connect ((gpointer) (data)->widget, "changed",                    \
+                      G_CALLBACK (on_default_editable_changed),                \
+                      (data));                                                 \
+    gtk_widget_show ((data)->widget);                                          \
+    gtk_table_attach (GTK_TABLE (table), (data)->widget, 1, 2, i, i+1,         \
+                      (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),                \
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
+                                                                               \
+    if (!__widget_tooltips)                                                    \
+        __widget_tooltips = gtk_tooltips_new();                                \
+    if ((data)->tooltip)                                                       \
+        gtk_tooltips_set_tip (__widget_tooltips, (data)->widget,               \
+                              _((data)->tooltip), NULL);                       \
 }
 
 static GtkWidget *
@@ -866,23 +1005,18 @@ create_dict_page (void)
 {
     GtkWidget *table;
     GtkWidget *label;
+    StringConfigData *entry;
 
     table = gtk_table_new (3, 3, FALSE);
     gtk_widget_show (table);
 
     // dict admin command
-    APPEND_ENTRY(_("Edit dictionary command:"), __widget_dict_admin_command, 0);
+    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND);
+    APPEND_ENTRY(entry, 0);
 
     // add word command
-    APPEND_ENTRY(_("Add word command:"), __widget_add_word_command, 1);
-
-    // signals
-    g_signal_connect ((gpointer) __widget_dict_admin_command, "changed",
-                      G_CALLBACK (on_default_editable_changed),
-                      &__config_dict_admin_command);
-    g_signal_connect ((gpointer) __widget_add_word_command, "changed",
-                      G_CALLBACK (on_default_editable_changed),
-                      &__config_add_word_command);
+    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND);
+    APPEND_ENTRY(entry, 1);
 
     return table;
 }
@@ -896,38 +1030,25 @@ create_keyboard_page (unsigned int page)
     if (page >= __key_conf_pages_num)
         return NULL;
 
-    KeyboardConfigData *data = __key_conf_pages[page].data;
+    StringConfigData *data = __key_conf_pages[page].data;
 
     table = gtk_table_new (3, 3, FALSE);
     gtk_widget_show (table);
 
     // Create keyboard setting.
     for (unsigned int i = 0; data[i].key; ++ i) {
-        APPEND_ENTRY(_(data[i].label), data[i].entry, i);
-        gtk_entry_set_editable (GTK_ENTRY (data[i].entry), FALSE);
+        APPEND_ENTRY(&data[i], i);
+        gtk_entry_set_editable (GTK_ENTRY (data[i].widget), FALSE);
 
-        data[i].button = gtk_button_new_with_label ("...");
-        gtk_widget_show (data[i].button);
-        gtk_table_attach (GTK_TABLE (table), data[i].button, 2, 3, i, i+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (GTK_FILL), 4, 4);
-        gtk_label_set_mnemonic_widget (GTK_LABEL (label), data[i].button);
-    }
-
-    for (unsigned int i = 0; data[i].key; ++ i) {
-        g_signal_connect ((gpointer) data[i].button, "clicked",
+        GtkWidget *button = gtk_button_new_with_label ("...");
+        g_signal_connect ((gpointer) button, "clicked",
                           G_CALLBACK (on_default_key_selection_clicked),
                           &(data[i]));
-        g_signal_connect ((gpointer) data[i].entry, "changed",
-                          G_CALLBACK (on_default_editable_changed),
-                          &(data[i].data));
-    }
-
-    if (!__widget_tooltips)
-        __widget_tooltips = gtk_tooltips_new();
-    for (unsigned int i = 0; data[i].key; ++ i) {
-        gtk_tooltips_set_tip (__widget_tooltips, data[i].entry,
-                              _(data[i].tooltip), NULL);
+        gtk_widget_show (button);
+        gtk_table_attach (GTK_TABLE (table), button, 2, 3, i, i+1,
+                          (GtkAttachOptions) (GTK_FILL),
+                          (GtkAttachOptions) (GTK_FILL), 4, 4);
+        gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
     }
 
     return table;
@@ -972,7 +1093,7 @@ create_setup_window ()
         }
 
         // for preventing enabling left arrow.
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
+        gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
         gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
 
         setup_widget_value ();
@@ -982,11 +1103,15 @@ create_setup_window ()
 }
 
 static void
-setup_combo_value (GtkCombo *combo,
-                   ComboConfigData *data, const String & str)
+setup_combo_value (GtkCombo *combo, const String & str)
 {
     GList *list = NULL;
     const char *defval = NULL;
+
+    ComboConfigCandidate *data
+        = static_cast<ComboConfigCandidate*>
+        (g_object_get_data (G_OBJECT (GTK_COMBO(combo)->entry),
+                            DATA_POINTER_KEY));
 
     for (unsigned int i = 0; data[i].label; i++) {
         list = g_list_append (list, (gpointer) _(data[i].label));
@@ -1004,87 +1129,28 @@ setup_combo_value (GtkCombo *combo,
 static void
 setup_widget_value ()
 {
-    if (__widget_typing_method) {
-        setup_combo_value (GTK_COMBO (__widget_typing_method),
-                           typing_methods, __config_typing_method);
+    for (unsigned int i = 0; i < __config_bool_common_num; i++) {
+        BoolConfigData &entry = __config_bool_common[i];
+        if (entry.widget)
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (entry.widget),
+                                          entry.value);
     }
 
-    if (__widget_period_style) {
-        setup_combo_value (GTK_COMBO (__widget_period_style),
-                           period_styles, __config_period_style);
-    }
-
-    if (__widget_space_type) {
-        setup_combo_value (GTK_COMBO (__widget_space_type),
-                           space_types, __config_space_type);
-    }
-
-    if (__widget_auto_convert) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_auto_convert),
-            __config_auto_convert);
-    }
-
-    if (__widget_close_cand_win_on_select) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_close_cand_win_on_select),
-            __config_close_cand_win_on_select);
-    }
-
-    if (__widget_show_input_mode_label) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_show_input_mode_label),
-            __config_show_input_mode_label);
-    }
-
-    if (__widget_show_typing_method_label) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_show_typing_method_label),
-            __config_show_typing_method_label);
-    }
-
-    if (__widget_show_period_style_label) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_show_period_style_label),
-            __config_show_period_style_label);
-    }
-
-    if (__widget_dict_admin_command) {
-        gtk_entry_set_text (
-            GTK_ENTRY (__widget_dict_admin_command),
-            __config_dict_admin_command.c_str ());
-    }
-
-    if (__widget_add_word_command) {
-        gtk_entry_set_text (
-            GTK_ENTRY (__widget_add_word_command),
-            __config_add_word_command.c_str ());
-    }
-
-    if (__widget_show_dict_label) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_show_dict_label),
-            __config_show_dict_label);
-    }
-
-    if (__widget_show_dict_admin_label) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_show_dict_admin_label),
-            __config_show_dict_admin_label);
-    }
-
-    if (__widget_show_add_word_label) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_show_add_word_label),
-            __config_show_add_word_label);
+    for (unsigned int i = 0; i < __config_string_common_num; i++) {
+        StringConfigData &entry = __config_string_common[i];
+        if (entry.widget && GTK_IS_COMBO (entry.widget))
+            setup_combo_value (GTK_COMBO (entry.widget), entry.value);
+        else if (entry.widget && GTK_IS_ENTRY (entry.widget))
+            gtk_entry_set_text (GTK_ENTRY (entry.widget),
+                                entry.value.c_str ());
     }
 
     for (unsigned int j = 0; j < __key_conf_pages_num; ++j) {
         for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
-            if (__key_conf_pages[j].data[i].entry) {
+            if (__key_conf_pages[j].data[i].widget) {
                 gtk_entry_set_text (
-                    GTK_ENTRY (__key_conf_pages[j].data[i].entry),
-                    __key_conf_pages[j].data[i].data.c_str ());
+                    GTK_ENTRY (__key_conf_pages[j].data[i].widget),
+                    __key_conf_pages[j].data[i].value.c_str ());
             }
         }
     }
@@ -1094,56 +1160,36 @@ static void
 load_config (const ConfigPointer &config)
 {
     if (!config.null ()) {
-        __config_typing_method =
-            config->read (String (SCIM_ANTHY_CONFIG_TYPING_METHOD),
-                          __config_typing_method);
-        __config_period_style =
-            config->read (String (SCIM_ANTHY_CONFIG_PERIOD_STYLE),
-                          __config_period_style);
-        __config_space_type =
-            config->read (String (SCIM_ANTHY_CONFIG_SPACE_TYPE),
-                          __config_space_type);
-        __config_auto_convert =
-            config->read (String (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD),
-                          __config_auto_convert);
-        __config_close_cand_win_on_select =
-            config->read (String (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT),
-                          __config_close_cand_win_on_select);
-        __config_dict_admin_command =
-            config->read (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND),
-                          __config_dict_admin_command);
-        __config_add_word_command =
-            config->read (String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND),
-                          __config_add_word_command);
+        for (unsigned int i = 0; i < __config_bool_common_num; i++) {
+            BoolConfigData &entry = __config_bool_common[i];
+            entry.value = config->read (String (entry.key), entry.value);
+        }
 
-        __config_show_input_mode_label =
-            config->read (String (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL),
-                          __config_show_input_mode_label);
-        __config_show_typing_method_label =
-            config->read (String (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL),
-                          __config_show_typing_method_label);
-        __config_show_period_style_label =
-            config->read (String (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL),
-                          __config_show_period_style_label);
-        __config_show_dict_label =
-            config->read (String (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL),
-                          __config_show_dict_label);
-        __config_show_dict_admin_label =
-            config->read (String (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL),
-                          __config_show_dict_admin_label);
-        __config_show_add_word_label =
-            config->read (String (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL),
-                          __config_show_add_word_label);
+        for (unsigned int i = 0; i < __config_string_common_num; i++) {
+            StringConfigData &entry = __config_string_common[i];
+            entry.value = config->read (String (entry.key), entry.value);
+        }
 
         for (unsigned int j = 0; j < __key_conf_pages_num; ++ j) {
             for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
-                __key_conf_pages[j].data[i].data =
+                __key_conf_pages[j].data[i].value =
                     config->read (String (__key_conf_pages[j].data[i].key),
-                                  __key_conf_pages[j].data[i].data);
+                                  __key_conf_pages[j].data[i].value);
             }
         }
 
         setup_widget_value ();
+
+        for (unsigned int i = 0; i < __config_bool_common_num; i++)
+            __config_bool_common[i].changed = false;
+
+        for (unsigned int i = 0; i < __config_string_common_num; i++)
+            __config_string_common[i].changed = false;
+
+        for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
+            for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i)
+                __key_conf_pages[j].data[i].changed = false;
+        }
 
         __have_changed = false;
     }
@@ -1153,38 +1199,26 @@ static void
 save_config (const ConfigPointer &config)
 {
     if (!config.null ()) {
-        config->write (String (SCIM_ANTHY_CONFIG_TYPING_METHOD),
-                        __config_typing_method);
-        config->write (String (SCIM_ANTHY_CONFIG_PERIOD_STYLE),
-                        __config_period_style);
-        config->write (String (SCIM_ANTHY_CONFIG_SPACE_TYPE),
-                        __config_space_type);
-        config->write (String (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD),
-                        __config_auto_convert);
-        config->write (String (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT),
-                        __config_close_cand_win_on_select);
-        config->write (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND),
-                        __config_dict_admin_command);
-        config->write (String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND),
-                        __config_add_word_command);
+        for (unsigned int i = 0; i < __config_bool_common_num; i++) {
+            BoolConfigData &entry = __config_bool_common[i];
+            if (entry.changed)
+                entry.value = config->write (String (entry.key), entry.value);
+            entry.changed = false;
+        }
 
-        config->write (String (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL),
-                        __config_show_input_mode_label);
-        config->write (String (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL),
-                        __config_show_typing_method_label);
-        config->write (String (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL),
-                        __config_show_period_style_label);
-        config->write (String (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL),
-                        __config_show_dict_label);
-        config->write (String (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL),
-                        __config_show_dict_admin_label);
-        config->write (String (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL),
-                        __config_show_add_word_label);
+        for (unsigned int i = 0; i < __config_string_common_num; i++) {
+            StringConfigData &entry = __config_string_common[i];
+            if (entry.changed)
+                entry.value = config->write (String (entry.key), entry.value);
+            entry.changed = false;
+        }
 
         for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
             for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
-                config->write (String (__key_conf_pages[j].data[i].key),
-                               __key_conf_pages[j].data[i].data);
+                if (__key_conf_pages[j].data[i].changed)
+                    config->write (String (__key_conf_pages[j].data[i].key),
+                                   __key_conf_pages[j].data[i].value);
+                __key_conf_pages[j].data[i].changed = false;
             }
         }
 
@@ -1203,10 +1237,11 @@ static void
 on_default_toggle_button_toggled (GtkToggleButton *togglebutton,
                                   gpointer         user_data)
 {
-    bool *toggle = static_cast<bool*> (user_data);
+    BoolConfigData *entry = static_cast<BoolConfigData*> (user_data);
 
-    if (toggle) {
-        *toggle = gtk_toggle_button_get_active (togglebutton);
+    if (entry) {
+        entry->value = gtk_toggle_button_get_active (togglebutton);
+        entry->changed = true;
         __have_changed = true;
     }
 }
@@ -1215,10 +1250,11 @@ static void
 on_default_editable_changed (GtkEditable *editable,
                              gpointer     user_data)
 {
-    String *str = static_cast <String *> (user_data);
+    StringConfigData *entry = static_cast <StringConfigData*> (user_data);
 
-    if (str) {
-        *str = String (gtk_entry_get_text (GTK_ENTRY (editable)));
+    if (entry) {
+        entry->value = String (gtk_entry_get_text (GTK_ENTRY (editable)));
+        entry->changed = true;
         __have_changed = true;
     }
 }
@@ -1227,7 +1263,7 @@ static void
 on_default_key_selection_clicked (GtkButton *button,
                                   gpointer   user_data)
 {
-    KeyboardConfigData *data = static_cast <KeyboardConfigData *> (user_data);
+    StringConfigData *data = static_cast <StringConfigData*> (user_data);
 
     if (data) {
         GtkWidget *dialog = scim_key_selection_dialog_new (_(data->title));
@@ -1235,7 +1271,7 @@ on_default_key_selection_clicked (GtkButton *button,
 
         scim_key_selection_dialog_set_keys (
             SCIM_KEY_SELECTION_DIALOG (dialog),
-            gtk_entry_get_text (GTK_ENTRY (data->entry)));
+            gtk_entry_get_text (GTK_ENTRY (data->widget)));
 
         result = gtk_dialog_run (GTK_DIALOG (dialog));
 
@@ -1245,8 +1281,8 @@ on_default_key_selection_clicked (GtkButton *button,
 
             if (!keys) keys = "";
 
-            if (strcmp (keys, gtk_entry_get_text (GTK_ENTRY (data->entry))) != 0)
-                gtk_entry_set_text (GTK_ENTRY (data->entry), keys);
+            if (strcmp (keys, gtk_entry_get_text (GTK_ENTRY (data->widget))) != 0)
+                gtk_entry_set_text (GTK_ENTRY (data->widget), keys);
         }
 
         gtk_widget_destroy (dialog);
@@ -1257,19 +1293,20 @@ static void
 on_default_combo_changed (GtkEditable *editable,
                           gpointer user_data)
 {
-    String *str = static_cast<String *> (user_data);
-    ComboConfigData *data
-        = static_cast<ComboConfigData *> (g_object_get_data (G_OBJECT (editable),
-                                                             DATA_POINTER_KEY));
+    StringConfigData *entry = static_cast<StringConfigData*> (user_data);
+    ComboConfigCandidate *data = static_cast<ComboConfigCandidate*>
+        (g_object_get_data (G_OBJECT (editable),
+                            DATA_POINTER_KEY));
 
-    if (!str) return;
+    if (!entry) return;
     if (!data) return;
 
     const char *label =  gtk_entry_get_text (GTK_ENTRY (editable));
 
     for (unsigned int i = 0; data[i].label; i++) {
         if (label && !strcmp (_(data[i].label), label)) {
-            *str = data[i].data;
+            entry->value = data[i].data;
+            entry->changed = true;
             __have_changed = true;
             break;
         }
@@ -1281,10 +1318,13 @@ on_dict_menu_label_toggled (GtkToggleButton *togglebutton,
                             gpointer         user_data)
 {
     bool active = gtk_toggle_button_get_active (togglebutton);
-    if (__widget_show_dict_admin_label)
-        gtk_widget_set_sensitive (__widget_show_dict_admin_label, active);
-    if (__widget_show_add_word_label)
-        gtk_widget_set_sensitive (__widget_show_add_word_label, active);
+
+    BoolConfigData *entry = find_bool_config_entry (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL);
+    if (entry->widget)
+        gtk_widget_set_sensitive (entry->widget, active);
+    entry = find_bool_config_entry (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL);
+    if (entry->widget)
+        gtk_widget_set_sensitive (entry->widget, active);
 }
 /*
 vi:ts=4:nowrap:ai:expandtab

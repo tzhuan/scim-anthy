@@ -59,8 +59,8 @@
 #define SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY     "/IMEngine/Anthy/SelectPrevSegmentKey"
 #define SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY          "/IMEngine/Anthy/ShrinkSegmentKey"
 #define SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY          "/IMEngine/Anthy/ExpandSegmentKey"
-#define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY    "/IMEngine/Anthy/CommitFirstSegment"
-#define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY "/IMEngine/Anthy/CommitSelectedSegment"
+#define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY    "/IMEngine/Anthy/CommitFirstSegmentKey"
+#define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY "/IMEngine/Anthy/CommitSelectedSegmentKey"
 
 #define SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY   "/IMEngine/Anthy/SelectNextCandidateKey"
 #define SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY   "/IMEngine/Anthy/SelectPrevCandidateKey"
