@@ -76,6 +76,10 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Instance : ";
 
+    // set character width
+    m_preedit.set_symbol_width (factory->m_romaji_half_symbol);
+    m_preedit.set_number_width (factory->m_romaji_half_number);
+
     // set typing method
     if (factory->m_typing_method == "Kana")
         m_preedit.set_typing_method (METHOD_KANA);

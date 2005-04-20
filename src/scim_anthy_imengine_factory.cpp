@@ -107,7 +107,9 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_typing_method (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
       m_period_style (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
       m_auto_convert (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT),
-      m_close_cand_win_on_select (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT),
+      m_close_cand_win_on_select (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT),
+      m_romaji_half_symbol (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT),
+      m_romaji_half_number (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT),
       m_dict_admin_command (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
       m_add_word_command (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
       m_show_input_mode_label (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
@@ -205,6 +207,12 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_close_cand_win_on_select
             = config->read (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
                             m_close_cand_win_on_select);
+        m_romaji_half_symbol
+            = config->read (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL,
+                            m_romaji_half_symbol);
+        m_romaji_half_number
+            = config->read (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER,
+                            m_romaji_half_number);
         m_dict_admin_command
             = config->read (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
                             m_dict_admin_command);
@@ -229,6 +237,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_show_add_word_label
             = config->read (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL,
                             m_show_add_word_label);
+
+        // clear old actions
+        m_actions.clear ();
 
         // edit keys
         APPEND_ACTION (COMMIT,                  action_commit);

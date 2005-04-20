@@ -1,7 +1,7 @@
 /* -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
  *  Copyright (C) 2004 Hiroyuki Ikezoe
- *  Copyright (C) 2004 Takuro Ashie
+ *  Copyright (C) 2004-2005 Takuro Ashie
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -186,6 +186,24 @@ static BoolConfigData __config_bool_common [] =
         SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL,
         SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT,
         N_("Show _period style label"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL,
+        SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT,
+        N_("Use half-width characters for symbols"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER,
+        SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT,
+        N_("Use half-width characters for numbers"),
         NULL,
         NULL,
         NULL,
@@ -926,6 +944,25 @@ create_options_page ()
 }
 
 static GtkWidget *
+create_romaji_page ()
+{
+    GtkWidget *vbox, *widget;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    /* symbol */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+
+    /* number */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+
+    return vbox;
+}
+
+static GtkWidget *
 create_toolbar_page ()
 {
     GtkWidget *vbox, *hbox, *label, *widget;
@@ -1066,19 +1103,25 @@ create_setup_window ()
         window = notebook;
         gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
 
-        // Create the first page.
+        // Create the options page.
         GtkWidget *page = create_options_page ();
         GtkWidget *label = gtk_label_new (_("Options"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
-        // Create the second page.
+        // Create the romaji page.
+        page = create_romaji_page ();
+        label = gtk_label_new (_("Romaji Typing"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the toolbar page.
         page = create_toolbar_page ();
         label = gtk_label_new (_("Toolbar"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
-        // Create the third page.
+        // Create the dictionary page.
         page = create_dict_page ();
         label = gtk_label_new (_("Dictionary"));
         gtk_widget_show (label);
@@ -1281,7 +1324,7 @@ on_default_key_selection_clicked (GtkButton *button,
 
             if (!keys) keys = "";
 
-            if (strcmp (keys, gtk_entry_get_text (GTK_ENTRY (data->widget))) != 0)
+            if (strcmp (keys, gtk_entry_get_text (GTK_ENTRY (data->widget))))
                 gtk_entry_set_text (GTK_ENTRY (data->widget), keys);
         }
 
@@ -1319,7 +1362,8 @@ on_dict_menu_label_toggled (GtkToggleButton *togglebutton,
 {
     bool active = gtk_toggle_button_get_active (togglebutton);
 
-    BoolConfigData *entry = find_bool_config_entry (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL);
+    BoolConfigData *entry;
+    entry = find_bool_config_entry (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL);
     if (entry->widget)
         gtk_widget_set_sensitive (entry->widget, active);
     entry = find_bool_config_entry (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL);

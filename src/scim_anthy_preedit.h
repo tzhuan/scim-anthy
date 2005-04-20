@@ -147,6 +147,10 @@ public:
     virtual void          clear                  (void);
 
     // preference
+    virtual void          set_symbol_width       (bool half);
+    virtual bool          symbol_is_half_width   (void);
+    virtual void          set_number_width       (bool half);
+    virtual bool          number_is_half_width   (void);
     virtual void          set_input_mode         (InputMode mode);
     virtual InputMode     get_input_mode         (void);
     virtual void          set_typing_method      (TypingMethod method);
@@ -173,7 +177,9 @@ private:
                                                   unsigned int end,
                                                   CandidateType type);
     void          reset_pending                  (void);
-    void          set_table                      (TypingMethod method,
+    void          set_table                      (bool romaji_half_symbol,
+                                                  bool romaji_half_number,
+                                                  TypingMethod method,
                                                   PeriodStyle  period,
                                                   CommaStyle   comma,
                                                   SpaceType    space);
@@ -186,6 +192,8 @@ private:
     anthy_context_t   m_anthy_context;
 
     // mode flags
+    bool              m_romaji_half_symbol;
+    bool              m_romaji_half_number;
     InputMode         m_input_mode;
     TypingMethod      m_typing_method;
     PeriodStyle       m_period_style;

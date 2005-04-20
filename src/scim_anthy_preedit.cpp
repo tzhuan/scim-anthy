@@ -52,6 +52,8 @@ AnthyPreeditChar::~AnthyPreeditChar ()
 
 AnthyPreedit::AnthyPreedit ()
     : m_anthy_context (anthy_create_context()),
+      m_romaji_half_symbol (false),
+      m_romaji_half_number (false),
       m_input_mode (MODE_HIRAGANA),
       m_typing_method (METHOD_ROMAKANA),
       m_period_style (PERIOD_JAPANESE),
@@ -74,7 +76,8 @@ AnthyPreedit::AnthyPreedit ()
     if (!m_iconv.set_encoding ("EUC-JP"))
         return;
 
-    set_table (m_typing_method, m_period_style, m_comma_style, m_space_type);
+    set_table (m_romaji_half_symbol, m_romaji_half_number,
+               m_typing_method, m_period_style, m_comma_style, m_space_type);
 }
 
 AnthyPreedit::~AnthyPreedit ()
@@ -1014,6 +1017,32 @@ AnthyPreedit::clear (void)
  * preference
  */
 void
+AnthyPreedit::set_symbol_width (bool half)
+{
+    set_table (half, m_romaji_half_number,
+               m_typing_method, m_period_style, m_comma_style, m_space_type);
+}
+
+bool
+AnthyPreedit::symbol_is_half_width (void)
+{
+    return m_romaji_half_symbol;
+}
+
+void
+AnthyPreedit::set_number_width (bool half)
+{
+    set_table (m_romaji_half_symbol, half,
+               m_typing_method, m_period_style, m_comma_style, m_space_type);
+}
+
+bool
+AnthyPreedit::number_is_half_width (void)
+{
+    return m_romaji_half_symbol;
+}
+
+void
 AnthyPreedit::set_input_mode (InputMode mode)
 {
     m_input_mode = mode;
@@ -1028,7 +1057,8 @@ AnthyPreedit::get_input_mode (void)
 void
 AnthyPreedit::set_typing_method (TypingMethod method)
 {
-    set_table (method, m_period_style, m_comma_style, m_space_type);
+    set_table (m_romaji_half_symbol, m_romaji_half_number,
+               method, m_period_style, m_comma_style, m_space_type);
 }
 
 TypingMethod
@@ -1040,7 +1070,8 @@ AnthyPreedit::get_typing_method (void)
 void
 AnthyPreedit::set_period_style (PeriodStyle style)
 {
-    set_table (m_typing_method, style, m_comma_style, m_space_type);
+    set_table (m_romaji_half_symbol, m_romaji_half_number,
+               m_typing_method, style, m_comma_style, m_space_type);
 }
 
 PeriodStyle
@@ -1052,7 +1083,8 @@ AnthyPreedit::get_period_style (void)
 void
 AnthyPreedit::set_comma_style (CommaStyle style)
 {
-    set_table (m_typing_method, m_period_style, style, m_space_type);
+    set_table (m_romaji_half_symbol, m_romaji_half_number,
+               m_typing_method, m_period_style, style, m_space_type);
 }
 
 CommaStyle
@@ -1064,7 +1096,8 @@ AnthyPreedit::get_comma_style (void)
 void
 AnthyPreedit::set_space_type (SpaceType type)
 {
-    set_table (m_typing_method, m_period_style, m_comma_style, type);
+    set_table (m_romaji_half_symbol, m_romaji_half_number,
+               m_typing_method, m_period_style, m_comma_style, type);
 }
 
 SpaceType
@@ -1086,7 +1119,9 @@ AnthyPreedit::get_auto_convert (void)
 }
 
 void
-AnthyPreedit::set_table (TypingMethod method,
+AnthyPreedit::set_table (bool romaji_half_symbol,
+                         bool romaji_half_number,
+                         TypingMethod method,
                          PeriodStyle period,
                          CommaStyle comma,
                          SpaceType space)
@@ -1098,8 +1133,17 @@ AnthyPreedit::set_table (TypingMethod method,
     case METHOD_ROMAKANA:
     default:
         m_key2kana.set_table (scim_anthy_romakana_typing_rule);
-        m_key2kana.append_table (scim_anthy_romakana_wide_symbol_rule);
-        m_key2kana.append_table (scim_anthy_romakana_wide_number_rule);
+
+        if (romaji_half_symbol)
+            m_key2kana.append_table (scim_anthy_romakana_symbol_rule);
+        else
+            m_key2kana.append_table (scim_anthy_romakana_wide_symbol_rule);
+
+        if (romaji_half_number)
+            m_key2kana.append_table (scim_anthy_romakana_number_rule);
+        else
+            m_key2kana.append_table (scim_anthy_romakana_wide_number_rule);
+
         break;
     };
 
@@ -1121,10 +1165,12 @@ AnthyPreedit::set_table (TypingMethod method,
         break;
     };
 
-    m_typing_method = method;
-    m_period_style = period;
-    m_comma_style = comma;
-    m_space_type = space;
+    m_romaji_half_symbol = romaji_half_symbol;
+    m_romaji_half_number = romaji_half_number;
+    m_typing_method      = method;
+    m_period_style       = period;
+    m_comma_style        = comma;
+    m_space_type         = space;
 }
 
 bool

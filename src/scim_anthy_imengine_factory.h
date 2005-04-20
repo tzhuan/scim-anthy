@@ -48,6 +48,8 @@ class AnthyFactory : public IMEngineFactoryBase
     String       m_space_type;
     bool         m_auto_convert;
     bool         m_close_cand_win_on_select;
+    bool         m_romaji_half_symbol;
+    bool         m_romaji_half_number;
     String       m_dict_admin_command;
     String       m_add_word_command;
     bool         m_show_input_mode_label;
