@@ -113,6 +113,7 @@ public:
 
     // manipulating the preedit string
     // return true if commiting is needed.
+    virtual bool          can_process            (const KeyEvent & key);
     virtual bool          append                 (const KeyEvent & key);
     virtual void          erase                  (bool backward = true);
     virtual void          flush_pending          (void);

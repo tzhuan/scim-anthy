@@ -248,13 +248,78 @@ AnthyPreedit::is_kana_converting (void)
  * manipulating the preedit string
  */
 bool
+AnthyPreedit::can_process (const KeyEvent & key)
+{
+    if (isprint(key.get_ascii_code ()))
+        return true;
+
+    if (key.code >= SCIM_KEY_KP_0 && key.code <= SCIM_KEY_KP_9)
+        return true;
+
+    if (key.code >= SCIM_KEY_KP_Multiply && key.code <= SCIM_KEY_KP_Divide)
+        return true;
+
+    if (key.code == SCIM_KEY_KP_Equal)
+        return true;
+
+    return false;
+}
+
+bool
 AnthyPreedit::append (const KeyEvent & key)
 {
-    if (!isprint(key.get_ascii_code ()))
+    if (!can_process (key))
         return false;
 
     char str[2];
-    str[0] = key.code;
+
+    switch (key.code) {
+    case SCIM_KEY_KP_Equal:
+        str[0] = '=';
+        break;
+
+    case SCIM_KEY_KP_Multiply:
+        str[0] = '*';
+        break;
+
+    case SCIM_KEY_KP_Add:
+        str[0] = '+';
+        break;
+
+    case SCIM_KEY_KP_Separator:
+        str[0] = ',';
+        break;
+
+    case SCIM_KEY_KP_Subtract:
+        str[0] = '-';
+        break;
+
+    case SCIM_KEY_KP_Decimal:
+        str[0] = '.';
+        break;
+
+    case SCIM_KEY_KP_Divide:
+        str[0] = '/';
+        break;
+
+    case SCIM_KEY_KP_0:
+    case SCIM_KEY_KP_1:
+    case SCIM_KEY_KP_2:
+    case SCIM_KEY_KP_3:
+    case SCIM_KEY_KP_4:
+    case SCIM_KEY_KP_5:
+    case SCIM_KEY_KP_6:
+    case SCIM_KEY_KP_7:
+    case SCIM_KEY_KP_8:
+    case SCIM_KEY_KP_9:
+        str[0] = '0' + key.code - SCIM_KEY_KP_0;
+        break;
+
+    default:
+        str[0] = key.code;
+        break;
+    }
+
     str[1] = '\0';
 
     return append_str (String (str));

@@ -128,8 +128,13 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
     {
         return false;
     }
-   
-    if (isprint(key.get_ascii_code ())) {
+
+    char code[256];
+    sprintf(code, "%d", key.code);
+    update_aux_string (utf8_mbstowcs (code));
+    show_aux_string ();
+
+    if (m_preedit.can_process (key)) {
         // commit old conversion string before update preedit string
         if (m_preedit.is_converting ())
             action_commit ();
