@@ -71,6 +71,11 @@ typedef enum {
 } SpaceType;
 
 typedef enum {
+    TEN_KEY_HALF,
+    TEN_KEY_WIDE,
+} TenKeyType;
+
+typedef enum {
     PREEDIT_CURRENT,
     PREEDIT_RAW_KEY,
     PREEDIT_NO_CONVERSION,
@@ -162,6 +167,8 @@ public:
     virtual CommaStyle    get_comma_style        (void);
     virtual void          set_space_type         (SpaceType type);
     virtual SpaceType     get_space_type         (void);
+    virtual void          set_ten_key_type       (TenKeyType type);
+    virtual TenKeyType    get_ten_key_type       (void);
     virtual void          set_auto_convert       (bool autoconv);
     virtual bool          get_auto_convert       (void);
 
@@ -200,6 +207,7 @@ private:
     PeriodStyle       m_period_style;
     CommaStyle        m_comma_style;
     SpaceType         m_space_type;
+    TenKeyType        m_ten_key_type;
     bool              m_auto_convert;
 
     // raw key code & preedit string

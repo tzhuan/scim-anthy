@@ -244,7 +244,7 @@ static StringConfigData __config_string_common [] =
     {
         SCIM_ANTHY_CONFIG_TYPING_METHOD,
         SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT,
-        N_("_Typing method: "),
+        N_("Typing _method: "),
         NULL,
         NULL,
         NULL,
@@ -263,6 +263,15 @@ static StringConfigData __config_string_common [] =
         SCIM_ANTHY_CONFIG_SPACE_TYPE,
         SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT,
         N_("_Space type: "),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
+        SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT,
+        N_("Input from _ten key: "),
         NULL,
         NULL,
         NULL,
@@ -798,6 +807,13 @@ static ComboConfigCandidate space_types[] =
     {NULL, NULL},
 };
 
+static ComboConfigCandidate ten_key_types[] =
+{
+    {N_("Wide"), "Wide"},
+    {N_("Half"), "Half"},
+    {NULL, NULL},
+};
+
 
 static void on_default_editable_changed       (GtkEditable     *editable,
                                                gpointer         user_data);
@@ -865,22 +881,50 @@ create_check_button (const char *config_key)
     return entry->widget;
 }
 
+#define APPEND_ENTRY(data, i)                                                  \
+{                                                                              \
+    label = gtk_label_new (NULL);                                              \
+    gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _((data)->label));    \
+    gtk_widget_show (label);                                                   \
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);                       \
+    gtk_misc_set_padding (GTK_MISC (label), 4, 0);                             \
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,                  \
+                      (GtkAttachOptions) (GTK_FILL),                           \
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
+    (data)->widget = gtk_entry_new ();                                         \
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), (data)->widget);         \
+    g_signal_connect ((gpointer) (data)->widget, "changed",                    \
+                      G_CALLBACK (on_default_editable_changed),                \
+                      (data));                                                 \
+    gtk_widget_show ((data)->widget);                                          \
+    gtk_table_attach (GTK_TABLE (table), (data)->widget, 1, 2, i, i+1,         \
+                      (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),                \
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
+                                                                               \
+    if (!__widget_tooltips)                                                    \
+        __widget_tooltips = gtk_tooltips_new();                                \
+    if ((data)->tooltip)                                                       \
+        gtk_tooltips_set_tip (__widget_tooltips, (data)->widget,               \
+                              _((data)->tooltip), NULL);                       \
+}
+
 static GtkWidget *
-create_combo_widget (const char *config_key, gpointer candidates_p)
+create_combo (const char *config_key, gpointer candidates_p,
+              GtkWidget *table, gint idx)
 {
     StringConfigData *entry = find_string_config_entry (config_key);
     if (!entry)
         return NULL;
 
-    GtkWidget *hbox, *label;
-
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_widget_show (hbox);
-    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    GtkWidget *label;
 
     label = gtk_label_new_with_mnemonic (_(entry->label));
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_misc_set_padding (GTK_MISC (label), 4, 0);
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, idx, idx + 1,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
     gtk_widget_show (label);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
 
     entry->widget = gtk_combo_new ();
     gtk_label_set_mnemonic_widget (GTK_LABEL (label),
@@ -889,7 +933,9 @@ create_combo_widget (const char *config_key, gpointer candidates_p)
     gtk_combo_set_case_sensitive (GTK_COMBO (entry->widget), TRUE);
     gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (entry->widget)->entry), FALSE);
     gtk_widget_show (entry->widget);
-    gtk_box_pack_start (GTK_BOX (hbox), entry->widget, FALSE, FALSE, 4);
+    gtk_table_attach (GTK_TABLE (table), entry->widget, 1, 2, idx, idx + 1,
+                      (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
     g_object_set_data (G_OBJECT (GTK_COMBO (entry->widget)->entry), DATA_POINTER_KEY,
                        (gpointer) candidates_p);
 
@@ -903,36 +949,40 @@ create_combo_widget (const char *config_key, gpointer candidates_p)
         gtk_tooltips_set_tip (__widget_tooltips, entry->widget,
                               _(entry->tooltip), NULL);
 
-    return hbox;
+    return entry->widget;
 }
 
 static GtkWidget *
 create_options_page ()
 {
-    GtkWidget *vbox, *widget;
-    StringConfigData *entry;
+    GtkWidget *vbox, *table, *widget;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
+    table = gtk_table_new (4, 2, FALSE);
+    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
+    gtk_widget_show (table);
+
     /* typing method */
-    widget = create_combo_widget (SCIM_ANTHY_CONFIG_TYPING_METHOD,
-                                  (gpointer) &typing_methods);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+    widget = create_combo (SCIM_ANTHY_CONFIG_TYPING_METHOD,
+                           (gpointer) &typing_methods,
+                           table, 0);
 
     /* period style */
-    widget = create_combo_widget (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
-                                  (gpointer) &period_styles);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
-    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_PERIOD_STYLE);
-    gtk_widget_set_size_request (entry->widget, 100, -1);
+    widget = create_combo (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
+                           (gpointer) &period_styles,
+                           table, 1);
 
     /* space_style */
-    widget = create_combo_widget (SCIM_ANTHY_CONFIG_SPACE_TYPE,
-                                  (gpointer) &space_types);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
-    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_SPACE_TYPE);
-    gtk_widget_set_size_request (entry->widget, 100, -1);
+    widget = create_combo (SCIM_ANTHY_CONFIG_SPACE_TYPE,
+                           (gpointer) &space_types,
+                           table, 2);
+
+    /* ten key_style */
+    widget = create_combo (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
+                           (gpointer) &ten_key_types,
+                           table, 3);
 
     /* auto convert */
     widget = create_check_button (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD);
@@ -1013,33 +1063,6 @@ create_toolbar_page ()
     return vbox;
 }
 
-#define APPEND_ENTRY(data, i)                                                  \
-{                                                                              \
-    label = gtk_label_new (NULL);                                              \
-    gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _((data)->label));    \
-    gtk_widget_show (label);                                                   \
-    gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);                       \
-    gtk_misc_set_padding (GTK_MISC (label), 4, 0);                             \
-    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,                  \
-                      (GtkAttachOptions) (GTK_FILL),                           \
-                      (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
-    (data)->widget = gtk_entry_new ();                                         \
-    gtk_label_set_mnemonic_widget (GTK_LABEL (label), (data)->widget);         \
-    g_signal_connect ((gpointer) (data)->widget, "changed",                    \
-                      G_CALLBACK (on_default_editable_changed),                \
-                      (data));                                                 \
-    gtk_widget_show ((data)->widget);                                          \
-    gtk_table_attach (GTK_TABLE (table), (data)->widget, 1, 2, i, i+1,         \
-                      (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),                \
-                      (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
-                                                                               \
-    if (!__widget_tooltips)                                                    \
-        __widget_tooltips = gtk_tooltips_new();                                \
-    if ((data)->tooltip)                                                       \
-        gtk_tooltips_set_tip (__widget_tooltips, (data)->widget,               \
-                              _((data)->tooltip), NULL);                       \
-}
-
 static GtkWidget *
 create_dict_page (void)
 {
@@ -1047,7 +1070,7 @@ create_dict_page (void)
     GtkWidget *label;
     StringConfigData *entry;
 
-    table = gtk_table_new (3, 3, FALSE);
+    table = gtk_table_new (2, 2, FALSE);
     gtk_widget_show (table);
 
     // dict admin command

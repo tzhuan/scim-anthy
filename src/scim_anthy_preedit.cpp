@@ -59,6 +59,7 @@ AnthyPreedit::AnthyPreedit ()
       m_period_style (PERIOD_JAPANESE),
       m_comma_style (COMMA_JAPANESE),
       m_space_type (SPACE_WIDE),
+      m_ten_key_type (TEN_KEY_WIDE),
       m_auto_convert (false),
       m_start_char (0),
       m_char_caret (0),
@@ -268,7 +269,7 @@ AnthyPreedit::can_process (const KeyEvent & key)
 bool
 AnthyPreedit::append (const KeyEvent & key)
 {
-    bool tmp_use_half = true;
+    bool is_ten_key = true;
 
     if (!can_process (key))
         return false;
@@ -318,27 +319,35 @@ AnthyPreedit::append (const KeyEvent & key)
         break;
 
     default:
-        tmp_use_half = false;
+        is_ten_key = false;
         str[0] = key.code;
         break;
     }
 
     str[1] = '\0';
 
-    bool romaji_half_symbol = m_romaji_half_symbol;
-    bool romaji_half_number = m_romaji_half_number;
+    bool half = true;
+    bool prev_symbol = m_romaji_half_symbol;
+    bool prev_number = m_romaji_half_number;
 
-    if (tmp_use_half)
-        set_table (true, true,
+    if (is_ten_key) {
+        if (m_ten_key_type == TEN_KEY_HALF)
+            half = true;
+        else if (m_ten_key_type == TEN_KEY_WIDE)
+            half = false;
+
+        set_table (half, half,
                    m_typing_method, m_period_style,
                    m_comma_style, m_space_type);
+    }
 
     bool retval = append_str (String (str));
 
-    if (tmp_use_half)
-        set_table (romaji_half_symbol, romaji_half_number,
+    if (is_ten_key) {
+        set_table (prev_symbol, prev_number,
                    m_typing_method, m_period_style,
                    m_comma_style, m_space_type);
+    }
 
     return retval;
 }
@@ -1187,6 +1196,18 @@ SpaceType
 AnthyPreedit::get_space_type (void)
 {
     return m_space_type;
+}
+
+void
+AnthyPreedit::set_ten_key_type (TenKeyType type)
+{
+    m_ten_key_type = type;
+}
+
+TenKeyType
+AnthyPreedit::get_ten_key_type (void)
+{
+    return m_ten_key_type;
 }
 
 void

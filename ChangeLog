@@ -1,5 +1,13 @@
 2005-04-21 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.cpp, src/scim_anthy_imengine_factory.cpp,
+	  src/scim_anthy_imengine_factory.h, src/scim_anthy_imengine_setup.cpp,
+	  src/scim_anthy_preedit.cpp, src/scim_anthy_preedit.h,
+	  src/scim_anthy_prefs.h:
+	Added preference for ten key.
+
+2005-04-21 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine.cpp: Remove debug code.
 	* src/scim_anthy_preedit.cpp: Always use half width character for
 	pressing keys on key pad. This feature should be customizable.

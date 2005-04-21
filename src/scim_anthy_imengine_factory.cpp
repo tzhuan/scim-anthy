@@ -106,6 +106,8 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_config (config),
       m_typing_method (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
       m_period_style (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
+      m_space_type (SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT),
+      m_ten_key_type (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
       m_auto_convert (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT),
       m_close_cand_win_on_select (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT),
       m_romaji_half_symbol (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT),
@@ -236,6 +238,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_space_type
             = config->read (SCIM_ANTHY_CONFIG_SPACE_TYPE,
                             m_space_type);
+        m_ten_key_type
+            = config->read (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
+                            m_ten_key_type);
         m_auto_convert
             = config->read (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD,
                             m_auto_convert);

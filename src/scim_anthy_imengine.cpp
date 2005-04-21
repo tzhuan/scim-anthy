@@ -1335,6 +1335,12 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     else
         m_preedit.set_space_type (SPACE_WIDE);
 
+    // set ten key type
+    if (m_factory->m_ten_key_type == "Half")
+        m_preedit.set_ten_key_type (TEN_KEY_HALF);
+    else 
+        m_preedit.set_ten_key_type (TEN_KEY_WIDE);
+
     // set auto convert
     m_preedit.set_auto_convert (m_factory->m_auto_convert);
 

@@ -46,6 +46,7 @@ class AnthyFactory : public IMEngineFactoryBase
     String       m_typing_method;
     String       m_period_style;
     String       m_space_type;
+    String       m_ten_key_type;
     bool         m_auto_convert;
     bool         m_close_cand_win_on_select;
     bool         m_romaji_half_symbol;
