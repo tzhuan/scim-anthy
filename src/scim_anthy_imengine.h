@@ -72,6 +72,8 @@ public:
     virtual void focus_out                     (void);
     virtual void trigger_property              (const String &property);
 
+    virtual void reload_config                 (const ConfigPointer &config);
+
 private:
     void   install_properties                 (void);
     void   set_input_mode                     (InputMode mode);

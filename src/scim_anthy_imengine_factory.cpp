@@ -178,6 +178,41 @@ AnthyFactory::create_instance (const String &encoding, int id)
     return new AnthyInstance (this, encoding, id);
 }
 
+void
+AnthyFactory::append_config_listener (AnthyInstance *listener)
+{
+    bool found = false;
+    std::vector<AnthyInstance*>::iterator it;
+    for (it = m_config_listeners.begin();
+         it != m_config_listeners.end();
+         it++)
+    {
+        if (*it == listener) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found)
+        m_config_listeners.push_back (listener);
+}
+
+void
+AnthyFactory::remove_config_listener (AnthyInstance *listener)
+{
+    std::vector<AnthyInstance*>::iterator it;
+    for (it = m_config_listeners.begin();
+         it != m_config_listeners.end();
+         it++)
+    {
+        if (*it == listener) {
+            m_config_listeners.erase (it);
+            break;
+        }
+    }
+}
+
+
 #define APPEND_ACTION(key, func) \
 { \
     String name = "func", str; \
@@ -295,5 +330,13 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         // dict keys
         APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);
         APPEND_ACTION (ADD_WORD,                action_add_word);
+
+        std::vector<AnthyInstance*>::iterator it;
+        for (it = m_config_listeners.begin();
+             it != m_config_listeners.end();
+             it++)
+        {
+            (*it)->reload_config (config);
+        }
     }
 }

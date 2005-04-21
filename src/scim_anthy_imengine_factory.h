@@ -59,6 +59,8 @@ class AnthyFactory : public IMEngineFactoryBase
     bool         m_show_dict_admin_label;
     bool         m_show_add_word_label;
 
+    std::vector<AnthyInstance*> m_config_listeners;
+
     /* for key bindings */
     std::vector<AnthyAction> m_actions;
 
@@ -77,6 +79,9 @@ public:
 
     virtual IMEngineInstancePointer create_instance (const String& encoding,
                                                      int id = -1);
+
+    virtual void append_config_listener (AnthyInstance *listener);
+    virtual void remove_config_listener (AnthyInstance *listener);
 
 private:
     void reload_config (const ConfigPointer &config);

@@ -77,50 +77,13 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Instance : ";
 
-    // set character width
-    m_preedit.set_symbol_width (factory->m_romaji_half_symbol);
-    m_preedit.set_number_width (factory->m_romaji_half_number);
-
-    // set typing method
-    if (factory->m_typing_method == "Kana")
-        m_preedit.set_typing_method (METHOD_KANA);
-    else if (factory->m_typing_method == "Roma")
-        m_preedit.set_typing_method (METHOD_ROMAKANA);
-    else
-        m_preedit.set_typing_method (METHOD_ROMAKANA);
-
-    // set period style
-    if (factory->m_period_style == "WideLatin") {
-        m_preedit.set_comma_style (COMMA_WIDE_LATIN);
-        m_preedit.set_period_style (PERIOD_WIDE_LATIN);
-    } else if (factory->m_period_style == "Latin") {
-        m_preedit.set_comma_style (COMMA_LATIN);
-        m_preedit.set_period_style (PERIOD_LATIN);
-    } else if (factory->m_period_style == "Japanese") {
-        m_preedit.set_comma_style (COMMA_JAPANESE);
-        m_preedit.set_period_style (PERIOD_JAPANESE);
-    } else if (factory->m_period_style == "WideLatin_Japanese") {
-        m_preedit.set_comma_style (COMMA_WIDE_LATIN);
-        m_preedit.set_period_style (PERIOD_JAPANESE);
-    } else {
-        m_preedit.set_comma_style (COMMA_JAPANESE);
-        m_preedit.set_period_style (PERIOD_JAPANESE);
-    }
-
-    // set space type
-    if (factory->m_space_type == "Half")
-        m_preedit.set_space_type (SPACE_NORMAL);
-    else if (factory->m_space_type == "Wide")
-        m_preedit.set_space_type (SPACE_WIDE);
-    else
-        m_preedit.set_space_type (SPACE_WIDE);
-
-    // set auto convert
-    m_preedit.set_auto_convert (factory->m_auto_convert);
+    reload_config (m_factory->m_config);
+    m_factory->append_config_listener (this);
 }
 
 AnthyInstance::~AnthyInstance ()
 {
+    m_factory->remove_config_listener (this);
 }
 
 bool
@@ -1329,6 +1292,55 @@ AnthyInstance::trigger_property (const String &property)
     } else if (property == SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL) {
         action_launch_dict_admin_tool ();
     }
+}
+
+void
+AnthyInstance::reload_config (const ConfigPointer &config)
+{
+    // set character width
+    m_preedit.set_symbol_width (m_factory->m_romaji_half_symbol);
+    m_preedit.set_number_width (m_factory->m_romaji_half_number);
+
+    // set typing method
+    if (m_factory->m_typing_method == "Kana")
+        m_preedit.set_typing_method (METHOD_KANA);
+    else if (m_factory->m_typing_method == "Roma")
+        m_preedit.set_typing_method (METHOD_ROMAKANA);
+    else
+        m_preedit.set_typing_method (METHOD_ROMAKANA);
+
+    // set period style
+    if (m_factory->m_period_style == "WideLatin") {
+        m_preedit.set_comma_style (COMMA_WIDE_LATIN);
+        m_preedit.set_period_style (PERIOD_WIDE_LATIN);
+    } else if (m_factory->m_period_style == "Latin") {
+        m_preedit.set_comma_style (COMMA_LATIN);
+        m_preedit.set_period_style (PERIOD_LATIN);
+    } else if (m_factory->m_period_style == "Japanese") {
+        m_preedit.set_comma_style (COMMA_JAPANESE);
+        m_preedit.set_period_style (PERIOD_JAPANESE);
+    } else if (m_factory->m_period_style == "WideLatin_Japanese") {
+        m_preedit.set_comma_style (COMMA_WIDE_LATIN);
+        m_preedit.set_period_style (PERIOD_JAPANESE);
+    } else {
+        m_preedit.set_comma_style (COMMA_JAPANESE);
+        m_preedit.set_period_style (PERIOD_JAPANESE);
+    }
+
+    // set space type
+    if (m_factory->m_space_type == "Half")
+        m_preedit.set_space_type (SPACE_NORMAL);
+    else if (m_factory->m_space_type == "Wide")
+        m_preedit.set_space_type (SPACE_WIDE);
+    else
+        m_preedit.set_space_type (SPACE_WIDE);
+
+    // set auto convert
+    m_preedit.set_auto_convert (m_factory->m_auto_convert);
+
+    // setup toolbar
+    m_properties.clear ();
+    install_properties ();
 }
 
 bool
