@@ -290,9 +290,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
 
         // caret keys
         APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_first);
-        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_last);
-        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_forward);
-        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_backward);
+        APPEND_ACTION (MOVE_CARET_LAST,         action_move_caret_last);
+        APPEND_ACTION (MOVE_CARET_FORWARD,      action_move_caret_forward);
+        APPEND_ACTION (MOVE_CARET_BACKWARD,     action_move_caret_backward);
 
         // segment keys
         APPEND_ACTION (SELECT_FIRST_SEGMENT,    action_select_first_segment);
