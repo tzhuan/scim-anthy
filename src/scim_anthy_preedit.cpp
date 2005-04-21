@@ -268,6 +268,8 @@ AnthyPreedit::can_process (const KeyEvent & key)
 bool
 AnthyPreedit::append (const KeyEvent & key)
 {
+    bool tmp_use_half = true;
+
     if (!can_process (key))
         return false;
 
@@ -316,13 +318,29 @@ AnthyPreedit::append (const KeyEvent & key)
         break;
 
     default:
+        tmp_use_half = false;
         str[0] = key.code;
         break;
     }
 
     str[1] = '\0';
 
-    return append_str (String (str));
+    bool romaji_half_symbol = m_romaji_half_symbol;
+    bool romaji_half_number = m_romaji_half_number;
+
+    if (tmp_use_half)
+        set_table (true, true,
+                   m_typing_method, m_period_style,
+                   m_comma_style, m_space_type);
+
+    bool retval = append_str (String (str));
+
+    if (tmp_use_half)
+        set_table (romaji_half_symbol, romaji_half_number,
+                   m_typing_method, m_period_style,
+                   m_comma_style, m_space_type);
+
+    return retval;
 }
 
 bool
