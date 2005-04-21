@@ -1118,6 +1118,68 @@ create_keyboard_page (unsigned int page)
 }
 
 static GtkWidget *
+create_keyboard_page2 (void)
+{
+    GtkWidget *vbox, *hbox, *omenu, *menu, *menuitem, *entry, *button;
+    GtkWidget *scrwin, *treeview;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    omenu = gtk_option_menu_new ();
+    gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
+    gtk_widget_show (omenu);
+
+    menu = gtk_menu_new ();
+    gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+    gtk_widget_show (menu);
+
+    menuitem = gtk_menu_item_new_with_label (_("all"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    gtk_widget_show (menuitem);
+
+    for (unsigned int i = 0; i < __key_conf_pages_num; i++) {
+        menuitem = gtk_menu_item_new_with_label (_(__key_conf_pages[i].label));
+        gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+        gtk_widget_show (menuitem);
+    }
+
+    menuitem = gtk_menu_item_new_with_label (_("Search by key"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    gtk_widget_show (menuitem);
+
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+
+    entry = gtk_entry_new ();
+    gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 2);
+    gtk_widget_show(entry);
+
+    button = gtk_button_new_with_label ("...");
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
+    gtk_widget_show (button);
+
+    scrwin = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrwin),
+                                         GTK_SHADOW_IN);
+    gtk_container_set_border_width (GTK_CONTAINER (scrwin), 4);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrwin),
+                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+    gtk_box_pack_start (GTK_BOX (vbox), scrwin, TRUE, TRUE, 2);
+    gtk_widget_show (scrwin);
+
+    treeview = gtk_tree_view_new ();
+    gtk_container_add (GTK_CONTAINER (scrwin), treeview);
+    gtk_widget_show (treeview);
+
+    return vbox;
+}
+
+static GtkWidget *
 create_setup_window ()
 {
     static GtkWidget *window = NULL;
@@ -1154,12 +1216,19 @@ create_setup_window ()
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
         // Create the key bind pages.
+#if 1
         for (unsigned int i = 0; i < __key_conf_pages_num; i++) {
             page = create_keyboard_page (i);
             label = gtk_label_new (_(__key_conf_pages[i].label));
             gtk_widget_show (label);
             gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
         }
+#else
+        page = create_keyboard_page2 ();
+        label = gtk_label_new (_("Key binding"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+#endif
 
         // for preventing enabling left arrow.
         gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);

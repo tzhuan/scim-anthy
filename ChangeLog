@@ -1,5 +1,10 @@
 2005-04-21 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine_setup.cpp: Now start to create a new key
+	preference widget.
+
+2005-04-21 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine_factory.cpp: Fixed typo.
 
 2005-04-21 Takuro Ashie <ashie@homa.ne.jp>
