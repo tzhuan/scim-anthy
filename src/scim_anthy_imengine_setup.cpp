@@ -145,8 +145,9 @@ struct ComboConfigCandidate
 enum {
     COLUMN_LABEL = 0,
     COLUMN_VALUE = 1,
-    COLUMN_DATA  = 2,
-    N_COLUMNS    = 3,
+    COLUMN_DESC  = 2,
+    COLUMN_DATA  = 3,
+    N_COLUMNS    = 4,
 };
 
 // Internal data declaration.
@@ -314,6 +315,24 @@ static unsigned int __config_string_common_num = sizeof (__config_string_common)
 static StringConfigData __config_keyboards_common [] =
 {
     {
+        SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY,
+        SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT,
+        N_("Insert space"),
+        N_("Select inserting space keys"),
+        N_("The key events to insert a space. "),
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY,
+        SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT,
+        N_("Insert alternative space"),
+        N_("Select inserting alternative space keys"),
+        N_("The key events to insert a alternative space. "),
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_COMMIT_KEY,
         SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT,
         N_("Commit"),
@@ -355,24 +374,6 @@ static StringConfigData __config_keyboards_common [] =
         N_("Delete"),
         N_("Select delete keys"),
         N_("The key events to delete a character after caret. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY,
-        SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT,
-        N_("Insert space"),
-        N_("Select inserting space keys"),
-        N_("The key events to insert a space. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY,
-        SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT,
-        N_("Insert alternative space"),
-        N_("Select inserting alternative space keys"),
-        N_("The key events to insert a alternative space. "),
         NULL,
         false,
     },
@@ -1044,6 +1045,7 @@ append_key_bindings (GtkTreeView *treeview, gint idx, const gchar *filter)
         gtk_list_store_set (store, &iter,
                             COLUMN_LABEL, _(__key_conf_pages[idx].data[i].label),
                             COLUMN_VALUE, __key_conf_pages[idx].data[i].value.c_str (),
+                            COLUMN_DESC,  _(__key_conf_pages[idx].data[i].tooltip),
                             COLUMN_DATA, &__key_conf_pages[idx].data[i],
                             -1);
     }
@@ -1293,6 +1295,7 @@ create_keyboard_page (void)
     GtkListStore *store = gtk_list_store_new (N_COLUMNS,
                                               G_TYPE_STRING,
                                               G_TYPE_STRING,
+                                              G_TYPE_STRING,
                                               G_TYPE_POINTER);
     GtkWidget *treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
     __widget_key_list_view = treeview;
@@ -1303,7 +1306,7 @@ create_keyboard_page (void)
     GtkTreeViewColumn *column;
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (_("Feature"), cell,
-                                                       "text", 0,
+                                                       "text", COLUMN_LABEL,
                                                        NULL);
 	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_fixed_width (column, 120);
@@ -1312,7 +1315,13 @@ create_keyboard_page (void)
 
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (_("Key bindings"), cell,
-                                                       "text", 1,
+                                                       "text", COLUMN_VALUE,
+                                                       NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (_("Description"), cell,
+                                                       "text", COLUMN_DESC,
                                                        NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
