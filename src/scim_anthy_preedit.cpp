@@ -330,7 +330,7 @@ AnthyPreedit::append (const KeyEvent & key)
     bool prev_symbol = m_romaji_half_symbol;
     bool prev_number = m_romaji_half_number;
 
-    if (is_ten_key) {
+    if (is_ten_key && m_ten_key_type != TEN_KEY_FOLLOW_MODE) {
         if (m_ten_key_type == TEN_KEY_HALF)
             half = true;
         else if (m_ten_key_type == TEN_KEY_WIDE)
@@ -343,7 +343,7 @@ AnthyPreedit::append (const KeyEvent & key)
 
     bool retval = append_str (String (str));
 
-    if (is_ten_key) {
+    if (is_ten_key && m_ten_key_type != TEN_KEY_FOLLOW_MODE) {
         set_table (prev_symbol, prev_number,
                    m_typing_method, m_period_style,
                    m_comma_style, m_space_type);

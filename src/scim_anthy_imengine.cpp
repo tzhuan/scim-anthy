@@ -597,70 +597,6 @@ AnthyInstance::action_revert (void)
 }
 
 bool
-AnthyInstance::action_move_caret_backward (void)
-{
-    if (!m_preedit.is_preediting ())
-        return false;
-    if (m_preedit.is_converting ())
-        return false;
-
-    m_preedit.move_caret(-1);
-    update_preedit_string (m_preedit.get_string(),
-                           m_preedit.get_attribute_list ());
-    update_preedit_caret (m_preedit.get_caret_pos());
-
-    return true;
-}
-
-bool
-AnthyInstance::action_move_caret_forward (void)
-{
-    if (!m_preedit.is_preediting ())
-        return false;
-    if (m_preedit.is_converting ())
-        return false;
-
-    m_preedit.move_caret(1);
-    update_preedit_string (m_preedit.get_string(),
-                           m_preedit.get_attribute_list ());
-    update_preedit_caret (m_preedit.get_caret_pos());
-
-    return true;
-}
-
-bool
-AnthyInstance::action_move_caret_first (void)
-{
-    if (!m_preedit.is_preediting ())
-        return false;
-    if (m_preedit.is_converting ())
-        return false;
-
-    m_preedit.set_caret_pos (0);
-    update_preedit_string (m_preedit.get_string (),
-                           m_preedit.get_attribute_list ());
-    update_preedit_caret (m_preedit.get_caret_pos ());
-
-    return true;
-}
-
-bool
-AnthyInstance::action_move_caret_last (void)
-{
-    if (!m_preedit.is_preediting ())
-        return false;
-    if (m_preedit.is_converting ())
-        return false;
-
-    m_preedit.set_caret_pos (m_preedit.get_length ());
-    update_preedit_string (m_preedit.get_string (),
-                           m_preedit.get_attribute_list ());
-    update_preedit_caret (m_preedit.get_caret_pos ());
-
-    return true;
-}
-
-bool
 AnthyInstance::action_commit (void)
 {
     if (!m_preedit.is_preediting ())
@@ -731,6 +667,122 @@ AnthyInstance::action_delete (void)
         hide_preedit_string ();
         hide_lookup_table ();
     }
+
+    return true;
+}
+
+bool
+AnthyInstance::action_insert_space (void)
+{
+    if (m_preedit.is_preediting ())
+        return false;
+
+    bool is_wide = false;
+
+    if (m_factory->m_space_type == "FollowMode") {
+        InputMode mode = m_preedit.get_input_mode ();
+        if (mode == MODE_LATIN || mode == MODE_HALF_KATAKANA)
+            is_wide = false;
+        else
+            is_wide = true;
+    } else if (m_factory->m_space_type == "Wide") {
+        is_wide = true;
+    }
+
+    if (is_wide)
+        commit_string (utf8_mbstowcs ("\xE3\x80\x80"));
+    else
+        commit_string (utf8_mbstowcs (" "));
+
+    return true;
+}
+
+bool 
+AnthyInstance::action_insert_alternative_space (void)
+{
+    if (m_preedit.is_preediting ())
+        return false;
+
+    bool is_wide = false;
+
+    if (m_factory->m_space_type == "FollowMode") {
+        InputMode mode = m_preedit.get_input_mode ();
+        if (mode == MODE_LATIN || mode == MODE_HALF_KATAKANA)
+            is_wide = true;
+        else
+            is_wide = false;
+    } else if (m_factory->m_space_type != "Wide") {
+        is_wide = true;
+    }
+
+    if (is_wide)
+        commit_string (utf8_mbstowcs ("\xE3\x80\x80"));
+    else
+        commit_string (utf8_mbstowcs (" "));
+
+    return true;
+}
+
+bool
+AnthyInstance::action_move_caret_backward (void)
+{
+    if (!m_preedit.is_preediting ())
+        return false;
+    if (m_preedit.is_converting ())
+        return false;
+
+    m_preedit.move_caret(-1);
+    update_preedit_string (m_preedit.get_string(),
+                           m_preedit.get_attribute_list ());
+    update_preedit_caret (m_preedit.get_caret_pos());
+
+    return true;
+}
+
+bool
+AnthyInstance::action_move_caret_forward (void)
+{
+    if (!m_preedit.is_preediting ())
+        return false;
+    if (m_preedit.is_converting ())
+        return false;
+
+    m_preedit.move_caret(1);
+    update_preedit_string (m_preedit.get_string(),
+                           m_preedit.get_attribute_list ());
+    update_preedit_caret (m_preedit.get_caret_pos());
+
+    return true;
+}
+
+bool
+AnthyInstance::action_move_caret_first (void)
+{
+    if (!m_preedit.is_preediting ())
+        return false;
+    if (m_preedit.is_converting ())
+        return false;
+
+    m_preedit.set_caret_pos (0);
+    update_preedit_string (m_preedit.get_string (),
+                           m_preedit.get_attribute_list ());
+    update_preedit_caret (m_preedit.get_caret_pos ());
+
+    return true;
+}
+
+bool
+AnthyInstance::action_move_caret_last (void)
+{
+    if (!m_preedit.is_preediting ())
+        return false;
+    if (m_preedit.is_converting ())
+        return false;
+
+    m_preedit.set_caret_pos (m_preedit.get_length ());
+    update_preedit_string (m_preedit.get_string (),
+                           m_preedit.get_attribute_list ());
+    update_preedit_caret (m_preedit.get_caret_pos ());
 
     return true;
 }
@@ -1338,8 +1390,10 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     // set ten key type
     if (m_factory->m_ten_key_type == "Half")
         m_preedit.set_ten_key_type (TEN_KEY_HALF);
-    else 
+    else if (m_factory->m_ten_key_type == "Wide")
         m_preedit.set_ten_key_type (TEN_KEY_WIDE);
+    else 
+        m_preedit.set_ten_key_type (TEN_KEY_FOLLOW_MODE);
 
     // set auto convert
     m_preedit.set_auto_convert (m_factory->m_auto_convert);

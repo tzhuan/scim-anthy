@@ -95,14 +95,15 @@ private:
     bool   action_convert                     (void);
     bool   action_revert                      (void);
     bool   action_commit                      (void);
+    bool   action_back                        (void);
+    bool   action_delete                      (void);
+    bool   action_insert_space                (void);
+    bool   action_insert_alternative_space    (void);
 
     bool   action_move_caret_backward         (void);
     bool   action_move_caret_forward          (void);
     bool   action_move_caret_first            (void);
     bool   action_move_caret_last             (void);
-
-    bool   action_back                        (void);
-    bool   action_delete                      (void);
 
     bool   action_select_prev_segment         (void);
     bool   action_select_next_segment         (void);

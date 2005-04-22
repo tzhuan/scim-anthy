@@ -51,6 +51,9 @@
 #define SCIM_ANTHY_CONFIG_BACKSPACE_KEY               "/IMEngine/Anthy/BackSpaceKey"
 #define SCIM_ANTHY_CONFIG_DELETE_KEY                  "/IMEngine/Anthy/DeleteKey"
 
+#define SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY            "/IMEngine/Anthy/InsertSpaceKey"
+#define SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY        "/IMEngine/Anthy/InsertAltSpaceKey"
+
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY        "/IMEngine/Anthy/MoveCaretFirstKey"
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY         "/IMEngine/Anthy/MoveCaretLastKey"
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY      "/IMEngine/Anthy/MoveCaretForwardKey"
@@ -99,8 +102,8 @@
 
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT               "Roma"
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT                "Japanese"
-#define SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT                  "Wide"
-#define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT                "Wide"
+#define SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT                  "FollowMode"
+#define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT                "FollowMode"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT      false
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    false
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false
@@ -121,6 +124,9 @@
 
 #define SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT               "BackSpace,Control+h,Control+H"
 #define SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT                  "Delete,Control+d,Control+D"
+
+#define SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT            "space"
+#define SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT        "Shift+space"
 
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT        "Control+a,Control+A,Home"
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT         "Control+e,Control+E,End"
@@ -160,7 +166,7 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT              "F11"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT                "F12"
 
-#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Shift+space,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
+#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         ""
 #define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT        "Control+period,Control+greater,Hiragana_Katakana"
 

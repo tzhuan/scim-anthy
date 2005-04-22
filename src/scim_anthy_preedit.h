@@ -73,6 +73,7 @@ typedef enum {
 typedef enum {
     TEN_KEY_HALF,
     TEN_KEY_WIDE,
+    TEN_KEY_FOLLOW_MODE,
 } TenKeyType;
 
 typedef enum {
