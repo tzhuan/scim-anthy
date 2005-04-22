@@ -116,7 +116,7 @@
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT         true
 
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+J,Control+m,Control+M"
-#define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space,KP_Space"
+#define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"
 #define SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT                  "Escape,Control+g,Control+G"
 
 #define SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT               "BackSpace,Control+h,Control+H"
@@ -138,8 +138,8 @@
 
 #define SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT   "space,KP_Space,Down,KP_Add,Control+n,Control+N"
 #define SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT   "Up,KP_Subtract,Control+p,Control+P"
-#define SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT      "Page_Up,Prior"
-#define SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT    "Page_Down,KP_Tab,Next"
+#define SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT      "Page_Up"
+#define SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT    "Page_Down,KP_Tab"
 #define SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY_DEFAULT      "1"
 #define SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY_DEFAULT      "2"
 #define SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY_DEFAULT      "3"

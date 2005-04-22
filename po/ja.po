@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-04-21 16:02+0900\n"
+"POT-Creation-Date: 2005-04-22 10:47+0900\n"
 "PO-Revision-Date: 2004-12-02 00:55+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -689,25 +689,41 @@ msgstr "全角"
 msgid "Half"
 msgstr "半角"
 
-#: src/scim_anthy_imengine_setup.cpp:814
-msgid "Follow input mode"
-msgstr "入力モードに従う"
+#: src/scim_anthy_imengine_setup.cpp:1198
+msgid "Search by key"
+msgstr "キーで検索"
 
-#: src/scim_anthy_imengine_setup.cpp:1134
+#: src/scim_anthy_imengine_setup.cpp:1202
+msgid "all"
+msgstr "全て"
+
+#: src/scim_anthy_imengine_setup.cpp:1238
+msgid "Feature"
+msgstr "機能"
+
+#: src/scim_anthy_imengine_setup.cpp:1247
+#: src/scim_anthy_imengine_setup.cpp:1306
+msgid "Key bindings"
+msgstr "キーバインド"
+
+#: src/scim_anthy_imengine_setup.cpp:1274
 msgid "Options"
 msgstr "オプション"
 
-#: src/scim_anthy_imengine_setup.cpp:1140
+#: src/scim_anthy_imengine_setup.cpp:1280
 msgid "Romaji Typing"
 msgstr "ローマ字入力"
 
-#: src/scim_anthy_imengine_setup.cpp:1146
+#: src/scim_anthy_imengine_setup.cpp:1286
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: src/scim_anthy_imengine_setup.cpp:1152
+#: src/scim_anthy_imengine_setup.cpp:1292
 msgid "Dictionary"
 msgstr "辞書"
+
+#~ msgid "Follow input mode"
+#~ msgstr "入力モードに従う"
 
 #~ msgid "Candidates keys (Direct select)"
 #~ msgstr "候補選択キー (直接選択)"

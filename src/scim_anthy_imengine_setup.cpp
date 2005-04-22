@@ -26,11 +26,13 @@
 #define Uses_SCIM_CONFIG_BASE
 
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 #ifdef HAVE_CONFIG_H
   #include <config.h>
 #endif
 
+#define Uses_SCIM_EVENT
 #include <scim.h>
 #include <gtk/scimkeyselection.h>
 #include "scim_anthy_prefs.h"
@@ -140,9 +142,20 @@ struct ComboConfigCandidate
     const char *data;
 };
 
+enum {
+    COLUMN_LABEL = 0,
+    COLUMN_VALUE = 1,
+    COLUMN_DATA  = 2,
+    N_COLUMNS    = 3,
+};
+
 // Internal data declaration.
 static bool __have_changed = true;
-static GtkTooltips * __widget_tooltips = 0;
+static GtkWidget   * __widget_key_categories_menu = NULL;
+static GtkWidget   * __widget_key_filter          = NULL;
+static GtkWidget   * __widget_key_filter_button   = NULL;
+static GtkWidget   * __widget_key_list_view       = NULL;
+static GtkTooltips * __widget_tooltips            = NULL;
 
 static BoolConfigData __config_bool_common [] =
 {
@@ -784,6 +797,9 @@ static struct KeyboardConfigPage __key_conf_pages[] =
 };
 static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (KeyboardConfigPage);
 
+const int INDEX_SEARCH_BY_KEY = __key_conf_pages_num;
+const int INDEX_ALL           = __key_conf_pages_num + 1;
+
 static ComboConfigCandidate typing_methods[] =
 {
     {N_("Roma typing method"), "Roma"},
@@ -815,17 +831,29 @@ static ComboConfigCandidate ten_key_types[] =
 };
 
 
-static void on_default_editable_changed       (GtkEditable     *editable,
-                                               gpointer         user_data);
-static void on_default_toggle_button_toggled  (GtkToggleButton *togglebutton,
-                                               gpointer         user_data);
-static void on_default_key_selection_clicked  (GtkButton       *button,
-                                               gpointer         user_data);
-static void on_default_combo_changed          (GtkEditable     *editable,
-                                               gpointer         user_data);
-static void on_dict_menu_label_toggled        (GtkToggleButton *togglebutton,
-                                               gpointer         user_data);
-static void setup_widget_value ();
+static void     on_default_editable_changed       (GtkEditable     *editable,
+                                                   gpointer         user_data);
+static void     on_default_toggle_button_toggled  (GtkToggleButton *togglebutton,
+                                                   gpointer         user_data);
+#if 0
+static void     on_default_key_selection_clicked  (GtkButton       *button,
+                                                   gpointer         user_data);
+#endif
+static void     on_key_filter_selection_clicked   (GtkButton       *button,
+                                                   gpointer         user_data);
+static void     on_default_combo_changed          (GtkEditable     *editable,
+                                                   gpointer         user_data);
+static void     on_dict_menu_label_toggled        (GtkToggleButton *togglebutton,
+                                                   gpointer         user_data);
+static void     on_key_category_menu_changed      (GtkOptionMenu   *omenu,
+                                                   gpointer         user_data);
+static gboolean on_key_list_view_key_press        (GtkWidget       *widget,
+                                                   GdkEventKey     *event,
+                                                   gpointer         user_data);
+static gboolean on_key_list_view_button_press     (GtkWidget       *widget,
+                                                   GdkEventButton  *event,
+                                                   gpointer         user_data);
+static void     setup_widget_value ();
 
 
 static BoolConfigData *
@@ -856,6 +884,18 @@ find_string_config_entry (const char *config_key)
     }
 
     return NULL;
+}
+
+static bool
+match_key_event (const KeyEventList &list, const KeyEvent &key)
+{
+    KeyEventList::const_iterator kit;
+
+    for (kit = list.begin (); kit != list.end (); ++kit) {
+        if (key.code == kit->code && key.mask == kit->mask)
+             return true;
+    }
+    return false;
 }
 
 static GtkWidget *
@@ -950,6 +990,89 @@ create_combo (const char *config_key, gpointer candidates_p,
                               _(entry->tooltip), NULL);
 
     return entry->widget;
+}
+
+static void
+append_key_bindings (GtkTreeView *treeview, gint idx, const gchar *filter)
+{
+    GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (treeview));
+    KeyEventList keys1, keys2;
+    
+    if (filter && *filter)
+        scim_string_to_key_list (keys1, filter);
+
+    if (idx < 0 || idx >= (gint) __key_conf_pages_num)
+        return;
+
+    for (unsigned int i = 0; __key_conf_pages[idx].data[i].key; i++) {
+        if (filter && *filter) {
+            scim_string_to_key_list (keys2, __key_conf_pages[idx].data[i].value.c_str());
+            KeyEventList::const_iterator kit;
+            bool found = true;
+            for (kit = keys1.begin (); kit != keys1.end (); ++kit) {
+                if (!match_key_event (keys2, *kit)) {
+                    found = false;
+                    break;
+                }
+            }
+            if (!found)
+                continue;
+        }
+
+        GtkTreeIter iter;
+        gtk_list_store_append (store, &iter);
+        gtk_list_store_set (store, &iter,
+                            COLUMN_LABEL, _(__key_conf_pages[idx].data[i].label),
+                            COLUMN_VALUE, __key_conf_pages[idx].data[i].value.c_str (),
+                            COLUMN_DATA, &__key_conf_pages[idx].data[i],
+                            -1);
+    }
+}
+
+static void
+key_list_view_popup_key_selection (GtkTreeView *treeview)
+{
+    GtkTreeModel *model = gtk_tree_view_get_model (treeview);
+    GtkTreePath *treepath = NULL;
+    GtkTreeIter iter;
+
+    gtk_tree_view_get_cursor (treeview, &treepath, NULL);
+    if (!treepath) return;
+    gtk_tree_model_get_iter (model, &iter, treepath);
+    gtk_tree_path_free (treepath);
+
+    StringConfigData *data;
+    gtk_tree_model_get (model, &iter,
+                        COLUMN_DATA, &data,
+                        -1);
+    if (data) {
+        GtkWidget *dialog = scim_key_selection_dialog_new (_(data->title));
+        gint result;
+
+        scim_key_selection_dialog_set_keys
+            (SCIM_KEY_SELECTION_DIALOG (dialog),
+             data->value.c_str());
+
+        result = gtk_dialog_run (GTK_DIALOG (dialog));
+
+        if (result == GTK_RESPONSE_OK) {
+            const gchar *keys = scim_key_selection_dialog_get_keys
+                (SCIM_KEY_SELECTION_DIALOG (dialog));
+
+            if (!keys) keys = "";
+
+            if (strcmp (keys, data->value.c_str())) {
+                data->value = keys;
+                gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+                                    COLUMN_VALUE, data->value.c_str(),
+                                    -1);
+                data->changed = true;
+                __have_changed = true;
+            }
+        }
+
+        gtk_widget_destroy (dialog);
+    }
 }
 
 static GtkWidget *
@@ -1085,43 +1208,9 @@ create_dict_page (void)
 }
 
 static GtkWidget *
-create_keyboard_page (unsigned int page)
+create_keyboard_page (void)
 {
-    GtkWidget *table;
-    GtkWidget *label;
-
-    if (page >= __key_conf_pages_num)
-        return NULL;
-
-    StringConfigData *data = __key_conf_pages[page].data;
-
-    table = gtk_table_new (3, 3, FALSE);
-    gtk_widget_show (table);
-
-    // Create keyboard setting.
-    for (unsigned int i = 0; data[i].key; ++ i) {
-        APPEND_ENTRY(&data[i], i);
-        gtk_entry_set_editable (GTK_ENTRY (data[i].widget), FALSE);
-
-        GtkWidget *button = gtk_button_new_with_label ("...");
-        g_signal_connect ((gpointer) button, "clicked",
-                          G_CALLBACK (on_default_key_selection_clicked),
-                          &(data[i]));
-        gtk_widget_show (button);
-        gtk_table_attach (GTK_TABLE (table), button, 2, 3, i, i+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (GTK_FILL), 4, 4);
-        gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
-    }
-
-    return table;
-}
-
-static GtkWidget *
-create_keyboard_page2 (void)
-{
-    GtkWidget *vbox, *hbox, *omenu, *menu, *menuitem, *entry, *button;
-    GtkWidget *scrwin, *treeview;
+    GtkWidget *vbox, *hbox;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
@@ -1131,17 +1220,15 @@ create_keyboard_page2 (void)
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
-    omenu = gtk_option_menu_new ();
+    // category menu
+    GtkWidget *omenu = gtk_option_menu_new ();
+    __widget_key_categories_menu = omenu;
     gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
     gtk_widget_show (omenu);
 
-    menu = gtk_menu_new ();
-    gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-    gtk_widget_show (menu);
+    GtkWidget *menu = gtk_menu_new ();
 
-    menuitem = gtk_menu_item_new_with_label (_("all"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
-    gtk_widget_show (menuitem);
+    GtkWidget *menuitem;
 
     for (unsigned int i = 0; i < __key_conf_pages_num; i++) {
         menuitem = gtk_menu_item_new_with_label (_(__key_conf_pages[i].label));
@@ -1153,17 +1240,28 @@ create_keyboard_page2 (void)
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
     gtk_widget_show (menuitem);
 
-    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+    menuitem = gtk_menu_item_new_with_label (_("all"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    gtk_widget_show (menuitem);
 
-    entry = gtk_entry_new ();
+    gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+    gtk_widget_show (menu);
+
+    GtkWidget *entry = gtk_entry_new ();
+    __widget_key_filter = entry;
+    gtk_entry_set_editable (GTK_ENTRY (entry), FALSE);
     gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 2);
     gtk_widget_show(entry);
 
-    button = gtk_button_new_with_label ("...");
+    GtkWidget *button = gtk_button_new_with_label ("...");
+    __widget_key_filter_button = button;
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_key_filter_selection_clicked), entry);
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
     gtk_widget_show (button);
 
-    scrwin = gtk_scrolled_window_new (NULL, NULL);
+    // key bindings view
+    GtkWidget *scrwin = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrwin),
                                          GTK_SHADOW_IN);
     gtk_container_set_border_width (GTK_CONTAINER (scrwin), 4);
@@ -1172,9 +1270,39 @@ create_keyboard_page2 (void)
     gtk_box_pack_start (GTK_BOX (vbox), scrwin, TRUE, TRUE, 2);
     gtk_widget_show (scrwin);
 
-    treeview = gtk_tree_view_new ();
+    GtkListStore *store = gtk_list_store_new (N_COLUMNS,
+                                              G_TYPE_STRING,
+                                              G_TYPE_STRING,
+                                              G_TYPE_POINTER);
+    GtkWidget *treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+    __widget_key_list_view = treeview;
     gtk_container_add (GTK_CONTAINER (scrwin), treeview);
     gtk_widget_show (treeview);
+
+    GtkCellRenderer *cell;
+    GtkTreeViewColumn *column;
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (_("Feature"), cell,
+                                                       "text", 0,
+                                                       NULL);
+	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_fixed_width (column, 120);
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (_("Key bindings"), cell,
+                                                       "text", 1,
+                                                       NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+
+    // connect signals
+    g_signal_connect (G_OBJECT (omenu), "changed",
+                      G_CALLBACK (on_key_category_menu_changed), treeview);
+    g_signal_connect (G_OBJECT (treeview), "key-press-event",
+                      G_CALLBACK (on_key_list_view_key_press), NULL);
+    g_signal_connect (G_OBJECT (treeview), "button-press-event",
+                      G_CALLBACK (on_key_list_view_button_press), NULL);
 
     return vbox;
 }
@@ -1216,19 +1344,10 @@ create_setup_window ()
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
         // Create the key bind pages.
-#if 1
-        for (unsigned int i = 0; i < __key_conf_pages_num; i++) {
-            page = create_keyboard_page (i);
-            label = gtk_label_new (_(__key_conf_pages[i].label));
-            gtk_widget_show (label);
-            gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
-        }
-#else
-        page = create_keyboard_page2 ();
-        label = gtk_label_new (_("Key binding"));
+        page = create_keyboard_page ();
+        label = gtk_label_new (_("Key bindings"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
-#endif
 
         // for preventing enabling left arrow.
         gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
@@ -1292,6 +1411,14 @@ setup_widget_value ()
             }
         }
     }
+
+    gtk_option_menu_set_history (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
+    gtk_widget_set_sensitive (__widget_key_filter, FALSE);
+    gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
+    GtkTreeModel *model;
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (__widget_key_list_view));
+    gtk_list_store_clear (GTK_LIST_STORE (model));
+    append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
 }
 
 static void
@@ -1397,6 +1524,7 @@ on_default_editable_changed (GtkEditable *editable,
     }
 }
 
+#if 0
 static void
 on_default_key_selection_clicked (GtkButton *button,
                                   gpointer   user_data)
@@ -1426,6 +1554,7 @@ on_default_key_selection_clicked (GtkButton *button,
         gtk_widget_destroy (dialog);
     }
 }
+#endif
 
 static void
 on_default_combo_changed (GtkEditable *editable,
@@ -1464,6 +1593,105 @@ on_dict_menu_label_toggled (GtkToggleButton *togglebutton,
     entry = find_bool_config_entry (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL);
     if (entry->widget)
         gtk_widget_set_sensitive (entry->widget, active);
+}
+
+static void
+on_key_category_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
+{
+    GtkTreeView *treeview = GTK_TREE_VIEW (user_data);
+    GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (treeview));
+
+    gtk_list_store_clear (store);
+
+    gint idx = gtk_option_menu_get_history (omenu);
+
+    bool use_filter = false;
+
+    if (idx >= 0 && idx < (gint) __key_conf_pages_num) {
+        append_key_bindings (treeview, idx, NULL);
+
+    } else if (idx == INDEX_SEARCH_BY_KEY) {
+        // search by key
+        use_filter = true;
+        const char *str = gtk_entry_get_text (GTK_ENTRY (__widget_key_filter));
+        for (unsigned int i = 0; i < __key_conf_pages_num; i++)
+            append_key_bindings (treeview, i, str);
+
+    } else if (idx == INDEX_ALL) {
+        // all
+        for (unsigned int i = 0; i < __key_conf_pages_num; i++)
+            append_key_bindings (treeview, i, NULL);
+    }
+
+    gtk_widget_set_sensitive (__widget_key_filter,        use_filter);
+    gtk_widget_set_sensitive (__widget_key_filter_button, use_filter);
+}
+
+static void
+on_key_filter_selection_clicked (GtkButton *button,
+                                 gpointer   user_data)
+{
+    GtkEntry *entry = static_cast <GtkEntry*> (user_data);
+
+    if (entry) {
+        GtkWidget *dialog = scim_key_selection_dialog_new (_("Set key filter"));
+        gint result;
+
+        scim_key_selection_dialog_set_keys (
+            SCIM_KEY_SELECTION_DIALOG (dialog),
+            gtk_entry_get_text (entry));
+
+        result = gtk_dialog_run (GTK_DIALOG (dialog));
+
+        if (result == GTK_RESPONSE_OK) {
+            const gchar *keys = scim_key_selection_dialog_get_keys (
+                            SCIM_KEY_SELECTION_DIALOG (dialog));
+
+            if (!keys) keys = "";
+
+            if (strcmp (keys, gtk_entry_get_text (entry)))
+                gtk_entry_set_text (entry, keys);
+
+            GtkTreeModel *model;
+            model = gtk_tree_view_get_model (GTK_TREE_VIEW (__widget_key_list_view));
+            gtk_list_store_clear (GTK_LIST_STORE (model));
+            for (unsigned int i = 0; i < __key_conf_pages_num; i++)
+                append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view),
+                                     i, keys);
+        }
+
+        gtk_widget_destroy (dialog);
+    }
+}
+
+static gboolean
+on_key_list_view_key_press (GtkWidget *widget, GdkEventKey *event,
+                            gpointer user_data)
+{
+    GtkTreeView *treeview = GTK_TREE_VIEW (widget);
+
+    switch (event->keyval) {
+    case GDK_Return:
+    case GDK_KP_Enter:
+        key_list_view_popup_key_selection (treeview);
+        break;
+    }
+
+    return FALSE;
+}
+
+static gboolean
+on_key_list_view_button_press (GtkWidget *widget, GdkEventButton *event,
+                               gpointer user_data)
+{
+    GtkTreeView *treeview = GTK_TREE_VIEW (widget);
+
+    if (event->type == GDK_2BUTTON_PRESS) {
+        key_list_view_popup_key_selection (treeview);
+        return TRUE;
+    }
+
+    return FALSE;
 }
 /*
 vi:ts=4:nowrap:ai:expandtab
