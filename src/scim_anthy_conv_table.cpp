@@ -234,6 +234,7 @@ ConvRule scim_anthy_romakana_typing_rule[] = {
 {"who",	"うぉ",	""},
 {"wyi",	"ゐ",	""},
 {"wye",	"ゑ",	""},
+{"-",	"ー",	""},
 #if 1 /* emulate dead key */
 {"\\.",	"・",	""},
 {";r",	"→",	""},
@@ -250,7 +251,6 @@ ConvRule scim_anthy_romakana_typing_rule[] = {
 };
 
 ConvRule scim_anthy_romakana_symbol_rule[] = {
-{"-",	"-",	""},
 {",",	",",	""},
 {".",	".",	""},
 {"!",	"!",	""},
@@ -286,7 +286,6 @@ ConvRule scim_anthy_romakana_symbol_rule[] = {
 };
 
 ConvRule scim_anthy_romakana_wide_symbol_rule[] = {
-{"-",	"ー",	""},
 {",",	"、",	""},
 {".",	"。",	""},
 {"!",	"！",	""},

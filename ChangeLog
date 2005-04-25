@@ -1,5 +1,10 @@
 2005-04-25 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_conv_table.cpp: Don't treat "-" as symbol.
+	Thanks to UTUMI-san.
+
+2005-04-25 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine_setup.cpp: Minor fixes.
 
 2005-04-22 Takuro Ashie <ashie@homa.ne.jp>
