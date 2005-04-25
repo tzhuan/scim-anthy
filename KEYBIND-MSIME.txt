@@ -1,0 +1,79 @@
+Microsoft IME 2003 標準キーバインド
+
+現在のscim-anthyに存在する機能:
+  全変換                       space, Shift+space, 変換
+  変換 & 次候補                space, 変換
+  文節変換                     space, Shift+space, 変換
+  文節変換解除                 BackSpace, Ctrl+BackSpace, Esc, Ctrl+h, Ctrl+z
+  全確定                       Enter, Ctrl+Enter，Ctrl+m
+  先頭文節確定                 Shift+下
+  選択文節確定                 Ctrl+下, Ctrl+n
+
+  全消去                       Esc, Shift+Esc, Ctrl+z
+
+  空白                         space
+  別幅空白                     Shift+space
+  前文字削除                   BackSpace, Ctrl+h
+  一文字削除                   Delete, Ctrl+g
+
+  先頭文字へ                   Home, Ctrl+左, 上, Ctrl+a, Ctrl+e
+  末尾文字へ                   End,  Ctrl+右, 下, Ctrl+f, Ctrl+n, Ctrl+x
+  左の文字へ                   左, Shift+左, Ctrl+s, Ctrl+k
+  右の文字へ                   右, Shift+右, Ctrl+d, Ctrl+l
+
+  先頭文節へ                   Home Ctrl+左, Ctrl+a
+  末尾文節へ                   End,  Ctrl+右, Ctrl+f
+  左の文節へ                   左, Ctrl+d
+  右の文節へ                   右, Ctrl+s
+
+  文節を縮める                 Shift+左, Ctrl+e, Ctrl+k
+  文節を広げる                 Shift+右, Ctrl+l, Ctrl+x
+
+  前候補群                     PageUp,   Shift+上
+  次候補群                     PageDown, Shift+下
+  前候補                       上, Ctrl+e, Shift+space, Shift+変換
+  次候補                       下, Ctrl+x
+
+  ひらがな変換                 Ctrl+u, F6
+  カタカナ変換                 Ctrl+i, F7
+  全角英数変換                 Ctrl+p, F9
+  半角英数変換                 Ctrl+t, F10
+
+SCIMの機能:
+  On/Off                       半角/全角
+
+追加予定の機能:
+  かな/英数モード切替え        英数
+  平仮名/片仮名モード切替え    無変換
+  英数全角/半角モード切替え    Shift+無変換
+  カタカナモード               カタカナ, Shift+カタカナ
+  ひらがなモード               ひらがな
+  入力方式切替え(Roma<->かな)  ローマ字
+
+  一文字確定                   Shift+下
+
+  半角空白                     Ctrl+space
+  全角空白                     Ctrl+Shift+space
+
+  全戻し                       Shift+Esc, (Ctrl+z)
+
+  候補先頭                     Home
+  候補最後                     End
+  先頭文節の候補               Ctrl+左, Ctrl+a
+  末尾文節の候補               Ctrl+右, Ctrl+f
+
+  かな/全角カナ/半角カナ変換   無変換
+  英数変換(全角/半角)          Shift+無変換
+  半角変換                     Ctrl+o, F8
+
+  部首・コード変換             Ctrl+y, F5
+
+追加予定にない機能:
+  確定取り消し                 Ctrl+BackSpace
+  再変換                       変換, F13
+  ポップアップメニュー         Ctrl+変換, Ctrl+F10
+  読み候補                     Ctrl+変換, F13
+  候補一覧のメニュー           AppsKey, Shift+F10
+  候補表示切替え(多段表示)     TAB
+  注目文節を文字単位で編集     F2
+  候補一覧から単語削除         Ctrl+Delete
