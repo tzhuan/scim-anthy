@@ -24,6 +24,7 @@
  */
 
 #define Uses_SCIM_CONFIG_BASE
+#define Uses_SCIM_EVENT
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -32,7 +33,6 @@
   #include <config.h>
 #endif
 
-#define Uses_SCIM_EVENT
 #include <scim.h>
 #include <gtk/scimkeyselection.h>
 #include "scim_anthy_prefs.h"
@@ -312,7 +312,7 @@ static StringConfigData __config_string_common [] =
 };
 static unsigned int __config_string_common_num = sizeof (__config_string_common) / sizeof (StringConfigData);
 
-static StringConfigData __config_keyboards_common [] =
+static StringConfigData __config_keyboards_edit [] =
 {
     {
         SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY,
@@ -805,8 +805,8 @@ static StringConfigData __config_keyboards_dict [] =
 
 static struct KeyboardConfigPage __key_conf_pages[] =
 {
-    {N_("Common keys"),        __config_keyboards_common},
     {N_("Mode keys"),          __config_keyboards_mode},
+    {N_("Edit keys"),          __config_keyboards_edit},
     {N_("Caret keys"),         __config_keyboards_caret},
     {N_("Segments keys"),      __config_keyboards_segments},
     {N_("Candidates keys"),    __config_keyboards_candidates},
@@ -860,9 +860,9 @@ static void     on_default_toggle_button_toggled  (GtkToggleButton *togglebutton
 static void     on_default_key_selection_clicked  (GtkButton       *button,
                                                    gpointer         user_data);
 #endif
-static void     on_key_filter_selection_clicked   (GtkButton       *button,
-                                                   gpointer         user_data);
 static void     on_default_combo_changed          (GtkEditable     *editable,
+                                                   gpointer         user_data);
+static void     on_key_filter_selection_clicked   (GtkButton       *button,
                                                    gpointer         user_data);
 static void     on_dict_menu_label_toggled        (GtkToggleButton *togglebutton,
                                                    gpointer         user_data);

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-04-22 15:48+0900\n"
+"POT-Creation-Date: 2005-04-22 16:14+0900\n"
 "PO-Revision-Date: 2004-12-02 00:55+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -662,8 +662,8 @@ msgid "The key events to launch the tool to add a word. "
 msgstr "単語追加ツールを起動するキーイベント"
 
 #: src/scim_anthy_imengine_setup.cpp:808
-msgid "Common keys"
-msgstr "一般キー"
+msgid "Edit keys"
+msgstr "編集キー"
 
 #: src/scim_anthy_imengine_setup.cpp:809
 msgid "Mode keys"
@@ -753,6 +753,9 @@ msgstr "辞書"
 #: src/scim_anthy_imengine_setup.cpp:1666
 msgid "Set key filter"
 msgstr "キ-フィルタ-をセット"
+
+#~ msgid "Common keys"
+#~ msgstr "一般キー"
 
 #~ msgid "Convert keys:"
 #~ msgstr "変換:"
