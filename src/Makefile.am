@@ -13,6 +13,7 @@ noinst_HEADERS = \
 	scim_anthy_preedit.h \
 	scim_anthy_automaton.h \
 	scim_anthy_conv_table.h \
+	scim_anthy_style_file.h \
 	scim_anthy_prefs.h
 
 moduledir = @SCIM_MODULEDIR@/IMEngine
@@ -24,7 +25,8 @@ anthy_la_SOURCES = \
 	scim_anthy_imengine.cpp \
 	scim_anthy_preedit.cpp \
 	scim_anthy_automaton.cpp \
-	scim_anthy_conv_table.cpp
+	scim_anthy_conv_table.cpp \
+	scim_anthy_style_file.h
 
 anthy_la_CFLAGS = @SCIM_CFLAGS@  @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@
 anthy_la_CXXFLAGS = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@

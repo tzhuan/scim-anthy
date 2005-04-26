@@ -114,6 +114,8 @@ private:
     bool   action_commit_first_segment        (void);
     bool   action_commit_selected_segment     (void);
 
+    bool   action_select_first_candidate      (void);
+    bool   action_select_last_candidate       (void);
     bool   action_select_next_candidate       (void);
     bool   action_select_prev_candidate       (void);
     bool   action_candidates_page_up          (void);

@@ -968,6 +968,30 @@ AnthyInstance::action_select_prev_candidate (void)
 }
 
 bool
+AnthyInstance::action_select_first_candidate (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    m_lookup_table.set_cursor_pos (0);
+    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
+
+    return true;
+}
+
+bool
+AnthyInstance::action_select_last_candidate (void)
+{
+    if (!m_preedit.is_converting ()) return false;
+    if (!is_selecting_candidates ()) return false;
+
+    m_lookup_table.set_cursor_pos (m_lookup_table.number_of_candidates () - 1);
+    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
+
+    return true;
+}
+
+bool
 AnthyInstance::action_candidates_page_up(void)
 {
     if (!m_preedit.is_converting ()) return false;

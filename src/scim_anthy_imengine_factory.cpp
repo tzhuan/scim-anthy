@@ -220,7 +220,8 @@ AnthyFactory::remove_config_listener (AnthyInstance *listener)
     String name = "func", str; \
     str = config->read (String (SCIM_ANTHY_CONFIG_##key##_KEY), \
                         String (SCIM_ANTHY_CONFIG_##key##_KEY_DEFAULT)); \
-    m_actions.push_back (AnthyAction (name, str, &AnthyInstance::func)); \
+    m_actions.insert (m_actions.begin (), \
+                      AnthyAction (name, str, &AnthyInstance::func)); \
 }
 
 void
@@ -307,6 +308,8 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         APPEND_ACTION (COMMIT_SELECTED_SEGMENT, action_commit_selected_segment);
 
         // candidates keys
+        APPEND_ACTION (SELECT_FIRST_CANDIDATE,  action_select_first_candidate);
+        APPEND_ACTION (SELECT_LAST_CANDIDATE,   action_select_last_candidate);
         APPEND_ACTION (SELECT_NEXT_CANDIDATE,   action_select_next_candidate);
         APPEND_ACTION (SELECT_PREV_CANDIDATE,   action_select_prev_candidate);
         APPEND_ACTION (CANDIDATES_PAGE_UP,      action_candidates_page_up);
