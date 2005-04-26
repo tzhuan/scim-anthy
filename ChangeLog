@@ -1,5 +1,10 @@
 2005-04-26 Takuro Ashie <ashie@homa.ne.jp>
 
+	* data/atok.sty: Add key bindings.
+	* data/msime.sty: Fix some entries.
+
+2005-04-26 Takuro Ashie <ashie@homa.ne.jp>
+
 	* data/atok.sty: Added ATOK like style definition file.
 
 2005-04-26 Takuro Ashie <ashie@homa.ne.jp>

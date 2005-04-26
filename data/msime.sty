@@ -26,7 +26,6 @@ Encoding      = EUC-JP
 
 [KeyBindings]
 ConvertKey               = space,Shift+space,Henkan
-NextCandidateKey         = space,Henkan
 CancelKey                = BackSpace,Control+BackSpace,Esc,Control+h,Control+z
 CommitKey                = Enter,Control+Enter,Control+m
 
@@ -42,9 +41,8 @@ MoveCaretLastKey         = Right,Shift+Right,Control+d,Control+l
 
 SelectFirstSegmentKey    = Home,Control+Left,Control+a
 SelectLastSegmentKey     = End,Control+Right,Control+f
-SelectNextSegment        = Left,Control+d
-SelectPrevSegment        = Right,Control+s
-
+SelectNextSegmentKey     = Left,Control+d
+SelectPrevSegmentKey     = Right,Control+s
 ShrinkSegmentKey         = Shift+Right,Control+e,Control+k
 ExpandSegmentKey         = Shift+Left,Control+l,Control+x
 CommitFirstSegmentKey    = Shift+Down
@@ -52,8 +50,8 @@ CommitSelectedSegmentKey = Control+Down,Control+n
 
 CandidatesPageUpKey      = PageUp,Shift+Up
 CandidatesPageDownKey    = PageDown,Shift+Down
-SelectPrevSegmentKey     = Up,Control+e,Shift+space,Shift+Henkan
-SelectNextSegmentKey     = Down,Control+x
+SelectPrevCandidateKey   = Up,Control+e,Shift+space,Shift+Henkan
+SelectNextCandidateKey   = space,Henkan,Down,Control+x
 
 ConvertToHiraganaKey     = Control+u,F6
 ConvertToKatakanaKey     = Control+i,F7
