@@ -1,0 +1,143 @@
+ATOK17 標準キーバインド
+
+SCIMの機能:
+  日本語入力ON/OFF             半角/全角
+
+現在のscim-anthyに存在する機能:
+  変換/次候補                  Space, Henkan, Shift+Space, Shift+Henkan
+  変換/前候補                  Up
+
+  ひらがな変換                 F6, Ctrl+u
+  カタカナ変換                 F7, Ctrl+i
+  全角無変換変換               F9, Ctrl+p
+  半角無変換変換               F10, Ctrl+@
+
+  全文確定                     Enter, Ctrl+m
+  部分確定                     Down
+
+  変換取り消し                 BackSpace, Ctrl+h
+
+  全文字削除                   Esc, Ctrl+[
+  前文字削除                   BackSpace, Ctrl+h
+  一文字削除                   Delete, Ctrl+g
+
+  カーソル前移動               Left, Ctrl+k
+  カーソル後移動               Right, Ctrl+l
+  カーソル先頭移動             Ctrl+Left
+  カーソル末尾移動             Ctrl+Right
+
+  次候補群表示                 Henkan
+  前候補群表示                 Shift+Henkan
+
+  文節区切り伸長               Right, Ctrl+l
+  文節区切り収縮               Left, Ctrl+k
+
+  文節前移動                   Shift+Left
+  文節後移動                   Shift+Right
+  文節先頭移動                 Ctrl+Left
+  文節末尾移動                 Ctrl+right
+
+  単語登録                     Ctrl+F7
+
+追加予定の機能:
+  半角変換                     F8, Ctrl+o
+
+  部首変換                     Shift+F6
+
+  1音確定                      Shift+Down
+
+  全変換取り消し               Insert
+
+  単語削除                     Ctrl+Delet
+
+  入力モード順次切替え         F10
+
+  漢字/半角モード切替え        Henkan
+  固定入力英字順次切替え       Shift+Muhenkan
+  固定入力カナ順次切替え       Ctrl+Muhenkan
+  漢字モード順次切替え         ローマ字
+  半角無変換固定入力ON/OFF     Muhenkan
+
+  文字パレット                 Ctrl+F11
+
+  記号確定                     Enter
+  記号次候補移動               Right, Space
+  記号前候補移動               Left, Shift+Space
+  記号次候補群表示             Down, Henkan
+  記号全候補群表示             Up, Shift+Henkan
+  記号次区点表示               Tab
+  記号前区点表示               Shift+Tab
+  記号先頭表示                 Home
+  記号外字先頭表示             Shift+Home
+
+追加予定にない機能:
+  省入力変換                   Tab
+
+  再変換                       Shift+Henkan
+  連想変換                     Ctrl+Tab
+
+  辞書セット2変換              F2
+  辞書セット3変換              F3
+  辞書セット4変換              F4
+  辞書セット5変換              F5
+
+  推測変換確定                 Shift+Enter
+
+  読みの入力誤り位置へジャンプ Ctrl+j
+
+  注目文節削除                 Shift+Delete
+
+  先頭文字並べ替え             Ctrl+PageDown
+  末尾文字並び替え             Ctrl+PageUp
+
+  同音語用例オープン/表示      End
+  同音語用例クローズ           Shift+End
+
+  スペルチェックAa展開         Ctrl+A
+
+  全候補表示                   Ctrl+Space
+  全候補次移動                 Space, Ctrl+Space, Right
+  全候補前移動                 Left
+  全候補次行移動               Down
+  全候補前行移動               Up
+  全候補選択確定               Enter, Ctrl+M
+  全候補選択取り消し           Ctrl+[
+
+  ローマ字単位区切り伸長       Shift+Ctrl+Right
+  ローマ字単位区切り収縮       Shift+Ctrl+Left
+
+  確定アンドゥ                 Ctrl+BackSpace
+  確定リピート                 Ctrl+F8, Shift+Ctrl+R
+
+  再変換別読み                 Home
+
+  メニュー                     Ctrl+F10
+  全入力文字メニュー           Ctrl+F9
+  変換辞書切替えメニュー       Shift+F8
+
+  コード体系順次切替え         Shift+F7
+
+  カナロックON/OFF             ひらがな
+
+  注目文節コピー               Ctrl+c
+
+  iATOK ON/OFF                 Ctrl+Henkan
+
+  プロパティ                   Ctrl+F12
+  お気に入り文書メニュー       Shift+Ctrl+F11
+  お気に入り文書リピート       Shift+Ctrl+F12
+
+?:
+  読みの英字/カナ置換          F11
+
+  継続変換                     Insert
+
+  ツールチップ候補選択前移動   Ctrl+Up
+  ツールチップ候補選択後移動   Ctrl+Down
+  先頭一文字確定               PageDown
+  末尾一文字確定               PageUp
+
+  次グループ移動               Tab, Ctrl+j
+  前グループ移動               Shift+Tab
+
+  AMETメニュー                 Shift+Ctrl+F10
