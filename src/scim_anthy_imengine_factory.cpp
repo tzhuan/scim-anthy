@@ -338,6 +338,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         APPEND_ACTION (LATIN_MODE,              action_toggle_latin_mode);
         APPEND_ACTION (WIDE_LATIN_MODE,         action_toggle_wide_latin_mode);
         APPEND_ACTION (CIRCLE_KANA_MODE,        action_circle_kana_mode);
+        APPEND_ACTION (CIRCLE_TYPING_METHOD,    action_circle_typing_method);
+        APPEND_ACTION (HIRAGANA_MODE,           action_hiragana_mode);
+        APPEND_ACTION (KATAKANA_MODE,           action_katakana_mode);
 
         // dict keys
         APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);

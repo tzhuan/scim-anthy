@@ -95,7 +95,10 @@
 
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY              "/IMEngine/Anthy/LatinModeKey"
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY         "/IMEngine/Anthy/WideLatinModeKey"
-#define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY        "/IMEngine/Anthy/CirclekanaModeKey"
+#define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY        "/IMEngine/Anthy/CircleKanaModeKey"
+#define SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY    "/IMEngine/Anthy/CircleTypingMethodKey"
+#define SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY           "/IMEngine/Anthy/HiraganaModeKey"
+#define SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY           "/IMEngine/Anthy/KatakanaModeKey"
 
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY              "/IMEngine/Anthy/DictAdminKey"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY                "/IMEngine/Anthy/AddWordKey"
@@ -177,6 +180,9 @@
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         ""
 #define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT        "Control+period,Control+greater,Hiragana_Katakana"
+#define SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT    "Alt+Romaji"
+#define SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT           "Hiragana_Katakana"
+#define SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT           "Shift+Hiragana_Katakana"
 
 
 #endif /* __SCIM_ANTHY_PREFS_H__ */

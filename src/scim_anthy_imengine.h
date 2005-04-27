@@ -147,6 +147,8 @@ private:
     bool   action_circle_kana_mode            (void);
     bool   action_toggle_latin_mode           (void);
     bool   action_toggle_wide_latin_mode      (void);
+    bool   action_hiragana_mode               (void);
+    bool   action_katakana_mode               (void);
 
     bool   action_add_word                    (void);
     bool   action_launch_dict_admin_tool      (void);

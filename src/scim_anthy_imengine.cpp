@@ -1218,6 +1218,20 @@ AnthyInstance::action_toggle_wide_latin_mode (void)
 }
 
 bool
+AnthyInstance::action_hiragana_mode (void)
+{
+    set_input_mode (MODE_HIRAGANA);
+    return true;
+}
+
+bool
+AnthyInstance::action_katakana_mode (void)
+{
+    set_input_mode (MODE_KATAKANA);
+    return true;
+}
+
+bool
 AnthyInstance::convert_kana (CandidateType type)
 {
     if (!m_preedit.is_preediting ())
