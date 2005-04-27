@@ -53,6 +53,8 @@
 
 #define SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY            "/IMEngine/Anthy/InsertSpaceKey"
 #define SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY        "/IMEngine/Anthy/InsertAltSpaceKey"
+#define SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY       "/IMEngine/Anthy/InsertHalfSpaceKey"
+#define SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY       "/IMEngine/Anthy/InsertWideSpaceKey"
 
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY        "/IMEngine/Anthy/MoveCaretFirstKey"
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY         "/IMEngine/Anthy/MoveCaretLastKey"
@@ -129,6 +131,8 @@
 
 #define SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT            "space"
 #define SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT        "Shift+space"
+#define SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT       ""
+#define SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT       ""
 
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT        "Control+a,Control+A,Home"
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT         "Control+e,Control+E,End"

@@ -290,6 +290,8 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         APPEND_ACTION (DELETE,                  action_delete);
         APPEND_ACTION (INSERT_SPACE,            action_insert_space);
         APPEND_ACTION (INSERT_ALT_SPACE,        action_insert_alternative_space);
+        APPEND_ACTION (INSERT_HALF_SPACE,       action_insert_half_space);
+        APPEND_ACTION (INSERT_WIDE_SPACE,       action_insert_wide_space);
 
         // caret keys
         APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_first);

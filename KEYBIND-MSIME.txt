@@ -13,6 +13,8 @@ Microsoft IME 2003 標準キーバインド
 
   空白                         space
   別幅空白                     Shift+space
+  半角空白                     Ctrl+space
+  全角空白                     Ctrl+Shift+space
   前文字削除                   BackSpace, Ctrl+h
   一文字削除                   Delete, Ctrl+g
 
@@ -53,9 +55,6 @@ SCIMの機能:
   入力方式切替え(Roma<->かな)  ローマ字
 
   一文字確定                   Shift+下
-
-  半角空白                     Ctrl+space
-  全角空白                     Ctrl+Shift+space
 
   全戻し                       Shift+Esc, (Ctrl+z)
 

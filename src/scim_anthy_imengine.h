@@ -99,6 +99,8 @@ private:
     bool   action_delete                      (void);
     bool   action_insert_space                (void);
     bool   action_insert_alternative_space    (void);
+    bool   action_insert_half_space           (void);
+    bool   action_insert_wide_space           (void);
 
     bool   action_move_caret_backward         (void);
     bool   action_move_caret_forward          (void);

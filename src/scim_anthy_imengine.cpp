@@ -724,6 +724,28 @@ AnthyInstance::action_insert_alternative_space (void)
 }
 
 bool
+AnthyInstance::action_insert_half_space (void)
+{
+    if (m_preedit.is_preediting ())
+        return false;
+
+    commit_string (utf8_mbstowcs (" "));
+
+    return true;
+}
+
+bool
+AnthyInstance::action_insert_wide_space (void)
+{
+    if (m_preedit.is_preediting ())
+        return false;
+
+    commit_string (utf8_mbstowcs ("\xE3\x80\x80"));
+
+    return true;
+}
+
+bool
 AnthyInstance::action_move_caret_backward (void)
 {
     if (!m_preedit.is_preediting ())
