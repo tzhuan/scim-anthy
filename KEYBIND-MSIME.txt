@@ -29,6 +29,8 @@ Microsoft IME 2003 …∏Ω‡•≠°º•–•§•Û•…
    ∏¿·§ÚΩÃ§·§Î                 Shift+∫∏, Ctrl+e, Ctrl+k
    ∏¿·§Úπ≠§≤§Î                 Shift+±¶, Ctrl+l, Ctrl+x
 
+  ∏ı ‰¿Ë∆¨                     Home
+  ∏ı ‰∫«∏Â                     End
   ¡∞∏ı ‰∑≤                     PageUp,   Shift+æÂ
   º°∏ı ‰∑≤                     PageDown, Shift+≤º
   ¡∞∏ı ‰                       æÂ, Ctrl+e, Shift+space, Shift+ —¥π
@@ -57,8 +59,6 @@ SCIM§Œµ°«Ω:
 
   ¡¥Ã·§∑                       Shift+Esc, (Ctrl+z)
 
-  ∏ı ‰¿Ë∆¨                     Home
-  ∏ı ‰∫«∏Â                     End
   ¿Ë∆¨ ∏¿·§Œ∏ı ‰               Ctrl+∫∏, Ctrl+a
   Àˆ»¯ ∏¿·§Œ∏ı ‰               Ctrl+±¶, Ctrl+f
 
