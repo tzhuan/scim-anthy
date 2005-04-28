@@ -1516,71 +1516,73 @@ setup_widget_value ()
 static void
 load_config (const ConfigPointer &config)
 {
-    if (!config.null ()) {
-        for (unsigned int i = 0; i < __config_bool_common_num; i++) {
-            BoolConfigData &entry = __config_bool_common[i];
-            entry.value = config->read (String (entry.key), entry.value);
-        }
+    if (config.null ())
+        return;
 
-        for (unsigned int i = 0; i < __config_string_common_num; i++) {
-            StringConfigData &entry = __config_string_common[i];
-            entry.value = config->read (String (entry.key), entry.value);
-        }
-
-        for (unsigned int j = 0; j < __key_conf_pages_num; ++ j) {
-            for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
-                __key_conf_pages[j].data[i].value =
-                    config->read (String (__key_conf_pages[j].data[i].key),
-                                  __key_conf_pages[j].data[i].value);
-            }
-        }
-
-        setup_widget_value ();
-
-        for (unsigned int i = 0; i < __config_bool_common_num; i++)
-            __config_bool_common[i].changed = false;
-
-        for (unsigned int i = 0; i < __config_string_common_num; i++)
-            __config_string_common[i].changed = false;
-
-        for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
-            for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i)
-                __key_conf_pages[j].data[i].changed = false;
-        }
-
-        __have_changed = false;
+    for (unsigned int i = 0; i < __config_bool_common_num; i++) {
+        BoolConfigData &entry = __config_bool_common[i];
+        entry.value = config->read (String (entry.key), entry.value);
     }
+
+    for (unsigned int i = 0; i < __config_string_common_num; i++) {
+        StringConfigData &entry = __config_string_common[i];
+        entry.value = config->read (String (entry.key), entry.value);
+    }
+
+    for (unsigned int j = 0; j < __key_conf_pages_num; ++ j) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+            __key_conf_pages[j].data[i].value =
+                config->read (String (__key_conf_pages[j].data[i].key),
+                              __key_conf_pages[j].data[i].value);
+        }
+    }
+
+    setup_widget_value ();
+
+    for (unsigned int i = 0; i < __config_bool_common_num; i++)
+        __config_bool_common[i].changed = false;
+
+    for (unsigned int i = 0; i < __config_string_common_num; i++)
+        __config_string_common[i].changed = false;
+
+    for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i)
+            __key_conf_pages[j].data[i].changed = false;
+    }
+
+    __have_changed = false;
 }
 
 static void
 save_config (const ConfigPointer &config)
 {
-    if (!config.null ()) {
-        for (unsigned int i = 0; i < __config_bool_common_num; i++) {
-            BoolConfigData &entry = __config_bool_common[i];
-            if (entry.changed)
-                entry.value = config->write (String (entry.key), entry.value);
-            entry.changed = false;
-        }
+    if (config.null ())
+        return;
 
-        for (unsigned int i = 0; i < __config_string_common_num; i++) {
-            StringConfigData &entry = __config_string_common[i];
-            if (entry.changed)
-                entry.value = config->write (String (entry.key), entry.value);
-            entry.changed = false;
-        }
-
-        for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
-            for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
-                if (__key_conf_pages[j].data[i].changed)
-                    config->write (String (__key_conf_pages[j].data[i].key),
-                                   __key_conf_pages[j].data[i].value);
-                __key_conf_pages[j].data[i].changed = false;
-            }
-        }
-
-        __have_changed = false;
+    for (unsigned int i = 0; i < __config_bool_common_num; i++) {
+        BoolConfigData &entry = __config_bool_common[i];
+        if (entry.changed)
+            entry.value = config->write (String (entry.key), entry.value);
+        entry.changed = false;
     }
+
+    for (unsigned int i = 0; i < __config_string_common_num; i++) {
+        StringConfigData &entry = __config_string_common[i];
+        if (entry.changed)
+            entry.value = config->write (String (entry.key), entry.value);
+        entry.changed = false;
+    }
+
+    for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+            if (__key_conf_pages[j].data[i].changed)
+                config->write (String (__key_conf_pages[j].data[i].key),
+                               __key_conf_pages[j].data[i].value);
+            __key_conf_pages[j].data[i].changed = false;
+        }
+    }
+
+    __have_changed = false;
 }
 
 static bool
