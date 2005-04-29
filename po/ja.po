@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-04-27 19:04+0900\n"
+"POT-Creation-Date: 2005-04-29 10:19+0900\n"
 "PO-Revision-Date: 2004-12-02 00:55+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -46,7 +46,7 @@ msgid "Typing method"
 msgstr "入力方式"
 
 #: src/scim_anthy_imengine.cpp:335
-msgid "Roma"
+msgid "Romaji"
 msgstr "ローマ字"
 
 #: src/scim_anthy_imengine.cpp:339
@@ -778,7 +778,7 @@ msgid "Dictionary keys"
 msgstr "辞書関連キー"
 
 #: src/scim_anthy_imengine_setup.cpp:887
-msgid "Roma typing method"
+msgid "Romaji typing method"
 msgstr "ローマ字入力方式"
 
 #: src/scim_anthy_imengine_setup.cpp:888
@@ -834,7 +834,7 @@ msgstr "ツールバー"
 msgid "Dictionary"
 msgstr "辞書"
 
-#: src/scim_anthy_imengine_setup.cpp:1729
+#: src/scim_anthy_imengine_setup.cpp:1731
 msgid "Set key filter"
 msgstr "キ-フィルタ-をセット"
 

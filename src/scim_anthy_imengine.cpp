@@ -332,7 +332,7 @@ AnthyInstance::install_properties (void)
             m_properties.push_back (prop);
 
             prop = Property (SCIM_PROP_TYPING_METHOD_ROMAKANA,
-                             _("Roma"), String (""), _("Roma"));
+                             _("Romaji"), String (""), _("Romaji"));
             m_properties.push_back (prop);
 
             prop = Property (SCIM_PROP_TYPING_METHOD_KANA,

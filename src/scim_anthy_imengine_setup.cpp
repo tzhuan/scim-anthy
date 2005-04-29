@@ -884,8 +884,8 @@ const int INDEX_ALL           = __key_conf_pages_num + 1;
 
 static ComboConfigCandidate typing_methods[] =
 {
-    {N_("Roma typing method"), "Roma"},
-    {N_("Kana typing method"), "Kana"},
+    {N_("Romaji typing method"), "Roma"},
+    {N_("Kana typing method"),   "Kana"},
     {NULL, NULL},
 };
 
