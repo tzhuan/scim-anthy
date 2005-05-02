@@ -1,5 +1,9 @@
 2005-05-02 Takuro Ashie <ashie@homa.ne.jp>
 
+	* data/atok.sty, data/msime.sty: Added missing keys.
+
+2005-05-02 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_prefs.h, data/msime.sty: Fixed typo.
 
 2005-05-02 Takuro Ashie <ashie@homa.ne.jp>
