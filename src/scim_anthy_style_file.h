@@ -25,6 +25,36 @@
 
 using namespace scim;
 
+typedef enum {
+    ANTHY_STYLE_LINE_UNKNOWN,
+    ANTHY_STYLE_LINE_SPACE,
+    ANTHY_STYLE_LINE_COMMENT,
+    ANTHY_STYLE_LINE_SECTION,
+    ANTHY_STYLE_LINE_KEY,
+} AnthyStyleLineType;
+
+class AnthyStyleLine
+{
+public:
+    AnthyStyleLine (const char *line);
+    ~AnthyStyleLine ();
+
+public:
+    AnthyStyleLineType get_type    (void);
+    void               get_line    (String &line) { line = m_line; }
+    bool               get_section (String &section);
+    bool               get_key     (String &key);
+    bool               get_value   (String &value);
+    void               set_value   (String value);
+
+private:
+    String             m_line;
+    AnthyStyleLineType m_type;
+};
+
+typedef std::vector<AnthyStyleLine>  AnthyStyleLines;
+typedef std::vector<AnthyStyleLines> AnthyStyleSections;
+
 class AnthyStyleFile
 {
 public:
@@ -35,17 +65,17 @@ public:
     bool load (const char *filename);
     bool save (const char *filename);
 
-#if 0
-    bool get_romaji_table  (AnthyRomajiTable  &table);
-    bool get_key_bindings  (AnthyActions      &actions);
-    bool get_preedit_style (AnthyPreeditStyle &style);
-#endif
+    bool get_string       (String &value, String section, String key);
+    void set_string       (String section, String key, String value);
+    bool get_section_list (AnthyStyleSections &sections) { sections = m_sections; return true; } ;
+    bool get_entry_list   (AnthyStyleLines &lines, String section);
 
 private:
 
 private:
-    String              m_filename;
-    std::vector<String> m_lines;
+    String             m_encoding;
+    String             m_filename;
+    AnthyStyleSections m_sections;
 };
 
 #endif /* __SCIM_ANTHY_STYLE_FILE_H__ */

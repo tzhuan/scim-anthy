@@ -970,6 +970,20 @@ find_string_config_entry (const char *config_key)
     return NULL;
 }
 
+static StringConfigData *
+find_key_config_entry (const char *config_key)
+{
+    for (unsigned int j = 0; j < __key_conf_pages_num; ++j) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+            StringConfigData *entry = &__key_conf_pages[j].data[i];
+            if (entry->key && !strcmp (entry->key, config_key))
+                return entry;
+        }
+    }
+
+    return NULL;
+}
+
 static bool
 match_key_event (const KeyEventList &list, const KeyEvent &key)
 {
@@ -1475,9 +1489,16 @@ setup_combo_value (GtkCombo *combo, const String & str)
         gtk_entry_set_text (GTK_ENTRY (combo->entry), defval);
 }
 
+#include "scim_anthy_style_file.h"
 static void
 setup_widget_value ()
 {
+#if 0 // test for style file
+    AnthyStyleFile file;
+    file.load ("/home/ashie/Project/scim-anthy/data/msime.sty");
+    //file.save ("/home/ashie/Project/scim-anthy/data/msime.sty.tmp");
+#endif
+
     for (unsigned int i = 0; i < __config_bool_common_num; i++) {
         BoolConfigData &entry = __config_bool_common[i];
         if (entry.widget)
@@ -1503,6 +1524,31 @@ setup_widget_value ()
             }
         }
     }
+
+#if 0 // test for style file
+    // clear all key bindings
+    for (unsigned int j = 0; j < __key_conf_pages_num; ++j) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i)
+            __key_conf_pages[j].data[i].value = "";
+    }
+
+    // reset key bindings
+    AnthyStyleLines lines;
+    AnthyStyleLines::iterator it;
+    file.get_entry_list (lines, "KeyBindings");
+    for (it = lines.begin (); it != lines.end (); it++) {
+        if (it->get_type () != ANTHY_STYLE_LINE_KEY)
+            continue;
+        String key, fullkey;
+        it->get_key (key);
+        fullkey = String ("/IMEngine/Anthy/") + key;
+        StringConfigData *entry = find_key_config_entry (fullkey.c_str ());
+        if (entry)
+            it->get_value (entry->value);
+        else
+            std::cerr << "No entry for : " << key << std::endl;
+    }
+#endif
 
     gtk_option_menu_set_history (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
     gtk_widget_set_sensitive (__widget_key_filter, FALSE);

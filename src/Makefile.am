@@ -26,7 +26,7 @@ anthy_la_SOURCES = \
 	scim_anthy_preedit.cpp \
 	scim_anthy_automaton.cpp \
 	scim_anthy_conv_table.cpp \
-	scim_anthy_style_file.h
+	scim_anthy_style_file.cpp
 
 anthy_la_CFLAGS = @SCIM_CFLAGS@  @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@
 anthy_la_CXXFLAGS = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@
@@ -46,7 +46,7 @@ endif
 setupmoduledir           = @SCIM_MODULEDIR@/SetupUI
 setupmodule_LTLIBRARIES  = $(SETUP_MODULE)
 
-anthy_imengine_setup_la_SOURCES = scim_anthy_imengine_setup.cpp
+anthy_imengine_setup_la_SOURCES = scim_anthy_imengine_setup.cpp scim_anthy_style_file.cpp
 
 anthy_imengine_setup_la_CFLAGS  = @SCIM_GTKUTILS_CFLAGS@ @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@
 
