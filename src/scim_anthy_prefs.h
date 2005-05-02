@@ -70,8 +70,8 @@
 #define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY    "/IMEngine/Anthy/CommitFirstSegmentKey"
 #define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY "/IMEngine/Anthy/CommitSelectedSegmentKey"
 
-#define SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY  "/IMEngine/Anthy/SelectNextCandidateKey"
-#define SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY   "/IMEngine/Anthy/SelectPrevCandidateKey"
+#define SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY  "/IMEngine/Anthy/SelectFirstCandidateKey"
+#define SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY   "/IMEngine/Anthy/SelectLastCandidateKey"
 #define SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY   "/IMEngine/Anthy/SelectNextCandidateKey"
 #define SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY   "/IMEngine/Anthy/SelectPrevCandidateKey"
 #define SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY      "/IMEngine/Anthy/CandidatesPageUpKey"
