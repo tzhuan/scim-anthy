@@ -226,6 +226,7 @@ AnthyStyleFile::get_string (String &value, String section, String key)
 void
 AnthyStyleFile::set_string (String section, String key, String value)
 {
+    // find section
     AnthyStyleSections::iterator it;
     for (it = m_sections.begin (); it != m_sections.end (); it++) {
         if (it->size () <= 0)
@@ -237,13 +238,15 @@ AnthyStyleFile::set_string (String section, String key, String value)
         if (s != section)
             continue;
 
-        // replace existing entry
+        // find entry
         AnthyStyleLines::iterator lit, last = it->begin () + 1;
         for (lit = last; lit != it->end (); lit++) {
             AnthyStyleLineType type = lit->get_type ();
             if (type != ANTHY_STYLE_LINE_SPACE)
                 last = lit;
             lit->get_key (k);
+
+            // replace existing entry
             if (k == key) {
                 lit->set_value (value);
                 return;

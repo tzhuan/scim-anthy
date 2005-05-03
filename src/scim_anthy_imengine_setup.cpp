@@ -1493,9 +1493,9 @@ setup_combo_value (GtkCombo *combo, const String & str)
 static void
 setup_widget_value ()
 {
-#if 0 // test for style file
+#if 1 // test for style file
     AnthyStyleFile file;
-    file.load ("/home/ashie/Project/scim-anthy/data/msime.sty");
+    file.load (SCIM_ANTHY_STYLEDIR "/msime.sty");
     //file.save ("/home/ashie/Project/scim-anthy/data/msime.sty.tmp");
 #endif
 
@@ -1525,7 +1525,7 @@ setup_widget_value ()
         }
     }
 
-#if 0 // test for style file
+#if 1 // test for style file
     // clear all key bindings
     for (unsigned int j = 0; j < __key_conf_pages_num; ++j) {
         for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i)

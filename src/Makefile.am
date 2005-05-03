@@ -1,6 +1,8 @@
 AM_CPPFLAGS = \
 	-DSCIM_ANTHY_LOCALEDIR=\"$(datadir)/locale\" \
-	-DSCIM_ICONDIR=\"@SCIM_ICONDIR@\"
+	-DSCIM_ICONDIR=\"@SCIM_ICONDIR@\" \
+	-DSCIM_ANTHY_DATADIR=\"@SCIM_ANTHY_DATADIR@\" \
+	-DSCIM_ANTHY_STYLEDIR=\"@SCIM_ANTHY_DATADIR@/style\"
 INCLUDE	= \
 	-I$(top_builddir) \
 	-I$(top_srcdir) \
