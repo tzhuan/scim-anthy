@@ -446,24 +446,20 @@ AnthyPreedit::erase (bool backward)
 
     // erase string
     if (backward && m_char_caret > 0) {
-        unsigned int pend_len = m_char_list[m_char_caret - 1].key.length ();
-        String str;
+        unsigned int key_len = m_char_list[m_char_caret - 1].key.length ();
 
-#if 1 // FIXME!
-        if (m_key2kana.is_pending () && pend_len > 1)
-            str = m_char_list[m_char_caret - 1].key.substr (0, pend_len - 1);
-#endif
-
-        std::vector<AnthyPreeditChar>::iterator end, begin;
-        end   = m_char_list.begin () + m_char_caret;
-        begin = end - 1;
-        m_char_list.erase(begin, end);
-        m_char_caret--;
-
-#if 1 // FIXME!
-        for (unsigned int i = 0; i < str.length (); i++)
-            append_str (str.substr(i, i+1));
-#endif
+        if (m_key2kana.is_pending () && key_len > 1) {
+            String key_str = m_char_list[m_char_caret - 1].key.substr (0, key_len - 1);
+            m_char_list[m_char_caret - 1].key = key_str;
+            unsigned int kana_len = m_char_list[m_char_caret - 1].kana.length();
+            WideString kana_str = m_char_list[m_char_caret - 1].kana.substr (0, kana_len - 1);
+            m_char_list[m_char_caret - 1].kana = kana_str;
+        } else {
+            std::vector<AnthyPreeditChar>::iterator end = m_char_list.begin () + m_char_caret;
+            std::vector<AnthyPreeditChar>::iterator begin = end - 1;
+            m_char_list.erase(begin, end);
+            m_char_caret--;
+        }
 
     } else if (!backward && m_char_caret < m_char_list.size ()) {
         std::vector<AnthyPreeditChar>::iterator begin, end;
@@ -1068,6 +1064,9 @@ AnthyPreedit::move_caret (int step)
 void
 AnthyPreedit::reset_pending (void)
 {
+    if (m_key2kana.is_pending ())
+        m_key2kana.clear ();
+
     // FIXME! should we revert from more previous characters?
     if (m_char_caret > 0 /*&& m_char_list[m_char_caret - 1].pending*/) {
         for (unsigned int i = 0;
@@ -1075,7 +1074,7 @@ AnthyPreedit::reset_pending (void)
              i++)
         {
             WideString result, pending;
-            m_key2kana.append (m_char_list[m_char_caret - 1].key.substr(i, i+1),
+            m_key2kana.append (m_char_list[m_char_caret - 1].key.substr(i, 1),
                                result, pending);
         }
     }
