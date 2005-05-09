@@ -1,3 +1,11 @@
+Overview of Changes from scim-anthy-0.3.1 to scim-anthy-0.3.2
+=============================================================
+* Fixed a bug that the 10th candidate on the lookup window can't be selected by
+  direct selecting key. To enable this, please clear previous setting
+  ("/IMEngine/PRIME/SelectCandidates10Key" in ~/.scim/config).
+  Thanks to UTUMI-san and DAIRIKI-san.
+* Fixed some clash bugs. Thanks to DAIRIKI-san.
+
 Overview of Changes from scim-anthy-0.3.0 to scim-anthy-0.3.1
 =============================================================
 * Update automake version.
