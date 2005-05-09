@@ -1,5 +1,9 @@
 2005-05-09 Takuro Asie <ashie@homa.ne.jp>
 
+	* configure.ac: Version-0.3.2 (BRANCH_0_3_0 branch).
+
+2005-05-09 Takuro Asie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_prefs.h: Fixed typo.
 	Thanks to UTUMI-san & DAIRIKI-san.
 	* src/scim_anthy_preedit.cpp: Fixed some clash bugs.
