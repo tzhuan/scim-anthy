@@ -1,5 +1,9 @@
 2005-05-11 Takuro Asie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine_factory.cpp: Don't reverse key list.
+
+2005-05-11 Takuro Asie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine.cpp: Eat all key event while preediting.
 	* src/scim_anthy_preedit.cpp: Don't process space character.
 
