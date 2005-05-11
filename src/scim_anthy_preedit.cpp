@@ -251,7 +251,7 @@ AnthyPreedit::is_kana_converting (void)
 bool
 AnthyPreedit::can_process (const KeyEvent & key)
 {
-    if (isprint(key.get_ascii_code ()))
+    if (isprint(key.get_ascii_code ()) && !isspace(key.get_ascii_code ()))
         return true;
 
     if (key.code >= SCIM_KEY_KP_0 && key.code <= SCIM_KEY_KP_9)

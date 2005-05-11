@@ -148,7 +148,10 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
         return true;
     }
 
-    return false;
+    if (m_preedit.is_preediting ())
+        return true;
+    else
+        return false;
 }
 
 bool
