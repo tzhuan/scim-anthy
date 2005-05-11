@@ -1,3 +1,7 @@
+2005-05-11 Takuro Asie <ashie@homa.ne.jp>
+
+	* data/atok.sty, data/msime.sty: Fixed typo.
+
 2005-05-09 Takuro Asie <ashie@homa.ne.jp>
 
 	* configure.ac: Version-0.3.2 (BRANCH_0_3_0 branch).
