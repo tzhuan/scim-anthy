@@ -10,20 +10,19 @@ Version-0.6.0 (Planning to release at Jly 29th, 2005)
   * Add preedit color preference
   * Realtime conversion like honoka-tan.
   * Inline registering a word.
+  * Add AZIK table.
+  * Add T-Code.
   * Probvide more style files.
 
 Version-0.7.0 (Planning to release at Sep 29th, 2005)
 
   * Implement formal Kana typing method.
-  * Search a character by Bushu.
-  * Search a character by code.
+  * Search a character by Bushu (inline).
+  * Search a character by code (inline).
+  * Search a symbol (inline).
 
 Version-0.8.0 (Planning to release at Nov 29th, 2005)
 
 Version-0.9.0 (Planning to release at Jan 29th, 2006)
 
 Version-1.0.0 (Planning to release at Mar 29th, 2006)
-
-Version-? (Planning to release at Apr 1st, 2006)
-
-  * hehehe :)
