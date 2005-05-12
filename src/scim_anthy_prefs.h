@@ -30,6 +30,8 @@
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE                "/IMEngine/Anthy/TenKeyType"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD      "/IMEngine/Anthy/AutoConvertOnPeriod"
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
+#define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT      "/IMEngine/Anthy/LearnOnManualCommit"
+#define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT        "/IMEngine/Anthy/LearnOnAutoCommit"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL          "/IMEngine/Anthy/RomajiHalfSymbol"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER          "/IMEngine/Anthy/RomajiHalfNumber"
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND          "/IMEngine/Anthy/DictAdminCommand"
@@ -45,6 +47,7 @@
 #define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme" /* not used yet */
 
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY                  "/IMEngine/Anthy/CommitKey"
+#define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY    "/IMEngine/Anthy/CommitReverseLearnKey"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY                 "/IMEngine/Anthy/ConvertKey"
 #define SCIM_ANTHY_CONFIG_CANCEL_KEY                  "/IMEngine/Anthy/CancelKey"
 
@@ -69,6 +72,8 @@
 #define SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY          "/IMEngine/Anthy/ExpandSegmentKey"
 #define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY    "/IMEngine/Anthy/CommitFirstSegmentKey"
 #define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY "/IMEngine/Anthy/CommitSelectedSegmentKey"
+#define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY    "/IMEngine/Anthy/CommitFirstSegmentReverseLearnKey"
+#define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY "/IMEngine/Anthy/CommitSelectedSegmentReverseLearnKey"
 
 #define SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY  "/IMEngine/Anthy/SelectFirstCandidateKey"
 #define SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY   "/IMEngine/Anthy/SelectLastCandidateKey"
@@ -113,6 +118,8 @@
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT                "FollowMode"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT      false
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    false
+#define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT      true
+#define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT        true
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT          "kasumi"
@@ -126,6 +133,7 @@
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT         true
 
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+J,Control+m,Control+M"
+#define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT    "Shift+Return"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"
 #define SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT                  "Escape,Control+g,Control+G"
 
@@ -150,6 +158,8 @@
 #define SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT          "Shift+Right,Control+o,Control+O"
 #define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT    "Shift+Down"
 #define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT "Control+Down"
+#define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT    ""
+#define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT ""
 
 #define SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY_DEFAULT  "Home"
 #define SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY_DEFAULT   "End"

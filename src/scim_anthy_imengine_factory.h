@@ -49,6 +49,8 @@ class AnthyFactory : public IMEngineFactoryBase
     String       m_ten_key_type;
     bool         m_auto_convert;
     bool         m_close_cand_win_on_select;
+    bool         m_learn_on_manual_commit;
+    bool         m_learn_on_auto_commit;
     bool         m_romaji_half_symbol;
     bool         m_romaji_half_number;
     String       m_dict_admin_command;

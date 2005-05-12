@@ -132,12 +132,12 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
     if (m_preedit.can_process (key)) {
         // commit old conversion string before update preedit string
         if (m_preedit.is_converting ())
-            action_commit ();
+            action_commit (m_factory->m_learn_on_auto_commit);
 
         bool need_commit = m_preedit.append (key);
 
         if (need_commit) {
-            action_commit ();
+            action_commit (m_factory->m_learn_on_auto_commit);
         } else {
             show_preedit_string ();
             update_preedit_string (m_preedit.get_string (),
@@ -600,17 +600,19 @@ AnthyInstance::action_revert (void)
 }
 
 bool
-AnthyInstance::action_commit (void)
+AnthyInstance::action_commit (bool learn)
 {
     if (!m_preedit.is_preediting ())
         return false;
 
-    commit_string (m_preedit.get_string ());
-
-    if (m_preedit.is_converting ())
-        m_preedit.commit ();
-    else
+    if (m_preedit.is_converting ()) {
+        commit_string (m_preedit.get_string ());
+        if (learn)
+            m_preedit.commit ();
+    } else {
         m_preedit.flush_pending ();
+        commit_string (m_preedit.get_string ());
+    }
 
     m_lookup_table.clear ();
     m_preedit.clear ();
@@ -618,6 +620,18 @@ AnthyInstance::action_commit (void)
     hide_preedit_string ();
 
     return true;
+}
+
+bool
+AnthyInstance::action_commit_follow_preference (void)
+{
+    return action_commit (m_factory->m_learn_on_manual_commit);
+}
+
+bool
+AnthyInstance::action_commit_reverse_preference (void)
+{
+    return action_commit (!m_factory->m_learn_on_manual_commit);
 }
 
 bool
@@ -948,6 +962,43 @@ AnthyInstance::action_commit_selected_segment (void)
     for (int i = 0; i <= m_preedit.get_selected_segment (); i++)
         commit_string (m_preedit.get_segment_string (i));
     m_preedit.commit (m_preedit.get_selected_segment ());
+
+    update_preedit_string (m_preedit.get_string (),
+                           m_preedit.get_attribute_list ());
+    update_preedit_caret (m_preedit.get_caret_pos ());
+
+    return true;
+}
+
+bool
+AnthyInstance::action_commit_first_segment_reverse_preference (void)
+{
+    if (!m_preedit.is_converting ())
+        return false;
+
+    m_lookup_table.clear ();
+    hide_lookup_table ();
+
+    commit_string (m_preedit.get_segment_string (0));
+
+    update_preedit_string (m_preedit.get_string (),
+                           m_preedit.get_attribute_list ());
+    update_preedit_caret (m_preedit.get_caret_pos ());
+
+    return true;
+}
+
+bool
+AnthyInstance::action_commit_selected_segment_reverse_preference (void)
+{
+    if (!m_preedit.is_converting ())
+        return false;
+
+    m_lookup_table.clear ();
+    hide_lookup_table ();
+
+    for (int i = 0; i <= m_preedit.get_selected_segment (); i++)
+        commit_string (m_preedit.get_segment_string (i));
 
     update_preedit_string (m_preedit.get_string (),
                            m_preedit.get_attribute_list ());

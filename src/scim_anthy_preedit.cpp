@@ -710,21 +710,24 @@ AnthyPreedit::revert (void)
 }
 
 void
-AnthyPreedit::commit (int segment_id)
+AnthyPreedit::commit (int segment_id, bool learn)
 {
     if (m_kana_converting) return;
     if (m_selected_candidates.size () <= 0) return;
 
     for (unsigned int i = m_start_segment_id;
-         i < m_selected_candidates.size () && (segment_id < 0 || (int) i <= segment_id);
+         i < m_selected_candidates.size () &&
+             (segment_id < 0 || (int) i <= segment_id);
          i++)
     {
-        if (m_selected_candidates[i] >= 0)
+        if (m_selected_candidates[i] >= 0 && learn)
             anthy_commit_segment (m_anthy_context, i, m_selected_candidates[i]);
     }
 
 
-    if (segment_id >= 0 && segment_id + 1 < (int) m_selected_candidates.size ()) {
+    if (segment_id >= 0 &&
+        segment_id + 1 < (int) m_selected_candidates.size ())
+    {
         // remove commited segments
         std::vector<int>::iterator it = m_selected_candidates.begin ();
         m_selected_candidates.erase(it, it + segment_id + 1);
@@ -745,7 +748,10 @@ AnthyPreedit::commit (int segment_id)
 
         // recreate conversion string
         create_conversion_string ();
-    } else if (segment_id < 0 || segment_id >= (int) m_selected_candidates.size () - 1) {
+
+    } else if (segment_id < 0 ||
+               segment_id >= (int) m_selected_candidates.size () - 1)
+    {
         clear ();
     }
 }

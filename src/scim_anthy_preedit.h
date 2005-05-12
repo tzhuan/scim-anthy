@@ -118,8 +118,8 @@ public:
     virtual bool          is_kana_converting     (void);
 
     // manipulating the preedit string
-    // return true if commiting is needed.
     virtual bool          can_process            (const KeyEvent & key);
+    // return true if commiting is needed.
     virtual bool          append                 (const KeyEvent & key);
     virtual void          erase                  (bool backward = true);
     virtual void          flush_pending          (void);
@@ -127,7 +127,8 @@ public:
     // manipulating the conversion string
     virtual void          convert                (CandidateType type = CANDIDATE_NORMAL);
     virtual void          revert                 (void);
-    virtual void          commit                 (int segment_id = -1);
+    virtual void          commit                 (int  segment_id = -1,
+                                                  bool lean       = true);
 
     // segments of the converted sentence
     virtual int           get_nr_segments        (void);

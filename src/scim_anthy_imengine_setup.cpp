@@ -179,6 +179,24 @@ static BoolConfigData __config_bool_common [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT,
+        SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT,
+        N_("Learn on _manual committing."),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT,
+        SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT,
+        N_("Learn on a_uto committing."),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL,
         SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT,
         N_("Use half-width characters for _symbols"),
@@ -866,6 +884,49 @@ static StringConfigData __config_keyboards_dict [] =
     },
 };
 
+static StringConfigData __config_keyboards_reverse_learning [] =
+{
+    {
+        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY,
+        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT,
+        N_("_Commit:"),
+        N_("Select commit keys"),
+        N_("The key events to commit the preedit string "
+           "with reversing the preference of learning. "),
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY,
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
+        N_("Commit the _first segment:"),
+        N_("Select keys to commit the first segment"),
+        N_("The key events to commit the first segment "
+           "with reversing the preference of learning. "),
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY,
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
+        N_("Commit the _selected segment:"),
+        N_("Select keys to commit the selected segment"),
+        N_("The key events to commit the selected segment "
+           "with reversing the preference of learning. "),
+        NULL,
+        false,
+    },
+    {
+        NULL,
+        "",
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+};
+
 static struct KeyboardConfigPage __key_conf_pages[] =
 {
     {N_("Mode keys"),          __config_keyboards_mode},
@@ -919,10 +980,8 @@ static void     on_default_editable_changed       (GtkEditable     *editable,
                                                    gpointer         user_data);
 static void     on_default_toggle_button_toggled  (GtkToggleButton *togglebutton,
                                                    gpointer         user_data);
-#if 0
 static void     on_default_key_selection_clicked  (GtkButton       *button,
                                                    gpointer         user_data);
-#endif
 static void     on_default_combo_changed          (GtkEditable     *editable,
                                                    gpointer         user_data);
 static void     on_key_filter_selection_clicked   (GtkButton       *button,
@@ -970,6 +1029,7 @@ find_string_config_entry (const char *config_key)
     return NULL;
 }
 
+#if 0
 static StringConfigData *
 find_key_config_entry (const char *config_key)
 {
@@ -983,6 +1043,7 @@ find_key_config_entry (const char *config_key)
 
     return NULL;
 }
+#endif
 
 static bool
 match_key_event (const KeyEventList &list, const KeyEvent &key)
@@ -1175,7 +1236,7 @@ key_list_view_popup_key_selection (GtkTreeView *treeview)
 }
 
 static GtkWidget *
-create_options_page ()
+create_common_page ()
 {
     GtkWidget *vbox, *table, *widget;
 
@@ -1232,6 +1293,77 @@ create_romaji_page ()
     /* number */
     widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+
+    return vbox;
+}
+
+static GtkWidget *
+create_learning_page ()
+{
+    GtkWidget *vbox, *vbox2, *hbox, *alignment, *table;
+    GtkWidget *widget, *label, *button;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+
+    label = gtk_label_new (_("<b>Enable/Disable learning</b>"));
+    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+    gtk_widget_show (label);
+
+    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
+    gtk_widget_show (alignment);
+
+    vbox2 = gtk_vbox_new (FALSE, 0);
+    gtk_container_add (GTK_CONTAINER (alignment), vbox2);
+    gtk_widget_show (vbox2);
+
+    /* maual commit */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT);
+    gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, FALSE, 4);
+
+    /* auto commit */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT);
+    gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, FALSE, 4);
+
+    /* key preference */
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+
+    label = gtk_label_new (_("<b>Key preferences to commit "
+                             "with reversing learning preference</b>"));
+    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+    gtk_widget_show (label);
+
+    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
+    gtk_widget_show (alignment);
+
+    table = gtk_table_new (3, 3, FALSE);
+    gtk_container_add (GTK_CONTAINER (alignment), table);
+    gtk_widget_show (table);
+
+    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++) {
+        StringConfigData *entry = &__config_keyboards_reverse_learning[i];
+        APPEND_ENTRY (entry, i);
+        button = gtk_button_new_with_label ("...");
+        gtk_widget_show (button);
+        gtk_table_attach (GTK_TABLE (table), button, 2, 3, i, i + 1,
+                          GTK_FILL, GTK_FILL, 4, 4);
+        gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
+        g_signal_connect ((gpointer) button, "clicked",
+                          G_CALLBACK (on_default_key_selection_clicked),
+                          entry);
+    }
 
     return vbox;
 }
@@ -1425,15 +1557,27 @@ create_setup_window ()
         window = notebook;
         gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
 
-        // Create the options page.
-        GtkWidget *page = create_options_page ();
-        GtkWidget *label = gtk_label_new (_("Options"));
+        // Create the common page.
+        GtkWidget *page = create_common_page ();
+        GtkWidget *label = gtk_label_new (_("Common"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the key bind pages.
+        page = create_keyboard_page ();
+        label = gtk_label_new (_("Key bindings"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
         // Create the romaji page.
         page = create_romaji_page ();
         label = gtk_label_new (_("Romaji Typing"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the learning page.
+        page = create_learning_page ();
+        label = gtk_label_new (_("Learning"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
@@ -1446,12 +1590,6 @@ create_setup_window ()
         // Create the dictionary page.
         page = create_dict_page ();
         label = gtk_label_new (_("Dictionary"));
-        gtk_widget_show (label);
-        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
-
-        // Create the key bind pages.
-        page = create_keyboard_page ();
-        label = gtk_label_new (_("Key bindings"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
@@ -1496,7 +1634,6 @@ setup_widget_value ()
 #if 0 // test for style file
     AnthyStyleFile file;
     file.load (SCIM_ANTHY_STYLEDIR "/msime.sty");
-    //file.save ("/home/ashie/Project/scim-anthy/data/msime.sty.tmp");
 #endif
 
     for (unsigned int i = 0; i < __config_bool_common_num; i++) {
@@ -1522,6 +1659,14 @@ setup_widget_value ()
                     GTK_ENTRY (__key_conf_pages[j].data[i].widget),
                     __key_conf_pages[j].data[i].value.c_str ());
             }
+        }
+    }
+
+    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++) {
+        if (__config_keyboards_reverse_learning[i].widget) {
+            gtk_entry_set_text (
+                GTK_ENTRY (__config_keyboards_reverse_learning[i].widget),
+                __config_keyboards_reverse_learning[i].value.c_str ());
         }
     }
 
@@ -1583,6 +1728,11 @@ load_config (const ConfigPointer &config)
         }
     }
 
+    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++) {
+        StringConfigData &entry = __config_keyboards_reverse_learning[i];
+        entry.value = config->read (String (entry.key), entry.value);
+    }
+
     setup_widget_value ();
 
     for (unsigned int i = 0; i < __config_bool_common_num; i++)
@@ -1595,6 +1745,9 @@ load_config (const ConfigPointer &config)
         for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i)
             __key_conf_pages[j].data[i].changed = false;
     }
+
+    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++)
+        __config_keyboards_reverse_learning[i].changed = false;
 
     __have_changed = false;
 }
@@ -1626,6 +1779,13 @@ save_config (const ConfigPointer &config)
                                __key_conf_pages[j].data[i].value);
             __key_conf_pages[j].data[i].changed = false;
         }
+    }
+
+    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++) {
+        StringConfigData &entry = __config_keyboards_reverse_learning[i];
+        if (entry.changed)
+            entry.value = config->write (String (entry.key), entry.value);
+        entry.changed = false;
     }
 
     __have_changed = false;
@@ -1664,7 +1824,6 @@ on_default_editable_changed (GtkEditable *editable,
     }
 }
 
-#if 0
 static void
 on_default_key_selection_clicked (GtkButton *button,
                                   gpointer   user_data)
@@ -1694,7 +1853,6 @@ on_default_key_selection_clicked (GtkButton *button,
         gtk_widget_destroy (dialog);
     }
 }
-#endif
 
 static void
 on_default_combo_changed (GtkEditable *editable,

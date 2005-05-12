@@ -94,7 +94,15 @@ private:
     /* actinos */
     bool   action_convert                     (void);
     bool   action_revert                      (void);
-    bool   action_commit                      (void);
+    bool   action_commit                      (bool learn);
+    bool   action_commit_follow_preference    (void);
+    bool   action_commit_reverse_preference   (void);
+    bool   action_commit_first_segment        (void);
+    bool   action_commit_selected_segment     (void);
+    bool   action_commit_first_segment_reverse_preference
+                                              (void);
+    bool   action_commit_selected_segment_reverse_preference
+                                              (void);
     bool   action_back                        (void);
     bool   action_delete                      (void);
     bool   action_insert_space                (void);
@@ -113,8 +121,6 @@ private:
     bool   action_select_last_segment         (void);
     bool   action_shrink_segment              (void);
     bool   action_expand_segment              (void);
-    bool   action_commit_first_segment        (void);
-    bool   action_commit_selected_segment     (void);
 
     bool   action_select_first_candidate      (void);
     bool   action_select_last_candidate       (void);
