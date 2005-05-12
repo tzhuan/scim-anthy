@@ -1,3 +1,8 @@
+2005-05-13 Takuro Asie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine.cpp: Remove mask checking to compile against
+	scim-1.3.0. Thanks UTUMI-san.
+
 2005-05-12 Takuro Asie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine_setup.cpp: Add "Group:" label.

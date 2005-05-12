@@ -120,16 +120,6 @@ AnthyInstance::process_key_event_with_candidate (const KeyEvent &key)
 bool
 AnthyInstance::process_remaining_key_event (const KeyEvent &key)
 {
-    if (key.mask & SCIM_KEY_ControlMask ||
-        key.mask & SCIM_KEY_Mod1Mask ||
-        key.mask & SCIM_KEY_Mod2Mask ||
-        key.mask & SCIM_KEY_Mod3Mask ||
-        key.mask & SCIM_KEY_Mod4Mask ||
-        key.mask & SCIM_KEY_Mod5Mask)
-    {
-        return false;
-    }
-
     if (m_preedit.can_process (key)) {
         // commit old conversion string before update preedit string
         if (m_preedit.is_converting ())
