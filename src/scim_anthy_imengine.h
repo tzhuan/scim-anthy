@@ -44,10 +44,11 @@ private:
 
     /* for preedit */
     AnthyPreedit        m_preedit;
+    bool                m_preedit_string_visible;
 
     /* for candidates window */
     CommonLookupTable   m_lookup_table;
-    bool                m_show_lookup_table;
+    bool                m_lookup_table_visible;
 
     /* for toggling latin and wide latin */
     InputMode           m_prev_input_mode;

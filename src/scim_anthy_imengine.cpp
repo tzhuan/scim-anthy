@@ -72,7 +72,8 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
     : IMEngineInstanceBase (factory, encoding, id),
       m_factory(factory),
       m_prev_key (0,0),
-      m_show_lookup_table (false),
+      m_preedit_string_visible (false),
+      m_lookup_table_visible (false),
       m_prev_input_mode (MODE_HIRAGANA)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Instance : ";
@@ -140,6 +141,7 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
             action_commit (m_factory->m_learn_on_auto_commit);
         } else {
             show_preedit_string ();
+            m_preedit_string_visible = true;
             update_preedit_string (m_preedit.get_string (),
                                    m_preedit.get_attribute_list ());
             update_preedit_caret (m_preedit.get_caret_pos());
@@ -221,6 +223,7 @@ AnthyInstance::select_candidate (unsigned int item)
     if (m_factory->m_close_cand_win_on_select) {
         m_lookup_table.clear ();
         hide_lookup_table ();
+        m_lookup_table_visible = false;
         action_select_next_segment();
     }
 }
@@ -271,6 +274,9 @@ AnthyInstance::reset ()
     update_preedit_string (utf8_mbstowcs (""));
     hide_lookup_table ();
     hide_preedit_string ();
+
+    m_preedit_string_visible = false;
+    m_lookup_table_visible   = false;
 }
 
 void
@@ -280,7 +286,16 @@ AnthyInstance::focus_in ()
 
     hide_aux_string ();
 
-    if (m_show_lookup_table && is_selecting_candidates ()) {
+    if (m_preedit_string_visible) {
+        update_preedit_string (m_preedit.get_string (),
+                               m_preedit.get_attribute_list ());
+        update_preedit_caret (m_preedit.get_caret_pos());
+        show_preedit_string ();
+    } else {
+        hide_preedit_string ();
+    }
+
+    if (m_lookup_table_visible && is_selecting_candidates ()) {
         update_lookup_table (m_lookup_table);
         show_lookup_table ();
     } else {
@@ -566,6 +581,7 @@ AnthyInstance::action_convert (void)
             }
         }
         show_lookup_table ();
+        m_lookup_table_visible = true;
     }
     
     return true;
@@ -585,11 +601,13 @@ AnthyInstance::action_revert (void)
     if (is_selecting_candidates ()) {
         m_lookup_table.clear ();
         hide_lookup_table ();
+        m_lookup_table_visible = false;
         return true;
     }
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     m_preedit.revert ();
     update_preedit_string (m_preedit.get_string (),
@@ -616,8 +634,10 @@ AnthyInstance::action_commit (bool learn)
 
     m_lookup_table.clear ();
     m_preedit.clear ();
-    hide_lookup_table ();
     hide_preedit_string ();
+    hide_lookup_table ();
+    m_preedit_string_visible = false;
+    m_lookup_table_visible   = false;
 
     return true;
 }
@@ -656,6 +676,8 @@ AnthyInstance::action_back (void)
         m_lookup_table.clear ();
         hide_preedit_string ();
         hide_lookup_table ();
+        m_preedit_string_visible = false;
+        m_lookup_table_visible   = false;
     }
 
     return true;
@@ -683,6 +705,8 @@ AnthyInstance::action_delete (void)
         m_lookup_table.clear ();
         hide_preedit_string ();
         hide_lookup_table ();
+        m_preedit_string_visible = false;
+        m_lookup_table_visible   = false;
     }
 
     return true;
@@ -834,6 +858,7 @@ AnthyInstance::action_select_prev_segment (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     m_preedit.select_segment(m_preedit.get_selected_segment () - 1);
     update_preedit_string (m_preedit.get_string (),
@@ -851,6 +876,7 @@ AnthyInstance::action_select_next_segment (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     m_preedit.select_segment(m_preedit.get_selected_segment () + 1);
     update_preedit_string (m_preedit.get_string (),
@@ -868,6 +894,7 @@ AnthyInstance::action_select_first_segment (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     m_preedit.select_segment(0);
     update_preedit_string (m_preedit.get_string (),
@@ -888,6 +915,7 @@ AnthyInstance::action_select_last_segment (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     m_preedit.select_segment(n - 1);
     update_preedit_string (m_preedit.get_string (),
@@ -905,6 +933,7 @@ AnthyInstance::action_shrink_segment (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     m_preedit.resize_segment (-1);
     update_preedit_string (m_preedit.get_string (),
@@ -922,6 +951,7 @@ AnthyInstance::action_expand_segment (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     m_preedit.resize_segment (1);
     update_preedit_string (m_preedit.get_string (),
@@ -939,6 +969,7 @@ AnthyInstance::action_commit_first_segment (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     commit_string (m_preedit.get_segment_string (0));
     m_preedit.commit (0);
@@ -958,6 +989,7 @@ AnthyInstance::action_commit_selected_segment (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     for (int i = 0; i <= m_preedit.get_selected_segment (); i++)
         commit_string (m_preedit.get_segment_string (i));
@@ -978,6 +1010,7 @@ AnthyInstance::action_commit_first_segment_reverse_preference (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     commit_string (m_preedit.get_segment_string (0));
 
@@ -996,6 +1029,7 @@ AnthyInstance::action_commit_selected_segment_reverse_preference (void)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     for (int i = 0; i <= m_preedit.get_selected_segment (); i++)
         commit_string (m_preedit.get_segment_string (i));
@@ -1293,6 +1327,7 @@ AnthyInstance::convert_kana (CandidateType type)
 
     m_lookup_table.clear ();
     hide_lookup_table ();
+    m_lookup_table_visible = false;
 
     if (m_preedit.is_kana_converting ()) {
         m_preedit.convert (type);
