@@ -1452,10 +1452,16 @@ create_keyboard_page (void)
     gtk_widget_show(hbox);
 
     // category menu
+    GtkWidget *label = gtk_label_new_with_mnemonic (_("_Group:"));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (label);
+
     GtkWidget *omenu = gtk_option_menu_new ();
     __widget_key_categories_menu = omenu;
     gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
     gtk_widget_show (omenu);
+
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), omenu);
 
     GtkWidget *menu = gtk_menu_new ();
 

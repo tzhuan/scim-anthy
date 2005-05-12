@@ -1,5 +1,10 @@
 2005-05-12 Takuro Asie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine_setup.cpp: Add "Group:" label.
+	* po/ja.po: Update.
+
+2005-05-12 Takuro Asie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine.cpp, src/src/scim_anthy_imengine.h:
 	Restore visibility of preedit string and lookup table window on focus
 	in.
