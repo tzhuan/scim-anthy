@@ -7,6 +7,9 @@ Version-0.5.0 (Planning to release at May 29th, 2005)
 
 Version-0.6.0 (Planning to release at Jly 29th, 2005)
 
+  * Toggle upcase/downcase all or head of string on direct conversoin like
+    Microsoft IME and ATOK.
+  * Half width conversion like Microsoft IME and ATOK.
   * Add preedit color preference
   * Realtime conversion like honoka-tan.
   * Inline registering a word.
