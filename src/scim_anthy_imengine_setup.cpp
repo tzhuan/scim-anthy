@@ -1355,6 +1355,7 @@ create_learning_page ()
     for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++) {
         StringConfigData *entry = &__config_keyboards_reverse_learning[i];
         APPEND_ENTRY (entry, i);
+        gtk_entry_set_editable (GTK_ENTRY (entry->widget), FALSE);
         button = gtk_button_new_with_label ("...");
         gtk_widget_show (button);
         gtk_table_attach (GTK_TABLE (table), button, 2, 3, i, i + 1,

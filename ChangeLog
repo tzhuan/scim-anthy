@@ -1,3 +1,7 @@
+2005-05-14 Takuro Asie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine_setup.cpp: Set editable of key prefs entry to FALSE.
+
 2005-05-13 Takuro Asie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.cpp: Remove mask checking to compile against
