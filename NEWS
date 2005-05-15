@@ -1,3 +1,18 @@
+Overview of Changes from scim-anthy-0.3.2 to scim-anthy-0.4.0
+=============================================================
+* Add preference for width of symbols and numbers.
+* Add ten keys support.
+* Enable to insert a alternative width space by "Shift + Space".
+  Now this key binding doesn't use as changing input mode by default anymore.
+* Modify to apply most preferences immediately.
+* Refine key bindings preference.
+* Add some miscellaneous key bindings.
+* Add preferences for learning.
+* Modify label text on toolbar to make easy to recognize.
+* Don't show typing method label on toolbar by default anymore.
+* Add some symbols to romaji-table (Thanks! David Oftedal and Yukiko Bando).
+* Other minor bug fixes (Thaks! UTUMI Hirosi).
+
 Overview of Changes from scim-anthy-0.3.1 to scim-anthy-0.3.2
 =============================================================
 * Fixed a bug that the 10th candidate on the lookup window can't be selected by
