@@ -9,6 +9,7 @@ INCLUDE	= \
 	-I$(top_srcdir)/src 
 
 noinst_HEADERS = \
+	intl.h \
 	scim_anthy_action.h \
 	scim_anthy_imengine_factory.h \
 	scim_anthy_imengine.h \
