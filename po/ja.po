@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-05-12 23:29+0900\n"
+"POT-Creation-Date: 2005-05-16 18:00+0900\n"
 "PO-Revision-Date: 2004-12-02 00:55+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,67 +13,67 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:322
+#: src/scim_anthy_imengine.cpp:312
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:326
+#: src/scim_anthy_imengine.cpp:316
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:330
+#: src/scim_anthy_imengine.cpp:320
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:334 src/scim_anthy_imengine.cpp:335
+#: src/scim_anthy_imengine.cpp:324 src/scim_anthy_imengine.cpp:325
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:339
+#: src/scim_anthy_imengine.cpp:329
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:339
+#: src/scim_anthy_imengine.cpp:329
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:343
+#: src/scim_anthy_imengine.cpp:333
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:349
+#: src/scim_anthy_imengine.cpp:339
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:353
+#: src/scim_anthy_imengine.cpp:343
 msgid "Romaji"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:357
+#: src/scim_anthy_imengine.cpp:347
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:364
+#: src/scim_anthy_imengine.cpp:354
 msgid "Period style"
 msgstr "句読点スタイル"
 
-#: src/scim_anthy_imengine.cpp:391
+#: src/scim_anthy_imengine.cpp:381
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:396
+#: src/scim_anthy_imengine.cpp:386
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:398
+#: src/scim_anthy_imengine.cpp:388
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:404 src/scim_anthy_imengine_setup.cpp:870
+#: src/scim_anthy_imengine.cpp:394 src/scim_anthy_imengine_setup.cpp:870
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:406
+#: src/scim_anthy_imengine.cpp:396
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
@@ -843,52 +843,52 @@ msgstr "<b>学習の有効/無効</b>"
 msgid "<b>Key preferences to commit with reversing learning preference</b>"
 msgstr "<b>学習設定とは逆の方法で確定するキーの設定</b>"
 
-#: src/scim_anthy_imengine_setup.cpp:1455
+#: src/scim_anthy_imengine_setup.cpp:1456
 msgid "_Group:"
 msgstr "グループ(_G):"
 
-#: src/scim_anthy_imengine_setup.cpp:1476
+#: src/scim_anthy_imengine_setup.cpp:1477
 msgid "Search by key"
 msgstr "キーで検索"
 
-#: src/scim_anthy_imengine_setup.cpp:1480
+#: src/scim_anthy_imengine_setup.cpp:1481
 msgid "all"
 msgstr "全て"
 
-#: src/scim_anthy_imengine_setup.cpp:1523
+#: src/scim_anthy_imengine_setup.cpp:1524
 msgid "Feature"
 msgstr "機能"
 
-#: src/scim_anthy_imengine_setup.cpp:1532
-#: src/scim_anthy_imengine_setup.cpp:1574
+#: src/scim_anthy_imengine_setup.cpp:1533
+#: src/scim_anthy_imengine_setup.cpp:1575
 msgid "Key bindings"
 msgstr "キーバインド"
 
-#: src/scim_anthy_imengine_setup.cpp:1538
+#: src/scim_anthy_imengine_setup.cpp:1539
 msgid "Description"
 msgstr "説明"
 
-#: src/scim_anthy_imengine_setup.cpp:1568
+#: src/scim_anthy_imengine_setup.cpp:1569
 msgid "Common"
 msgstr "一般"
 
-#: src/scim_anthy_imengine_setup.cpp:1580
+#: src/scim_anthy_imengine_setup.cpp:1581
 msgid "Romaji Typing"
 msgstr "ローマ字入力"
 
-#: src/scim_anthy_imengine_setup.cpp:1586
+#: src/scim_anthy_imengine_setup.cpp:1587
 msgid "Learning"
 msgstr "学習"
 
-#: src/scim_anthy_imengine_setup.cpp:1592
+#: src/scim_anthy_imengine_setup.cpp:1593
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: src/scim_anthy_imengine_setup.cpp:1598
+#: src/scim_anthy_imengine_setup.cpp:1599
 msgid "Dictionary"
 msgstr "辞書"
 
-#: src/scim_anthy_imengine_setup.cpp:1941
+#: src/scim_anthy_imengine_setup.cpp:1942
 msgid "Set key filter"
 msgstr "キ-フィルタ-をセット"
 

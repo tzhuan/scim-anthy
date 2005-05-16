@@ -1,3 +1,8 @@
+Overview of Changes from scim-anthy-0.4.0 to scim-anthy-0.4.1
+=============================================================
+* Fix a bug that scim-anthy eats all key events although it doesn't have
+  preedit string (Thanks! DAIRIKI-san).
+
 Overview of Changes from scim-anthy-0.3.2 to scim-anthy-0.4.0
 =============================================================
 * Add preference for width of symbols and numbers.
