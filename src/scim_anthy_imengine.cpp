@@ -41,7 +41,7 @@
 #include "scim_anthy_imengine_factory.h"
 #include "scim_anthy_imengine.h"
 #include "scim_anthy_prefs.h"
-#include "intl.h"
+#include "scim_anthy_intl.h"
 
 #define SCIM_PROP_PREFIX                    "/IMEngine/Anthy"
 #define SCIM_PROP_INPUT_MODE                "/IMEngine/Anthy/InputMode"
@@ -52,7 +52,7 @@
 #define SCIM_PROP_INPUT_MODE_WIDE_LATIN     "/IMEngine/Anthy/InputMode/WideLatin"
 
 #define SCIM_PROP_TYPING_METHOD             "/IMEngine/Anthy/TypingMethod"
-#define SCIM_PROP_TYPING_METHOD_ROMAKANA    "/IMEngine/Anthy/TypingMethod/RomaKana"
+#define SCIM_PROP_TYPING_METHOD_ROMAJI      "/IMEngine/Anthy/TypingMethod/RomaKana"
 #define SCIM_PROP_TYPING_METHOD_KANA        "/IMEngine/Anthy/TypingMethod/Kana"
 
 #define SCIM_PROP_PERIOD_STYLE              "/IMEngine/Anthy/PeriodType"
@@ -72,6 +72,7 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
     : IMEngineInstanceBase (factory, encoding, id),
       m_factory(factory),
       m_prev_key (0,0),
+      m_preedit (m_key2kana_tables),
       m_preedit_string_visible (false),
       m_lookup_table_visible (false),
       m_prev_input_mode (MODE_HIRAGANA)
@@ -162,7 +163,7 @@ AnthyInstance::process_key_event (const KeyEvent& key)
         key.code == SCIM_KEY_Alt_L || key.code == SCIM_KEY_Alt_R)
         return false;
 
-    // lookup user defined key binds
+    // lookup user defined key bindings
     if (process_key_event_lookup_keybind (key))
         return true;
 
@@ -229,7 +230,8 @@ AnthyInstance::update_lookup_table_page_size (unsigned int page_size)
 void
 AnthyInstance::lookup_table_page_up ()
 {
-    if (!is_selecting_candidates () || !m_lookup_table.get_current_page_start ()) return;
+    if (!is_selecting_candidates () || !m_lookup_table.get_current_page_start ())
+        return;
 
     SCIM_DEBUG_IMENGINE(2) << "lookup_table_page_up.\n";
 
@@ -339,7 +341,7 @@ AnthyInstance::install_properties (void)
                              "\xEF\xBC\xB2", String (""), _("Typing method"));
             m_properties.push_back (prop);
 
-            prop = Property (SCIM_PROP_TYPING_METHOD_ROMAKANA,
+            prop = Property (SCIM_PROP_TYPING_METHOD_ROMAJI,
                              _("Romaji"), String (""), _("Romaji"));
             m_properties.push_back (prop);
 
@@ -400,8 +402,9 @@ AnthyInstance::install_properties (void)
     }
 
     set_input_mode (m_preedit.get_input_mode ());
-    set_typing_method (m_preedit.get_typing_method ());
-    set_period_style (m_preedit.get_period_style (), m_preedit.get_comma_style ());
+    set_typing_method (m_key2kana_tables.get_typing_method ());
+    set_period_style (m_key2kana_tables.get_period_style (),
+                      m_key2kana_tables.get_comma_style ());
 
     register_properties (m_properties);
 }
@@ -446,15 +449,15 @@ AnthyInstance::set_input_mode (InputMode mode)
 }
 
 void
-AnthyInstance::set_typing_method (TypingMethod method)
+AnthyInstance::set_typing_method (SCIMAnthyTypingMethod method)
 {
     const char *label = "";
 
     switch (method) {
-    case METHOD_ROMAKANA:
+    case SCIM_ANTHY_TYPING_METHOD_ROMAJI:
         label = "\xEF\xBC\xB2";
         break;
-    case METHOD_KANA:
+    case SCIM_ANTHY_TYPING_METHOD_KANA:
         label = "\xE3\x81\x8B";
         break;
     default:
@@ -471,23 +474,24 @@ AnthyInstance::set_typing_method (TypingMethod method)
         }
     }
 
-    if (method != m_preedit.get_typing_method ())
-        m_preedit.set_typing_method (method);
+    if (method != m_key2kana_tables.get_typing_method ())
+        m_key2kana_tables.set_typing_method (method);
 }
 
 void
-AnthyInstance::set_period_style (PeriodStyle period, CommaStyle comma)
+AnthyInstance::set_period_style (SCIMAnthyPeriodStyle period,
+                                 SCIMAnthyCommaStyle  comma)
 {
     String label;
 
     switch (comma) {
-    case COMMA_JAPANESE:
+    case SCIM_ANTHY_COMMA_JAPANESE:
         label = "\xE3\x80\x81";
         break;
-    case COMMA_WIDE_LATIN:
+    case SCIM_ANTHY_COMMA_WIDE:
         label = "\xEF\xBC\x8C";
         break;
-    case COMMA_LATIN:
+    case SCIM_ANTHY_COMMA_HALF:
         label = ",";
         break;
     default:
@@ -495,13 +499,13 @@ AnthyInstance::set_period_style (PeriodStyle period, CommaStyle comma)
     }
 
     switch (period) {
-    case PERIOD_JAPANESE:
+    case SCIM_ANTHY_PERIOD_JAPANESE:
         label += "\xE3\x80\x82";
         break;
-    case PERIOD_WIDE_LATIN:
+    case SCIM_ANTHY_PERIOD_WIDE:
         label += "\xEF\xBC\x8E";
         break;
-    case PERIOD_LATIN:
+    case SCIM_ANTHY_PERIOD_HALF:
         label += ".";
         break;
     default:
@@ -518,10 +522,10 @@ AnthyInstance::set_period_style (PeriodStyle period, CommaStyle comma)
         }
     }
 
-    if (period != m_preedit.get_period_style ())
-        m_preedit.set_period_style (period);
-    if (comma != m_preedit.get_comma_style ())
-        m_preedit.set_comma_style (comma);
+    if (period != m_key2kana_tables.get_period_style ())
+        m_key2kana_tables.set_period_style (period);
+    if (comma != m_key2kana_tables.get_comma_style ())
+        m_key2kana_tables.set_comma_style (comma);
 }
 
 bool
@@ -1221,13 +1225,13 @@ AnthyInstance::action_circle_input_mode (void)
 bool
 AnthyInstance::action_circle_typing_method (void)
 {
-    TypingMethod method;
+    SCIMAnthyTypingMethod method;
 
-    method = m_preedit.get_typing_method();
-    if (method == METHOD_KANA)
-        method = METHOD_ROMAKANA;
+    method = m_key2kana_tables.get_typing_method ();
+    if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
+        method = SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     else
-        method = METHOD_KANA;
+        method = SCIM_ANTHY_TYPING_METHOD_KANA;
 
     set_typing_method (method);
 
@@ -1464,19 +1468,23 @@ AnthyInstance::trigger_property (const String &property)
     } else if (property == SCIM_PROP_INPUT_MODE_WIDE_LATIN) {
         set_input_mode (MODE_WIDE_LATIN);
 
-    } else if (property == SCIM_PROP_TYPING_METHOD_ROMAKANA) {
-        set_typing_method (METHOD_ROMAKANA);
+    } else if (property == SCIM_PROP_TYPING_METHOD_ROMAJI) {
+        set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);
     } else if (property == SCIM_PROP_TYPING_METHOD_KANA) {
-        set_typing_method (METHOD_KANA);
+        set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA);
 
     } else if (property == SCIM_PROP_PERIOD_STYLE_JAPANESE) {
-        set_period_style (PERIOD_JAPANESE, COMMA_JAPANESE);
+        set_period_style (SCIM_ANTHY_PERIOD_JAPANESE,
+                          SCIM_ANTHY_COMMA_JAPANESE);
     } else if (property == SCIM_PROP_PERIOD_STYLE_WIDE_LATIN_JAPANESE) {
-        set_period_style (PERIOD_JAPANESE, COMMA_WIDE_LATIN);
+        set_period_style (SCIM_ANTHY_PERIOD_JAPANESE,
+                          SCIM_ANTHY_COMMA_WIDE);
     } else if (property == SCIM_PROP_PERIOD_STYLE_WIDE_LATIN) {
-        set_period_style (PERIOD_WIDE_LATIN, COMMA_WIDE_LATIN);
+        set_period_style (SCIM_ANTHY_PERIOD_WIDE,
+                          SCIM_ANTHY_COMMA_WIDE);
     } else if (property == SCIM_PROP_PERIOD_STYLE_LATIN) {
-        set_period_style (PERIOD_LATIN, COMMA_LATIN);
+        set_period_style (SCIM_ANTHY_PERIOD_HALF,
+                          SCIM_ANTHY_COMMA_HALF);
 
     } else if (property == SCIM_PROP_DICT_ADD_WORD) {
         action_add_word ();
@@ -1489,42 +1497,34 @@ void
 AnthyInstance::reload_config (const ConfigPointer &config)
 {
     // set character width
-    m_preedit.set_symbol_width (m_factory->m_romaji_half_symbol);
-    m_preedit.set_number_width (m_factory->m_romaji_half_number);
+    m_key2kana_tables.set_symbol_width (m_factory->m_romaji_half_symbol);
+    m_key2kana_tables.set_number_width (m_factory->m_romaji_half_number);
 
     // set typing method
     if (m_factory->m_typing_method == "Kana")
-        m_preedit.set_typing_method (METHOD_KANA);
+        m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA);
     else if (m_factory->m_typing_method == "Roma")
-        m_preedit.set_typing_method (METHOD_ROMAKANA);
+        m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);
     else
-        m_preedit.set_typing_method (METHOD_ROMAKANA);
+        m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);
 
     // set period style
     if (m_factory->m_period_style == "WideLatin") {
-        m_preedit.set_comma_style (COMMA_WIDE_LATIN);
-        m_preedit.set_period_style (PERIOD_WIDE_LATIN);
+        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
+        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_WIDE);
     } else if (m_factory->m_period_style == "Latin") {
-        m_preedit.set_comma_style (COMMA_LATIN);
-        m_preedit.set_period_style (PERIOD_LATIN);
+        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_HALF);
+        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_HALF);
     } else if (m_factory->m_period_style == "Japanese") {
-        m_preedit.set_comma_style (COMMA_JAPANESE);
-        m_preedit.set_period_style (PERIOD_JAPANESE);
+        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
+        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
     } else if (m_factory->m_period_style == "WideLatin_Japanese") {
-        m_preedit.set_comma_style (COMMA_WIDE_LATIN);
-        m_preedit.set_period_style (PERIOD_JAPANESE);
+        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
+        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
     } else {
-        m_preedit.set_comma_style (COMMA_JAPANESE);
-        m_preedit.set_period_style (PERIOD_JAPANESE);
+        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
+        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
     }
-
-    // set space type
-    if (m_factory->m_space_type == "Half")
-        m_preedit.set_space_type (SPACE_NORMAL);
-    else if (m_factory->m_space_type == "Wide")
-        m_preedit.set_space_type (SPACE_WIDE);
-    else
-        m_preedit.set_space_type (SPACE_WIDE);
 
     // set ten key type
     if (m_factory->m_ten_key_type == "Half")

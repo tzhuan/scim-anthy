@@ -28,7 +28,7 @@
 
 #include <anthy/anthy.h>
 #include <scim.h>
-#include <scim_anthy_action.h>
+#include "scim_anthy_action.h"
 
 using namespace scim;
 
@@ -39,28 +39,28 @@ class AnthyFactory : public IMEngineFactoryBase
     friend class AnthyInstance;
 
     /* config */
-    ConfigPointer  m_config;
-    Connection     m_reload_signal_connection;
+    ConfigPointer m_config;
+    Connection    m_reload_signal_connection;
 
     /* for preferece */
-    String       m_typing_method;
-    String       m_period_style;
-    String       m_space_type;
-    String       m_ten_key_type;
-    bool         m_auto_convert;
-    bool         m_close_cand_win_on_select;
-    bool         m_learn_on_manual_commit;
-    bool         m_learn_on_auto_commit;
-    bool         m_romaji_half_symbol;
-    bool         m_romaji_half_number;
-    String       m_dict_admin_command;
-    String       m_add_word_command;
-    bool         m_show_input_mode_label;
-    bool         m_show_typing_method_label;
-    bool         m_show_period_style_label;
-    bool         m_show_dict_label;
-    bool         m_show_dict_admin_label;
-    bool         m_show_add_word_label;
+    String        m_typing_method;
+    String        m_period_style;
+    String        m_space_type;
+    String        m_ten_key_type;
+    bool          m_auto_convert;
+    bool          m_close_cand_win_on_select;
+    bool          m_learn_on_manual_commit;
+    bool          m_learn_on_auto_commit;
+    bool          m_romaji_half_symbol;
+    bool          m_romaji_half_number;
+    String        m_dict_admin_command;
+    String        m_add_word_command;
+    bool          m_show_input_mode_label;
+    bool          m_show_typing_method_label;
+    bool          m_show_period_style_label;
+    bool          m_show_dict_label;
+    bool          m_show_dict_admin_label;
+    bool          m_show_add_word_label;
 
     std::vector<AnthyInstance*> m_config_listeners;
 

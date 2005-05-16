@@ -17,8 +17,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __SCIM_ANTHY_CONV_TABLE_H__
-#define __SCIM_ANTHY_CONV_TABLE_H__
+#ifndef __SCIM_ANTHY_KEY2KANA_TABLE_DEFAULT_H__
+#define __SCIM_ANTHY_KEY2KANA_TABLE_DEFAULT_H__
 
 typedef struct _ConvRule
 {
@@ -40,39 +40,37 @@ typedef struct _WideRule
     const char *wide;
 } WideRule;
 
-extern ConvRule scim_anthy_romakana_typing_rule[];
+
+// fundamental table
+extern ConvRule scim_anthy_romaji_typing_rule[];
 extern ConvRule scim_anthy_kana_typing_rule[];
 
 // symbol & number
-extern ConvRule scim_anthy_romakana_symbol_rule[];
-extern ConvRule scim_anthy_romakana_wide_symbol_rule[];
-extern ConvRule scim_anthy_romakana_number_rule[];
-extern ConvRule scim_anthy_romakana_wide_number_rule[];
+extern ConvRule scim_anthy_romaji_half_symbol_rule[];
+extern ConvRule scim_anthy_romaji_wide_symbol_rule[];
+extern ConvRule scim_anthy_romaji_half_number_rule[];
+extern ConvRule scim_anthy_romaji_wide_number_rule[];
 
-// period rule
-extern ConvRule scim_anthy_romakana_ja_period_rule[];
-extern ConvRule scim_anthy_romakana_wide_latin_period_rule[];
-extern ConvRule scim_anthy_romakana_latin_period_rule[];
+// period table
+extern ConvRule scim_anthy_romaji_ja_period_rule[];
+extern ConvRule scim_anthy_romaji_wide_period_rule[];
+extern ConvRule scim_anthy_romaji_half_period_rule[];
 
 extern ConvRule scim_anthy_kana_ja_period_rule[];
-extern ConvRule scim_anthy_kana_wide_latin_period_rule[];
-extern ConvRule scim_anthy_kana_latin_period_rule[];
+extern ConvRule scim_anthy_kana_wide_period_rule[];
+extern ConvRule scim_anthy_kana_half_period_rule[];
 
-// comma rule
-extern ConvRule scim_anthy_romakana_ja_comma_rule[];
-extern ConvRule scim_anthy_romakana_wide_latin_comma_rule[];
-extern ConvRule scim_anthy_romakana_latin_comma_rule[];
+// comma table
+extern ConvRule scim_anthy_romaji_ja_comma_rule[];
+extern ConvRule scim_anthy_romaji_wide_comma_rule[];
+extern ConvRule scim_anthy_romaji_half_comma_rule[];
 
 extern ConvRule scim_anthy_kana_ja_comma_rule[];
-extern ConvRule scim_anthy_kana_wide_latin_comma_rule[];
-extern ConvRule scim_anthy_kana_latin_comma_rule[];
-
-// space rule
-extern ConvRule scim_anthy_wide_space_rule[];
-extern ConvRule scim_anthy_space_rule[];
+extern ConvRule scim_anthy_kana_wide_comma_rule[];
+extern ConvRule scim_anthy_kana_half_comma_rule[];
 
 // misc
 extern HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[];
 extern WideRule             scim_anthy_wide_table[];
 
-#endif /* __SCIM_ANTHY_CONV_TABLE_H__ */
+#endif /* __SCIM_ANTHY_KEY2KAN_TABLE_DEFAULT_H__ */

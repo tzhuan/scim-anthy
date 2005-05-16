@@ -18,22 +18,21 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "scim_anthy_automaton.h"
+#include "scim_anthy_key2kana_convertor.h"
 
-Automaton::Automaton ()
-    : m_table (NULL),
-      m_table_len (0),
+AnthyKey2KanaConvertor::AnthyKey2KanaConvertor (AnthyKey2KanaTableSet & tables)
+    : m_tables (tables),
       m_exact_match (NULL)
 {
 }
 
-Automaton::~Automaton ()
+AnthyKey2KanaConvertor::~AnthyKey2KanaConvertor ()
 {
 }
 
 bool
-Automaton::append (const String & str,
-                   WideString & result, WideString & pending)
+AnthyKey2KanaConvertor::append (const String & str,
+                                WideString & result, WideString & pending)
 {
     WideString widestr = utf8_mbstowcs (str);
     WideString newstr = m_pending + widestr;
@@ -44,14 +43,20 @@ Automaton::append (const String & str,
     /* FIXME! should be optimized */
 
     /* find matched table */
-    for (unsigned int j = 0; j < m_tables.size (); j++) {
-        for (unsigned int i = 0; m_tables[j][i].string; i++) {
+    std::vector<AnthyKey2KanaTable*> &tables = m_tables.get_tables();
+    for (unsigned int j = 0; j < tables.size(); j++) {
+        if (!tables[j])
+            continue;
+
+        ConvRule *table = tables[j]->get_table ();
+
+        for (unsigned int i = 0; table[i].string; i++) {
             /* matching */
-            WideString roma = utf8_mbstowcs(m_tables[j][i].string);
+            WideString roma = utf8_mbstowcs(table[i].string);
             if (roma.find (newstr) == 0) {
                 if (roma.length () == newstr.length ()) {
                     /* exact match */
-                    exact_match = &m_tables[j][i];
+                    exact_match = &table[i];
                 } else {
                     /* partial match */
                     has_partial_match = true;
@@ -66,6 +71,7 @@ Automaton::append (const String & str,
         result.clear ();
         m_pending += widestr;
         pending   =  m_pending;
+
     } else if (exact_match) {
         if (exact_match->cont && *exact_match->cont)
             m_exact_match = exact_match;
@@ -74,6 +80,7 @@ Automaton::append (const String & str,
         m_pending         = utf8_mbstowcs (exact_match->cont);
         result            = utf8_mbstowcs (exact_match->result);
         pending           = m_pending;
+
     } else {
         if (m_exact_match) {
             if (m_exact_match->result && *m_exact_match->result &&
@@ -89,11 +96,13 @@ Automaton::append (const String & str,
             WideString tmp_result;
             append(str, tmp_result, pending);
             result += tmp_result;
+
         } else {
             if (m_pending.length () > 0) {
                 retval     = true; /* commit prev pending */
                 m_pending  = widestr;
                 pending    = m_pending;
+
             } else {
                 result     = widestr;
                 pending.clear();
@@ -106,14 +115,14 @@ Automaton::append (const String & str,
 }
 
 void
-Automaton::clear (void)
+AnthyKey2KanaConvertor::clear (void)
 {
     m_pending.clear ();
     m_exact_match = NULL;
 }
 
 bool
-Automaton::is_pending (void)
+AnthyKey2KanaConvertor::is_pending (void)
 {
     if (m_pending.length () > 0)
         return true;
@@ -122,13 +131,13 @@ Automaton::is_pending (void)
 }
 
 WideString
-Automaton::get_pending (void)
+AnthyKey2KanaConvertor::get_pending (void)
 {
     return m_pending;
 }
 
 WideString
-Automaton::flush_pending (void)
+AnthyKey2KanaConvertor::flush_pending (void)
 {
     WideString result;
     if (m_exact_match) {
@@ -144,29 +153,6 @@ Automaton::flush_pending (void)
     }
     clear ();
     return result;
-}
-
-void
-Automaton::set_table (ConvRule *table)
-{
-    m_tables.clear ();
-    m_tables.push_back (table);
-}
-
-void
-Automaton::append_table (ConvRule *table)
-{
-    if (table)
-        m_tables.push_back(table);
-}
-
-void
-Automaton::remove_table (ConvRule *table)
-{
-    for (unsigned int i = 0; i < m_tables.size (); i++) {
-        if (m_tables[i] == table)
-            m_tables.erase(m_tables.begin() + i);
-    }
 }
 /*
 vi:ts=4:nowrap:ai:expandtab

@@ -26,7 +26,7 @@
 #include <scim_attribute.h>
 #include <scim_event.h>
 #include <scim_lookup_table.h>
-#include "scim_anthy_automaton.h"
+#include "scim_anthy_key2kana_convertor.h"
 
 using namespace scim;
 
@@ -39,11 +39,6 @@ typedef enum {
 } InputMode;
 
 typedef enum {
-    METHOD_ROMAKANA,
-    METHOD_KANA,
-} TypingMethod;
-
-typedef enum {
     CANDIDATE_NORMAL        = 0,
     CANDIDATE_LATIN         = -1,
     CANDIDATE_WIDE_LATIN    = -2,
@@ -52,23 +47,6 @@ typedef enum {
     CANDIDATE_HALF_KATAKANA = -5,
     LAST_SPECIAL_CANDIDATE  = -6,
 } CandidateType;
-
-typedef enum {
-    PERIOD_JAPANESE,
-    PERIOD_WIDE_LATIN,
-    PERIOD_LATIN,
-} PeriodStyle;
-
-typedef enum {
-    COMMA_JAPANESE,
-    COMMA_WIDE_LATIN,
-    COMMA_LATIN,
-} CommaStyle;
-
-typedef enum {
-    SPACE_NORMAL,
-    SPACE_WIDE,
-} SpaceType;
 
 typedef enum {
     TEN_KEY_HALF,
@@ -105,7 +83,7 @@ public:
 class AnthyPreedit
 {
 public:
-    AnthyPreedit (void);
+    AnthyPreedit (AnthyKey2KanaTableSet & tables);
     virtual ~AnthyPreedit ();
 
     // getting status
@@ -155,20 +133,8 @@ public:
     virtual void          clear                  (void);
 
     // preference
-    virtual void          set_symbol_width       (bool half);
-    virtual bool          symbol_is_half_width   (void);
-    virtual void          set_number_width       (bool half);
-    virtual bool          number_is_half_width   (void);
     virtual void          set_input_mode         (InputMode mode);
     virtual InputMode     get_input_mode         (void);
-    virtual void          set_typing_method      (TypingMethod method);
-    virtual TypingMethod  get_typing_method      (void);
-    virtual void          set_period_style       (PeriodStyle style);
-    virtual PeriodStyle   get_period_style       (void);
-    virtual void          set_comma_style        (CommaStyle style);
-    virtual CommaStyle    get_comma_style        (void);
-    virtual void          set_space_type         (SpaceType type);
-    virtual SpaceType     get_space_type         (void);
     virtual void          set_ten_key_type       (TenKeyType type);
     virtual TenKeyType    get_ten_key_type       (void);
     virtual void          set_auto_convert       (bool autoconv);
@@ -187,28 +153,17 @@ private:
                                                   unsigned int end,
                                                   CandidateType type);
     void          reset_pending                  (void);
-    void          set_table                      (bool romaji_half_symbol,
-                                                  bool romaji_half_number,
-                                                  TypingMethod method,
-                                                  PeriodStyle  period,
-                                                  CommaStyle   comma,
-                                                  SpaceType    space);
     bool          is_comma_or_period             (const String & str);
 
 private:
     // converter objects
-    Automaton         m_key2kana;
+    AnthyKey2KanaTableSet  &m_key2kana_tables;
+    AnthyKey2KanaConvertor  m_key2kana;
     IConvert          m_iconv;
     anthy_context_t   m_anthy_context;
 
     // mode flags
-    bool              m_romaji_half_symbol;
-    bool              m_romaji_half_number;
     InputMode         m_input_mode;
-    TypingMethod      m_typing_method;
-    PeriodStyle       m_period_style;
-    CommaStyle        m_comma_style;
-    SpaceType         m_space_type;
     TenKeyType        m_ten_key_type;
     bool              m_auto_convert;
 

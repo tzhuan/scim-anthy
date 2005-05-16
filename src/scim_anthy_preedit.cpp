@@ -26,15 +26,14 @@
 
 #if 1 // FIXME! it's ad-hoc.
 static void      convert_string_to_wide       (const String     &str,
-                                               WideString       &wide,
-                                               SpaceType         space);;
+                                               WideString       &wide);
 static void      convert_hiragana_to_katakana (const WideString &hira,
                                                WideString       &kata,
                                                bool              half = false);
-static ConvRule *get_period_rule              (TypingMethod      method,
-                                               PeriodStyle       period);
-static ConvRule *get_comma_rule               (TypingMethod      method,
-                                               CommaStyle        period);
+static ConvRule *get_period_rule              (SCIMAnthyTypingMethod method,
+                                               SCIMAnthyPeriodStyle  period);
+static ConvRule *get_comma_rule               (SCIMAnthyTypingMethod method,
+                                               SCIMAnthyCommaStyle   period);
 #endif // FIXME! it's ad-hoc.
 
 
@@ -50,15 +49,11 @@ AnthyPreeditChar::~AnthyPreeditChar ()
 
 
 
-AnthyPreedit::AnthyPreedit ()
-    : m_anthy_context (anthy_create_context()),
-      m_romaji_half_symbol (false),
-      m_romaji_half_number (false),
+AnthyPreedit::AnthyPreedit (AnthyKey2KanaTableSet & tables)
+    : m_key2kana_tables (tables),
+      m_key2kana (m_key2kana_tables),
+      m_anthy_context (anthy_create_context()),
       m_input_mode (MODE_HIRAGANA),
-      m_typing_method (METHOD_ROMAKANA),
-      m_period_style (PERIOD_JAPANESE),
-      m_comma_style (COMMA_JAPANESE),
-      m_space_type (SPACE_WIDE),
       m_ten_key_type (TEN_KEY_WIDE),
       m_auto_convert (false),
       m_start_char (0),
@@ -76,9 +71,6 @@ AnthyPreedit::AnthyPreedit ()
 
     if (!m_iconv.set_encoding ("EUC-JP"))
         return;
-
-    set_table (m_romaji_half_symbol, m_romaji_half_number,
-               m_typing_method, m_period_style, m_comma_style, m_space_type);
 }
 
 AnthyPreedit::~AnthyPreedit ()
@@ -205,7 +197,7 @@ AnthyPreedit::get_preedit_string (void)
     case MODE_WIDE_LATIN:
         for (i = 0; i < m_char_list.size (); i++)
             str += m_char_list[i].key;
-        convert_string_to_wide (str, widestr, m_space_type);
+        convert_string_to_wide (str, widestr);
         return widestr;
     case MODE_HIRAGANA:
     default:
@@ -327,8 +319,8 @@ AnthyPreedit::append (const KeyEvent & key)
     str[1] = '\0';
 
     bool half = true;
-    bool prev_symbol = m_romaji_half_symbol;
-    bool prev_number = m_romaji_half_number;
+    bool prev_symbol = m_key2kana_tables.symbol_is_half ();
+    bool prev_number = m_key2kana_tables.number_is_half ();
 
     if (is_ten_key && m_ten_key_type != TEN_KEY_FOLLOW_MODE) {
         if (m_ten_key_type == TEN_KEY_HALF)
@@ -336,17 +328,15 @@ AnthyPreedit::append (const KeyEvent & key)
         else if (m_ten_key_type == TEN_KEY_WIDE)
             half = false;
 
-        set_table (half, half,
-                   m_typing_method, m_period_style,
-                   m_comma_style, m_space_type);
+        m_key2kana_tables.set_symbol_width (half);
+        m_key2kana_tables.set_number_width (half);
     }
 
     bool retval = append_str (String (str));
 
     if (is_ten_key && m_ten_key_type != TEN_KEY_FOLLOW_MODE) {
-        set_table (prev_symbol, prev_number,
-                   m_typing_method, m_period_style,
-                   m_comma_style, m_space_type);
+        m_key2kana_tables.set_symbol_width (prev_symbol);
+        m_key2kana_tables.set_number_width (prev_number);
     }
 
     return retval;
@@ -577,7 +567,7 @@ AnthyPreedit::get_kana_substr (WideString & substr,
         substr = utf8_mbstowcs (raw);
         break;
     case CANDIDATE_WIDE_LATIN:
-        convert_string_to_wide (raw, substr, m_space_type);
+        convert_string_to_wide (raw, substr);
         break;
     case CANDIDATE_HIRAGANA:
         substr = kana;
@@ -1114,32 +1104,6 @@ AnthyPreedit::clear (void)
  * preference
  */
 void
-AnthyPreedit::set_symbol_width (bool half)
-{
-    set_table (half, m_romaji_half_number,
-               m_typing_method, m_period_style, m_comma_style, m_space_type);
-}
-
-bool
-AnthyPreedit::symbol_is_half_width (void)
-{
-    return m_romaji_half_symbol;
-}
-
-void
-AnthyPreedit::set_number_width (bool half)
-{
-    set_table (m_romaji_half_symbol, half,
-               m_typing_method, m_period_style, m_comma_style, m_space_type);
-}
-
-bool
-AnthyPreedit::number_is_half_width (void)
-{
-    return m_romaji_half_symbol;
-}
-
-void
 AnthyPreedit::set_input_mode (InputMode mode)
 {
     m_input_mode = mode;
@@ -1149,58 +1113,6 @@ InputMode
 AnthyPreedit::get_input_mode (void)
 {
     return m_input_mode;
-}
-
-void
-AnthyPreedit::set_typing_method (TypingMethod method)
-{
-    set_table (m_romaji_half_symbol, m_romaji_half_number,
-               method, m_period_style, m_comma_style, m_space_type);
-}
-
-TypingMethod
-AnthyPreedit::get_typing_method (void)
-{
-    return m_typing_method;
-}
-
-void
-AnthyPreedit::set_period_style (PeriodStyle style)
-{
-    set_table (m_romaji_half_symbol, m_romaji_half_number,
-               m_typing_method, style, m_comma_style, m_space_type);
-}
-
-PeriodStyle
-AnthyPreedit::get_period_style (void)
-{
-    return m_period_style;
-}
-
-void
-AnthyPreedit::set_comma_style (CommaStyle style)
-{
-    set_table (m_romaji_half_symbol, m_romaji_half_number,
-               m_typing_method, m_period_style, style, m_space_type);
-}
-
-CommaStyle
-AnthyPreedit::get_comma_style (void)
-{
-    return m_comma_style;
-}
-
-void
-AnthyPreedit::set_space_type (SpaceType type)
-{
-    set_table (m_romaji_half_symbol, m_romaji_half_number,
-               m_typing_method, m_period_style, m_comma_style, type);
-}
-
-SpaceType
-AnthyPreedit::get_space_type (void)
-{
-    return m_space_type;
 }
 
 void
@@ -1227,74 +1139,29 @@ AnthyPreedit::get_auto_convert (void)
     return m_auto_convert;
 }
 
-void
-AnthyPreedit::set_table (bool romaji_half_symbol,
-                         bool romaji_half_number,
-                         TypingMethod method,
-                         PeriodStyle period,
-                         CommaStyle comma,
-                         SpaceType space)
-{
-    switch (method) {
-    case METHOD_KANA:
-        m_key2kana.set_table (scim_anthy_kana_typing_rule);
-        break;
-    case METHOD_ROMAKANA:
-    default:
-        m_key2kana.set_table (scim_anthy_romakana_typing_rule);
-
-        if (romaji_half_symbol)
-            m_key2kana.append_table (scim_anthy_romakana_symbol_rule);
-        else
-            m_key2kana.append_table (scim_anthy_romakana_wide_symbol_rule);
-
-        if (romaji_half_number)
-            m_key2kana.append_table (scim_anthy_romakana_number_rule);
-        else
-            m_key2kana.append_table (scim_anthy_romakana_wide_number_rule);
-
-        break;
-    };
-
-    ConvRule *period_rule = get_period_rule (method, period);
-    if (period_rule)
-        m_key2kana.append_table (period_rule);
-
-    ConvRule *comma_rule  = get_comma_rule  (method, comma);
-    if (comma_rule)
-        m_key2kana.append_table (comma_rule);
-
-    switch (space) {
-    case SPACE_NORMAL:
-        m_key2kana.append_table (scim_anthy_space_rule);
-        break;
-    case SPACE_WIDE:
-    default:
-        m_key2kana.append_table (scim_anthy_wide_space_rule);
-        break;
-    };
-
-    m_romaji_half_symbol = romaji_half_symbol;
-    m_romaji_half_number = romaji_half_number;
-    m_typing_method      = method;
-    m_period_style       = period;
-    m_comma_style        = comma;
-    m_space_type         = space;
-}
-
 bool
 AnthyPreedit::is_comma_or_period (const String & str)
 {
-    ConvRule *period_rule = get_period_rule (m_typing_method, m_period_style);
-    ConvRule *comma_rule  = get_comma_rule  (m_typing_method, m_comma_style);
+    SCIMAnthyTypingMethod typing = m_key2kana_tables.get_typing_method ();
+    SCIMAnthyPeriodStyle  period = m_key2kana_tables.get_period_style ();
+    SCIMAnthyCommaStyle   comma  = m_key2kana_tables.get_comma_style ();
+
+    ConvRule *period_rule = get_period_rule (typing, period);
+    ConvRule *comma_rule  = get_comma_rule  (typing, comma);
 
     for (unsigned int i = 0; period_rule && period_rule[i].string; i++) {
-        if (period_rule[i].string && !strcmp (period_rule[i].string, str.c_str ()))
+        if (period_rule[i].string &&
+            !strcmp (period_rule[i].string, str.c_str ()))
+        {
             return true;
+        }
     }
     for (unsigned int i = 0; comma_rule && comma_rule[i].string; i++) {
-        if (comma_rule[i].string && !strcmp (comma_rule[i].string, str.c_str ()))
+        if (comma_rule[i].string &&
+            !strcmp (comma_rule[i].string, str.c_str ()))
+        {
             return true;
+        }
     }
 
     return false;
@@ -1305,7 +1172,7 @@ AnthyPreedit::is_comma_or_period (const String & str)
 
 #if 1 // FIXME! it's ad-hoc.  linear search kayo!
 static void
-convert_string_to_wide (const String & str, WideString & wide, SpaceType space)
+convert_string_to_wide (const String & str, WideString & wide)
 {
     if (str.length () < 0)
         return;
@@ -1316,16 +1183,13 @@ convert_string_to_wide (const String & str, WideString & wide, SpaceType space)
         bool found = false;
 
         for (unsigned int j = 0; scim_anthy_wide_table[j].code; j++) {
-            if (scim_anthy_wide_table[j].code && *scim_anthy_wide_table[j].code == c) {
+            if ( scim_anthy_wide_table[j].code &&
+                *scim_anthy_wide_table[j].code == c)
+            {
                 wide += utf8_mbstowcs (scim_anthy_wide_table[j].wide);
                 found = true;
                 break;
             }
-        }
-
-        if (!found && space == SPACE_WIDE && c == ' ') {
-            wide += utf8_mbstowcs ("\xE3\x80\x80");
-            found = true;
         }
 
         if (!found)
@@ -1344,13 +1208,15 @@ convert_hiragana_to_katakana (const WideString & hira, WideString & kata,
         WideString tmpwide;
         bool found = false;
 
-        for (unsigned int j = 0; scim_anthy_hiragana_katakana_table[j].hiragana; j++) {
-            tmpwide = utf8_mbstowcs (scim_anthy_hiragana_katakana_table[j].hiragana);
+        HiraganaKatakanaRule *table = scim_anthy_hiragana_katakana_table;
+
+        for (unsigned int j = 0; table[j].hiragana; j++) {
+            tmpwide = utf8_mbstowcs (table[j].hiragana);
             if (hira.substr(i, 1) == tmpwide) {
                 if (half)
-                    kata += utf8_mbstowcs (scim_anthy_hiragana_katakana_table[j].half_katakana);
+                    kata += utf8_mbstowcs (table[j].half_katakana);
                 else
-                    kata += utf8_mbstowcs (scim_anthy_hiragana_katakana_table[j].katakana);
+                    kata += utf8_mbstowcs (table[j].katakana);
                 found = true;
                 break;
             }
@@ -1362,30 +1228,30 @@ convert_hiragana_to_katakana (const WideString & hira, WideString & kata,
 }
 
 static ConvRule *
-get_period_rule (TypingMethod method, PeriodStyle period)
+get_period_rule (SCIMAnthyTypingMethod method, SCIMAnthyPeriodStyle period)
 {
     switch (method) {
-    case METHOD_KANA:
+    case SCIM_ANTHY_TYPING_METHOD_KANA:
         switch (period) {
-        case PERIOD_WIDE_LATIN:
-            return scim_anthy_kana_wide_latin_period_rule;
-        case PERIOD_LATIN:
-            return scim_anthy_kana_latin_period_rule;
-        case PERIOD_JAPANESE:
+        case SCIM_ANTHY_PERIOD_WIDE:
+            return scim_anthy_kana_wide_period_rule;
+        case SCIM_ANTHY_PERIOD_HALF:
+            return scim_anthy_kana_half_period_rule;
+        case SCIM_ANTHY_PERIOD_JAPANESE:
         default:
             return scim_anthy_kana_ja_period_rule;
         };
         break;
-    case METHOD_ROMAKANA:
+    case SCIM_ANTHY_TYPING_METHOD_ROMAJI:
     default:
         switch (period) {
-        case PERIOD_WIDE_LATIN:
-            return scim_anthy_romakana_wide_latin_period_rule;
-        case PERIOD_LATIN:
-            return scim_anthy_romakana_latin_period_rule;
-        case PERIOD_JAPANESE:
+        case SCIM_ANTHY_PERIOD_WIDE:
+            return scim_anthy_romaji_wide_period_rule;
+        case SCIM_ANTHY_PERIOD_HALF:
+            return scim_anthy_romaji_half_period_rule;
+        case SCIM_ANTHY_PERIOD_JAPANESE:
         default:
-            return scim_anthy_romakana_ja_period_rule;
+            return scim_anthy_romaji_ja_period_rule;
         };
         break;
     };
@@ -1394,30 +1260,30 @@ get_period_rule (TypingMethod method, PeriodStyle period)
 }
 
 static ConvRule *
-get_comma_rule (TypingMethod method, CommaStyle period)
+get_comma_rule (SCIMAnthyTypingMethod method, SCIMAnthyCommaStyle period)
 {
     switch (method) {
-    case METHOD_KANA:
+    case SCIM_ANTHY_TYPING_METHOD_KANA:
         switch (period) {
-        case PERIOD_WIDE_LATIN:
-            return scim_anthy_kana_wide_latin_comma_rule;
-        case PERIOD_LATIN:
-            return scim_anthy_kana_latin_comma_rule;
-        case PERIOD_JAPANESE:
+        case SCIM_ANTHY_PERIOD_WIDE:
+            return scim_anthy_kana_wide_comma_rule;
+        case SCIM_ANTHY_PERIOD_HALF:
+            return scim_anthy_kana_half_comma_rule;
+        case SCIM_ANTHY_PERIOD_JAPANESE:
         default:
             return scim_anthy_kana_ja_comma_rule;
         };
         break;
-    case METHOD_ROMAKANA:
+    case SCIM_ANTHY_TYPING_METHOD_ROMAJI:
     default:
         switch (period) {
-        case PERIOD_WIDE_LATIN:
-            return scim_anthy_romakana_wide_latin_comma_rule;
-        case PERIOD_LATIN:
-            return scim_anthy_romakana_latin_comma_rule;
-        case PERIOD_JAPANESE:
+        case SCIM_ANTHY_PERIOD_WIDE:
+            return scim_anthy_romaji_wide_comma_rule;
+        case SCIM_ANTHY_PERIOD_HALF:
+            return scim_anthy_romaji_half_comma_rule;
+        case SCIM_ANTHY_PERIOD_JAPANESE:
         default:
-            return scim_anthy_romakana_ja_comma_rule;
+            return scim_anthy_romaji_ja_comma_rule;
         };
         break;
     };

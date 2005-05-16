@@ -1,9 +1,10 @@
 /* FIXME! this table should be separated as external file */
 
-#include "scim_anthy_automaton.h"
+#include <scim.h>
+#include "scim_anthy_key2kana_table_default.h"
 
 /* from Suikyo */
-ConvRule scim_anthy_romakana_typing_rule[] = {
+ConvRule scim_anthy_romaji_typing_rule[] = {
 #if 0
 {"va",	"う゛ぁ",	""},
 {"vi",	"う゛ぃ",	""},
@@ -247,10 +248,10 @@ ConvRule scim_anthy_romakana_typing_rule[] = {
 {";s",	"®",	""},
 {";c",	"©",	""},
 #endif
-{NULL,	NULL,	NULL}
+{NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romakana_symbol_rule[] = {
+ConvRule scim_anthy_romaji_half_symbol_rule[] = {
 {",",	",",	""},
 {".",	".",	""},
 {"!",	"!",	""},
@@ -285,7 +286,7 @@ ConvRule scim_anthy_romakana_symbol_rule[] = {
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romakana_wide_symbol_rule[] = {
+ConvRule scim_anthy_romaji_wide_symbol_rule[] = {
 {",",	"、",	""},
 {".",	"。",	""},
 {"!",	"！",	""},
@@ -317,10 +318,10 @@ ConvRule scim_anthy_romakana_wide_symbol_rule[] = {
 {"?",	"？",	""},
 {"/",	"／",	""},
 {"_",	"＿",	""},
-{NULL,	NULL,	NULL}
+{NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romakana_number_rule[] = {
+ConvRule scim_anthy_romaji_half_number_rule[] = {
 {"1", "1", ""},
 {"2", "2", ""},
 {"3", "3", ""},
@@ -331,11 +332,11 @@ ConvRule scim_anthy_romakana_number_rule[] = {
 {"8", "8", ""},
 {"9", "9", ""},
 {"0", "0", ""},
-{NULL,	NULL,	NULL}
+{NULL,	NULL,	NULL},
 };
 
 
-ConvRule scim_anthy_romakana_wide_number_rule[] = {
+ConvRule scim_anthy_romaji_wide_number_rule[] = {
 {"1", "１", ""},
 {"2", "２", ""},
 {"3", "３", ""},
@@ -346,7 +347,7 @@ ConvRule scim_anthy_romakana_wide_number_rule[] = {
 {"8", "８", ""},
 {"9", "９", ""},
 {"0", "０", ""},
-{NULL,	NULL,	NULL}
+{NULL,	NULL,	NULL},
 };
 
 ConvRule scim_anthy_kana_typing_rule[] = {
@@ -441,32 +442,32 @@ ConvRule scim_anthy_kana_typing_rule[] = {
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romakana_ja_period_rule[] = {
+ConvRule scim_anthy_romaji_ja_period_rule[] = {
 {".",	"。",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romakana_ja_comma_rule[] = {
+ConvRule scim_anthy_romaji_ja_comma_rule[] = {
 {",",	"、",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romakana_wide_latin_period_rule[] = {
+ConvRule scim_anthy_romaji_wide_period_rule[] = {
 {".",	"．",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romakana_wide_latin_comma_rule[] = {
+ConvRule scim_anthy_romaji_wide_comma_rule[] = {
 {",",	"，",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romakana_latin_period_rule[] = {
+ConvRule scim_anthy_romaji_half_period_rule[] = {
 {".",	".",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romakana_latin_comma_rule[] = {
+ConvRule scim_anthy_romaji_half_comma_rule[] = {
 {",",	",",	""},
 {NULL,	NULL,	NULL},
 };
@@ -481,33 +482,23 @@ ConvRule scim_anthy_kana_ja_comma_rule[] = {
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_kana_wide_latin_period_rule[] = {
+ConvRule scim_anthy_kana_wide_period_rule[] = {
 {">",	"．",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_kana_wide_latin_comma_rule[] = {
+ConvRule scim_anthy_kana_wide_comma_rule[] = {
 {"<",	"，",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_kana_latin_period_rule[] = {
+ConvRule scim_anthy_kana_half_period_rule[] = {
 {">",	".",	""},
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_kana_latin_comma_rule[] = {
+ConvRule scim_anthy_kana_half_comma_rule[] = {
 {"<",	",",	""},
-{NULL,	NULL,	NULL},
-};
-
-ConvRule scim_anthy_wide_space_rule[] = {
-{" ",	"　",	""},
-{NULL,	NULL,	NULL},
-};
-
-ConvRule scim_anthy_space_rule[] = {
-{" ",	" ",	""},
 {NULL,	NULL,	NULL},
 };
 

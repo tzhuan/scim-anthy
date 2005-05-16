@@ -9,15 +9,16 @@ INCLUDE	= \
 	-I$(top_srcdir)/src 
 
 noinst_HEADERS = \
-	intl.h \
+	scim_anthy_intl.h \
+	scim_anthy_prefs.h \
 	scim_anthy_action.h \
 	scim_anthy_imengine_factory.h \
 	scim_anthy_imengine.h \
 	scim_anthy_preedit.h \
-	scim_anthy_automaton.h \
-	scim_anthy_conv_table.h \
-	scim_anthy_style_file.h \
-	scim_anthy_prefs.h
+	scim_anthy_key2kana_convertor.h \
+	scim_anthy_key2kana_table.h \
+	scim_anthy_key2kana_table_default.h \
+	scim_anthy_style_file.h
 
 moduledir = @SCIM_MODULEDIR@/IMEngine
 module_LTLIBRARIES = anthy.la
@@ -27,8 +28,9 @@ anthy_la_SOURCES = \
 	scim_anthy_imengine_factory.cpp \
 	scim_anthy_imengine.cpp \
 	scim_anthy_preedit.cpp \
-	scim_anthy_automaton.cpp \
-	scim_anthy_conv_table.cpp \
+	scim_anthy_key2kana_convertor.cpp \
+	scim_anthy_key2kana_table.cpp \
+	scim_anthy_key2kana_table_default.cpp \
 	scim_anthy_style_file.cpp
 
 anthy_la_CFLAGS = @SCIM_CFLAGS@  @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@

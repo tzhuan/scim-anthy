@@ -40,7 +40,7 @@
 #include "scim_anthy_imengine_factory.h"
 #include "scim_anthy_imengine.h"
 #include "scim_anthy_prefs.h"
-#include "intl.h"
+#include "scim_anthy_intl.h"
 
 #define scim_module_init anthy_LTX_scim_module_init
 #define scim_module_exit anthy_LTX_scim_module_exit

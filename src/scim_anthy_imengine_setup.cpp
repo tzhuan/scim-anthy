@@ -36,7 +36,7 @@
 #include <scim.h>
 #include <gtk/scimkeyselection.h>
 #include "scim_anthy_prefs.h"
-#include "intl.h"
+#include "scim_anthy_intl.h"
 
 using namespace scim;
 

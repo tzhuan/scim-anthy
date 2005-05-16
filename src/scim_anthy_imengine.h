@@ -30,31 +30,13 @@
 #include <anthy/anthy.h>
 #include <scim.h>
 #include "scim_anthy_preedit.h"
+#include "scim_anthy_key2kana_table.h"
 
 using namespace scim;
 
 class AnthyInstance : public IMEngineInstanceBase
 {
     friend class AnthyFactory;
-
-private:
-    AnthyFactory       *m_factory;
-
-    KeyEvent            m_prev_key;
-
-    /* for preedit */
-    AnthyPreedit        m_preedit;
-    bool                m_preedit_string_visible;
-
-    /* for candidates window */
-    CommonLookupTable   m_lookup_table;
-    bool                m_lookup_table_visible;
-
-    /* for toggling latin and wide latin */
-    InputMode           m_prev_input_mode;
-
-    /* for toolbar */
-    PropertyList        m_properties;
 
 public:
     AnthyInstance (AnthyFactory   *factory,
@@ -78,9 +60,9 @@ public:
 private:
     void   install_properties                 (void);
     void   set_input_mode                     (InputMode mode);
-    void   set_typing_method                  (TypingMethod method); /* FIXME! */
-    void   set_period_style                   (PeriodStyle period,
-                                               CommaStyle comma);
+    void   set_typing_method                  (SCIMAnthyTypingMethod method);
+    void   set_period_style                   (SCIMAnthyPeriodStyle period,
+                                               SCIMAnthyCommaStyle comma);
     bool   is_selecting_candidates            (void);
     void   select_candidate_no_direct         (unsigned int item);
     bool   convert_kana                       (CandidateType type);
@@ -166,6 +148,26 @@ private:
     /* utility */
     bool   match_key_event (const KeyEventList &keys,
                             const KeyEvent &key) const;
+
+private:
+    AnthyFactory         *m_factory;
+
+    KeyEvent              m_prev_key;
+
+    /* for preedit */
+    AnthyKey2KanaTableSet m_key2kana_tables;
+    AnthyPreedit          m_preedit;
+    bool                  m_preedit_string_visible;
+
+    /* for candidates window */
+    CommonLookupTable     m_lookup_table;
+    bool                  m_lookup_table_visible;
+
+    /* for toggling latin and wide latin */
+    InputMode             m_prev_input_mode;
+
+    /* for toolbar */
+    PropertyList          m_properties;
 };
 #endif /* __SCIM_ANTHY_IMENGINE_H__ */
 /*

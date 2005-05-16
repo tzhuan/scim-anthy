@@ -18,46 +18,26 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __SCIM_ANTHY_AUTOMATON_H__
-#define __SCIM_ANTHY_AUTOMATON_H__
+#ifndef __SCIM_ANTHY_KEY2KANA_CONVERTOR_H__
+#define __SCIM_ANTHY_KEY2KANA_CONVERTOR_H__
 
 #define Uses_SCIM_ICONV
 #include <scim.h>
 
-#include "scim_anthy_conv_table.h"
+#include "scim_anthy_key2kana_table_default.h"
+#include "scim_anthy_key2kana_table.h"
 
 using namespace scim;
 
-#if 0
-class ConvRule
+class AnthyKey2KanaConvertor
 {
-    WideString *m_string;
-    WideString *m_result;
-    WideString *m_continue;
-
-public:
-    ConvRule ();
-    virtual ~ConvRule();
-};
-#endif
-
-class Automaton
-{
+    AnthyKey2KanaTableSet  &m_tables;
     WideString              m_pending;
-    ConvRule               *m_table;
-    unsigned int            m_table_len;
     ConvRule               *m_exact_match;
-    std::vector<ConvRule*>  m_tables;
 
 public:
-    enum {
-        HAS_PARSHAL_MATCH,
-        HAS_EXACT_MATCH,
-        COMMIT_PREV_PENDING,
-    };
-
-    Automaton ();
-    virtual ~Automaton ();
+    AnthyKey2KanaConvertor (AnthyKey2KanaTableSet & tables);
+    virtual ~AnthyKey2KanaConvertor ();
 
     virtual bool       append             (const String & str,
                                            WideString   & result,
@@ -67,12 +47,8 @@ public:
     virtual bool       is_pending         (void);
     virtual WideString get_pending        (void);
     virtual WideString flush_pending      (void);
-
-    virtual void       set_table          (ConvRule *table);
-    virtual void       append_table       (ConvRule *table);
-    virtual void       remove_table       (ConvRule *table);
 };
-#endif /* __SCIM_ANTHY_AUTOMATON_H__ */
+#endif /* __SCIM_ANTHY_KEY2KANA_CONVERTOR_H__ */
 /*
 vi:ts=4:nowrap:ai:expandtab
 */
