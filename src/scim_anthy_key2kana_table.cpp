@@ -167,6 +167,20 @@ AnthyKey2KanaTableSet::reset_tables (void)
             m_all_tables.push_back (&(*it));
     }
 
+    if (is_romaji) {
+        // symbols table
+        if (m_use_half_symbol)
+            m_all_tables.push_back (&half_symbol_table);
+        else
+            m_all_tables.push_back (&wide_symbol_table);
+
+        // numbers table
+        if (m_use_half_number)
+            m_all_tables.push_back (&half_number_table);
+        else
+            m_all_tables.push_back (&wide_number_table);
+    }
+
     if (is_romaji || is_kana)
     {
         switch (m_period_style) {
@@ -217,19 +231,5 @@ AnthyKey2KanaTableSet::reset_tables (void)
         default:
             break;
         }
-    }
-
-    if (is_romaji) {
-        // symbols table
-        if (m_use_half_symbol)
-            m_all_tables.push_back (&half_symbol_table);
-        else
-            m_all_tables.push_back (&wide_symbol_table);
-
-        // numbers table
-        if (m_use_half_number)
-            m_all_tables.push_back (&half_number_table);
-        else
-            m_all_tables.push_back (&wide_number_table);
     }
 }
