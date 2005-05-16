@@ -24,7 +24,6 @@
 #include "scim_anthy_preedit.h"
 
 
-#if 1 // FIXME! it's ad-hoc.
 static void      convert_string_to_wide       (const String     &str,
                                                WideString       &wide);
 static void      convert_hiragana_to_katakana (const WideString &hira,
@@ -34,16 +33,14 @@ static ConvRule *get_period_rule              (SCIMAnthyTypingMethod method,
                                                SCIMAnthyPeriodStyle  period);
 static ConvRule *get_comma_rule               (SCIMAnthyTypingMethod method,
                                                SCIMAnthyCommaStyle   period);
-#endif // FIXME! it's ad-hoc.
 
 
 
-AnthyPreeditChar::AnthyPreeditChar (void)
-    : pending (true)
+AnthyPreeditSegment::AnthyPreeditSegment (void)
 {
 }
 
-AnthyPreeditChar::~AnthyPreeditChar ()
+AnthyPreeditSegment::~AnthyPreeditSegment ()
 {
 }
 
@@ -243,6 +240,11 @@ AnthyPreedit::is_kana_converting (void)
 bool
 AnthyPreedit::can_process (const KeyEvent & key)
 {
+    // ignore short cut keys of apllication.
+    if (key.mask & SCIM_KEY_ControlMask ||
+        key.mask & SCIM_KEY_AltMask)
+        return false;
+
     if (isprint(key.get_ascii_code ()) && !isspace(key.get_ascii_code ()))
         return true;
 
@@ -360,13 +362,10 @@ AnthyPreedit::append_str (const String & str)
     bool commit_pending;
     commit_pending = m_key2kana.append (str, result, pending);
 
-    std::vector<AnthyPreeditChar>::iterator begin = m_char_list.begin ();
-
-    if (commit_pending)
-        m_char_list[m_char_caret - 1].pending = true;
+    AnthyPreeditSegments::iterator begin = m_char_list.begin ();
 
     if (!was_pending || commit_pending) {
-        AnthyPreeditChar c;
+        AnthyPreeditSegment c;
         m_char_list.insert (begin + m_char_caret, c);
         m_char_caret++;
     }
@@ -377,23 +376,19 @@ AnthyPreedit::append_str (const String & str)
      */
     if (result.length() > 0 && pending.length () > 0) {
         m_char_list[m_char_caret - 1].kana = result;
-        m_char_list[m_char_caret - 1].pending = false; // FIXME!
 
-        AnthyPreeditChar c;
+        AnthyPreeditSegment c;
         c.key += str;
         c.kana = pending;
-        c.pending = true;
         m_char_list.insert (begin + m_char_caret, c);
 
         m_char_caret++;
     } else if (result.length () > 0) {
         m_char_list[m_char_caret - 1].key += str;
         m_char_list[m_char_caret - 1].kana = result;
-        m_char_list[m_char_caret - 1].pending = false; // FIXME!
     } else if (pending.length () > 0) {
         m_char_list[m_char_caret - 1].key += str;
         m_char_list[m_char_caret - 1].kana = pending;
-        m_char_list[m_char_caret - 1].pending = true;
     } else {
         // error
     }
@@ -439,20 +434,22 @@ AnthyPreedit::erase (bool backward)
         unsigned int key_len = m_char_list[m_char_caret - 1].key.length ();
 
         if (m_key2kana.is_pending () && key_len > 1) {
-            String key_str = m_char_list[m_char_caret - 1].key.substr (0, key_len - 1);
-            m_char_list[m_char_caret - 1].key = key_str;
-            unsigned int kana_len = m_char_list[m_char_caret - 1].kana.length();
-            WideString kana_str = m_char_list[m_char_caret - 1].kana.substr (0, kana_len - 1);
-            m_char_list[m_char_caret - 1].kana = kana_str;
+            AnthyPreeditSegment &last = m_char_list[m_char_caret - 1];
+            String key_str = last.key.substr (0, key_len - 1);
+            last.key = key_str;
+            unsigned int kana_len = last.kana.length();
+            WideString kana_str = last.kana.substr (0, kana_len - 1);
+            last.kana = kana_str;
         } else {
-            std::vector<AnthyPreeditChar>::iterator end = m_char_list.begin () + m_char_caret;
-            std::vector<AnthyPreeditChar>::iterator begin = end - 1;
+            AnthyPreeditSegments::iterator begin, end;
+            end = m_char_list.begin () + m_char_caret;
+            begin = end - 1;
             m_char_list.erase(begin, end);
             m_char_caret--;
         }
 
     } else if (!backward && m_char_caret < m_char_list.size ()) {
-        std::vector<AnthyPreeditChar>::iterator begin, end;
+        AnthyPreeditSegments::iterator begin, end;
         begin = m_char_list.begin () + m_char_caret;
         end   = begin + 1;
         m_char_list.erase(begin, end);
@@ -1063,8 +1060,7 @@ AnthyPreedit::reset_pending (void)
     if (m_key2kana.is_pending ())
         m_key2kana.clear ();
 
-    // FIXME! should we revert from more previous characters?
-    if (m_char_caret > 0 /*&& m_char_list[m_char_caret - 1].pending*/) {
+    if (m_char_caret > 0) {
         for (unsigned int i = 0;
              i < m_char_list[m_char_caret - 1].key.length ();
              i++)
@@ -1169,8 +1165,6 @@ AnthyPreedit::is_comma_or_period (const String & str)
 
 
 
-
-#if 1 // FIXME! it's ad-hoc.  linear search kayo!
 static void
 convert_string_to_wide (const String & str, WideString & wide)
 {
@@ -1290,7 +1284,6 @@ get_comma_rule (SCIMAnthyTypingMethod method, SCIMAnthyCommaStyle period)
 
     return NULL;
 }
-#endif // FIXME!
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

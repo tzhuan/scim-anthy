@@ -1,5 +1,13 @@
 2005-05-16 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_preedit.cpp, src/scim_anthy_preedit.h:
+	Revive key mask checking to enable apllication's short cut key on
+	non-preedition state. Thanks DAIRIKI-san.
+	Rename AnthyPreeditChar to AnthyPreeditSegment, and remove "pending"
+	member.
+
+2005-05-16 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_intl.h, src/scim_anthy_key2kana_convertor.cpp,
 	  src/scim_anthy_key2kana_convertor.cpp,
 	  src/scim_anthy_key2kana_table.cpp, src/scim_anthy_key2kana_table.h,

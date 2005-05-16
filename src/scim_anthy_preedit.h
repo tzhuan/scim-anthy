@@ -62,16 +62,15 @@ typedef enum {
     PREEDIT_CONVERSION,
 } AnthyPreeditStringType;
 
-class AnthyPreeditChar
+class AnthyPreeditSegment
 {
 public:
     String     key;
     WideString kana;
-    bool       pending;
 
 public:
-    AnthyPreeditChar (void);
-    virtual ~AnthyPreeditChar ();
+    AnthyPreeditSegment (void);
+    virtual ~AnthyPreeditSegment ();
 
 #if 0
     void split    (void);
@@ -79,6 +78,8 @@ public:
     void to_valid (void);
 #endif
 };
+
+typedef std::vector<AnthyPreeditSegment> AnthyPreeditSegments;
 
 class AnthyPreedit
 {
@@ -159,24 +160,24 @@ private:
     // converter objects
     AnthyKey2KanaTableSet  &m_key2kana_tables;
     AnthyKey2KanaConvertor  m_key2kana;
-    IConvert          m_iconv;
-    anthy_context_t   m_anthy_context;
+    IConvert                m_iconv;
+    anthy_context_t         m_anthy_context;
 
     // mode flags
-    InputMode         m_input_mode;
-    TenKeyType        m_ten_key_type;
-    bool              m_auto_convert;
+    InputMode               m_input_mode;
+    TenKeyType              m_ten_key_type;
+    bool                    m_auto_convert;
 
     // raw key code & preedit string
-    std::vector<AnthyPreeditChar> m_char_list;// whole preedit characters includes commited one.
+    AnthyPreeditSegments    m_char_list;      // whole preedit characters includes commited one.
                                               // start position of non-commited character is
                                               // pointed by m_start_segment_pos.
-    unsigned int             m_start_char;    // to skip already commited characters.
+    unsigned int            m_start_char;     // to skip already commited characters.
                                               // FIXME!! not implemented yet.
-    unsigned int             m_char_caret;    // relative position from m_start_char.
+    unsigned int            m_char_caret;     // relative position from m_start_char.
 
     // real position of the caret
-    unsigned int      m_caret;                // relative position from m_start_segment_pos.
+    unsigned int            m_caret;          // relative position from m_start_segment_pos.
 
     // conversion string
     WideString        m_conv_string;          // conversion string for non-commited segments.
