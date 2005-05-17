@@ -44,20 +44,21 @@ public:
                    int             id = -1);
     virtual ~AnthyInstance ();
 
-    virtual bool process_key_event             (const KeyEvent& key);
-    virtual void move_preedit_caret            (unsigned int pos);
-    virtual void select_candidate              (unsigned int item);
-    virtual void update_lookup_table_page_size (unsigned int page_size);
-    virtual void lookup_table_page_up          (void);
-    virtual void lookup_table_page_down        (void);
-    virtual void reset                         (void);
-    virtual void focus_in                      (void);
-    virtual void focus_out                     (void);
-    virtual void trigger_property              (const String &property);
+    virtual bool process_key_event            (const KeyEvent& key);
+    virtual void move_preedit_caret           (unsigned int pos);
+    virtual void select_candidate             (unsigned int item);
+    virtual void update_lookup_table_page_size(unsigned int page_size);
+    virtual void lookup_table_page_up         (void);
+    virtual void lookup_table_page_down       (void);
+    virtual void reset                        (void);
+    virtual void focus_in                     (void);
+    virtual void focus_out                    (void);
+    virtual void trigger_property             (const String &property);
 
-    virtual void reload_config                 (const ConfigPointer &config);
+    virtual void reload_config                (const ConfigPointer &config);
 
 private:
+    void   set_preedition                     (void);
     void   install_properties                 (void);
     void   set_input_mode                     (InputMode mode);
     void   set_typing_method                  (SCIMAnthyTypingMethod method);
