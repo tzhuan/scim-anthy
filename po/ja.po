@@ -639,7 +639,7 @@ msgstr "文字列を半角カタカナへ変換するキーイベント"
 
 #: src/scim_anthy_imengine_setup.cpp:763
 msgid "Convert to latin"
-msgstr "英数変換キーの設定"
+msgstr "英数変換"
 
 #: src/scim_anthy_imengine_setup.cpp:764
 msgid "Select keys to convert to latin"
