@@ -19,86 +19,88 @@
 
 #include "scim_anthy_key2kana_table.h"
 
+using namespace scim_anthy;
+
 // fundamental table
-static AnthyKey2KanaTable romaji_table (
+static Key2KanaTable romaji_table (
     utf8_mbstowcs ("DefaultRomajiTable"),
     scim_anthy_romaji_typing_rule);
-static AnthyKey2KanaTable kana_table (
+static Key2KanaTable kana_table (
     utf8_mbstowcs ("DefaultKanaTable"),
     scim_anthy_kana_typing_rule);
 
 // symbols
-static AnthyKey2KanaTable half_symbol_table (
+static Key2KanaTable half_symbol_table (
     utf8_mbstowcs ("DefaultRomajiHalfSymbolTable"),
     scim_anthy_romaji_half_symbol_rule);
-static AnthyKey2KanaTable wide_symbol_table (
+static Key2KanaTable wide_symbol_table (
     utf8_mbstowcs ("DefaultRomajiWideSymbolTable"),
     scim_anthy_romaji_wide_symbol_rule);
 
 // numbers
-static AnthyKey2KanaTable half_number_table (
+static Key2KanaTable half_number_table (
     utf8_mbstowcs ("DefaultRomajiHalfNumberTable"),
     scim_anthy_romaji_wide_number_rule);
-static AnthyKey2KanaTable wide_number_table (
+static Key2KanaTable wide_number_table (
     utf8_mbstowcs ("DefaultRomajiWideNumberTable"),
     scim_anthy_romaji_wide_number_rule);
 
 // period
-static AnthyKey2KanaTable romaji_ja_period_table (
+static Key2KanaTable romaji_ja_period_table (
     utf8_mbstowcs ("DefaultRomajiJaPeriodTable"),
     scim_anthy_romaji_ja_period_rule);
-static AnthyKey2KanaTable romaji_wide_period_table (
+static Key2KanaTable romaji_wide_period_table (
     utf8_mbstowcs ("DefaultRomajiWidePeriodTable"),
     scim_anthy_romaji_wide_period_rule);
-static AnthyKey2KanaTable romaji_half_period_table (
+static Key2KanaTable romaji_half_period_table (
     utf8_mbstowcs ("DefaultRomajiHalfPeriodTable"),
     scim_anthy_romaji_half_period_rule);
 
-static AnthyKey2KanaTable kana_ja_period_table (
+static Key2KanaTable kana_ja_period_table (
     utf8_mbstowcs ("DefaultKanaJaPeriodTable"),
     scim_anthy_kana_ja_period_rule);
-static AnthyKey2KanaTable kana_wide_period_table (
+static Key2KanaTable kana_wide_period_table (
     utf8_mbstowcs ("DefaultKanaWidePeriodTable"),
     scim_anthy_kana_wide_period_rule);
-static AnthyKey2KanaTable kana_half_period_table (
+static Key2KanaTable kana_half_period_table (
     utf8_mbstowcs ("DefaultKanaHalfPeriodTable"),
     scim_anthy_kana_half_period_rule);
 
 // comma
-static AnthyKey2KanaTable romaji_ja_comma_table (
+static Key2KanaTable romaji_ja_comma_table (
     utf8_mbstowcs ("DefaultRomajiJaCommaTable"),
     scim_anthy_romaji_ja_comma_rule);
-static AnthyKey2KanaTable romaji_wide_comma_table (
+static Key2KanaTable romaji_wide_comma_table (
     utf8_mbstowcs ("DefaultRomajiWideCommaTable"),
     scim_anthy_romaji_wide_comma_rule);
-static AnthyKey2KanaTable romaji_half_comma_table (
+static Key2KanaTable romaji_half_comma_table (
     utf8_mbstowcs ("DefaultRomajiHalfCommaTable"),
     scim_anthy_romaji_half_period_rule);
 
-static AnthyKey2KanaTable kana_ja_comma_table (
+static Key2KanaTable kana_ja_comma_table (
     utf8_mbstowcs ("DefaultKanaJaCommaTable"),
     scim_anthy_kana_ja_comma_rule);
-static AnthyKey2KanaTable kana_wide_comma_table (
+static Key2KanaTable kana_wide_comma_table (
     utf8_mbstowcs ("DefaultKanaWideCommaTable"),
     scim_anthy_kana_wide_comma_rule);
-static AnthyKey2KanaTable kana_half_comma_table (
+static Key2KanaTable kana_half_comma_table (
     utf8_mbstowcs ("DefaultKanaHalfCommaTable"),
     scim_anthy_kana_half_period_rule);
 
 
-AnthyKey2KanaTable::AnthyKey2KanaTable (WideString name, ConvRule *table)
+Key2KanaTable::Key2KanaTable (WideString name, ConvRule *table)
     : m_name  (name),
       m_table (table)
 {
 }
 
-AnthyKey2KanaTable::~AnthyKey2KanaTable ()
+Key2KanaTable::~Key2KanaTable ()
 {
     m_table= NULL;
 }
 
 
-AnthyKey2KanaTableSet::AnthyKey2KanaTableSet ()
+Key2KanaTableSet::Key2KanaTableSet ()
     : m_name            (utf8_mbstowcs ("")),
       m_typing_method   (SCIM_ANTHY_TYPING_METHOD_ROMAJI),
       m_period_style    (SCIM_ANTHY_PERIOD_JAPANESE),
@@ -109,47 +111,47 @@ AnthyKey2KanaTableSet::AnthyKey2KanaTableSet ()
     set_typing_method (m_typing_method);
 }
 
-AnthyKey2KanaTableSet::~AnthyKey2KanaTableSet ()
+Key2KanaTableSet::~Key2KanaTableSet ()
 {
 }
 
 void
-AnthyKey2KanaTableSet::set_typing_method (SCIMAnthyTypingMethod method)
+Key2KanaTableSet::set_typing_method (TypingMethod method)
 {
     m_typing_method = method;
     reset_tables ();
 }
 
 void
-AnthyKey2KanaTableSet::set_symbol_width (bool half)
+Key2KanaTableSet::set_symbol_width (bool half)
 {
     m_use_half_symbol = half;
     reset_tables ();
 }
 
 void
-AnthyKey2KanaTableSet::set_number_width (bool half)
+Key2KanaTableSet::set_number_width (bool half)
 {
     m_use_half_number = half;
     reset_tables ();
 }
 
 void
-AnthyKey2KanaTableSet::set_period_style (SCIMAnthyPeriodStyle style)
+Key2KanaTableSet::set_period_style (PeriodStyle style)
 {
     m_period_style = style;
     reset_tables ();
 }
 
 void
-AnthyKey2KanaTableSet::set_comma_style (SCIMAnthyCommaStyle  style)
+Key2KanaTableSet::set_comma_style (CommaStyle  style)
 {
     m_comma_style = style;
     reset_tables ();
 }
 
 void
-AnthyKey2KanaTableSet::reset_tables (void)
+Key2KanaTableSet::reset_tables (void)
 {
     m_all_tables.clear ();
 
@@ -162,7 +164,7 @@ AnthyKey2KanaTableSet::reset_tables (void)
         else if (is_kana)
             m_all_tables.push_back (&kana_table);
     } else {
-        std::vector<AnthyKey2KanaTable>::iterator it;
+        std::vector<Key2KanaTable>::iterator it;
         for (it = m_tables.begin (); it != m_tables.end (); it++)
             m_all_tables.push_back (&(*it));
     }

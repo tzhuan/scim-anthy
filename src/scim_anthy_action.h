@@ -27,13 +27,15 @@ using namespace scim;
 
 class AnthyInstance;
 
-class AnthyAction
+namespace scim_anthy {
+
+class Action
 {
     typedef bool (AnthyInstance::*PMF) (void);
 
 public:
-    AnthyAction  (const String &name, const String &key_bindings, PMF pmf);
-    ~AnthyAction ();
+    Action  (const String &name, const String &key_bindings, PMF pmf);
+    ~Action ();
 
 public:
     bool perform (AnthyInstance  *performer);
@@ -49,5 +51,7 @@ private:
     PMF            m_pmf;
     KeyEventList   m_key_bindings;
 };
+
+}
 
 #endif /* __SCIM_ANTHY_ACTION_H__ */

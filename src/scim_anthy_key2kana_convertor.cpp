@@ -20,19 +20,21 @@
 
 #include "scim_anthy_key2kana_convertor.h"
 
-AnthyKey2KanaConvertor::AnthyKey2KanaConvertor (AnthyKey2KanaTableSet & tables)
+using namespace scim_anthy;
+
+Key2KanaConvertor::Key2KanaConvertor (Key2KanaTableSet & tables)
     : m_tables (tables),
       m_exact_match (NULL)
 {
 }
 
-AnthyKey2KanaConvertor::~AnthyKey2KanaConvertor ()
+Key2KanaConvertor::~Key2KanaConvertor ()
 {
 }
 
 bool
-AnthyKey2KanaConvertor::append (const String & str,
-                                WideString & result, WideString & pending)
+Key2KanaConvertor::append (const String & str,
+                           WideString & result, WideString & pending)
 {
     WideString widestr = utf8_mbstowcs (str);
     WideString newstr = m_pending + widestr;
@@ -43,7 +45,7 @@ AnthyKey2KanaConvertor::append (const String & str,
     /* FIXME! should be optimized */
 
     /* find matched table */
-    std::vector<AnthyKey2KanaTable*> &tables = m_tables.get_tables();
+    std::vector<Key2KanaTable*> &tables = m_tables.get_tables();
     for (unsigned int j = 0; j < tables.size(); j++) {
         if (!tables[j])
             continue;
@@ -115,14 +117,14 @@ AnthyKey2KanaConvertor::append (const String & str,
 }
 
 void
-AnthyKey2KanaConvertor::clear (void)
+Key2KanaConvertor::clear (void)
 {
     m_pending.clear ();
     m_exact_match = NULL;
 }
 
 bool
-AnthyKey2KanaConvertor::is_pending (void)
+Key2KanaConvertor::is_pending (void)
 {
     if (m_pending.length () > 0)
         return true;
@@ -131,13 +133,13 @@ AnthyKey2KanaConvertor::is_pending (void)
 }
 
 WideString
-AnthyKey2KanaConvertor::get_pending (void)
+Key2KanaConvertor::get_pending (void)
 {
     return m_pending;
 }
 
 WideString
-AnthyKey2KanaConvertor::flush_pending (void)
+Key2KanaConvertor::flush_pending (void)
 {
     WideString result;
     if (m_exact_match) {

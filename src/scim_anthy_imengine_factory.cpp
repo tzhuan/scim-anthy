@@ -224,16 +224,17 @@ AnthyFactory::remove_config_listener (AnthyInstance *listener)
     str = config->read (String (SCIM_ANTHY_CONFIG_##key##_KEY),                \
                         String (SCIM_ANTHY_CONFIG_##key##_KEY_DEFAULT));       \
     m_actions.insert (m_actions.begin (),                                      \
-                      AnthyAction (name, str, &AnthyInstance::func));          \
+                      Action (name, str, &AnthyInstance::func));               \
 }
-#endif
+#else
 #define APPEND_ACTION(key, func)                                               \
 {                                                                              \
     String name = "func", str;                                                 \
     str = config->read (String (SCIM_ANTHY_CONFIG_##key##_KEY),                \
                         String (SCIM_ANTHY_CONFIG_##key##_KEY_DEFAULT));       \
-    m_actions.push_back (AnthyAction (name, str, &AnthyInstance::func));       \
+    m_actions.push_back (Action (name, str, &AnthyInstance::func));            \
 }
+#endif
 
 void
 AnthyFactory::reload_config (const ConfigPointer &config)

@@ -31,6 +31,7 @@
 #include "scim_anthy_action.h"
 
 using namespace scim;
+using namespace scim_anthy;
 
 class AnthyFactory : public IMEngineFactoryBase
 {
@@ -65,7 +66,7 @@ class AnthyFactory : public IMEngineFactoryBase
     std::vector<AnthyInstance*> m_config_listeners;
 
     /* for key bindings */
-    std::vector<AnthyAction> m_actions;
+    std::vector<Action> m_actions;
 
 public:
     AnthyFactory (const String &lang,

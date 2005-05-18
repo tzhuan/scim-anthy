@@ -25,41 +25,43 @@
 
 using namespace scim;
 
-typedef enum {
-    ANTHY_STYLE_LINE_UNKNOWN,
-    ANTHY_STYLE_LINE_SPACE,
-    ANTHY_STYLE_LINE_COMMENT,
-    ANTHY_STYLE_LINE_SECTION,
-    ANTHY_STYLE_LINE_KEY,
-} AnthyStyleLineType;
+namespace scim_anthy {
 
-class AnthyStyleLine
+typedef enum {
+    SCIM_ANTHY_STYLE_LINE_UNKNOWN,
+    SCIM_ANTHY_STYLE_LINE_SPACE,
+    SCIM_ANTHY_STYLE_LINE_COMMENT,
+    SCIM_ANTHY_STYLE_LINE_SECTION,
+    SCIM_ANTHY_STYLE_LINE_KEY,
+} StyleLineType;
+
+class StyleLine
 {
 public:
-    AnthyStyleLine (const char *line);
-    ~AnthyStyleLine ();
+    StyleLine (const char *line);
+    ~StyleLine ();
 
 public:
-    AnthyStyleLineType get_type    (void);
-    void               get_line    (String &line) { line = m_line; }
-    bool               get_section (String &section);
-    bool               get_key     (String &key);
-    bool               get_value   (String &value);
-    void               set_value   (String value);
+    StyleLineType get_type    (void);
+    void          get_line    (String &line) { line = m_line; }
+    bool          get_section (String &section);
+    bool          get_key     (String &key);
+    bool          get_value   (String &value);
+    void          set_value   (String value);
 
 private:
-    String             m_line;
-    AnthyStyleLineType m_type;
+    String        m_line;
+    StyleLineType m_type;
 };
 
-typedef std::vector<AnthyStyleLine>  AnthyStyleLines;
-typedef std::vector<AnthyStyleLines> AnthyStyleSections;
+typedef std::vector<StyleLine>  StyleLines;
+typedef std::vector<StyleLines> StyleSections;
 
-class AnthyStyleFile
+class StyleFile
 {
 public:
-    AnthyStyleFile ();
-    ~AnthyStyleFile ();
+    StyleFile ();
+    ~StyleFile ();
 
 public:
     bool load (const char *filename);
@@ -67,15 +69,17 @@ public:
 
     bool get_string       (String &value, String section, String key);
     void set_string       (String section, String key, String value);
-    bool get_section_list (AnthyStyleSections &sections) { sections = m_sections; return true; } ;
-    bool get_entry_list   (AnthyStyleLines &lines, String section);
+    bool get_section_list (StyleSections &sections) { sections = m_sections; return true; } ;
+    bool get_entry_list   (StyleLines &lines, String section);
 
 private:
 
 private:
-    String             m_encoding;
-    String             m_filename;
-    AnthyStyleSections m_sections;
+    String        m_encoding;
+    String        m_filename;
+    StyleSections m_sections;
 };
+
+}
 
 #endif /* __SCIM_ANTHY_STYLE_FILE_H__ */

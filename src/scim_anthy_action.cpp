@@ -23,20 +23,21 @@
 
 #include "scim_anthy_action.h"
 
-AnthyAction::AnthyAction (const String &name, const String &key_bindings,
-                          PMF pmf)
+using namespace scim_anthy;
+
+Action::Action (const String &name, const String &key_bindings, PMF pmf)
     : m_name (name),
       m_pmf (pmf)
 {
     scim_string_to_key_list (m_key_bindings, key_bindings);
 }
 
-AnthyAction::~AnthyAction (void)
+Action::~Action (void)
 {
 }
 
 bool
-AnthyAction::perform (AnthyInstance *performer)
+Action::perform (AnthyInstance *performer)
 {
     if (!performer || !m_pmf)
         return false;
@@ -45,7 +46,7 @@ AnthyAction::perform (AnthyInstance *performer)
 }
 
 bool
-AnthyAction::perform (AnthyInstance *performer, const KeyEvent &key)
+Action::perform (AnthyInstance *performer, const KeyEvent &key)
 {
     if (!performer || !m_pmf)
         return false;
@@ -57,7 +58,7 @@ AnthyAction::perform (AnthyInstance *performer, const KeyEvent &key)
 }
 
 bool
-AnthyAction::match_key_event (const KeyEvent &key)
+Action::match_key_event (const KeyEvent &key)
 {
     KeyEventList::const_iterator kit;
 

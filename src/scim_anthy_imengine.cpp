@@ -75,7 +75,7 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
       m_preedit (m_key2kana_tables),
       m_preedit_string_visible (false),
       m_lookup_table_visible (false),
-      m_prev_input_mode (MODE_HIRAGANA)
+      m_prev_input_mode (SCIM_ANTHY_MODE_HIRAGANA)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Instance : ";
 
@@ -91,7 +91,7 @@ AnthyInstance::~AnthyInstance ()
 bool
 AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
 {
-    std::vector<AnthyAction>::iterator it = m_factory->m_actions.begin();
+    std::vector<Action>::iterator it = m_factory->m_actions.begin();
     for (; it != m_factory->m_actions.end(); it++) {
         if ((*it).perform (this, key))
             return true;
@@ -165,7 +165,7 @@ AnthyInstance::process_key_event (const KeyEvent& key)
     if (process_key_event_lookup_keybind (key))
         return true;
 
-    if (m_preedit.get_input_mode () == MODE_LATIN)
+    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN)
         return false;
 
     // process hard coded keys
@@ -423,19 +423,19 @@ AnthyInstance::set_input_mode (InputMode mode)
     const char *label = "";
 
     switch (mode) {
-    case MODE_HIRAGANA:
+    case SCIM_ANTHY_MODE_HIRAGANA:
         label = "\xE3\x81\x82";
         break;
-    case MODE_KATAKANA:
+    case SCIM_ANTHY_MODE_KATAKANA:
         label = "\xE3\x82\xA2";
         break;
-    case MODE_HALF_KATAKANA:
+    case SCIM_ANTHY_MODE_HALF_KATAKANA:
         label = "_\xEF\xBD\xB1";
         break;
-    case MODE_LATIN:
+    case SCIM_ANTHY_MODE_LATIN:
         label = "_A";
         break;
-    case MODE_WIDE_LATIN:
+    case SCIM_ANTHY_MODE_WIDE_LATIN:
         label = "\xEF\xBC\xA1";
         break;
     default:
@@ -457,7 +457,7 @@ AnthyInstance::set_input_mode (InputMode mode)
 }
 
 void
-AnthyInstance::set_typing_method (SCIMAnthyTypingMethod method)
+AnthyInstance::set_typing_method (TypingMethod method)
 {
     const char *label = "";
 
@@ -487,8 +487,8 @@ AnthyInstance::set_typing_method (SCIMAnthyTypingMethod method)
 }
 
 void
-AnthyInstance::set_period_style (SCIMAnthyPeriodStyle period,
-                                 SCIMAnthyCommaStyle  comma)
+AnthyInstance::set_period_style (PeriodStyle period,
+                                 CommaStyle  comma)
 {
     String label;
 
@@ -710,10 +710,13 @@ AnthyInstance::action_insert_space (void)
 
     if (m_factory->m_space_type == "FollowMode") {
         InputMode mode = m_preedit.get_input_mode ();
-        if (mode == MODE_LATIN || mode == MODE_HALF_KATAKANA)
+        if (mode == SCIM_ANTHY_MODE_LATIN ||
+            mode == SCIM_ANTHY_MODE_HALF_KATAKANA)
+        {
             is_wide = false;
-        else
+        } else {
             is_wide = true;
+        }
     } else if (m_factory->m_space_type == "Wide") {
         is_wide = true;
     }
@@ -736,10 +739,13 @@ AnthyInstance::action_insert_alternative_space (void)
 
     if (m_factory->m_space_type == "FollowMode") {
         InputMode mode = m_preedit.get_input_mode ();
-        if (mode == MODE_LATIN || mode == MODE_HALF_KATAKANA)
+        if (mode == SCIM_ANTHY_MODE_LATIN ||
+            mode == SCIM_ANTHY_MODE_HALF_KATAKANA)
+        {
             is_wide = true;
-        else
+        } else {
             is_wide = false;
+        }
     } else if (m_factory->m_space_type != "Wide") {
         is_wide = true;
     }
@@ -1176,26 +1182,26 @@ AnthyInstance::action_select_candidate_10 (void)
 bool
 AnthyInstance::action_circle_input_mode (void)
 {
-    InputMode mode = MODE_HIRAGANA;
+    InputMode mode = SCIM_ANTHY_MODE_HIRAGANA;
 
     switch (mode) {
-    case MODE_HIRAGANA:
-        mode = MODE_KATAKANA;
+    case SCIM_ANTHY_MODE_HIRAGANA:
+        mode = SCIM_ANTHY_MODE_KATAKANA;
         break;
-    case MODE_KATAKANA:
-        mode = MODE_HALF_KATAKANA;
+    case SCIM_ANTHY_MODE_KATAKANA:
+        mode = SCIM_ANTHY_MODE_HALF_KATAKANA;
         break;
-    case MODE_HALF_KATAKANA:
-        mode = MODE_LATIN;
+    case SCIM_ANTHY_MODE_HALF_KATAKANA:
+        mode = SCIM_ANTHY_MODE_LATIN;
         break;
-    case MODE_LATIN:
-        mode = MODE_WIDE_LATIN;
+    case SCIM_ANTHY_MODE_LATIN:
+        mode = SCIM_ANTHY_MODE_WIDE_LATIN;
         break;
-    case MODE_WIDE_LATIN:
-        mode = MODE_HIRAGANA;
+    case SCIM_ANTHY_MODE_WIDE_LATIN:
+        mode = SCIM_ANTHY_MODE_HIRAGANA;
         break;
     default:
-        mode = MODE_HIRAGANA;
+        mode = SCIM_ANTHY_MODE_HIRAGANA;
         break; 
     }
 
@@ -1207,7 +1213,7 @@ AnthyInstance::action_circle_input_mode (void)
 bool
 AnthyInstance::action_circle_typing_method (void)
 {
-    SCIMAnthyTypingMethod method;
+    TypingMethod method;
 
     method = m_key2kana_tables.get_typing_method ();
     if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
@@ -1225,21 +1231,21 @@ AnthyInstance::action_circle_kana_mode (void)
 {
     InputMode mode;
 
-    if (m_preedit.get_input_mode () == MODE_LATIN ||
-        m_preedit.get_input_mode () == MODE_WIDE_LATIN)
+    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
+        m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
     {
-        mode = MODE_HIRAGANA;
+        mode = SCIM_ANTHY_MODE_HIRAGANA;
     } else {
         switch (m_preedit.get_input_mode ()) {
-        case MODE_HIRAGANA:
-            mode = MODE_KATAKANA;
+        case SCIM_ANTHY_MODE_HIRAGANA:
+            mode = SCIM_ANTHY_MODE_KATAKANA;
             break;
-        case MODE_KATAKANA:
-            mode = MODE_HALF_KATAKANA;
+        case SCIM_ANTHY_MODE_KATAKANA:
+            mode = SCIM_ANTHY_MODE_HALF_KATAKANA;
             break;
-        case MODE_HALF_KATAKANA:
+        case SCIM_ANTHY_MODE_HALF_KATAKANA:
         default:
-            mode = MODE_HIRAGANA;
+            mode = SCIM_ANTHY_MODE_HIRAGANA;
             break;
         }
     }
@@ -1252,15 +1258,15 @@ AnthyInstance::action_circle_kana_mode (void)
 bool
 AnthyInstance::action_toggle_latin_mode (void)
 {
-    if (m_preedit.get_input_mode () == MODE_LATIN ||
-        m_preedit.get_input_mode () == MODE_WIDE_LATIN)
+    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
+        m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
     {
         set_input_mode (m_prev_input_mode);
         m_preedit.set_input_mode (m_prev_input_mode);
     } else {
         m_prev_input_mode = m_preedit.get_input_mode ();
-        set_input_mode (MODE_LATIN);
-        m_preedit.set_input_mode (MODE_LATIN);
+        set_input_mode (SCIM_ANTHY_MODE_LATIN);
+        m_preedit.set_input_mode (SCIM_ANTHY_MODE_LATIN);
     }
 
     return true;
@@ -1269,13 +1275,13 @@ AnthyInstance::action_toggle_latin_mode (void)
 bool
 AnthyInstance::action_toggle_wide_latin_mode (void)
 {
-    if (m_preedit.get_input_mode () == MODE_LATIN ||
-        m_preedit.get_input_mode () == MODE_WIDE_LATIN)
+    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
+        m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
     {
         set_input_mode (m_prev_input_mode);
     } else {
         m_prev_input_mode = m_preedit.get_input_mode ();
-        set_input_mode (MODE_WIDE_LATIN);
+        set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
     }
 
     return true;
@@ -1284,14 +1290,14 @@ AnthyInstance::action_toggle_wide_latin_mode (void)
 bool
 AnthyInstance::action_hiragana_mode (void)
 {
-    set_input_mode (MODE_HIRAGANA);
+    set_input_mode (SCIM_ANTHY_MODE_HIRAGANA);
     return true;
 }
 
 bool
 AnthyInstance::action_katakana_mode (void)
 {
-    set_input_mode (MODE_KATAKANA);
+    set_input_mode (SCIM_ANTHY_MODE_KATAKANA);
     return true;
 }
 
@@ -1321,31 +1327,31 @@ AnthyInstance::convert_kana (CandidateType type)
 bool
 AnthyInstance::action_convert_to_hiragana (void)
 {
-    return convert_kana (CANDIDATE_HIRAGANA);
+    return convert_kana (SCIM_ANTHY_CANDIDATE_HIRAGANA);
 }
 
 bool
 AnthyInstance::action_convert_to_katakana (void)
 {
-    return convert_kana (CANDIDATE_KATAKANA);
+    return convert_kana (SCIM_ANTHY_CANDIDATE_KATAKANA);
 }
 
 bool
 AnthyInstance::action_convert_to_half_katakana (void)
 {
-    return convert_kana (CANDIDATE_HALF_KATAKANA);
+    return convert_kana (SCIM_ANTHY_CANDIDATE_HALF_KATAKANA);
 }
 
 bool
 AnthyInstance::action_convert_to_latin (void)
 {
-    return convert_kana (CANDIDATE_LATIN);
+    return convert_kana (SCIM_ANTHY_CANDIDATE_LATIN);
 }
 
 bool
 AnthyInstance::action_convert_to_wide_latin (void)
 {
-    return convert_kana (CANDIDATE_WIDE_LATIN);
+    return convert_kana (SCIM_ANTHY_CANDIDATE_WIDE_LATIN);
 }
 
 static void
@@ -1439,15 +1445,15 @@ AnthyInstance::trigger_property (const String &property)
         << "trigger_property : " << property << " - " << anthy_prop << "\n";
 
     if (property == SCIM_PROP_INPUT_MODE_HIRAGANA) {
-        set_input_mode (MODE_HIRAGANA);
+        set_input_mode (SCIM_ANTHY_MODE_HIRAGANA);
     } else if (property == SCIM_PROP_INPUT_MODE_KATAKANA) {
-        set_input_mode (MODE_KATAKANA);
+        set_input_mode (SCIM_ANTHY_MODE_KATAKANA);
     } else if (property == SCIM_PROP_INPUT_MODE_HALF_KATAKANA) {
-        set_input_mode (MODE_HALF_KATAKANA);
+        set_input_mode (SCIM_ANTHY_MODE_HALF_KATAKANA);
     } else if (property == SCIM_PROP_INPUT_MODE_LATIN) {
-        set_input_mode (MODE_LATIN);
+        set_input_mode (SCIM_ANTHY_MODE_LATIN);
     } else if (property == SCIM_PROP_INPUT_MODE_WIDE_LATIN) {
-        set_input_mode (MODE_WIDE_LATIN);
+        set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
 
     } else if (property == SCIM_PROP_TYPING_METHOD_ROMAJI) {
         set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);

@@ -30,22 +30,24 @@
 
 using namespace scim;
 
+namespace scim_anthy {
+
 typedef enum {
-    MODE_HIRAGANA,
-    MODE_KATAKANA,
-    MODE_HALF_KATAKANA,
-    MODE_LATIN,
-    MODE_WIDE_LATIN,
+    SCIM_ANTHY_MODE_HIRAGANA,
+    SCIM_ANTHY_MODE_KATAKANA,
+    SCIM_ANTHY_MODE_HALF_KATAKANA,
+    SCIM_ANTHY_MODE_LATIN,
+    SCIM_ANTHY_MODE_WIDE_LATIN,
 } InputMode;
 
 typedef enum {
-    CANDIDATE_NORMAL        = 0,
-    CANDIDATE_LATIN         = -1,
-    CANDIDATE_WIDE_LATIN    = -2,
-    CANDIDATE_HIRAGANA      = -3,
-    CANDIDATE_KATAKANA      = -4,
-    CANDIDATE_HALF_KATAKANA = -5,
-    LAST_SPECIAL_CANDIDATE  = -6,
+    SCIM_ANTHY_CANDIDATE_NORMAL        = 0,
+    SCIM_ANTHY_CANDIDATE_LATIN         = -1,
+    SCIM_ANTHY_CANDIDATE_WIDE_LATIN    = -2,
+    SCIM_ANTHY_CANDIDATE_HIRAGANA      = -3,
+    SCIM_ANTHY_CANDIDATE_KATAKANA      = -4,
+    SCIM_ANTHY_CANDIDATE_HALF_KATAKANA = -5,
+    SCIM_ANTHY_LAST_SPECIAL_CANDIDATE  = -6,
 } CandidateType;
 
 typedef enum {
@@ -55,22 +57,22 @@ typedef enum {
 } TenKeyType;
 
 typedef enum {
-    PREEDIT_CURRENT,
-    PREEDIT_RAW_KEY,
-    PREEDIT_NO_CONVERSION,
-    PREEDIT_NO_CONVERSION_HIRAGANA,
-    PREEDIT_CONVERSION,
-} AnthyPreeditStringType;
+    SCIM_ANTHY_PREEDIT_CURRENT,
+    SCIM_ANTHY_PREEDIT_RAW_KEY,
+    SCIM_ANTHY_PREEDIT_NO_CONVERSION,
+    SCIM_ANTHY_PREEDIT_NO_CONVERSION_HIRAGANA,
+    SCIM_ANTHY_PREEDIT_CONVERSION,
+} PreeditStringType;
 
-class AnthyPreeditSegment
+class PreeditSegment
 {
 public:
     String     key;
     WideString kana;
 
 public:
-    AnthyPreeditSegment (void);
-    virtual ~AnthyPreeditSegment ();
+    PreeditSegment (void);
+    virtual ~PreeditSegment ();
 
 #if 0
     void split    (void);
@@ -79,18 +81,21 @@ public:
 #endif
 };
 
-typedef std::vector<AnthyPreeditSegment> AnthyPreeditSegments;
+typedef std::vector<PreeditSegment> PreeditSegments;
 
-class AnthyPreedit
+class Preedit
 {
 public:
-    AnthyPreedit (AnthyKey2KanaTableSet & tables);
-    virtual ~AnthyPreedit ();
+    Preedit (Key2KanaTableSet & tables);
+    virtual ~Preedit ();
 
     // getting status
-    virtual unsigned int  get_length             (AnthyPreeditStringType type = PREEDIT_CURRENT);
-    virtual WideString    get_string             (AnthyPreeditStringType type = PREEDIT_CURRENT);
-    virtual AttributeList get_attribute_list     (AnthyPreeditStringType type = PREEDIT_CURRENT);
+    virtual unsigned int  get_length             (PreeditStringType type
+                                                  = SCIM_ANTHY_PREEDIT_CURRENT);
+    virtual WideString    get_string             (PreeditStringType type
+                                                  = SCIM_ANTHY_PREEDIT_CURRENT);
+    virtual AttributeList get_attribute_list     (PreeditStringType type
+                                                  = SCIM_ANTHY_PREEDIT_CURRENT);
 
     virtual bool          is_preediting          (void);
     virtual bool          is_converting          (void);
@@ -104,7 +109,8 @@ public:
     virtual void          flush_pending          (void);
 
     // manipulating the conversion string
-    virtual void          convert                (CandidateType type = CANDIDATE_NORMAL);
+    virtual void          convert                (CandidateType type
+                                                  = SCIM_ANTHY_CANDIDATE_NORMAL);
     virtual void          revert                 (void);
     virtual void          commit                 (int  segment_id = -1,
                                                   bool lean       = true);
@@ -158,8 +164,8 @@ private:
 
 private:
     // converter objects
-    AnthyKey2KanaTableSet  &m_key2kana_tables;
-    AnthyKey2KanaConvertor  m_key2kana;
+    Key2KanaTableSet       &m_key2kana_tables;
+    Key2KanaConvertor       m_key2kana;
     IConvert                m_iconv;
     anthy_context_t         m_anthy_context;
 
@@ -169,7 +175,7 @@ private:
     bool                    m_auto_convert;
 
     // raw key code & preedit string
-    AnthyPreeditSegments    m_char_list;      // whole preedit characters includes commited one.
+    PreeditSegments         m_char_list;      // whole preedit characters includes commited one.
                                               // start position of non-commited character is
                                               // pointed by m_start_segment_pos.
     unsigned int            m_start_char;     // to skip already commited characters.
@@ -190,6 +196,8 @@ private:
     bool              m_kana_converting;      // true if whole string is now converting to a
                                               // special candidate.
 };
+
+}
 
 #endif /* __SCIM_ANTHY_PREEDIT_H__ */
 /*

@@ -26,31 +26,32 @@
 
 using namespace scim;
 
+namespace scim_anthy {
 
 typedef enum {
     SCIM_ANTHY_PERIOD_JAPANESE,
     SCIM_ANTHY_PERIOD_WIDE,
     SCIM_ANTHY_PERIOD_HALF,
-} SCIMAnthyPeriodStyle;
+} PeriodStyle;
 
 typedef enum {
     SCIM_ANTHY_COMMA_JAPANESE,
     SCIM_ANTHY_COMMA_WIDE,
     SCIM_ANTHY_COMMA_HALF,
-} SCIMAnthyCommaStyle;
+} CommaStyle;
 
 typedef enum {
     SCIM_ANTHY_TYPING_METHOD_ROMAJI,
     SCIM_ANTHY_TYPING_METHOD_KANA,
     SCIM_ANTHY_TYPING_METHOD_CUSTOM,
-} SCIMAnthyTypingMethod;
+} TypingMethod;
 
 
-class AnthyKey2KanaTable
+class Key2KanaTable
 {
 public:
-    AnthyKey2KanaTable (WideString name, ConvRule *table);
-    virtual ~AnthyKey2KanaTable ();
+    Key2KanaTable (WideString name, ConvRule *table);
+    virtual ~Key2KanaTable ();
 
     ConvRule * get_table (void) { return m_table; }
 
@@ -60,28 +61,28 @@ private:
 };
 
 
-class AnthyKey2KanaTableSet
+class Key2KanaTableSet
 {
 public:
-    AnthyKey2KanaTableSet ();
-    virtual ~AnthyKey2KanaTableSet ();
+    Key2KanaTableSet ();
+    virtual ~Key2KanaTableSet ();
 
-    std::vector<AnthyKey2KanaTable*> &
+    std::vector<Key2KanaTable*> &
          get_tables (void) { return m_all_tables; };
 
-    void set_typing_method       (SCIMAnthyTypingMethod method);
+    void set_typing_method       (TypingMethod method);
     void set_symbol_width        (bool half);
     void set_number_width        (bool half);
-    void set_period_style        (SCIMAnthyPeriodStyle style);
-    void set_comma_style         (SCIMAnthyCommaStyle  style);
+    void set_period_style        (PeriodStyle style);
+    void set_comma_style         (CommaStyle  style);
 
-    SCIMAnthyTypingMethod
+    TypingMethod
          get_typing_method       (void) { return m_typing_method; }
     bool symbol_is_half          (void) { return m_use_half_symbol; }
     bool number_is_half          (void) { return m_use_half_number;}
-    SCIMAnthyPeriodStyle
+    PeriodStyle
          get_period_style        (void) { return m_period_style; }
-    SCIMAnthyCommaStyle
+    CommaStyle
          get_comma_style         (void) { return m_comma_style; }
 
 #if 0
@@ -105,16 +106,18 @@ private:
     WideString m_name;
 
     // tables
-    std::vector<AnthyKey2KanaTable>  m_tables;
-    std::vector<AnthyKey2KanaTable*> m_all_tables;
+    std::vector<Key2KanaTable>  m_tables;
+    std::vector<Key2KanaTable*> m_all_tables;
 
     // flags
-    SCIMAnthyTypingMethod m_typing_method;
-    SCIMAnthyPeriodStyle  m_period_style;
-    SCIMAnthyCommaStyle   m_comma_style;
-    bool                  m_use_half_symbol;
-    bool                  m_use_half_number;
+    TypingMethod m_typing_method;
+    PeriodStyle  m_period_style;
+    CommaStyle   m_comma_style;
+    bool         m_use_half_symbol;
+    bool         m_use_half_number;
 };
+
+}
 
 #endif /* __SCIM_ANTHY_KEY2KANA_TABLE_H__ */
 /*

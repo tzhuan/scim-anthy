@@ -29,25 +29,29 @@
 
 using namespace scim;
 
-class AnthyKey2KanaConvertor
+namespace scim_anthy {
+
+class Key2KanaConvertor
 {
-    AnthyKey2KanaTableSet  &m_tables;
-    WideString              m_pending;
-    ConvRule               *m_exact_match;
+    Key2KanaTableSet  &m_tables;
+    WideString         m_pending;
+    ConvRule          *m_exact_match;
 
 public:
-    AnthyKey2KanaConvertor (AnthyKey2KanaTableSet & tables);
-    virtual ~AnthyKey2KanaConvertor ();
+    Key2KanaConvertor (Key2KanaTableSet & tables);
+    virtual ~Key2KanaConvertor ();
 
-    virtual bool       append             (const String & str,
-                                           WideString   & result,
-                                           WideString   & pending);
-    virtual void       clear              (void);
+    bool       append        (const String & str,
+                              WideString   & result,
+                              WideString   & pending);
+    void       clear         (void);
 
-    virtual bool       is_pending         (void);
-    virtual WideString get_pending        (void);
-    virtual WideString flush_pending      (void);
+    bool       is_pending    (void);
+    WideString get_pending   (void);
+    WideString flush_pending (void);
 };
+
+}
 #endif /* __SCIM_ANTHY_KEY2KANA_CONVERTOR_H__ */
 /*
 vi:ts=4:nowrap:ai:expandtab

@@ -33,6 +33,7 @@
 #include "scim_anthy_key2kana_table.h"
 
 using namespace scim;
+using namespace scim_anthy;
 
 class AnthyInstance : public IMEngineInstanceBase
 {
@@ -61,9 +62,9 @@ private:
     void   set_preedition                     (void);
     void   install_properties                 (void);
     void   set_input_mode                     (InputMode mode);
-    void   set_typing_method                  (SCIMAnthyTypingMethod method);
-    void   set_period_style                   (SCIMAnthyPeriodStyle period,
-                                               SCIMAnthyCommaStyle comma);
+    void   set_typing_method                  (TypingMethod method);
+    void   set_period_style                   (PeriodStyle period,
+                                               CommaStyle comma);
     bool   is_selecting_candidates            (void);
     void   select_candidate_no_direct         (unsigned int item);
     bool   convert_kana                       (CandidateType type);
@@ -156,8 +157,8 @@ private:
     KeyEvent              m_prev_key;
 
     /* for preedit */
-    AnthyKey2KanaTableSet m_key2kana_tables;
-    AnthyPreedit          m_preedit;
+    Key2KanaTableSet      m_key2kana_tables;
+    Preedit               m_preedit;
     bool                  m_preedit_string_visible;
 
     /* for candidates window */
