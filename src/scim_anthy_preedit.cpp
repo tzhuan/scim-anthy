@@ -189,13 +189,12 @@ Preedit::erase (bool backward)
     if (m_reading.get_length () <= 0)
         return;
 
-#if 1
+    // cancel conversion
     anthy_reset_context (m_anthy_context);
     m_selected_candidates.clear ();
     m_start_segment_id = 0;
-    //m_start_segment_pos = 0;
-#endif
 
+    // erase
     m_reading.erase (backward);
 }
 
@@ -677,7 +676,6 @@ Preedit::get_caret_pos (void)
         return m_reading.get_caret_pos ();
 }
 
-// CHECKME!
 void
 Preedit::set_caret_pos (unsigned int pos)
 {

@@ -85,7 +85,7 @@ public:
                                         unsigned int start  = 0,
                                         int          length = -1);
 #if 0
-    void         get                   (KeyEvents  & events,
+    void         get_key_events        (KeyEvents  & events,
                                         unsigned int start  = 0,
                                         int          length = -1);
 #endif
