@@ -139,7 +139,6 @@ private:
     AttributeList     m_conv_attrs;        // attributes for non-commited segments.
     std::vector<int>  m_candidates;        // candidates ID for all non-commited segments.
     int               m_start_segment_id;  // to skip segments which were already commited.
-    int               m_start_segment_pos; // to skip characters which were already commited.
     int               m_cur_segment_id;    // relative position from m_start_segment_id
     int               m_cur_segment_pos;   // relative position from m_start_segment_pos
     bool              m_kana_converting;   // true if whole string is now converting to a

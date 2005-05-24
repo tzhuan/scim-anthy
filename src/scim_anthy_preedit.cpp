@@ -44,7 +44,6 @@ Preedit::Preedit (Key2KanaTableSet & tables)
       m_input_mode (SCIM_ANTHY_MODE_HIRAGANA),
       m_auto_convert (false),
       m_start_segment_id (0),
-      m_start_segment_pos (0),
       m_cur_segment_id (-1),
       m_cur_segment_pos (0),
       m_kana_converting (false)
@@ -423,11 +422,13 @@ Preedit::commit (int segment_id, bool learn)
             m_cur_segment_id = 0;
 
         // adjust offset
+        unsigned int commited_len = 0;
         for (int i = m_start_segment_id; i < new_start_segment_id; i++) {
             struct anthy_segment_stat seg_stat;
             anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
-            m_start_segment_pos += seg_stat.seg_len;
+            commited_len += seg_stat.seg_len;
         }
+        m_reading.erase (0, commited_len);
         m_start_segment_id = new_start_segment_id;
 
         // recreate conversion string
@@ -714,7 +715,6 @@ Preedit::clear (void)
     anthy_reset_context (m_anthy_context);
     m_candidates.clear ();
     m_start_segment_id = 0;
-    m_start_segment_pos = 0;
     m_cur_segment_id = -1;
     m_cur_segment_pos = 0;
     m_kana_converting = false;

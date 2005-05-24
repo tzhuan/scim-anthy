@@ -1,3 +1,8 @@
+2005-05-25 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_preedit.cpp, src/scim_anthy_preedit.h:
+	Erase commited string in m_reading.
+
 2005-05-24 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_preedit.cpp, src/scim_anthy_preedit.h
