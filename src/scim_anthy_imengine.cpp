@@ -121,12 +121,12 @@ AnthyInstance::process_key_event_with_candidate (const KeyEvent &key)
 bool
 AnthyInstance::process_remaining_key_event (const KeyEvent &key)
 {
-    if (m_preedit.can_process (key)) {
+    if (m_preedit.can_process_key_event (key)) {
         // commit old conversion string before update preedit string
         if (m_preedit.is_converting ())
             action_commit (m_factory->m_learn_on_auto_commit);
 
-        bool need_commit = m_preedit.append (key);
+        bool need_commit = m_preedit.process_key_event (key);
 
         if (need_commit) {
             action_commit (m_factory->m_learn_on_auto_commit);
@@ -564,7 +564,7 @@ AnthyInstance::action_convert (void)
     } else {
         // show candidates window
         // FIXME!
-        m_preedit.setup_lookup_table(m_lookup_table);
+        m_preedit.get_candidates (m_lookup_table);
 
         int selected = m_preedit.get_selected_candidate ();
         int page_size = m_lookup_table.get_page_size ();
@@ -1515,11 +1515,11 @@ AnthyInstance::reload_config (const ConfigPointer &config)
 
     // set ten key type
     if (m_factory->m_ten_key_type == "Half")
-        m_preedit.set_ten_key_type (TEN_KEY_HALF);
+        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_HALF);
     else if (m_factory->m_ten_key_type == "Wide")
-        m_preedit.set_ten_key_type (TEN_KEY_WIDE);
+        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_WIDE);
     else 
-        m_preedit.set_ten_key_type (TEN_KEY_FOLLOW_MODE);
+        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE);
 
     // set auto convert
     m_preedit.set_auto_convert (m_factory->m_auto_convert);
@@ -1527,19 +1527,6 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     // setup toolbar
     m_properties.clear ();
     install_properties ();
-}
-
-bool
-AnthyInstance::match_key_event (const KeyEventList &keys,
-                                const KeyEvent     &key) const
-{
-    KeyEventList::const_iterator kit;
-
-    for (kit = keys.begin (); kit != keys.end (); ++kit) {
-        if (key.code == kit->code && key.mask == kit->mask)
-             return true;
-    }
-    return false;
 }
 /*
 vi:ts=4:nowrap:ai:expandtab

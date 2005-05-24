@@ -25,10 +25,10 @@
 
 using namespace scim_anthy;
 
-static void      convert_string_to_wide       (const String     &str,
-                                               WideString       &wide);
-static void      convert_hiragana_to_katakana (const WideString &hira,
-                                               WideString       &kata,
+static void      convert_string_to_wide       (WideString       &wide,
+                                               const String     &str);
+static void      convert_hiragana_to_katakana (WideString       &kata,
+                                               const WideString &hira,
                                                bool              half = false);
 static ConvRule *get_period_rule              (TypingMethod method,
                                                PeriodStyle  period);
@@ -37,26 +37,12 @@ static ConvRule *get_comma_rule               (TypingMethod method,
 
 
 
-PreeditSegment::PreeditSegment (void)
-{
-}
-
-PreeditSegment::~PreeditSegment ()
-{
-}
-
-
-
 Preedit::Preedit (Key2KanaTableSet & tables)
     : m_key2kana_tables (tables),
-      m_key2kana (m_key2kana_tables),
+      m_reading (tables, m_iconv),
       m_anthy_context (anthy_create_context()),
       m_input_mode (SCIM_ANTHY_MODE_HIRAGANA),
-      m_ten_key_type (TEN_KEY_WIDE),
       m_auto_convert (false),
-      m_start_char (0),
-      m_char_caret (0),
-      m_caret (0),
       m_start_segment_id (0),
       m_start_segment_pos (0),
       m_selected_segment_id (-1),
@@ -81,97 +67,25 @@ Preedit::~Preedit ()
  * getting status
  */
 unsigned int
-Preedit::get_length (PreeditStringType type)
+Preedit::get_length (void)
 {
-    if (type == SCIM_ANTHY_PREEDIT_CURRENT) {
-        if (is_converting ())
-            type = SCIM_ANTHY_PREEDIT_CONVERSION;
-        else
-            type = SCIM_ANTHY_PREEDIT_NO_CONVERSION;
-    }
-
-    switch (type) {
-    case SCIM_ANTHY_PREEDIT_RAW_KEY:
-    {
-#if 0 /* FIXME! */
-        unsigned int len = 0;
-        for (unsigned int i = 0; i < m_char_list.size (); i++)
-            len += m_char_list[i].key.length();
-        return len;
-#else
-        return get_string (SCIM_ANTHY_PREEDIT_RAW_KEY).length ();
-#endif
-    }
-    case SCIM_ANTHY_PREEDIT_NO_CONVERSION:
-    case SCIM_ANTHY_PREEDIT_NO_CONVERSION_HIRAGANA:
-    {
-        unsigned int len = 0;
-        for (unsigned int i = 0; i < m_char_list.size (); i++)
-            len += m_char_list[i].kana.length();
-        return len - m_start_segment_pos;
-    }
-    case SCIM_ANTHY_PREEDIT_CONVERSION:
+    if (is_converting ())
         return m_conv_string.length ();
-    default:
-        break;
-    }
+    else
+        return m_reading.get_length ();
 
     return 0;
 }
 
 WideString
-Preedit::get_string (PreeditStringType type)
+Preedit::get_string (void)
 {
-    if (type == SCIM_ANTHY_PREEDIT_CURRENT) {
-        if (is_converting ())
-            type = SCIM_ANTHY_PREEDIT_CONVERSION;
-        else
-            type = SCIM_ANTHY_PREEDIT_NO_CONVERSION;
-    }
-
-    switch (type) {
-    case SCIM_ANTHY_PREEDIT_RAW_KEY:
-    {
-        unsigned int len = 0;
-        for (unsigned int i = 0; i < m_char_list.size (); i++)
-            len += m_char_list[i].kana.length();
-        WideString str;
-        get_kana_substr (str, m_start_segment_pos, len,
-                         SCIM_ANTHY_CANDIDATE_LATIN);
-        return str;
-    }
-    case SCIM_ANTHY_PREEDIT_NO_CONVERSION:
-        return get_preedit_string ();
-    case SCIM_ANTHY_PREEDIT_NO_CONVERSION_HIRAGANA:
-        return get_preedit_string_as_hiragana ();
-    case SCIM_ANTHY_PREEDIT_CONVERSION:
+    if (is_converting ())
         return m_conv_string;
-    default:
-        break;
-    }
+    else
+        return get_preedit_string ();
 
     return WideString ();
-}
-
-unsigned int
-Preedit::get_preedit_length (void)
-{
-    unsigned int len = 0;
-    for (unsigned int i = 0; i < m_char_list.size (); i++)
-        len += m_char_list[i].kana.length();
-    return len - m_start_segment_pos;
-}
-
-WideString
-Preedit::get_preedit_string_as_hiragana (void)
-{
-    WideString widestr;
-    unsigned int len = 0;
-    for (unsigned int i = 0; i < m_char_list.size (); i++)
-        len += m_char_list[i].kana.length();
-    get_kana_substr (widestr, m_start_segment_pos, len,
-                     SCIM_ANTHY_CANDIDATE_HIRAGANA);
-    return widestr;
 }
 
 WideString
@@ -179,46 +93,43 @@ Preedit::get_preedit_string (void)
 {
     WideString tmpwidestr, widestr;
     String str;
-    unsigned int i;
 
     switch (m_input_mode) {
     case SCIM_ANTHY_MODE_KATAKANA:
-        convert_hiragana_to_katakana (get_preedit_string_as_hiragana (),
-                                      widestr);
+        convert_hiragana_to_katakana (widestr, m_reading.get ());
         return widestr;
     case SCIM_ANTHY_MODE_HALF_KATAKANA:
-        convert_hiragana_to_katakana (get_preedit_string_as_hiragana (),
-                                      widestr, true);
+        convert_hiragana_to_katakana (widestr, m_reading.get (), true);
         return widestr;
     case SCIM_ANTHY_MODE_LATIN:
-        for (i = 0; i < m_char_list.size (); i++)
-            str += m_char_list[i].key;
-        return utf8_mbstowcs (str);
+        return utf8_mbstowcs (m_reading.get_raw ());
     case SCIM_ANTHY_MODE_WIDE_LATIN:
-        for (i = 0; i < m_char_list.size (); i++)
-            str += m_char_list[i].key;
-        convert_string_to_wide (str, widestr);
+        convert_string_to_wide (widestr, m_reading.get_raw ());
         return widestr;
     case SCIM_ANTHY_MODE_HIRAGANA:
     default:
-        return get_preedit_string_as_hiragana ();
+        return m_reading.get ();
     }
+
+    return WideString ();
 }
 
 AttributeList
-Preedit::get_attribute_list (PreeditStringType type)
+Preedit::get_attribute_list (void)
 {
-    /* FIXME! */
-    return m_conv_attrs;
+    if (is_converting ())
+        return m_conv_attrs;
+    else
+        return AttributeList ();
 }
 
 bool
 Preedit::is_preediting (void)
 {
-    if (m_char_list.size () <= 0)
-        return false;
-    else
+    if (m_reading.get_length () > 0)
         return true;
+    else
+        return false;
 }
 
 bool
@@ -241,183 +152,41 @@ Preedit::is_kana_converting (void)
  * manipulating the preedit string
  */
 bool
-Preedit::can_process (const KeyEvent & key)
+Preedit::can_process_key_event (const KeyEvent & key)
 {
-    // ignore short cut keys of apllication.
-    if (key.mask & SCIM_KEY_ControlMask ||
-        key.mask & SCIM_KEY_AltMask)
-        return false;
-
-    if (isprint(key.get_ascii_code ()) && !isspace(key.get_ascii_code ()))
-        return true;
-
-    if (key.code >= SCIM_KEY_KP_0 && key.code <= SCIM_KEY_KP_9)
-        return true;
-
-    if (key.code >= SCIM_KEY_KP_Multiply && key.code <= SCIM_KEY_KP_Divide)
-        return true;
-
-    if (key.code == SCIM_KEY_KP_Equal)
-        return true;
-
-    return false;
+    return m_reading.can_process_key_event (key);
 }
 
 bool
-Preedit::append (const KeyEvent & key)
+Preedit::process_key_event (const KeyEvent & key)
 {
-    bool is_ten_key = true;
-
-    if (!can_process (key))
+    if (!m_reading.can_process_key_event (key))
         return false;
 
-    char str[2];
+    bool retval = m_reading.process_key_event (key);
 
-    switch (key.code) {
-    case SCIM_KEY_KP_Equal:
-        str[0] = '=';
-        break;
-
-    case SCIM_KEY_KP_Multiply:
-        str[0] = '*';
-        break;
-
-    case SCIM_KEY_KP_Add:
-        str[0] = '+';
-        break;
-
-    case SCIM_KEY_KP_Separator:
-        str[0] = ',';
-        break;
-
-    case SCIM_KEY_KP_Subtract:
-        str[0] = '-';
-        break;
-
-    case SCIM_KEY_KP_Decimal:
-        str[0] = '.';
-        break;
-
-    case SCIM_KEY_KP_Divide:
-        str[0] = '/';
-        break;
-
-    case SCIM_KEY_KP_0:
-    case SCIM_KEY_KP_1:
-    case SCIM_KEY_KP_2:
-    case SCIM_KEY_KP_3:
-    case SCIM_KEY_KP_4:
-    case SCIM_KEY_KP_5:
-    case SCIM_KEY_KP_6:
-    case SCIM_KEY_KP_7:
-    case SCIM_KEY_KP_8:
-    case SCIM_KEY_KP_9:
-        str[0] = '0' + key.code - SCIM_KEY_KP_0;
-        break;
-
-    default:
-        is_ten_key = false;
-        str[0] = key.code;
-        break;
+    if (m_input_mode == SCIM_ANTHY_MODE_LATIN ||
+        m_input_mode == SCIM_ANTHY_MODE_WIDE_LATIN)
+    {
+        return true;
     }
 
-    str[1] = '\0';
-
-    bool half = true;
-    bool prev_symbol = m_key2kana_tables.symbol_is_half ();
-    bool prev_number = m_key2kana_tables.number_is_half ();
-
-    if (is_ten_key && m_ten_key_type != TEN_KEY_FOLLOW_MODE) {
-        if (m_ten_key_type == TEN_KEY_HALF)
-            half = true;
-        else if (m_ten_key_type == TEN_KEY_WIDE)
-            half = false;
-
-        m_key2kana_tables.set_symbol_width (half);
-        m_key2kana_tables.set_number_width (half);
-    }
-
-    bool retval = append_str (String (str));
-
-    if (is_ten_key && m_ten_key_type != TEN_KEY_FOLLOW_MODE) {
-        m_key2kana_tables.set_symbol_width (prev_symbol);
-        m_key2kana_tables.set_number_width (prev_number);
+    // auto convert
+    unsigned int len = m_reading.get_length ();
+    if (len > 0) {
+        String str;
+        m_reading.get_raw (str, len - 1, 1);
+        if (is_comma_or_period (str) && m_auto_convert)
+            convert ();
     }
 
     return retval;
 }
 
-bool
-Preedit::append_str (const String & str)
-{
-    if (str.length () <= 0)
-        return false;
-
-#if 1 /* for reseting partial commit */
-    anthy_reset_context (m_anthy_context);
-    m_selected_candidates.clear ();
-    m_start_segment_id = 0;
-#endif
-
-    bool was_pending = m_key2kana.is_pending ();
-
-    WideString result, pending;
-    bool commit_pending;
-    commit_pending = m_key2kana.append (str, result, pending);
-
-    PreeditSegments::iterator begin = m_char_list.begin ();
-
-    if (!was_pending || commit_pending) {
-        PreeditSegment c;
-        m_char_list.insert (begin + m_char_caret, c);
-        m_char_caret++;
-    }
-
-    /*
-     * FIXME! It's not consider about failure of matching on pending state.
-     * Automaton::append() should have more detailed return value.
-     */
-    if (result.length() > 0 && pending.length () > 0) {
-        m_char_list[m_char_caret - 1].kana = result;
-
-        PreeditSegment c;
-        c.key += str;
-        c.kana = pending;
-        m_char_list.insert (begin + m_char_caret, c);
-
-        m_char_caret++;
-    } else if (result.length () > 0) {
-        m_char_list[m_char_caret - 1].key += str;
-        m_char_list[m_char_caret - 1].kana = result;
-    } else if (pending.length () > 0) {
-        m_char_list[m_char_caret - 1].key += str;
-        m_char_list[m_char_caret - 1].kana = pending;
-    } else {
-        // error
-    }
-
-    m_caret = 0;
-    for (unsigned int i = 0; i < m_char_caret; i++)
-        m_caret += m_char_list[i].kana.length();
-    m_caret -= m_start_segment_pos;
-
-    if (m_input_mode == SCIM_ANTHY_MODE_LATIN ||
-        m_input_mode == SCIM_ANTHY_MODE_WIDE_LATIN)
-        return true;
-
-    if (is_comma_or_period (m_char_list[m_char_caret - 1].key) &&
-        m_auto_convert)
-    {
-        convert ();
-    }
-
-    return false;
-}
-
 void
 Preedit::erase (bool backward)
 {
-    if (m_char_list.size () <= 0)
+    if (m_reading.get_length () <= 0)
         return;
 
 #if 1
@@ -427,55 +196,13 @@ Preedit::erase (bool backward)
     //m_start_segment_pos = 0;
 #endif
 
-    // erase string
-    if (backward && m_char_caret > 0) {
-        unsigned int key_len = m_char_list[m_char_caret - 1].key.length ();
-
-        if (m_key2kana.is_pending () && key_len > 1) {
-            PreeditSegment &last = m_char_list[m_char_caret - 1];
-            String key_str = last.key.substr (0, key_len - 1);
-            last.key = key_str;
-            unsigned int kana_len = last.kana.length();
-            WideString kana_str = last.kana.substr (0, kana_len - 1);
-            last.kana = kana_str;
-        } else {
-            PreeditSegments::iterator begin, end;
-            end = m_char_list.begin () + m_char_caret;
-            begin = end - 1;
-            m_char_list.erase(begin, end);
-            m_char_caret--;
-        }
-
-    } else if (!backward && m_char_caret < m_char_list.size ()) {
-        PreeditSegments::iterator begin, end;
-        begin = m_char_list.begin () + m_char_caret;
-        end   = begin + 1;
-        m_char_list.erase(begin, end);
-    }
-
-    // reset values
-    if (m_char_list.size () <= 0) {
-        clear ();
-    } else {
-        reset_pending ();
-
-        // reset caret position
-        m_caret = 0;
-        for (unsigned int i = 0; i < m_char_caret; i++)
-            m_caret += m_char_list[i].kana.length();
-        m_caret -= m_start_segment_pos;
-    }
+    m_reading.erase (backward);
 }
 
 void
 Preedit::flush_pending (void)
 {
-    if (!m_key2kana.is_pending ()) return;
-
-    WideString result;
-    result = m_key2kana.flush_pending ();
-    if (result.length () > 0)
-        m_char_list[m_char_caret - 1].kana = result;
+    m_reading.commit ();
 }
 
 
@@ -523,59 +250,34 @@ Preedit::create_conversion_string (void)
 }
 
 void
-Preedit::get_kana_substr (WideString & substr,
-                          unsigned int start, unsigned int end,
-                          CandidateType type)
+Preedit::get_reading_substr (WideString & substr,
+                             unsigned int start, unsigned int len,
+                             CandidateType type)
 {
-    unsigned int pos = 0, i = 0;
     WideString kana;
     String raw;
 
-    if (start >= end) return;
-
-    do {
-        if (pos >= start || pos + m_char_list[i].kana.length () > start) {
-            if (type == SCIM_ANTHY_CANDIDATE_LATIN ||
-                type == SCIM_ANTHY_CANDIDATE_WIDE_LATIN)
-            {
-                // FIXME!
-                raw += m_char_list[i].key;
-            } else {
-                unsigned int startstart = 0, endend;
-                if (pos >= start)
-                    startstart = 0;
-                else
-                    startstart = pos - start;
-                if (pos + m_char_list[i].kana.length () > end)
-                    endend = end - start;
-                else
-                    endend = m_char_list[i].kana.length ();
-                kana += m_char_list[i].kana.substr (startstart, endend);
-            }
-        }
-        pos += m_char_list[i].kana.length ();
-        if (pos >= end)
-            break;
-        i++;
-    } while (i < m_char_list.size ());
-
     switch (type) {
     case SCIM_ANTHY_CANDIDATE_LATIN:
+        m_reading.get_raw (raw, start, len);
         substr = utf8_mbstowcs (raw);
         break;
     case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
-        convert_string_to_wide (raw, substr);
+        m_reading.get_raw (raw, start, len);
+        convert_string_to_wide (substr, raw);
         break;
     case SCIM_ANTHY_CANDIDATE_HIRAGANA:
-        substr = kana;
+        m_reading.get (substr, start, len);
         break;
 
     case SCIM_ANTHY_CANDIDATE_KATAKANA:
-        convert_hiragana_to_katakana (kana, substr);
+        m_reading.get (kana, start, len);
+        convert_hiragana_to_katakana (substr, kana);
         break;
 
     case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
-        convert_hiragana_to_katakana (kana, substr, true);
+        m_reading.get (kana, start, len);
+        convert_hiragana_to_katakana (substr, kana, true);
         break;
 
     default:
@@ -601,7 +303,7 @@ Preedit::convert (CandidateType type)
         struct anthy_conv_stat conv_stat;
         anthy_get_stat (m_anthy_context, &conv_stat);
         if (conv_stat.nr_segment <= 0) {
-            m_iconv.convert (dest, get_preedit_string_as_hiragana ());
+            m_iconv.convert (dest, m_reading.get ());
             anthy_set_string (m_anthy_context, dest.c_str ());
         }
 
@@ -641,32 +343,21 @@ Preedit::convert_kana (CandidateType type)
 
     switch (type) {
     case SCIM_ANTHY_CANDIDATE_LATIN:
-    case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
-    {
-        unsigned int len = 0;
-        for (unsigned int i = 0; i < m_char_list.size (); i++)
-            len += m_char_list[i].kana.length();
-
-        if (type == SCIM_ANTHY_CANDIDATE_LATIN)
-            get_kana_substr (m_conv_string, m_start_segment_pos, len,
-                             SCIM_ANTHY_CANDIDATE_LATIN);
-        else if (type == SCIM_ANTHY_CANDIDATE_WIDE_LATIN)
-            get_kana_substr (m_conv_string, m_start_segment_pos, len,
-                             SCIM_ANTHY_CANDIDATE_WIDE_LATIN);
+        m_conv_string = utf8_mbstowcs (m_reading.get_raw ());
         break;
-    }
+    case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
+        convert_string_to_wide (m_conv_string, m_reading.get_raw ());
+        break;
     case SCIM_ANTHY_CANDIDATE_HIRAGANA:
-        m_conv_string = get_preedit_string_as_hiragana ();
+        m_conv_string = m_reading.get ();
         break;
 
     case SCIM_ANTHY_CANDIDATE_KATAKANA:
-        convert_hiragana_to_katakana (get_preedit_string_as_hiragana (),
-                                      m_conv_string);
+        convert_hiragana_to_katakana (m_conv_string, m_reading.get ());
         break;
 
     case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
-        convert_hiragana_to_katakana (get_preedit_string_as_hiragana (),
-                                      m_conv_string, true);
+        convert_hiragana_to_katakana (m_conv_string, m_reading.get (), true);
         break;
 
     default:
@@ -790,9 +481,9 @@ Preedit::get_segment_string (int segment_id)
     // get string of this segment
     WideString segment_str;
     if (cand < 0) {
-        get_kana_substr (segment_str,
-                         real_seg_start, real_seg_start + seg_stat.seg_len,
-                         (CandidateType) cand);
+        get_reading_substr (segment_str,
+                            real_seg_start, seg_stat.seg_len,
+                            (CandidateType) cand);
     } else {
         int len = anthy_get_segment (m_anthy_context, real_seg, cand, NULL, 0);
         char buf[len + 1];
@@ -891,7 +582,7 @@ Preedit::resize_segment (int relative_size, int segment_id)
  * candidates for a segment
  */
 void
-Preedit::setup_lookup_table (CommonLookupTable &table, int segment_id)
+Preedit::get_candidates (CommonLookupTable &table, int segment_id)
 {
     table.clear ();
 
@@ -983,7 +674,7 @@ Preedit::get_caret_pos (void)
     if (is_converting ())
         return m_selected_segment_pos;
     else
-        return m_caret;
+        return m_reading.get_caret_pos ();
 }
 
 // CHECKME!
@@ -993,36 +684,7 @@ Preedit::set_caret_pos (unsigned int pos)
     if (is_converting ())
         return;
 
-    if (pos == m_caret)
-        return;
-
-    m_key2kana.clear ();
-
-    if (pos >= get_preedit_length ()) {
-        m_caret = get_preedit_length ();
-        m_char_caret = m_char_list.size ();
-    } else if (pos == 0 ||  m_char_list.size () <= 0) {
-        m_caret = 0;
-        m_char_caret = 0;
-    } else {
-        unsigned int i, tmp_pos = 0;
-
-        for (i = 0; tmp_pos <= pos; i++)
-            tmp_pos += m_char_list[i].kana.length();
-
-        if (tmp_pos == pos) {
-            m_caret = pos;
-            m_char_caret = i + 1;
-        } else if (tmp_pos < m_caret) {
-            m_char_caret = i;
-            m_caret = tmp_pos - m_char_list[i].kana.length();
-        } else if (tmp_pos > m_caret) {
-            m_caret = tmp_pos;
-            m_char_caret = i + 1;
-        }
-    }
-
-    reset_pending ();
+    m_reading.set_caret_pos (pos);
 }
 
 void
@@ -1031,45 +693,7 @@ Preedit::move_caret (int step)
     if (is_converting ())
         return;
 
-    if (step == 0)
-        return;
-
-    if (m_key2kana.is_pending ()) {
-        m_key2kana.clear ();
-    }
-
-    if (step < 0 && m_char_caret < abs (step)) {
-        m_char_caret = 0;
-    } else if (step > 0 && m_char_caret + step > m_char_list.size ()) {
-        m_char_caret = m_char_list.size ();
-    } else {
-        m_char_caret += step;
-    }
-
-    m_caret = 0;
-    for (unsigned int i = 0; i < m_char_caret; i++)
-        m_caret += m_char_list[i].kana.length();
-    m_caret -= m_start_segment_pos;
-
-    reset_pending ();
-}
-
-void
-Preedit::reset_pending (void)
-{
-    if (m_key2kana.is_pending ())
-        m_key2kana.clear ();
-
-    if (m_char_caret > 0) {
-        for (unsigned int i = 0;
-             i < m_char_list[m_char_caret - 1].key.length ();
-             i++)
-        {
-            WideString result, pending;
-            m_key2kana.append (m_char_list[m_char_caret - 1].key.substr(i, 1),
-                               result, pending);
-        }
-    }
+    m_reading.move_caret (step);
 }
 
 
@@ -1079,14 +703,10 @@ Preedit::reset_pending (void)
 void
 Preedit::clear (void)
 {
-    m_char_list.clear ();
-    m_start_char = 0;
-    m_char_caret = 0;
+    m_reading.clear ();
     m_conv_string.clear ();
     m_conv_attrs.clear ();
     anthy_reset_context (m_anthy_context);
-    m_key2kana.clear();
-    m_caret = 0;
     m_selected_candidates.clear ();
     m_start_segment_id = 0;
     m_start_segment_pos = 0;
@@ -1114,13 +734,13 @@ Preedit::get_input_mode (void)
 void
 Preedit::set_ten_key_type (TenKeyType type)
 {
-    m_ten_key_type = type;
+    m_reading.set_ten_key_type (type);
 }
 
 TenKeyType
 Preedit::get_ten_key_type (void)
 {
-    return m_ten_key_type;
+    return m_reading.get_ten_key_type ();
 }
 
 void
@@ -1166,7 +786,7 @@ Preedit::is_comma_or_period (const String & str)
 
 
 static void
-convert_string_to_wide (const String & str, WideString & wide)
+convert_string_to_wide (WideString & wide, const String & str)
 {
     if (str.length () < 0)
         return;
@@ -1192,7 +812,7 @@ convert_string_to_wide (const String & str, WideString & wide)
 }
 
 static void
-convert_hiragana_to_katakana (const WideString & hira, WideString & kata,
+convert_hiragana_to_katakana (WideString & kata, const WideString & hira,
                               bool half)
 {
     if (hira.length () < 0)

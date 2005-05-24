@@ -37,8 +37,6 @@ using namespace scim_anthy;
 
 class AnthyInstance : public IMEngineInstanceBase
 {
-    friend class AnthyFactory;
-
 public:
     AnthyInstance (AnthyFactory   *factory,
                    const String   &encoding,
@@ -58,28 +56,10 @@ public:
 
     virtual void reload_config                (const ConfigPointer &config);
 
-private:
-    void   set_preedition                     (void);
-    void   install_properties                 (void);
-    void   set_input_mode                     (InputMode mode);
-    void   set_typing_method                  (TypingMethod method);
-    void   set_period_style                   (PeriodStyle period,
-                                               CommaStyle comma);
-    bool   is_selecting_candidates            (void);
-    void   select_candidate_no_direct         (unsigned int item);
-    bool   convert_kana                       (CandidateType type);
-
-    /* processing key event */
-    bool   process_key_event_lookup_keybind   (const KeyEvent &key);
-    bool   process_key_event_without_preedit  (const KeyEvent &key);
-    bool   process_key_event_with_preedit     (const KeyEvent &key);
-    bool   process_key_event_with_candidate   (const KeyEvent &key);
-    bool   process_remaining_key_event        (const KeyEvent &key);
-
+public:
     /* actinos */
     bool   action_convert                     (void);
     bool   action_revert                      (void);
-    bool   action_commit                      (bool learn);
     bool   action_commit_follow_preference    (void);
     bool   action_commit_reverse_preference   (void);
     bool   action_commit_first_segment        (void);
@@ -114,8 +94,6 @@ private:
     bool   action_candidates_page_up          (void);
     bool   action_candidates_page_down        (void);
 
-    bool   action_select_candidate            (unsigned int i);
-
     bool   action_select_candidate_1          (void);
     bool   action_select_candidate_2          (void);
     bool   action_select_candidate_3          (void);
@@ -144,12 +122,30 @@ private:
     bool   action_add_word                    (void);
     bool   action_launch_dict_admin_tool      (void);
     /*
-    void   actoin_regist_word                 (void);
+    void   actoin_register_word               (void);
     */
 
+private:
+    /* processing key event */
+    bool   process_key_event_lookup_keybind   (const KeyEvent &key);
+    bool   process_key_event_without_preedit  (const KeyEvent &key);
+    bool   process_key_event_with_preedit     (const KeyEvent &key);
+    bool   process_key_event_with_candidate   (const KeyEvent &key);
+    bool   process_remaining_key_event        (const KeyEvent &key);
+
     /* utility */
-    bool   match_key_event (const KeyEventList &keys,
-                            const KeyEvent &key) const;
+    void   set_preedition                     (void);
+    void   install_properties                 (void);
+    void   set_input_mode                     (InputMode mode);
+    void   set_typing_method                  (TypingMethod method);
+    void   set_period_style                   (PeriodStyle period,
+                                               CommaStyle comma);
+    bool   is_selecting_candidates            (void);
+    void   select_candidate_no_direct         (unsigned int item);
+    bool   convert_kana                       (CandidateType type);
+
+    bool   action_commit                      (bool learn);
+    bool   action_select_candidate            (unsigned int i);
 
 private:
     AnthyFactory         *m_factory;

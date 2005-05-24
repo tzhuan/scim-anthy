@@ -27,6 +27,7 @@
 #include <scim_event.h>
 #include <scim_lookup_table.h>
 #include "scim_anthy_key2kana_convertor.h"
+#include "scim_anthy_reading.h"
 
 using namespace scim;
 
@@ -50,39 +51,6 @@ typedef enum {
     SCIM_ANTHY_LAST_SPECIAL_CANDIDATE  = -6,
 } CandidateType;
 
-typedef enum {
-    TEN_KEY_HALF,
-    TEN_KEY_WIDE,
-    TEN_KEY_FOLLOW_MODE,
-} TenKeyType;
-
-typedef enum {
-    SCIM_ANTHY_PREEDIT_CURRENT,
-    SCIM_ANTHY_PREEDIT_RAW_KEY,
-    SCIM_ANTHY_PREEDIT_NO_CONVERSION,
-    SCIM_ANTHY_PREEDIT_NO_CONVERSION_HIRAGANA,
-    SCIM_ANTHY_PREEDIT_CONVERSION,
-} PreeditStringType;
-
-class PreeditSegment
-{
-public:
-    String     key;
-    WideString kana;
-
-public:
-    PreeditSegment (void);
-    virtual ~PreeditSegment ();
-
-#if 0
-    void split    (void);
-    void is_valid (void);
-    void to_valid (void);
-#endif
-};
-
-typedef std::vector<PreeditSegment> PreeditSegments;
-
 class Preedit
 {
 public:
@@ -90,21 +58,18 @@ public:
     virtual ~Preedit ();
 
     // getting status
-    virtual unsigned int  get_length             (PreeditStringType type
-                                                  = SCIM_ANTHY_PREEDIT_CURRENT);
-    virtual WideString    get_string             (PreeditStringType type
-                                                  = SCIM_ANTHY_PREEDIT_CURRENT);
-    virtual AttributeList get_attribute_list     (PreeditStringType type
-                                                  = SCIM_ANTHY_PREEDIT_CURRENT);
+    virtual unsigned int  get_length             (void);
+    virtual WideString    get_string             (void);
+    virtual AttributeList get_attribute_list     (void);
 
     virtual bool          is_preediting          (void);
     virtual bool          is_converting          (void);
     virtual bool          is_kana_converting     (void);
 
     // manipulating the preedit string
-    virtual bool          can_process            (const KeyEvent & key);
+    virtual bool          can_process_key_event  (const KeyEvent & key);
     // return true if commiting is needed.
-    virtual bool          append                 (const KeyEvent & key);
+    virtual bool          process_key_event      (const KeyEvent & key);
     virtual void          erase                  (bool backward = true);
     virtual void          flush_pending          (void);
 
@@ -125,7 +90,7 @@ public:
                                                   int segment_id = -1);
 
     // candidates for a segment
-    virtual void          setup_lookup_table     (CommonLookupTable &table,
+    virtual void          get_candidates         (CommonLookupTable &table,
                                                   int segment_id = -1);
     virtual int           get_selected_candidate (int segment_id = -1);
     virtual void          select_candidate       (int candidate_id,
@@ -148,42 +113,26 @@ public:
     virtual bool          get_auto_convert       (void);
 
 private:
-    unsigned int  get_preedit_length             (void);
     WideString    get_preedit_string             (void);
-    WideString    get_preedit_string_as_hiragana (void);
 
-    bool          append_str                     (const String & str);
     void          convert_kana                   (CandidateType type);
     void          create_conversion_string       (void);
-    void          get_kana_substr                (WideString & substr,
+    void          get_reading_substr             (WideString & substr,
                                                   unsigned int start,
-                                                  unsigned int end,
+                                                  unsigned int len,
                                                   CandidateType type);
-    void          reset_pending                  (void);
     bool          is_comma_or_period             (const String & str);
 
 private:
     // converter objects
-    Key2KanaTableSet       &m_key2kana_tables;
-    Key2KanaConvertor       m_key2kana;
-    IConvert                m_iconv;
-    anthy_context_t         m_anthy_context;
+    Key2KanaTableSet &m_key2kana_tables;
+    IConvert          m_iconv;
+    Reading           m_reading;
+    anthy_context_t   m_anthy_context;
 
     // mode flags
-    InputMode               m_input_mode;
-    TenKeyType              m_ten_key_type;
-    bool                    m_auto_convert;
-
-    // raw key code & preedit string
-    PreeditSegments         m_char_list;      // whole preedit characters includes commited one.
-                                              // start position of non-commited character is
-                                              // pointed by m_start_segment_pos.
-    unsigned int            m_start_char;     // to skip already commited characters.
-                                              // FIXME!! not implemented yet.
-    unsigned int            m_char_caret;     // relative position from m_start_char.
-
-    // real position of the caret
-    unsigned int            m_caret;          // relative position from m_start_segment_pos.
+    InputMode         m_input_mode;
+    bool              m_auto_convert;
 
     // conversion string
     WideString        m_conv_string;          // conversion string for non-commited segments.
