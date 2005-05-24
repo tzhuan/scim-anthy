@@ -45,8 +45,8 @@ Preedit::Preedit (Key2KanaTableSet & tables)
       m_auto_convert (false),
       m_start_segment_id (0),
       m_start_segment_pos (0),
-      m_selected_segment_id (-1),
-      m_selected_segment_pos (0),
+      m_cur_segment_id (-1),
+      m_cur_segment_pos (0),
       m_kana_converting (false)
 {
 #ifdef HAS_ANTHY_CONTEXT_SET_ENCODING
@@ -190,12 +190,15 @@ Preedit::erase (bool backward)
         return;
 
     // cancel conversion
-    anthy_reset_context (m_anthy_context);
-    m_selected_candidates.clear ();
-    m_start_segment_id = 0;
+    revert ();
 
     // erase
-    m_reading.erase (backward);
+    int pos = m_reading.get_caret_pos ();
+    if (backward)
+        pos--;
+    if (pos < 0)
+        return;
+    m_reading.erase (pos, 1);
 }
 
 void
@@ -229,13 +232,13 @@ Preedit::create_conversion_string (void)
         WideString segment_str = get_segment_string (seg);
 
         // set caret
-        if (seg == m_selected_segment_id)
-            m_selected_segment_pos = m_conv_string.length ();
+        if (seg == m_cur_segment_id)
+            m_cur_segment_pos = m_conv_string.length ();
 
         // create attribute for this segment
         Attribute attr (m_conv_string.length (), segment_str.length (),
                         SCIM_ATTR_DECORATE);
-        if (seg == m_selected_segment_id)
+        if (seg == m_cur_segment_id)
             attr.set_value (SCIM_ATTR_DECORATE_REVERSE);
         else
             attr.set_value (SCIM_ATTR_DECORATE_UNDERLINE);
@@ -313,13 +316,13 @@ Preedit::convert (CandidateType type)
             return;
 
         // select first segment
-        m_selected_segment_id = 0;
-        m_selected_segment_pos = 0;
+        m_cur_segment_id = 0;
+        m_cur_segment_pos = 0;
 
         // select first candidates for all segment
-        m_selected_candidates.clear ();
+        m_candidates.clear ();
         for (int i = m_start_segment_id; i < conv_stat.nr_segment; i++)
-            m_selected_candidates.push_back (0);
+            m_candidates.push_back (0);
 
         // create whole string
         create_conversion_string ();
@@ -335,9 +338,9 @@ Preedit::convert_kana (CandidateType type)
 
     m_conv_string.clear ();
     m_conv_attrs.clear ();
-    m_selected_candidates.clear ();
-    m_selected_segment_id = 0;
-    m_selected_segment_pos = 0;
+    m_candidates.clear ();
+    m_cur_segment_id = 0;
+    m_cur_segment_pos = 0;
     m_kana_converting = true;
 
     switch (type) {
@@ -366,7 +369,7 @@ Preedit::convert_kana (CandidateType type)
     }
 
     // set candidate type
-    m_selected_candidates.push_back (type);
+    m_candidates.push_back (type);
 
     // create attribute for this segment
     Attribute attr (0, m_conv_string.length (),
@@ -379,10 +382,14 @@ Preedit::convert_kana (CandidateType type)
 void
 Preedit::revert (void)
 {
+    anthy_reset_context (m_anthy_context);
+
     m_conv_string.clear ();
     m_conv_attrs.clear ();
-    m_selected_segment_id = -1;
-    m_selected_segment_pos = 0;
+    m_candidates.clear ();
+    m_start_segment_id = 0;
+    m_cur_segment_id = -1;
+    m_cur_segment_pos = 0;
     m_kana_converting = false;
 }
 
@@ -390,30 +397,30 @@ void
 Preedit::commit (int segment_id, bool learn)
 {
     if (m_kana_converting) return;
-    if (m_selected_candidates.size () <= 0) return;
+    if (m_candidates.size () <= 0) return;
 
     for (unsigned int i = m_start_segment_id;
-         i < m_selected_candidates.size () &&
+         i < m_candidates.size () &&
              (segment_id < 0 || (int) i <= segment_id);
          i++)
     {
-        if (m_selected_candidates[i] >= 0 && learn)
-            anthy_commit_segment (m_anthy_context, i, m_selected_candidates[i]);
+        if (m_candidates[i] >= 0 && learn)
+            anthy_commit_segment (m_anthy_context, i, m_candidates[i]);
     }
 
 
     if (segment_id >= 0 &&
-        segment_id + 1 < (int) m_selected_candidates.size ())
+        segment_id + 1 < (int) m_candidates.size ())
     {
         // remove commited segments
-        std::vector<int>::iterator it = m_selected_candidates.begin ();
-        m_selected_candidates.erase(it, it + segment_id + 1);
+        std::vector<int>::iterator it = m_candidates.begin ();
+        m_candidates.erase(it, it + segment_id + 1);
 
         // adjust selected segment
         int new_start_segment_id = m_start_segment_id + segment_id + 1;
-        m_selected_segment_id -= new_start_segment_id - m_start_segment_id;
-        if (m_selected_segment_id < 0)
-            m_selected_segment_id = 0;
+        m_cur_segment_id -= new_start_segment_id - m_start_segment_id;
+        if (m_cur_segment_id < 0)
+            m_cur_segment_id = 0;
 
         // adjust offset
         for (int i = m_start_segment_id; i < new_start_segment_id; i++) {
@@ -427,7 +434,7 @@ Preedit::commit (int segment_id, bool learn)
         create_conversion_string ();
 
     } else if (segment_id < 0 ||
-               segment_id >= (int) m_selected_candidates.size () - 1)
+               segment_id >= (int) m_candidates.size () - 1)
     {
         clear ();
     }
@@ -448,7 +455,7 @@ WideString
 Preedit::get_segment_string (int segment_id)
 {
     if (segment_id < 0)
-        segment_id = m_selected_segment_id;
+        segment_id = m_cur_segment_id;
 
     struct anthy_conv_stat conv_stat;
     anthy_get_stat (m_anthy_context, &conv_stat);
@@ -471,7 +478,7 @@ Preedit::get_segment_string (int segment_id)
     }
 
     int real_seg = segment_id + m_start_segment_id;
-    int cand = m_selected_candidates[segment_id];
+    int cand = m_candidates[segment_id];
 
     // get information of this segment
     struct anthy_segment_stat seg_stat;
@@ -497,7 +504,7 @@ Preedit::get_segment_string (int segment_id)
 int
 Preedit::get_selected_segment (void)
 {
-    return m_selected_segment_id;
+    return m_cur_segment_id;
 }
 
 void
@@ -513,7 +520,7 @@ Preedit::select_segment (int segment_id)
     int real_segment_id = segment_id + m_start_segment_id;
 
     if (segment_id >= 0 && real_segment_id < conv_stat.nr_segment) {
-        m_selected_segment_id = segment_id;
+        m_cur_segment_id = segment_id;
         create_conversion_string ();
     }
 }
@@ -527,7 +534,7 @@ Preedit::get_segment_size (int segment_id)
     anthy_get_stat (m_anthy_context, &conv_stat);
 
     if (segment_id < 0)
-        segment_id = m_selected_segment_id;
+        segment_id = m_cur_segment_id;
     int real_segment_id = segment_id + m_start_segment_id;
 
     if (real_segment_id >= conv_stat.nr_segment)
@@ -550,12 +557,12 @@ Preedit::resize_segment (int relative_size, int segment_id)
     int real_segment_id;
 
     if (segment_id < 0) {
-        segment_id = m_selected_segment_id;
+        segment_id = m_cur_segment_id;
         real_segment_id = segment_id + m_start_segment_id;
     } else {
         real_segment_id = segment_id + m_start_segment_id;
-        if (m_selected_segment_id > segment_id)
-            m_selected_segment_id = segment_id;
+        if (m_cur_segment_id > segment_id)
+            m_cur_segment_id = segment_id;
     }
 
     if (real_segment_id >= conv_stat.nr_segment)
@@ -566,11 +573,11 @@ Preedit::resize_segment (int relative_size, int segment_id)
 
     // reset candidate of trailing segments
     anthy_get_stat (m_anthy_context, &conv_stat);
-    std::vector<int>::iterator start_iter = m_selected_candidates.begin();
-    std::vector<int>::iterator end_iter   = m_selected_candidates.end();
-    m_selected_candidates.erase (start_iter + segment_id, end_iter);
+    std::vector<int>::iterator start_iter = m_candidates.begin();
+    std::vector<int>::iterator end_iter   = m_candidates.end();
+    m_candidates.erase (start_iter + segment_id, end_iter);
     for (int i = real_segment_id; i < conv_stat.nr_segment; i++)
-        m_selected_candidates.push_back (0);
+        m_candidates.push_back (0);
 
     // recreate conversion string
     create_conversion_string ();
@@ -592,7 +599,7 @@ Preedit::get_candidates (CommonLookupTable &table, int segment_id)
         return;
 
     if (segment_id < 0)
-        segment_id = m_selected_segment_id;
+        segment_id = m_cur_segment_id;
     int real_segment_id = segment_id + m_start_segment_id;
 
     if (real_segment_id >= conv_stat.nr_segment)
@@ -627,11 +634,11 @@ Preedit::get_selected_candidate (int segment_id)
         return -1;
 
     if (segment_id < 0)
-        segment_id = m_selected_segment_id;
+        segment_id = m_cur_segment_id;
     else if (segment_id >= conv_stat.nr_segment)
         return -1;
 
-    return m_selected_candidates[segment_id];
+    return m_candidates[segment_id];
 }
 
 void
@@ -648,7 +655,7 @@ Preedit::select_candidate (int candidate_id, int segment_id)
         return;
 
     if (segment_id < 0)
-        segment_id = m_selected_segment_id;
+        segment_id = m_cur_segment_id;
     int real_segment_id = segment_id + m_start_segment_id;
 
     if (segment_id >= conv_stat.nr_segment)
@@ -658,7 +665,7 @@ Preedit::select_candidate (int candidate_id, int segment_id)
     anthy_get_segment_stat (m_anthy_context, real_segment_id, &seg_stat);
 
     if (candidate_id < seg_stat.nr_candidate) {
-        m_selected_candidates[segment_id] = candidate_id;
+        m_candidates[segment_id] = candidate_id;
         create_conversion_string ();
     }
 }
@@ -671,7 +678,7 @@ unsigned int
 Preedit::get_caret_pos (void)
 {
     if (is_converting ())
-        return m_selected_segment_pos;
+        return m_cur_segment_pos;
     else
         return m_reading.get_caret_pos ();
 }
@@ -705,11 +712,11 @@ Preedit::clear (void)
     m_conv_string.clear ();
     m_conv_attrs.clear ();
     anthy_reset_context (m_anthy_context);
-    m_selected_candidates.clear ();
+    m_candidates.clear ();
     m_start_segment_id = 0;
     m_start_segment_pos = 0;
-    m_selected_segment_id = -1;
-    m_selected_segment_pos = 0;
+    m_cur_segment_id = -1;
+    m_cur_segment_pos = 0;
     m_kana_converting = false;
 }
 
@@ -783,6 +790,9 @@ Preedit::is_comma_or_period (const String & str)
 
 
 
+/*
+ * utilities
+ */
 static void
 convert_string_to_wide (WideString & wide, const String & str)
 {

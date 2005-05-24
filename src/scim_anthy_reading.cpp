@@ -286,35 +286,35 @@ Reading::get_raw (String & str, unsigned int start, int len)
 }
 
 void
-Reading::erase (bool backward)
+Reading::erase (unsigned int start, int len)
 {
     if (m_segments.size () <= 0)
         return;
 
-    // erase string
-    if (backward && m_segment_pos > 0) {
-        unsigned int key_len = m_segments[m_segment_pos - 1].key.length ();
+    if (get_length () < start)
+        return;
 
-        if (m_key2kana.is_pending () && key_len > 1) {
-            ReadingSegment &last = m_segments[m_segment_pos - 1];
-            String key_str = last.key.substr (0, key_len - 1);
-            last.key = key_str;
-            unsigned int kana_len = last.kana.length();
-            WideString kana_str = last.kana.substr (0, kana_len - 1);
-            last.kana = kana_str;
+    if (len < 0)
+        len = get_length () - start;
+
+    // erase
+    unsigned int pos = 0;
+    for (int i = 0; i < m_segments.size (); i++) {
+        if (pos < start) {
+            pos += m_segments[i].kana.length ();
+        } else if (pos == start) {
+            len -= m_segments[i].kana.length ();
+            m_segments.erase (m_segments.begin () + i);
+            if (m_segment_pos > i)
+                m_segment_pos--;
+            i--;
         } else {
-            ReadingSegments::iterator begin, end;
-            end = m_segments.begin () + m_segment_pos;
-            begin = end - 1;
-            m_segments.erase(begin, end);
-            m_segment_pos--;
+            // FIXME!!
+            // we have to split the segment
         }
 
-    } else if (!backward && m_segment_pos < m_segments.size ()) {
-        ReadingSegments::iterator begin, end;
-        begin = m_segments.begin () + m_segment_pos;
-        end   = begin + 1;
-        m_segments.erase(begin, end);
+        if (len <= 0)
+            break;
     }
 
     // reset values

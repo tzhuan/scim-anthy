@@ -89,7 +89,8 @@ public:
                                         unsigned int start  = 0,
                                         int          length = -1);
 #endif
-    void         erase                 (bool         backward);
+    void         erase                 (unsigned int start  = 0,
+                                        int          length = -1);
 
     unsigned int get_length            (void);
     unsigned int get_caret_pos         (void);
