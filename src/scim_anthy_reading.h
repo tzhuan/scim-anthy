@@ -100,8 +100,8 @@ public:
     TenKeyType   get_ten_key_type      (void);
 
 private:
-    bool append_str                    (const String & str);
-    void reset_pending                 (void);
+    bool         append_str            (const String & str);
+    void         reset_pending         (void);
 
 private:
     // convertors
