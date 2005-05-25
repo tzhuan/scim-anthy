@@ -188,12 +188,13 @@ Preedit::erase (bool backward)
     revert ();
 
     // erase
-    int pos = m_reading.get_caret_pos ();
-    if (backward)
-        pos--;
-    if (pos < 0)
+    if (backward && m_reading.get_caret_pos () == 0)
         return;
-    m_reading.erase (pos, 1);
+    if (!backward && m_reading.get_caret_pos () >= m_reading.get_length ())
+        return;
+    if (backward)
+        m_reading.move_caret (-1);
+    m_reading.erase (m_reading.get_caret_pos (), 1);
 }
 
 void

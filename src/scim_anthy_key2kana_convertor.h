@@ -31,6 +31,10 @@ using namespace scim;
 
 namespace scim_anthy {
 
+typedef enum {
+    SCIM_ANTHY_KEY2KANA_NEED_COMMIT,
+} Key2KanaResult;
+
 class Key2KanaConvertor
 {
     Key2KanaTableSet  &m_tables;

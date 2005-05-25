@@ -169,21 +169,21 @@ Reading::append_str (const String & str)
     bool was_pending = m_key2kana.is_pending ();
 
     WideString result, pending;
-    bool commit_pending;
-    commit_pending = m_key2kana.append (str, result, pending);
+    bool need_commiting;
+    need_commiting = m_key2kana.append (str, result, pending);
 
     ReadingSegments::iterator begin = m_segments.begin ();
 
-    if (!was_pending || commit_pending) {
+    // fix previous segment and prepare next segment if needed
+    if (!was_pending ||  // previous segment was already fixed
+        need_commiting)  // previous segment has been fixed
+    {
         ReadingSegment c;
         m_segments.insert (begin + m_segment_pos, c);
         m_segment_pos++;
     }
 
-    /*
-     * FIXME! It's not consider about failure of matching on pending state.
-     * Automaton::append() should have more detailed return value.
-     */
+    // fill segment
     if (result.length() > 0 && pending.length () > 0) {
         m_segments[m_segment_pos - 1].kana = result;
 
@@ -191,7 +191,6 @@ Reading::append_str (const String & str)
         c.raw += str;
         c.kana = pending;
         m_segments.insert (begin + m_segment_pos, c);
-
         m_segment_pos++;
 
     } else if (result.length () > 0) {
