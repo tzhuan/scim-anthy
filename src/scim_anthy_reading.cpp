@@ -32,7 +32,7 @@ ReadingSegment::~ReadingSegment ()
 static const char *
 find_romaji (wchar_t c)
 {
-    ConvRule *table = scim_anthy_romaji_consonant_rule;
+    ConvRule *table = scim_anthy_romaji_typing_rule;
 
     WideString kana1;
     kana1 += c;
@@ -324,7 +324,7 @@ Reading::get_raw (String & str, unsigned int start, int len)
 }
 
 void
-Reading::erase (unsigned int start, int len)
+Reading::erase (unsigned int start, int len, bool allow_split)
 {
     if (m_segments.size () <= 0)
         return;
@@ -343,20 +343,22 @@ Reading::erase (unsigned int start, int len)
             pos += m_segments[i].kana.length ();
 
         } else if (pos == start) {
-            if (pos + m_segments[i].kana.length () > start + len) {
+            if (allow_split &&
+                pos + m_segments[i].kana.length () > start + len)
+            {
                 // we have overshooted the end position!
                 // we have to split this segment
                 ReadingSegments segments;
                 m_segments[i].split (segments);
                 m_segments.erase (m_segments.begin () + i);
-                for (unsigned int j = segments.size () - 1; j >= 0; j--) {
+                for (int j = segments.size () - 1; j >= 0; j--) {
                     m_segments.insert (m_segments.begin () + i, segments[j]);
                     if ((int) m_segment_pos > i)
                         m_segment_pos++;
                 }
 
             } else {
-                // real erase
+                // This segment is completely in the rage, erase it!
                 len -= m_segments[i].kana.length ();
                 m_segments.erase (m_segments.begin () + i);
                 if ((int) m_segment_pos > i)
@@ -367,22 +369,39 @@ Reading::erase (unsigned int start, int len)
             i--;
 
         } else {
-            // we have overshooted the start position!
-            // we have to split the previous segment
-            ReadingSegments segments;
-            m_segments[i - 1].split (segments);
-            pos -= m_segments[i - 1].kana.length ();
-            m_segments.erase (m_segments.begin () + i - 1);
-            for (unsigned int j = segments.size () - 1; j >= 0; j--) {
-                m_segments.insert (m_segments.begin () + i - 1, segments[j]);
-                if ((int) m_segment_pos > i - 1)
-                    m_segment_pos++;
-            }
+            if (allow_split) {
+                // we have overshooted the start position!
+                // we have to split the previous segment
+                ReadingSegments segments;
+                m_segments[i - 1].split (segments);
+                pos -= m_segments[i - 1].kana.length ();
+                m_segments.erase (m_segments.begin () + i - 1);
+                for (int j = segments.size () - 1; j >= 0; j--) {
+                    m_segments.insert (m_segments.begin () + i - 1, segments[j]);
+                    if ((int) m_segment_pos > i - 1)
+                        m_segment_pos++;
+                }
 
-            // retry from the previous position
-            i -= 2;
+                // retry from the previous position
+                i -= 2;
+
+            } else {
+                // we have overshooted the start position, but have not been
+                // allowed to split the segment.
+                // So remove all string of previous segment.
+                len -= pos - start;
+                pos -= m_segments[i - 1].kana.length ();
+                m_segments.erase (m_segments.begin () + i - 1);
+                if ((int) m_segment_pos > i - 1)
+                    m_segment_pos--;
+
+                // retry from the previous position
+                i -= 2;
+            }
         }
 
+        // Now all strings in the range is removed.
+        // Exit the loop.
         if (len <= 0)
             break;
     }
