@@ -38,15 +38,15 @@ static ConvRule *get_comma_rule               (TypingMethod method,
 
 
 Preedit::Preedit (Key2KanaTableSet & tables)
-    : m_key2kana_tables (tables),
-      m_reading (tables, m_iconv),
-      m_anthy_context (anthy_create_context()),
-      m_input_mode (SCIM_ANTHY_MODE_HIRAGANA),
-      m_auto_convert (false),
+    : m_key2kana_tables  (tables),
+      m_reading          (tables, m_iconv),
+      m_anthy_context    (anthy_create_context()),
+      m_input_mode       (SCIM_ANTHY_MODE_HIRAGANA),
+      m_auto_convert     (false),
       m_start_segment_id (0),
-      m_cur_segment_id (-1),
-      m_cur_segment_pos (0),
-      m_kana_converting (false)
+      m_cur_segment_id   (-1),
+      m_cur_segment_pos  (0),
+      m_kana_converting  (false)
 {
 #ifdef HAS_ANTHY_CONTEXT_SET_ENCODING
     anthy_context_set_encoding (m_anthy_context, ANTHY_EUC_JP_ENCODING);

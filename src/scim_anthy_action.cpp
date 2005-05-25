@@ -27,7 +27,7 @@ using namespace scim_anthy;
 
 Action::Action (const String &name, const String &key_bindings, PMF pmf)
     : m_name (name),
-      m_pmf (pmf)
+      m_pmf  (pmf)
 {
     scim_string_to_key_list (m_key_bindings, key_bindings);
 }

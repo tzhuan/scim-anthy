@@ -69,13 +69,13 @@
 AnthyInstance::AnthyInstance (AnthyFactory   *factory,
                               const String   &encoding,
                               int             id)
-    : IMEngineInstanceBase (factory, encoding, id),
-      m_factory(factory),
-      m_prev_key (0,0),
-      m_preedit (m_key2kana_tables),
+    : IMEngineInstanceBase     (factory, encoding, id),
+      m_factory                (factory),
+      m_prev_key               (0,0),
+      m_preedit                (m_key2kana_tables),
       m_preedit_string_visible (false),
-      m_lookup_table_visible (false),
-      m_prev_input_mode (SCIM_ANTHY_MODE_HIRAGANA)
+      m_lookup_table_visible   (false),
+      m_prev_input_mode        (SCIM_ANTHY_MODE_HIRAGANA)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Instance : ";
 

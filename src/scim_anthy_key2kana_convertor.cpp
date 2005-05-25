@@ -23,7 +23,7 @@
 using namespace scim_anthy;
 
 Key2KanaConvertor::Key2KanaConvertor (Key2KanaTableSet & tables)
-    : m_tables (tables),
+    : m_tables      (tables),
       m_exact_match (NULL)
 {
 }
