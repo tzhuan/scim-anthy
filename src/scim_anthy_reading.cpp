@@ -29,11 +29,39 @@ ReadingSegment::~ReadingSegment ()
 {
 }
 
+static const char *
+find_romaji (wchar_t c)
+{
+    ConvRule *table = scim_anthy_romaji_consonant_rule;
+
+    WideString kana1;
+    kana1 += c;
+
+    for (unsigned int i = 0; table[i].string; i++) {
+        WideString kana2 = utf8_mbstowcs (table[i].result);
+        if (kana1 == kana2)
+            return table[i].string;
+    }
+
+    return "";
+}
+
+// Only a romaji string can be splited with raw key string.
+// Other typing method aren't supported splitting raw key string.
 void
 ReadingSegment::split (ReadingSegments &segments)
 {
-    // FIXME!
-    segments.push_back (*this);
+    if (kana.length () <= 1)
+        segments.push_back (*this);
+
+    WideString::iterator it;
+    for (it = kana.begin (); it != kana.end (); it++) {
+        wchar_t c = *it;
+        ReadingSegment seg;
+        seg.kana += c;
+        seg.raw = find_romaji (c);
+        segments.push_back (seg);
+    }
 }
 
 
@@ -311,18 +339,48 @@ Reading::erase (unsigned int start, int len)
     unsigned int pos = 0;
     for (int i = 0; i < (int) m_segments.size (); i++) {
         if (pos < start) {
+            // we have not yet reached start position.
             pos += m_segments[i].kana.length ();
 
         } else if (pos == start) {
-            len -= m_segments[i].kana.length ();
-            m_segments.erase (m_segments.begin () + i);
-            if ((int) m_segment_pos > i)
-                m_segment_pos--;
+            if (pos + m_segments[i].kana.length () > start + len) {
+                // we have overshooted the end position!
+                // we have to split this segment
+                ReadingSegments segments;
+                m_segments[i].split (segments);
+                m_segments.erase (m_segments.begin () + i);
+                for (unsigned int j = segments.size () - 1; j >= 0; j--) {
+                    m_segments.insert (m_segments.begin () + i, segments[j]);
+                    if ((int) m_segment_pos > i)
+                        m_segment_pos++;
+                }
+
+            } else {
+                // real erase
+                len -= m_segments[i].kana.length ();
+                m_segments.erase (m_segments.begin () + i);
+                if ((int) m_segment_pos > i)
+                    m_segment_pos--;
+            }
+
+            // retry from the same position
             i--;
 
         } else {
-            // FIXME!!
-            // we have to split the segment
+            // we have overshooted the start position!
+            // we have to split the previous segment
+            ReadingSegments segments;
+            m_segments[i - 1].split (segments);
+            pos -= m_segments[i - 1].kana.length ();
+            m_segments.erase (m_segments.begin () + i - 1);
+            for (unsigned int j = segments.size () - 1; j >= 0; j--) {
+                m_segments.insert (m_segments.begin () + i - 1, segments[j]);
+                if ((int) m_segment_pos > i - 1)
+                    m_segment_pos++;
+            }
+
+            // retry from the previous position
+            i -= 2;
         }
 
         if (len <= 0)
