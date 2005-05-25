@@ -113,14 +113,13 @@ public:
     virtual bool          get_auto_convert       (void);
 
 private:
-    WideString    get_preedit_string             (void);
-
-    void          convert_kana                   (CandidateType type);
-    void          create_conversion_string       (void);
     void          get_reading_substr             (WideString & substr,
                                                   unsigned int start,
                                                   unsigned int len,
                                                   CandidateType type);
+
+    void          convert_kana                   (CandidateType type);
+    void          create_conversion_string       (void);
     bool          is_comma_or_period             (const String & str);
 
 private:

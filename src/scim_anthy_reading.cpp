@@ -57,7 +57,9 @@ Reading::can_process_key_event (const KeyEvent & key)
     // ignore short cut keys of apllication.
     if (key.mask & SCIM_KEY_ControlMask ||
         key.mask & SCIM_KEY_AltMask)
+    {
         return false;
+    }
 
     if (isprint(key.get_ascii_code ()) && !isspace(key.get_ascii_code ()))
         return true;
@@ -311,12 +313,14 @@ Reading::erase (unsigned int start, int len)
     for (int i = 0; i < (int) m_segments.size (); i++) {
         if (pos < start) {
             pos += m_segments[i].kana.length ();
+
         } else if (pos == start) {
             len -= m_segments[i].kana.length ();
             m_segments.erase (m_segments.begin () + i);
             if ((int) m_segment_pos > i)
                 m_segment_pos--;
             i--;
+
         } else {
             // FIXME!!
             // we have to split the segment
@@ -340,15 +344,16 @@ Reading::reset_pending (void)
     if (m_key2kana.is_pending ())
         m_key2kana.clear ();
 
-    if (m_segment_pos > 0) {
-        for (unsigned int i = 0;
-             i < m_segments[m_segment_pos - 1].raw.length ();
-             i++)
-        {
-            WideString result, pending;
-            m_key2kana.append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
-                               result, pending);
-        }
+    if (m_segment_pos <= 0)
+        return;
+
+    for (unsigned int i = 0;
+         i < m_segments[m_segment_pos - 1].raw.length ();
+         i++)
+    {
+        WideString result, pending;
+        m_key2kana.append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
+                           result, pending);
     }
 }
 
@@ -365,8 +370,12 @@ unsigned int
 Reading::get_caret_pos (void)
 {
     unsigned int pos = 0;
-    for (unsigned int i = 0; i < m_segment_pos; i++)
+    for (unsigned int i = 0;
+         i < m_segment_pos && i < m_segments.size ();
+         i++)
+    {
         pos += m_segments[i].kana.length();
+    }
     return pos;
 }
 
@@ -380,8 +389,10 @@ Reading::set_caret_pos (unsigned int pos)
 
     if (pos >= get_length ()) {
         m_segment_pos = m_segments.size ();
+
     } else if (pos == 0 ||  m_segments.size () <= 0) {
         m_segment_pos = 0;
+
     } else {
         unsigned int i, tmp_pos = 0;
 

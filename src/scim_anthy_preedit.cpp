@@ -79,35 +79,30 @@ Preedit::get_length (void)
 WideString
 Preedit::get_string (void)
 {
-    if (is_converting ())
+    if (is_converting ()) {
         return m_conv_string;
-    else
-        return get_preedit_string ();
+    } else {
+        WideString widestr;
+        switch (m_input_mode) {
+        case SCIM_ANTHY_MODE_KATAKANA:
+            convert_hiragana_to_katakana (widestr, m_reading.get ());
+            return widestr;
 
-    return WideString ();
-}
+        case SCIM_ANTHY_MODE_HALF_KATAKANA:
+            convert_hiragana_to_katakana (widestr, m_reading.get (), true);
+            return widestr;
 
-WideString
-Preedit::get_preedit_string (void)
-{
-    WideString tmpwidestr, widestr;
-    String str;
+        case SCIM_ANTHY_MODE_LATIN:
+            return utf8_mbstowcs (m_reading.get_raw ());
 
-    switch (m_input_mode) {
-    case SCIM_ANTHY_MODE_KATAKANA:
-        convert_hiragana_to_katakana (widestr, m_reading.get ());
-        return widestr;
-    case SCIM_ANTHY_MODE_HALF_KATAKANA:
-        convert_hiragana_to_katakana (widestr, m_reading.get (), true);
-        return widestr;
-    case SCIM_ANTHY_MODE_LATIN:
-        return utf8_mbstowcs (m_reading.get_raw ());
-    case SCIM_ANTHY_MODE_WIDE_LATIN:
-        convert_string_to_wide (widestr, m_reading.get_raw ());
-        return widestr;
-    case SCIM_ANTHY_MODE_HIRAGANA:
-    default:
-        return m_reading.get ();
+        case SCIM_ANTHY_MODE_WIDE_LATIN:
+            convert_string_to_wide (widestr, m_reading.get_raw ());
+            return widestr;
+
+        case SCIM_ANTHY_MODE_HIRAGANA:
+        default:
+            return m_reading.get ();
+        }
     }
 
     return WideString ();
@@ -263,10 +258,12 @@ Preedit::get_reading_substr (WideString & substr,
         m_reading.get_raw (raw, start, len);
         substr = utf8_mbstowcs (raw);
         break;
+
     case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
         m_reading.get_raw (raw, start, len);
         convert_string_to_wide (substr, raw);
         break;
+
     case SCIM_ANTHY_CANDIDATE_HIRAGANA:
         m_reading.get (substr, start, len);
         break;
@@ -346,9 +343,11 @@ Preedit::convert_kana (CandidateType type)
     case SCIM_ANTHY_CANDIDATE_LATIN:
         m_conv_string = utf8_mbstowcs (m_reading.get_raw ());
         break;
+
     case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
         convert_string_to_wide (m_conv_string, m_reading.get_raw ());
         break;
+
     case SCIM_ANTHY_CANDIDATE_HIRAGANA:
         m_conv_string = m_reading.get ();
         break;
@@ -464,11 +463,17 @@ Preedit::get_segment_string (int segment_id)
     if (conv_stat.nr_segment <= 0)
         return WideString ();
 
-    if (m_start_segment_id < 0 || m_start_segment_id >= conv_stat.nr_segment)
+    if (m_start_segment_id < 0 ||
+        m_start_segment_id >= conv_stat.nr_segment)
+    {
         return WideString (); // error
+    }
 
-    if (segment_id < 0 || segment_id + m_start_segment_id >= conv_stat.nr_segment)
+    if (segment_id < 0 ||
+        segment_id + m_start_segment_id >= conv_stat.nr_segment)
+    {
         return WideString (); //error
+    }
 
     // character position of the head of segment.
     unsigned int real_seg_start = 0;
@@ -610,7 +615,8 @@ Preedit::get_candidates (CommonLookupTable &table, int segment_id)
     anthy_get_segment_stat (m_anthy_context, real_segment_id, &seg_stat);
 
     for (int i = 0; i < seg_stat.nr_candidate; i++) {
-        int len = anthy_get_segment (m_anthy_context, real_segment_id, i, NULL, 0);
+        int len = anthy_get_segment (m_anthy_context, real_segment_id, i,
+                                     NULL, 0);
         char *buf = (char *) malloc (len + 1);
         anthy_get_segment (m_anthy_context, real_segment_id, i, buf, len + 1);
 
@@ -864,6 +870,7 @@ get_period_rule (TypingMethod method, PeriodStyle period)
             return scim_anthy_kana_ja_period_rule;
         };
         break;
+
     case SCIM_ANTHY_TYPING_METHOD_ROMAJI:
     default:
         switch (period) {
@@ -896,6 +903,7 @@ get_comma_rule (TypingMethod method, CommaStyle period)
             return scim_anthy_kana_ja_comma_rule;
         };
         break;
+
     case SCIM_ANTHY_TYPING_METHOD_ROMAJI:
     default:
         switch (period) {
