@@ -43,6 +43,7 @@ typedef struct _WideRule
 
 // fundamental table
 extern ConvRule scim_anthy_romaji_typing_rule[];
+extern ConvRule scim_anthy_romaji_consonant_rule[];
 extern ConvRule scim_anthy_kana_typing_rule[];
 
 // symbol & number

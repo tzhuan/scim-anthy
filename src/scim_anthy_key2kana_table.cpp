@@ -25,6 +25,9 @@ using namespace scim_anthy;
 static Key2KanaTable romaji_table (
     utf8_mbstowcs ("DefaultRomajiTable"),
     scim_anthy_romaji_typing_rule);
+static Key2KanaTable romaji_consonant_table (
+    utf8_mbstowcs ("DefaultRomajiConsonantTable"),
+    scim_anthy_romaji_consonant_rule);
 static Key2KanaTable kana_table (
     utf8_mbstowcs ("DefaultKanaTable"),
     scim_anthy_kana_typing_rule);
@@ -159,10 +162,12 @@ Key2KanaTableSet::reset_tables (void)
     bool is_kana   = m_typing_method == SCIM_ANTHY_TYPING_METHOD_KANA;
 
     if (m_tables.empty ()) {
-        if (is_romaji)
+        if (is_romaji) {
             m_all_tables.push_back (&romaji_table);
-        else if (is_kana)
+            m_all_tables.push_back (&romaji_consonant_table);
+        } else if (is_kana) {
             m_all_tables.push_back (&kana_table);
+        }
     } else {
         std::vector<Key2KanaTable>::iterator it;
         for (it = m_tables.begin (); it != m_tables.end (); it++)

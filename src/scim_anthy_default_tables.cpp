@@ -18,24 +18,6 @@ ConvRule scim_anthy_romaji_typing_rule[] = {
 {"ve",	"ヴぇ",	""},
 {"vo",	"ヴぉ",	""},
 #endif
-{"vv",	"っ",	"v"},
-{"xx",	"っ",	"x"},
-{"kk",	"っ",	"k"},
-{"gg",	"っ",	"g"},
-{"ss",	"っ",	"s"},
-{"zz",	"っ",	"z"},
-{"jj",	"っ",	"j"},
-{"tt",	"っ",	"t"},
-{"dd",	"っ",	"d"},
-{"hh",	"っ",	"h"},
-{"ff",	"っ",	"f"},
-{"bb",	"っ",	"b"},
-{"pp",	"っ",	"p"},
-{"mm",	"っ",	"m"},
-{"yy",	"っ",	"y"},
-{"rr",	"っ",	"r"},
-{"ww",	"っ",	"w"},
-{"cc",	"っ",	"c"},
 {"kya",	"きゃ",	""},
 {"kyi",	"きぃ",	""},
 {"kyu",	"きゅ",	""},
@@ -249,6 +231,28 @@ ConvRule scim_anthy_romaji_typing_rule[] = {
 {";c",	"©",	""},
 #endif
 {NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_romaji_consonant_rule[] = {
+{"vv",	"っ",	"v"},
+{"xx",	"っ",	"x"},
+{"kk",	"っ",	"k"},
+{"gg",	"っ",	"g"},
+{"ss",	"っ",	"s"},
+{"zz",	"っ",	"z"},
+{"jj",	"っ",	"j"},
+{"tt",	"っ",	"t"},
+{"dd",	"っ",	"d"},
+{"hh",	"っ",	"h"},
+{"ff",	"っ",	"f"},
+{"bb",	"っ",	"b"},
+{"pp",	"っ",	"p"},
+{"mm",	"っ",	"m"},
+{"yy",	"っ",	"y"},
+{"rr",	"っ",	"r"},
+{"ww",	"っ",	"w"},
+{"cc",	"っ",	"c"},
+{NULL,  NULL,   NULL},
 };
 
 ConvRule scim_anthy_romaji_half_symbol_rule[] = {
