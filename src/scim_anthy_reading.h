@@ -38,6 +38,8 @@ typedef enum {
 } TenKeyType;
 
 class Reading;
+class ReadingSegment;
+typedef std::vector<ReadingSegment> ReadingSegments;
 
 class ReadingSegment
 {
@@ -47,20 +49,17 @@ public:
     ReadingSegment (void);
     virtual ~ReadingSegment ();
 
-#if 0
-    void split    (void);
-    void is_valid (void);
-    void to_valid (void);
-#endif
+    const WideString & get     (void) { return kana; }
+    const String     & get_raw (void) { return raw; }
+
+    void split (ReadingSegments &segments);
 
 private:
 //    KeyEvents  keys;
-    String     key;
+    String     raw;
     WideString kana;
 
 };
-
-typedef std::vector<ReadingSegment> ReadingSegments;
 
 class Reading
 {

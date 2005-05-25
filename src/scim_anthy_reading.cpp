@@ -29,6 +29,15 @@ ReadingSegment::~ReadingSegment ()
 {
 }
 
+void
+ReadingSegment::split (ReadingSegments &segments)
+{
+    // FIXME!
+    segments.push_back (*this);
+}
+
+
+
 Reading::Reading (Key2KanaTableSet & tables, IConvert & iconv)
     : m_key2kana_tables (tables),
       m_key2kana        (m_key2kana_tables),
@@ -177,18 +186,18 @@ Reading::append_str (const String & str)
         m_segments[m_segment_pos - 1].kana = result;
 
         ReadingSegment c;
-        c.key += str;
+        c.raw += str;
         c.kana = pending;
         m_segments.insert (begin + m_segment_pos, c);
 
         m_segment_pos++;
 
     } else if (result.length () > 0) {
-        m_segments[m_segment_pos - 1].key += str;
+        m_segments[m_segment_pos - 1].raw += str;
         m_segments[m_segment_pos - 1].kana = result;
 
     } else if (pending.length () > 0) {
-        m_segments[m_segment_pos - 1].key += str;
+        m_segments[m_segment_pos - 1].raw += str;
         m_segments[m_segment_pos - 1].kana = pending;
 
     } else {
@@ -275,7 +284,7 @@ Reading::get_raw (String & str, unsigned int start, int len)
     for (unsigned int i = 0; i < m_segments.size (); i++) {
         if (pos >= start || pos + m_segments[i].kana.length () > start) {
             // FIXME!
-            str += m_segments[i].key;
+            str += m_segments[i].raw;
         }
 
         pos += m_segments[i].kana.length ();
@@ -299,13 +308,13 @@ Reading::erase (unsigned int start, int len)
 
     // erase
     unsigned int pos = 0;
-    for (int i = 0; i < m_segments.size (); i++) {
+    for (int i = 0; i < (int) m_segments.size (); i++) {
         if (pos < start) {
             pos += m_segments[i].kana.length ();
         } else if (pos == start) {
             len -= m_segments[i].kana.length ();
             m_segments.erase (m_segments.begin () + i);
-            if (m_segment_pos > i)
+            if ((int) m_segment_pos > i)
                 m_segment_pos--;
             i--;
         } else {
@@ -333,11 +342,11 @@ Reading::reset_pending (void)
 
     if (m_segment_pos > 0) {
         for (unsigned int i = 0;
-             i < m_segments[m_segment_pos - 1].key.length ();
+             i < m_segments[m_segment_pos - 1].raw.length ();
              i++)
         {
             WideString result, pending;
-            m_key2kana.append (m_segments[m_segment_pos - 1].key.substr(i, 1),
+            m_key2kana.append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
                                result, pending);
         }
     }
