@@ -17,8 +17,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __SCIM_ANTHY_KEY2KANA_TABLE_DEFAULT_H__
-#define __SCIM_ANTHY_KEY2KANA_TABLE_DEFAULT_H__
+#ifndef __SCIM_ANTHY_DEFAULT_TABLES_H__
+#define __SCIM_ANTHY_DEFAULT_TABLES_H__
 
 typedef struct _ConvRule
 {
@@ -73,4 +73,4 @@ extern ConvRule scim_anthy_kana_half_comma_rule[];
 extern HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[];
 extern WideRule             scim_anthy_wide_table[];
 
-#endif /* __SCIM_ANTHY_KEY2KAN_TABLE_DEFAULT_H__ */
+#endif /* __SCIM_ANTHY_DEFAULT_TABLES_H__ */

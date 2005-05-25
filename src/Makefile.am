@@ -18,7 +18,7 @@ noinst_HEADERS = \
 	scim_anthy_reading.h \
 	scim_anthy_key2kana_convertor.h \
 	scim_anthy_key2kana_table.h \
-	scim_anthy_key2kana_table_default.h \
+	scim_anthy_default_tables.h \
 	scim_anthy_style_file.h
 
 moduledir = @SCIM_MODULEDIR@/IMEngine
@@ -32,7 +32,7 @@ anthy_la_SOURCES = \
 	scim_anthy_reading.cpp \
 	scim_anthy_key2kana_convertor.cpp \
 	scim_anthy_key2kana_table.cpp \
-	scim_anthy_key2kana_table_default.cpp \
+	scim_anthy_default_tables.cpp \
 	scim_anthy_style_file.cpp
 
 anthy_la_CFLAGS = @SCIM_CFLAGS@  @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@

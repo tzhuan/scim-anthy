@@ -1,7 +1,7 @@
 /* FIXME! this table should be separated as external file */
 
 #include <scim.h>
-#include "scim_anthy_key2kana_table_default.h"
+#include "scim_anthy_default_tables.h"
 
 /* from Suikyo */
 ConvRule scim_anthy_romaji_typing_rule[] = {

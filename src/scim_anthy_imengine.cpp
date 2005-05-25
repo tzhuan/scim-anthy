@@ -196,7 +196,7 @@ AnthyInstance::select_candidate_no_direct (unsigned int item)
     update_lookup_table (m_lookup_table);
 
     // update preedit
-    m_preedit.select_candidate(m_lookup_table.get_cursor_pos ());
+    m_preedit.select_candidate (m_lookup_table.get_cursor_pos ());
     set_preedition ();
 }
 
@@ -550,7 +550,6 @@ AnthyInstance::action_convert (void)
 {
     if (m_preedit.is_kana_converting ()) {
         m_preedit.revert ();
-        //return false;
     }
 
     if (!m_preedit.is_preediting ())

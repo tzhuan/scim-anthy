@@ -22,7 +22,7 @@
 
 #define Uses_SCIM_ICONV
 #include <scim.h>
-#include "scim_anthy_key2kana_table_default.h"
+#include "scim_anthy_default_tables.h"
 
 using namespace scim;
 
