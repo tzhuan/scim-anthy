@@ -81,6 +81,7 @@ Preedit::get_string (void)
 {
     if (is_converting ()) {
         return m_conv_string;
+
     } else {
         WideString widestr;
         switch (m_input_mode) {
@@ -306,7 +307,6 @@ Preedit::convert (CandidateType type)
         }
 
         /* get information about conversion string */
-        //struct anthy_conv_stat conv_stat;
         anthy_get_stat (m_anthy_context, &conv_stat);
         if (conv_stat.nr_segment <= 0)
             return;
@@ -577,7 +577,7 @@ Preedit::resize_segment (int relative_size, int segment_id)
     // do resize
     anthy_resize_segment (m_anthy_context, real_segment_id, relative_size);
 
-    // reset candidate of trailing segments
+    // reset candidates of trailing segments
     anthy_get_stat (m_anthy_context, &conv_stat);
     std::vector<int>::iterator start_iter = m_candidates.begin();
     std::vector<int>::iterator end_iter   = m_candidates.end();
