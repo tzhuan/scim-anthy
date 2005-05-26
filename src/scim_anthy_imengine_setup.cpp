@@ -224,6 +224,14 @@ static BoolConfigData __config_bool_common [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT,
+        SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT,
+        N_("A_llow spliting romaji on editing preedit string"),
+        NULL,
+        N_("If this check is enabled, you can delete each letter."),
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL,
         SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT,
         N_("Show _typing method label"),
@@ -1292,6 +1300,10 @@ create_romaji_page ()
 
     /* number */
     widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+
+    /* romaji splitting */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     return vbox;
