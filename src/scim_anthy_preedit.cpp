@@ -688,10 +688,19 @@ Preedit::select_candidate (int candidate_id, int segment_id)
 unsigned int
 Preedit::get_caret_pos (void)
 {
-    if (is_converting ())
+    if (is_converting ()) {
         return m_cur_segment_pos;
-    else
-        return m_reading.get_caret_pos ();
+    } else {
+        if (get_input_mode () == SCIM_ANTHY_MODE_HALF_KATAKANA) {
+            // FIXME! It's ad-hoc
+            WideString substr;
+            get_reading_substr (substr, 0, m_reading.get_caret_pos (),
+                                SCIM_ANTHY_CANDIDATE_HALF_KATAKANA);
+            return substr.length ();
+        } else {
+            return m_reading.get_caret_pos ();
+        }
+    }
 }
 
 void
