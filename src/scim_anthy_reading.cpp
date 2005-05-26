@@ -30,20 +30,38 @@ ReadingSegment::~ReadingSegment ()
 }
 
 static const char *
-find_romaji (wchar_t c)
+find_romaji (WideString c)
 {
     ConvRule *table = scim_anthy_romaji_typing_rule;
 
-    WideString kana1;
-    kana1 += c;
-
     for (unsigned int i = 0; table[i].string; i++) {
-        WideString kana2 = utf8_mbstowcs (table[i].result);
-        if (kana1 == kana2)
+        WideString kana = utf8_mbstowcs (table[i].result);
+        if (c == kana)
             return table[i].string;
     }
 
     return "";
+}
+
+static void
+to_half (String &dest, WideString &src)
+{
+    WideRule *table = scim_anthy_wide_table;
+    
+    for (unsigned int i = 0; i < src.size (); i++) {
+        bool found = false;
+        WideString kana1 = src.substr (i, 1);
+        for (unsigned int i = 0; table[i].code; i++) {
+            WideString kana2 = utf8_mbstowcs (table[i].wide);
+            if (kana1 == kana2) {
+                dest += table[i].code;
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+            dest += utf8_wcstombs (kana1);
+    }
 }
 
 // Only a romaji string can be splited with raw key string.
@@ -54,12 +72,19 @@ ReadingSegment::split (ReadingSegments &segments)
     if (kana.length () <= 1)
         segments.push_back (*this);
 
+    String half;
+    to_half (half, kana);
+    bool same_with_raw = half == raw;
+
     WideString::iterator it;
-    for (it = kana.begin (); it != kana.end (); it++) {
-        wchar_t c = *it;
+    for (unsigned int i = 0; i < kana.size (); i++) {
+        WideString c = kana.substr (i, 1);
         ReadingSegment seg;
-        seg.kana += c;
-        seg.raw = find_romaji (c);
+        seg.kana = c;
+        if (same_with_raw)
+            to_half (seg.raw, c);
+        else
+            seg.raw = find_romaji (c);
         segments.push_back (seg);
     }
 }
@@ -341,14 +366,14 @@ Reading::erase (unsigned int start, int len, bool allow_split)
     unsigned int pos = 0;
     for (int i = 0; i <= (int) m_segments.size (); i++) {
         if (pos < start) {
-            if (i == m_segments.size ())
+            if (i == (int) m_segments.size ())
                 break;
 
             // we have not yet reached start position.
             pos += m_segments[i].kana.length ();
 
         } else if (pos == start) {
-            if (i == m_segments.size ())
+            if (i == (int) m_segments.size ())
                 break;
 
             if (allow_split &&
