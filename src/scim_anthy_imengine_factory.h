@@ -54,6 +54,7 @@ class AnthyFactory : public IMEngineFactoryBase
     bool          m_learn_on_auto_commit;
     bool          m_romaji_half_symbol;
     bool          m_romaji_half_number;
+    bool          m_romaji_allow_split;
     String        m_dict_admin_command;
     String        m_add_word_command;
     bool          m_show_input_mode_label;

@@ -95,7 +95,8 @@ public:
     unsigned int get_length            (void);
     unsigned int get_caret_pos         (void);
     void         set_caret_pos         (unsigned int pos);
-    void         move_caret            (int step);
+    void         move_caret            (int          step,
+                                        bool         allow_split = false);
 
     void         set_ten_key_type      (TenKeyType type);
     TenKeyType   get_ten_key_type      (void);
@@ -113,6 +114,7 @@ private:
     // state
     ReadingSegments    m_segments;
     unsigned int       m_segment_pos;
+    unsigned int       m_caret_offset;
 
     // mode
     TenKeyType         m_ten_key_type;

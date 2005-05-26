@@ -111,6 +111,8 @@ public:
     virtual TenKeyType    get_ten_key_type       (void);
     virtual void          set_auto_convert       (bool autoconv);
     virtual bool          get_auto_convert       (void);
+    virtual void          set_allow_split_romaji (bool allow);
+    virtual bool          get_allow_split_romaji (void);
 
 private:
     void          get_reading_substr             (WideString & substr,
@@ -132,6 +134,7 @@ private:
     // mode flags
     InputMode         m_input_mode;
     bool              m_auto_convert;
+    bool              m_romaji_allow_split;
 
     // conversion string
     WideString        m_conv_string;       // conversion string for non-commited segments.

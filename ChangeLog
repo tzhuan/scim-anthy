@@ -1,5 +1,13 @@
 2005-05-26 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.cpp, src/scim_anthy_imengine_factory.cpp,
+          src/scim_anthy_imengine_factory.h, src/scim_anthy_preedit.cpp,
+          src/scim_anthy_preedit.h, src/scim_anthy_prefs.h,
+	  src/scim_anthy_reading.cpp, src/scim_anthy_reading.h:
+	Add a setting to choose whether allow splitting ReadingSegment or not.
+
+2005-05-26 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_reading.{cpp,h}: Make enable to choose whether allow
 	splitting ReadingSegment or not on Reading::erase().
 

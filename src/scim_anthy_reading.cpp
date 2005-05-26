@@ -71,6 +71,7 @@ Reading::Reading (Key2KanaTableSet & tables, IConvert & iconv)
       m_key2kana        (m_key2kana_tables),
       m_iconv           (iconv),
       m_segment_pos     (0),
+      m_caret_offset    (0),
       m_ten_key_type    (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
 {
 }
@@ -253,6 +254,7 @@ Reading::clear (void)
     m_key2kana.clear ();
     m_segments.clear ();
     m_segment_pos = 0;
+    m_caret_offset = 0;
 }
 
 WideString
@@ -337,12 +339,18 @@ Reading::erase (unsigned int start, int len, bool allow_split)
 
     // erase
     unsigned int pos = 0;
-    for (int i = 0; i < (int) m_segments.size (); i++) {
+    for (int i = 0; i <= (int) m_segments.size (); i++) {
         if (pos < start) {
+            if (i == m_segments.size ())
+                break;
+
             // we have not yet reached start position.
             pos += m_segments[i].kana.length ();
 
         } else if (pos == start) {
+            if (i == m_segments.size ())
+                break;
+
             if (allow_split &&
                 pos + m_segments[i].kana.length () > start + len)
             {
@@ -446,12 +454,16 @@ unsigned int
 Reading::get_caret_pos (void)
 {
     unsigned int pos = 0;
+
     for (unsigned int i = 0;
          i < m_segment_pos && i < m_segments.size ();
          i++)
     {
         pos += m_segments[i].kana.length();
     }
+
+    pos += m_caret_offset;
+
     return pos;
 }
 
@@ -488,7 +500,7 @@ Reading::set_caret_pos (unsigned int pos)
 }
 
 void
-Reading::move_caret (int step)
+Reading::move_caret (int step, bool allow_split)
 {
     if (step == 0)
         return;
@@ -497,12 +509,46 @@ Reading::move_caret (int step)
         m_key2kana.clear ();
     }
 
-    if (step < 0 && m_segment_pos < abs (step)) {
-        m_segment_pos = 0;
-    } else if (step > 0 && m_segment_pos + step > m_segments.size ()) {
-        m_segment_pos = m_segments.size ();
+    if (allow_split) {
+        unsigned int pos = get_caret_pos ();
+        if (step < 0 && pos < abs (step)) {
+            // lower limit
+            m_segment_pos = 0;
+
+        } else if (step > 0 && pos + step > get_length ()) {
+            // upper limit
+            m_segment_pos = m_segments.size ();
+
+        } else {
+            unsigned int new_pos = pos + step;
+            ReadingSegments::iterator it;
+            pos = 0;
+            m_segment_pos = 0;
+            m_caret_offset = 0;
+            for (it = m_segments.begin (); pos < new_pos; it++) {
+                if (pos + it->kana.length () > new_pos) {
+                    m_caret_offset = new_pos - pos;
+                    break;
+                } else {
+                    m_segment_pos++;
+                    pos += it->kana.length ();
+                }
+            }
+        }
+
     } else {
-        m_segment_pos += step;
+        if (step < 0 && m_segment_pos < abs (step)) {
+            // lower limit
+            m_segment_pos = 0;
+
+        } else if (step > 0 && m_segment_pos + step > m_segments.size ()) {
+            // upper limit
+            m_segment_pos = m_segments.size ();
+
+        } else {
+            // other
+            m_segment_pos += step;
+        }
     }
 
     reset_pending ();

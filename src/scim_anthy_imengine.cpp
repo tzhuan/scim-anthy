@@ -1482,9 +1482,10 @@ AnthyInstance::trigger_property (const String &property)
 void
 AnthyInstance::reload_config (const ConfigPointer &config)
 {
-    // set character width
+    // set romaji settings
     m_key2kana_tables.set_symbol_width (m_factory->m_romaji_half_symbol);
     m_key2kana_tables.set_number_width (m_factory->m_romaji_half_number);
+    m_preedit.set_allow_split_romaji (m_factory->m_romaji_allow_split);
 
     // set typing method
     if (m_factory->m_typing_method == "Kana")

@@ -188,13 +188,16 @@ Preedit::erase (bool backward)
     revert ();
 
     // erase
+    TypingMethod method = m_key2kana_tables.get_typing_method ();
+    bool allow_split
+        = (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI) && m_romaji_allow_split;
     if (backward && m_reading.get_caret_pos () == 0)
         return;
     if (!backward && m_reading.get_caret_pos () >= m_reading.get_length ())
         return;
     if (backward)
-        m_reading.move_caret (-1);
-    m_reading.erase (m_reading.get_caret_pos (), 1);
+        m_reading.move_caret (-1, allow_split);
+    m_reading.erase (m_reading.get_caret_pos (), 1, allow_split);
 }
 
 void
@@ -706,7 +709,11 @@ Preedit::move_caret (int step)
     if (is_converting ())
         return;
 
-    m_reading.move_caret (step);
+    TypingMethod method = m_key2kana_tables.get_typing_method ();
+    bool allow_split
+        = (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI) && m_romaji_allow_split;
+
+    m_reading.move_caret (step, allow_split);
 }
 
 
@@ -765,6 +772,18 @@ bool
 Preedit::get_auto_convert (void)
 {
     return m_auto_convert;
+}
+
+void
+Preedit::set_allow_split_romaji (bool allow)
+{
+    m_romaji_allow_split = allow;
+}
+
+bool
+Preedit::get_allow_split_romaji (void)
+{
+    return m_romaji_allow_split;
 }
 
 bool
