@@ -220,6 +220,11 @@ Reading::append_str (const String & str)
     if (str.length () <= 0)
         return false;
 
+    if (m_caret_offset != 0) {
+        split_segment (m_segment_pos);
+        reset_pending ();
+    }
+
     bool was_pending = m_key2kana.is_pending ();
 
     WideString result, pending;
@@ -351,6 +356,37 @@ Reading::get_raw (String & str, unsigned int start, int len)
 }
 
 void
+Reading::split_segment (unsigned int seg_id)
+{
+    if (seg_id >= m_segments.size ())
+        return;
+
+    unsigned int pos = 0;
+    for (unsigned int i = 0; i < seg_id && i < m_segments.size (); i++)
+        pos += m_segments[i].kana.length ();
+
+    unsigned int caret = get_caret_pos ();
+    unsigned int seg_len = m_segments[seg_id].kana.length ();
+    bool caret_was_in_the_segment = false;
+    if (caret > pos && caret < pos + seg_len)
+        caret_was_in_the_segment = true;
+
+    ReadingSegments segments;
+    m_segments[seg_id].split (segments);
+    m_segments.erase (m_segments.begin () + seg_id);
+    for (int j = segments.size () - 1; j >= 0; j--) {
+        m_segments.insert (m_segments.begin () + seg_id, segments[j]);
+        if (m_segment_pos > seg_id)
+            m_segment_pos++;
+    }
+
+    if (caret_was_in_the_segment) {
+        m_segment_pos += m_caret_offset;
+        m_caret_offset = 0;
+    }
+}
+
+void
 Reading::erase (unsigned int start, int len, bool allow_split)
 {
     if (m_segments.size () <= 0)
@@ -384,25 +420,7 @@ Reading::erase (unsigned int start, int len, bool allow_split)
             {
                 // we have overshooted the end position!
                 // we have to split this segment
-                unsigned int caret = get_caret_pos ();
-                unsigned int seg_len = m_segments[i].kana.length ();
-                bool caret_was_in_the_segment = false;
-                if (caret > pos - seg_len && caret < pos)
-                    caret_was_in_the_segment = true;
-
-                ReadingSegments segments;
-                m_segments[i].split (segments);
-                m_segments.erase (m_segments.begin () + i);
-                for (int j = segments.size () - 1; j >= 0; j--) {
-                    m_segments.insert (m_segments.begin () + i, segments[j]);
-                    if ((int) m_segment_pos > i)
-                        m_segment_pos++;
-                }
-
-                if (caret_was_in_the_segment) {
-                    m_segment_pos += m_caret_offset;
-                    m_caret_offset = 0;
-                }
+                split_segment (i);
 
             } else {
                 // This segment is completely in the rage, erase it!
@@ -419,28 +437,8 @@ Reading::erase (unsigned int start, int len, bool allow_split)
             // we have overshooted the start position!
 
             if (allow_split) {
-                // we have to split the previous segment
-                unsigned int caret = get_caret_pos ();
-                unsigned int seg_len = m_segments[i - 1].kana.length ();
-                bool caret_was_in_the_segment = false;
-                if (caret > pos - seg_len && caret < pos)
-                    caret_was_in_the_segment = true;
-
-                ReadingSegments segments;
-                m_segments[i - 1].split (segments);
-                pos -= seg_len;
-                m_segments.erase (m_segments.begin () + i - 1);
-                for (int j = segments.size () - 1; j >= 0; j--) {
-                    m_segments.insert (m_segments.begin () + i - 1,
-                                       segments[j]);
-                    if ((int) m_segment_pos > i - 1)
-                        m_segment_pos++;
-                }
-
-                if (caret_was_in_the_segment) {
-                    m_segment_pos += m_caret_offset;
-                    m_caret_offset = 0;
-                }
+                pos -= m_segments[i - 1].kana.length ();
+                split_segment (i - 1);
 
                 // retry from the previous position
                 i -= 2;
@@ -460,7 +458,7 @@ Reading::erase (unsigned int start, int len, bool allow_split)
             }
         }
 
-        // Now all strings in the range is removed.
+        // Now all letters in the range is removed.
         // Exit the loop.
         if (len <= 0)
             break;
@@ -519,6 +517,7 @@ Reading::get_caret_pos (void)
     return pos;
 }
 
+// FIXME! add "allow_split" argument.
 void
 Reading::set_caret_pos (unsigned int pos)
 {

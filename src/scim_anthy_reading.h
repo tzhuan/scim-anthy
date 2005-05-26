@@ -104,6 +104,7 @@ public:
 private:
     bool         append_str            (const String & str);
     void         reset_pending         (void);
+    void         split_segment         (unsigned int seg_id);
 
 private:
     // convertors
