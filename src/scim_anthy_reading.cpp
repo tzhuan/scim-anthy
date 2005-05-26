@@ -366,13 +366,16 @@ Reading::erase (unsigned int start, int len, bool allow_split)
     unsigned int pos = 0;
     for (int i = 0; i <= (int) m_segments.size (); i++) {
         if (pos < start) {
+            // we have not yet reached start position.
+
             if (i == (int) m_segments.size ())
                 break;
 
-            // we have not yet reached start position.
             pos += m_segments[i].kana.length ();
 
         } else if (pos == start) {
+            // we have reached start position.
+
             if (i == (int) m_segments.size ())
                 break;
 
@@ -381,6 +384,12 @@ Reading::erase (unsigned int start, int len, bool allow_split)
             {
                 // we have overshooted the end position!
                 // we have to split this segment
+                unsigned int caret = get_caret_pos ();
+                unsigned int seg_len = m_segments[i].kana.length ();
+                bool caret_was_in_the_segment = false;
+                if (caret > pos - seg_len && caret < pos)
+                    caret_was_in_the_segment = true;
+
                 ReadingSegments segments;
                 m_segments[i].split (segments);
                 m_segments.erase (m_segments.begin () + i);
@@ -388,6 +397,11 @@ Reading::erase (unsigned int start, int len, bool allow_split)
                     m_segments.insert (m_segments.begin () + i, segments[j]);
                     if ((int) m_segment_pos > i)
                         m_segment_pos++;
+                }
+
+                if (caret_was_in_the_segment) {
+                    m_segment_pos += m_caret_offset;
+                    m_caret_offset = 0;
                 }
 
             } else {
@@ -402,17 +416,30 @@ Reading::erase (unsigned int start, int len, bool allow_split)
             i--;
 
         } else {
+            // we have overshooted the start position!
+
             if (allow_split) {
-                // we have overshooted the start position!
                 // we have to split the previous segment
+                unsigned int caret = get_caret_pos ();
+                unsigned int seg_len = m_segments[i - 1].kana.length ();
+                bool caret_was_in_the_segment = false;
+                if (caret > pos - seg_len && caret < pos)
+                    caret_was_in_the_segment = true;
+
                 ReadingSegments segments;
                 m_segments[i - 1].split (segments);
-                pos -= m_segments[i - 1].kana.length ();
+                pos -= seg_len;
                 m_segments.erase (m_segments.begin () + i - 1);
                 for (int j = segments.size () - 1; j >= 0; j--) {
-                    m_segments.insert (m_segments.begin () + i - 1, segments[j]);
+                    m_segments.insert (m_segments.begin () + i - 1,
+                                       segments[j]);
                     if ((int) m_segment_pos > i - 1)
                         m_segment_pos++;
+                }
+
+                if (caret_was_in_the_segment) {
+                    m_segment_pos += m_caret_offset;
+                    m_caret_offset = 0;
                 }
 
                 // retry from the previous position
