@@ -23,8 +23,8 @@
  * Copyright (C) 2004 James Su <suzhe@tsinghua.org.cn>
  */
 
-#ifndef __SCIM_ANTHY_IMENGINE_FACTORY_H__
-#define __SCIM_ANTHY_IMENGINE_FACTORY_H__
+#ifndef __SCIM_ANTHY_FACTORY_H__
+#define __SCIM_ANTHY_FACTORY_H__
 
 #include <anthy/anthy.h>
 #include <scim.h>
@@ -92,7 +92,7 @@ private:
     void reload_config (const ConfigPointer &config);
 };
 
-#endif /* __SCIM_ANTHY_IMENGINE_FACTORY_H__ */
+#endif /* __SCIM_ANTHY_FACTORY_H__ */
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

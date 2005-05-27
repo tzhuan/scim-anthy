@@ -18,8 +18,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __SCIM_ANTHY_KEY2KANA_CONVERTOR_H__
-#define __SCIM_ANTHY_KEY2KANA_CONVERTOR_H__
+#ifndef __SCIM_ANTHY_KEY2KANA_H__
+#define __SCIM_ANTHY_KEY2KANA_H__
 
 #define Uses_SCIM_ICONV
 #include <scim.h>
@@ -56,7 +56,7 @@ public:
 };
 
 }
-#endif /* __SCIM_ANTHY_KEY2KANA_CONVERTOR_H__ */
+#endif /* __SCIM_ANTHY_KEY2KANA_H__ */
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

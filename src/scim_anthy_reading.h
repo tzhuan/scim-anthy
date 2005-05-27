@@ -23,7 +23,7 @@
 #define Uses_SCIM_ICONV
 #define Uses_SCIM_EVENT
 #include <scim.h>
-#include "scim_anthy_key2kana_convertor.h"
+#include "scim_anthy_key2kana.h"
 
 using namespace scim;
 

@@ -38,7 +38,7 @@
 #include <sys/wait.h>
 
 #include <scim.h>
-#include "scim_anthy_imengine_factory.h"
+#include "scim_anthy_factory.h"
 #include "scim_anthy_imengine.h"
 #include "scim_anthy_prefs.h"
 #include "scim_anthy_intl.h"

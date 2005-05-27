@@ -26,7 +26,6 @@
 #include <scim_attribute.h>
 #include <scim_event.h>
 #include <scim_lookup_table.h>
-#include "scim_anthy_key2kana_convertor.h"
 #include "scim_anthy_reading.h"
 
 using namespace scim;
