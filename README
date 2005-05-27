@@ -1,1 +1,170 @@
-scim-anthy is an SCIM IMEngine module for anthy.
+1. What's this?
+===============
+
+scim-anthy is a SCIM IMEngine module for anthy.
+
+SCIM is Smart Common Input Method platform, it's provides user friendly/full
+featured user interface and development platform to make input method
+developer's life easier.
+
+Anthy is a system for Japanese input method.
+It converts Hiragana text to Kana Kanji mixed text.
+
+scim-anthy provides some usefull user interfaces for Anthy using SCIM.
+
+
+2. Requirements
+===============
+
+2.1 Necessary
+
+  * scim-1.0.0 or later.
+    - http://www.scim-im.org/
+
+  * Anthy-5100 or later.
+    - http://anthy.sourceforge.jp/
+    - http://sourceforge.jp/projects/anthy/
+
+3.2 Optional
+
+  * kasumi-0.6 or later:
+    - Dictionary management tool. Invoked from scim-anthy.
+    - http://kasumi.sourceforge.jp/
+
+
+3. Install
+==========
+
+3.1 Fedora Core:
+
+  Ryo DAIRIKI provides RPM package for Fedora Core.
+  You can download latest RPM package from our web site:
+
+    http://sourceforge.jp/projects/scim-imengine/
+
+3.2 SUSE:
+
+  scim-anthy is the default Japanese input method on SUSE-9.3.
+
+3.3 Mandriva:
+
+  UTUMI Hirosi contributes RPM package to Mandriva.
+  scim-anthy is the default Japanese input method on Mandriva.
+
+  He also provides latest RPM package at this site:
+
+    - FIXME!
+
+3.4 Debian and Ubuntu:
+
+  Ikuya AWASHIRO provides deb package for Debian and Ubuntu.
+  Please add these apt-line to /etc/apt/sources.list:
+
+  * for IA32 sarge, source
+
+    deb http://everybody.good-day.net/~ikuya/debian/sarge/scim-misc/ ./
+    deb http://everybody.good-day.net/~ikuya/debian/sarge/anthy-ss/ ./
+
+  * for AMD64
+
+    deb http://everybody.good-day.net/~ikuya/debian/sid/scim-misc/ ./
+    deb http://everybody.good-day.net/~ikuya/debian/sid/anthy/ ./
+
+  * sources for Debian
+
+    deb-src http://everybody.good-day.net/~ikuya/debian/sarge/scim-misc/ ./
+    deb-src http://everybody.good-day.net/~ikuya/debian/sarge/anthy-ss/ ./
+
+  * for Ubuntu
+
+    deb http://everybody.good-day.net/~ikuya/ubuntu/5.04/ ./
+    deb-src http://everybody.good-day.net/~ikuya/ubuntu/5.04/ ./
+
+  And type following command to install:
+
+    # apt-get update
+    # apt-get install scim-anthy
+    # apt-get install anthy
+
+3.5 Gentoo:
+
+  You can install scim, anthy and scim-anthy by following command:
+
+     $ emerge scim-anthy
+
+3.6 FreeBSD:
+
+  * FIXME!
+
+3.7 Build from souce tarball:
+
+  Please build & install scim, anthy, and scim-anthy.
+
+    $ ./configure
+    $ make
+    # make install
+
+
+4. Usage
+========
+
+Yukiko Bando wrote some efficient documents of scim-anthy.
+These documents are written for Mandriva users, but also usefull for all users
+using other distributions.
+
+Please see them to learn the usage of scim-anthy:
+
+  * http://www.h4.dion.ne.jp/~apricots/scim-anthy/howto.html
+  * http://www.h4.dion.ne.jp/~apricots/scim-anthy/romakana.html
+
+
+5. License
+==========
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+Place - Suite 330, Boston, MA 02111-1307, USA.
+
+
+6. Credit
+=========
+
+Special thanks to all scim-anthy developers and users!
+
+ * Hiroyuki Ikezoe <poincare at ikezoe.net>
+   - Originator of this project.
+
+ * Takuro Ashie <ashie at homa.ne.jp>
+   - Developer.
+
+ * James Su <james.su at gmail.com>
+   - Anthor of scim
+
+ * Yusuke Tabata <yusuke at cherubim.icw.co.jp>
+   - Author of Anthy.
+
+ * Yukiko Bando <ybando at k6.dion.ne.jp>
+   - Wrote some efficient documents of scim-anthy.
+
+ * UTUMI Hirosi <utuhiro78 at yahoo.co.jp>
+   - Packager of RPM package for Mandriva.
+
+ * Ryo DAIRIKI <ryo-dairiki at mbm.nifty.com>
+   - Packager of RPM package for Fedora Core.
+
+ * Mike Fabian <mfabian at suse.de>
+   - Packager of RPM package for SUSE.
+
+ * Ikuya AWASHIRO <ikuya at oooug.jp>
+   - Packager of deb package for Debian and Ubuntu.
+
+ * Mamoru Komachi <usata at usata.org>
+   - Packager of Gentoo.
