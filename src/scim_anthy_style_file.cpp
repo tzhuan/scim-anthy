@@ -41,10 +41,13 @@ StyleLine::get_type (void)
 
     unsigned int spos, epos;
     for (spos = 0; spos < m_line.length () && isspace (m_line[spos]); spos++);
-    if (m_line.length() > 0)
-        for (epos = m_line.length () - 1; epos >= 0 && isspace (m_line[epos]); epos--);
-    else
+    if (m_line.length() > 0) {
+        for (epos = m_line.length () - 1;
+             epos >= 0 && isspace (m_line[epos]);
+             epos--);
+    } else {
         epos = 0;
+    }
 
     if (m_line.length() == 0 || spos >= m_line.length()) {
         m_type = SCIM_ANTHY_STYLE_LINE_SPACE;
@@ -155,6 +158,7 @@ StyleFile::load (const char *filename)
 
     m_sections.push_back (StyleLines ());
     StyleLines *section = &m_sections[0];
+    unsigned int section_id = 0;
 
     char buf[MAX_LINE_LENGTH];
     while (!in_file.eof ()) {
@@ -165,10 +169,20 @@ StyleFile::load (const char *filename)
 
         if (type == SCIM_ANTHY_STYLE_LINE_SECTION) {
             m_sections.push_back (StyleLines ());
-            section = &*(m_sections.end() - 1);
+            section = &m_sections.back();
+            section_id++;
         }
 
         section->push_back (line);
+
+        if (section_id == 0) {
+            String key;
+            line.get_key (key);
+            if (key == "Encoding")
+                line.get_value (m_encoding);
+            else if (key == "Title")
+                line.get_value (m_title);
+        }
     }
 
     in_file.close ();
@@ -196,6 +210,18 @@ StyleFile::save (const char *filename)
     out_file.close ();
 
     return true;
+}
+
+String
+StyleFile::get_encoding (void)
+{
+    return m_encoding;
+}
+
+String
+StyleFile::get_title (void)
+{
+    return m_title;
 }
 
 bool
@@ -265,6 +291,13 @@ StyleFile::set_string (String section, String key, String value)
     //String str = String ("[") + String (section) + String ("]");
     //mandokuse-
 }
+
+bool
+StyleFile::get_section_list (StyleSections &sections)
+{
+    sections = m_sections;
+    return true;
+} ;
 
 bool
 StyleFile::get_entry_list (StyleLines &lines, String section)

@@ -69,19 +69,28 @@ public:
     ~StyleFile ();
 
 public:
-    bool load (const char *filename);
-    bool save (const char *filename);
+    bool   load (const char *filename);
+    bool   save (const char *filename);
 
-    bool get_string       (String &value, String section, String key);
-    void set_string       (String section, String key, String value);
-    bool get_section_list (StyleSections &sections) { sections = m_sections; return true; } ;
-    bool get_entry_list   (StyleLines &lines, String section);
+    String get_encoding     (void);
+    String get_title        (void);
+
+    bool   get_string       (String        &value,
+                             String         section,
+                             String         key);
+    void   set_string       (String         section,
+                             String         key,
+                             String         value);
+    bool   get_section_list (StyleSections &sections);
+    bool   get_entry_list   (StyleLines    &lines,
+                             String         section);
 
 private:
 
 private:
-    String        m_encoding;
     String        m_filename;
+    String        m_encoding;
+    String        m_title;
     StyleSections m_sections;
 };
 

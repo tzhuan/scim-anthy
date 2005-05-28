@@ -304,38 +304,6 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         // clear old actions
         m_actions.clear ();
 
-        // edit keys
-        APPEND_ACTION (COMMIT,                  action_commit_follow_preference);
-        APPEND_ACTION (COMMIT_REVERSE_LEARN,    action_commit_reverse_preference);
-        APPEND_ACTION (CONVERT,                 action_convert);
-        APPEND_ACTION (CANCEL,                  action_revert);
-        APPEND_ACTION (BACKSPACE,               action_back);
-        APPEND_ACTION (DELETE,                  action_delete);
-        APPEND_ACTION (INSERT_SPACE,            action_insert_space);
-        APPEND_ACTION (INSERT_ALT_SPACE,        action_insert_alternative_space);
-        APPEND_ACTION (INSERT_HALF_SPACE,       action_insert_half_space);
-        APPEND_ACTION (INSERT_WIDE_SPACE,       action_insert_wide_space);
-
-        // caret keys
-        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_first);
-        APPEND_ACTION (MOVE_CARET_LAST,         action_move_caret_last);
-        APPEND_ACTION (MOVE_CARET_FORWARD,      action_move_caret_forward);
-        APPEND_ACTION (MOVE_CARET_BACKWARD,     action_move_caret_backward);
-
-        // segment keys
-        APPEND_ACTION (SELECT_FIRST_SEGMENT,    action_select_first_segment);
-        APPEND_ACTION (SELECT_LAST_SEGMENT,     action_select_last_segment);
-        APPEND_ACTION (SELECT_NEXT_SEGMENT,     action_select_next_segment);
-        APPEND_ACTION (SELECT_PREV_SEGMENT,     action_select_prev_segment);
-        APPEND_ACTION (SHRINK_SEGMENT,          action_shrink_segment);
-        APPEND_ACTION (EXPAND_SEGMENT,          action_expand_segment);
-        APPEND_ACTION (COMMIT_FIRST_SEGMENT,    action_commit_first_segment);
-        APPEND_ACTION (COMMIT_SELECTED_SEGMENT, action_commit_selected_segment);
-        APPEND_ACTION (COMMIT_FIRST_SEGMENT_REVERSE_LEARN,
-                       action_commit_first_segment_reverse_preference);
-        APPEND_ACTION (COMMIT_SELECTED_SEGMENT_REVERSE_LEARN,
-                       action_commit_selected_segment_reverse_preference);
-
         // candidates keys
         APPEND_ACTION (SELECT_FIRST_CANDIDATE,  action_select_first_candidate);
         APPEND_ACTION (SELECT_LAST_CANDIDATE,   action_select_last_candidate);
@@ -354,12 +322,44 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         APPEND_ACTION (SELECT_CANDIDATE_9,      action_select_candidate_9);
         APPEND_ACTION (SELECT_CANDIDATE_10,     action_select_candidate_10);
 
+        // segment keys
+        APPEND_ACTION (SELECT_FIRST_SEGMENT,    action_select_first_segment);
+        APPEND_ACTION (SELECT_LAST_SEGMENT,     action_select_last_segment);
+        APPEND_ACTION (SELECT_NEXT_SEGMENT,     action_select_next_segment);
+        APPEND_ACTION (SELECT_PREV_SEGMENT,     action_select_prev_segment);
+        APPEND_ACTION (SHRINK_SEGMENT,          action_shrink_segment);
+        APPEND_ACTION (EXPAND_SEGMENT,          action_expand_segment);
+        APPEND_ACTION (COMMIT_FIRST_SEGMENT,    action_commit_first_segment);
+        APPEND_ACTION (COMMIT_SELECTED_SEGMENT, action_commit_selected_segment);
+        APPEND_ACTION (COMMIT_FIRST_SEGMENT_REVERSE_LEARN,
+                       action_commit_first_segment_reverse_preference);
+        APPEND_ACTION (COMMIT_SELECTED_SEGMENT_REVERSE_LEARN,
+                       action_commit_selected_segment_reverse_preference);
+
         // convert keys
         APPEND_ACTION (CONV_TO_HIRAGANA,        action_convert_to_hiragana);
         APPEND_ACTION (CONV_TO_KATAKANA,        action_convert_to_katakana);
         APPEND_ACTION (CONV_TO_HALF_KATAKANA,   action_convert_to_half_katakana);
         APPEND_ACTION (CONV_TO_LATIN,           action_convert_to_latin);
         APPEND_ACTION (CONV_TO_WIDE_LATIN,      action_convert_to_wide_latin);
+
+        // caret keys
+        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_first);
+        APPEND_ACTION (MOVE_CARET_LAST,         action_move_caret_last);
+        APPEND_ACTION (MOVE_CARET_FORWARD,      action_move_caret_forward);
+        APPEND_ACTION (MOVE_CARET_BACKWARD,     action_move_caret_backward);
+
+        // edit keys
+        APPEND_ACTION (BACKSPACE,               action_back);
+        APPEND_ACTION (DELETE,                  action_delete);
+        APPEND_ACTION (COMMIT,                  action_commit_follow_preference);
+        APPEND_ACTION (COMMIT_REVERSE_LEARN,    action_commit_reverse_preference);
+        APPEND_ACTION (CONVERT,                 action_convert);
+        APPEND_ACTION (CANCEL,                  action_revert);
+        APPEND_ACTION (INSERT_SPACE,            action_insert_space);
+        APPEND_ACTION (INSERT_ALT_SPACE,        action_insert_alternative_space);
+        APPEND_ACTION (INSERT_HALF_SPACE,       action_insert_half_space);
+        APPEND_ACTION (INSERT_WIDE_SPACE,       action_insert_wide_space);
 
         // mode keys
         APPEND_ACTION (LATIN_MODE,              action_toggle_latin_mode);

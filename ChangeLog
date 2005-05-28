@@ -1,5 +1,10 @@
 2005-05-29 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_prefs.h: Use space character for empty key bind.
+	* src/scim_anthy_imengine_setup.cpp: Add test UI for changing key theme.
+
+2005-05-29 Takuro Ashie <ashie@homa.ne.jp>
+
 	* data/atok.sty: Fix wrong key bindings
 	* src/scim_anthy_imengine.cpp: Bug fixes for committing first or
 	selected segment.
