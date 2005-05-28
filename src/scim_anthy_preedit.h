@@ -21,12 +21,13 @@
 #define __SCIM_ANTHY_PREEDIT_H__
 
 #define Uses_SCIM_ICONV
+#define Uses_SCIM_EVENT
+#define Uses_SCIM_ATTRIBUTE
+#define Uses_SCIM_LOOKUP_TABLE
 #include <anthy/anthy.h>
 #include <scim.h>
-#include <scim_attribute.h>
-#include <scim_event.h>
-#include <scim_lookup_table.h>
 #include "scim_anthy_reading.h"
+#include "scim_anthy_conversion.h"
 
 using namespace scim;
 
@@ -40,6 +41,7 @@ typedef enum {
     SCIM_ANTHY_MODE_WIDE_LATIN,
 } InputMode;
 
+#if 0
 typedef enum {
     SCIM_ANTHY_CANDIDATE_NORMAL        = 0,
     SCIM_ANTHY_CANDIDATE_LATIN         = -1,
@@ -49,6 +51,7 @@ typedef enum {
     SCIM_ANTHY_CANDIDATE_HALF_KATAKANA = -5,
     SCIM_ANTHY_LAST_SPECIAL_CANDIDATE  = -6,
 } CandidateType;
+#endif
 
 class Preedit
 {
@@ -118,32 +121,18 @@ private:
                                                   unsigned int start,
                                                   unsigned int len,
                                                   CandidateType type);
-
-    void          convert_kana                   (CandidateType type);
-    void          create_conversion_string       (void);
     bool          is_comma_or_period             (const String & str);
 
 private:
     // converter objects
     Key2KanaTableSet &m_key2kana_tables;
-    IConvert          m_iconv;
     Reading           m_reading;
-    anthy_context_t   m_anthy_context;
+    Conversion        m_conversion;
 
     // mode flags
     InputMode         m_input_mode;
     bool              m_auto_convert;
     bool              m_romaji_allow_split;
-
-    // conversion string
-    WideString        m_conv_string;       // conversion string for non-commited segments.
-    AttributeList     m_conv_attrs;        // attributes for non-commited segments.
-    std::vector<int>  m_candidates;        // candidates ID for all non-commited segments.
-    int               m_start_segment_id;  // to skip segments which were already commited.
-    int               m_cur_segment_id;    // relative position from m_start_segment_id
-    int               m_cur_segment_pos;   // relative position from m_start_segment_pos
-    bool              m_kana_converting;   // true if whole string is now converting to a
-                                           // special candidate.
 };
 
 }

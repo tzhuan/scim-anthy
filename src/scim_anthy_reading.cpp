@@ -17,7 +17,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <scim_anthy_reading.h>
+#include "scim_anthy_reading.h"
+#include "scim_anthy_utils.h"
 
 using namespace scim_anthy;
 
@@ -91,10 +92,9 @@ ReadingSegment::split (ReadingSegments &segments)
 
 
 
-Reading::Reading (Key2KanaTableSet & tables, IConvert & iconv)
+Reading::Reading (Key2KanaTableSet & tables)
     : m_key2kana_tables (tables),
       m_key2kana        (m_key2kana_tables),
-      m_iconv           (iconv),
       m_segment_pos     (0),
       m_caret_offset    (0),
       m_ten_key_type    (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
@@ -288,21 +288,37 @@ Reading::clear (void)
 }
 
 WideString
-Reading::get (unsigned int start, int end)
+Reading::get (unsigned int start, int end, StringType type)
 {
     WideString str;
-    get (str, start, end);
+    get (str, start, end, type);
     return str;
 }
 
 void
-Reading::get (WideString & str, unsigned int start, int len)
+Reading::get (WideString & str, unsigned int start, int len, StringType type)
 {
     unsigned int pos = 0, end = len > 0 ? start + len : get_length () - start;
+    WideString kana;
     String raw;
 
     if (start >= end) return;
     if (start >= get_length ()) return;
+
+    switch (type) {
+    case SCIM_ANTHY_STRING_LATIN:
+        get_raw (raw, start, len);
+        str = utf8_mbstowcs (raw);
+        return;
+
+    case SCIM_ANTHY_STRING_WIDE_LATIN:
+        get_raw (raw, start, len);
+        convert_to_wide (str, raw);
+        return;
+
+    default:
+        break;
+    }
 
     for (unsigned int i = 0; i < m_segments.size (); i++) {
         if (pos >= start || pos + m_segments[i].kana.length () > start) {
@@ -318,12 +334,29 @@ Reading::get (WideString & str, unsigned int start, int len)
             else
                 len = m_segments[i].kana.length ();
 
-            str += m_segments[i].kana.substr (startstart, len);
+            kana += m_segments[i].kana.substr (startstart, len);
         }
 
         pos += m_segments[i].kana.length ();
         if (pos >= end)
             break;
+    }
+
+    switch (type) {
+    case SCIM_ANTHY_STRING_HIRAGANA:
+        str = kana;
+        break;
+
+    case SCIM_ANTHY_STRING_KATAKANA:
+        convert_to_katakana (str, kana);
+        break;
+
+    case SCIM_ANTHY_STRING_HALF_KATAKANA:
+        convert_to_katakana (str, kana, true);
+        break;
+
+    default:
+        break;
     }
 }
 
@@ -354,6 +387,47 @@ Reading::get_raw (String & str, unsigned int start, int len)
             break;
     }
 }
+
+#if 0
+void
+Preedit::get (WideString & substr,
+              unsigned int start, unsigned int len,
+              StringType type)
+{
+    WideString kana;
+    String raw;
+
+    switch (type) {
+    case SCIM_ANTHY_STRING_LATIN:
+        get_raw (raw, start, len);
+        substr = utf8_mbstowcs (raw);
+        break;
+
+    case SCIM_ANTHY_STRING_WIDE_LATIN:
+        get_raw (raw, start, len);
+        convert_to_wide (substr, raw);
+        break;
+
+    case SCIM_ANTHY_STRING_HIRAGANA:
+        get (substr, start, len);
+        break;
+
+    case SCIM_ANTHY_STRING_KATAKANA:
+        get (kana, start, len);
+        convert_to_katakana (substr, kana);
+        break;
+
+    case SCIM_ANTHY_STRING_HALF_KATAKANA:
+        get (kana, start, len);
+        convert_to_katakana (substr, kana, true);
+        break;
+
+    default:
+        return;
+        break;
+    }
+}
+#endif
 
 void
 Reading::split_segment (unsigned int seg_id)

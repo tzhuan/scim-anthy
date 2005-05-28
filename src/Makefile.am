@@ -8,32 +8,36 @@ INCLUDE	= \
 	-I$(top_srcdir) \
 	-I$(top_srcdir)/src 
 
-noinst_HEADERS = \
-	scim_anthy_intl.h \
-	scim_anthy_prefs.h \
-	scim_anthy_action.h \
+noinst_HEADERS =          \
+	scim_anthy_intl.h  \
+	scim_anthy_prefs.h  \
 	scim_anthy_factory.h \
 	scim_anthy_imengine.h \
-	scim_anthy_preedit.h \
-	scim_anthy_reading.h \
-	scim_anthy_key2kana.h \
+	scim_anthy_action.h    \
+	scim_anthy_preedit.h    \
+	scim_anthy_reading.h     \
+	scim_anthy_conversion.h   \
+	scim_anthy_key2kana.h      \
 	scim_anthy_key2kana_table.h \
-	scim_anthy_default_tables.h \
-	scim_anthy_style_file.h
+	scim_anthy_default_tables.h  \
+	scim_anthy_style_file.h       \
+	scim_anthy_utils.h
 
 moduledir = @SCIM_MODULEDIR@/IMEngine
 module_LTLIBRARIES = anthy.la
 
-anthy_la_SOURCES = \
-	scim_anthy_action.cpp \
+anthy_la_SOURCES =            \
 	scim_anthy_factory.cpp \
 	scim_anthy_imengine.cpp \
-	scim_anthy_preedit.cpp \
-	scim_anthy_reading.cpp \
-	scim_anthy_key2kana.cpp \
+	scim_anthy_action.cpp    \
+	scim_anthy_preedit.cpp    \
+	scim_anthy_reading.cpp     \
+	scim_anthy_conversion.cpp   \
+	scim_anthy_key2kana.cpp      \
 	scim_anthy_key2kana_table.cpp \
-	scim_anthy_default_tables.cpp \
-	scim_anthy_style_file.cpp
+	scim_anthy_default_tables.cpp  \
+	scim_anthy_style_file.cpp       \
+	scim_anthy_utils.cpp
 
 anthy_la_CFLAGS = @SCIM_CFLAGS@  @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@
 anthy_la_CXXFLAGS = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@

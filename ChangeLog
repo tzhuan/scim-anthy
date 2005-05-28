@@ -1,3 +1,8 @@
+2005-05-28 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_conversion.{cpp,h}, src/scim_anthy_utils.{cpp,h}:
+	Split from scim_anthy_preedit.{cpp,h}.
+
 2005-05-27 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_key2kana.{cpp,h}:

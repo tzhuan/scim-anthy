@@ -32,6 +32,14 @@ namespace scim_anthy {
 typedef std::vector<KeyEvent> KeyEvents;
 
 typedef enum {
+    SCIM_ANTHY_STRING_LATIN,
+    SCIM_ANTHY_STRING_WIDE_LATIN,
+    SCIM_ANTHY_STRING_HIRAGANA,
+    SCIM_ANTHY_STRING_KATAKANA,
+    SCIM_ANTHY_STRING_HALF_KATAKANA,
+} StringType;
+
+typedef enum {
     SCIM_ANTHY_TEN_KEY_HALF,
     SCIM_ANTHY_TEN_KEY_WIDE,
     SCIM_ANTHY_TEN_KEY_FOLLOW_MODE,
@@ -64,8 +72,7 @@ private:
 class Reading
 {
 public:
-    Reading (Key2KanaTableSet & tables,
-             IConvert         & iconv);
+    Reading (Key2KanaTableSet & tables);
     virtual ~Reading ();
 
     bool         can_process_key_event (const KeyEvent & key);
@@ -74,10 +81,14 @@ public:
     void         clear                 (void);
 
     WideString   get                   (unsigned int start  = 0,
-                                        int          length = -1);
+                                        int          length = -1,
+                                        StringType   type
+                                        = SCIM_ANTHY_STRING_HIRAGANA);
     void         get                   (WideString & string,
                                         unsigned int start  = 0,
-                                        int          length = -1);
+                                        int          length = -1,
+                                        StringType   type
+                                        = SCIM_ANTHY_STRING_HIRAGANA);
     String       get_raw               (unsigned int start  = 0,
                                         int          length = -1);
     void         get_raw               (String     & string,
@@ -110,7 +121,6 @@ private:
     // convertors
     Key2KanaTableSet  &m_key2kana_tables;
     Key2KanaConvertor  m_key2kana;
-    IConvert          &m_iconv;
 
     // state
     ReadingSegments    m_segments;
