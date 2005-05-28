@@ -27,6 +27,14 @@ using namespace scim;
 
 namespace scim_anthy {
 
+class StyleLine;
+class StyleSection;
+class StyleFile;
+
+typedef std::vector<StyleLine>  StyleLines;
+typedef std::vector<StyleLines> StyleSections;
+typedef std::vector<StyleFile>  StyleFiles;
+
 typedef enum {
     SCIM_ANTHY_STYLE_LINE_UNKNOWN,
     SCIM_ANTHY_STYLE_LINE_SPACE,
@@ -53,9 +61,6 @@ private:
     String        m_line;
     StyleLineType m_type;
 };
-
-typedef std::vector<StyleLine>  StyleLines;
-typedef std::vector<StyleLines> StyleSections;
 
 class StyleFile
 {

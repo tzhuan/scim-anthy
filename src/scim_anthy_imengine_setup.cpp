@@ -37,8 +37,10 @@
 #include <gtk/scimkeyselection.h>
 #include "scim_anthy_prefs.h"
 #include "scim_anthy_intl.h"
+#include "scim_anthy_style_file.h"
 
 using namespace scim;
+using namespace scim_anthy;
 
 #define scim_module_init anthy_imengine_setup_LTX_scim_module_init
 #define scim_module_exit anthy_imengine_setup_LTX_scim_module_exit
@@ -54,9 +56,12 @@ using namespace scim;
 #define DATA_POINTER_KEY "scim-anthy::ConfigPointer"
 
 static GtkWidget * create_setup_window ();
-static void        load_config (const ConfigPointer &config);
-static void        save_config (const ConfigPointer &config);
-static bool        query_changed ();
+static void        load_style_files    (const char *dirname);
+static void        load_config         (const ConfigPointer &config);
+static void        save_config         (const ConfigPointer &config);
+static bool        query_changed       (void);
+
+static StyleFiles style_list;
 
 // Module Interface.
 extern "C" {
@@ -92,6 +97,19 @@ extern "C" {
 
     void scim_setup_module_load_config (const ConfigPointer &config)
     {
+        style_list.clear ();
+
+        String user_style_dir = scim_get_home_dir ();
+        user_style_dir +=
+            SCIM_PATH_DELIM_STRING
+            ".scim"
+            SCIM_PATH_DELIM_STRING
+            "Anthy"
+            SCIM_PATH_DELIM_STRING
+            "style";
+        load_style_files (SCIM_ANTHY_STYLEDIR);
+        load_style_files (user_style_dir.c_str ());
+
         load_config (config);
     }
 
@@ -1646,15 +1664,9 @@ setup_combo_value (GtkCombo *combo, const String & str)
         gtk_entry_set_text (GTK_ENTRY (combo->entry), defval);
 }
 
-#include "scim_anthy_style_file.h"
 static void
 setup_widget_value ()
 {
-#if 0 // test for style file
-    AnthyStyleFile file;
-    file.load (SCIM_ANTHY_STYLEDIR "/msime.sty");
-#endif
-
     for (unsigned int i = 0; i < __config_bool_common_num; i++) {
         BoolConfigData &entry = __config_bool_common[i];
         if (entry.widget)
@@ -1721,6 +1733,39 @@ setup_widget_value ()
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (__widget_key_list_view));
     gtk_list_store_clear (GTK_LIST_STORE (model));
     append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
+}
+
+static void
+load_style_files (const char *dirname)
+{
+	GDir *dir;
+	GError *error = NULL;
+	const gchar *entry;
+
+    // load system wide style files
+	dir = g_dir_open (dirname, 0, &error);
+	if (error)
+	{
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	if (dir) {
+        while ((entry = g_dir_read_name (dir)))
+        {
+            String file = dirname;
+            file += SCIM_PATH_DELIM_STRING;
+            file += entry;
+
+            // FIXME! check duplicates
+            style_list.push_back (StyleFile ());
+            StyleFile &style = style_list.back ();
+            bool success = style.load (file.c_str ());
+            if (!success)
+                style_list.pop_back ();
+        }
+        g_dir_close (dir);
+    }
 }
 
 static void
@@ -1811,7 +1856,7 @@ save_config (const ConfigPointer &config)
 }
 
 static bool
-query_changed ()
+query_changed (void)
 {
     return __have_changed;
 }
