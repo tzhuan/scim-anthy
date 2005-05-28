@@ -276,7 +276,7 @@ unsigned int
 Preedit::get_caret_pos (void)
 {
     if (is_converting ()) {
-        return m_conversion.get_current_segment_pos ();
+        return m_conversion.get_segment_position ();
     } else {
         if (get_input_mode () == SCIM_ANTHY_MODE_HALF_KATAKANA) {
             // FIXME! It's ad-hoc

@@ -77,7 +77,7 @@ public:
     int           get_segment_size       (int segment_id = -1);
     void          resize_segment         (int relative_size,
                                           int segment_id = -1);
-    int           get_current_segment_pos(void) { return m_cur_pos; };
+    unsigned int  get_segment_position   (int segment_id = -1);
 
     // candidates for a segment
     void          get_candidates         (CommonLookupTable &table,
@@ -99,9 +99,9 @@ private:
     WideString        m_string;
     AttributeList     m_attrs;
     std::vector<int>  m_candidates;
-    int               m_start_id; // number of commited segments
-    int               m_cur_id;   // relative position from m_start_id
-    int               m_cur_pos;  // caret position
+    int               m_start_id;    // number of commited segments
+    int               m_cur_segment; // relative position from m_start_id
+    int               m_cur_pos;     // caret position
     bool              m_kana_converting;
 };
 

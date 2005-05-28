@@ -36,7 +36,7 @@ Conversion::Conversion (Reading &reading)
     : m_reading          (reading),
       m_anthy_context    (anthy_create_context()),
       m_start_id (0),
-      m_cur_id   (-1),
+      m_cur_segment   (-1),
       m_cur_pos  (0),
       m_kana_converting  (false)
 {
@@ -81,7 +81,7 @@ Conversion::start (CandidateType ctype)
             return;
 
         // select first segment
-        m_cur_id = 0;
+        m_cur_segment = 0;
         m_cur_pos = 0;
 
         // select first candidates for all segment
@@ -103,7 +103,7 @@ Conversion::convert_kana (CandidateType ctype)
     m_string.clear ();
     m_attrs.clear ();
     m_candidates.clear ();
-    m_cur_id = 0;
+    m_cur_segment = 0;
     m_cur_pos = 0;
     m_kana_converting = true;
 
@@ -153,7 +153,7 @@ Conversion::clear (void)
     m_attrs.clear ();
     m_candidates.clear ();
     m_start_id = 0;
-    m_cur_id = -1;
+    m_cur_segment = -1;
     m_cur_pos = 0;
     m_kana_converting = false;
 }
@@ -187,9 +187,9 @@ Conversion::commit (int segment_id, bool learn)
 
         // adjust selected segment
         int new_start_segment_id = m_start_id + segment_id + 1;
-        m_cur_id -= new_start_segment_id - m_start_id;
-        if (m_cur_id < 0)
-            m_cur_id = 0;
+        m_cur_segment -= new_start_segment_id - m_start_id;
+        if (m_cur_segment < 0)
+            m_cur_segment = 0;
 
         // adjust offset
         unsigned int commited_len = 0;
@@ -231,13 +231,13 @@ Conversion::create_string (void)
         WideString segment_str = get_segment_string (seg);
 
         // set caret
-        if (seg == m_cur_id)
+        if (seg == m_cur_segment)
             m_cur_pos = m_string.length ();
 
         // create attribute for this segment
         Attribute attr (m_string.length (), segment_str.length (),
                         SCIM_ATTR_DECORATE);
-        if (seg == m_cur_id)
+        if (seg == m_cur_segment)
             attr.set_value (SCIM_ATTR_DECORATE_REVERSE);
         else
             attr.set_value (SCIM_ATTR_DECORATE_UNDERLINE);
@@ -254,7 +254,7 @@ WideString
 Conversion::get_segment_string (int segment_id)
 {
     if (segment_id < 0)
-        segment_id = m_cur_id;
+        segment_id = m_cur_segment;
 
     struct anthy_conv_stat conv_stat;
     anthy_get_stat (m_anthy_context, &conv_stat);
@@ -372,7 +372,7 @@ Conversion::get_nr_segments (void)
 int
 Conversion::get_selected_segment (void)
 {
-    return m_cur_id;
+    return m_cur_segment;
 }
 
 void
@@ -388,7 +388,7 @@ Conversion::select_segment (int segment_id)
     int real_segment_id = segment_id + m_start_id;
 
     if (segment_id >= 0 && real_segment_id < conv_stat.nr_segment) {
-        m_cur_id = segment_id;
+        m_cur_segment = segment_id;
         create_string ();
     }
 }
@@ -402,7 +402,7 @@ Conversion::get_segment_size (int segment_id)
     anthy_get_stat (m_anthy_context, &conv_stat);
 
     if (segment_id < 0)
-        segment_id = m_cur_id;
+        segment_id = m_cur_segment;
     int real_segment_id = segment_id + m_start_id;
 
     if (real_segment_id >= conv_stat.nr_segment)
@@ -425,12 +425,12 @@ Conversion::resize_segment (int relative_size, int segment_id)
     int real_segment_id;
 
     if (segment_id < 0) {
-        segment_id = m_cur_id;
+        segment_id = m_cur_segment;
         real_segment_id = segment_id + m_start_id;
     } else {
         real_segment_id = segment_id + m_start_id;
-        if (m_cur_id > segment_id)
-            m_cur_id = segment_id;
+        if (m_cur_segment > segment_id)
+            m_cur_segment = segment_id;
     }
 
     if (real_segment_id >= conv_stat.nr_segment)
@@ -451,6 +451,16 @@ Conversion::resize_segment (int relative_size, int segment_id)
     create_string ();
 }
 
+unsigned int
+Conversion::get_segment_position (int segment_id)
+{
+    //FIXME!!!
+    if (segment_id < 0)
+        return m_cur_pos;
+    return 0;
+}
+
+
 
 /*
  * candidates for a segment
@@ -467,7 +477,7 @@ Conversion::get_candidates (CommonLookupTable &table, int segment_id)
         return;
 
     if (segment_id < 0)
-        segment_id = m_cur_id;
+        segment_id = m_cur_segment;
     int real_segment_id = segment_id + m_start_id;
 
     if (real_segment_id >= conv_stat.nr_segment)
@@ -503,7 +513,7 @@ Conversion::get_selected_candidate (int segment_id)
         return -1;
 
     if (segment_id < 0)
-        segment_id = m_cur_id;
+        segment_id = m_cur_segment;
     else if (segment_id >= conv_stat.nr_segment)
         return -1;
 
@@ -524,7 +534,7 @@ Conversion::select_candidate (int candidate_id, int segment_id)
         return;
 
     if (segment_id < 0)
-        segment_id = m_cur_id;
+        segment_id = m_cur_segment;
     int real_segment_id = segment_id + m_start_id;
 
     if (segment_id >= conv_stat.nr_segment)
