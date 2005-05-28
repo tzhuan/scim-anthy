@@ -937,15 +937,21 @@ AnthyInstance::action_expand_segment (void)
 bool
 AnthyInstance::action_commit_first_segment (void)
 {
-    if (!m_preedit.is_converting ())
-        return false;
+    if (!m_preedit.is_converting ()) {
+        if (m_preedit.is_preediting ()) {
+            return action_commit (m_factory->m_learn_on_manual_commit);
+        } else {
+            return false;
+        }
+    }
 
     m_lookup_table.clear ();
     hide_lookup_table ();
     m_lookup_table_visible = false;
 
     commit_string (m_preedit.get_segment_string (0));
-    m_preedit.commit (0);
+    if (m_factory->m_learn_on_manual_commit)
+        m_preedit.commit (0);
 
     set_preedition ();
 
@@ -955,8 +961,13 @@ AnthyInstance::action_commit_first_segment (void)
 bool
 AnthyInstance::action_commit_selected_segment (void)
 {
-    if (!m_preedit.is_converting ())
-        return false;
+    if (!m_preedit.is_converting ()) {
+        if (m_preedit.is_preediting ()) {
+            return action_commit (m_factory->m_learn_on_manual_commit);
+        } else {
+            return false;
+        }
+    }
 
     m_lookup_table.clear ();
     hide_lookup_table ();
@@ -964,7 +975,8 @@ AnthyInstance::action_commit_selected_segment (void)
 
     for (int i = 0; i <= m_preedit.get_selected_segment (); i++)
         commit_string (m_preedit.get_segment_string (i));
-    m_preedit.commit (m_preedit.get_selected_segment ());
+    if (m_factory->m_learn_on_manual_commit)
+        m_preedit.commit (m_preedit.get_selected_segment ());
 
     set_preedition ();
 
@@ -974,14 +986,21 @@ AnthyInstance::action_commit_selected_segment (void)
 bool
 AnthyInstance::action_commit_first_segment_reverse_preference (void)
 {
-    if (!m_preedit.is_converting ())
-        return false;
+    if (!m_preedit.is_converting ()) {
+        if (m_preedit.is_preediting ()) {
+            return action_commit (!m_factory->m_learn_on_manual_commit);
+        } else {
+            return false;
+        }
+    }
 
     m_lookup_table.clear ();
     hide_lookup_table ();
     m_lookup_table_visible = false;
 
     commit_string (m_preedit.get_segment_string (0));
+    if (!m_factory->m_learn_on_manual_commit)
+        m_preedit.commit (0);
 
     set_preedition ();
 
@@ -991,8 +1010,13 @@ AnthyInstance::action_commit_first_segment_reverse_preference (void)
 bool
 AnthyInstance::action_commit_selected_segment_reverse_preference (void)
 {
-    if (!m_preedit.is_converting ())
-        return false;
+    if (!m_preedit.is_converting ()) {
+        if (m_preedit.is_preediting ()) {
+            return action_commit (!m_factory->m_learn_on_manual_commit);
+        } else {
+            return false;
+        }
+    }
 
     m_lookup_table.clear ();
     hide_lookup_table ();
@@ -1000,6 +1024,8 @@ AnthyInstance::action_commit_selected_segment_reverse_preference (void)
 
     for (int i = 0; i <= m_preedit.get_selected_segment (); i++)
         commit_string (m_preedit.get_segment_string (i));
+    if (!m_factory->m_learn_on_manual_commit)
+        m_preedit.commit (m_preedit.get_selected_segment ());
 
     set_preedition ();
 
@@ -1012,8 +1038,10 @@ AnthyInstance::action_select_next_candidate (void)
     if (!m_preedit.is_converting ())
         return false;
 
-    if (!is_selecting_candidates ())
+    if (!is_selecting_candidates ()) {
         action_convert ();
+        return true;
+    }
 
     int end = m_lookup_table.number_of_candidates () - 1;
     if (m_lookup_table.get_cursor_pos () == end)
