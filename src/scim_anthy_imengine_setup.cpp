@@ -1144,8 +1144,8 @@ find_string_config_entry (const char *config_key)
 static StringConfigData *
 find_key_config_entry (const char *config_key)
 {
-    for (unsigned int j = 0; j < __key_conf_pages_num; ++j) {
-        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+    for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
             StringConfigData *entry = &__key_conf_pages[j].data[i];
             if (entry->key && !strcmp (entry->key, config_key))
                 return entry;
@@ -1160,7 +1160,7 @@ match_key_event (const KeyEventList &list, const KeyEvent &key)
 {
     KeyEventList::const_iterator kit;
 
-    for (kit = list.begin (); kit != list.end (); ++kit) {
+    for (kit = list.begin (); kit != list.end (); kit++) {
         if (key.code == kit->code && key.mask == kit->mask)
              return true;
     }
@@ -1280,7 +1280,7 @@ append_key_bindings (GtkTreeView *treeview, gint idx, const gchar *filter)
                 __key_conf_pages[idx].data[i].value.c_str());
             KeyEventList::const_iterator kit;
             bool found = true;
-            for (kit = keys1.begin (); kit != keys1.end (); ++kit) {
+            for (kit = keys1.begin (); kit != keys1.end (); kit++) {
                 if (!match_key_event (keys2, *kit)) {
                     found = false;
                     break;
@@ -1779,8 +1779,8 @@ setup_widget_value ()
                                 entry.value.c_str ());
     }
 
-    for (unsigned int j = 0; j < __key_conf_pages_num; ++j) {
-        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+    for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
             if (__key_conf_pages[j].data[i].widget) {
                 gtk_entry_set_text (
                     GTK_ENTRY (__key_conf_pages[j].data[i].widget),
@@ -1881,8 +1881,8 @@ load_config (const ConfigPointer &config)
         entry.value = config->read (String (entry.key), entry.value);
     }
 
-    for (unsigned int j = 0; j < __key_conf_pages_num; ++ j) {
-        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+    for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
             __key_conf_pages[j].data[i].value =
                 config->read (String (__key_conf_pages[j].data[i].key),
                               __key_conf_pages[j].data[i].value);
@@ -1903,7 +1903,7 @@ load_config (const ConfigPointer &config)
         __config_string_common[i].changed = false;
 
     for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
-        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i)
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++)
             __key_conf_pages[j].data[i].changed = false;
     }
 
@@ -1934,7 +1934,7 @@ save_config (const ConfigPointer &config)
     }
 
     for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
-        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; ++ i) {
+        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
             if (__key_conf_pages[j].data[i].changed)
                 config->write (String (__key_conf_pages[j].data[i].key),
                                __key_conf_pages[j].data[i].value);
