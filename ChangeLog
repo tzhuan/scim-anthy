@@ -1,3 +1,8 @@
+2005-05-30 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_prefs.h: Revert.
+	* src/scim_anthy_imengine_setup.cpp: Save current key theme name.
+
 2005-05-29 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_prefs.h: Use space character for empty key bind.
