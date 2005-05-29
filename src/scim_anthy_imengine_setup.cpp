@@ -179,6 +179,8 @@ static GtkWidget   * __widget_key_theme_menu      = NULL;
 static GtkWidget   * __widget_key_list_view       = NULL;
 static GtkTooltips * __widget_tooltips            = NULL;
 
+static String __config_key_theme = SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT;
+
 static BoolConfigData __config_bool_common [] =
 {
     {
@@ -317,8 +319,8 @@ static StringConfigData __config_string_common [] =
 {
     {
         SCIM_ANTHY_CONFIG_TYPING_METHOD,
-        String (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
+        SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT,
+        SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT,
         N_("Typing _method: "),
         NULL,
         NULL,
@@ -327,8 +329,8 @@ static StringConfigData __config_string_common [] =
     },
     {
         SCIM_ANTHY_CONFIG_PERIOD_STYLE,
-        String (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
+        SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT,
+        SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT,
         N_("St_yle of comma and period: "),
         NULL,
         NULL,
@@ -337,8 +339,8 @@ static StringConfigData __config_string_common [] =
     },
     {
         SCIM_ANTHY_CONFIG_SPACE_TYPE,
-        String (SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT),
+        SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT,
+        SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT,
         N_("_Space type: "),
         NULL,
         NULL,
@@ -347,8 +349,8 @@ static StringConfigData __config_string_common [] =
     },
     {
         SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
-        String (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
+        SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT,
+        SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT,
         N_("Input from _ten key: "),
         NULL,
         NULL,
@@ -357,8 +359,8 @@ static StringConfigData __config_string_common [] =
     },
     {
         SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
-        String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
+        SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,
+        SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,
         N_("_Edit dictionary command:"),
         NULL,
         NULL,
@@ -367,8 +369,8 @@ static StringConfigData __config_string_common [] =
     },
     {
         SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND,
-        String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
+        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT,
+        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT,
         N_("_Add word command:"),
         NULL,
         NULL,
@@ -382,8 +384,8 @@ static StringConfigData __config_keyboards_edit [] =
 {
     {
         SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY,
-        String (SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT,
         N_("Insert space"),
         N_("Select inserting space keys"),
         N_("The key events to insert a space. "),
@@ -392,8 +394,8 @@ static StringConfigData __config_keyboards_edit [] =
     },
     {
         SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY,
-        String (SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT,
         N_("Insert alternative space"),
         N_("Select inserting alternative space keys"),
         N_("The key events to insert a alternative space. "),
@@ -402,8 +404,8 @@ static StringConfigData __config_keyboards_edit [] =
     },
     {
         SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY,
-        String (SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT,
         N_("Insert half space"),
         N_("Select inserting half width space keys"),
         N_("The key events to insert a half width space. "),
@@ -412,8 +414,8 @@ static StringConfigData __config_keyboards_edit [] =
     },
     {
         SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY,
-        String (SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT,
         N_("Insert wide space"),
         N_("Select inserting wide space keys"),
         N_("The key events to insert a wide space. "),
@@ -422,8 +424,8 @@ static StringConfigData __config_keyboards_edit [] =
     },
     {
         SCIM_ANTHY_CONFIG_COMMIT_KEY,
-        String (SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT,
         N_("Commit"),
         N_("Select commit keys"),
         N_("The key events to commit the preedit string. "),
@@ -432,8 +434,8 @@ static StringConfigData __config_keyboards_edit [] =
     },
     {
         SCIM_ANTHY_CONFIG_CONVERT_KEY,
-        String (SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT,
         N_("Convert"),
         N_("Select convert keys"),
         N_("The key events to convert the preedit string to kanji. "),
@@ -442,8 +444,8 @@ static StringConfigData __config_keyboards_edit [] =
     },
     {
         SCIM_ANTHY_CONFIG_CANCEL_KEY,
-        String (SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT,
         N_("Cancel"),
         N_("Select cancel keys"),
         N_("The key events to cancel preediting or converting. "),
@@ -452,8 +454,8 @@ static StringConfigData __config_keyboards_edit [] =
     },
     {
         SCIM_ANTHY_CONFIG_BACKSPACE_KEY,
-        String (SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT,
         N_("Backspace"),
         N_("Select backspace keys"),
         N_("The key events to delete a character before caret. "),
@@ -462,8 +464,8 @@ static StringConfigData __config_keyboards_edit [] =
     },
     {
         SCIM_ANTHY_CONFIG_DELETE_KEY,
-        String (SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT,
         N_("Delete"),
         N_("Select delete keys"),
         N_("The key events to delete a character after caret. "),
@@ -486,8 +488,8 @@ static StringConfigData __config_keyboards_caret [] =
 {
     {
         SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY,
-        String (SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT,
         N_("Move to first"),
         N_("Select move caret to first keys"),
         N_("The key events to move the caret to the first of preedit string. "),
@@ -496,8 +498,8 @@ static StringConfigData __config_keyboards_caret [] =
     },
     {
         SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY,
-        String (SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT,
         N_("Move to last"),
         N_("Select move caret to last keys"),
         N_("The key events to move the caret to the last of the preedit string. "),
@@ -506,8 +508,8 @@ static StringConfigData __config_keyboards_caret [] =
     },
     {
         SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY,
-        String (SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY_DEFAULT,
         N_("Move to forward"),
         N_("Select move caret to forward keys"),
         N_("The key events to move the caret to forward. "),
@@ -516,8 +518,8 @@ static StringConfigData __config_keyboards_caret [] =
     },
     {
         SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY,
-        String (SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY_DEFAULT,
         N_("Move to backward"),
         N_("Select move caret to backward keys"),
         N_("The key events to move the caret to backward. "),
@@ -540,8 +542,8 @@ static StringConfigData __config_keyboards_segments [] =
 {
     {
         SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY_DEFAULT,
         N_("Select the first segment"),
         N_("Select keys to select the first segment"),
         N_("The key events to select the first segment. "),
@@ -550,8 +552,8 @@ static StringConfigData __config_keyboards_segments [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY_DEFAULT,
         N_("Select the last segment"),
         N_("Select keys to select the last segment"),
         N_("The key events to select the the last segment. "),
@@ -560,8 +562,8 @@ static StringConfigData __config_keyboards_segments [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY_DEFAULT,
         N_("Select the next segment"),
         N_("Select keys to select the next segment"),
         N_("The key events to select the next segment. "),
@@ -570,8 +572,8 @@ static StringConfigData __config_keyboards_segments [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY_DEFAULT,
         N_("Select the previous segment"),
         N_("Select keys to select the previous segment"),
         N_("The key events to select the previous segment. "),
@@ -580,8 +582,8 @@ static StringConfigData __config_keyboards_segments [] =
     },
     {
         SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY,
-        String (SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY_DEFAULT,
         N_("Shrink the segment"),
         N_("Select keys to shrink the segment"),
         N_("The key events to shrink the selected segment. "),
@@ -590,8 +592,8 @@ static StringConfigData __config_keyboards_segments [] =
     },
     {
         SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY,
-        String (SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT,
         N_("Expand the segment"),
         N_("Select keys to expand the segment"),
         N_("The key events to expand the selected segment. "),
@@ -600,8 +602,8 @@ static StringConfigData __config_keyboards_segments [] =
     },
     {
         SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY,
-        String (SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT,
         N_("Commit the first segment"),
         N_("Select keys to commit the first segment"),
         N_("The key events to commit the first segment. "),
@@ -610,8 +612,8 @@ static StringConfigData __config_keyboards_segments [] =
     },
     {
         SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY,
-        String (SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT,
         N_("Commit the selected segment"),
         N_("Select keys to commit the selected segment"),
         N_("The key events to commit the selected segment. "),
@@ -634,8 +636,8 @@ static StringConfigData __config_keyboards_candidates [] =
 {
     {
         SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY_DEFAULT,
         N_("First candidate"),
         N_("Select the first candidate keys"),
         N_("The key events to select the first candidate. "),
@@ -644,8 +646,8 @@ static StringConfigData __config_keyboards_candidates [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY_DEFAULT,
         N_("Last candidate"),
         N_("Select the last candidate keys"),
         N_("The key events to the select last candidate. "),
@@ -654,8 +656,8 @@ static StringConfigData __config_keyboards_candidates [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT,
         N_("Next candidate"),
         N_("Select the next candidate keys"),
         N_("The key events to select the next candidate. "),
@@ -664,8 +666,8 @@ static StringConfigData __config_keyboards_candidates [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT,
         N_("Previous candidate"),
         N_("Select the previous candidate keys"),
         N_("The key events to select the previous candidate. "),
@@ -674,8 +676,8 @@ static StringConfigData __config_keyboards_candidates [] =
     },
     {
         SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY,
-        String (SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT,
         N_("Page up"),
         N_("Select page up candidates keys"),
         N_("The key events to switch candidates page up. "),
@@ -684,8 +686,8 @@ static StringConfigData __config_keyboards_candidates [] =
     },
     {
         SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY,
-        String (SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT,
         N_("Page down"),
         N_("Select page down candidates keys"),
         N_("The key events to switch candidates page down. "),
@@ -708,8 +710,8 @@ static StringConfigData __config_keyboards_direct_select [] =
 {
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY_DEFAULT,
         N_("1st candidate"),
         N_("Select keys to select 1st candidate"),
         N_("The key events to select the 1st candidate. "),
@@ -718,8 +720,8 @@ static StringConfigData __config_keyboards_direct_select [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY_DEFAULT,
         N_("2nd candidate"),
         N_("Select keys to select 2nd candidate"),
         N_("The key events to select the 2nd candidate. "),
@@ -728,8 +730,8 @@ static StringConfigData __config_keyboards_direct_select [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY_DEFAULT,
         N_("3rd candidate"),
         N_("Select keys to select 3rd candidate"),
         N_("The key events to select the 3rd candidate. "),
@@ -738,8 +740,8 @@ static StringConfigData __config_keyboards_direct_select [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY_DEFAULT,
         N_("4th candidate"),
         N_("Select keys to select 4th candidate"),
         N_("The key events to select the 4th candidate. "),
@@ -748,8 +750,8 @@ static StringConfigData __config_keyboards_direct_select [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY_DEFAULT,
         N_("5th candidate"),
         N_("Select keys to select 5th candidate"),
         N_("The key events to select the 5th candidate. "),
@@ -758,8 +760,8 @@ static StringConfigData __config_keyboards_direct_select [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY_DEFAULT,
         N_("6th candidate"),
         N_("Select keys to select 6th candidate"),
         N_("The key events to select the 6th candidate. "),
@@ -768,8 +770,8 @@ static StringConfigData __config_keyboards_direct_select [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY_DEFAULT,
         N_("7th candidate"),
         N_("Select keys to select 7th candidate"),
         N_("The key events to select the 7th candidate. "),
@@ -778,8 +780,8 @@ static StringConfigData __config_keyboards_direct_select [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY_DEFAULT,
         N_("8th candidate"),
         N_("Select keys to select 8th candidate"),
         N_("The key events to select the 8th candidate. "),
@@ -788,8 +790,8 @@ static StringConfigData __config_keyboards_direct_select [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY_DEFAULT,
         N_("9th candidate"),
         N_("Select keys to select 9th candidate"),
         N_("The key events to select the 9th candidate. "),
@@ -798,8 +800,8 @@ static StringConfigData __config_keyboards_direct_select [] =
     },
     {
         SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY,
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY_DEFAULT,
         N_("10th candidate"),
         N_("Select keys to select 10th candidate"),
         N_("The key events to select the 10th candidate. "),
@@ -822,8 +824,8 @@ static StringConfigData __config_keyboards_converting [] =
 {
     {
         SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY,
-        String (SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT,
         N_("Convert to hiragana"),
         N_("Select keys to convert to hiragana"),
         N_("The key events to convert the preedit string to hiragana. "),
@@ -832,8 +834,8 @@ static StringConfigData __config_keyboards_converting [] =
     },
     {
         SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY,
-        String (SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT,
         N_("Convert to katakana"),
         N_("Select keys to convert to katakana"),
         N_("The key events to convert the preedit string to katakana. "),
@@ -842,8 +844,8 @@ static StringConfigData __config_keyboards_converting [] =
     },
     {
         SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY,
-        String (SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY_DEFAULT,
         N_("Convert to half width"),
         N_("Select keys to convert to half width katakana"),
         N_("The key events to convert the preedit string to half width katakana. "),
@@ -852,8 +854,8 @@ static StringConfigData __config_keyboards_converting [] =
     },
     {
         SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY,
-        String (SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT,
         N_("Convert to latin"),
         N_("Select keys to convert to latin"),
         N_("The key events to convert the preedit string to latin. "),
@@ -862,8 +864,8 @@ static StringConfigData __config_keyboards_converting [] =
     },
     {
         SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY,
-        String (SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT,
         N_("Convert to wide latin"),
         N_("Select keys to convert to wide latin"),
         N_("The key events to convert the preedit string to wide latin. "),
@@ -886,8 +888,8 @@ static StringConfigData __config_keyboards_mode [] =
 {
     {
         SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY,
-        String (SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT,
         N_("Circle kana mode"),
         N_("Select circle kana mode keys"),
         N_("The key events to circle kana mode. "),
@@ -896,8 +898,8 @@ static StringConfigData __config_keyboards_mode [] =
     },
     {
         SCIM_ANTHY_CONFIG_LATIN_MODE_KEY,
-        String (SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT,
         N_("Latin mode"),
         N_("Select latin mode keys"),
         N_("The key events to toggle latin mode. "),
@@ -906,8 +908,8 @@ static StringConfigData __config_keyboards_mode [] =
     },
     {
         SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY,
-        String (SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT,
         N_("Wide latin mode"),
         N_("Select wide latin mode keys"),
         N_("The key events to toggle wide latin mode. "),
@@ -916,8 +918,8 @@ static StringConfigData __config_keyboards_mode [] =
     },
     {
         SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY,
-        String (SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT,
         N_("Hiragana mode"),
         N_("Select hiragana mode keys"),
         N_("The key events to switch to hiragana mode. "),
@@ -926,8 +928,8 @@ static StringConfigData __config_keyboards_mode [] =
     },
     {
         SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY,
-        String (SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT,
         N_("Katakana mode"),
         N_("Select katakana mode keys"),
         N_("The key events to switch to katakana mode. "),
@@ -936,8 +938,8 @@ static StringConfigData __config_keyboards_mode [] =
     },
     {
         SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY,
-        String (SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT,
         N_("Circle typing method"),
         N_("Select circle typing method keys"),
         N_("The key events to circle typing method. "),
@@ -960,8 +962,8 @@ static StringConfigData __config_keyboards_dict [] =
 {
     {
         SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY,
-        String (SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT,
         N_("Edit dictionary"),
         N_("Select edit dictionary keys"),
         N_("The key events to launch dictionary administration tool. "),
@@ -970,8 +972,8 @@ static StringConfigData __config_keyboards_dict [] =
     },
     {
         SCIM_ANTHY_CONFIG_ADD_WORD_KEY,
-        String (SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT,
         N_("Add a word"),
         N_("Select add a word keys"),
         N_("The key events to launch the tool to add a word. "),
@@ -994,8 +996,8 @@ static StringConfigData __config_keyboards_reverse_learning [] =
 {
     {
         SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY,
-        String (SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT,
         N_("_Commit:"),
         N_("Select commit keys"),
         N_("The key events to commit the preedit string "
@@ -1005,8 +1007,8 @@ static StringConfigData __config_keyboards_reverse_learning [] =
     },
     {
         SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY,
-        String (SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
         N_("Commit the _first segment:"),
         N_("Select keys to commit the first segment"),
         N_("The key events to commit the first segment "
@@ -1016,8 +1018,8 @@ static StringConfigData __config_keyboards_reverse_learning [] =
     },
     {
         SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY,
-        String (SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT),
-        String (SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT),
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
         N_("Commit the _selected segment:"),
         N_("Select keys to commit the selected segment"),
         N_("The key events to commit the selected segment "
@@ -1811,7 +1813,7 @@ setup_widget_value ()
     gtk_option_menu_set_menu (GTK_OPTION_MENU (__widget_key_theme_menu), menu);
     gtk_widget_show (menu);
 
-    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("default"));
+    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Default"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
     gtk_widget_show (menuitem);
 
@@ -1825,7 +1827,15 @@ setup_widget_value ()
     g_signal_handlers_block_by_func (G_OBJECT (__widget_key_theme_menu),
                                      (gpointer) (on_key_theme_menu_changed),
                                      NULL);
-    gtk_option_menu_set_history (GTK_OPTION_MENU (__widget_key_theme_menu), 0);
+    gtk_option_menu_set_history (
+        GTK_OPTION_MENU (__widget_key_theme_menu), 0);
+    for (unsigned int i = 0; i < style_list.size (); i++) {
+        if (style_list[i].get_title () == __config_key_theme) {
+            gtk_option_menu_set_history (
+                GTK_OPTION_MENU (__widget_key_theme_menu), i + 1);
+            break;
+        }
+    }
     g_signal_handlers_unblock_by_func (G_OBJECT (__widget_key_theme_menu),
                                        (gpointer) (on_key_theme_menu_changed),
                                        NULL);
@@ -1870,6 +1880,10 @@ load_config (const ConfigPointer &config)
 {
     if (config.null ())
         return;
+
+    __config_key_theme
+        = config->read (String (SCIM_ANTHY_CONFIG_KEY_THEME),
+                        String (SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT));
 
     for (unsigned int i = 0; i < __config_bool_common_num; i++) {
         BoolConfigData &entry = __config_bool_common[i];
@@ -1919,6 +1933,10 @@ save_config (const ConfigPointer &config)
     if (config.null ())
         return;
 
+    __config_key_theme
+        = config->write (String (SCIM_ANTHY_CONFIG_KEY_THEME),
+                         String (__config_key_theme));
+
     for (unsigned int i = 0; i < __config_bool_common_num; i++) {
         BoolConfigData &entry = __config_bool_common[i];
         if (entry.changed)
@@ -1937,7 +1955,7 @@ save_config (const ConfigPointer &config)
         for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
             if (__key_conf_pages[j].data[i].changed)
                 config->write (String (__key_conf_pages[j].data[i].key),
-                               __key_conf_pages[j].data[i].value);
+                               String (__key_conf_pages[j].data[i].value));
             __key_conf_pages[j].data[i].changed = false;
         }
     }
@@ -2095,7 +2113,7 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     // clear all key bindings
     for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
         for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
-            __key_conf_pages[j].data[i].value = " ";
+            __key_conf_pages[j].data[i].value = "";
             __key_conf_pages[j].data[i].changed = true;
         }
     }
@@ -2108,6 +2126,7 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
                     = __key_conf_pages[j].data[i].default_value;
             }
         }
+        __config_key_theme = "Default";
     } else if (theme_idx >= 0) {
         // reset key bindings
         StyleLines lines;
@@ -2127,6 +2146,7 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
                 std::cerr << "No entry for : " << key << std::endl;
             }
         }
+        __config_key_theme = style_list[theme_idx].get_title ();
     }
 
     // sync widgets

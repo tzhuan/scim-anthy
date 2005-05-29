@@ -45,7 +45,7 @@
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL       "/IMEngine/Anthy/ShowDictAdminLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL         "/IMEngine/Anthy/ShowAddWordLabel"
 
-#define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme" /* not used yet */
+#define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme"
 
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY                  "/IMEngine/Anthy/CommitKey"
 #define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY    "/IMEngine/Anthy/CommitReverseLearnKey"
@@ -111,7 +111,7 @@
 
 
 /* default config values */
-#define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default" /* not used yet */
+#define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default"
 
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT               "Roma"
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT                "Japanese"
@@ -160,8 +160,8 @@
 #define SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT          "Shift+Right,Control+o,Control+O"
 #define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT    "Shift+Down"
 #define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT "Control+Down"
-#define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT    " "
-#define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT " "
+#define SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT    ""
+#define SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT ""
 
 #define SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY_DEFAULT  "Home"
 #define SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY_DEFAULT   "End"
@@ -190,7 +190,7 @@
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT                "F12"
 
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
-#define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         " "
+#define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         ""
 #define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT        "Control+period,Control+greater,Hiragana_Katakana"
 #define SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT    "Alt+Romaji"
 #define SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT           "Hiragana_Katakana"
