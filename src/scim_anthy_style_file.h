@@ -89,8 +89,11 @@ private:
 
 private:
     String        m_filename;
+    String        m_format_version;
     String        m_encoding;
     String        m_title;
+    String        m_version;
+
     StyleSections m_sections;
 };
 

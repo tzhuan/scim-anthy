@@ -178,10 +178,14 @@ StyleFile::load (const char *filename)
         if (section_id == 0) {
             String key;
             line.get_key (key);
-            if (key == "Encoding")
+            if (key == "FormatVersion")
+                line.get_value (m_format_version);
+            else if (key == "Encoding")
                 line.get_value (m_encoding);
             else if (key == "Title")
                 line.get_value (m_title);
+            else if (key == "Version")
+                line.get_value (m_version);
         }
     }
 

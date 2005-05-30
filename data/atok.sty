@@ -17,10 +17,10 @@
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #
 
-Encoding      = EUC-JP
 FormatVersion = 0.0.0
-Version       = 0.0.0
+Encoding      = EUC-JP
 Title         = ATOK
+Version       = 0.0.0
 
 [KeyBindings]
 ConvertKey                  = space,Henkan,Shift+space,Shift+Henkan
@@ -70,8 +70,9 @@ AddWordKey                  = Control+F7
 
 
 [RomajiTable]
-TableList = FundamentalTable ConsonantTable
+AdditionalTableList =
 
+# Override fundamental table
 [RomajiTable/FundamentalTable]
 ,    = ¡£
 -    = ¡¼

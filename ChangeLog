@@ -1,5 +1,9 @@
 2005-05-30 Takuro Ashie <ashie@homa.ne.jp>
 
+	* data/atok.sty, data/msime.sty: Minor fix.
+
+2005-05-30 Takuro Ashie <ashie@homa.ne.jp>
+
 	* data/atok.sty, data/msime.sty: Remove ID entry.
 
 2005-05-30 Takuro Ashie <ashie@homa.ne.jp>
