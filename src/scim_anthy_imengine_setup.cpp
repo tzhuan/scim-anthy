@@ -1110,6 +1110,8 @@ static gboolean on_key_list_view_button_press     (GtkWidget       *widget,
                                                    gpointer         user_data);
 static void     on_key_theme_menu_changed         (GtkOptionMenu   *omenu,
                                                    gpointer         user_data);
+static void     on_choose_keys_button_clicked     (GtkWidget       *button,
+                                                   GtkTreeView     *treeview);
 static void     setup_widget_value ();
 
 
@@ -1686,6 +1688,12 @@ create_keyboard_page (void)
     gtk_widget_show (omenu);
 
     gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
+
+    button = gtk_button_new_with_label ("Choose keys...");
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_choose_keys_button_clicked), treeview);
+    gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 2);
+    gtk_widget_show (button);
 #endif
 
     return vbox;
@@ -2237,6 +2245,12 @@ on_key_list_view_button_press (GtkWidget *widget, GdkEventButton *event,
     }
 
     return FALSE;
+}
+
+static void
+on_choose_keys_button_clicked (GtkWidget *button, GtkTreeView *treeview)
+{
+    key_list_view_popup_key_selection (treeview);
 }
 /*
 vi:ts=4:nowrap:ai:expandtab
