@@ -1,6 +1,7 @@
 2005-05-30 Takuro Ashie <ashie@homa.ne.jp>
 
 	* data/atok.sty, data/msime.sty: Minor fix.
+	* data/scim_style_file.{cpp,h}: Add m_format_version and m_version.
 
 2005-05-30 Takuro Ashie <ashie@homa.ne.jp>
 
