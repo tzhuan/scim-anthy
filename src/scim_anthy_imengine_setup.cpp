@@ -177,6 +177,7 @@ static GtkWidget   * __widget_key_filter          = NULL;
 static GtkWidget   * __widget_key_filter_button   = NULL;
 static GtkWidget   * __widget_key_theme_menu      = NULL;
 static GtkWidget   * __widget_key_list_view       = NULL;
+static GtkWidget   * __widget_choose_keys_button  = NULL;
 static GtkTooltips * __widget_tooltips            = NULL;
 
 static String __config_key_theme = SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT;
@@ -1088,30 +1089,32 @@ static ComboConfigCandidate ten_key_types[] =
 };
 
 
-static void     on_default_editable_changed       (GtkEditable     *editable,
-                                                   gpointer         user_data);
-static void     on_default_toggle_button_toggled  (GtkToggleButton *togglebutton,
-                                                   gpointer         user_data);
-static void     on_default_key_selection_clicked  (GtkButton       *button,
-                                                   gpointer         user_data);
-static void     on_default_combo_changed          (GtkEditable     *editable,
-                                                   gpointer         user_data);
-static void     on_key_filter_selection_clicked   (GtkButton       *button,
-                                                   gpointer         user_data);
-static void     on_dict_menu_label_toggled        (GtkToggleButton *togglebutton,
-                                                   gpointer         user_data);
-static void     on_key_category_menu_changed      (GtkOptionMenu   *omenu,
-                                                   gpointer         user_data);
-static gboolean on_key_list_view_key_press        (GtkWidget       *widget,
-                                                   GdkEventKey     *event,
-                                                   gpointer         user_data);
-static gboolean on_key_list_view_button_press     (GtkWidget       *widget,
-                                                   GdkEventButton  *event,
-                                                   gpointer         user_data);
-static void     on_key_theme_menu_changed         (GtkOptionMenu   *omenu,
-                                                   gpointer         user_data);
-static void     on_choose_keys_button_clicked     (GtkWidget       *button,
-                                                   GtkTreeView     *treeview);
+static void     on_default_editable_changed       (GtkEditable      *editable,
+                                                   gpointer          user_data);
+static void     on_default_toggle_button_toggled  (GtkToggleButton  *togglebutton,
+                                                   gpointer          user_data);
+static void     on_default_key_selection_clicked  (GtkButton        *button,
+                                                   gpointer          user_data);
+static void     on_default_combo_changed          (GtkEditable      *editable,
+                                                   gpointer          user_data);
+static void     on_key_filter_selection_clicked   (GtkButton        *button,
+                                                   gpointer          user_data);
+static void     on_dict_menu_label_toggled        (GtkToggleButton  *togglebutton,
+                                                   gpointer          user_data);
+static void     on_key_category_menu_changed      (GtkOptionMenu    *omenu,
+                                                   gpointer          user_data);
+static gboolean on_key_list_view_key_press        (GtkWidget        *widget,
+                                                   GdkEventKey      *event,
+                                                   gpointer          user_data);
+static gboolean on_key_list_view_button_press     (GtkWidget        *widget,
+                                                   GdkEventButton   *event,
+                                                   gpointer          user_data);
+static void     on_key_theme_menu_changed         (GtkOptionMenu    *omenu,
+                                                   gpointer          user_data);
+static void     on_choose_keys_button_clicked     (GtkWidget        *button,
+                                                   gpointer          data);
+static void     on_key_list_selection_changed     (GtkTreeSelection *selection,
+                                                   gpointer          data);
 static void     setup_widget_value ();
 
 
@@ -1653,6 +1656,8 @@ create_keyboard_page (void)
     column = gtk_tree_view_column_new_with_attributes (_("Key bindings"), cell,
                                                        "text", COLUMN_VALUE,
                                                        NULL);
+	gtk_tree_view_column_set_fixed_width (column, 200);
+	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
     cell = gtk_cell_renderer_text_new ();
@@ -1661,21 +1666,26 @@ create_keyboard_page (void)
                                                        NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
+    GtkTreeSelection *selection;
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+
     // connect signals
     g_signal_connect (G_OBJECT (omenu), "changed",
                       G_CALLBACK (on_key_category_menu_changed), treeview);
     g_signal_connect (G_OBJECT (treeview), "key-press-event",
-                      G_CALLBACK (on_key_list_view_key_press), NULL);
+                      G_CALLBACK (on_key_list_view_key_press), treeview);
     g_signal_connect (G_OBJECT (treeview), "button-press-event",
-                      G_CALLBACK (on_key_list_view_button_press), NULL);
+                      G_CALLBACK (on_key_list_view_button_press), treeview);
+    g_signal_connect (G_OBJECT (selection), "changed",
+                      G_CALLBACK (on_key_list_selection_changed), treeview);
 
-#if 1
-    // test for key bind theme
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
+#if 1
+    // test for key bind theme
     label = gtk_label_new_with_mnemonic (_("Key bindings _theme:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
     gtk_widget_show (label);
@@ -1688,13 +1698,15 @@ create_keyboard_page (void)
     gtk_widget_show (omenu);
 
     gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
+#endif
 
-    button = gtk_button_new_with_label ("Choose keys...");
+    button = gtk_button_new_with_mnemonic (_("_Choose keys..."));
+    __widget_choose_keys_button = button;
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_choose_keys_button_clicked), treeview);
     gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 2);
+    gtk_widget_set_sensitive (button, false);
     gtk_widget_show (button);
-#endif
 
     return vbox;
 }
@@ -2248,8 +2260,28 @@ on_key_list_view_button_press (GtkWidget *widget, GdkEventButton *event,
 }
 
 static void
-on_choose_keys_button_clicked (GtkWidget *button, GtkTreeView *treeview)
+on_key_list_selection_changed (GtkTreeSelection *selection, gpointer data)
 {
+    GtkTreeModel *model = NULL;
+    GtkTreeIter iter;
+
+    gboolean selected;
+
+    selected = gtk_tree_selection_get_selected (selection, &model, &iter);
+
+    if (__widget_choose_keys_button) {
+        if (selected) {
+            gtk_widget_set_sensitive (__widget_choose_keys_button, true);
+        } else {
+            gtk_widget_set_sensitive (__widget_choose_keys_button, false);
+        }
+    }
+}
+
+static void
+on_choose_keys_button_clicked (GtkWidget *button, gpointer data)
+{
+    GtkTreeView *treeview = GTK_TREE_VIEW (data);
     key_list_view_popup_key_selection (treeview);
 }
 /*
