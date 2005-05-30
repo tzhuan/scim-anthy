@@ -1669,12 +1669,23 @@ create_keyboard_page (void)
 
 #if 1
     // test for key bind theme
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    label = gtk_label_new_with_mnemonic (_("Key bindings _theme:"));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (label);
+
     omenu = gtk_option_menu_new ();
     __widget_key_theme_menu = omenu;
     g_signal_connect (G_OBJECT (omenu), "changed",
                       G_CALLBACK (on_key_theme_menu_changed), NULL);
-    gtk_box_pack_start (GTK_BOX (vbox), omenu, FALSE, FALSE, 2);
+    gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
     gtk_widget_show (omenu);
+
+    gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
 #endif
 
     return vbox;
