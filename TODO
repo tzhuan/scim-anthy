@@ -3,7 +3,7 @@ Version-0.5.0 (Planning to release at Jun 29th, 2005)
   * Add bracket setting.
   * Add romaji customizing.
   * Add key-bindings theme.
-    - First implementation has been done.
+    - First test implementation has been done.
     - Should check duplicates of style file.
     - Other bug fixes/code improvement.
   * Fix for gcc-4.0
