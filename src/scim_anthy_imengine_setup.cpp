@@ -178,9 +178,11 @@ static GtkWidget   * __widget_key_filter_button   = NULL;
 static GtkWidget   * __widget_key_theme_menu      = NULL;
 static GtkWidget   * __widget_key_list_view       = NULL;
 static GtkWidget   * __widget_choose_keys_button  = NULL;
+static GtkWidget   * __widget_romaji_theme_menu   = NULL;
 static GtkTooltips * __widget_tooltips            = NULL;
 
-static String __config_key_theme = SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT;
+static String __config_key_theme    = SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT;
+static String __config_romaji_theme = SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT;
 
 static BoolConfigData __config_bool_common [] =
 {
@@ -1115,6 +1117,10 @@ static void     on_choose_keys_button_clicked     (GtkWidget        *button,
                                                    gpointer          data);
 static void     on_key_list_selection_changed     (GtkTreeSelection *selection,
                                                    gpointer          data);
+static void     on_romaji_theme_menu_changed      (GtkOptionMenu    *omenu,
+                                                   gpointer          user_data);
+static void     on_romaji_customize_button_clicked(GtkWidget        *button,
+                                                   gpointer          data);
 static void     setup_widget_value ();
 
 
@@ -1417,6 +1423,33 @@ create_romaji_page ()
     widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
+#if 1
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    // test code for romaji table theme
+    GtkWidget *label = gtk_label_new_with_mnemonic (_("Romaji _table:"));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (label);
+
+    GtkWidget *omenu = gtk_option_menu_new ();
+    __widget_romaji_theme_menu = omenu;
+    g_signal_connect (G_OBJECT (omenu), "changed",
+                      G_CALLBACK (on_romaji_theme_menu_changed), NULL);
+    gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
+    gtk_widget_show (omenu);
+
+    gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
+
+    GtkWidget *button = gtk_button_new_with_mnemonic (_("_Customize..."));
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_romaji_customize_button_clicked), NULL);
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
+    gtk_widget_show (button);
+#endif
+
     return vbox;
 }
 
@@ -1685,7 +1718,7 @@ create_keyboard_page (void)
     gtk_widget_show(hbox);
 
 #if 1
-    // test for key bind theme
+    // test code for key bind theme
     label = gtk_label_new_with_mnemonic (_("Key bindings _theme:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
     gtk_widget_show (label);
@@ -1839,22 +1872,41 @@ setup_widget_value ()
     append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
 
 #if 1
-    // test for key bind theme
-    GtkWidget *menu = gtk_menu_new ();
-    gtk_option_menu_set_menu (GTK_OPTION_MENU (__widget_key_theme_menu), menu);
-    gtk_widget_show (menu);
+    // test code for key bind theme and romaji table theme
+    GtkWidget *keymenu = gtk_menu_new ();
+    gtk_option_menu_set_menu (GTK_OPTION_MENU (__widget_key_theme_menu),
+                              keymenu);
+    gtk_widget_show (keymenu);
 
+    GtkWidget *romajimenu = gtk_menu_new ();
+    gtk_option_menu_set_menu (GTK_OPTION_MENU (__widget_romaji_theme_menu),
+                              romajimenu);
+    gtk_widget_show (romajimenu);
+
+    // for key bind theme
     GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Default"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    gtk_menu_shell_append (GTK_MENU_SHELL (keymenu), menuitem);
+    gtk_widget_show (menuitem);
+
+    // for romaji table theme
+    menuitem = gtk_menu_item_new_with_label (_("Default"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (romajimenu), menuitem);
     gtk_widget_show (menuitem);
 
     StyleFiles::iterator it;
     for (it = style_list.begin (); it != style_list.end (); it++) {
+        // for key bind theme
         menuitem = gtk_menu_item_new_with_label (_(it->get_title().c_str()));
-        gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+        gtk_menu_shell_append (GTK_MENU_SHELL (keymenu), menuitem);
+        gtk_widget_show (menuitem);
+
+        // for romaji table theme
+        menuitem = gtk_menu_item_new_with_label (_(it->get_title().c_str()));
+        gtk_menu_shell_append (GTK_MENU_SHELL (romajimenu), menuitem);
         gtk_widget_show (menuitem);
     }
 
+    // for key bind theme
     g_signal_handlers_block_by_func (G_OBJECT (__widget_key_theme_menu),
                                      (gpointer) (on_key_theme_menu_changed),
                                      NULL);
@@ -1869,6 +1921,23 @@ setup_widget_value ()
     }
     g_signal_handlers_unblock_by_func (G_OBJECT (__widget_key_theme_menu),
                                        (gpointer) (on_key_theme_menu_changed),
+                                       NULL);
+
+    // for romaji table theme
+    g_signal_handlers_block_by_func (G_OBJECT (__widget_romaji_theme_menu),
+                                     (gpointer) (on_romaji_theme_menu_changed),
+                                     NULL);
+    gtk_option_menu_set_history (
+        GTK_OPTION_MENU (__widget_romaji_theme_menu), 0);
+    for (unsigned int i = 0; i < style_list.size (); i++) {
+        if (style_list[i].get_title () == __config_romaji_theme) {
+            gtk_option_menu_set_history (
+                GTK_OPTION_MENU (__widget_romaji_theme_menu), i + 1);
+            break;
+        }
+    }
+    g_signal_handlers_unblock_by_func (G_OBJECT (__widget_romaji_theme_menu),
+                                       (gpointer) (on_romaji_theme_menu_changed),
                                        NULL);
 #endif
 }
@@ -1915,6 +1984,9 @@ load_config (const ConfigPointer &config)
     __config_key_theme
         = config->read (String (SCIM_ANTHY_CONFIG_KEY_THEME),
                         String (SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT));
+    __config_romaji_theme
+        = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME),
+                        String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT));
 
     for (unsigned int i = 0; i < __config_bool_common_num; i++) {
         BoolConfigData &entry = __config_bool_common[i];
@@ -1967,6 +2039,9 @@ save_config (const ConfigPointer &config)
     __config_key_theme
         = config->write (String (SCIM_ANTHY_CONFIG_KEY_THEME),
                          String (__config_key_theme));
+    __config_romaji_theme
+        = config->write (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME),
+                         String (__config_romaji_theme));
 
     for (unsigned int i = 0; i < __config_bool_common_num; i++) {
         BoolConfigData &entry = __config_bool_common[i];
@@ -2283,6 +2358,28 @@ on_choose_keys_button_clicked (GtkWidget *button, gpointer data)
 {
     GtkTreeView *treeview = GTK_TREE_VIEW (data);
     key_list_view_popup_key_selection (treeview);
+}
+
+static void
+on_romaji_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
+{
+    gint idx = gtk_option_menu_get_history (omenu);
+    gint theme_idx = idx - 1;
+
+    // set new key bindings
+    if (idx == 0) {
+        __config_romaji_theme = "Default";
+    } else if (theme_idx >= 0) {
+        __config_romaji_theme = style_list[theme_idx].get_title ();
+    }
+
+    // sync widgets
+    __have_changed = true;
+}
+
+static void
+on_romaji_customize_button_clicked (GtkWidget *button, gpointer data)
+{
 }
 /*
 vi:ts=4:nowrap:ai:expandtab

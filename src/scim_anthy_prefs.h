@@ -46,6 +46,8 @@
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL         "/IMEngine/Anthy/ShowAddWordLabel"
 
 #define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme"
+#define SCIM_ANTHY_CONFIG_ROMAJI_THEME                "/IMEngine/Anthy/RomajiTheme"
+#define SCIM_ANTHY_CONFIG_COLOR_THEME                 "/IMEngine/Anthy/ColorTheme"
 
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY                  "/IMEngine/Anthy/CommitKey"
 #define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY    "/IMEngine/Anthy/CommitReverseLearnKey"
@@ -112,6 +114,8 @@
 
 /* default config values */
 #define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default"
+#define SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT                "Default"
+#define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
 
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT               "Roma"
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT                "Japanese"
