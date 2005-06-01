@@ -47,17 +47,47 @@ typedef enum {
 } TypingMethod;
 
 
+class Key2KanaRule;
+class Key2KanaTable;
+class Key2KanaTableSet;
+
+typedef std::vector<Key2KanaRule> Key2KanaRules;
+
+
+class Key2KanaRule
+{
+public:
+    Key2KanaRule ();
+    Key2KanaRule (String sequence, String result, String cont);
+    virtual ~Key2KanaRule ();
+
+    String get_sequence        (void) { return m_sequence; }
+    String get_result          (void) { return m_result; }
+    String get_continue_string (void) { return m_continue; }
+
+    void   clear               (void);
+
+    bool   is_empty            (void);
+
+private:
+    String m_sequence;
+    String m_result;
+    String m_continue;
+};
+
+
 class Key2KanaTable
 {
 public:
+    Key2KanaTable (WideString name);
     Key2KanaTable (WideString name, ConvRule *table);
     virtual ~Key2KanaTable ();
 
-    ConvRule * get_table (void) { return m_table; }
+    Key2KanaRules & get_table (void) { return m_rules; }
 
 private:
-    WideString  m_name;
-    ConvRule   *m_table;
+    WideString    m_name;
+    Key2KanaRules m_rules;
 };
 
 
@@ -70,11 +100,12 @@ public:
     std::vector<Key2KanaTable*> &
          get_tables (void) { return m_all_tables; };
 
-    void set_typing_method       (TypingMethod method);
-    void set_symbol_width        (bool half);
-    void set_number_width        (bool half);
-    void set_period_style        (PeriodStyle style);
-    void set_comma_style         (CommaStyle  style);
+    void set_typing_method       (TypingMethod   method,
+                                  Key2KanaTable *fundamental_table = NULL);
+    void set_symbol_width        (bool           half);
+    void set_number_width        (bool           half);
+    void set_period_style        (PeriodStyle    style);
+    void set_comma_style         (CommaStyle     style);
 
     TypingMethod
          get_typing_method       (void) { return m_typing_method; }
@@ -106,8 +137,10 @@ private:
     WideString m_name;
 
     // tables
-    std::vector<Key2KanaTable>  m_tables;
-    std::vector<Key2KanaTable*> m_all_tables;
+    Key2KanaTable               *m_fundamental_table;
+    std::vector<Key2KanaTable*> *m_additional_table;
+    //std::vector<Key2KanaTable>   m_tables;
+    std::vector<Key2KanaTable*>  m_all_tables;
 
     // flags
     TypingMethod m_typing_method;

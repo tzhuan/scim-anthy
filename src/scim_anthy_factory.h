@@ -29,6 +29,8 @@
 #include <anthy/anthy.h>
 #include <scim.h>
 #include "scim_anthy_action.h"
+#include "scim_anthy_style_file.h"
+#include "scim_anthy_key2kana_table.h"
 
 using namespace scim;
 using namespace scim_anthy;
@@ -63,6 +65,9 @@ class AnthyFactory : public IMEngineFactoryBase
     bool          m_show_dict_label;
     bool          m_show_dict_admin_label;
     bool          m_show_add_word_label;
+
+    StyleFile     m_style;
+    Key2KanaTable *m_custom_romaji_table;
 
     std::vector<AnthyInstance*> m_config_listeners;
 

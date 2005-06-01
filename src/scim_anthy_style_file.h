@@ -20,6 +20,7 @@
 #ifndef __SCIM_ANTHY_STYLE_FILE_H__
 #define __SCIM_ANTHY_STYLE_FILE_H__
 
+#define Uses_SCIM_ICONV
 #include <scim.h>
 #include <scim_event.h>
 
@@ -46,20 +47,25 @@ typedef enum {
 class StyleLine
 {
 public:
-    StyleLine (const char *line);
+    StyleLine (StyleFile  *style_file,
+               IConvert   *iconv,
+               const char *line);
     ~StyleLine ();
 
 public:
     StyleLineType get_type    (void);
-    void          get_line    (String &line) { line = m_line; }
-    bool          get_section (String &section);
-    bool          get_key     (String &key);
-    bool          get_value   (String &value);
-    void          set_value   (String value);
+    void          get_line    (String     &line) { line = m_line; }
+    bool          get_section (String     &section);
+    bool          get_key     (String     &key);
+    bool          get_value   (String     &value);
+    bool          get_value   (WideString &value);
+    void          set_value   (String      value);
 
 private:
-    String        m_line;
-    StyleLineType m_type;
+    StyleFile     *m_style_file;
+    IConvert      *m_iconv;
+    String         m_line;
+    StyleLineType  m_type;
 };
 
 class StyleFile
@@ -88,6 +94,8 @@ public:
 private:
 
 private:
+    IConvert      m_iconv;
+
     String        m_filename;
     String        m_format_version;
     String        m_encoding;

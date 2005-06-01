@@ -23,9 +23,11 @@ using namespace scim_anthy;
 
 const int MAX_LINE_LENGTH = 4096;
 
-StyleLine::StyleLine (const char *line)
-    : m_line (line),
-      m_type (SCIM_ANTHY_STYLE_LINE_UNKNOWN)
+StyleLine::StyleLine (StyleFile *style_file, IConvert *iconv, const char *line)
+    : m_style_file (style_file),
+      m_iconv (iconv),
+      m_line  (line),
+      m_type  (SCIM_ANTHY_STYLE_LINE_UNKNOWN)
 {
 }
 
@@ -131,6 +133,16 @@ StyleLine::get_value (String &value)
     return true;
 }
 
+bool
+StyleLine::get_value (WideString &value)
+{
+    String str;
+    bool success = get_value (str);
+    if (!success || !m_iconv)
+        return success;
+    return m_iconv->convert (value, str);
+}
+
 void
 StyleLine::set_value (String value)
 {
@@ -154,6 +166,11 @@ StyleFile::load (const char *filename)
     if (!in_file)
         return false;
 
+    m_filename       = String ();
+    m_format_version = String ();
+    m_encoding       = String ();
+    m_title          = String ();
+    m_version        = String ();
     m_sections.clear ();
 
     m_sections.push_back (StyleLines ());
@@ -164,7 +181,7 @@ StyleFile::load (const char *filename)
     while (!in_file.eof ()) {
         in_file.getline (buf, MAX_LINE_LENGTH);
 
-        StyleLine line (buf);
+        StyleLine line (this, &m_iconv, buf);
         StyleLineType type = line.get_type ();
 
         if (type == SCIM_ANTHY_STYLE_LINE_SECTION) {
@@ -190,6 +207,10 @@ StyleFile::load (const char *filename)
     }
 
     in_file.close ();
+
+    bool success = m_iconv.set_encoding (m_encoding);
+    if (!success)
+        m_iconv.set_encoding ("UTF-8");
 
     return true;
 }
@@ -287,7 +308,7 @@ StyleFile::set_string (String section, String key, String value)
 
         // append new entry if no mathced entry exists.
         String str = String (key) + String ("=") + String(value);
-        it->insert (last + 1, StyleLine (str.c_str ()));
+        it->insert (last + 1, StyleLine (this, &m_iconv, str.c_str ()));
         return;
     }
 

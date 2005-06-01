@@ -39,7 +39,7 @@ class Key2KanaConvertor
 {
     Key2KanaTableSet  &m_tables;
     WideString         m_pending;
-    ConvRule          *m_exact_match;
+    Key2KanaRule       m_exact_match;
 
 public:
     Key2KanaConvertor (Key2KanaTableSet & tables);

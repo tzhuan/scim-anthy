@@ -23,8 +23,7 @@
 using namespace scim_anthy;
 
 Key2KanaConvertor::Key2KanaConvertor (Key2KanaTableSet & tables)
-    : m_tables      (tables),
-      m_exact_match (NULL)
+    : m_tables (tables)
 {
 }
 
@@ -38,7 +37,7 @@ Key2KanaConvertor::append (const String & str,
 {
     WideString widestr = utf8_mbstowcs (str);
     WideString newstr = m_pending + widestr;
-    ConvRule *exact_match = NULL;
+    Key2KanaRule exact_match;
     bool has_partial_match = false;
     bool retval = false;
 
@@ -50,15 +49,15 @@ Key2KanaConvertor::append (const String & str,
         if (!tables[j])
             continue;
 
-        ConvRule *table = tables[j]->get_table ();
+        Key2KanaRules &rules = tables[j]->get_table ();
 
-        for (unsigned int i = 0; table[i].string; i++) {
+        for (unsigned int i = 0; i < rules.size(); i++) {
             /* matching */
-            WideString roma = utf8_mbstowcs(table[i].string);
+            WideString roma = utf8_mbstowcs(rules[i].get_sequence ());
             if (roma.find (newstr) == 0) {
                 if (roma.length () == newstr.length ()) {
                     /* exact match */
-                    exact_match = &table[i];
+                    exact_match = rules[i];
                 } else {
                     /* partial match */
                     has_partial_match = true;
@@ -74,26 +73,26 @@ Key2KanaConvertor::append (const String & str,
         m_pending += widestr;
         pending   =  m_pending;
 
-    } else if (exact_match) {
-        if (exact_match->cont && *exact_match->cont)
+    } else if (!exact_match.is_empty()) {
+        if (!exact_match.get_continue_string().empty())
             m_exact_match = exact_match;
         else
-            m_exact_match = NULL;
-        m_pending         = utf8_mbstowcs (exact_match->cont);
-        result            = utf8_mbstowcs (exact_match->result);
-        pending           = m_pending;
+            m_exact_match.clear ();
+        m_pending = utf8_mbstowcs (exact_match.get_continue_string ());
+        result    = utf8_mbstowcs (exact_match.get_result ());
+        pending   = m_pending;
 
     } else {
-        if (m_exact_match) {
-            if (m_exact_match->result && *m_exact_match->result &&
-                (!m_exact_match->cont || !*m_exact_match->cont))
+        if (!m_exact_match.is_empty()) {
+            if (!m_exact_match.get_result().empty() &&
+                m_exact_match.get_continue_string().empty())
             {
-                result = utf8_mbstowcs (m_exact_match->result);
+                result = utf8_mbstowcs (m_exact_match.get_result());
             } else {
                 retval = true; /* commit prev pending */
             }
             m_pending.clear ();
-            m_exact_match = NULL;
+            m_exact_match.clear ();
 
             WideString tmp_result;
             append(str, tmp_result, pending);
@@ -120,7 +119,7 @@ void
 Key2KanaConvertor::clear (void)
 {
     m_pending.clear ();
-    m_exact_match = NULL;
+    m_exact_match.clear ();
 }
 
 bool
@@ -142,13 +141,13 @@ WideString
 Key2KanaConvertor::flush_pending (void)
 {
     WideString result;
-    if (m_exact_match) {
-        if (m_exact_match->result && *m_exact_match->result &&
-            (!m_exact_match->cont || !*m_exact_match->cont))
+    if (!m_exact_match.is_empty ()) {
+        if (!m_exact_match.get_result().empty() &&
+            m_exact_match.get_continue_string().empty())
         {
-            result = utf8_mbstowcs (m_exact_match->result);
-        } else if (m_exact_match->cont && *m_exact_match->cont) {
-            result += utf8_mbstowcs (m_exact_match->cont);
+            result = utf8_mbstowcs (m_exact_match.get_result());
+        } else if (!m_exact_match.get_continue_string().empty()) {
+            result += utf8_mbstowcs (m_exact_match.get_continue_string());
         } else if (m_pending.length () > 0) {
             result += m_pending;
         }

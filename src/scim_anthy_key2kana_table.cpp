@@ -91,15 +91,56 @@ static Key2KanaTable kana_half_comma_table (
     scim_anthy_kana_half_period_rule);
 
 
-Key2KanaTable::Key2KanaTable (WideString name, ConvRule *table)
-    : m_name  (name),
-      m_table (table)
+Key2KanaRule::Key2KanaRule ()
 {
+}
+
+Key2KanaRule::Key2KanaRule (String sequence, String result, String cont)
+    : m_sequence (sequence),
+      m_result   (result),
+      m_continue (cont)
+{
+}
+
+
+Key2KanaRule::~Key2KanaRule ()
+{
+}
+
+void
+Key2KanaRule::clear (void)
+{
+    m_sequence = String ();
+    m_result   = String ();
+    m_continue = String ();
+}
+
+bool
+Key2KanaRule::is_empty (void)
+{
+    return m_sequence.empty () && m_result.empty () && m_continue.empty ();
+}
+
+
+Key2KanaTable::Key2KanaTable (WideString name)
+    : m_name (name)
+{
+}
+
+Key2KanaTable::Key2KanaTable (WideString name, ConvRule *table)
+    : m_name (name)
+{
+    for (unsigned int i = 0; table[i].string; i++) {
+        m_rules.push_back (
+            Key2KanaRule (
+                table[i].string ? table[i].string : "",
+                table[i].result ? table[i].result : "",
+                table[i].cont   ? table[i].cont   : ""));
+    }
 }
 
 Key2KanaTable::~Key2KanaTable ()
 {
-    m_table= NULL;
 }
 
 
@@ -119,9 +160,11 @@ Key2KanaTableSet::~Key2KanaTableSet ()
 }
 
 void
-Key2KanaTableSet::set_typing_method (TypingMethod method)
+Key2KanaTableSet::set_typing_method (TypingMethod method,
+                                     Key2KanaTable *fundamental_table)
 {
     m_typing_method = method;
+    m_fundamental_table = fundamental_table;
     reset_tables ();
 }
 
@@ -161,7 +204,7 @@ Key2KanaTableSet::reset_tables (void)
     bool is_romaji = m_typing_method == SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     bool is_kana   = m_typing_method == SCIM_ANTHY_TYPING_METHOD_KANA;
 
-    if (m_tables.empty ()) {
+    if (!m_fundamental_table) {
         if (is_romaji) {
             m_all_tables.push_back (&romaji_table);
             m_all_tables.push_back (&romaji_consonant_table);
@@ -169,9 +212,18 @@ Key2KanaTableSet::reset_tables (void)
             m_all_tables.push_back (&kana_table);
         }
     } else {
+#if 0
         std::vector<Key2KanaTable>::iterator it;
         for (it = m_tables.begin (); it != m_tables.end (); it++)
             m_all_tables.push_back (&(*it));
+#else
+        if (is_romaji) {
+            m_all_tables.push_back (m_fundamental_table);
+            m_all_tables.push_back (&romaji_consonant_table);
+        } else if (is_kana) {
+            m_all_tables.push_back (m_fundamental_table);
+        }
+#endif
     }
 
     if (is_romaji) {

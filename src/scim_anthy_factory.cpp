@@ -122,7 +122,8 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_show_period_style_label  (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT),
       m_show_dict_label          (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT),
       m_show_dict_admin_label    (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT),
-      m_show_add_word_label      (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT)
+      m_show_add_word_label      (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT),
+      m_custom_romaji_table      (NULL)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Factory :\n";
     SCIM_DEBUG_IMENGINE(1) << "  Lang : " << lang << "\n";
@@ -381,4 +382,40 @@ AnthyFactory::reload_config (const ConfigPointer &config)
             (*it)->reload_config (config);
         }
     }
+
+
+    // test code for loading custom romaji table
+    Key2KanaTable *table = NULL;
+    String user_style_file = scim_get_home_dir ();
+    user_style_file +=
+        SCIM_PATH_DELIM_STRING
+        ".scim"
+        SCIM_PATH_DELIM_STRING
+        "Anthy"
+        SCIM_PATH_DELIM_STRING
+        "config.sty";
+
+    bool loaded = m_style.load (user_style_file.c_str ());
+    if (loaded) {
+        StyleLines lines;
+        bool success = m_style.get_entry_list (lines, "RomajiTable/FundamentalTable");
+        if (success) {
+            table = new Key2KanaTable (utf8_mbstowcs ("CustomFundamentalTable"));
+            StyleLines::iterator it;
+            for (it = lines.begin (); it != lines.end (); it++) {
+                String key;
+                WideString value;
+                it->get_key (key);
+                it->get_value (value);
+                table->get_table().push_back (
+                    Key2KanaRule (key,
+                                  utf8_wcstombs (value),
+                                  String ()));
+            }
+        }
+    }
+
+    if (m_custom_romaji_table)
+        delete m_custom_romaji_table;
+    m_custom_romaji_table = table;
 }
