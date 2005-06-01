@@ -1,5 +1,9 @@
 2005-06-01 Takuro Ashie <ashie@homa.ne.jp>
 
+	* data/atok.sty, data/msime.sty: Add "Setting" section.
+
+2005-06-01 Takuro Ashie <ashie@homa.ne.jp>
+
 	* Makefile.am, scim_anthy_imengine_setup.cpp,
 	  scim_anthy_style_file.cpp, scim_anthy_style_file.h:
 	Add test code for switching romaji table.
