@@ -140,6 +140,11 @@ AnthyFactory::AnthyFactory (const String &lang,
 AnthyFactory::~AnthyFactory ()
 {
     m_reload_signal_connection.disconnect ();
+
+    if (m_custom_romaji_table) {
+        delete m_custom_romaji_table;
+        m_custom_romaji_table = NULL;
+    }
 }
 
 WideString
@@ -373,14 +378,6 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         // dict keys
         APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);
         APPEND_ACTION (ADD_WORD,                action_add_word);
-
-        std::vector<AnthyInstance*>::iterator it;
-        for (it = m_config_listeners.begin();
-             it != m_config_listeners.end();
-             it++)
-        {
-            (*it)->reload_config (config);
-        }
     }
 
 
@@ -398,9 +395,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     bool loaded = m_style.load (user_style_file.c_str ());
     if (loaded) {
         StyleLines lines;
-        bool success = m_style.get_entry_list (lines, "RomajiTable/FundamentalTable");
+        bool success = m_style.get_entry_list (
+            lines, "RomajiTable/FundamentalTable");
         if (success) {
-            table = new Key2KanaTable (utf8_mbstowcs ("CustomFundamentalTable"));
+            table = new Key2KanaTable (utf8_mbstowcs (m_style.get_title ()));
             StyleLines::iterator it;
             for (it = lines.begin (); it != lines.end (); it++) {
                 String key;
@@ -418,4 +416,14 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     if (m_custom_romaji_table)
         delete m_custom_romaji_table;
     m_custom_romaji_table = table;
+
+
+    // reload config for all instance
+    std::vector<AnthyInstance*>::iterator it;
+    for (it = m_config_listeners.begin();
+         it != m_config_listeners.end();
+         it++)
+    {
+        (*it)->reload_config (config);
+    }
 }
