@@ -71,7 +71,7 @@ StyleLine::get_type (void)
 bool
 StyleLine::get_section (String &section)
 {
-    if (m_type != SCIM_ANTHY_STYLE_LINE_SECTION)
+    if (get_type () != SCIM_ANTHY_STYLE_LINE_SECTION)
         return false;
 
     unsigned int spos, epos;
@@ -90,7 +90,7 @@ StyleLine::get_section (String &section)
 bool
 StyleLine::get_key (String &key)
 {
-    if (m_type != SCIM_ANTHY_STYLE_LINE_KEY)
+    if (get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
         return false;
 
     unsigned int spos, epos;
@@ -113,7 +113,7 @@ StyleLine::get_key (String &key)
 bool
 StyleLine::get_value (String &value)
 {
-    if (m_type != SCIM_ANTHY_STYLE_LINE_KEY)
+    if (get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
         return false;
 
     unsigned int spos, epos;
@@ -153,6 +153,7 @@ StyleLine::set_value (String value)
 
 StyleFile::StyleFile ()
 {
+    setup_default_entries ();
 }
 
 StyleFile::~StyleFile ()
@@ -166,12 +167,7 @@ StyleFile::load (const char *filename)
     if (!in_file)
         return false;
 
-    m_filename       = String ();
-    m_format_version = String ();
-    m_encoding       = String ();
-    m_title          = String ();
-    m_version        = String ();
-    m_sections.clear ();
+    clear ();
 
     m_sections.push_back (StyleLines ());
     StyleLines *section = &m_sections[0];
@@ -212,6 +208,8 @@ StyleFile::load (const char *filename)
     if (!success)
         m_iconv.set_encoding ("UTF-8");
 
+    m_filename = filename;
+
     return true;
 }
 
@@ -234,7 +232,20 @@ StyleFile::save (const char *filename)
 
     out_file.close ();
 
+    m_filename = filename;
+
     return true;
+}
+
+void
+StyleFile::clear (void)
+{
+    m_filename       = String ();
+    m_format_version = String ();
+    m_encoding       = String ();
+    m_title          = String ();
+    m_version        = String ();
+    m_sections.clear ();
 }
 
 String
@@ -276,6 +287,16 @@ StyleFile::get_string (String &value, String section, String key)
     return false;
 }
 
+bool
+StyleFile::get_string (WideString &value, String section, String key)
+{
+    String str;
+    bool success = get_string (str, section, key);
+    if (!success)
+        return false;
+    return m_iconv.convert (value, str);
+}
+
 void
 StyleFile::set_string (String section, String key, String value)
 {
@@ -313,10 +334,16 @@ StyleFile::set_string (String section, String key, String value)
     }
 
     // append new section
-    String str = String ("[") + String (section) + String ("]");
-    m_sections.insert (m_sections.end (), StyleLines ());
+    m_sections.push_back (StyleLines ());
     StyleLines &newsec = m_sections.back ();
-    newsec.insert (newsec.end (), StyleLine (this, &m_iconv, str.c_str ()));
+
+    // new section entry
+    String str = String ("[") + String (section) + String ("]");
+    newsec.push_back (StyleLine (this, &m_iconv, str.c_str ()));
+
+    // new key entry
+    str = String (key) + String ("=") + String(value);
+    newsec.push_back (StyleLine (this, &m_iconv, str.c_str ()));
 }
 
 bool
@@ -324,7 +351,7 @@ StyleFile::get_section_list (StyleSections &sections)
 {
     sections = m_sections;
     return true;
-} ;
+}
 
 bool
 StyleFile::get_entry_list (StyleLines &lines, String section)
@@ -365,6 +392,7 @@ StyleFile::delete_key (String section, String key)
             lit->get_key (k);
             if (k == key) {
                 it->erase (lit);
+                return;
             }
         }
     }
@@ -383,6 +411,22 @@ StyleFile::delete_section (String section)
         (*it)[0].get_section (s);
         if (s == section) {
             m_sections.erase (it);
+            return;
         }
     }
+}
+
+void
+StyleFile::setup_default_entries (void)
+{
+    m_encoding = "UTF-8";
+    m_title    = "User settings";
+    m_sections.push_back (StyleLines ());
+
+    m_sections.push_back (StyleLines ());
+    StyleLines &newsec = m_sections.back ();
+    String str = String ("Encoding") + String ("=") + m_encoding;
+    newsec.push_back (StyleLine (this, &m_iconv, str.c_str ()));
+    str = String ("Title") + String ("=") + m_title;
+    newsec.push_back (StyleLine (this, &m_iconv, str.c_str ()));
 }

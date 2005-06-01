@@ -61,7 +61,22 @@ static void        load_config         (const ConfigPointer &config);
 static void        save_config         (const ConfigPointer &config);
 static bool        query_changed       (void);
 
-static StyleFiles style_list;
+static StyleFiles __style_list;
+static StyleFile  __user_style_file;
+const String __user_config_dir_name =
+    scim_get_home_dir () +
+    String (SCIM_PATH_DELIM_STRING
+            ".scim"
+            SCIM_PATH_DELIM_STRING
+            "Anthy");
+const String __user_style_dir_name =
+    __user_config_dir_name +
+    String (SCIM_PATH_DELIM_STRING
+            "style");
+const String __user_style_file_name =
+    __user_config_dir_name +
+    String (SCIM_PATH_DELIM_STRING
+            "config.sty");
 
 // Module Interface.
 extern "C" {
@@ -97,19 +112,6 @@ extern "C" {
 
     void scim_setup_module_load_config (const ConfigPointer &config)
     {
-        style_list.clear ();
-
-        String user_style_dir = scim_get_home_dir ();
-        user_style_dir +=
-            SCIM_PATH_DELIM_STRING
-            ".scim"
-            SCIM_PATH_DELIM_STRING
-            "Anthy"
-            SCIM_PATH_DELIM_STRING
-            "style";
-        load_style_files (SCIM_ANTHY_STYLEDIR);
-        load_style_files (user_style_dir.c_str ());
-
         load_config (config);
     }
 
@@ -171,7 +173,8 @@ enum {
 };
 
 // Internal data declaration.
-static bool __have_changed = true;
+static bool __config_changed = true;
+static bool __style_changed  = true;
 static GtkWidget   * __widget_key_categories_menu = NULL;
 static GtkWidget   * __widget_key_filter          = NULL;
 static GtkWidget   * __widget_key_filter_button   = NULL;
@@ -1352,7 +1355,7 @@ key_list_view_popup_key_selection (GtkTreeView *treeview)
                                     COLUMN_VALUE, data->value.c_str(),
                                     -1);
                 data->changed = true;
-                __have_changed = true;
+                __config_changed = true;
             }
         }
 
@@ -1894,7 +1897,7 @@ setup_widget_value ()
     gtk_widget_show (menuitem);
 
     StyleFiles::iterator it;
-    for (it = style_list.begin (); it != style_list.end (); it++) {
+    for (it = __style_list.begin (); it != __style_list.end (); it++) {
         // for key bind theme
         menuitem = gtk_menu_item_new_with_label (_(it->get_title().c_str()));
         gtk_menu_shell_append (GTK_MENU_SHELL (keymenu), menuitem);
@@ -1912,8 +1915,8 @@ setup_widget_value ()
                                      NULL);
     gtk_option_menu_set_history (
         GTK_OPTION_MENU (__widget_key_theme_menu), 0);
-    for (unsigned int i = 0; i < style_list.size (); i++) {
-        if (style_list[i].get_title () == __config_key_theme) {
+    for (unsigned int i = 0; i < __style_list.size (); i++) {
+        if (__style_list[i].get_title () == __config_key_theme) {
             gtk_option_menu_set_history (
                 GTK_OPTION_MENU (__widget_key_theme_menu), i + 1);
             break;
@@ -1929,8 +1932,8 @@ setup_widget_value ()
                                      NULL);
     gtk_option_menu_set_history (
         GTK_OPTION_MENU (__widget_romaji_theme_menu), 0);
-    for (unsigned int i = 0; i < style_list.size (); i++) {
-        if (style_list[i].get_title () == __config_romaji_theme) {
+    for (unsigned int i = 0; i < __style_list.size (); i++) {
+        if (__style_list[i].get_title () == __config_romaji_theme) {
             gtk_option_menu_set_history (
                 GTK_OPTION_MENU (__widget_romaji_theme_menu), i + 1);
             break;
@@ -1965,11 +1968,11 @@ load_style_files (const char *dirname)
             file += entry;
 
             // FIXME! check duplicates
-            style_list.push_back (StyleFile ());
-            StyleFile &style = style_list.back ();
+            __style_list.push_back (StyleFile ());
+            StyleFile &style = __style_list.back ();
             bool success = style.load (file.c_str ());
             if (!success)
-                style_list.pop_back ();
+                __style_list.pop_back ();
         }
         g_dir_close (dir);
     }
@@ -1980,6 +1983,13 @@ load_config (const ConfigPointer &config)
 {
     if (config.null ())
         return;
+
+    __style_list.clear ();
+
+    load_style_files (SCIM_ANTHY_STYLEDIR);
+    load_style_files (__user_style_dir_name.c_str ());
+
+    __user_style_file.load (__user_style_file_name.c_str ());
 
     __config_key_theme
         = config->read (String (SCIM_ANTHY_CONFIG_KEY_THEME),
@@ -2027,7 +2037,7 @@ load_config (const ConfigPointer &config)
     for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++)
         __config_keyboards_reverse_learning[i].changed = false;
 
-    __have_changed = false;
+    __config_changed = false;
 }
 
 static void
@@ -2072,14 +2082,19 @@ save_config (const ConfigPointer &config)
             entry.value = config->write (String (entry.key), entry.value);
         entry.changed = false;
     }
+    __config_changed = false;
 
-    __have_changed = false;
+    if (__style_changed) {
+        scim_make_dir (__user_config_dir_name);
+        __user_style_file.save (__user_style_file_name.c_str ());
+        __style_changed = false;
+    }
 }
 
 static bool
 query_changed (void)
 {
-    return __have_changed;
+    return __config_changed;
 }
 
 
@@ -2092,7 +2107,7 @@ on_default_toggle_button_toggled (GtkToggleButton *togglebutton,
     if (entry) {
         entry->value = gtk_toggle_button_get_active (togglebutton);
         entry->changed = true;
-        __have_changed = true;
+        __config_changed = true;
     }
 }
 
@@ -2105,7 +2120,7 @@ on_default_editable_changed (GtkEditable *editable,
     if (entry) {
         entry->value = String (gtk_entry_get_text (GTK_ENTRY (editable)));
         entry->changed = true;
-        __have_changed = true;
+        __config_changed = true;
     }
 }
 
@@ -2157,7 +2172,7 @@ on_default_combo_changed (GtkEditable *editable,
         if (label && !strcmp (_(data[i].label), label)) {
             entry->value = data[i].data;
             entry->changed = true;
-            __have_changed = true;
+            __config_changed = true;
             break;
         }
     }
@@ -2237,7 +2252,7 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
         // reset key bindings
         StyleLines lines;
         StyleLines::iterator it;
-        style_list[theme_idx].get_entry_list (lines, "KeyBindings");
+        __style_list[theme_idx].get_entry_list (lines, "KeyBindings");
         for (it = lines.begin (); it != lines.end (); it++) {
             if (it->get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
                 continue;
@@ -2252,7 +2267,7 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
                 std::cerr << "No entry for : " << key << std::endl;
             }
         }
-        __config_key_theme = style_list[theme_idx].get_title ();
+        __config_key_theme = __style_list[theme_idx].get_title ();
     }
 
     // sync widgets
@@ -2264,7 +2279,7 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     gtk_list_store_clear (GTK_LIST_STORE (model));
     append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
 
-    __have_changed = true;
+    __config_changed = true;
 }
 
 static void
@@ -2360,21 +2375,55 @@ on_choose_keys_button_clicked (GtkWidget *button, gpointer data)
     key_list_view_popup_key_selection (treeview);
 }
 
+#include "scim_anthy_default_tables.h"
 static void
 on_romaji_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
 {
     gint idx = gtk_option_menu_get_history (omenu);
     gint theme_idx = idx - 1;
 
+    const char *section = "RomajiTable/FundamentalTable";
+
     // set new key bindings
     if (idx == 0) {
         __config_romaji_theme = "Default";
+        __user_style_file.delete_section (section);
+
+        ConvRule *table = scim_anthy_romaji_typing_rule;
+        for (unsigned int i = 0; table[i].string; i++) {
+            __user_style_file.set_string (section,
+                                          table[i].string,
+                                          table[i].result);
+        }
+        __style_changed = true;
+
     } else if (theme_idx >= 0) {
-        __config_romaji_theme = style_list[theme_idx].get_title ();
+        __config_romaji_theme = __style_list[theme_idx].get_title ();
+        __user_style_file.delete_section (section);
+
+        StyleLines lines;
+        bool success = __style_list[theme_idx].get_entry_list (
+            lines, section);
+        if (success) {
+            StyleLines::iterator it;
+            for (it = lines.begin (); it != lines.end (); it++) {
+                if (it->get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
+                    continue;
+                String key;
+                WideString value;
+                it->get_key (key);
+                //it->get_value (value);
+                __style_list[theme_idx].get_string (value, section, key);
+                __user_style_file.set_string (section,
+                                              key,
+                                              utf8_wcstombs (value));
+            }
+            __style_changed = true;
+        }
     }
 
     // sync widgets
-    __have_changed = true;
+    __config_changed = true;
 }
 
 static void

@@ -75,28 +75,33 @@ public:
     ~StyleFile ();
 
 public:
-    bool   load (const char *filename);
-    bool   save (const char *filename);
+    bool   load                  (const char *filename);
+    bool   save                  (const char *filename);
 
-    String get_encoding     (void);
-    String get_title        (void);
+    String get_encoding          (void);
+    String get_title             (void);
 
-    bool   get_string       (String        &value,
-                             String         section,
-                             String         key);
-    bool   get_section_list (StyleSections &sections);
-    bool   get_entry_list   (StyleLines    &lines,
-                             String         section);
+    bool   get_string            (String        &value,
+                                  String         section,
+                                  String         key);
+    bool   get_string            (WideString    &value,
+                                  String         section,
+                                  String         key);
+    bool   get_section_list      (StyleSections &sections);
+    bool   get_entry_list        (StyleLines    &lines,
+                                  String         section);
 
-    void   set_string       (String         section,
-                             String         key,
-                             String         value);
+    void   set_string            (String         section,
+                                  String         key,
+                                  String         value);
 
-    void   delete_key       (String         section,
-                             String         key);
-    void   delete_section   (String         section);
+    void   delete_key            (String         section,
+                                  String         key);
+    void   delete_section        (String         section);
 
 private:
+    void   clear                 (void);
+    void   setup_default_entries (void);
 
 private:
     IConvert      m_iconv;
