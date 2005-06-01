@@ -84,12 +84,17 @@ public:
     bool   get_string       (String        &value,
                              String         section,
                              String         key);
-    void   set_string       (String         section,
-                             String         key,
-                             String         value);
     bool   get_section_list (StyleSections &sections);
     bool   get_entry_list   (StyleLines    &lines,
                              String         section);
+
+    void   set_string       (String         section,
+                             String         key,
+                             String         value);
+
+    void   delete_key       (String         section,
+                             String         key);
+    void   delete_section   (String         section);
 
 private:
 

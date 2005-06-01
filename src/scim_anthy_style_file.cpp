@@ -313,8 +313,10 @@ StyleFile::set_string (String section, String key, String value)
     }
 
     // append new section
-    //String str = String ("[") + String (section) + String ("]");
-    //mandokuse-
+    String str = String ("[") + String (section) + String ("]");
+    m_sections.insert (m_sections.end (), StyleLines ());
+    StyleLines &newsec = m_sections.back ();
+    newsec.insert (newsec.end (), StyleLine (this, &m_iconv, str.c_str ()));
 }
 
 bool
@@ -342,4 +344,45 @@ StyleFile::get_entry_list (StyleLines &lines, String section)
     }
 
     return false;
+}
+
+void
+StyleFile::delete_key (String section, String key)
+{
+    StyleSections::iterator it;
+    for (it = m_sections.begin (); it != m_sections.end (); it++) {
+        if (it->size () <= 0)
+            continue;
+
+        String s, k;
+        (*it)[0].get_section (s);
+
+        if (s != section)
+            continue;
+
+        StyleLines::iterator lit;
+        for (lit = it->begin (); lit != it->end (); lit++) {
+            lit->get_key (k);
+            if (k == key) {
+                it->erase (lit);
+            }
+        }
+    }
+}
+
+void
+StyleFile::delete_section (String section)
+{
+    StyleSections::iterator it;
+    for (it = m_sections.begin (); it != m_sections.end (); it++) {
+        if (it->size () <= 0)
+            continue;
+
+        StyleLines::iterator lit;
+        String s;
+        (*it)[0].get_section (s);
+        if (s == section) {
+            m_sections.erase (it);
+        }
+    }
 }
