@@ -1956,7 +1956,7 @@ load_style_files (const char *dirname)
 	dir = g_dir_open (dirname, 0, &error);
 	if (error)
 	{
-		g_warning ("%s", error->message);
+		//g_warning ("%s", error->message);
 		g_error_free (error);
 	}
 
