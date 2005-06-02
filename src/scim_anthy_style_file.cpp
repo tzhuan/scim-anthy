@@ -23,9 +23,8 @@ using namespace scim_anthy;
 
 const int MAX_LINE_LENGTH = 4096;
 
-StyleLine::StyleLine (StyleFile *style_file, IConvert *iconv, const char *line)
+StyleLine::StyleLine (StyleFile *style_file, const char *line)
     : m_style_file (style_file),
-      m_iconv (iconv),
       m_line  (line),
       m_type  (SCIM_ANTHY_STYLE_LINE_UNKNOWN)
 {
@@ -42,7 +41,9 @@ StyleLine::get_type (void)
         return m_type;
 
     unsigned int spos, epos;
-    for (spos = 0; spos < m_line.length () && isspace (m_line[spos]); spos++);
+    for (spos = 0;
+         spos < m_line.length () && isspace (m_line[spos]);
+         spos++);
     if (m_line.length() > 0) {
         for (epos = m_line.length () - 1;
              epos >= 0 && isspace (m_line[epos]);
@@ -75,8 +76,12 @@ StyleLine::get_section (String &section)
         return false;
 
     unsigned int spos, epos;
-    for (spos = 0; spos < m_line.length () && isspace (m_line[spos]); spos++);
-    for (epos = m_line.length () - 1; epos >= 0 && isspace (m_line[epos]); epos--);
+    for (spos = 0;
+         spos < m_line.length () && isspace (m_line[spos]);
+         spos++);
+    for (epos = m_line.length () - 1;
+         epos >= 0 && isspace (m_line[epos]);
+         epos--);
     spos++;
 
     if (spos < epos)
@@ -94,11 +99,17 @@ StyleLine::get_key (String &key)
         return false;
 
     unsigned int spos, epos;
-    for (spos = 0; spos < m_line.length () && isspace (m_line[spos]); spos++);
-    for (epos = m_line.length () - 1; epos >= spos && m_line[epos] != '='; epos--);
+    for (spos = 0;
+         spos < m_line.length () && isspace (m_line[spos]);
+         spos++);
+    for (epos = m_line.length () - 1;
+         epos >= spos && m_line[epos] != '=';
+         epos--);
     if (epos <= spos)
         epos = m_line.length ();
-    for (--epos; epos >= spos && isspace (m_line[epos]); epos--);
+    for (--epos;
+         epos >= spos && isspace (m_line[epos]);
+         epos--);
     if (!isspace(m_line[epos]))
         epos++;
 
@@ -117,14 +128,20 @@ StyleLine::get_value (String &value)
         return false;
 
     unsigned int spos, epos;
-    for (spos = 0; spos < m_line.length () && m_line[spos] != '='; spos++);
+    for (spos = 0;
+         spos < m_line.length () && m_line[spos] != '=';
+         spos++);
     if (spos >= m_line.length ())
         spos = 0;
     else
         spos++;
 
-    for (; spos < m_line.length () && isspace(m_line[spos]); spos++);
-    for (epos = m_line.length (); epos >= spos && isspace (m_line[epos]); epos--);
+    for (;
+         spos < m_line.length () && isspace(m_line[spos]);
+         spos++);
+    for (epos = m_line.length ();
+         epos >= spos && isspace (m_line[epos]);
+         epos--);
     if (!isspace(m_line[epos]))
         epos++;
 
@@ -138,9 +155,10 @@ StyleLine::get_value (WideString &value)
 {
     String str;
     bool success = get_value (str);
-    if (!success || !m_iconv)
-        return success;
-    return m_iconv->convert (value, str);
+    if (!success)
+        return false;
+    value = utf8_mbstowcs (str);
+    return true;
 }
 
 void
@@ -177,7 +195,8 @@ StyleFile::load (const char *filename)
     while (!in_file.eof ()) {
         in_file.getline (buf, MAX_LINE_LENGTH);
 
-        StyleLine line (this, &m_iconv, buf);
+        // FIXME! convert to UTF-8 or WideString
+        StyleLine line (this, buf);
         StyleLineType type = line.get_type ();
 
         if (type == SCIM_ANTHY_STYLE_LINE_SECTION) {
@@ -191,22 +210,22 @@ StyleFile::load (const char *filename)
         if (section_id == 0) {
             String key;
             line.get_key (key);
-            if (key == "FormatVersion")
+            if (key == "FormatVersion") {
                 line.get_value (m_format_version);
-            else if (key == "Encoding")
+            } else if (key == "Encoding") {
                 line.get_value (m_encoding);
-            else if (key == "Title")
+                bool success = m_iconv.set_encoding (m_encoding);
+                if (!success)
+                    m_iconv.set_encoding ("UTF-8");
+            } else if (key == "Title") {
                 line.get_value (m_title);
-            else if (key == "Version")
+            } else if (key == "Version") {
                 line.get_value (m_version);
+            }
         }
     }
 
     in_file.close ();
-
-    bool success = m_iconv.set_encoding (m_encoding);
-    if (!success)
-        m_iconv.set_encoding ("UTF-8");
 
     m_filename = filename;
 
@@ -226,6 +245,7 @@ StyleFile::save (const char *filename)
         for (lit = it->begin (); lit != it->end (); lit++) {
             String line;
             lit->get_line (line);
+            // FIXME! should convert to specified encoding.
             out_file << line.c_str () << std::endl;
         }
     }
@@ -294,6 +314,7 @@ StyleFile::get_string (WideString &value, String section, String key)
     bool success = get_string (str, section, key);
     if (!success)
         return false;
+    // FIXME! should be converted on loading.
     return m_iconv.convert (value, str);
 }
 
@@ -329,21 +350,33 @@ StyleFile::set_string (String section, String key, String value)
 
         // append new entry if no mathced entry exists.
         String str = String (key) + String ("=") + String(value);
-        it->insert (last + 1, StyleLine (this, &m_iconv, str.c_str ()));
+        it->insert (last + 1, StyleLine (this, str.c_str ()));
         return;
     }
 
+    // append space
+    if (!m_sections.empty()) {
+        StyleLines &sec = m_sections.back ();
+        if (sec.empty() ||
+            sec.back().get_type() != SCIM_ANTHY_STYLE_LINE_SPACE)
+        {
+            sec.push_back (StyleLine (this, ""));
+        }
+    }
+
+    //
     // append new section
+    //
     m_sections.push_back (StyleLines ());
     StyleLines &newsec = m_sections.back ();
 
     // new section entry
     String str = String ("[") + String (section) + String ("]");
-    newsec.push_back (StyleLine (this, &m_iconv, str.c_str ()));
+    newsec.push_back (StyleLine (this, str.c_str ()));
 
     // new key entry
     str = String (key) + String ("=") + String(value);
-    newsec.push_back (StyleLine (this, &m_iconv, str.c_str ()));
+    newsec.push_back (StyleLine (this, str.c_str ()));
 }
 
 bool
@@ -420,13 +453,13 @@ void
 StyleFile::setup_default_entries (void)
 {
     m_encoding = "UTF-8";
-    m_title    = "User settings";
+    m_title    = "User Settings";
     m_sections.push_back (StyleLines ());
 
     m_sections.push_back (StyleLines ());
     StyleLines &newsec = m_sections.back ();
     String str = String ("Encoding") + String ("=") + m_encoding;
-    newsec.push_back (StyleLine (this, &m_iconv, str.c_str ()));
+    newsec.push_back (StyleLine (this, str.c_str ()));
     str = String ("Title") + String ("=") + m_title;
-    newsec.push_back (StyleLine (this, &m_iconv, str.c_str ()));
+    newsec.push_back (StyleLine (this, str.c_str ()));
 }

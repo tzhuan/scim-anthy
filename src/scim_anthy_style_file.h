@@ -48,7 +48,6 @@ class StyleLine
 {
 public:
     StyleLine (StyleFile  *style_file,
-               IConvert   *iconv,
                const char *line);
     ~StyleLine ();
 
@@ -63,7 +62,6 @@ public:
 
 private:
     StyleFile     *m_style_file;
-    IConvert      *m_iconv;
     String         m_line;
     StyleLineType  m_type;
 };
