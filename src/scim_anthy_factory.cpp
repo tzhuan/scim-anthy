@@ -230,8 +230,7 @@ AnthyFactory::remove_config_listener (AnthyInstance *listener)
     String name = "func", str;                                                 \
     str = config->read (String (SCIM_ANTHY_CONFIG_##key##_KEY),                \
                         String (SCIM_ANTHY_CONFIG_##key##_KEY_DEFAULT));       \
-    m_actions.insert (m_actions.begin (),                                      \
-                      Action (name, str, &AnthyInstance::func));               \
+    m_actions.push_back (Action (name, str, &AnthyInstance::func));            \
 }
 #else
 #define APPEND_ACTION(key, func)                                               \
@@ -239,9 +238,70 @@ AnthyFactory::remove_config_listener (AnthyInstance *listener)
     String name = "func", str;                                                 \
     str = config->read (String (SCIM_ANTHY_CONFIG_##key##_KEY),                \
                         String (SCIM_ANTHY_CONFIG_##key##_KEY_DEFAULT));       \
-    m_actions.push_back (Action (name, str, &AnthyInstance::func));            \
+    m_actions.push_back (Action (name, str, func));                            \
 }
 #endif
+
+#define ANTHY_DEFINE_ACTION(func) \
+static bool                       \
+func (AnthyInstance *anthy)       \
+{                                 \
+    return anthy->func ();        \
+}
+
+ANTHY_DEFINE_ACTION (action_commit_follow_preference);
+ANTHY_DEFINE_ACTION (action_commit_reverse_preference);
+ANTHY_DEFINE_ACTION (action_convert);
+ANTHY_DEFINE_ACTION (action_revert);
+ANTHY_DEFINE_ACTION (action_back);
+ANTHY_DEFINE_ACTION (action_delete);
+ANTHY_DEFINE_ACTION (action_insert_space);
+ANTHY_DEFINE_ACTION (action_insert_alternative_space);
+ANTHY_DEFINE_ACTION (action_insert_half_space);
+ANTHY_DEFINE_ACTION (action_insert_wide_space);
+ANTHY_DEFINE_ACTION (action_move_caret_first);
+ANTHY_DEFINE_ACTION (action_move_caret_last);
+ANTHY_DEFINE_ACTION (action_move_caret_forward);
+ANTHY_DEFINE_ACTION (action_move_caret_backward);
+ANTHY_DEFINE_ACTION (action_select_first_segment);
+ANTHY_DEFINE_ACTION (action_select_last_segment);
+ANTHY_DEFINE_ACTION (action_select_next_segment);
+ANTHY_DEFINE_ACTION (action_select_prev_segment);
+ANTHY_DEFINE_ACTION (action_shrink_segment);
+ANTHY_DEFINE_ACTION (action_expand_segment);
+ANTHY_DEFINE_ACTION (action_commit_first_segment);
+ANTHY_DEFINE_ACTION (action_commit_selected_segment);
+ANTHY_DEFINE_ACTION (action_commit_first_segment_reverse_preference);
+ANTHY_DEFINE_ACTION (action_commit_selected_segment_reverse_preference);
+ANTHY_DEFINE_ACTION (action_select_first_candidate);
+ANTHY_DEFINE_ACTION (action_select_last_candidate);
+ANTHY_DEFINE_ACTION (action_select_next_candidate);
+ANTHY_DEFINE_ACTION (action_select_prev_candidate);
+ANTHY_DEFINE_ACTION (action_candidates_page_up);
+ANTHY_DEFINE_ACTION (action_candidates_page_down);
+ANTHY_DEFINE_ACTION (action_select_candidate_1);
+ANTHY_DEFINE_ACTION (action_select_candidate_2);
+ANTHY_DEFINE_ACTION (action_select_candidate_3);
+ANTHY_DEFINE_ACTION (action_select_candidate_4);
+ANTHY_DEFINE_ACTION (action_select_candidate_5);
+ANTHY_DEFINE_ACTION (action_select_candidate_6);
+ANTHY_DEFINE_ACTION (action_select_candidate_7);
+ANTHY_DEFINE_ACTION (action_select_candidate_8);
+ANTHY_DEFINE_ACTION (action_select_candidate_9);
+ANTHY_DEFINE_ACTION (action_select_candidate_10);
+ANTHY_DEFINE_ACTION (action_convert_to_hiragana);
+ANTHY_DEFINE_ACTION (action_convert_to_katakana);
+ANTHY_DEFINE_ACTION (action_convert_to_half_katakana);
+ANTHY_DEFINE_ACTION (action_convert_to_latin);
+ANTHY_DEFINE_ACTION (action_convert_to_wide_latin);
+ANTHY_DEFINE_ACTION (action_toggle_latin_mode);
+ANTHY_DEFINE_ACTION (action_toggle_wide_latin_mode);
+ANTHY_DEFINE_ACTION (action_circle_kana_mode);
+ANTHY_DEFINE_ACTION (action_circle_typing_method);
+ANTHY_DEFINE_ACTION (action_hiragana_mode);
+ANTHY_DEFINE_ACTION (action_katakana_mode);
+ANTHY_DEFINE_ACTION (action_launch_dict_admin_tool);
+ANTHY_DEFINE_ACTION (action_add_word);
 
 void
 AnthyFactory::reload_config (const ConfigPointer &config)

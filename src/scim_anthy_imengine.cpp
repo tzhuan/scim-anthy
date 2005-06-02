@@ -91,9 +91,12 @@ AnthyInstance::~AnthyInstance ()
 bool
 AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
 {
-    std::vector<Action>::iterator it = m_factory->m_actions.begin();
-    for (; it != m_factory->m_actions.end(); it++) {
-        if ((*it).perform (this, key))
+    std::vector<Action>::iterator it;
+    for (it = m_factory->m_actions.begin();
+         it != m_factory->m_actions.end();
+         it++)
+    {
+        if (it->perform (this, key))
             return true;
     }
 

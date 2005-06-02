@@ -32,15 +32,18 @@ namespace scim_anthy {
 class Action
 {
     typedef bool (AnthyInstance::*PMF) (void);
+    typedef bool (*Func)               (AnthyInstance *anthy);
 
 public:
     Action  (const String &name, const String &key_bindings, PMF pmf);
+    Action  (const String &name, const String &key_bindings, Func func);
     ~Action ();
 
 public:
     bool perform (AnthyInstance  *performer);
     bool perform (AnthyInstance  *performer,
                   const KeyEvent &key);
+    
 
 private:
     bool match_key_event (const KeyEvent &key);
@@ -49,6 +52,7 @@ private:
     String         m_name;
     String         m_desc;
     PMF            m_pmf;
+    Func           m_func;
     KeyEventList   m_key_bindings;
 };
 
