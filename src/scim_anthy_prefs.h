@@ -201,6 +201,58 @@
 #define SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT           "Shift+Hiragana_Katakana"
 
 
+#ifdef SCIM_ANTHY_USE_GTK
+
+#ifdef HAVE_CONFIG_H
+  #include <config.h>
+#endif /* HAVE_CONFIG_H */
+
+#include <scim.h>
+
+using namespace scim;
+
+namespace scim_anthy {
+struct BoolConfigData
+{
+    const char *key;
+    bool        value;
+    bool        default_value;
+    const char *label;
+    const char *title;
+    const char *tooltip;
+    void       *widget;
+    bool        changed;
+};
+
+struct StringConfigData
+{
+    const char *key;
+    String      value;
+    String      default_value;
+    const char *label;
+    const char *title;
+    const char *tooltip;
+    void       *widget;
+    bool        changed;
+};
+
+extern BoolConfigData   config_bool_common [];
+extern StringConfigData config_string_common [];
+extern StringConfigData config_keyboards_edit [];
+extern StringConfigData config_keyboards_caret [];
+extern StringConfigData config_keyboards_segments [];
+extern StringConfigData config_keyboards_candidates [];
+extern StringConfigData config_keyboards_direct_select [];
+extern StringConfigData config_keyboards_converting [];
+extern StringConfigData config_keyboards_mode [];
+extern StringConfigData config_keyboards_dict [];
+extern StringConfigData config_keyboards_reverse_learning [];
+
+}
+
+#endif /* SCIM_ANTHY_USE_GTK */
+
+
 #endif /* __SCIM_ANTHY_PREFS_H__ */
 /*
 vi:ts=4:nowrap:ai:expandtab

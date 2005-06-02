@@ -60,7 +60,8 @@ setupmodule_LTLIBRARIES  = $(SETUP_MODULE)
 anthy_imengine_setup_la_SOURCES = \
 	scim_anthy_imengine_setup.cpp \
 	scim_anthy_style_file.cpp \
-	scim_anthy_default_tables.cpp
+	scim_anthy_default_tables.cpp \
+	scim_anthy_prefs.cpp
 
 anthy_imengine_setup_la_CFLAGS  = @SCIM_GTKUTILS_CFLAGS@ @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@
 

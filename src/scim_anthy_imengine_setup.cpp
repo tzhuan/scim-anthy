@@ -23,21 +23,22 @@
  * Copyright (c) 2004 James Su <suzhe@turbolinux.com.cn>
  */
 
-#define Uses_SCIM_CONFIG_BASE
-#define Uses_SCIM_EVENT
-
-#include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
-
 #ifdef HAVE_CONFIG_H
   #include <config.h>
 #endif
 
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
+
+#define Uses_SCIM_CONFIG_BASE
+#define Uses_SCIM_EVENT
+#define SCIM_ANTHY_USE_GTK
 #include <scim.h>
 #include <gtk/scimkeyselection.h>
-#include "scim_anthy_prefs.h"
 #include "scim_anthy_intl.h"
 #include "scim_anthy_style_file.h"
+#include "scim_anthy_prefs.h"
+#include "scim_anthy_default_tables.h"
 
 using namespace scim;
 using namespace scim_anthy;
@@ -128,30 +129,6 @@ extern "C" {
 
 
 // Internal data structure
-struct BoolConfigData
-{
-    const char *key;
-    bool        value;
-    bool        default_value;
-    const char *label;
-    const char *title;
-    const char *tooltip;
-    GtkWidget  *widget;
-    bool        changed;
-};
-
-struct StringConfigData
-{
-    const char *key;
-    String      value;
-    String      default_value;
-    const char *label;
-    const char *title;
-    const char *tooltip;
-    GtkWidget  *widget;
-    bool        changed;
-};
-
 struct KeyboardConfigPage
 {
     const char       *label;
@@ -187,874 +164,16 @@ static GtkTooltips * __widget_tooltips            = NULL;
 static String __config_key_theme    = SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT;
 static String __config_romaji_theme = SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT;
 
-static BoolConfigData __config_bool_common [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD,
-        SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT,
-        SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT,
-        N_("Start _conversion on inputting a comma or a period."),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
-        SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT,
-        SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT,
-        N_("Close candidate window when select a candidate _directly."),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT,
-        SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT,
-        SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT,
-        N_("Learn on _manual committing."),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT,
-        SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT,
-        SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT,
-        N_("Learn on a_uto committing."),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL,
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT,
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT,
-        N_("Use half-width characters for _symbols"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER,
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT,
-        SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT,
-        N_("Use half-width characters for _numbers"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL,
-        SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT,
-        SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT,
-        N_("Show _input mode label"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT,
-        SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT,
-        SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT,
-        N_("A_llow spliting romaji on editing preedit string"),
-        NULL,
-        N_("If this check is enabled, you can delete each letter."),
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL,
-        SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT,
-        SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT,
-        N_("Show _typing method label"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL,
-        SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT,
-        SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT,
-        N_("Show _period style label"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL,
-        SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT,
-        SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT,
-        N_("Show _dictionary menu label"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL,
-        SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT,
-        SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT,
-        N_("Show _edit dictionary label"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL,
-        SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT,
-        SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT,
-        N_("Show _add word label"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-static unsigned int __config_bool_common_num = sizeof (__config_bool_common) / sizeof (BoolConfigData);
-
-static StringConfigData __config_string_common [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_TYPING_METHOD,
-        SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT,
-        SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT,
-        N_("Typing _method: "),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_PERIOD_STYLE,
-        SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT,
-        SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT,
-        N_("St_yle of comma and period: "),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SPACE_TYPE,
-        SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT,
-        SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT,
-        N_("_Space type: "),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
-        SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT,
-        SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT,
-        N_("Input from _ten key: "),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
-        SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,
-        SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,
-        N_("_Edit dictionary command:"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND,
-        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT,
-        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT,
-        N_("_Add word command:"),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-static unsigned int __config_string_common_num = sizeof (__config_string_common) / sizeof (StringConfigData);
-
-static StringConfigData __config_keyboards_edit [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY,
-        SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT,
-        N_("Insert space"),
-        N_("Select inserting space keys"),
-        N_("The key events to insert a space. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY,
-        SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT,
-        N_("Insert alternative space"),
-        N_("Select inserting alternative space keys"),
-        N_("The key events to insert a alternative space. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY,
-        SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT,
-        N_("Insert half space"),
-        N_("Select inserting half width space keys"),
-        N_("The key events to insert a half width space. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY,
-        SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT,
-        N_("Insert wide space"),
-        N_("Select inserting wide space keys"),
-        N_("The key events to insert a wide space. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_COMMIT_KEY,
-        SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT,
-        N_("Commit"),
-        N_("Select commit keys"),
-        N_("The key events to commit the preedit string. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CONVERT_KEY,
-        SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT,
-        N_("Convert"),
-        N_("Select convert keys"),
-        N_("The key events to convert the preedit string to kanji. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CANCEL_KEY,
-        SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT,
-        N_("Cancel"),
-        N_("Select cancel keys"),
-        N_("The key events to cancel preediting or converting. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_BACKSPACE_KEY,
-        SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT,
-        N_("Backspace"),
-        N_("Select backspace keys"),
-        N_("The key events to delete a character before caret. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_DELETE_KEY,
-        SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT,
-        N_("Delete"),
-        N_("Select delete keys"),
-        N_("The key events to delete a character after caret. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
-static StringConfigData __config_keyboards_caret [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY,
-        SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT,
-        N_("Move to first"),
-        N_("Select move caret to first keys"),
-        N_("The key events to move the caret to the first of preedit string. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY,
-        SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT,
-        N_("Move to last"),
-        N_("Select move caret to last keys"),
-        N_("The key events to move the caret to the last of the preedit string. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY,
-        SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_MOVE_CARET_FORWARD_KEY_DEFAULT,
-        N_("Move to forward"),
-        N_("Select move caret to forward keys"),
-        N_("The key events to move the caret to forward. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY,
-        SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_MOVE_CARET_BACKWARD_KEY_DEFAULT,
-        N_("Move to backward"),
-        N_("Select move caret to backward keys"),
-        N_("The key events to move the caret to backward. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
-static StringConfigData __config_keyboards_segments [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_FIRST_SEGMENT_KEY_DEFAULT,
-        N_("Select the first segment"),
-        N_("Select keys to select the first segment"),
-        N_("The key events to select the first segment. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_LAST_SEGMENT_KEY_DEFAULT,
-        N_("Select the last segment"),
-        N_("Select keys to select the last segment"),
-        N_("The key events to select the the last segment. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_NEXT_SEGMENT_KEY_DEFAULT,
-        N_("Select the next segment"),
-        N_("Select keys to select the next segment"),
-        N_("The key events to select the next segment. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_PREV_SEGMENT_KEY_DEFAULT,
-        N_("Select the previous segment"),
-        N_("Select keys to select the previous segment"),
-        N_("The key events to select the previous segment. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY,
-        SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SHRINK_SEGMENT_KEY_DEFAULT,
-        N_("Shrink the segment"),
-        N_("Select keys to shrink the segment"),
-        N_("The key events to shrink the selected segment. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY,
-        SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_EXPAND_SEGMENT_KEY_DEFAULT,
-        N_("Expand the segment"),
-        N_("Select keys to expand the segment"),
-        N_("The key events to expand the selected segment. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY,
-        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_KEY_DEFAULT,
-        N_("Commit the first segment"),
-        N_("Select keys to commit the first segment"),
-        N_("The key events to commit the first segment. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY,
-        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_KEY_DEFAULT,
-        N_("Commit the selected segment"),
-        N_("Select keys to commit the selected segment"),
-        N_("The key events to commit the selected segment. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
-static StringConfigData __config_keyboards_candidates [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY_DEFAULT,
-        N_("First candidate"),
-        N_("Select the first candidate keys"),
-        N_("The key events to select the first candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY_DEFAULT,
-        N_("Last candidate"),
-        N_("Select the last candidate keys"),
-        N_("The key events to the select last candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT,
-        N_("Next candidate"),
-        N_("Select the next candidate keys"),
-        N_("The key events to select the next candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT,
-        N_("Previous candidate"),
-        N_("Select the previous candidate keys"),
-        N_("The key events to select the previous candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY,
-        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT,
-        N_("Page up"),
-        N_("Select page up candidates keys"),
-        N_("The key events to switch candidates page up. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY,
-        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT,
-        N_("Page down"),
-        N_("Select page down candidates keys"),
-        N_("The key events to switch candidates page down. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
-static StringConfigData __config_keyboards_direct_select [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_1_KEY_DEFAULT,
-        N_("1st candidate"),
-        N_("Select keys to select 1st candidate"),
-        N_("The key events to select the 1st candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_2_KEY_DEFAULT,
-        N_("2nd candidate"),
-        N_("Select keys to select 2nd candidate"),
-        N_("The key events to select the 2nd candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_3_KEY_DEFAULT,
-        N_("3rd candidate"),
-        N_("Select keys to select 3rd candidate"),
-        N_("The key events to select the 3rd candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_4_KEY_DEFAULT,
-        N_("4th candidate"),
-        N_("Select keys to select 4th candidate"),
-        N_("The key events to select the 4th candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_5_KEY_DEFAULT,
-        N_("5th candidate"),
-        N_("Select keys to select 5th candidate"),
-        N_("The key events to select the 5th candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_6_KEY_DEFAULT,
-        N_("6th candidate"),
-        N_("Select keys to select 6th candidate"),
-        N_("The key events to select the 6th candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_7_KEY_DEFAULT,
-        N_("7th candidate"),
-        N_("Select keys to select 7th candidate"),
-        N_("The key events to select the 7th candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_8_KEY_DEFAULT,
-        N_("8th candidate"),
-        N_("Select keys to select 8th candidate"),
-        N_("The key events to select the 8th candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY_DEFAULT,
-        N_("9th candidate"),
-        N_("Select keys to select 9th candidate"),
-        N_("The key events to select the 9th candidate. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY_DEFAULT,
-        N_("10th candidate"),
-        N_("Select keys to select 10th candidate"),
-        N_("The key events to select the 10th candidate. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
-static StringConfigData __config_keyboards_converting [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY,
-        SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT,
-        N_("Convert to hiragana"),
-        N_("Select keys to convert to hiragana"),
-        N_("The key events to convert the preedit string to hiragana. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY,
-        SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT,
-        N_("Convert to katakana"),
-        N_("Select keys to convert to katakana"),
-        N_("The key events to convert the preedit string to katakana. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY,
-        SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY_DEFAULT,
-        N_("Convert to half width"),
-        N_("Select keys to convert to half width katakana"),
-        N_("The key events to convert the preedit string to half width katakana. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY,
-        SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT,
-        N_("Convert to latin"),
-        N_("Select keys to convert to latin"),
-        N_("The key events to convert the preedit string to latin. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY,
-        SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT,
-        N_("Convert to wide latin"),
-        N_("Select keys to convert to wide latin"),
-        N_("The key events to convert the preedit string to wide latin. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
-static StringConfigData __config_keyboards_mode [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY,
-        SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT,
-        N_("Circle kana mode"),
-        N_("Select circle kana mode keys"),
-        N_("The key events to circle kana mode. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_LATIN_MODE_KEY,
-        SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT,
-        N_("Latin mode"),
-        N_("Select latin mode keys"),
-        N_("The key events to toggle latin mode. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY,
-        SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT,
-        N_("Wide latin mode"),
-        N_("Select wide latin mode keys"),
-        N_("The key events to toggle wide latin mode. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY,
-        SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT,
-        N_("Hiragana mode"),
-        N_("Select hiragana mode keys"),
-        N_("The key events to switch to hiragana mode. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY,
-        SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT,
-        N_("Katakana mode"),
-        N_("Select katakana mode keys"),
-        N_("The key events to switch to katakana mode. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY,
-        SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT,
-        N_("Circle typing method"),
-        N_("Select circle typing method keys"),
-        N_("The key events to circle typing method. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
-static StringConfigData __config_keyboards_dict [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY,
-        SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT,
-        N_("Edit dictionary"),
-        N_("Select edit dictionary keys"),
-        N_("The key events to launch dictionary administration tool. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_ADD_WORD_KEY,
-        SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT,
-        N_("Add a word"),
-        N_("Select add a word keys"),
-        N_("The key events to launch the tool to add a word. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
-static StringConfigData __config_keyboards_reverse_learning [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY,
-        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT,
-        N_("_Commit:"),
-        N_("Select commit keys"),
-        N_("The key events to commit the preedit string "
-           "with reversing the preference of learning. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY,
-        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
-        N_("Commit the _first segment:"),
-        N_("Select keys to commit the first segment"),
-        N_("The key events to commit the first segment "
-           "with reversing the preference of learning. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY,
-        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
-        N_("Commit the _selected segment:"),
-        N_("Select keys to commit the selected segment"),
-        N_("The key events to commit the selected segment "
-           "with reversing the preference of learning. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
 static struct KeyboardConfigPage __key_conf_pages[] =
 {
-    {N_("Mode keys"),          __config_keyboards_mode},
-    {N_("Edit keys"),          __config_keyboards_edit},
-    {N_("Caret keys"),         __config_keyboards_caret},
-    {N_("Segments keys"),      __config_keyboards_segments},
-    {N_("Candidates keys"),    __config_keyboards_candidates},
-    {N_("Direct select keys"), __config_keyboards_direct_select},
-    {N_("Convert keys"),       __config_keyboards_converting},
-    {N_("Dictionary keys"),    __config_keyboards_dict},
+    {N_("Mode keys"),          config_keyboards_mode},
+    {N_("Edit keys"),          config_keyboards_edit},
+    {N_("Caret keys"),         config_keyboards_caret},
+    {N_("Segments keys"),      config_keyboards_segments},
+    {N_("Candidates keys"),    config_keyboards_candidates},
+    {N_("Direct select keys"), config_keyboards_direct_select},
+    {N_("Convert keys"),       config_keyboards_converting},
+    {N_("Dictionary keys"),    config_keyboards_dict},
 };
 static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (KeyboardConfigPage);
 
@@ -1133,8 +252,8 @@ find_bool_config_entry (const char *config_key)
     if (!config_key)
         return NULL;
 
-    for (unsigned int i = 0; i < __config_bool_common_num; i++) {
-        BoolConfigData *entry = &__config_bool_common[i];
+    for (unsigned int i = 0; config_bool_common[i].key; i++) {
+        BoolConfigData *entry = &config_bool_common[i];
         if (entry->key && !strcmp (entry->key, config_key))
             return entry;
     }
@@ -1148,8 +267,8 @@ find_string_config_entry (const char *config_key)
     if (!config_key)
         return NULL;
 
-    for (unsigned int i = 0; i < __config_string_common_num; i++) {
-        StringConfigData *entry = &__config_string_common[i];
+    for (unsigned int i = 0; config_string_common[i].key; i++) {
+        StringConfigData *entry = &config_string_common[i];
         if (entry->key && !strcmp (entry->key, config_key))
             return entry;
     }
@@ -1195,15 +314,15 @@ create_check_button (const char *config_key)
     g_signal_connect (G_OBJECT (entry->widget), "toggled",
                       G_CALLBACK (on_default_toggle_button_toggled),
                       entry);
-    gtk_widget_show (entry->widget);
+    gtk_widget_show (GTK_WIDGET (entry->widget));
 
     if (!__widget_tooltips)
         __widget_tooltips = gtk_tooltips_new();
     if (entry->tooltip)
-        gtk_tooltips_set_tip (__widget_tooltips, entry->widget,
+        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
                               _(entry->tooltip), NULL);
 
-    return entry->widget;
+    return GTK_WIDGET (entry->widget);
 }
 
 #define APPEND_ENTRY(data, i)                                                  \
@@ -1217,19 +336,21 @@ create_check_button (const char *config_key)
                       (GtkAttachOptions) (GTK_FILL),                           \
                       (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
     (data)->widget = gtk_entry_new ();                                         \
-    gtk_label_set_mnemonic_widget (GTK_LABEL (label), (data)->widget);         \
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label),                          \
+                                   GTK_WIDGET ((data)->widget));               \
     g_signal_connect ((gpointer) (data)->widget, "changed",                    \
                       G_CALLBACK (on_default_editable_changed),                \
                       (data));                                                 \
-    gtk_widget_show ((data)->widget);                                          \
-    gtk_table_attach (GTK_TABLE (table), (data)->widget, 1, 2, i, i+1,         \
+    gtk_widget_show (GTK_WIDGET ((data)->widget));                             \
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET ((data)->widget),          \
+                      1, 2, i, i+1,                                            \
                       (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),                \
                       (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
                                                                                \
     if (!__widget_tooltips)                                                    \
         __widget_tooltips = gtk_tooltips_new();                                \
     if ((data)->tooltip)                                                       \
-        gtk_tooltips_set_tip (__widget_tooltips, (data)->widget,               \
+        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET ((data)->widget),  \
                               _((data)->tooltip), NULL);                       \
 }
 
@@ -1257,8 +378,9 @@ create_combo (const char *config_key, gpointer candidates_p,
     gtk_combo_set_value_in_list (GTK_COMBO (entry->widget), TRUE, FALSE);
     gtk_combo_set_case_sensitive (GTK_COMBO (entry->widget), TRUE);
     gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (entry->widget)->entry), FALSE);
-    gtk_widget_show (entry->widget);
-    gtk_table_attach (GTK_TABLE (table), entry->widget, 1, 2, idx, idx + 1,
+    gtk_widget_show (GTK_WIDGET (entry->widget));
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (entry->widget),
+                      1, 2, idx, idx + 1,
                       (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
                       (GtkAttachOptions) (GTK_FILL), 4, 4);
     g_object_set_data (G_OBJECT (GTK_COMBO (entry->widget)->entry), DATA_POINTER_KEY,
@@ -1271,10 +393,10 @@ create_combo (const char *config_key, gpointer candidates_p,
     if (!__widget_tooltips)
         __widget_tooltips = gtk_tooltips_new();
     if (entry->tooltip)
-        gtk_tooltips_set_tip (__widget_tooltips, entry->widget,
+        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
                               _(entry->tooltip), NULL);
 
-    return entry->widget;
+    return GTK_WIDGET (entry->widget);
 }
 
 static void
@@ -1511,8 +633,8 @@ create_learning_page ()
     gtk_container_add (GTK_CONTAINER (alignment), table);
     gtk_widget_show (table);
 
-    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++) {
-        StringConfigData *entry = &__config_keyboards_reverse_learning[i];
+    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
+        StringConfigData *entry = &config_keyboards_reverse_learning[i];
         APPEND_ENTRY (entry, i);
         gtk_entry_set_editable (GTK_ENTRY (entry->widget), FALSE);
         button = gtk_button_new_with_label ("...");
@@ -1832,15 +954,15 @@ setup_combo_value (GtkCombo *combo, const String & str)
 static void
 setup_widget_value ()
 {
-    for (unsigned int i = 0; i < __config_bool_common_num; i++) {
-        BoolConfigData &entry = __config_bool_common[i];
+    for (unsigned int i = 0; config_bool_common[i].key; i++) {
+        BoolConfigData &entry = config_bool_common[i];
         if (entry.widget)
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (entry.widget),
                                           entry.value);
     }
 
-    for (unsigned int i = 0; i < __config_string_common_num; i++) {
-        StringConfigData &entry = __config_string_common[i];
+    for (unsigned int i = 0; config_string_common[i].key; i++) {
+        StringConfigData &entry = config_string_common[i];
         if (entry.widget && GTK_IS_COMBO (entry.widget))
             setup_combo_value (GTK_COMBO (entry.widget), entry.value);
         else if (entry.widget && GTK_IS_ENTRY (entry.widget))
@@ -1858,11 +980,11 @@ setup_widget_value ()
         }
     }
 
-    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++) {
-        if (__config_keyboards_reverse_learning[i].widget) {
+    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
+        if (config_keyboards_reverse_learning[i].widget) {
             gtk_entry_set_text (
-                GTK_ENTRY (__config_keyboards_reverse_learning[i].widget),
-                __config_keyboards_reverse_learning[i].value.c_str ());
+                GTK_ENTRY (config_keyboards_reverse_learning[i].widget),
+                config_keyboards_reverse_learning[i].value.c_str ());
         }
     }
 
@@ -1998,13 +1120,13 @@ load_config (const ConfigPointer &config)
         = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME),
                         String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT));
 
-    for (unsigned int i = 0; i < __config_bool_common_num; i++) {
-        BoolConfigData &entry = __config_bool_common[i];
+    for (unsigned int i = 0; config_bool_common[i].key; i++) {
+        BoolConfigData &entry = config_bool_common[i];
         entry.value = config->read (String (entry.key), entry.value);
     }
 
-    for (unsigned int i = 0; i < __config_string_common_num; i++) {
-        StringConfigData &entry = __config_string_common[i];
+    for (unsigned int i = 0; config_string_common[i].key; i++) {
+        StringConfigData &entry = config_string_common[i];
         entry.value = config->read (String (entry.key), entry.value);
     }
 
@@ -2016,26 +1138,26 @@ load_config (const ConfigPointer &config)
         }
     }
 
-    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++) {
-        StringConfigData &entry = __config_keyboards_reverse_learning[i];
+    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
+        StringConfigData &entry = config_keyboards_reverse_learning[i];
         entry.value = config->read (String (entry.key), entry.value);
     }
 
     setup_widget_value ();
 
-    for (unsigned int i = 0; i < __config_bool_common_num; i++)
-        __config_bool_common[i].changed = false;
+    for (unsigned int i = 0; config_bool_common[i].key; i++)
+        config_bool_common[i].changed = false;
 
-    for (unsigned int i = 0; i < __config_string_common_num; i++)
-        __config_string_common[i].changed = false;
+    for (unsigned int i = 0; config_string_common[i].key; i++)
+        config_string_common[i].changed = false;
 
     for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
         for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++)
             __key_conf_pages[j].data[i].changed = false;
     }
 
-    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++)
-        __config_keyboards_reverse_learning[i].changed = false;
+    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++)
+        config_keyboards_reverse_learning[i].changed = false;
 
     __config_changed = false;
 }
@@ -2053,15 +1175,15 @@ save_config (const ConfigPointer &config)
         = config->write (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME),
                          String (__config_romaji_theme));
 
-    for (unsigned int i = 0; i < __config_bool_common_num; i++) {
-        BoolConfigData &entry = __config_bool_common[i];
+    for (unsigned int i = 0; config_bool_common[i].key; i++) {
+        BoolConfigData &entry = config_bool_common[i];
         if (entry.changed)
             entry.value = config->write (String (entry.key), entry.value);
         entry.changed = false;
     }
 
-    for (unsigned int i = 0; i < __config_string_common_num; i++) {
-        StringConfigData &entry = __config_string_common[i];
+    for (unsigned int i = 0; config_string_common[i].key; i++) {
+        StringConfigData &entry = config_string_common[i];
         if (entry.changed)
             entry.value = config->write (String (entry.key), entry.value);
         entry.changed = false;
@@ -2076,8 +1198,8 @@ save_config (const ConfigPointer &config)
         }
     }
 
-    for (unsigned int i = 0; __config_keyboards_reverse_learning[i].key; i++) {
-        StringConfigData &entry = __config_keyboards_reverse_learning[i];
+    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
+        StringConfigData &entry = config_keyboards_reverse_learning[i];
         if (entry.changed)
             entry.value = config->write (String (entry.key), entry.value);
         entry.changed = false;
@@ -2187,10 +1309,10 @@ on_dict_menu_label_toggled (GtkToggleButton *togglebutton,
     BoolConfigData *entry;
     entry = find_bool_config_entry (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL);
     if (entry->widget)
-        gtk_widget_set_sensitive (entry->widget, active);
+        gtk_widget_set_sensitive (GTK_WIDGET (entry->widget), active);
     entry = find_bool_config_entry (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL);
     if (entry->widget)
-        gtk_widget_set_sensitive (entry->widget, active);
+        gtk_widget_set_sensitive (GTK_WIDGET (entry->widget), active);
 }
 
 static void
@@ -2375,7 +1497,6 @@ on_choose_keys_button_clicked (GtkWidget *button, gpointer data)
     key_list_view_popup_key_selection (treeview);
 }
 
-#include "scim_anthy_default_tables.h"
 static void
 on_romaji_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
 {
