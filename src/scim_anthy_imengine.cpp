@@ -1037,15 +1037,21 @@ AnthyInstance::action_select_next_candidate (void)
     if (!m_preedit.is_converting ())
         return false;
 
-    if (!is_selecting_candidates ())
+    if (!is_selecting_candidates ()) {
         action_convert ();
-    if (m_lookup_table.get_cursor_pos () == (int) (m_lookup_table.number_of_candidates () - 1))
+        return true;
+    }
+
+    int end = m_lookup_table.number_of_candidates () - 1;
+    if (m_lookup_table.get_cursor_pos () == end)
     {
         m_lookup_table.set_cursor_pos (0);
     } else {
         m_lookup_table.cursor_down ();
     }
-    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
+
+    int pos_in_page = m_lookup_table.get_cursor_pos_in_current_page ();
+    select_candidate_no_direct (pos_in_page);
 
     return true;
 }
@@ -1058,11 +1064,14 @@ AnthyInstance::action_select_prev_candidate (void)
     if (!is_selecting_candidates ())
         action_convert ();
 
+    int end = m_lookup_table.number_of_candidates () - 1;
     if (m_lookup_table.get_cursor_pos () == 0)
-        m_lookup_table.set_cursor_pos (m_lookup_table.number_of_candidates () - 1);
+        m_lookup_table.set_cursor_pos (end);
     else
         m_lookup_table.cursor_up ();
-    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
+
+    int pos_in_page = m_lookup_table.get_cursor_pos_in_current_page ();
+    select_candidate_no_direct (pos_in_page);
 
     return true;
 }
@@ -1074,7 +1083,9 @@ AnthyInstance::action_select_first_candidate (void)
     if (!is_selecting_candidates ()) return false;
 
     m_lookup_table.set_cursor_pos (0);
-    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
+
+    int pos_in_page = m_lookup_table.get_cursor_pos_in_current_page ();
+    select_candidate_no_direct (pos_in_page);
 
     return true;
 }
@@ -1085,8 +1096,11 @@ AnthyInstance::action_select_last_candidate (void)
     if (!m_preedit.is_converting ()) return false;
     if (!is_selecting_candidates ()) return false;
 
-    m_lookup_table.set_cursor_pos (m_lookup_table.number_of_candidates () - 1);
-    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
+    int end = m_lookup_table.number_of_candidates () - 1;
+    m_lookup_table.set_cursor_pos (end);
+
+    int pos_in_page = m_lookup_table.get_cursor_pos_in_current_page ();
+    select_candidate_no_direct (pos_in_page);
 
     return true;
 }
@@ -1098,7 +1112,9 @@ AnthyInstance::action_candidates_page_up(void)
     if (!is_selecting_candidates ()) return false;
 
     m_lookup_table.page_up ();
-    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
+
+    int pos_in_page = m_lookup_table.get_cursor_pos_in_current_page ();
+    select_candidate_no_direct (pos_in_page);
 
     return true;
 }
@@ -1110,7 +1126,9 @@ AnthyInstance::action_candidates_page_down (void)
     if (!is_selecting_candidates ()) return false;
 
     m_lookup_table.page_down ();
-    select_candidate_no_direct (m_lookup_table.get_cursor_pos_in_current_page ());
+
+    int pos_in_page = m_lookup_table.get_cursor_pos_in_current_page ();
+    select_candidate_no_direct (pos_in_page);
 
     return true;
 }

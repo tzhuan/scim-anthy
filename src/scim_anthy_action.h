@@ -30,9 +30,11 @@ class AnthyInstance;
 class AnthyAction
 {
     typedef bool (AnthyInstance::*PMF) (void);
+    typedef bool (*Func)               (AnthyInstance *anthy);
 
 public:
     AnthyAction  (const String &name, const String &key_bindings, PMF pmf);
+    AnthyAction  (const String &name, const String &key_bindings, Func func);
     ~AnthyAction ();
 
 public:
@@ -47,6 +49,7 @@ private:
     String         m_name;
     String         m_desc;
     PMF            m_pmf;
+    Func           m_func;
     KeyEventList   m_key_bindings;
 };
 

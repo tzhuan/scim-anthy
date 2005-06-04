@@ -26,7 +26,17 @@
 AnthyAction::AnthyAction (const String &name, const String &key_bindings,
                           PMF pmf)
     : m_name (name),
-      m_pmf (pmf)
+      m_pmf  (pmf),
+      m_func (NULL)
+{
+    scim_string_to_key_list (m_key_bindings, key_bindings);
+}
+
+AnthyAction::AnthyAction (const String &name, const String &key_bindings,
+                          Func func)
+    : m_name (name),
+      m_pmf  (NULL),
+      m_func (func)
 {
     scim_string_to_key_list (m_key_bindings, key_bindings);
 }
@@ -38,20 +48,26 @@ AnthyAction::~AnthyAction (void)
 bool
 AnthyAction::perform (AnthyInstance *performer)
 {
-    if (!performer || !m_pmf)
-        return false;
+    if (m_pmf)
+        return (performer->*m_pmf) ();
+    else if (m_func)
+        return m_func (performer);
 
-    return (performer->*m_pmf) ();
+    return false;
 }
 
 bool
 AnthyAction::perform (AnthyInstance *performer, const KeyEvent &key)
 {
-    if (!performer || !m_pmf)
+    if (!m_pmf && !m_func)
         return false;
 
-    if (match_key_event (key))
-        return (performer->*m_pmf) ();
+    if (match_key_event (key)) {
+        if (m_pmf)
+            return (performer->*m_pmf) ();
+        else if (m_func)
+            return m_func (performer);
+    }
 
     return false;
 }

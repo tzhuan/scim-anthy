@@ -1,3 +1,47 @@
+2005-06-04 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.ac: Version-0.4.3.
+
+2005-06-02 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine_factory.cpp:
+	Fixed a problem that selecting first & last candidate feature doesn't
+	work. Thanks reporting! > BANDO-san
+	* src/scim_anthy_imengine.cpp: Bug fix along with above change.
+
+2005-06-02 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine_factory.cpp, src/scim_anthy_action.{cpp,h},
+	  src/scim_imengine.h:
+	Fix for gcc-4.0. But it's a ad-hoc solution.
+
+2005-05-17 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.ac; Sorry, AM_INIT_AUTOMAKE(1.9), not AM_PREREQ.
+
+2005-05-17 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.ac: Version-0.4.2.
+
+2005-05-17 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.ac: Add AM_PREREQ & AC_PREREQ.
+
+2005-05-17 Takuro Ashie <ashie@homa.ne.jp>
+
+	* po/ja.po: Fix typo. Thanks DAIRIKI-san.
+
+2005-05-16 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/configure.ac: Version-0.4.1.
+	* NEWS: Uppdate.
+
+2005-05-16 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_preedit.cpp: Revive key mask checking to enable
+	apllication's short cut key on non-preedition state.
+	Thanks DAIRIKI-san.
+
 2005-05-15 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/configure.ac: Version-0.4.0.

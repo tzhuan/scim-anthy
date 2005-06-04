@@ -92,10 +92,10 @@ private:
     bool   process_key_event_with_candidate   (const KeyEvent &key);
     bool   process_remaining_key_event        (const KeyEvent &key);
 
+public:
     /* actinos */
     bool   action_convert                     (void);
     bool   action_revert                      (void);
-    bool   action_commit                      (bool learn);
     bool   action_commit_follow_preference    (void);
     bool   action_commit_reverse_preference   (void);
     bool   action_commit_first_segment        (void);
@@ -130,8 +130,6 @@ private:
     bool   action_candidates_page_up          (void);
     bool   action_candidates_page_down        (void);
 
-    bool   action_select_candidate            (unsigned int i);
-
     bool   action_select_candidate_1          (void);
     bool   action_select_candidate_2          (void);
     bool   action_select_candidate_3          (void);
@@ -163,7 +161,10 @@ private:
     void   actoin_regist_word                 (void);
     */
 
+private:
     /* utility */
+    bool   action_commit                      (bool learn);
+    bool   action_select_candidate            (unsigned int i);
     bool   match_key_event (const KeyEventList &keys,
                             const KeyEvent &key) const;
 };

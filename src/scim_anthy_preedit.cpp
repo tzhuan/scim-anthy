@@ -251,6 +251,11 @@ AnthyPreedit::is_kana_converting (void)
 bool
 AnthyPreedit::can_process (const KeyEvent & key)
 {
+    // ignore short cut keys of apllication.
+    if (key.mask & SCIM_KEY_ControlMask ||
+        key.mask & SCIM_KEY_AltMask)
+        return false;
+
     if (isprint(key.get_ascii_code ()) && !isspace(key.get_ascii_code ()))
         return true;
 
