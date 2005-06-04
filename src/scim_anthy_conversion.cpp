@@ -35,9 +35,9 @@ ConversionSegment::~ConversionSegment ()
 Conversion::Conversion (Reading &reading)
     : m_reading          (reading),
       m_anthy_context    (anthy_create_context()),
-      m_start_id (0),
-      m_cur_segment   (-1),
-      m_cur_pos  (0),
+      m_start_id         (0),
+      m_cur_segment      (-1),
+      m_cur_pos          (0),
       m_kana_converting  (false)
 {
 #ifdef HAS_ANTHY_CONTEXT_SET_ENCODING
@@ -152,9 +152,10 @@ Conversion::clear (void)
     m_string.clear ();
     m_attrs.clear ();
     m_candidates.clear ();
-    m_start_id = 0;
-    m_cur_segment = -1;
-    m_cur_pos = 0;
+    
+    m_start_id        = 0;
+    m_cur_segment     = -1;
+    m_cur_pos         = 0;
     m_kana_converting = false;
 }
 

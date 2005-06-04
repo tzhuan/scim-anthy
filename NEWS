@@ -1,3 +1,9 @@
+Overview of Changes from scim-anthy-0.4.2 to scim-anthy-0.4.3
+=============================================================
+* Fix for gcc-4.0. Thanks UTUMI-san.
+* Fix a bug that selecting first & last candidate feature doesn't work.
+  Thanks BANDO-san.
+
 Overview of Changes from scim-anthy-0.4.1 to scim-anthy-0.4.2
 =============================================================
 * Fix typo in Japanese message (Thanks! DAIRIKI-san).

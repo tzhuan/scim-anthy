@@ -268,7 +268,7 @@ Reading::append_str (const String & str)
 }
 
 void
-Reading::commit (void)
+Reading::finish (void)
 {
     if (!m_key2kana.is_pending ()) return;
 

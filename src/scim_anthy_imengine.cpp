@@ -562,7 +562,6 @@ AnthyInstance::action_convert (void)
 
     if (!m_preedit.is_converting ()) {
         // show conversion string
-        m_preedit.flush_pending ();
         m_preedit.convert ();
         set_preedition ();
     } else {
@@ -639,7 +638,7 @@ AnthyInstance::action_commit (bool learn)
         if (learn)
             m_preedit.commit ();
     } else {
-        m_preedit.flush_pending ();
+        m_preedit.finish ();
         commit_string (m_preedit.get_string ());
     }
 

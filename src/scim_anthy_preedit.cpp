@@ -180,9 +180,9 @@ Preedit::erase (bool backward)
 }
 
 void
-Preedit::flush_pending (void)
+Preedit::finish (void)
 {
-    m_reading.commit ();
+    m_reading.finish ();
 }
 
 

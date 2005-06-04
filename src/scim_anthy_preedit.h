@@ -73,7 +73,7 @@ public:
     // return true if commiting is needed.
     virtual bool          process_key_event      (const KeyEvent & key);
     virtual void          erase                  (bool backward = true);
-    virtual void          flush_pending          (void);
+    virtual void          finish                 (void);
 
     // manipulating the conversion string
     virtual void          convert                (CandidateType type

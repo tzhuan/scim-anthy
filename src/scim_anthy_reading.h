@@ -77,7 +77,7 @@ public:
 
     bool         can_process_key_event (const KeyEvent & key);
     bool         process_key_event     (const KeyEvent & key);
-    void         commit                (void);
+    void         finish                (void);
     void         clear                 (void);
 
     WideString   get                   (unsigned int start  = 0,
