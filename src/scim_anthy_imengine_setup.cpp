@@ -432,12 +432,13 @@ append_key_bindings (GtkTreeView *treeview, gint idx, const gchar *filter)
 
         GtkTreeIter iter;
         gtk_list_store_append (store, &iter);
-        gtk_list_store_set (store, &iter,
-                            COLUMN_LABEL, _(__key_conf_pages[idx].data[i].label),
-                            COLUMN_VALUE, __key_conf_pages[idx].data[i].value.c_str (),
-                            COLUMN_DESC,  _(__key_conf_pages[idx].data[i].tooltip),
-                            COLUMN_DATA, &__key_conf_pages[idx].data[i],
-                            -1);
+        gtk_list_store_set (
+            store, &iter,
+            COLUMN_LABEL, _(__key_conf_pages[idx].data[i].label),
+            COLUMN_VALUE, __key_conf_pages[idx].data[i].value.c_str (),
+            COLUMN_DESC,  _(__key_conf_pages[idx].data[i].tooltip),
+            COLUMN_DATA, &__key_conf_pages[idx].data[i],
+            -1);
     }
 }
 
@@ -1051,9 +1052,11 @@ setup_widget_value ()
                                        NULL);
 
     // for romaji table theme
-    g_signal_handlers_block_by_func (G_OBJECT (__widget_romaji_theme_menu),
-                                     (gpointer) (on_romaji_theme_menu_changed),
-                                     NULL);
+    g_signal_handlers_block_by_func (
+        G_OBJECT (__widget_romaji_theme_menu),
+        (gpointer) (on_romaji_theme_menu_changed),
+        NULL);
+
     gtk_option_menu_set_history (
         GTK_OPTION_MENU (__widget_romaji_theme_menu), 0);
     for (unsigned int i = 0; i < __style_list.size (); i++) {
@@ -1063,9 +1066,11 @@ setup_widget_value ()
             break;
         }
     }
-    g_signal_handlers_unblock_by_func (G_OBJECT (__widget_romaji_theme_menu),
-                                       (gpointer) (on_romaji_theme_menu_changed),
-                                       NULL);
+
+    g_signal_handlers_unblock_by_func (
+        G_OBJECT (__widget_romaji_theme_menu),
+        (gpointer) (on_romaji_theme_menu_changed),
+        NULL);
 #endif
 }
 
@@ -1432,7 +1437,8 @@ on_key_filter_selection_clicked (GtkButton *button,
                 gtk_entry_set_text (entry, keys);
 
             GtkTreeModel *model;
-            model = gtk_tree_view_get_model (GTK_TREE_VIEW (__widget_key_list_view));
+            model = gtk_tree_view_get_model (
+                GTK_TREE_VIEW (__widget_key_list_view));
             gtk_list_store_clear (GTK_LIST_STORE (model));
             for (unsigned int i = 0; i < __key_conf_pages_num; i++)
                 append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view),
