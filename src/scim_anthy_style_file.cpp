@@ -56,7 +56,7 @@ StyleLine::get_type (void)
         m_type = SCIM_ANTHY_STYLE_LINE_SPACE;
         return m_type;
 
-    } else if (m_line[spos] == '#' || m_line [spos] == ';') {
+    } else if (m_line[spos] == '#') {
         m_type = SCIM_ANTHY_STYLE_LINE_COMMENT;
         return m_type;
 
@@ -454,6 +454,7 @@ StyleFile::setup_default_entries (void)
 {
     m_encoding = "UTF-8";
     m_title    = "User Settings";
+    m_iconv.set_encoding (m_encoding);
     m_sections.push_back (StyleLines ());
 
     m_sections.push_back (StyleLines ());

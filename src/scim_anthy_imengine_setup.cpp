@@ -840,6 +840,8 @@ create_keyboard_page (void)
     g_signal_connect (G_OBJECT (selection), "changed",
                       G_CALLBACK (on_key_list_selection_changed), treeview);
 
+    g_object_unref (G_OBJECT (store));
+
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
@@ -1226,6 +1228,58 @@ query_changed (void)
     return __config_changed;
 }
 
+static bool
+load_romaji_theme (void)
+{
+    gint idx = gtk_option_menu_get_history (
+        GTK_OPTION_MENU (__widget_romaji_theme_menu));
+    gint theme_idx = idx - 1;
+
+    const char *section = "RomajiTable/FundamentalTable";
+
+    // set new key bindings
+    if (idx == 0) {
+        __config_romaji_theme = "Default";
+        __user_style_file.delete_section (section);
+
+        ConvRule *table = scim_anthy_romaji_typing_rule;
+        for (unsigned int i = 0; table[i].string; i++) {
+            __user_style_file.set_string (section,
+                                          table[i].string,
+                                          table[i].result);
+        }
+        return true;
+
+    } else if (theme_idx >= 0) {
+        __config_romaji_theme = __style_list[theme_idx].get_title ();
+        __user_style_file.delete_section (section);
+
+        StyleLines lines;
+        bool success = __style_list[theme_idx].get_entry_list (
+            lines, section);
+        if (success) {
+            StyleLines::iterator it;
+            for (it = lines.begin (); it != lines.end (); it++) {
+                if (it->get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
+                    continue;
+                String key;
+                WideString value;
+                it->get_key (key);
+                //it->get_value (value);
+                __style_list[theme_idx].get_string (value, section, key);
+                __user_style_file.set_string (section,
+                                              key,
+                                              utf8_wcstombs (value));
+            }
+        }
+        return true;
+
+    } else {
+        // error
+        return false;
+    }
+}
+
 
 static void
 on_default_toggle_button_toggled (GtkToggleButton *togglebutton,
@@ -1508,56 +1562,145 @@ on_choose_keys_button_clicked (GtkWidget *button, gpointer data)
 static void
 on_romaji_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
 {
-    gint idx = gtk_option_menu_get_history (omenu);
-    gint theme_idx = idx - 1;
+    bool success = load_romaji_theme ();
 
-    const char *section = "RomajiTable/FundamentalTable";
+    if (success) {
+        // sync widgets
+        __style_changed  = true;
+        __config_changed = true;
+    }
+}
 
-    // set new key bindings
-    if (idx == 0) {
-        __config_romaji_theme = "Default";
-        __user_style_file.delete_section (section);
+static GtkWidget *
+create_romaji_window (GtkWindow *parent)
+{
+    GtkWidget *dialog = gtk_dialog_new_with_buttons (
+        _("Customize romaji table"),
+        parent,
+        GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_STOCK_CLOSE, GTK_RESPONSE_NONE,
+        NULL);
+    gtk_window_set_default_size (GTK_WINDOW (dialog), 350, 250);
+    gtk_window_set_position (GTK_WINDOW (dialog),
+                             GTK_WIN_POS_CENTER_ON_PARENT);
 
-        ConvRule *table = scim_anthy_romaji_typing_rule;
-        for (unsigned int i = 0; table[i].string; i++) {
-            __user_style_file.set_string (section,
-                                          table[i].string,
-                                          table[i].result);
-        }
-        __style_changed = true;
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox,
+                        TRUE, TRUE, 0);
+    gtk_widget_show (hbox);
 
-    } else if (theme_idx >= 0) {
-        __config_romaji_theme = __style_list[theme_idx].get_title ();
-        __user_style_file.delete_section (section);
+    // tree view area
+    GtkWidget *scrwin = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrwin),
+                                         GTK_SHADOW_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrwin),
+                                    GTK_POLICY_AUTOMATIC,
+                                    GTK_POLICY_AUTOMATIC);
+    gtk_box_pack_start (GTK_BOX (hbox), scrwin, TRUE, TRUE, 0);
+    gtk_widget_show (scrwin);
 
-        StyleLines lines;
-        bool success = __style_list[theme_idx].get_entry_list (
-            lines, section);
-        if (success) {
-            StyleLines::iterator it;
-            for (it = lines.begin (); it != lines.end (); it++) {
-                if (it->get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
-                    continue;
-                String key;
-                WideString value;
-                it->get_key (key);
-                //it->get_value (value);
-                __style_list[theme_idx].get_string (value, section, key);
-                __user_style_file.set_string (section,
-                                              key,
-                                              utf8_wcstombs (value));
-            }
-            __style_changed = true;
-        }
+    GtkListStore *store = gtk_list_store_new (3,
+                                              G_TYPE_STRING,
+                                              G_TYPE_STRING,
+                                              G_TYPE_STRING);
+
+    GtkWidget *treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+    gtk_container_add (GTK_CONTAINER (scrwin), treeview);
+    gtk_widget_show (treeview);
+
+    // sequence column
+    GtkCellRenderer *cell;
+    GtkTreeViewColumn *column;
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (
+        _("Sequence"), cell,
+        "text", 0,
+        NULL);
+	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_fixed_width (column, 80);
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+
+    // result column
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (
+        _("Result"), cell,
+        "text", 1,
+        NULL);
+	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_fixed_width (column, 80);
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+
+    // pending column
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (
+        _("Pending"), cell,
+        "text", 2,
+        NULL);
+	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_fixed_width (column, 80);
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+
+    // button area
+    GtkWidget *vbox = gtk_vbox_new (TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, FALSE, 5);
+    gtk_widget_show (vbox);
+
+    GtkWidget *vbox2 = gtk_vbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), vbox2, FALSE, FALSE, 5);
+    gtk_widget_show (vbox2);
+
+    GtkWidget *button = gtk_button_new_with_mnemonic ("_Add");
+    gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 5);
+    gtk_widget_show (button);
+
+    button = gtk_button_new_with_mnemonic ("_Remove");
+    gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 5);
+    gtk_widget_show (button);
+
+    // set data
+    const char *section_name = "RomajiTable/FundamentalTable";
+    StyleLines section;
+    __user_style_file.get_entry_list (section, section_name);
+    if (section.empty ()) {
+        load_romaji_theme ();
+        __user_style_file.get_entry_list (section, section_name);
     }
 
-    // sync widgets
-    __config_changed = true;
+    StyleLines::iterator it;
+    for (it = section.begin (); it != section.end (); it++) {
+        if (it->get_type() != SCIM_ANTHY_STYLE_LINE_KEY)
+            continue;
+
+        String key;
+        WideString value;
+        it->get_key (key);
+        __user_style_file.get_string (value, section_name, key);
+        GtkTreeIter iter;
+        gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+        gtk_list_store_set (GTK_LIST_STORE (store), &iter,
+                            0, key.c_str (),
+                            1, utf8_wcstombs(value).c_str (),
+                            2, "",
+                            -1);
+    }
+
+    // clearn
+    g_object_unref (store);
+
+    return dialog;
 }
 
 static void
 on_romaji_customize_button_clicked (GtkWidget *button, gpointer data)
 {
+    GtkWidget *widget = create_romaji_window (
+        GTK_WINDOW (gtk_widget_get_toplevel (button)));
+    gtk_dialog_run (GTK_DIALOG (widget));
+    gtk_widget_destroy (widget);
 }
 /*
 vi:ts=4:nowrap:ai:expandtab
