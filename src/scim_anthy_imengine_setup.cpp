@@ -377,13 +377,15 @@ create_combo (const char *config_key, gpointer candidates_p,
                                    GTK_COMBO (entry->widget)->entry);
     gtk_combo_set_value_in_list (GTK_COMBO (entry->widget), TRUE, FALSE);
     gtk_combo_set_case_sensitive (GTK_COMBO (entry->widget), TRUE);
-    gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (entry->widget)->entry), FALSE);
+    gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (entry->widget)->entry),
+                            FALSE);
     gtk_widget_show (GTK_WIDGET (entry->widget));
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (entry->widget),
                       1, 2, idx, idx + 1,
                       (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
                       (GtkAttachOptions) (GTK_FILL), 4, 4);
-    g_object_set_data (G_OBJECT (GTK_COMBO (entry->widget)->entry), DATA_POINTER_KEY,
+    g_object_set_data (G_OBJECT (GTK_COMBO (entry->widget)->entry),
+                       DATA_POINTER_KEY,
                        (gpointer) candidates_p);
 
     g_signal_connect ((gpointer) GTK_COMBO (entry->widget)->entry, "changed",
