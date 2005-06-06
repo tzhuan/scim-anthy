@@ -1,5 +1,9 @@
 2005-06-06 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_setup.cpp: Rename from scim_anthy_imengine_setup.cpp.
+
+2005-06-06 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_style_file.cpp: Bug fix.
 	* src/scim_anthy_imengine_setup.cpp: Add UI for cutomizing romaji table,
 	but it doesn't work yet.

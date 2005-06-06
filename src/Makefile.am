@@ -58,7 +58,7 @@ setupmoduledir           = @SCIM_MODULEDIR@/SetupUI
 setupmodule_LTLIBRARIES  = $(SETUP_MODULE)
 
 anthy_imengine_setup_la_SOURCES = \
-	scim_anthy_imengine_setup.cpp \
+	scim_anthy_setup.cpp \
 	scim_anthy_style_file.cpp \
 	scim_anthy_default_tables.cpp \
 	scim_anthy_prefs.cpp
