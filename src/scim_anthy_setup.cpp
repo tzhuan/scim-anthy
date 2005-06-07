@@ -1718,6 +1718,21 @@ on_romaji_entry_activate (GtkEntry *entry, gpointer data)
     add_romaji_entry (GTK_TREE_VIEW (data));
 }
 
+static void
+on_romaji_sequence_entry_insert_text (GtkEditable *editable,
+                                      const gchar *text,
+                                      gint length,
+                                      gint *position,
+                                      gpointer data)
+{
+    for (int i = 0; i < length; i++) {
+        if (!isascii (text[i]) || isspace (text[i])) {
+            g_signal_stop_emission_by_name (editable, "insert_text");
+            return;
+        }
+    }
+}
+
 static GtkWidget *
 create_romaji_window (GtkWindow *parent)
 {
@@ -1814,6 +1829,9 @@ create_romaji_window (GtkWindow *parent)
     gtk_widget_set_size_request (entry, 80, -1);
     g_signal_connect (G_OBJECT (entry), "activate",
                       G_CALLBACK (on_romaji_entry_activate), treeview);
+    g_signal_connect (G_OBJECT (entry), "insert-text",
+                      G_CALLBACK (on_romaji_sequence_entry_insert_text),
+                      treeview);
     gtk_widget_show (entry);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
 
