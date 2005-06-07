@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-05-31 12:48+0900\n"
+"POT-Creation-Date: 2005-06-07 17:36+0900\n"
 "PO-Revision-Date: 2004-12-02 00:55+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,919 +13,935 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:322
+#: src/scim_anthy_imengine.cpp:325
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:326
+#: src/scim_anthy_imengine.cpp:329
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:330
+#: src/scim_anthy_imengine.cpp:333
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:334 src/scim_anthy_imengine.cpp:335
+#: src/scim_anthy_imengine.cpp:337 src/scim_anthy_imengine.cpp:338
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:339
+#: src/scim_anthy_imengine.cpp:342
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:339
+#: src/scim_anthy_imengine.cpp:342
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:343
+#: src/scim_anthy_imengine.cpp:346
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:349
+#: src/scim_anthy_imengine.cpp:352
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:353
+#: src/scim_anthy_imengine.cpp:356
 msgid "Romaji"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:357
+#: src/scim_anthy_imengine.cpp:360
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:364
+#: src/scim_anthy_imengine.cpp:367
 msgid "Period style"
 msgstr "句読点スタイル"
 
-#: src/scim_anthy_imengine.cpp:391
+#: src/scim_anthy_imengine.cpp:394
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:396
+#: src/scim_anthy_imengine.cpp:399
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:398
+#: src/scim_anthy_imengine.cpp:401
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:404 src/scim_anthy_imengine_setup.cpp:980
+#: src/scim_anthy_imengine.cpp:407 src/scim_anthy_prefs.cpp:839
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:406
+#: src/scim_anthy_imengine.cpp:409
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
-#: src/scim_anthy_imengine_setup.cpp:90
+#: src/scim_anthy_setup.cpp:106
 msgid "Anthy"
 msgstr "Anthy"
 
-#: src/scim_anthy_imengine_setup.cpp:95
+#: src/scim_anthy_setup.cpp:111
 msgid "An Anthy IMEngine Module."
 msgstr "Anthy IMEngineモジュール"
 
-#: src/scim_anthy_imengine_setup.cpp:193
+#: src/scim_anthy_setup.cpp:173
+msgid "Mode keys"
+msgstr "モードキー"
+
+#: src/scim_anthy_setup.cpp:174
+msgid "Edit keys"
+msgstr "編集キー"
+
+#: src/scim_anthy_setup.cpp:175
+msgid "Caret keys"
+msgstr "キャレットキー"
+
+#: src/scim_anthy_setup.cpp:176
+msgid "Segments keys"
+msgstr "文節キー"
+
+#: src/scim_anthy_setup.cpp:177
+msgid "Candidates keys"
+msgstr "候補選択キー"
+
+#: src/scim_anthy_setup.cpp:178
+msgid "Direct select keys"
+msgstr "直接選択キー"
+
+#: src/scim_anthy_setup.cpp:179
+msgid "Convert keys"
+msgstr "変換キー"
+
+#: src/scim_anthy_setup.cpp:180
+msgid "Dictionary keys"
+msgstr "辞書関連キー"
+
+#: src/scim_anthy_setup.cpp:189
+msgid "Romaji typing method"
+msgstr "ローマ字入力方式"
+
+#: src/scim_anthy_setup.cpp:190
+msgid "Kana typing method"
+msgstr "かな入力方式"
+
+#: src/scim_anthy_setup.cpp:205 src/scim_anthy_setup.cpp:213
+msgid "Wide"
+msgstr "全角"
+
+#: src/scim_anthy_setup.cpp:206 src/scim_anthy_setup.cpp:214
+msgid "Half"
+msgstr "半角"
+
+#: src/scim_anthy_setup.cpp:207 src/scim_anthy_setup.cpp:215
+msgid "Follow input mode"
+msgstr "入力モードに従う"
+
+#: src/scim_anthy_setup.cpp:565
+msgid "Romaji _table:"
+msgstr "ローマ字テーブル(_T):"
+
+#: src/scim_anthy_setup.cpp:578
+msgid "_Customize..."
+msgstr "カスタマイズ...(_C)"
+
+#: src/scim_anthy_setup.cpp:601
+msgid "<b>Enable/Disable learning</b>"
+msgstr "<b>学習の有効/無効</b>"
+
+#: src/scim_anthy_setup.cpp:628
+msgid "<b>Key preferences to commit with reversing learning preference</b>"
+msgstr "<b>学習設定とは逆の方法で確定するキーの設定</b>"
+
+#: src/scim_anthy_setup.cpp:744
+msgid "_Group:"
+msgstr "グループ(_G):"
+
+#: src/scim_anthy_setup.cpp:765
+msgid "Search by key"
+msgstr "キーで検索"
+
+#: src/scim_anthy_setup.cpp:769
+msgid "all"
+msgstr "全て"
+
+#: src/scim_anthy_setup.cpp:812
+msgid "Feature"
+msgstr "機能"
+
+#: src/scim_anthy_setup.cpp:821 src/scim_anthy_setup.cpp:902
+msgid "Key bindings"
+msgstr "キーバインド"
+
+#: src/scim_anthy_setup.cpp:829
+msgid "Description"
+msgstr "説明"
+
+#: src/scim_anthy_setup.cpp:854
+msgid "Key bindings _theme:"
+msgstr "キーバインドテーマ:"
+
+#: src/scim_anthy_setup.cpp:868
+msgid "_Choose keys..."
+msgstr "キーを選択...(_C)"
+
+#: src/scim_anthy_setup.cpp:896
+msgid "Common"
+msgstr "一般"
+
+#: src/scim_anthy_setup.cpp:908
+msgid "Romaji Typing"
+msgstr "ローマ字入力"
+
+#: src/scim_anthy_setup.cpp:914
+msgid "Learning"
+msgstr "学習"
+
+#: src/scim_anthy_setup.cpp:920
+msgid "Toolbar"
+msgstr "ツールバー"
+
+#: src/scim_anthy_setup.cpp:926
+msgid "Dictionary"
+msgstr "辞書"
+
+#: src/scim_anthy_setup.cpp:1022 src/scim_anthy_setup.cpp:1027
+msgid "Default"
+msgstr "標準設定"
+
+#: src/scim_anthy_setup.cpp:1480
+msgid "Set key filter"
+msgstr "キ-フィルタ-をセット"
+
+#: src/scim_anthy_setup.cpp:1671
+msgid "Customize romaji table"
+msgstr "ローマ字テーブルをカスタマイズ"
+
+#: src/scim_anthy_setup.cpp:1715
+msgid "Sequence"
+msgstr "入力文字列"
+
+#: src/scim_anthy_setup.cpp:1726
+msgid "Result"
+msgstr "結果文字列"
+
+#: src/scim_anthy_setup.cpp:1738
+msgid "Pending"
+msgstr "未決定文字列"
+
+#: src/scim_anthy_setup.cpp:1752
+msgid "_Sequence:"
+msgstr "入力文字列(_S):"
+
+#: src/scim_anthy_setup.cpp:1763
+msgid "_Result:"
+msgstr "結果文字列(_R):"
+
+#: src/scim_anthy_prefs.cpp:34
 msgid "Start _conversion on inputting a comma or a period."
 msgstr "句読点入力時に変換を開始する(_C)"
 
-#: src/scim_anthy_imengine_setup.cpp:203
+#: src/scim_anthy_prefs.cpp:44
 msgid "Close candidate window when select a candidate _directly."
 msgstr "候補を直接選択した時に候補ウィンドウを閉じる(_D)"
 
-#: src/scim_anthy_imengine_setup.cpp:213
+#: src/scim_anthy_prefs.cpp:54
 msgid "Learn on _manual committing."
 msgstr "手動確定時に学習する(_M)"
 
-#: src/scim_anthy_imengine_setup.cpp:223
+#: src/scim_anthy_prefs.cpp:64
 msgid "Learn on a_uto committing."
 msgstr "自動確定時に学習する(_U)"
 
-#: src/scim_anthy_imengine_setup.cpp:233
+#: src/scim_anthy_prefs.cpp:74
 msgid "Use half-width characters for _symbols"
 msgstr "記号は半角で入力する(_S)"
 
-#: src/scim_anthy_imengine_setup.cpp:243
+#: src/scim_anthy_prefs.cpp:84
 msgid "Use half-width characters for _numbers"
 msgstr "数字は半角で入力する(_N)"
 
-#: src/scim_anthy_imengine_setup.cpp:253
+#: src/scim_anthy_prefs.cpp:94
 msgid "Show _input mode label"
 msgstr "入力モードラベルを表示(_I)"
 
-#: src/scim_anthy_imengine_setup.cpp:263
+#: src/scim_anthy_prefs.cpp:104
 msgid "A_llow spliting romaji on editing preedit string"
 msgstr "文字列編集時にローマ字を分割できるようにする(_L)"
 
-#: src/scim_anthy_imengine_setup.cpp:265
+#: src/scim_anthy_prefs.cpp:106
 msgid "If this check is enabled, you can delete each letter."
 msgstr "このチェックが入っている場合，各文字単位で文字を削除することができます"
 
-#: src/scim_anthy_imengine_setup.cpp:272
+#: src/scim_anthy_prefs.cpp:113
 msgid "Show _typing method label"
 msgstr "入力方式ラベルを表示(_T)"
 
-#: src/scim_anthy_imengine_setup.cpp:282
+#: src/scim_anthy_prefs.cpp:123
 msgid "Show _period style label"
 msgstr "句読点スタイルラベルを表示(_P)"
 
-#: src/scim_anthy_imengine_setup.cpp:292
+#: src/scim_anthy_prefs.cpp:133
 msgid "Show _dictionary menu label"
 msgstr "辞書メニューラベルを表示(_D)"
 
-#: src/scim_anthy_imengine_setup.cpp:302
+#: src/scim_anthy_prefs.cpp:143
 msgid "Show _edit dictionary label"
 msgstr "辞書編集ラベルを表示(_E)"
 
-#: src/scim_anthy_imengine_setup.cpp:312
+#: src/scim_anthy_prefs.cpp:153
 msgid "Show _add word label"
 msgstr "単語追加ラベルを表示(_A)"
 
-#: src/scim_anthy_imengine_setup.cpp:327
+#: src/scim_anthy_prefs.cpp:177
 msgid "Typing _method: "
 msgstr "入力方式(_M): "
 
-#: src/scim_anthy_imengine_setup.cpp:337
+#: src/scim_anthy_prefs.cpp:187
 msgid "St_yle of comma and period: "
 msgstr "句読点のスタイル(_Y): "
 
-#: src/scim_anthy_imengine_setup.cpp:347
+#: src/scim_anthy_prefs.cpp:197
 msgid "_Space type: "
 msgstr "空白のタイプ(_S): "
 
-#: src/scim_anthy_imengine_setup.cpp:357
+#: src/scim_anthy_prefs.cpp:207
 msgid "Input from _ten key: "
 msgstr "テンキーからの入力(_T):"
 
-#: src/scim_anthy_imengine_setup.cpp:367
+#: src/scim_anthy_prefs.cpp:217
 msgid "_Edit dictionary command:"
 msgstr "辞書編集コマンド(_E):"
 
-#: src/scim_anthy_imengine_setup.cpp:377
+#: src/scim_anthy_prefs.cpp:227
 msgid "_Add word command:"
 msgstr "単語追加コマンド(_A):"
 
-#: src/scim_anthy_imengine_setup.cpp:392
+#: src/scim_anthy_prefs.cpp:251
 msgid "Insert space"
 msgstr "空白を挿入"
 
-#: src/scim_anthy_imengine_setup.cpp:393
+#: src/scim_anthy_prefs.cpp:252
 msgid "Select inserting space keys"
 msgstr "空白を挿入するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:394
+#: src/scim_anthy_prefs.cpp:253
 msgid "The key events to insert a space. "
 msgstr "空白を挿入するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:402
+#: src/scim_anthy_prefs.cpp:261
 msgid "Insert alternative space"
 msgstr "別幅空白を挿入"
 
-#: src/scim_anthy_imengine_setup.cpp:403
+#: src/scim_anthy_prefs.cpp:262
 msgid "Select inserting alternative space keys"
 msgstr "別幅空白を挿入するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:404
+#: src/scim_anthy_prefs.cpp:263
 msgid "The key events to insert a alternative space. "
 msgstr "別幅空白を挿入するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:412
+#: src/scim_anthy_prefs.cpp:271
 msgid "Insert half space"
 msgstr "半角空白を挿入"
 
-#: src/scim_anthy_imengine_setup.cpp:413
+#: src/scim_anthy_prefs.cpp:272
 msgid "Select inserting half width space keys"
 msgstr "半角空白を挿入するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:414
+#: src/scim_anthy_prefs.cpp:273
 msgid "The key events to insert a half width space. "
 msgstr "半角空白を挿入するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:422
+#: src/scim_anthy_prefs.cpp:281
 msgid "Insert wide space"
 msgstr "全角空白を挿入"
 
-#: src/scim_anthy_imengine_setup.cpp:423
+#: src/scim_anthy_prefs.cpp:282
 msgid "Select inserting wide space keys"
 msgstr "全角空白を挿入するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:424
+#: src/scim_anthy_prefs.cpp:283
 msgid "The key events to insert a wide space. "
 msgstr "全角空白を挿入するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:432
+#: src/scim_anthy_prefs.cpp:291
 msgid "Commit"
 msgstr "確定"
 
-#: src/scim_anthy_imengine_setup.cpp:433
-#: src/scim_anthy_imengine_setup.cpp:1005
+#: src/scim_anthy_prefs.cpp:292 src/scim_anthy_prefs.cpp:864
 msgid "Select commit keys"
 msgstr "確定キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:434
+#: src/scim_anthy_prefs.cpp:293
 msgid "The key events to commit the preedit string. "
 msgstr "文字列を確定するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:442
+#: src/scim_anthy_prefs.cpp:301
 msgid "Convert"
 msgstr "変換"
 
-#: src/scim_anthy_imengine_setup.cpp:443
+#: src/scim_anthy_prefs.cpp:302
 msgid "Select convert keys"
 msgstr "変換キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:444
+#: src/scim_anthy_prefs.cpp:303
 msgid "The key events to convert the preedit string to kanji. "
 msgstr "文字列を漢字に変換するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:452
+#: src/scim_anthy_prefs.cpp:311
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: src/scim_anthy_imengine_setup.cpp:453
+#: src/scim_anthy_prefs.cpp:312
 msgid "Select cancel keys"
 msgstr "キャンセルキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:454
+#: src/scim_anthy_prefs.cpp:313
 msgid "The key events to cancel preediting or converting. "
 msgstr "文字変換や文字入力をキャンセルするキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:462
+#: src/scim_anthy_prefs.cpp:321
 msgid "Backspace"
 msgstr "バックスペース"
 
-#: src/scim_anthy_imengine_setup.cpp:463
+#: src/scim_anthy_prefs.cpp:322
 msgid "Select backspace keys"
 msgstr "バックスペースキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:464
+#: src/scim_anthy_prefs.cpp:323
 msgid "The key events to delete a character before caret. "
 msgstr "キャレットの前の文字を削除するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:472
+#: src/scim_anthy_prefs.cpp:331
 msgid "Delete"
 msgstr "削除"
 
-#: src/scim_anthy_imengine_setup.cpp:473
+#: src/scim_anthy_prefs.cpp:332
 msgid "Select delete keys"
 msgstr "削除キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:474
+#: src/scim_anthy_prefs.cpp:333
 msgid "The key events to delete a character after caret. "
 msgstr "キャレットの後の文字を削除するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:496
+#: src/scim_anthy_prefs.cpp:355
 msgid "Move to first"
 msgstr "最初へ移動"
 
-#: src/scim_anthy_imengine_setup.cpp:497
+#: src/scim_anthy_prefs.cpp:356
 msgid "Select move caret to first keys"
 msgstr "最初へ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:498
+#: src/scim_anthy_prefs.cpp:357
 msgid "The key events to move the caret to the first of preedit string. "
 msgstr "キャレットを文字列の先頭に移動するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:506
+#: src/scim_anthy_prefs.cpp:365
 msgid "Move to last"
 msgstr "最後へ移動"
 
-#: src/scim_anthy_imengine_setup.cpp:507
+#: src/scim_anthy_prefs.cpp:366
 msgid "Select move caret to last keys"
 msgstr "最後へ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:508
+#: src/scim_anthy_prefs.cpp:367
 msgid "The key events to move the caret to the last of the preedit string. "
 msgstr "キャレットを文字列の最後に移動するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:516
+#: src/scim_anthy_prefs.cpp:375
 msgid "Move to forward"
 msgstr "前方へ移動"
 
-#: src/scim_anthy_imengine_setup.cpp:517
+#: src/scim_anthy_prefs.cpp:376
 msgid "Select move caret to forward keys"
 msgstr "前方へ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:518
+#: src/scim_anthy_prefs.cpp:377
 msgid "The key events to move the caret to forward. "
 msgstr "キャレットを前方に移動するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:526
+#: src/scim_anthy_prefs.cpp:385
 msgid "Move to backward"
 msgstr "後方へ移動"
 
-#: src/scim_anthy_imengine_setup.cpp:527
+#: src/scim_anthy_prefs.cpp:386
 msgid "Select move caret to backward keys"
 msgstr "後方へ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:528
+#: src/scim_anthy_prefs.cpp:387
 msgid "The key events to move the caret to backward. "
 msgstr "キャレットを後方へ移動するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:550
+#: src/scim_anthy_prefs.cpp:409
 msgid "Select the first segment"
 msgstr "最初の文節を選択"
 
-#: src/scim_anthy_imengine_setup.cpp:551
+#: src/scim_anthy_prefs.cpp:410
 msgid "Select keys to select the first segment"
 msgstr "最初の文節を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:552
+#: src/scim_anthy_prefs.cpp:411
 msgid "The key events to select the first segment. "
 msgstr "最初の文節を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:560
+#: src/scim_anthy_prefs.cpp:419
 msgid "Select the last segment"
 msgstr "最後の文節を選択"
 
-#: src/scim_anthy_imengine_setup.cpp:561
+#: src/scim_anthy_prefs.cpp:420
 msgid "Select keys to select the last segment"
 msgstr "最後の文節を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:562
+#: src/scim_anthy_prefs.cpp:421
 msgid "The key events to select the the last segment. "
 msgstr "最後の文節を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:570
+#: src/scim_anthy_prefs.cpp:429
 msgid "Select the next segment"
 msgstr "次の文節を選択"
 
-#: src/scim_anthy_imengine_setup.cpp:571
+#: src/scim_anthy_prefs.cpp:430
 msgid "Select keys to select the next segment"
 msgstr "次の文節を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:572
+#: src/scim_anthy_prefs.cpp:431
 msgid "The key events to select the next segment. "
 msgstr "次の文節を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:580
+#: src/scim_anthy_prefs.cpp:439
 msgid "Select the previous segment"
 msgstr "前の文節を選択"
 
-#: src/scim_anthy_imengine_setup.cpp:581
+#: src/scim_anthy_prefs.cpp:440
 msgid "Select keys to select the previous segment"
 msgstr "前の文節を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:582
+#: src/scim_anthy_prefs.cpp:441
 msgid "The key events to select the previous segment. "
 msgstr "前の文節を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:590
+#: src/scim_anthy_prefs.cpp:449
 msgid "Shrink the segment"
 msgstr "文節を縮める"
 
-#: src/scim_anthy_imengine_setup.cpp:591
+#: src/scim_anthy_prefs.cpp:450
 msgid "Select keys to shrink the segment"
 msgstr "文節を縮めるキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:592
+#: src/scim_anthy_prefs.cpp:451
 msgid "The key events to shrink the selected segment. "
 msgstr "文節を縮めるキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:600
+#: src/scim_anthy_prefs.cpp:459
 msgid "Expand the segment"
 msgstr "文節を広げる"
 
-#: src/scim_anthy_imengine_setup.cpp:601
+#: src/scim_anthy_prefs.cpp:460
 msgid "Select keys to expand the segment"
 msgstr "文節を広げるキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:602
+#: src/scim_anthy_prefs.cpp:461
 msgid "The key events to expand the selected segment. "
 msgstr "文節を広げるキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:610
+#: src/scim_anthy_prefs.cpp:469
 msgid "Commit the first segment"
 msgstr "最初の文節を確定"
 
-#: src/scim_anthy_imengine_setup.cpp:611
-#: src/scim_anthy_imengine_setup.cpp:1016
+#: src/scim_anthy_prefs.cpp:470 src/scim_anthy_prefs.cpp:875
 msgid "Select keys to commit the first segment"
 msgstr "最初の文節を確定するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:612
+#: src/scim_anthy_prefs.cpp:471
 msgid "The key events to commit the first segment. "
 msgstr "最初の文節を確定するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:620
+#: src/scim_anthy_prefs.cpp:479
 msgid "Commit the selected segment"
 msgstr "選択文節を確定"
 
-#: src/scim_anthy_imengine_setup.cpp:621
-#: src/scim_anthy_imengine_setup.cpp:1027
+#: src/scim_anthy_prefs.cpp:480 src/scim_anthy_prefs.cpp:886
 msgid "Select keys to commit the selected segment"
 msgstr "選択文節を確定するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:622
+#: src/scim_anthy_prefs.cpp:481
 msgid "The key events to commit the selected segment. "
 msgstr "選択文節を確定するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:644
+#: src/scim_anthy_prefs.cpp:503
 msgid "First candidate"
 msgstr "最初の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:645
+#: src/scim_anthy_prefs.cpp:504
 msgid "Select the first candidate keys"
 msgstr "最初の候補へ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:646
+#: src/scim_anthy_prefs.cpp:505
 msgid "The key events to select the first candidate. "
 msgstr "最初の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:654
+#: src/scim_anthy_prefs.cpp:513
 msgid "Last candidate"
 msgstr "最後の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:655
+#: src/scim_anthy_prefs.cpp:514
 msgid "Select the last candidate keys"
 msgstr "最後の候補へ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:656
+#: src/scim_anthy_prefs.cpp:515
 msgid "The key events to the select last candidate. "
 msgstr "最後の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:664
+#: src/scim_anthy_prefs.cpp:523
 msgid "Next candidate"
 msgstr "次の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:665
+#: src/scim_anthy_prefs.cpp:524
 msgid "Select the next candidate keys"
 msgstr "次の候補へ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:666
+#: src/scim_anthy_prefs.cpp:525
 msgid "The key events to select the next candidate. "
 msgstr "次の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:674
+#: src/scim_anthy_prefs.cpp:533
 msgid "Previous candidate"
 msgstr "前の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:675
+#: src/scim_anthy_prefs.cpp:534
 msgid "Select the previous candidate keys"
 msgstr "前の候補へ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:676
+#: src/scim_anthy_prefs.cpp:535
 msgid "The key events to select the previous candidate. "
 msgstr "前の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:684
+#: src/scim_anthy_prefs.cpp:543
 msgid "Page up"
 msgstr "前のページへ移動"
 
-#: src/scim_anthy_imengine_setup.cpp:685
+#: src/scim_anthy_prefs.cpp:544
 msgid "Select page up candidates keys"
 msgstr "前の候補ページへ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:686
+#: src/scim_anthy_prefs.cpp:545
 msgid "The key events to switch candidates page up. "
 msgstr "前の候補ページへ移動するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:694
+#: src/scim_anthy_prefs.cpp:553
 msgid "Page down"
 msgstr "次のページへ移動"
 
-#: src/scim_anthy_imengine_setup.cpp:695
+#: src/scim_anthy_prefs.cpp:554
 msgid "Select page down candidates keys"
 msgstr "次の候補ページへ移動するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:696
+#: src/scim_anthy_prefs.cpp:555
 msgid "The key events to switch candidates page down. "
 msgstr "次の候補ページへ移動するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:718
+#: src/scim_anthy_prefs.cpp:577
 msgid "1st candidate"
 msgstr "1番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:719
+#: src/scim_anthy_prefs.cpp:578
 msgid "Select keys to select 1st candidate"
 msgstr "1番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:720
+#: src/scim_anthy_prefs.cpp:579
 msgid "The key events to select the 1st candidate. "
 msgstr "1番目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:728
+#: src/scim_anthy_prefs.cpp:587
 msgid "2nd candidate"
 msgstr "2番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:729
+#: src/scim_anthy_prefs.cpp:588
 msgid "Select keys to select 2nd candidate"
 msgstr "2番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:730
+#: src/scim_anthy_prefs.cpp:589
 msgid "The key events to select the 2nd candidate. "
 msgstr "2番得目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:738
+#: src/scim_anthy_prefs.cpp:597
 msgid "3rd candidate"
 msgstr "3番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:739
+#: src/scim_anthy_prefs.cpp:598
 msgid "Select keys to select 3rd candidate"
 msgstr "3番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:740
+#: src/scim_anthy_prefs.cpp:599
 msgid "The key events to select the 3rd candidate. "
 msgstr "3番得目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:748
+#: src/scim_anthy_prefs.cpp:607
 msgid "4th candidate"
 msgstr "4番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:749
+#: src/scim_anthy_prefs.cpp:608
 msgid "Select keys to select 4th candidate"
 msgstr "4番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:750
+#: src/scim_anthy_prefs.cpp:609
 msgid "The key events to select the 4th candidate. "
 msgstr "4番目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:758
+#: src/scim_anthy_prefs.cpp:617
 msgid "5th candidate"
 msgstr "5番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:759
+#: src/scim_anthy_prefs.cpp:618
 msgid "Select keys to select 5th candidate"
 msgstr "5番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:760
+#: src/scim_anthy_prefs.cpp:619
 msgid "The key events to select the 5th candidate. "
 msgstr "5番目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:768
+#: src/scim_anthy_prefs.cpp:627
 msgid "6th candidate"
 msgstr "6番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:769
+#: src/scim_anthy_prefs.cpp:628
 msgid "Select keys to select 6th candidate"
 msgstr "6番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:770
+#: src/scim_anthy_prefs.cpp:629
 msgid "The key events to select the 6th candidate. "
 msgstr "6番目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:778
+#: src/scim_anthy_prefs.cpp:637
 msgid "7th candidate"
 msgstr "7番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:779
+#: src/scim_anthy_prefs.cpp:638
 msgid "Select keys to select 7th candidate"
 msgstr "7番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:780
+#: src/scim_anthy_prefs.cpp:639
 msgid "The key events to select the 7th candidate. "
 msgstr "7番目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:788
+#: src/scim_anthy_prefs.cpp:647
 msgid "8th candidate"
 msgstr "8番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:789
+#: src/scim_anthy_prefs.cpp:648
 msgid "Select keys to select 8th candidate"
 msgstr "8番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:790
+#: src/scim_anthy_prefs.cpp:649
 msgid "The key events to select the 8th candidate. "
 msgstr "8番目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:798
+#: src/scim_anthy_prefs.cpp:657
 msgid "9th candidate"
 msgstr "9番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:799
+#: src/scim_anthy_prefs.cpp:658
 msgid "Select keys to select 9th candidate"
 msgstr "9番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:800
+#: src/scim_anthy_prefs.cpp:659
 msgid "The key events to select the 9th candidate. "
 msgstr "9番目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:808
+#: src/scim_anthy_prefs.cpp:667
 msgid "10th candidate"
 msgstr "10番目の候補"
 
-#: src/scim_anthy_imengine_setup.cpp:809
+#: src/scim_anthy_prefs.cpp:668
 msgid "Select keys to select 10th candidate"
 msgstr "10番目の候補を選択するキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:810
+#: src/scim_anthy_prefs.cpp:669
 msgid "The key events to select the 10th candidate. "
 msgstr "10番目の候補を選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:832
+#: src/scim_anthy_prefs.cpp:691
 msgid "Convert to hiragana"
 msgstr "ひらがな変換"
 
-#: src/scim_anthy_imengine_setup.cpp:833
+#: src/scim_anthy_prefs.cpp:692
 msgid "Select keys to convert to hiragana"
 msgstr "ひらがな変換キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:834
+#: src/scim_anthy_prefs.cpp:693
 msgid "The key events to convert the preedit string to hiragana. "
 msgstr "文字列をひらがなへ変換するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:842
+#: src/scim_anthy_prefs.cpp:701
 msgid "Convert to katakana"
 msgstr "カタカナ変換"
 
-#: src/scim_anthy_imengine_setup.cpp:843
+#: src/scim_anthy_prefs.cpp:702
 msgid "Select keys to convert to katakana"
 msgstr "カタカナ変換キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:844
+#: src/scim_anthy_prefs.cpp:703
 msgid "The key events to convert the preedit string to katakana. "
 msgstr "文字列をカタカナへ変換するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:852
+#: src/scim_anthy_prefs.cpp:711
 msgid "Convert to half width"
 msgstr "半角カタカナ変換"
 
-#: src/scim_anthy_imengine_setup.cpp:853
+#: src/scim_anthy_prefs.cpp:712
 msgid "Select keys to convert to half width katakana"
 msgstr "半角カタカナ変換キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:854
+#: src/scim_anthy_prefs.cpp:713
 msgid "The key events to convert the preedit string to half width katakana. "
 msgstr "文字列を半角カタカナへ変換するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:862
+#: src/scim_anthy_prefs.cpp:721
 msgid "Convert to latin"
 msgstr "英数変換"
 
-#: src/scim_anthy_imengine_setup.cpp:863
+#: src/scim_anthy_prefs.cpp:722
 msgid "Select keys to convert to latin"
 msgstr "英数変換キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:864
+#: src/scim_anthy_prefs.cpp:723
 msgid "The key events to convert the preedit string to latin. "
 msgstr "文字列を英数へ変換するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:872
+#: src/scim_anthy_prefs.cpp:731
 msgid "Convert to wide latin"
 msgstr "全角英数変換"
 
-#: src/scim_anthy_imengine_setup.cpp:873
+#: src/scim_anthy_prefs.cpp:732
 msgid "Select keys to convert to wide latin"
 msgstr "全角英数変換キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:874
+#: src/scim_anthy_prefs.cpp:733
 msgid "The key events to convert the preedit string to wide latin. "
 msgstr "文字列を全角英数へ変換するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:896
+#: src/scim_anthy_prefs.cpp:755
 msgid "Circle kana mode"
 msgstr "かなモード循環"
 
-#: src/scim_anthy_imengine_setup.cpp:897
+#: src/scim_anthy_prefs.cpp:756
 msgid "Select circle kana mode keys"
 msgstr "かなモード循環キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:898
+#: src/scim_anthy_prefs.cpp:757
 msgid "The key events to circle kana mode. "
 msgstr "次のかなモードを選択するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:906
+#: src/scim_anthy_prefs.cpp:765
 msgid "Latin mode"
 msgstr "英数モード"
 
-#: src/scim_anthy_imengine_setup.cpp:907
+#: src/scim_anthy_prefs.cpp:766
 msgid "Select latin mode keys"
 msgstr "英数モードキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:908
+#: src/scim_anthy_prefs.cpp:767
 msgid "The key events to toggle latin mode. "
 msgstr "英数モードをオン/オフするキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:916
+#: src/scim_anthy_prefs.cpp:775
 msgid "Wide latin mode"
 msgstr "全角英数モード"
 
-#: src/scim_anthy_imengine_setup.cpp:917
+#: src/scim_anthy_prefs.cpp:776
 msgid "Select wide latin mode keys"
 msgstr "全角英数モードキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:918
+#: src/scim_anthy_prefs.cpp:777
 msgid "The key events to toggle wide latin mode. "
 msgstr "全角英数モードをオン/オフするキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:926
+#: src/scim_anthy_prefs.cpp:785
 msgid "Hiragana mode"
 msgstr "ひらがなモード"
 
-#: src/scim_anthy_imengine_setup.cpp:927
+#: src/scim_anthy_prefs.cpp:786
 msgid "Select hiragana mode keys"
 msgstr "ひらがなモードキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:928
+#: src/scim_anthy_prefs.cpp:787
 msgid "The key events to switch to hiragana mode. "
 msgstr "ひらがなモードへ切替えるキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:936
+#: src/scim_anthy_prefs.cpp:795
 msgid "Katakana mode"
 msgstr "カタカナモード"
 
-#: src/scim_anthy_imengine_setup.cpp:937
+#: src/scim_anthy_prefs.cpp:796
 msgid "Select katakana mode keys"
 msgstr "カタカナモードキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:938
+#: src/scim_anthy_prefs.cpp:797
 msgid "The key events to switch to katakana mode. "
 msgstr "カタカナモードキーへ切替えるキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:946
+#: src/scim_anthy_prefs.cpp:805
 msgid "Circle typing method"
 msgstr "入力方式切替え"
 
-#: src/scim_anthy_imengine_setup.cpp:947
+#: src/scim_anthy_prefs.cpp:806
 msgid "Select circle typing method keys"
 msgstr "入力方式切替えキーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:948
+#: src/scim_anthy_prefs.cpp:807
 msgid "The key events to circle typing method. "
 msgstr "入力方式を切替えるキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:970
+#: src/scim_anthy_prefs.cpp:829
 msgid "Edit dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine_setup.cpp:971
+#: src/scim_anthy_prefs.cpp:830
 msgid "Select edit dictionary keys"
 msgstr "辞書編集キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:972
+#: src/scim_anthy_prefs.cpp:831
 msgid "The key events to launch dictionary administration tool. "
 msgstr "辞書管理ツールを起動するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:981
+#: src/scim_anthy_prefs.cpp:840
 msgid "Select add a word keys"
 msgstr "単語追加キーの設定"
 
-#: src/scim_anthy_imengine_setup.cpp:982
+#: src/scim_anthy_prefs.cpp:841
 msgid "The key events to launch the tool to add a word. "
 msgstr "単語追加ツールを起動するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:1004
+#: src/scim_anthy_prefs.cpp:863
 msgid "_Commit:"
 msgstr "確定(_C):"
 
-#: src/scim_anthy_imengine_setup.cpp:1006
+#: src/scim_anthy_prefs.cpp:865
 msgid ""
 "The key events to commit the preedit string with reversing the preference of "
 "learning. "
 msgstr "学習設定とは逆の方法で文字列を確定するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:1015
+#: src/scim_anthy_prefs.cpp:874
 msgid "Commit the _first segment:"
 msgstr "最初の文節を確定(_F):"
 
-#: src/scim_anthy_imengine_setup.cpp:1017
+#: src/scim_anthy_prefs.cpp:876
 msgid ""
 "The key events to commit the first segment with reversing the preference of "
 "learning. "
 msgstr "学習設定とは逆の方法で最初の文節を確定するキーイベント"
 
-#: src/scim_anthy_imengine_setup.cpp:1026
+#: src/scim_anthy_prefs.cpp:885
 msgid "Commit the _selected segment:"
 msgstr "選択文節を確定(_S):"
 
-#: src/scim_anthy_imengine_setup.cpp:1028
+#: src/scim_anthy_prefs.cpp:887
 msgid ""
 "The key events to commit the selected segment with reversing the preference "
 "of learning. "
 msgstr "学習設定とは逆の方法で選択文節を確定するキーイベント"
-
-#: src/scim_anthy_imengine_setup.cpp:1047
-msgid "Mode keys"
-msgstr "モードキー"
-
-#: src/scim_anthy_imengine_setup.cpp:1048
-msgid "Edit keys"
-msgstr "編集キー"
-
-#: src/scim_anthy_imengine_setup.cpp:1049
-msgid "Caret keys"
-msgstr "キャレットキー"
-
-#: src/scim_anthy_imengine_setup.cpp:1050
-msgid "Segments keys"
-msgstr "文節キー"
-
-#: src/scim_anthy_imengine_setup.cpp:1051
-msgid "Candidates keys"
-msgstr "候補選択キー"
-
-#: src/scim_anthy_imengine_setup.cpp:1052
-msgid "Direct select keys"
-msgstr "直接選択キー"
-
-#: src/scim_anthy_imengine_setup.cpp:1053
-msgid "Convert keys"
-msgstr "変換キー"
-
-#: src/scim_anthy_imengine_setup.cpp:1054
-msgid "Dictionary keys"
-msgstr "辞書関連キー"
-
-#: src/scim_anthy_imengine_setup.cpp:1063
-msgid "Romaji typing method"
-msgstr "ローマ字入力方式"
-
-#: src/scim_anthy_imengine_setup.cpp:1064
-msgid "Kana typing method"
-msgstr "かな入力方式"
-
-#: src/scim_anthy_imengine_setup.cpp:1079
-#: src/scim_anthy_imengine_setup.cpp:1087
-msgid "Wide"
-msgstr "全角"
-
-#: src/scim_anthy_imengine_setup.cpp:1080
-#: src/scim_anthy_imengine_setup.cpp:1088
-msgid "Half"
-msgstr "半角"
-
-#: src/scim_anthy_imengine_setup.cpp:1081
-#: src/scim_anthy_imengine_setup.cpp:1089
-msgid "Follow input mode"
-msgstr "入力モードに従う"
-
-#: src/scim_anthy_imengine_setup.cpp:1433
-msgid "Romaji _table:"
-msgstr "ローマ字テーブル(_T):"
-
-#: src/scim_anthy_imengine_setup.cpp:1446
-msgid "_Customize..."
-msgstr "カスタマイズ...(_C)"
-
-#: src/scim_anthy_imengine_setup.cpp:1469
-msgid "<b>Enable/Disable learning</b>"
-msgstr "<b>学習の有効/無効</b>"
-
-#: src/scim_anthy_imengine_setup.cpp:1496
-msgid "<b>Key preferences to commit with reversing learning preference</b>"
-msgstr "<b>学習設定とは逆の方法で確定するキーの設定</b>"
-
-#: src/scim_anthy_imengine_setup.cpp:1612
-msgid "_Group:"
-msgstr "グループ(_G):"
-
-#: src/scim_anthy_imengine_setup.cpp:1633
-msgid "Search by key"
-msgstr "キーで検索"
-
-#: src/scim_anthy_imengine_setup.cpp:1637
-msgid "all"
-msgstr "全て"
-
-#: src/scim_anthy_imengine_setup.cpp:1680
-msgid "Feature"
-msgstr "機能"
-
-#: src/scim_anthy_imengine_setup.cpp:1689
-#: src/scim_anthy_imengine_setup.cpp:1767
-msgid "Key bindings"
-msgstr "キーバインド"
-
-#: src/scim_anthy_imengine_setup.cpp:1697
-msgid "Description"
-msgstr "説明"
-
-#: src/scim_anthy_imengine_setup.cpp:1722
-msgid "Key bindings _theme:"
-msgstr "キーバインドテーマ:"
-
-#: src/scim_anthy_imengine_setup.cpp:1736
-msgid "_Choose keys..."
-msgstr "キーを選択...(_C)"
-
-#: src/scim_anthy_imengine_setup.cpp:1761
-msgid "Common"
-msgstr "一般"
-
-#: src/scim_anthy_imengine_setup.cpp:1773
-msgid "Romaji Typing"
-msgstr "ローマ字入力"
-
-#: src/scim_anthy_imengine_setup.cpp:1779
-msgid "Learning"
-msgstr "学習"
-
-#: src/scim_anthy_imengine_setup.cpp:1785
-msgid "Toolbar"
-msgstr "ツールバー"
-
-#: src/scim_anthy_imengine_setup.cpp:1791
-msgid "Dictionary"
-msgstr "辞書"
-
-#: src/scim_anthy_imengine_setup.cpp:1887
-#: src/scim_anthy_imengine_setup.cpp:1892
-msgid "Default"
-msgstr "標準設定"
-
-#: src/scim_anthy_imengine_setup.cpp:2277
-msgid "Set key filter"
-msgstr "キ-フィルタ-をセット"
 
 #~ msgid "Options"
 #~ msgstr "オプション"

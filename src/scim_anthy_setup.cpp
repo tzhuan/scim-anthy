@@ -152,16 +152,18 @@ enum {
 // Internal data declaration.
 static bool __config_changed = true;
 static bool __style_changed  = true;
-static GtkWidget   * __widget_key_categories_menu  = NULL;
-static GtkWidget   * __widget_key_filter           = NULL;
-static GtkWidget   * __widget_key_filter_button    = NULL;
-static GtkWidget   * __widget_key_theme_menu       = NULL;
-static GtkWidget   * __widget_key_list_view        = NULL;
-static GtkWidget   * __widget_choose_keys_button   = NULL;
-static GtkWidget   * __widget_romaji_theme_menu    = NULL;
-static GtkWidget   * __widget_romaji_add_button    = NULL;
-static GtkWidget   * __widget_romaji_remove_button = NULL;
-static GtkTooltips * __widget_tooltips             = NULL;
+static GtkWidget   * __widget_key_categories_menu   = NULL;
+static GtkWidget   * __widget_key_filter            = NULL;
+static GtkWidget   * __widget_key_filter_button     = NULL;
+static GtkWidget   * __widget_key_theme_menu        = NULL;
+static GtkWidget   * __widget_key_list_view         = NULL;
+static GtkWidget   * __widget_choose_keys_button    = NULL;
+static GtkWidget   * __widget_romaji_theme_menu     = NULL;
+static GtkWidget   * __widget_romaji_sequence_entry = NULL;
+static GtkWidget   * __widget_romaji_result_entry   = NULL;
+static GtkWidget   * __widget_romaji_add_button     = NULL;
+static GtkWidget   * __widget_romaji_remove_button  = NULL;
+static GtkTooltips * __widget_tooltips              = NULL;
 
 static String __config_key_theme    = SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT;
 static String __config_romaji_theme = SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT;
@@ -1639,6 +1641,27 @@ on_romaji_view_selection_changed (GtkTreeSelection *selection, gpointer data)
             gtk_widget_set_sensitive (__widget_romaji_remove_button, false);
         }
     }
+
+    if (selected) {
+        gchar *sequence = NULL, *result = NULL;
+        gtk_tree_model_get (model, &iter,
+                            0, &sequence,
+                            1, &result,
+                            -1);
+        if (__widget_romaji_sequence_entry)
+            gtk_entry_set_text (GTK_ENTRY (__widget_romaji_sequence_entry),
+                                sequence);
+        if (__widget_romaji_result_entry)
+            gtk_entry_set_text (GTK_ENTRY (__widget_romaji_result_entry),
+                                result);
+        g_free (sequence);
+        g_free (result);
+    } else {
+        if (__widget_romaji_sequence_entry)
+            gtk_entry_set_text (GTK_ENTRY (__widget_romaji_sequence_entry), "");
+        if (__widget_romaji_result_entry)
+            gtk_entry_set_text (GTK_ENTRY (__widget_romaji_result_entry), "");
+    }
 }
 
 static GtkWidget *
@@ -1722,17 +1745,35 @@ create_romaji_window (GtkWindow *parent)
 #endif
 
     // button area
-    GtkWidget *vbox = gtk_vbox_new (TRUE, 0);
+    GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, FALSE, 5);
     gtk_widget_show (vbox);
 
-    GtkWidget *vbox2 = gtk_vbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), vbox2, FALSE, FALSE, 5);
-    gtk_widget_show (vbox2);
+    GtkWidget *label = gtk_label_new_with_mnemonic (_("_Sequence:"));
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (label);
+
+    GtkWidget *entry = gtk_entry_new ();
+    __widget_romaji_sequence_entry = entry;
+    gtk_box_pack_start (GTK_BOX (vbox), entry, FALSE, FALSE, 2);
+    gtk_widget_set_size_request (entry, 80, -1);
+    gtk_widget_show (entry);
+
+    label = gtk_label_new_with_mnemonic (_("_Result:"));
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (label);
+
+    entry = gtk_entry_new ();
+    __widget_romaji_result_entry = entry;
+    gtk_box_pack_start (GTK_BOX (vbox), entry, FALSE, FALSE, 2);
+    gtk_widget_set_size_request (entry, 80, -1);
+    gtk_widget_show (entry);
 
     GtkWidget *button = gtk_button_new_with_mnemonic ("_Add");
     __widget_romaji_add_button = button;
-    gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 5);
+    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 5);
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_romaji_add_button_clicked), treeview);
     //gtk_widget_set_sensitive (button, FALSE);
@@ -1740,7 +1781,7 @@ create_romaji_window (GtkWindow *parent)
 
     button = gtk_button_new_with_mnemonic ("_Remove");
     __widget_romaji_remove_button = button;
-    gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 5);
+    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 5);
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_romaji_remove_button_clicked), treeview);
     gtk_widget_set_sensitive (button, FALSE);
