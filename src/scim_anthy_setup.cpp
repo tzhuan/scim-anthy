@@ -840,8 +840,6 @@ create_keyboard_page (void)
     g_signal_connect (G_OBJECT (selection), "changed",
                       G_CALLBACK (on_key_list_selection_changed), treeview);
 
-    g_object_unref (G_OBJECT (store));
-
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
@@ -870,6 +868,9 @@ create_keyboard_page (void)
     gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 2);
     gtk_widget_set_sensitive (button, false);
     gtk_widget_show (button);
+
+    // clean
+    g_object_unref (G_OBJECT (store));
 
     return vbox;
 }
@@ -1225,7 +1226,7 @@ save_config (const ConfigPointer &config)
 static bool
 query_changed (void)
 {
-    return __config_changed;
+    return __config_changed || __style_changed;
 }
 
 static bool
@@ -1571,6 +1572,36 @@ on_romaji_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     }
 }
 
+static void
+on_romaji_add_button_clicked (GtkButton *button, gpointer data)
+{
+    GtkTreeView *treeview = GTK_TREE_VIEW (data);
+    g_print ("hoge\n");
+}
+
+static void
+on_romaji_remove_button_clicked (GtkButton *button, gpointer data)
+{
+    GtkTreeView *treeview = GTK_TREE_VIEW (data);
+    GtkTreeSelection *selection = gtk_tree_view_get_selection (treeview);
+    GtkTreeModel *model = NULL;
+    GtkTreeIter iter;
+    gboolean selected;
+
+    selected = gtk_tree_selection_get_selected (selection, &model, &iter);
+    if (!selected)
+        return;
+
+    gchar *sequence = NULL;
+    gtk_tree_model_get (model, &iter,
+                        0, &sequence,
+                        -1);
+    __user_style_file.delete_key ("RomajiTable/FundamentalTable", sequence);
+    gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+    __style_changed = true;
+    g_free (sequence);
+}
+
 static GtkWidget *
 create_romaji_window (GtkWindow *parent)
 {
@@ -1655,10 +1686,14 @@ create_romaji_window (GtkWindow *parent)
 
     GtkWidget *button = gtk_button_new_with_mnemonic ("_Add");
     gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 5);
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_romaji_add_button_clicked), treeview);
     gtk_widget_show (button);
 
     button = gtk_button_new_with_mnemonic ("_Remove");
     gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 5);
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_romaji_remove_button_clicked), treeview);
     gtk_widget_show (button);
 
     // set data
