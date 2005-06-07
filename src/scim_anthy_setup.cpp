@@ -1585,8 +1585,8 @@ on_romaji_remove_button_clicked (GtkButton *button, gpointer data)
     GtkTreeView *treeview = GTK_TREE_VIEW (data);
     GtkTreeSelection *selection = gtk_tree_view_get_selection (treeview);
     GtkTreeModel *model = NULL;
-    GtkTreeIter iter;
-    gboolean selected;
+    GtkTreeIter iter, next;
+    gboolean selected, success;
 
     selected = gtk_tree_selection_get_selected (selection, &model, &iter);
     if (!selected)
@@ -1596,8 +1596,26 @@ on_romaji_remove_button_clicked (GtkButton *button, gpointer data)
     gtk_tree_model_get (model, &iter,
                         0, &sequence,
                         -1);
+
+    next = iter;
+    success = gtk_tree_model_iter_next (model, &next);
+    GtkTreePath *path = NULL;
+    if (success) {
+        path = gtk_tree_model_get_path (model, &next);
+    } else {
+        path = gtk_tree_model_get_path (model, &iter);
+        if (path)
+            success = gtk_tree_path_prev (path);
+    }
+
+    if (success && path)
+        gtk_tree_view_set_cursor (GTK_TREE_VIEW (treeview), path, NULL, FALSE);
+    if (path)
+        gtk_tree_path_free (path);
+
     __user_style_file.delete_key ("RomajiTable/FundamentalTable", sequence);
     gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+
     __style_changed = true;
     g_free (sequence);
 }
