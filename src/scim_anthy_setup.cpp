@@ -1577,10 +1577,9 @@ on_romaji_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
 }
 
 static void
-on_romaji_add_button_clicked (GtkButton *button, gpointer data)
+add_romaji_entry (GtkTreeView *treeview)
 {
-    GtkTreeView *treeview = GTK_TREE_VIEW (data);
-    GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
+    GtkTreeModel *model = gtk_tree_view_get_model (treeview);
     GtkTreeIter iter;
 
     
@@ -1618,6 +1617,18 @@ on_romaji_add_button_clicked (GtkButton *button, gpointer data)
                         -1);
     __user_style_file.set_string ("RomajiTable/FundamentalTable",
                                   sequence, result);
+
+    GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
+    gtk_tree_view_set_cursor (treeview, path, NULL, FALSE);
+    gtk_tree_path_free (path);
+
+    __style_changed = true;
+}
+
+static void
+on_romaji_add_button_clicked (GtkButton *button, gpointer data)
+{
+    add_romaji_entry (GTK_TREE_VIEW (data));
 }
 
 static void
@@ -1699,6 +1710,12 @@ on_romaji_view_selection_changed (GtkTreeSelection *selection, gpointer data)
         if (__widget_romaji_result_entry)
             gtk_entry_set_text (GTK_ENTRY (__widget_romaji_result_entry), "");
     }
+}
+
+static void
+on_romaji_entry_activate (GtkEntry *entry, gpointer data)
+{
+    add_romaji_entry (GTK_TREE_VIEW (data));
 }
 
 static GtkWidget *
@@ -1795,6 +1812,8 @@ create_romaji_window (GtkWindow *parent)
     __widget_romaji_sequence_entry = entry;
     gtk_box_pack_start (GTK_BOX (vbox), entry, FALSE, FALSE, 2);
     gtk_widget_set_size_request (entry, 80, -1);
+    g_signal_connect (G_OBJECT (entry), "activate",
+                      G_CALLBACK (on_romaji_entry_activate), treeview);
     gtk_widget_show (entry);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
 
@@ -1807,6 +1826,8 @@ create_romaji_window (GtkWindow *parent)
     __widget_romaji_result_entry = entry;
     gtk_box_pack_start (GTK_BOX (vbox), entry, FALSE, FALSE, 2);
     gtk_widget_set_size_request (entry, 80, -1);
+    g_signal_connect (G_OBJECT (entry), "activate",
+                      G_CALLBACK (on_romaji_entry_activate), treeview);
     gtk_widget_show (entry);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
 
