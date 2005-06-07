@@ -1,4 +1,8 @@
-2005-06-06 Takuro Ashie <ashie@homa.ne.jp>
+2005-06-07 Takuro Ashie <ashie@homa.ne.jp>
+
+	* data/atok.sty: Add some key bindings.
+
+2005-06-07 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_default_tables.cpp: Changed romaji order.
 	* src/scim_anthy_setup.cpp: Implement remove button of romaji window.
