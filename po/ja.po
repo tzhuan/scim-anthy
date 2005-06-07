@@ -183,7 +183,7 @@ msgstr "キーバインドテーマ:"
 
 #: src/scim_anthy_setup.cpp:868
 msgid "_Choose keys..."
-msgstr "キーを選択...(_C)"
+msgstr "キーを設定...(_C)"
 
 #: src/scim_anthy_setup.cpp:896
 msgid "Common"

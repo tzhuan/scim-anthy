@@ -1,7 +1,8 @@
 2005-06-07 Takuro Ashie <ashie@homa.ne.jp>
 
-	* src/scim_anthy_setup.cpp: Don't allow inserting non-ascii character
-	for romaji string.
+	* src/scim_anthy_setup.cpp:
+	Don't allow inserting non-ascii character for romaji string.
+	Set sensitivity of add button on romaji window.
 
 2005-06-07 Takuro Ashie <ashie@homa.ne.jp>
 
