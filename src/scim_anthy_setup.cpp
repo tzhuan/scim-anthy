@@ -1580,7 +1580,44 @@ static void
 on_romaji_add_button_clicked (GtkButton *button, gpointer data)
 {
     GtkTreeView *treeview = GTK_TREE_VIEW (data);
-    g_print ("hoge\n");
+    GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
+    GtkTreeIter iter;
+
+    
+    gboolean go_next;
+    bool found = false;
+    const gchar *sequence, *result;
+    sequence = gtk_entry_get_text (GTK_ENTRY (__widget_romaji_sequence_entry));
+    result   = gtk_entry_get_text (GTK_ENTRY (__widget_romaji_result_entry));
+
+    if (!sequence || !result)
+        return;
+
+    for (go_next = gtk_tree_model_get_iter_first (model, &iter);
+         go_next;
+         go_next = gtk_tree_model_iter_next (model, &iter))
+    {
+        gchar *seq = NULL;
+        gtk_tree_model_get (model, &iter,
+                            0, &seq,
+                            -1);
+        if (seq && !strcmp (sequence, seq)) {
+            found = true;
+            g_free (seq);
+            break;
+        }
+        g_free (seq);
+    }
+
+    if (!found)
+        gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+
+    gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+                        0, sequence,
+                        1, result,
+                        -1);
+    __user_style_file.set_string ("RomajiTable/FundamentalTable",
+                                  sequence, result);
 }
 
 static void
@@ -1759,6 +1796,7 @@ create_romaji_window (GtkWindow *parent)
     gtk_box_pack_start (GTK_BOX (vbox), entry, FALSE, FALSE, 2);
     gtk_widget_set_size_request (entry, 80, -1);
     gtk_widget_show (entry);
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
 
     label = gtk_label_new_with_mnemonic (_("_Result:"));
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
@@ -1770,8 +1808,9 @@ create_romaji_window (GtkWindow *parent)
     gtk_box_pack_start (GTK_BOX (vbox), entry, FALSE, FALSE, 2);
     gtk_widget_set_size_request (entry, 80, -1);
     gtk_widget_show (entry);
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
 
-    GtkWidget *button = gtk_button_new_with_mnemonic ("_Add");
+    GtkWidget *button = gtk_button_new_from_stock (GTK_STOCK_ADD);
     __widget_romaji_add_button = button;
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 5);
     g_signal_connect (G_OBJECT (button), "clicked",
@@ -1779,7 +1818,7 @@ create_romaji_window (GtkWindow *parent)
     //gtk_widget_set_sensitive (button, FALSE);
     gtk_widget_show (button);
 
-    button = gtk_button_new_with_mnemonic ("_Remove");
+    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
     __widget_romaji_remove_button = button;
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 5);
     g_signal_connect (G_OBJECT (button), "clicked",
