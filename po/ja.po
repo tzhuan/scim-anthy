@@ -215,7 +215,7 @@ msgstr "キ-フィルタ-をセット"
 
 #: src/scim_anthy_setup.cpp:1671
 msgid "Customize romaji table"
-msgstr "ローマ字テーブルをカスタマイズ"
+msgstr "ローマ字テーブルのカスタマイズ"
 
 #: src/scim_anthy_setup.cpp:1715
 msgid "Sequence"
