@@ -455,8 +455,10 @@ AnthyInstance::set_input_mode (InputMode mode)
         }
     }
 
-    if (mode != m_preedit.get_input_mode ())
+    if (mode != m_preedit.get_input_mode ()) {
         m_preedit.set_input_mode (mode);
+        set_preedition ();
+    }
 }
 
 void
