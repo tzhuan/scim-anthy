@@ -152,14 +152,16 @@ enum {
 // Internal data declaration.
 static bool __config_changed = true;
 static bool __style_changed  = true;
-static GtkWidget   * __widget_key_categories_menu = NULL;
-static GtkWidget   * __widget_key_filter          = NULL;
-static GtkWidget   * __widget_key_filter_button   = NULL;
-static GtkWidget   * __widget_key_theme_menu      = NULL;
-static GtkWidget   * __widget_key_list_view       = NULL;
-static GtkWidget   * __widget_choose_keys_button  = NULL;
-static GtkWidget   * __widget_romaji_theme_menu   = NULL;
-static GtkTooltips * __widget_tooltips            = NULL;
+static GtkWidget   * __widget_key_categories_menu  = NULL;
+static GtkWidget   * __widget_key_filter           = NULL;
+static GtkWidget   * __widget_key_filter_button    = NULL;
+static GtkWidget   * __widget_key_theme_menu       = NULL;
+static GtkWidget   * __widget_key_list_view        = NULL;
+static GtkWidget   * __widget_choose_keys_button   = NULL;
+static GtkWidget   * __widget_romaji_theme_menu    = NULL;
+static GtkWidget   * __widget_romaji_add_button    = NULL;
+static GtkWidget   * __widget_romaji_remove_button = NULL;
+static GtkTooltips * __widget_tooltips             = NULL;
 
 static String __config_key_theme    = SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT;
 static String __config_romaji_theme = SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT;
@@ -1620,6 +1622,25 @@ on_romaji_remove_button_clicked (GtkButton *button, gpointer data)
     g_free (sequence);
 }
 
+static void
+on_romaji_view_selection_changed (GtkTreeSelection *selection, gpointer data)
+{
+    GtkTreeModel *model = NULL;
+    GtkTreeIter iter;
+
+    gboolean selected;
+
+    selected = gtk_tree_selection_get_selected (selection, &model, &iter);
+
+    if (__widget_romaji_remove_button) {
+        if (selected) {
+            gtk_widget_set_sensitive (__widget_romaji_remove_button, true);
+        } else {
+            gtk_widget_set_sensitive (__widget_romaji_remove_button, false);
+        }
+    }
+}
+
 static GtkWidget *
 create_romaji_window (GtkWindow *parent)
 {
@@ -1658,6 +1679,11 @@ create_romaji_window (GtkWindow *parent)
     gtk_container_add (GTK_CONTAINER (scrwin), treeview);
     gtk_widget_show (treeview);
 
+    GtkTreeSelection *selection;
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+    g_signal_connect (G_OBJECT (selection), "changed",
+                      G_CALLBACK (on_romaji_view_selection_changed), treeview);
+
     // sequence column
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
@@ -1682,6 +1708,7 @@ create_romaji_window (GtkWindow *parent)
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
+#if 0
     // pending column
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (
@@ -1692,6 +1719,7 @@ create_romaji_window (GtkWindow *parent)
 	gtk_tree_view_column_set_fixed_width (column, 80);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+#endif
 
     // button area
     GtkWidget *vbox = gtk_vbox_new (TRUE, 0);
@@ -1703,15 +1731,19 @@ create_romaji_window (GtkWindow *parent)
     gtk_widget_show (vbox2);
 
     GtkWidget *button = gtk_button_new_with_mnemonic ("_Add");
+    __widget_romaji_add_button = button;
     gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 5);
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_romaji_add_button_clicked), treeview);
+    //gtk_widget_set_sensitive (button, FALSE);
     gtk_widget_show (button);
 
     button = gtk_button_new_with_mnemonic ("_Remove");
+    __widget_romaji_remove_button = button;
     gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 5);
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_romaji_remove_button_clicked), treeview);
+    gtk_widget_set_sensitive (button, FALSE);
     gtk_widget_show (button);
 
     // set data
