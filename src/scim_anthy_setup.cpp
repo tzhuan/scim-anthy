@@ -1719,6 +1719,16 @@ on_romaji_entry_activate (GtkEntry *entry, gpointer data)
 }
 
 static void
+on_romaji_entry_changed (GtkEditable *editable, gpointer data)
+{
+    const char *seq, *res;
+    seq = gtk_entry_get_text (GTK_ENTRY (__widget_romaji_sequence_entry));
+    res = gtk_entry_get_text (GTK_ENTRY (__widget_romaji_result_entry));
+    gtk_widget_set_sensitive (__widget_romaji_add_button,
+                              seq && *seq && res && *res);
+}
+
+static void
 on_romaji_sequence_entry_insert_text (GtkEditable *editable,
                                       const gchar *text,
                                       gint length,
@@ -1829,6 +1839,8 @@ create_romaji_window (GtkWindow *parent)
     gtk_widget_set_size_request (entry, 80, -1);
     g_signal_connect (G_OBJECT (entry), "activate",
                       G_CALLBACK (on_romaji_entry_activate), treeview);
+    g_signal_connect (G_OBJECT (entry), "changed",
+                      G_CALLBACK (on_romaji_entry_changed), treeview);
     g_signal_connect (G_OBJECT (entry), "insert-text",
                       G_CALLBACK (on_romaji_sequence_entry_insert_text),
                       treeview);
@@ -1846,6 +1858,8 @@ create_romaji_window (GtkWindow *parent)
     gtk_widget_set_size_request (entry, 80, -1);
     g_signal_connect (G_OBJECT (entry), "activate",
                       G_CALLBACK (on_romaji_entry_activate), treeview);
+    g_signal_connect (G_OBJECT (entry), "changed",
+                      G_CALLBACK (on_romaji_entry_changed), treeview);
     gtk_widget_show (entry);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
 
@@ -1854,7 +1868,7 @@ create_romaji_window (GtkWindow *parent)
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 5);
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_romaji_add_button_clicked), treeview);
-    //gtk_widget_set_sensitive (button, FALSE);
+    gtk_widget_set_sensitive (button, FALSE);
     gtk_widget_show (button);
 
     button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
