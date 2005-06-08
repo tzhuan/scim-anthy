@@ -1459,7 +1459,8 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     }
 
     // sync widgets
-    gtk_option_menu_set_history (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
+    gtk_option_menu_set_history
+        (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
     gtk_widget_set_sensitive (__widget_key_filter, FALSE);
     gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
     GtkTreeModel *model;
@@ -1743,6 +1744,32 @@ on_romaji_sequence_entry_insert_text (GtkEditable *editable,
     }
 }
 
+static void
+on_romaji_column_clicked (GtkTreeViewColumn *column, gpointer data)
+{
+    GtkTreeView *treeview = GTK_TREE_VIEW (data);
+    GtkTreeModel *model = gtk_tree_view_get_model (treeview);
+    GList *col_list;
+    gint col;
+    GtkSortType sort_type = gtk_tree_view_column_get_sort_order (column);
+
+    col_list = gtk_tree_view_get_columns (GTK_TREE_VIEW (treeview));
+    col = g_list_index (col_list, column);
+
+    switch (sort_type) {
+    case GTK_SORT_ASCENDING:
+        sort_type = GTK_SORT_DESCENDING;
+        break;
+    case GTK_SORT_DESCENDING:
+    default:
+        sort_type = GTK_SORT_ASCENDING;
+        break;
+    };
+
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (model),
+                                          col, sort_type);
+}
+
 static GtkWidget *
 create_romaji_window (GtkWindow *parent)
 {
@@ -1786,6 +1813,8 @@ create_romaji_window (GtkWindow *parent)
     g_signal_connect (G_OBJECT (selection), "changed",
                       G_CALLBACK (on_romaji_view_selection_changed), treeview);
 
+    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+    gtk_tree_view_set_headers_clickable (GTK_TREE_VIEW (treeview), TRUE);
     // sequence column
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
@@ -1798,6 +1827,7 @@ create_romaji_window (GtkWindow *parent)
 	gtk_tree_view_column_set_fixed_width (column, 80);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+    gtk_tree_view_column_set_sort_column_id (column, 0);
 
     // result column
     cell = gtk_cell_renderer_text_new ();
@@ -1809,6 +1839,7 @@ create_romaji_window (GtkWindow *parent)
 	gtk_tree_view_column_set_fixed_width (column, 80);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+    gtk_tree_view_column_set_sort_column_id (column, 1);
 
 #if 0
     // pending column
@@ -1821,6 +1852,7 @@ create_romaji_window (GtkWindow *parent)
 	gtk_tree_view_column_set_fixed_width (column, 80);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+    gtk_tree_view_column_set_sort_column_id (column, 2);
 #endif
 
     // button area
