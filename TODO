@@ -1,12 +1,8 @@
 Version-0.5.0 (Planning to release at Jun 29th, 2005)
 
   * Add bracket setting.
-  * Add romaji customizing.
-  * Add key-bindings theme.
-    - First test implementation has been done.
-    - Should check duplicates of style file.
-    - Other bug fixes/code improvement.
-  * Fix for gcc-4.0
+  * Style file
+    - Escape string.
 
 Version-0.6.0 (Planning to release at July 29th, 2005)
 
@@ -16,20 +12,21 @@ Version-0.6.0 (Planning to release at July 29th, 2005)
   * Half width conversion like Microsoft IME and ATOK.
   * Add preedit color preference
   * Realtime conversion like honoka-tan.
+
+Version-0.7.0 (Planning to release at Sep 29th, 2005)
+
   * Inline registering a word.
   * Add AZIK table.
   * Add T-Code.
+  * Provide more style files.
+  * Add help.
 
-Version-0.7.0 (Planning to release at Sep 29th, 2005)
+Version-0.8.0 (Planning to release at Nov 29th, 2005)
 
   * Implement formal Kana typing method.
   * Search a character by Bushu (inline).
   * Search a character by code (inline).
   * Search a symbol (inline).
-  * Provide more style files.
-  * Add help.
-
-Version-0.8.0 (Planning to release at Nov 29th, 2005)
 
 Version-0.9.0 (Planning to release at Jan 29th, 2006)
 
