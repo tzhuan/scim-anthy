@@ -487,10 +487,13 @@ AnthyInstance::set_typing_method (TypingMethod method)
         }
     }
 
-    if (method != m_key2kana_tables.get_typing_method ())
-        m_key2kana_tables.set_typing_method (
-            method,
-            m_factory->m_custom_romaji_table);
+    if (method != m_key2kana_tables.get_typing_method ()) {
+        Key2KanaTable *fundamental_table = NULL;
+        if (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI)
+            fundamental_table = m_factory->m_custom_romaji_table;
+        m_key2kana_tables.set_typing_method
+            (method, fundamental_table);
+    }
 }
 
 void
@@ -1524,7 +1527,7 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     // set typing method
     if (m_factory->m_typing_method == "Kana")
         m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA,
-                                             m_factory->m_custom_romaji_table);
+                                             NULL);
     else if (m_factory->m_typing_method == "Roma")
         m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
                                              m_factory->m_custom_romaji_table);
