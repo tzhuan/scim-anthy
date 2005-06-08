@@ -55,6 +55,7 @@ using namespace scim_anthy;
 #define scim_setup_module_query_changed   anthy_imengine_setup_LTX_scim_setup_module_query_changed
 
 #define DATA_POINTER_KEY "scim-anthy::ConfigPointer"
+#define INDEX_KEY        "scim-anthy::Index"
 
 static GtkWidget * create_setup_window ();
 static void        load_style_files    (const char *dirname);
@@ -969,13 +970,25 @@ setup_key_theme_menu (GtkOptionMenu *omenu)
                               keymenu);
     gtk_widget_show (keymenu);
 
+    // create menu items
     GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Default"));
     gtk_menu_shell_append (GTK_MENU_SHELL (keymenu), menuitem);
     gtk_widget_show (menuitem);
 
     StyleFiles::iterator it;
-    for (it = __style_list.begin (); it != __style_list.end (); it++) {
+    unsigned int i;
+    for (i = 0, it = __style_list.begin ();
+         it != __style_list.end ();
+         i++, it++)
+    {
+        const char *section_name = "KeyBindings";
+        StyleLines section;
+        if (!it->get_entry_list (section, section_name))
+            continue;
+
         menuitem = gtk_menu_item_new_with_label (_(it->get_title().c_str()));
+        g_object_set_data (G_OBJECT (menuitem),
+                           INDEX_KEY, GINT_TO_POINTER (i));
         gtk_menu_shell_append (GTK_MENU_SHELL (keymenu), menuitem);
         gtk_widget_show (menuitem);
     }
@@ -1006,23 +1019,34 @@ setup_romaji_theme_menu (GtkOptionMenu *omenu)
                               romajimenu);
     gtk_widget_show (romajimenu);
 
+    // create menu items
     GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Default"));
     gtk_menu_shell_append (GTK_MENU_SHELL (romajimenu), menuitem);
     gtk_widget_show (menuitem);
 
     StyleFiles::iterator it;
-    for (it = __style_list.begin (); it != __style_list.end (); it++) {
+    unsigned int i;
+    for (i = 0, it = __style_list.begin ();
+         it != __style_list.end ();
+         i++, it++)
+    {
+        const char *section_name = "RomajiTable/FundamentalTable";
+        StyleLines section;
+        if (!it->get_entry_list (section, section_name))
+            continue;
+
         menuitem = gtk_menu_item_new_with_label (_(it->get_title().c_str()));
+        g_object_set_data (G_OBJECT (menuitem),
+                           INDEX_KEY, GINT_TO_POINTER (i));
         gtk_menu_shell_append (GTK_MENU_SHELL (romajimenu), menuitem);
         gtk_widget_show (menuitem);
     }
 
+    // set default value
     g_signal_handlers_block_by_func (
         G_OBJECT (__widget_romaji_theme_menu),
         (gpointer) (on_romaji_theme_menu_changed),
         NULL);
-
-    // set default value
     gtk_option_menu_set_history (
         GTK_OPTION_MENU (__widget_romaji_theme_menu), 0);
     for (unsigned int i = 0; i < __style_list.size (); i++) {
@@ -1244,9 +1268,17 @@ query_changed (void)
 static bool
 load_romaji_theme (void)
 {
-    gint idx = gtk_option_menu_get_history (
-        GTK_OPTION_MENU (__widget_romaji_theme_menu));
-    gint theme_idx = idx - 1;
+    GtkOptionMenu *omenu = GTK_OPTION_MENU (__widget_romaji_theme_menu);
+    gint idx = gtk_option_menu_get_history (omenu);
+    GtkWidget *menu = gtk_option_menu_get_menu (omenu);
+    GList *list = gtk_container_get_children (GTK_CONTAINER (menu));
+    GtkWidget *menuitem = GTK_WIDGET (g_list_nth_data (list, idx));
+
+    if (!menuitem)
+        return false;
+
+    gint theme_idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menuitem),
+                                                         INDEX_KEY));
 
     const char *section = "RomajiTable/FundamentalTable";
 
@@ -1425,7 +1457,15 @@ static void
 on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
 {
     gint idx = gtk_option_menu_get_history (omenu);
-    gint theme_idx = idx - 1;
+    GtkWidget *menu = gtk_option_menu_get_menu (omenu);
+    GList *list = gtk_container_get_children (GTK_CONTAINER (menu));
+    GtkWidget *menuitem = GTK_WIDGET (g_list_nth_data (list, idx));
+
+    if (!menuitem)
+        return;
+
+    gint theme_idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menuitem),
+                                                         INDEX_KEY));
 
     // clear all key bindings
     for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
