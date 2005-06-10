@@ -1,5 +1,11 @@
 2005-06-10 Takuro Ashie <ashie@homa.ne.jp>
 
+	* scim_anthy_key2kana_table.cpp: Disable auto convert when preedition
+	is started with comma or period.
+	Thanks reporting > UTUMI-san.
+
+2005-06-10 Takuro Ashie <ashie@homa.ne.jp>
+
 	* scim_anthy_key2kana_table.cpp: Sorry, wrong comma table is set.
 
 2005-06-10 Takuro Ashie <ashie@homa.ne.jp>
