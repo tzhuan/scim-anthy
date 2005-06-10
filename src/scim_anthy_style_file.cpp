@@ -138,18 +138,6 @@ StyleLine::get_key (String &key)
     for (spos = 0;
          spos < m_line.length () && isspace (m_line[spos]);
          spos++);
-#if 1
-    for (epos = m_line.length () - 1;
-         epos >= spos && m_line[epos] != '=';
-         epos--);
-    if (epos <= spos)
-        epos = m_line.length ();
-    for (--epos;
-         epos >= spos && isspace (m_line[epos]);
-         epos--);
-    if (!isspace(m_line[epos]))
-        epos++;
-#else
     bool found = false;
     for (epos = spos;
          epos < m_line.length ();
@@ -164,7 +152,15 @@ StyleLine::get_key (String &key)
             break;
         }
     }
-#if 0
+#if 1
+    if (epos <= spos)
+        epos = m_line.length ();
+    for (--epos;
+         epos >= spos && isspace (m_line[epos]);
+         epos--);
+    if (!isspace(m_line[epos]))
+        epos++;
+#else
     if (!found || epos >= m_line.length ()) {
         epos = m_line.length ();
         for (--epos;
@@ -174,12 +170,14 @@ StyleLine::get_key (String &key)
             epos++;
     }
 #endif
-#endif
 
-    if (spos < epos && epos <= m_line.length ())
+    if (spos >= 0 && spos < epos && epos <= m_line.length ()) {
         key = unescape (m_line.substr (spos, epos - spos));
-    else
+        std::cout << key << std::endl;
+    } else {
         key = String ();
+        std::cout << "faild" << std::endl;
+    }
 
     return true;
 }
@@ -192,10 +190,6 @@ StyleLine::get_value (String &value)
 
     unsigned int spos, epos;
     for (spos = 0;
-#if 0
-         spos < m_line.length () && m_line[spos] != '=';
-         spos++);
-#else
          spos < m_line.length ();
          spos++)
     {
@@ -207,7 +201,6 @@ StyleLine::get_value (String &value)
             break;
         }
     }
-#endif
     if (spos >= m_line.length ())
         return true;
     else
