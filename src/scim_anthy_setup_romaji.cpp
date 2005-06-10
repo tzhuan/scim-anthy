@@ -450,7 +450,7 @@ load_romaji_theme (void)
 
     const char *section = "RomajiTable/FundamentalTable";
 
-    // set new key bindings
+    // set new romaji table
     if (idx == 0) {
         __config_romaji_theme = "Default";
         __user_style_file.delete_section (section);

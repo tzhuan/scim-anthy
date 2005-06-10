@@ -23,6 +23,40 @@ using namespace scim_anthy;
 
 const int MAX_LINE_LENGTH = 4096;
 
+static String
+escape (const String &str)
+{
+    String dest = str;
+
+    for (unsigned int i = 0; i < dest.size (); i++) {
+        if (dest[i] == '#'  ||                  // for comment
+            dest[i] == '\\' ||                  // for backslash it self
+            dest[i] == '\t' || dest[i] == ',')  // for array
+        {
+            dest.insert (i, "\\");
+            i++;
+        }
+    }
+
+    return dest;
+}
+
+static String
+unescape (const String &str)
+{
+    String dest = str;
+
+    for (unsigned int i = 0; i < dest.size (); i++) {
+        if (dest[i] == '\\') {
+            dest.erase (i, i + 1);
+            if (i < dest.size () && dest[i] == '\\')
+                i++;
+        }
+    }
+
+    return dest;
+}
+
 StyleLine::StyleLine (StyleFile *style_file, const char *line)
     : m_style_file (style_file),
       m_line  (line),
@@ -114,7 +148,7 @@ StyleLine::get_key (String &key)
         epos++;
 
     if (spos < epos)
-        key = m_line.substr (spos, epos - spos);
+        key = unescape (m_line.substr (spos, epos - spos));
     else
         key = String ();
 
@@ -145,7 +179,7 @@ StyleLine::get_value (String &value)
     if (!isspace(m_line[epos]))
         epos++;
 
-    value = m_line.substr (spos, epos - spos);
+    value = unescape (m_line.substr (spos, epos - spos));
 
     return true;
 }
@@ -166,8 +200,9 @@ StyleLine::set_value (String value)
 {
     String key;
     get_key (key);
-    m_line = key + String ("=") + value;
+    m_line = escape (key) + String ("=") + escape (value);
 }
+
 
 StyleFile::StyleFile ()
 {
@@ -192,8 +227,10 @@ StyleFile::load (const char *filename)
     unsigned int section_id = 0;
 
     char buf[MAX_LINE_LENGTH];
-    while (!in_file.eof ()) {
-        in_file.getline (buf, MAX_LINE_LENGTH);
+    do {
+        in_file.getline (buf, MAX_LINE_LENGTH);  
+        if (in_file.eof ())
+            break;
 
         // FIXME! convert to UTF-8 or WideString
         StyleLine line (this, buf);
@@ -212,18 +249,21 @@ StyleFile::load (const char *filename)
             line.get_key (key);
             if (key == "FormatVersion") {
                 line.get_value (m_format_version);
+
             } else if (key == "Encoding") {
                 line.get_value (m_encoding);
                 bool success = m_iconv.set_encoding (m_encoding);
                 if (!success)
                     m_iconv.set_encoding ("UTF-8");
+
             } else if (key == "Title") {
                 line.get_value (m_title);
+
             } else if (key == "Version") {
                 line.get_value (m_version);
             }
         }
-    }
+    } while (!in_file.eof ());
 
     in_file.close ();
 
@@ -349,8 +389,9 @@ StyleFile::set_string (String section, String key, String value)
         }
 
         // append new entry if no mathced entry exists.
-        String str = String (key) + String ("=") + String(value);
-        it->insert (last + 1, StyleLine (this, str.c_str ()));
+        String str = escape (key) + String ("=") + escape (value);
+        //it->insert (last + 1, StyleLine (this, str.c_str ()));
+        it->push_back (StyleLine (this, str.c_str ()));
         return;
     }
 
@@ -375,7 +416,7 @@ StyleFile::set_string (String section, String key, String value)
     newsec.push_back (StyleLine (this, str.c_str ()));
 
     // new key entry
-    str = String (key) + String ("=") + String(value);
+    str = escape (key) + String ("=") + escape (value);
     newsec.push_back (StyleLine (this, str.c_str ()));
 }
 
@@ -459,8 +500,8 @@ StyleFile::setup_default_entries (void)
 
     m_sections.push_back (StyleLines ());
     StyleLines &newsec = m_sections.back ();
-    String str = String ("Encoding") + String ("=") + m_encoding;
+    String str = String ("Encoding") + String ("=") + escape (m_encoding);
     newsec.push_back (StyleLine (this, str.c_str ()));
-    str = String ("Title") + String ("=") + m_title;
+    str = String ("Title") + String ("=") + escape (m_title);
     newsec.push_back (StyleLine (this, str.c_str ()));
 }
