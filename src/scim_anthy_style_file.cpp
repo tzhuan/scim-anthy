@@ -193,11 +193,17 @@ StyleLine::get_value (String &value)
          spos < m_line.length () && isspace(m_line[spos]);
          spos++);
 
+#if 0
+    // reduce traling space.
     for (epos = m_line.length ();
          epos >= spos && isspace (m_line[epos]);
          epos--);
     if (!isspace(m_line[epos]))
         epos++;
+#else
+    // don't reduce trailing space.
+    epos = m_line.length ();
+#endif
 
     value = unescape (m_line.substr (spos, epos - spos));
 
