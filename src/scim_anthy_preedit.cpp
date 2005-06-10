@@ -150,7 +150,7 @@ Preedit::process_key_event (const KeyEvent & key)
     if (len > 0) {
         String str;
         m_reading.get_raw (str, len - 1, 1);
-        if (is_comma_or_period (str) && m_auto_convert)
+        if (is_comma_or_period (str) && m_auto_convert && get_length () > 1)
             convert ();
     }
 
