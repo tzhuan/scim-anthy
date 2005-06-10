@@ -78,7 +78,7 @@ static Key2KanaTable romaji_wide_comma_table (
     scim_anthy_romaji_wide_comma_rule);
 static Key2KanaTable romaji_half_comma_table (
     utf8_mbstowcs ("DefaultRomajiHalfCommaTable"),
-    scim_anthy_romaji_half_period_rule);
+    scim_anthy_romaji_half_comma_rule);
 
 static Key2KanaTable kana_ja_comma_table (
     utf8_mbstowcs ("DefaultKanaJaCommaTable"),
@@ -88,7 +88,7 @@ static Key2KanaTable kana_wide_comma_table (
     scim_anthy_kana_wide_comma_rule);
 static Key2KanaTable kana_half_comma_table (
     utf8_mbstowcs ("DefaultKanaHalfCommaTable"),
-    scim_anthy_kana_half_period_rule);
+    scim_anthy_kana_half_comma_rule);
 
 
 Key2KanaRule::Key2KanaRule ()
