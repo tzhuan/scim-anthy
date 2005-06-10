@@ -138,10 +138,22 @@ StyleLine::get_key (String &key)
     for (spos = 0;
          spos < m_line.length () && isspace (m_line[spos]);
          spos++);
+#if 1
+    for (epos = m_line.length () - 1;
+         epos >= spos && m_line[epos] != '=';
+         epos--);
+    if (epos <= spos)
+        epos = m_line.length ();
+    for (--epos;
+         epos >= spos && isspace (m_line[epos]);
+         epos--);
+    if (!isspace(m_line[epos]))
+        epos++;
+#else
     bool found = false;
     for (epos = spos;
          epos < m_line.length ();
-         epos ++)
+         epos++)
     {
         if (m_line[epos] == '\\') {
             epos++;
@@ -152,7 +164,8 @@ StyleLine::get_key (String &key)
             break;
         }
     }
-    if (!found) {
+#if 0
+    if (!found || epos >= m_line.length ()) {
         epos = m_line.length ();
         for (--epos;
              epos >= spos && isspace (m_line[epos]);
@@ -160,8 +173,10 @@ StyleLine::get_key (String &key)
         if (!isspace(m_line[epos]))
             epos++;
     }
+#endif
+#endif
 
-    if (spos < epos)
+    if (spos < epos && epos <= m_line.length ())
         key = unescape (m_line.substr (spos, epos - spos));
     else
         key = String ();
@@ -177,7 +192,11 @@ StyleLine::get_value (String &value)
 
     unsigned int spos, epos;
     for (spos = 0;
+#if 0
          spos < m_line.length () && m_line[spos] != '=';
+         spos++);
+#else
+         spos < m_line.length ();
          spos++)
     {
         if (m_line[spos] == '\\') {
@@ -186,16 +205,17 @@ StyleLine::get_value (String &value)
         }
         if (m_line[spos] == '=') {
             break;
-        }        
+        }
     }
+#endif
     if (spos >= m_line.length ())
         return true;
     else
         spos++;
-
     for (;
          spos < m_line.length () && isspace(m_line[spos]);
          spos++);
+
     for (epos = m_line.length ();
          epos >= spos && isspace (m_line[epos]);
          epos--);
