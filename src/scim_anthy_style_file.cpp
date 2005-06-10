@@ -171,13 +171,10 @@ StyleLine::get_key (String &key)
     }
 #endif
 
-    if (spos >= 0 && spos < epos && epos <= m_line.length ()) {
+    if (spos >= 0 && spos < epos && epos <= m_line.length ())
         key = unescape (m_line.substr (spos, epos - spos));
-        std::cout << key << std::endl;
-    } else {
+    else
         key = String ();
-        std::cout << "faild" << std::endl;
-    }
 
     return true;
 }
