@@ -50,7 +50,7 @@ unescape (const String &str)
 
     for (unsigned int i = 0; i < dest.size (); i++) {
         if (dest[i] == '\\') {
-            dest.erase (i, i + 1);
+            dest.erase (i, 1);
             if (i < dest.size () && dest[i] == '\\')
                 i++;
         }
@@ -152,28 +152,15 @@ StyleLine::get_key (String &key)
             break;
         }
     }
-#if 1
-    if (epos <= spos)
-        epos = m_line.length ();
     for (--epos;
          epos >= spos && isspace (m_line[epos]);
          epos--);
     if (!isspace(m_line[epos]))
         epos++;
-#else
-    if (!found || epos >= m_line.length ()) {
-        epos = m_line.length ();
-        for (--epos;
-             epos >= spos && isspace (m_line[epos]);
-             epos--);
-        if (!isspace(m_line[epos]))
-            epos++;
-    }
-#endif
 
-    if (spos >= 0 && spos < epos && epos <= m_line.length ())
+    if (spos >= 0 && spos < epos && epos <= m_line.length ()) {
         key = unescape (m_line.substr (spos, epos - spos));
-    else
+    } else
         key = String ();
 
     return true;
