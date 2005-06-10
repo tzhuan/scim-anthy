@@ -332,33 +332,34 @@ create_check_button (const char *config_key)
     return GTK_WIDGET (entry->widget);
 }
 
-#define APPEND_ENTRY(data, i)                                                  \
-{                                                                              \
-    label = gtk_label_new (NULL);                                              \
-    gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _((data)->label));    \
-    gtk_widget_show (label);                                                   \
-    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);                       \
-    gtk_misc_set_padding (GTK_MISC (label), 4, 0);                             \
-    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,                  \
-                      (GtkAttachOptions) (GTK_FILL),                           \
-                      (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
-    (data)->widget = gtk_entry_new ();                                         \
-    gtk_label_set_mnemonic_widget (GTK_LABEL (label),                          \
-                                   GTK_WIDGET ((data)->widget));               \
-    g_signal_connect ((gpointer) (data)->widget, "changed",                    \
-                      G_CALLBACK (on_default_editable_changed),                \
-                      (data));                                                 \
-    gtk_widget_show (GTK_WIDGET ((data)->widget));                             \
-    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET ((data)->widget),          \
-                      1, 2, i, i+1,                                            \
-                      (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),                \
-                      (GtkAttachOptions) (GTK_FILL), 4, 4);                    \
-                                                                               \
-    if (!__widget_tooltips)                                                    \
-        __widget_tooltips = gtk_tooltips_new();                                \
-    if ((data)->tooltip)                                                       \
-        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET ((data)->widget),  \
-                              _((data)->tooltip), NULL);                       \
+static void
+create_entry (StringConfigData *data, GtkTable *table, int i)
+{
+    GtkWidget *label = gtk_label_new (NULL);
+    gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(data->label));
+    gtk_widget_show (label);
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_misc_set_padding (GTK_MISC (label), 4, 0);
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
+    (data)->widget = gtk_entry_new ();
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label),
+                                   GTK_WIDGET (data->widget));
+    g_signal_connect ((gpointer) (data)->widget, "changed",
+                      G_CALLBACK (on_default_editable_changed),
+                      data);
+    gtk_widget_show (GTK_WIDGET (data->widget));
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (data->widget),
+                      1, 2, i, i+1,
+                      (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
+
+    if (!__widget_tooltips)
+        __widget_tooltips = gtk_tooltips_new();
+    if (data->tooltip)
+        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (data->widget),
+                              _(data->tooltip), NULL);
 }
 
 GtkWidget *
@@ -595,7 +596,7 @@ create_learning_page ()
 
     for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
         StringConfigData *entry = &config_keyboards_reverse_learning[i];
-        APPEND_ENTRY (entry, i);
+        create_entry (entry, GTK_TABLE (table), i);
         gtk_entry_set_editable (GTK_ENTRY (entry->widget), FALSE);
         button = gtk_button_new_with_label ("...");
         gtk_widget_show (button);
@@ -663,7 +664,6 @@ static GtkWidget *
 create_dict_page (void)
 {
     GtkWidget *table;
-    GtkWidget *label;
     StringConfigData *entry;
 
     table = gtk_table_new (2, 2, FALSE);
@@ -671,11 +671,11 @@ create_dict_page (void)
 
     // dict admin command
     entry = find_string_config_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND);
-    APPEND_ENTRY(entry, 0);
+    create_entry (entry, GTK_TABLE (table), 0);
 
     // add word command
     entry = find_string_config_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND);
-    APPEND_ENTRY(entry, 1);
+    create_entry (entry, GTK_TABLE (table), 1);
 
     return table;
 }
