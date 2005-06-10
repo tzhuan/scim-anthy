@@ -1,5 +1,10 @@
 2005-06-10 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_style_file.cpp: Set compare func to sort correctly.
+	Thanks reporting > UTUMI-san.
+
+2005-06-10 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_style_file.cpp: Don't reduce trailing space.
 
 2005-06-10 Takuro Ashie <ashie@homa.ne.jp>

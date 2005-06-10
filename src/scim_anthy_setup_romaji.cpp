@@ -157,6 +157,76 @@ romaji_page_query_changed (void)
 }
 
 
+static gint
+compare_sequence_string (GtkTreeModel *model,
+                         GtkTreeIter *a,
+                         GtkTreeIter *b,
+                         gpointer user_data)
+{
+    gint ret;
+
+    gchar *seq1 = NULL, *seq2 = NULL;
+    gtk_tree_model_get (model, a,
+                        0, &seq1,
+                        -1);
+    gtk_tree_model_get (model, b,
+                        0, &seq2,
+                        -1);
+    ret = strcmp (seq1, seq2);
+    g_free (seq1);
+    g_free (seq2);
+
+    if (ret == 0) {
+        gchar *res1 = NULL, *res2 = NULL;
+        gtk_tree_model_get (model, a,
+                            1, &res1,
+                            -1);
+        gtk_tree_model_get (model, b,
+                            1, &res2,
+                            -1);
+        ret = strcmp (res1, res2);
+        g_free (res1);
+        g_free (res2);
+    }
+
+    return ret;
+}
+
+static gint
+compare_result_string (GtkTreeModel *model,
+                       GtkTreeIter *a,
+                       GtkTreeIter *b,
+                       gpointer user_data)
+{
+    gint ret;
+
+    gchar *res1 = NULL, *res2 = NULL;
+    gtk_tree_model_get (model, a,
+                        1, &res1,
+                        -1);
+    gtk_tree_model_get (model, b,
+                        1, &res2,
+                        -1);
+    ret = strcmp (res1, res2);
+    g_free (res1);
+    g_free (res2);
+
+    if (ret == 0) {
+        gchar *seq1 = NULL, *seq2 = NULL;
+        gtk_tree_model_get (model, a,
+                            0, &seq1,
+                            -1);
+        gtk_tree_model_get (model, b,
+                            0, &seq2,
+                            -1);
+        ret = strcmp (seq1, seq2);
+        g_free (seq1);
+        g_free (seq2);
+    }
+
+    return ret;
+}
+
 static GtkWidget *
 create_romaji_window (GtkWindow *parent)
 {
@@ -238,6 +308,9 @@ create_romaji_window (GtkWindow *parent)
 	gtk_tree_view_column_set_fixed_width (column, 80);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+    gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (store), 0,
+                                     compare_sequence_string,
+                                     NULL, NULL);
     gtk_tree_view_column_set_sort_column_id (column, 0);
 
     // result column
@@ -250,6 +323,9 @@ create_romaji_window (GtkWindow *parent)
 	gtk_tree_view_column_set_fixed_width (column, 80);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+    gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (store), 1,
+                                     compare_result_string,
+                                     NULL, NULL);
     gtk_tree_view_column_set_sort_column_id (column, 1);
 
 #if 0
