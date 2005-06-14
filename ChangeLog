@@ -1,3 +1,7 @@
+2005-06-15 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_setup.cpp: Changed page order.
+
 2005-06-10 Takuro Ashie <ashie@homa.ne.jp>
 
 	* data/atok.sty: Remove needless entry in romaji table.

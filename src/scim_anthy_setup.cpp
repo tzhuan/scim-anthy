@@ -868,15 +868,15 @@ create_setup_window (void)
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
-        // Create the toolbar page.
-        page = create_toolbar_page ();
-        label = gtk_label_new (_("Toolbar"));
-        gtk_widget_show (label);
-        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
-
         // Create the dictionary page.
         page = create_dict_page ();
         label = gtk_label_new (_("Dictionary"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the toolbar page.
+        page = create_toolbar_page ();
+        label = gtk_label_new (_("Toolbar"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
