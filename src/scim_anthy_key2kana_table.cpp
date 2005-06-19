@@ -272,8 +272,8 @@ Key2KanaTableSet::reset_tables (void)
 
     if (!m_fundamental_table) {
         if (is_romaji) {
-            m_all_tables.push_back (&romaji_table);
             m_all_tables.push_back (&romaji_consonant_table);
+            m_all_tables.push_back (&romaji_table);
         } else if (is_kana) {
             m_all_tables.push_back (&kana_table);
         }
@@ -284,8 +284,8 @@ Key2KanaTableSet::reset_tables (void)
             m_all_tables.push_back (&(*it));
 #else
         if (is_romaji) {
-            m_all_tables.push_back (m_fundamental_table);
             m_all_tables.push_back (&romaji_consonant_table);
+            m_all_tables.push_back (m_fundamental_table);
         } else if (is_kana) {
             m_all_tables.push_back (m_fundamental_table);
         }
