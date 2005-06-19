@@ -204,42 +204,6 @@ Key2KanaTableSet::reset_tables (void)
     bool is_romaji = m_typing_method == SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     bool is_kana   = m_typing_method == SCIM_ANTHY_TYPING_METHOD_KANA;
 
-    if (!m_fundamental_table) {
-        if (is_romaji) {
-            m_all_tables.push_back (&romaji_table);
-            m_all_tables.push_back (&romaji_consonant_table);
-        } else if (is_kana) {
-            m_all_tables.push_back (&kana_table);
-        }
-    } else {
-#if 0
-        std::vector<Key2KanaTable>::iterator it;
-        for (it = m_tables.begin (); it != m_tables.end (); it++)
-            m_all_tables.push_back (&(*it));
-#else
-        if (is_romaji) {
-            m_all_tables.push_back (m_fundamental_table);
-            m_all_tables.push_back (&romaji_consonant_table);
-        } else if (is_kana) {
-            m_all_tables.push_back (m_fundamental_table);
-        }
-#endif
-    }
-
-    if (is_romaji) {
-        // symbols table
-        if (m_use_half_symbol)
-            m_all_tables.push_back (&half_symbol_table);
-        else
-            m_all_tables.push_back (&wide_symbol_table);
-
-        // numbers table
-        if (m_use_half_number)
-            m_all_tables.push_back (&half_number_table);
-        else
-            m_all_tables.push_back (&wide_number_table);
-    }
-
     if (is_romaji || is_kana)
     {
         switch (m_period_style) {
@@ -290,5 +254,41 @@ Key2KanaTableSet::reset_tables (void)
         default:
             break;
         }
+    }
+
+    if (is_romaji) {
+        // symbols table
+        if (m_use_half_symbol)
+            m_all_tables.push_back (&half_symbol_table);
+        else
+            m_all_tables.push_back (&wide_symbol_table);
+
+        // numbers table
+        if (m_use_half_number)
+            m_all_tables.push_back (&half_number_table);
+        else
+            m_all_tables.push_back (&wide_number_table);
+    }
+
+    if (!m_fundamental_table) {
+        if (is_romaji) {
+            m_all_tables.push_back (&romaji_table);
+            m_all_tables.push_back (&romaji_consonant_table);
+        } else if (is_kana) {
+            m_all_tables.push_back (&kana_table);
+        }
+    } else {
+#if 0
+        std::vector<Key2KanaTable>::iterator it;
+        for (it = m_tables.begin (); it != m_tables.end (); it++)
+            m_all_tables.push_back (&(*it));
+#else
+        if (is_romaji) {
+            m_all_tables.push_back (m_fundamental_table);
+            m_all_tables.push_back (&romaji_consonant_table);
+        } else if (is_kana) {
+            m_all_tables.push_back (m_fundamental_table);
+        }
+#endif
     }
 }

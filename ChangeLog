@@ -1,3 +1,7 @@
+2005-06-19 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_key2kana_table.cpp: Changed priority of tables.
+
 2005-06-15 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_setup.cpp: Changed page order.
