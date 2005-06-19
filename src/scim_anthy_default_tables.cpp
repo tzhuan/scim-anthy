@@ -5,6 +5,9 @@
 
 /* from Suikyo */
 ConvRule scim_anthy_romaji_typing_rule[] = {
+{"-",	"ー",	""},
+{"[",   "「",	""},
+{"]",   "」",	""},
 {"a",	"あ",	""},
 {"i",	"い",	""},
 {"u",	"う",	""},
@@ -217,8 +220,7 @@ ConvRule scim_anthy_romaji_typing_rule[] = {
 {"n",	"ん",	""},
 {"wyi",	"ゐ",	""},
 {"wye",	"ゑ",	""},
-{"-",	"ー",	""},
-#if 1 /* emulate dead key */
+#if 0 /* emulate dead key */
 {"\\.",	"・",	""},
 {";r",	"→",	""},
 {";l",	"←",	""},
