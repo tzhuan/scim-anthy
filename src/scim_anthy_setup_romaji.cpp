@@ -47,6 +47,7 @@ static GtkWidget   * __widget_romaji_sequence_entry = NULL;
 static GtkWidget   * __widget_romaji_result_entry   = NULL;
 static GtkWidget   * __widget_romaji_add_button     = NULL;
 static GtkWidget   * __widget_romaji_remove_button  = NULL;
+static GtkWidget   * __widget_romaji_user_defined   = NULL;
 
 static String __config_romaji_theme = SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT;
 
@@ -262,6 +263,12 @@ create_romaji_window (GtkWindow *parent)
 
     gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
 
+#if 0
+    GtkWidget *button = gtk_button_new_with_mnemonic ("Save _as...");
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
+    gtk_widget_show (button);
+#endif
+
 
     // edit area
     hbox = gtk_hbox_new (FALSE, 0);
@@ -425,7 +432,11 @@ setup_romaji_theme_menu (GtkOptionMenu *omenu)
     gtk_widget_show (menu);
 
     // create menu items
-    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Default"));
+    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("User defined"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    __widget_romaji_user_defined = menuitem;
+
+    menuitem = gtk_menu_item_new_with_label (_("Default"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
     gtk_widget_show (menuitem);
 
@@ -453,18 +464,24 @@ setup_romaji_theme_menu (GtkOptionMenu *omenu)
         (gpointer) (on_romaji_theme_menu_changed),
         NULL);
 
-    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
 
-    GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
-    for (i = 1, node = g_list_next (list);
-         node;
-         i++, node = g_list_next (node))
-    {
-        gint idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (node->data),
-                                                       INDEX_KEY));
-        if (__style_list[idx].get_title () == __config_romaji_theme) {
-            gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
-            break;
+    if (__config_romaji_theme == "User defined") {
+        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
+
+    } else {
+        GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
+        for (i = 2, node = g_list_next (g_list_next (list));
+             node;
+             i++, node = g_list_next (node))
+        {
+            gint idx = GPOINTER_TO_INT (
+                g_object_get_data (G_OBJECT (node->data),
+                                   INDEX_KEY));
+            if (__style_list[idx].get_title () == __config_romaji_theme) {
+                gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
+                break;
+            }
         }
     }
 
@@ -528,6 +545,22 @@ load_romaji_theme (void)
 
     // set new romaji table
     if (idx == 0) {
+        // User defined table
+        StyleLines lines;
+        bool success = __user_style_file.get_entry_list (
+            lines, section);
+        if (!success || lines.empty ()) {
+            ConvRule *table = scim_anthy_romaji_typing_rule;
+            for (unsigned int i = 0; table[i].string; i++) {
+                __user_style_file.set_string (section,
+                                              table[i].string,
+                                              table[i].result);
+            }
+        }
+        return true;
+
+    } else if (idx == 1) {
+        // Default table
         __config_romaji_theme = "Default";
         __user_style_file.delete_section (section);
 
@@ -539,7 +572,8 @@ load_romaji_theme (void)
         }
         return true;
 
-    } else if (theme_idx >= 0) {
+    } else if (theme_idx >= 0 && theme_idx < (int) __style_list.size ()) {
+        // Tables defined in system theme files
         __config_romaji_theme = __style_list[theme_idx].get_title ();
         __user_style_file.delete_section (section);
 
@@ -578,8 +612,10 @@ add_romaji_entry (GtkTreeView *treeview)
     gboolean go_next;
     bool found = false;
     const gchar *sequence, *result;
-    sequence = gtk_entry_get_text (GTK_ENTRY (__widget_romaji_sequence_entry));
-    result   = gtk_entry_get_text (GTK_ENTRY (__widget_romaji_result_entry));
+    sequence = gtk_entry_get_text (
+        GTK_ENTRY (__widget_romaji_sequence_entry));
+    result   = gtk_entry_get_text (
+        GTK_ENTRY (__widget_romaji_result_entry));
 
     if (!sequence || !result)
         return;
@@ -613,6 +649,11 @@ add_romaji_entry (GtkTreeView *treeview)
     GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
     gtk_tree_view_set_cursor (treeview, path, NULL, FALSE);
     gtk_tree_path_free (path);
+
+#if 0
+    // Changed menu item to "User defined"
+    gtk_widget_show (__widget_romaji_user_defined);
+#endif
 
     __style_changed = true;
 }
@@ -652,6 +693,11 @@ remove_romaji_entry (GtkTreeView *treeview)
 
     __user_style_file.delete_key ("RomajiTable/FundamentalTable", sequence);
     gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+
+#if 0
+    // Changed menu item to "User defined"
+    gtk_widget_show (__widget_romaji_user_defined);
+#endif
 
     __style_changed = true;
     g_free (sequence);
