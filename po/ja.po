@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
 "POT-Creation-Date: 2005-06-20 10:34+0900\n"
-"PO-Revision-Date: 2005-06-20 10:35+0900\n"
+"PO-Revision-Date: 2005-06-21 16:11+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -235,7 +235,7 @@ msgstr "入力文字列(_S):"
 
 #: src/scim_anthy_setup_romaji.cpp:369
 msgid "_Result:"
-msgstr "結果文字列(_R):"
+msgstr "出力文字列(_R):"
 
 #: src/scim_anthy_prefs.cpp:34
 msgid "Start _conversion on inputting a comma or a period."
