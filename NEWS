@@ -1,3 +1,11 @@
+Overview of Changes from scim-anthy-0.4.3 to scim-anthy-0.5.0
+=============================================================
+* Enable to customize romaji table.
+* Add "Key bindings theme" and "Romaji table theme" features.
+  (Thank you for testing and many suggestions > UTUMI-san and Bando-san)
+* Enable to split a romaji sequence. (Thanks! DAIRIKI-san)
+* Other minor bug fixes. (Thanks! UTUMI-san, SATO-san)
+
 Overview of Changes from scim-anthy-0.4.2 to scim-anthy-0.4.3
 =============================================================
 * Fix for gcc-4.0. Thanks UTUMI-san.
