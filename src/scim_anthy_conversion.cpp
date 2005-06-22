@@ -37,6 +37,25 @@ ConversionSegment::~ConversionSegment ()
 {
 }
 
+WideString &
+ConversionSegment::get_string (void)
+{
+    return m_string;
+}
+
+
+int
+ConversionSegment::get_id (void)
+{
+    return m_id;
+}
+
+void
+ConversionSegment::set (WideString str, int id)
+{
+    m_string = str;
+    m_id     = id;
+}
 
 
 Conversion::Conversion (Reading &reading)
