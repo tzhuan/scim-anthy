@@ -487,6 +487,8 @@ key_list_view_popup_key_selection (GtkTreeView *treeview)
                 gtk_list_store_set (GTK_LIST_STORE (model), &iter,
                                     COLUMN_VALUE, data->value.c_str(),
                                     -1);
+                gtk_option_menu_set_history (
+                    GTK_OPTION_MENU (__widget_key_theme_menu), 0);
                 data->changed = true;
                 __config_changed = true;
             }
@@ -612,7 +614,7 @@ create_learning_page ()
 }
 
 static GtkWidget *
-create_toolbar_page ()
+create_toolbar_page (void)
 {
     GtkWidget *vbox, *hbox, *label, *widget;
 
@@ -802,8 +804,7 @@ create_keyboard_page (void)
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
-#if 1
-    // test code for key bind theme
+    // for key bind theme
     label = gtk_label_new_with_mnemonic (_("Key bindings _theme:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
     gtk_widget_show (label);
@@ -816,8 +817,8 @@ create_keyboard_page (void)
     gtk_widget_show (omenu);
 
     gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
-#endif
 
+    // edit button
     button = gtk_button_new_with_mnemonic (_("_Choose keys..."));
     __widget_choose_keys_button = button;
     g_signal_connect (G_OBJECT (button), "clicked",
@@ -923,7 +924,10 @@ setup_key_theme_menu (GtkOptionMenu *omenu)
     gtk_widget_show (menu);
 
     // create menu items
-    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Default"));
+    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("User defined"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Default"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
     gtk_widget_show (menuitem);
 
@@ -950,10 +954,10 @@ setup_key_theme_menu (GtkOptionMenu *omenu)
                                      (gpointer) (on_key_theme_menu_changed),
                                      NULL);
 
-    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
 
     GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
-    for (i = 1, node = g_list_next (list);
+    for (i = 2, node = g_list_next (g_list_next (list));
          node;
          i++, node = g_list_next (node))
     {
@@ -1008,7 +1012,7 @@ setup_widget_value (void)
     }
 
     gtk_option_menu_set_history
-        (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
+        (GTK_OPTION_MENU (__widget_key_categories_menu), 1);
     gtk_widget_set_sensitive (__widget_key_filter, FALSE);
     gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
     GtkTreeModel *model;
@@ -1017,7 +1021,7 @@ setup_widget_value (void)
     append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
 
     // setup option menu
-    setup_key_theme_menu    (GTK_OPTION_MENU (__widget_key_theme_menu));
+    setup_key_theme_menu (GTK_OPTION_MENU (__widget_key_theme_menu));
 }
 
 static void
@@ -1317,15 +1321,20 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
                                                          INDEX_KEY));
 
     // clear all key bindings
-    for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
-        for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
-            __key_conf_pages[j].data[i].value = "";
-            __key_conf_pages[j].data[i].changed = true;
+    if (idx != 0) {
+        for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
+            for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
+                __key_conf_pages[j].data[i].value = "";
+                __key_conf_pages[j].data[i].changed = true;
+            }
         }
     }
 
     // set new key bindings
     if (idx == 0) {
+        __config_key_theme = "User defined";
+
+    } else if (idx == 1) {
         for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
             for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
                 __key_conf_pages[j].data[i].value
@@ -1333,6 +1342,7 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
             }
         }
         __config_key_theme = "Default";
+
     } else if (theme_idx >= 0) {
         // reset key bindings
         StyleLines lines;
@@ -1386,7 +1396,7 @@ on_key_filter_selection_clicked (GtkButton *button,
 
         if (result == GTK_RESPONSE_OK) {
             const gchar *keys = scim_key_selection_dialog_get_keys (
-                            SCIM_KEY_SELECTION_DIALOG (dialog));
+                SCIM_KEY_SELECTION_DIALOG (dialog));
 
             if (!keys) keys = "";
 

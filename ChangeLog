@@ -1,3 +1,7 @@
+2005-06-22 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_setup.cpp: Add "User defined" label for key them.
+
 2005-06-21 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_setup_romaji.cpp: Add "User defined" label.
