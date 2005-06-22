@@ -1371,14 +1371,17 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     }
 
     // sync widgets
-    gtk_option_menu_set_history
-        (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
-    gtk_widget_set_sensitive (__widget_key_filter, FALSE);
-    gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
-    GtkTreeModel *model;
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (__widget_key_list_view));
-    gtk_list_store_clear (GTK_LIST_STORE (model));
-    append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
+    if (idx != 0) {
+        gtk_option_menu_set_history
+            (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
+        gtk_widget_set_sensitive (__widget_key_filter, FALSE);
+        gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
+        GtkTreeModel *model;
+        model = gtk_tree_view_get_model (
+            GTK_TREE_VIEW (__widget_key_list_view));
+        gtk_list_store_clear (GTK_LIST_STORE (model));
+        append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
+    }
 
     __config_changed = true;
 }
