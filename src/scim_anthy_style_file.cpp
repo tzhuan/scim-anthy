@@ -520,7 +520,7 @@ void
 StyleFile::setup_default_entries (void)
 {
     m_encoding = "UTF-8";
-    m_title    = "User Settings";
+    m_title    = "User defined";
     m_iconv.set_encoding (m_encoding);
     m_sections.push_back (StyleLines ());
 
