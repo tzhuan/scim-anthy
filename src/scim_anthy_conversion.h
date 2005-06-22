@@ -73,14 +73,15 @@ public:
     virtual ~Conversion ();
 
     // starting and finishing
-    void          start                  (CandidateType type);
+    void          start                  (CandidateType type
+                                          = SCIM_ANTHY_CANDIDATE_NORMAL,
+                                          bool single_segment = false);
     void          clear                  (void);
     void          commit                 (int  segment_id = -1,
                                           bool lean       = true);
 
     // getting status
     bool          is_converting          (void);
-    bool          is_kana_converting     (void);
 
     WideString    get                    (void);
     unsigned int  get_length             (void);
@@ -105,7 +106,7 @@ public:
     void          select_candidate       (int candidate_id,
                                           int segment_id = -1);
 private:
-    void          convert_kana           (CandidateType type);
+    void          join_all_segments      (void);
 
 private:
     // convertors
@@ -118,7 +119,6 @@ private:
     int                m_start_id;    // number of commited segments
     int                m_cur_segment; // relative position from m_start_id
     int                m_cur_pos;     // caret position
-    bool               m_kana_converting;
 };
 
 }

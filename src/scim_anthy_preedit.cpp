@@ -115,12 +115,6 @@ Preedit::is_converting (void)
     return m_conversion.is_converting ();
 }
 
-bool
-Preedit::is_kana_converting (void)
-{
-    return m_conversion.is_kana_converting ();
-}
-
 
 /*
  * manipulating the preedit string
@@ -190,9 +184,9 @@ Preedit::finish (void)
  * manipulating conversion string
  */
 void
-Preedit::convert (CandidateType type)
+Preedit::convert (CandidateType type, bool single_segment)
 {
-    m_conversion.start (type);
+    m_conversion.start (type, single_segment);
 }
 
 void

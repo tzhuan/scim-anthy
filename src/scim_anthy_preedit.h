@@ -54,7 +54,6 @@ public:
 
     virtual bool          is_preediting          (void);
     virtual bool          is_converting          (void);
-    virtual bool          is_kana_converting     (void);
 
     // manipulating the preedit string
     virtual bool          can_process_key_event  (const KeyEvent & key);
@@ -65,7 +64,8 @@ public:
 
     // manipulating the conversion string
     virtual void          convert                (CandidateType type
-                                                  = SCIM_ANTHY_CANDIDATE_NORMAL);
+                                                  = SCIM_ANTHY_CANDIDATE_NORMAL,
+                                                  bool single_segment = false);
     virtual void          revert                 (void);
     virtual void          commit                 (int  segment_id = -1,
                                                   bool lean       = true);

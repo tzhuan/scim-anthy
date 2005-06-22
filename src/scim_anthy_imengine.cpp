@@ -558,10 +558,6 @@ AnthyInstance::is_selecting_candidates (void)
 bool
 AnthyInstance::action_convert (void)
 {
-    if (m_preedit.is_kana_converting ()) {
-        m_preedit.revert ();
-    }
-
     if (!m_preedit.is_preediting ())
         return false;
 
@@ -1347,12 +1343,10 @@ AnthyInstance::convert_kana (CandidateType type)
     hide_lookup_table ();
     m_lookup_table_visible = false;
 
-    if (m_preedit.is_kana_converting ()) {
-        m_preedit.convert (type);
-    } else if (m_preedit.is_converting ()) {
+    if (m_preedit.is_converting ()) {
         m_preedit.select_candidate (type);
     } else {
-        m_preedit.convert (type);
+        m_preedit.convert (type, true);
     }
 
     set_preedition ();
