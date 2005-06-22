@@ -956,16 +956,21 @@ setup_key_theme_menu (GtkOptionMenu *omenu)
 
     gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
 
-    GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
-    for (i = 2, node = g_list_next (g_list_next (list));
-         node;
-         i++, node = g_list_next (node))
-    {
-        gint idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (node->data),
-                                                       INDEX_KEY));
-        if (__style_list[idx].get_title () == __config_key_theme) {
-            gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
-            break;
+    if (__config_key_theme == "User defined") {
+        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+
+    } else {
+        GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
+        for (i = 2, node = g_list_next (g_list_next (list));
+             node;
+             i++, node = g_list_next (node))
+        {
+            gint idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (node->data),
+                                                           INDEX_KEY));
+            if (__style_list[idx].get_title () == __config_key_theme) {
+                gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
+                break;
+            }
         }
     }
 
