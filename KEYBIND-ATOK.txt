@@ -9,6 +9,7 @@ SCIMの機能:
 
   ひらがな変換                 F6, Ctrl+u
   カタカナ変換                 F7, Ctrl+i
+  半角変換                     F8, Ctrl+o
   全角無変換変換               F9, Ctrl+p
   半角無変換変換               F10, Ctrl+@
 
@@ -40,8 +41,6 @@ SCIMの機能:
   単語登録                     Ctrl+F7
 
 追加予定の機能:
-  半角変換                     F8, Ctrl+o
-
   部首変換                     Shift+F6
 
   1音確定                      Shift+Down

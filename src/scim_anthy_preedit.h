@@ -41,18 +41,6 @@ typedef enum {
     SCIM_ANTHY_MODE_WIDE_LATIN,
 } InputMode;
 
-#if 0
-typedef enum {
-    SCIM_ANTHY_CANDIDATE_NORMAL        = 0,
-    SCIM_ANTHY_CANDIDATE_LATIN         = -1,
-    SCIM_ANTHY_CANDIDATE_WIDE_LATIN    = -2,
-    SCIM_ANTHY_CANDIDATE_HIRAGANA      = -3,
-    SCIM_ANTHY_CANDIDATE_KATAKANA      = -4,
-    SCIM_ANTHY_CANDIDATE_HALF_KATAKANA = -5,
-    SCIM_ANTHY_LAST_SPECIAL_CANDIDATE  = -6,
-} CandidateType;
-#endif
-
 class Preedit
 {
 public:

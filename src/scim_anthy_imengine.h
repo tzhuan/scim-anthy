@@ -107,6 +107,7 @@ public:
 
     bool   action_convert_to_hiragana         (void);
     bool   action_convert_to_katakana         (void);
+    bool   action_convert_to_half             (void);
     bool   action_convert_to_half_katakana    (void);
     bool   action_convert_to_latin            (void);
     bool   action_convert_to_wide_latin       (void);

@@ -102,7 +102,6 @@ Conversion::convert_kana (CandidateType ctype)
 
     m_string.clear ();
     m_attrs.clear ();
-    m_candidates.clear ();
     m_cur_segment = 0;
     m_cur_pos = 0;
     m_kana_converting = true;
@@ -128,6 +127,25 @@ Conversion::convert_kana (CandidateType ctype)
         convert_to_katakana (m_string, m_reading.get (), true);
         break;
 
+    case SCIM_ANTHY_CANDIDATE_HALF:
+        if (m_candidates.empty ()) {
+            convert_to_katakana (m_string, m_reading.get (), true);
+            ctype = SCIM_ANTHY_CANDIDATE_HALF_KATAKANA;
+        } else {
+            switch (m_candidates[0]) {
+            case SCIM_ANTHY_CANDIDATE_LATIN:
+            case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
+                m_string = utf8_mbstowcs (m_reading.get_raw ());
+                ctype = SCIM_ANTHY_CANDIDATE_LATIN;
+                break;
+            default:
+                convert_to_katakana (m_string, m_reading.get (), true);
+                ctype = SCIM_ANTHY_CANDIDATE_HALF_KATAKANA;
+                break;
+            }
+        }
+        break;
+
     default:
         // error
         return;
@@ -135,6 +153,7 @@ Conversion::convert_kana (CandidateType ctype)
     }
 
     // set candidate type
+    m_candidates.clear ();
     m_candidates.push_back (ctype);
 
     // create attribute for this segment
@@ -305,7 +324,11 @@ Conversion::get_segment_string (int segment_id)
             type = SCIM_ANTHY_STRING_KATAKANA;
             break;
         case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
-            type = SCIM_ANTHY_STRING_KATAKANA;
+            type = SCIM_ANTHY_STRING_HALF_KATAKANA;
+            break;
+        case SCIM_ANTHY_CANDIDATE_HALF:
+            // shouldn't reach to this entry
+            type = SCIM_ANTHY_STRING_HALF_KATAKANA;
             break;
         case SCIM_ANTHY_CANDIDATE_HIRAGANA:
         default:
@@ -543,6 +566,18 @@ Conversion::select_candidate (int candidate_id, int segment_id)
 
     struct anthy_segment_stat seg_stat;
     anthy_get_segment_stat (m_anthy_context, real_segment_id, &seg_stat);
+
+    if (candidate_id == SCIM_ANTHY_CANDIDATE_HALF) {
+        switch (m_candidates[segment_id]) {
+        case SCIM_ANTHY_CANDIDATE_LATIN:
+        case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
+            candidate_id = SCIM_ANTHY_CANDIDATE_LATIN;
+            break;
+        default:
+            candidate_id = SCIM_ANTHY_CANDIDATE_HALF_KATAKANA;
+            break;
+        }
+    }
 
     if (candidate_id < seg_stat.nr_candidate) {
         m_candidates[segment_id] = candidate_id;

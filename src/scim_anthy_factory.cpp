@@ -291,6 +291,7 @@ ANTHY_DEFINE_ACTION (action_select_candidate_9);
 ANTHY_DEFINE_ACTION (action_select_candidate_10);
 ANTHY_DEFINE_ACTION (action_convert_to_hiragana);
 ANTHY_DEFINE_ACTION (action_convert_to_katakana);
+ANTHY_DEFINE_ACTION (action_convert_to_half);
 ANTHY_DEFINE_ACTION (action_convert_to_half_katakana);
 ANTHY_DEFINE_ACTION (action_convert_to_latin);
 ANTHY_DEFINE_ACTION (action_convert_to_wide_latin);
@@ -405,6 +406,7 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         // convert keys
         APPEND_ACTION (CONV_TO_HIRAGANA,        action_convert_to_hiragana);
         APPEND_ACTION (CONV_TO_KATAKANA,        action_convert_to_katakana);
+        APPEND_ACTION (CONV_TO_HALF,            action_convert_to_half);
         APPEND_ACTION (CONV_TO_HALF_KATAKANA,   action_convert_to_half_katakana);
         APPEND_ACTION (CONV_TO_LATIN,           action_convert_to_latin);
         APPEND_ACTION (CONV_TO_WIDE_LATIN,      action_convert_to_wide_latin);

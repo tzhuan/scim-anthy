@@ -46,6 +46,7 @@ Microsoft IME 2003 標準キーバインド
 
   ひらがな変換                 Ctrl+u, F6
   カタカナ変換                 Ctrl+i, F7
+  半角変換                     Ctrl+o, F8
   全角英数変換                 Ctrl+p, F9
   半角英数変換                 Ctrl+t, F10
 
@@ -64,7 +65,6 @@ SCIMの機能:
 
   かな/全角カナ/半角カナ変換   無変換
   英数変換(全角/半角)          Shift+無変換
-  半角変換                     Ctrl+o, F8
 
   部首・コード変換             Ctrl+y, F5
 

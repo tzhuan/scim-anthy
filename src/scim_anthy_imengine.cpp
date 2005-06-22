@@ -1373,6 +1373,12 @@ AnthyInstance::action_convert_to_katakana (void)
 }
 
 bool
+AnthyInstance::action_convert_to_half (void)
+{
+    return convert_kana (SCIM_ANTHY_CANDIDATE_HALF);
+}
+
+bool
 AnthyInstance::action_convert_to_half_katakana (void)
 {
     return convert_kana (SCIM_ANTHY_CANDIDATE_HALF_KATAKANA);
