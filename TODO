@@ -1,7 +1,5 @@
 Version-0.5.0 (Planning to release at Jun 29th, 2005)
 
-  * Style file
-    - Add "Save as..." feature.
 
 Version-0.6.0 (Planning to release at July 29th, 2005)
 
@@ -11,6 +9,8 @@ Version-0.6.0 (Planning to release at July 29th, 2005)
   * Half width conversion like Microsoft IME and ATOK.
   * Add preedit color preference
   * Realtime conversion like honoka-tan.
+  * Style file
+    - Add "Save as..." feature.
 
 Version-0.7.0 (Planning to release at Sep 29th, 2005)
 
