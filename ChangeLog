@@ -1,5 +1,10 @@
 2005-06-22 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_conversion.cpp: Set reading length to ConversionSegment
+	class correctly.
+
+2005-06-22 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_conversion.{cpp.h}: implement get_segment_length ()
 	of Conversion class correctly.
 

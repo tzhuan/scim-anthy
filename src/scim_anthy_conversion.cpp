@@ -134,9 +134,13 @@ Conversion::start (CandidateType ctype, bool single_segment)
 
     // create segments
     m_segments.clear ();
-    for (int i = m_start_id; i < conv_stat.nr_segment; i++)
+    for (int i = m_start_id; i < conv_stat.nr_segment; i++) {
+        struct anthy_segment_stat seg_stat;
+        anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
         m_segments.push_back (
-            ConversionSegment (get_segment_string (i, ctype), ctype, 0));
+            ConversionSegment (get_segment_string (i, ctype), ctype,
+                               seg_stat.seg_len));
+    }
 }
 
 void
@@ -428,9 +432,12 @@ Conversion::resize_segment (int relative_size, int segment_id)
     ConversionSegments::iterator start_iter = m_segments.begin();
     ConversionSegments::iterator end_iter   = m_segments.end();
     m_segments.erase (start_iter + segment_id, end_iter);
-    for (int i = real_segment_id; i < conv_stat.nr_segment; i++)
+    for (int i = real_segment_id; i < conv_stat.nr_segment; i++) {
+        struct anthy_segment_stat seg_stat;
+        anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
         m_segments.push_back (
-            ConversionSegment (get_segment_string (i, 0), 0, 0));
+            ConversionSegment (get_segment_string (i, 0), 0, seg_stat.seg_len));
+    }
 }
 
 unsigned int
