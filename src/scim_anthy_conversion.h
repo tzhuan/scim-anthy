@@ -46,11 +46,25 @@ typedef enum {
 class ConversionSegment
 {
 public:
-    ConversionSegment ();
+    ConversionSegment (WideString   str,
+                       int          id,
+                       unsigned int pos,
+                       unsigned int len);
     virtual ~ConversionSegment ();
 
+    WideString & get_string (void);
+    int          get_id     (void);
+
+    void         set        (WideString str,
+                             int        id);
+
 private:
+    WideString   m_string;
+    int          m_id;
+    unsigned int m_pos;
+    unsigned int m_len;
 };
+typedef std::vector<ConversionSegment> ConversionSegments;
 
 class Conversion
 {

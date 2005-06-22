@@ -22,7 +22,14 @@
 
 using namespace scim_anthy;
 
-ConversionSegment::ConversionSegment ()
+ConversionSegment::ConversionSegment (WideString str,
+                                      int id,
+                                      unsigned int pos,
+                                      unsigned int len)
+    : m_string (str),
+      m_id     (id),
+      m_pos    (pos),
+      m_len    (len)
 {
 }
 
