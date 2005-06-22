@@ -48,7 +48,6 @@ static GtkWidget   * __widget_romaji_sequence_entry = NULL;
 static GtkWidget   * __widget_romaji_result_entry   = NULL;
 static GtkWidget   * __widget_romaji_add_button     = NULL;
 static GtkWidget   * __widget_romaji_remove_button  = NULL;
-static GtkWidget   * __widget_romaji_user_defined   = NULL;
 
 static String __config_romaji_theme = SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT;
 
@@ -438,7 +437,6 @@ setup_romaji_theme_menu (GtkOptionMenu *omenu)
     // create menu items
     GtkWidget *menuitem = gtk_menu_item_new_with_label (_("User defined"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
-    __widget_romaji_user_defined = menuitem;
     //gtk_widget_show (menuitem);
 
     menuitem = gtk_menu_item_new_with_label (_("Default"));
