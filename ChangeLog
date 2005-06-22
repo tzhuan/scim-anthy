@@ -1,3 +1,9 @@
+2005-06-23 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_conversion.{cpp,h}, src/scim_anthy_utils.{cpp,h}:
+	Rotate case on pressing F9 and F10 key like ATOK or Microsoft IME.
+	* TODO: update.
+
 2005-06-22 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_conversion.cpp: Set reading length to ConversionSegment

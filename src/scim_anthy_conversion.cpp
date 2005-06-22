@@ -204,6 +204,89 @@ Conversion::commit (int segment_id, bool learn)
     }
 }
 
+static void
+rotate_case (String &str)
+{
+    bool is_mixed = false;
+    for (unsigned int i = 1; i < str.length (); i++) {
+        if ((isupper (str[0]) && islower (str[i])) ||
+            (islower (str[0]) && isupper (str[i])))
+        {
+            is_mixed = true;
+            break;
+        }
+    }
+
+    if (is_mixed) {
+        // Anthy -> anthy, anThy -> anthy
+        for (unsigned int i = 0; i < str.length (); i++)
+            str[i] = tolower (str[i]);
+    } else if (isupper (str[0])) {
+        // ANTHY -> Anthy
+        for (unsigned int i = 1; i < str.length (); i++)
+            str[i] = tolower (str[i]);
+    } else {
+        // anthy -> ANTHY
+        for (unsigned int i = 0; i < str.length (); i++)
+            str[i] = toupper (str[i]);
+    }
+}
+
+void
+Conversion::get_reading_substr (WideString &string,
+                                int segment_id,
+                                int candidate_id,
+                                int seg_start,
+                                int seg_len)
+{
+    int prev_cand = 0;
+
+    if (segment_id < (int) m_segments.size ())
+        prev_cand = m_segments[segment_id].get_candidate_id ();
+
+    switch ((CandidateType) candidate_id) {
+    case SCIM_ANTHY_CANDIDATE_LATIN:
+        if (prev_cand == SCIM_ANTHY_CANDIDATE_LATIN) {
+            String str = utf8_wcstombs (m_segments[segment_id].get_string ());
+            rotate_case (str);
+            string = utf8_mbstowcs (str);
+        } else {
+            m_reading.get (string, seg_start, seg_len,
+                           SCIM_ANTHY_STRING_LATIN);
+        }
+        break;
+    case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
+        if (prev_cand == SCIM_ANTHY_CANDIDATE_WIDE_LATIN) {
+            String str;
+            convert_to_half (str, m_segments[segment_id].get_string ());
+            rotate_case (str);
+            convert_to_wide (string, str);
+        } else {
+            m_reading.get (string, seg_start, seg_len,
+                           SCIM_ANTHY_STRING_WIDE_LATIN);
+        }
+        break;
+    case SCIM_ANTHY_CANDIDATE_KATAKANA:
+        m_reading.get (string, seg_start, seg_len,
+                       SCIM_ANTHY_STRING_KATAKANA);
+        break;
+    case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
+        m_reading.get (string, seg_start, seg_len,
+                       SCIM_ANTHY_STRING_HALF_KATAKANA);
+        break;
+    case SCIM_ANTHY_CANDIDATE_HALF:
+        // shouldn't reach to this entry
+        m_reading.get (string, seg_start, seg_len,
+                       SCIM_ANTHY_STRING_HALF_KATAKANA);
+        break;
+    case SCIM_ANTHY_CANDIDATE_HIRAGANA:
+    default:
+        m_reading.get (string, seg_start, seg_len,
+                       SCIM_ANTHY_STRING_HIRAGANA);
+        break;
+    }
+}
+
 WideString
 Conversion::get_segment_string (int segment_id, int candidate_id)
 {
@@ -250,32 +333,8 @@ Conversion::get_segment_string (int segment_id, int candidate_id)
     // get string of this segment
     WideString segment_str;
     if (cand < 0) {
-        StringType type;
-        switch ((CandidateType) cand) {
-        case SCIM_ANTHY_CANDIDATE_LATIN:
-            type = SCIM_ANTHY_STRING_LATIN;
-            break;
-        case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
-            type = SCIM_ANTHY_STRING_WIDE_LATIN;
-            break;
-        case SCIM_ANTHY_CANDIDATE_KATAKANA:
-            type = SCIM_ANTHY_STRING_KATAKANA;
-            break;
-        case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
-            type = SCIM_ANTHY_STRING_HALF_KATAKANA;
-            break;
-        case SCIM_ANTHY_CANDIDATE_HALF:
-            // shouldn't reach to this entry
-            type = SCIM_ANTHY_STRING_HALF_KATAKANA;
-            break;
-        case SCIM_ANTHY_CANDIDATE_HIRAGANA:
-        default:
-            type = SCIM_ANTHY_STRING_HIRAGANA;
-            break;
-        }
-        m_reading.get (segment_str,
-                       real_seg_start, seg_stat.seg_len,
-                       type);
+        get_reading_substr (segment_str, segment_id, cand,
+                            real_seg_start, seg_stat.seg_len);
     } else {
         int len = anthy_get_segment (m_anthy_context, real_seg, cand, NULL, 0);
         char buf[len + 1];
@@ -436,7 +495,8 @@ Conversion::resize_segment (int relative_size, int segment_id)
         struct anthy_segment_stat seg_stat;
         anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
         m_segments.push_back (
-            ConversionSegment (get_segment_string (i, 0), 0, seg_stat.seg_len));
+            ConversionSegment (get_segment_string (i, 0), 0,
+                               seg_stat.seg_len));
     }
 }
 

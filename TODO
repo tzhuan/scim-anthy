@@ -1,8 +1,6 @@
 Version-0.6.0 (Planning to release at July 29th, 2005)
 
   * SKIM plugin.
-  * Toggle upcase/downcase all or head of string on direct conversoin like
-    Microsoft IME and ATOK.
   * Add preedit color preference
   * Realtime conversion like honoka-tan.
   * Style file

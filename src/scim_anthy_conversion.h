@@ -106,6 +106,11 @@ public:
     void          select_candidate       (int candidate_id,
                                           int segment_id = -1);
 private:
+    void          get_reading_substr     (WideString &string,
+                                          int segment_id,
+                                          int candidate_id,
+                                          int seg_start,
+                                          int seg_len);
     void          join_all_segments      (void);
 
 private:

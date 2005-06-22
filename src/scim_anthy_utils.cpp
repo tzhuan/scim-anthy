@@ -49,6 +49,31 @@ convert_to_wide (WideString & wide, const String & str)
 }
 
 void
+convert_to_half (String & half, const WideString & str)
+{
+    if (str.length () < 0)
+        return;
+
+    for (unsigned int i = 0; i < str.length (); i++) {
+        WideString wide = str.substr (i, 1);
+        bool found = false;
+
+        for (unsigned int j = 0; scim_anthy_wide_table[j].code; j++) {
+            if (scim_anthy_wide_table[j].wide &&
+                wide == utf8_mbstowcs (scim_anthy_wide_table[j].wide))
+            {
+                half += scim_anthy_wide_table[j].code;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+            half += utf8_wcstombs (wide);
+    }
+}
+
+void
 convert_to_katakana (WideString & kata,
                      const WideString & hira,
                      bool half)

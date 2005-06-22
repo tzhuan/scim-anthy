@@ -29,6 +29,8 @@ namespace scim_anthy {
 
 void convert_to_wide     (WideString       & wide,
                           const String     & str);
+void convert_to_half     (String           & half,
+                          const WideString & str);
 void convert_to_katakana (WideString       & kata,
                           const WideString & hira,
                           bool               half = false);
