@@ -23,13 +23,13 @@
 using namespace scim_anthy;
 
 ConversionSegment::ConversionSegment (WideString str,
-                                      int id,
+                                      int cand_id,
                                       unsigned int pos,
                                       unsigned int len)
-    : m_string (str),
-      m_id     (id),
-      m_pos    (pos),
-      m_len    (len)
+    : m_string  (str),
+      m_cand_id (cand_id),
+      m_pos     (pos),
+      m_len     (len)
 {
 }
 
@@ -45,16 +45,16 @@ ConversionSegment::get_string (void)
 
 
 int
-ConversionSegment::get_id (void)
+ConversionSegment::get_candidate_id (void)
 {
-    return m_id;
+    return m_cand_id;
 }
 
 void
-ConversionSegment::set (WideString str, int id)
+ConversionSegment::set (WideString str, int cand_id)
 {
-    m_string = str;
-    m_id     = id;
+    m_string  = str;
+    m_cand_id = cand_id;
 }
 
 
@@ -111,61 +111,56 @@ Conversion::start (CandidateType ctype)
         m_cur_pos = 0;
 
         // select first candidates for all segment
-        m_candidates.clear ();
+        m_segments.clear ();
         for (int i = m_start_id; i < conv_stat.nr_segment; i++)
-            m_candidates.push_back (0);
-
-        // create whole string
-        create_string ();
+            m_segments.push_back (
+                ConversionSegment (get_segment_string (i, 0), 0, 0, 0));
     }
 }
 
 void
 Conversion::convert_kana (CandidateType ctype)
 {
-    String str;
-    WideString wide;
+    WideString str;
 
-    m_string.clear ();
-    m_attrs.clear ();
     m_cur_segment = 0;
     m_cur_pos = 0;
     m_kana_converting = true;
 
     switch (ctype) {
     case SCIM_ANTHY_CANDIDATE_LATIN:
-        m_string = utf8_mbstowcs (m_reading.get_raw ());
+        str = utf8_mbstowcs (m_reading.get_raw ());
         break;
 
     case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
-        convert_to_wide (m_string, m_reading.get_raw ());
+        convert_to_wide (str, m_reading.get_raw ());
         break;
 
     case SCIM_ANTHY_CANDIDATE_HIRAGANA:
-        m_string = m_reading.get ();
+        str = m_reading.get ();
         break;
 
     case SCIM_ANTHY_CANDIDATE_KATAKANA:
-        convert_to_katakana (m_string, m_reading.get ());
+        convert_to_katakana (str, m_reading.get ());
         break;
 
     case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
-        convert_to_katakana (m_string, m_reading.get (), true);
+        convert_to_katakana (str, m_reading.get (), true);
         break;
 
     case SCIM_ANTHY_CANDIDATE_HALF:
-        if (m_candidates.empty ()) {
-            convert_to_katakana (m_string, m_reading.get (), true);
+        if (m_segments.empty ()) {
+            convert_to_katakana (str, m_reading.get (), true);
             ctype = SCIM_ANTHY_CANDIDATE_HALF_KATAKANA;
         } else {
-            switch (m_candidates[0]) {
+            switch (m_segments[0].get_candidate_id ()) {
             case SCIM_ANTHY_CANDIDATE_LATIN:
             case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
-                m_string = utf8_mbstowcs (m_reading.get_raw ());
+                str = utf8_mbstowcs (m_reading.get_raw ());
                 ctype = SCIM_ANTHY_CANDIDATE_LATIN;
                 break;
             default:
-                convert_to_katakana (m_string, m_reading.get (), true);
+                convert_to_katakana (str, m_reading.get (), true);
                 ctype = SCIM_ANTHY_CANDIDATE_HALF_KATAKANA;
                 break;
             }
@@ -179,14 +174,8 @@ Conversion::convert_kana (CandidateType ctype)
     }
 
     // set candidate type
-    m_candidates.clear ();
-    m_candidates.push_back (ctype);
-
-    // create attribute for this segment
-    Attribute attr (0, m_string.length (),
-                    SCIM_ATTR_DECORATE);
-    attr.set_value (SCIM_ATTR_DECORATE_REVERSE);
-    m_attrs.push_back (attr);
+    m_segments.clear ();
+    m_segments.push_back (ConversionSegment (str, ctype, 0, 0));
 }
 
 void
@@ -194,9 +183,7 @@ Conversion::clear (void)
 {
     anthy_reset_context (m_anthy_context);
 
-    m_string.clear ();
-    m_attrs.clear ();
-    m_candidates.clear ();
+    m_segments.clear ();
     
     m_start_id        = 0;
     m_cur_segment     = -1;
@@ -208,28 +195,29 @@ void
 Conversion::commit (int segment_id, bool learn)
 {
     if (m_kana_converting) return;
-    if (m_candidates.size () <= 0) return;
+    if (m_segments.size () <= 0) return;
 
     // learn
     for (unsigned int i = m_start_id;
          learn &&
-             i < m_candidates.size () &&
+             i < m_segments.size () &&
              (segment_id < 0 || (int) i <= segment_id);
          i++)
     {
-        if (m_candidates[i] >= 0)
-            anthy_commit_segment (m_anthy_context, i, m_candidates[i]);
+        if (m_segments[i].get_candidate_id () >= 0)
+            anthy_commit_segment (m_anthy_context, i,
+                                  m_segments[i].get_candidate_id ());
     }
 
 
     if (segment_id >= 0 &&
-        segment_id + 1 < (int) m_candidates.size ())
+        segment_id + 1 < (int) m_segments.size ())
     {
         // partial commit
 
         // remove commited segments
-        std::vector<int>::iterator it = m_candidates.begin ();
-        m_candidates.erase(it, it + segment_id + 1);
+        ConversionSegments::iterator it = m_segments.begin ();
+        m_segments.erase (it, it + segment_id + 1);
 
         // adjust selected segment
         int new_start_segment_id = m_start_id + segment_id + 1;
@@ -247,57 +235,14 @@ Conversion::commit (int segment_id, bool learn)
         m_reading.erase (0, commited_len, true);
         m_start_id = new_start_segment_id;
 
-        // recreate conversion string
-        create_string ();
-
     } else {
         // commit all
         clear ();
     }
 }
 
-void
-Conversion::create_string (void)
-{
-    m_string.clear ();
-    m_attrs.clear ();
-
-    struct anthy_conv_stat conv_stat;
-    anthy_get_stat (m_anthy_context, &conv_stat);
-
-    if (conv_stat.nr_segment <= 0)
-        return;
-    if (m_start_id < 0 || m_start_id >= conv_stat.nr_segment)
-        return; /* error */
-
-    for (int i = m_start_id; i < conv_stat.nr_segment; i++) {
-        int seg = i - m_start_id;
-
-        // get string of this segment
-        WideString segment_str = get_segment_string (seg);
-
-        // set caret
-        if (seg == m_cur_segment)
-            m_cur_pos = m_string.length ();
-
-        // create attribute for this segment
-        Attribute attr (m_string.length (), segment_str.length (),
-                        SCIM_ATTR_DECORATE);
-        if (seg == m_cur_segment)
-            attr.set_value (SCIM_ATTR_DECORATE_REVERSE);
-        else
-            attr.set_value (SCIM_ATTR_DECORATE_UNDERLINE);
-
-        // join the string to the whole conversion string
-        if (segment_str.length () > 0) {
-            m_string += segment_str;
-            m_attrs.push_back (attr);
-        }
-    }
-}
-
 WideString
-Conversion::get_segment_string (int segment_id)
+Conversion::get_segment_string (int segment_id, int candidate_id)
 {
     if (segment_id < 0)
         segment_id = m_cur_segment;
@@ -329,7 +274,11 @@ Conversion::get_segment_string (int segment_id)
     }
 
     int real_seg = segment_id + m_start_id;
-    int cand = m_candidates[segment_id];
+    int cand;
+    if (candidate_id <= SCIM_ANTHY_LAST_SPECIAL_CANDIDATE)
+        cand = m_segments[segment_id].get_candidate_id ();
+    else
+        cand = candidate_id;
 
     // get information of this segment
     struct anthy_segment_stat seg_stat;
@@ -378,7 +327,7 @@ Conversion::get_segment_string (int segment_id)
 bool
 Conversion::is_converting (void)
 {
-    if (m_string.length () > 0)
+    if (m_segments.size () > 0)
         return true;
     else
         return false;
@@ -393,19 +342,53 @@ Conversion::is_kana_converting (void)
 WideString
 Conversion::get (void)
 {
-    return m_string;
+    WideString str;
+    ConversionSegments::iterator it;
+    for (it = m_segments.begin (); it != m_segments.end (); it++)
+        str += it->get_string ();
+    return str;
 }
 
 unsigned int
 Conversion::get_length (void)
 {
-    return m_string.length ();
+    unsigned int len = 0;
+    ConversionSegments::iterator it;
+    for (it = m_segments.begin (); it != m_segments.end (); it++)
+        len += it->get_string().length ();
+    return len;
 }
 
 AttributeList
 Conversion::get_attribute_list (void)
 {
-    return m_attrs;
+    AttributeList attrs;
+    unsigned int pos = 0, seg_id;
+    ConversionSegments::iterator it;
+    for (it = m_segments.begin (), seg_id = 0;
+         it != m_segments.end ();
+         it++, seg_id++)
+    {
+        // set caret
+        if ((int) seg_id == m_cur_segment)
+            m_cur_pos = pos;
+
+        // create attribute for this segment
+        Attribute attr (pos, it->get_string().length (),
+                        SCIM_ATTR_DECORATE);
+        if ((int) seg_id == m_cur_segment)
+            attr.set_value (SCIM_ATTR_DECORATE_REVERSE);
+        else
+            attr.set_value (SCIM_ATTR_DECORATE_UNDERLINE);
+
+        // join
+        if (it->get_string().length () > 0)
+            attrs.push_back (attr);
+
+        pos += it->get_string().length ();
+    }
+
+    return attrs;
 }
 
 int
@@ -437,10 +420,8 @@ Conversion::select_segment (int segment_id)
 
     int real_segment_id = segment_id + m_start_id;
 
-    if (segment_id >= 0 && real_segment_id < conv_stat.nr_segment) {
+    if (segment_id >= 0 && real_segment_id < conv_stat.nr_segment)
         m_cur_segment = segment_id;
-        create_string ();
-    }
 }
 
 int
@@ -491,14 +472,12 @@ Conversion::resize_segment (int relative_size, int segment_id)
 
     // reset candidates of trailing segments
     anthy_get_stat (m_anthy_context, &conv_stat);
-    std::vector<int>::iterator start_iter = m_candidates.begin();
-    std::vector<int>::iterator end_iter   = m_candidates.end();
-    m_candidates.erase (start_iter + segment_id, end_iter);
+    ConversionSegments::iterator start_iter = m_segments.begin();
+    ConversionSegments::iterator end_iter   = m_segments.end();
+    m_segments.erase (start_iter + segment_id, end_iter);
     for (int i = real_segment_id; i < conv_stat.nr_segment; i++)
-        m_candidates.push_back (0);
-
-    // recreate conversion string
-    create_string ();
+        m_segments.push_back (
+            ConversionSegment (get_segment_string (i, 0), 0, 0, 0));
 }
 
 unsigned int
@@ -567,7 +546,7 @@ Conversion::get_selected_candidate (int segment_id)
     else if (segment_id >= conv_stat.nr_segment)
         return -1;
 
-    return m_candidates[segment_id];
+    return m_segments[segment_id].get_candidate_id ();
 }
 
 void
@@ -594,7 +573,7 @@ Conversion::select_candidate (int candidate_id, int segment_id)
     anthy_get_segment_stat (m_anthy_context, real_segment_id, &seg_stat);
 
     if (candidate_id == SCIM_ANTHY_CANDIDATE_HALF) {
-        switch (m_candidates[segment_id]) {
+        switch (m_segments[segment_id].get_candidate_id ()) {
         case SCIM_ANTHY_CANDIDATE_LATIN:
         case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
             candidate_id = SCIM_ANTHY_CANDIDATE_LATIN;
@@ -605,8 +584,8 @@ Conversion::select_candidate (int candidate_id, int segment_id)
         }
     }
 
-    if (candidate_id < seg_stat.nr_candidate) {
-        m_candidates[segment_id] = candidate_id;
-        create_string ();
-    }
+    if (candidate_id < seg_stat.nr_candidate)
+        m_segments[segment_id].set (get_segment_string (segment_id,
+                                                        candidate_id),
+                                    candidate_id);
 }

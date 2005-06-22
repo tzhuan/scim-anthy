@@ -47,20 +47,20 @@ class ConversionSegment
 {
 public:
     ConversionSegment (WideString   str,
-                       int          id,
+                       int          cand_id,
                        unsigned int pos,
                        unsigned int len);
     virtual ~ConversionSegment ();
 
-    WideString & get_string (void);
-    int          get_id     (void);
+    WideString & get_string       (void);
+    int          get_candidate_id (void);
 
-    void         set        (WideString str,
-                             int        id);
+    void         set              (WideString str,
+                                   int        cand_id);
 
 private:
     WideString   m_string;
-    int          m_id;
+    int          m_cand_id;
     unsigned int m_pos;
     unsigned int m_len;
 };
@@ -72,11 +72,13 @@ public:
     Conversion (Reading &reading);
     virtual ~Conversion ();
 
+    // starting and finishing
     void          start                  (CandidateType type);
     void          clear                  (void);
     void          commit                 (int  segment_id = -1,
                                           bool lean       = true);
 
+    // getting status
     bool          is_converting          (void);
     bool          is_kana_converting     (void);
 
@@ -86,7 +88,9 @@ public:
 
     // segments of the converted sentence
     int           get_nr_segments        (void);
-    WideString    get_segment_string     (int segment_id = -1);
+    WideString    get_segment_string     (int segment_id = -1,
+                                          int candidate_id
+                                          = SCIM_ANTHY_LAST_SPECIAL_CANDIDATE);
     int           get_selected_segment   (void);
     void          select_segment         (int segment_id);
     int           get_segment_size       (int segment_id = -1);
@@ -101,23 +105,20 @@ public:
     void          select_candidate       (int candidate_id,
                                           int segment_id = -1);
 private:
-    void          create_string          (void);
     void          convert_kana           (CandidateType type);
 
 private:
     // convertors
-    IConvert          m_iconv;
-    Reading          &m_reading;
-    anthy_context_t   m_anthy_context;
+    IConvert           m_iconv;
+    Reading           &m_reading;
+    anthy_context_t    m_anthy_context;
 
     // status variables
-    WideString        m_string;
-    AttributeList     m_attrs;
-    std::vector<int>  m_candidates;
-    int               m_start_id;    // number of commited segments
-    int               m_cur_segment; // relative position from m_start_id
-    int               m_cur_pos;     // caret position
-    bool              m_kana_converting;
+    ConversionSegments m_segments;
+    int                m_start_id;    // number of commited segments
+    int                m_cur_segment; // relative position from m_start_id
+    int                m_cur_pos;     // caret position
+    bool               m_kana_converting;
 };
 
 }
