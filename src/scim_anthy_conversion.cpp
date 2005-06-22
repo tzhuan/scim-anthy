@@ -24,12 +24,10 @@ using namespace scim_anthy;
 
 ConversionSegment::ConversionSegment (WideString str,
                                       int cand_id,
-                                      unsigned int pos,
-                                      unsigned int len)
-    : m_string  (str),
-      m_cand_id (cand_id),
-      m_pos     (pos),
-      m_len     (len)
+                                      unsigned int reading_len)
+    : m_string      (str),
+      m_cand_id     (cand_id),
+      m_reading_len (reading_len)
 {
 }
 
@@ -50,11 +48,23 @@ ConversionSegment::get_candidate_id (void)
     return m_cand_id;
 }
 
+unsigned int
+ConversionSegment::get_reading_length (void)
+{
+    return m_reading_len;
+}
+
 void
 ConversionSegment::set (WideString str, int cand_id)
 {
     m_string  = str;
     m_cand_id = cand_id;
+}
+
+void
+ConversionSegment::set_reading_length (unsigned int len)
+{
+    m_reading_len = len;
 }
 
 
@@ -126,7 +136,7 @@ Conversion::start (CandidateType ctype, bool single_segment)
     m_segments.clear ();
     for (int i = m_start_id; i < conv_stat.nr_segment; i++)
         m_segments.push_back (
-            ConversionSegment (get_segment_string (i, ctype), ctype, 0, 0));
+            ConversionSegment (get_segment_string (i, ctype), ctype, 0));
 }
 
 void
@@ -420,16 +430,25 @@ Conversion::resize_segment (int relative_size, int segment_id)
     m_segments.erase (start_iter + segment_id, end_iter);
     for (int i = real_segment_id; i < conv_stat.nr_segment; i++)
         m_segments.push_back (
-            ConversionSegment (get_segment_string (i, 0), 0, 0, 0));
+            ConversionSegment (get_segment_string (i, 0), 0, 0));
 }
 
 unsigned int
 Conversion::get_segment_position (int segment_id)
 {
-    //FIXME!!!
     if (segment_id < 0)
-        return m_cur_pos;
-    return 0;
+        segment_id = m_cur_segment;
+
+    unsigned int pos = 0;
+
+    for (unsigned int i = 0;
+         (int) i < m_cur_segment && i < m_segments.size ();
+         i++)
+    {
+        pos += m_segments[i].get_string().length ();
+    }
+
+    return pos;
 }
 
 

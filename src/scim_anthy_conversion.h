@@ -48,21 +48,21 @@ class ConversionSegment
 public:
     ConversionSegment (WideString   str,
                        int          cand_id,
-                       unsigned int pos,
-                       unsigned int len);
+                       unsigned int reading_len);
     virtual ~ConversionSegment ();
 
-    WideString & get_string       (void);
-    int          get_candidate_id (void);
+    WideString & get_string         (void);
+    int          get_candidate_id   (void);
+    unsigned int get_reading_length (void);
 
-    void         set              (WideString str,
-                                   int        cand_id);
+    void         set                (WideString   str,
+                                     int          cand_id);
+    void         set_reading_length (unsigned int len);
 
 private:
     WideString   m_string;
     int          m_cand_id;
-    unsigned int m_pos;
-    unsigned int m_len;
+    unsigned int m_reading_len;
 };
 typedef std::vector<ConversionSegment> ConversionSegments;
 
