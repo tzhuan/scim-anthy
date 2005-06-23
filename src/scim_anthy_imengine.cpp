@@ -758,12 +758,18 @@ AnthyInstance::action_back (void)
 
     if (m_preedit.is_converting ()) {
         action_revert ();
-        return true;
+        if (!is_realtime_conversion ())
+            return true;
     }
 
     m_preedit.erase ();
 
     if (m_preedit.get_length () > 0) {
+        if (is_realtime_conversion ()) {
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+                               is_single_segment ());
+            m_preedit.select_segment (-1);
+        }
         set_preedition ();
     } else {
         reset ();
@@ -780,12 +786,18 @@ AnthyInstance::action_delete (void)
 
     if (m_preedit.is_converting ()) {
         action_revert ();
-        return true;
+        if (!is_realtime_conversion ())
+            return true;
     }
 
     m_preedit.erase (false);
 
     if (m_preedit.get_length () > 0) {
+        if (is_realtime_conversion ()) {
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+                               is_single_segment ());
+            m_preedit.select_segment (-1);
+        }
         set_preedition ();
     } else {
         reset ();
