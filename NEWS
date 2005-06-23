@@ -3,6 +3,7 @@ Overview of Changes from scim-anthy-0.4.3 to scim-anthy-0.5.0
 * Enable to customize romaji table.
 * Add "Key bindings theme" and "Romaji table theme" features.
   (Thank you for testing and many suggestions > UTUMI-san and Bando-san)
+* Add "Convert as you type" feature.
 * Enable to split a romaji sequence. (Thanks! DAIRIKI-san)
 * Enable to rotate case of alphabet letters on pressing F8, F9 and F10 key like   ATOK or Microsoft IME.
 * Other minor bug fixes. (Thanks! UTUMI-san, SATO-san)
