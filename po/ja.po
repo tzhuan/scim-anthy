@@ -5,75 +5,95 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-06-22 15:25+0900\n"
-"PO-Revision-Date: 2005-06-22 15:26+0900\n"
+"POT-Creation-Date: 2005-06-23 17:13+0900\n"
+"PO-Revision-Date: 2005-06-23 17:15+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:325
+#: src/scim_anthy_imengine.cpp:340
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:329
+#: src/scim_anthy_imengine.cpp:344
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:333
+#: src/scim_anthy_imengine.cpp:348
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:337 src/scim_anthy_imengine.cpp:338
+#: src/scim_anthy_imengine.cpp:352 src/scim_anthy_imengine.cpp:353
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:342
+#: src/scim_anthy_imengine.cpp:357
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:342
+#: src/scim_anthy_imengine.cpp:357
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:346
+#: src/scim_anthy_imengine.cpp:361
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:352
+#: src/scim_anthy_imengine.cpp:368
+msgid "Conversion mode"
+msgstr "変換モード"
+
+#: src/scim_anthy_imengine.cpp:372 src/scim_anthy_imengine.cpp:373
+msgid "Multi segment"
+msgstr "連文節"
+
+#: src/scim_anthy_imengine.cpp:377 src/scim_anthy_imengine.cpp:378
+msgid "Single segment"
+msgstr "単文節"
+
+#: src/scim_anthy_imengine.cpp:382 src/scim_anthy_imengine.cpp:384
+msgid "Convert as you type (Multi segment)"
+msgstr "逐次変換(連文節)"
+
+#: src/scim_anthy_imengine.cpp:388 src/scim_anthy_imengine.cpp:390
+msgid "Convert as you type (Single segment)"
+msgstr "逐次変換(単文節)"
+
+#: src/scim_anthy_imengine.cpp:396
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:356
+#: src/scim_anthy_imengine.cpp:400
 msgid "Romaji"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:360
+#: src/scim_anthy_imengine.cpp:404
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:367
+#: src/scim_anthy_imengine.cpp:411
 msgid "Period style"
 msgstr "句読点スタイル"
 
-#: src/scim_anthy_imengine.cpp:394
+#: src/scim_anthy_imengine.cpp:438
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:399
+#: src/scim_anthy_imengine.cpp:443
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:401
+#: src/scim_anthy_imengine.cpp:445
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:407 src/scim_anthy_prefs.cpp:849
+#: src/scim_anthy_imengine.cpp:451 src/scim_anthy_prefs.cpp:849
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:409
+#: src/scim_anthy_imengine.cpp:453
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
@@ -205,7 +225,7 @@ msgstr "ユーザー定義"
 msgid "Default"
 msgstr "標準設定"
 
-#: src/scim_anthy_setup.cpp:1393
+#: src/scim_anthy_setup.cpp:1396
 msgid "Set key filter"
 msgstr "キ-フィルタ-をセット"
 
@@ -814,28 +834,28 @@ msgid "The key events to convert the preedit string to half width katakana. "
 msgstr "文字列を半角カタカナへ変換するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:731
-msgid "Convert to latin"
-msgstr "英数変換"
-
-#: src/scim_anthy_prefs.cpp:732
-msgid "Select keys to convert to latin"
-msgstr "英数変換キーの設定"
-
-#: src/scim_anthy_prefs.cpp:733
-msgid "The key events to convert the preedit string to latin. "
-msgstr "文字列を英数へ変換するキーイベント"
-
-#: src/scim_anthy_prefs.cpp:741
 msgid "Convert to wide latin"
 msgstr "全角英数変換"
 
-#: src/scim_anthy_prefs.cpp:742
+#: src/scim_anthy_prefs.cpp:732
 msgid "Select keys to convert to wide latin"
 msgstr "全角英数変換キーの設定"
 
-#: src/scim_anthy_prefs.cpp:743
+#: src/scim_anthy_prefs.cpp:733
 msgid "The key events to convert the preedit string to wide latin. "
 msgstr "文字列を全角英数へ変換するキーイベント"
+
+#: src/scim_anthy_prefs.cpp:741
+msgid "Convert to latin"
+msgstr "英数変換"
+
+#: src/scim_anthy_prefs.cpp:742
+msgid "Select keys to convert to latin"
+msgstr "英数変換キーの設定"
+
+#: src/scim_anthy_prefs.cpp:743
+msgid "The key events to convert the preedit string to latin. "
+msgstr "文字列を英数へ変換するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:765
 msgid "Circle kana mode"
@@ -1018,6 +1038,3 @@ msgstr "学習設定とは逆の方法で選択文節を確定するキーイベ
 
 #~ msgid "Candidates keys (Direct select)"
 #~ msgstr "候補選択キー (直接選択)"
-
-#~ msgid "Converting keys"
-#~ msgstr "変換キー"

@@ -123,7 +123,6 @@ private:
     ConversionSegments m_segments;
     int                m_start_id;    // number of commited segments
     int                m_cur_segment; // relative position from m_start_id
-    int                m_cur_pos;     // caret position
 };
 
 }

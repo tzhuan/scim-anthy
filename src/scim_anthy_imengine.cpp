@@ -43,28 +43,34 @@
 #include "scim_anthy_prefs.h"
 #include "scim_anthy_intl.h"
 
-#define SCIM_PROP_PREFIX                    "/IMEngine/Anthy"
-#define SCIM_PROP_INPUT_MODE                "/IMEngine/Anthy/InputMode"
-#define SCIM_PROP_INPUT_MODE_HIRAGANA       "/IMEngine/Anthy/InputMode/Hiragana"
-#define SCIM_PROP_INPUT_MODE_KATAKANA       "/IMEngine/Anthy/InputMode/Katakana"
-#define SCIM_PROP_INPUT_MODE_HALF_KATAKANA  "/IMEngine/Anthy/InputMode/HalfKatakana"
-#define SCIM_PROP_INPUT_MODE_LATIN          "/IMEngine/Anthy/InputMode/Latin"
-#define SCIM_PROP_INPUT_MODE_WIDE_LATIN     "/IMEngine/Anthy/InputMode/WideLatin"
+#define SCIM_PROP_PREFIX                     "/IMEngine/Anthy"
+#define SCIM_PROP_INPUT_MODE                 "/IMEngine/Anthy/InputMode"
+#define SCIM_PROP_INPUT_MODE_HIRAGANA        "/IMEngine/Anthy/InputMode/Hiragana"
+#define SCIM_PROP_INPUT_MODE_KATAKANA        "/IMEngine/Anthy/InputMode/Katakana"
+#define SCIM_PROP_INPUT_MODE_HALF_KATAKANA   "/IMEngine/Anthy/InputMode/HalfKatakana"
+#define SCIM_PROP_INPUT_MODE_LATIN           "/IMEngine/Anthy/InputMode/Latin"
+#define SCIM_PROP_INPUT_MODE_WIDE_LATIN      "/IMEngine/Anthy/InputMode/WideLatin"
 
-#define SCIM_PROP_TYPING_METHOD             "/IMEngine/Anthy/TypingMethod"
-#define SCIM_PROP_TYPING_METHOD_ROMAJI      "/IMEngine/Anthy/TypingMethod/RomaKana"
-#define SCIM_PROP_TYPING_METHOD_KANA        "/IMEngine/Anthy/TypingMethod/Kana"
+#define SCIM_PROP_CONV_MODE                  "/IMEngine/ANthy/ConvMode"
+#define SCIM_PROP_CONV_MODE_MULTI_SEG        "/IMEngine/ANthy/ConvMode/MultiSegment"
+#define SCIM_PROP_CONV_MODE_SINGLE_SEG       "/IMEngine/ANthy/ConvMode/SingleSegment"
+#define SCIM_PROP_CONV_MODE_MULTI_REAL_TIME  "/IMEngine/ANthy/ConvMode/MultiRealTime"
+#define SCIM_PROP_CONV_MODE_SINGLE_REAL_TIME "/IMEngine/ANthy/ConvMode/SingleRealTime"
 
-#define SCIM_PROP_PERIOD_STYLE              "/IMEngine/Anthy/PeriodType"
-#define SCIM_PROP_PERIOD_STYLE_JAPANESE     "/IMEngine/Anthy/PeriodType/Japanese"
-#define SCIM_PROP_PERIOD_STYLE_WIDE_LATIN   "/IMEngine/Anthy/PeriodType/WideRatin"
-#define SCIM_PROP_PERIOD_STYLE_LATIN        "/IMEngine/Anthy/PeriodType/Ratin"
+#define SCIM_PROP_TYPING_METHOD              "/IMEngine/Anthy/TypingMethod"
+#define SCIM_PROP_TYPING_METHOD_ROMAJI       "/IMEngine/Anthy/TypingMethod/RomaKana"
+#define SCIM_PROP_TYPING_METHOD_KANA         "/IMEngine/Anthy/TypingMethod/Kana"
+
+#define SCIM_PROP_PERIOD_STYLE               "/IMEngine/Anthy/PeriodType"
+#define SCIM_PROP_PERIOD_STYLE_JAPANESE      "/IMEngine/Anthy/PeriodType/Japanese"
+#define SCIM_PROP_PERIOD_STYLE_WIDE_LATIN    "/IMEngine/Anthy/PeriodType/WideRatin"
+#define SCIM_PROP_PERIOD_STYLE_LATIN         "/IMEngine/Anthy/PeriodType/Ratin"
 #define SCIM_PROP_PERIOD_STYLE_WIDE_LATIN_JAPANESE \
-                                            "/IMEngine/Anthy/PeriodType/WideRatin_Japanese"
+                                             "/IMEngine/Anthy/PeriodType/WideRatin_Japanese"
 
-#define SCIM_PROP_DICT                      "/IMEngine/Anthy/Dictionary"
-#define SCIM_PROP_DICT_ADD_WORD             "/IMEngine/Anthy/Dictionary/AddWord"
-#define SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL    "/IMEngine/Anthy/Dictionary/LaunchAdminTool"
+#define SCIM_PROP_DICT                       "/IMEngine/Anthy/Dictionary"
+#define SCIM_PROP_DICT_ADD_WORD              "/IMEngine/Anthy/Dictionary/AddWord"
+#define SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL     "/IMEngine/Anthy/Dictionary/LaunchAdminTool"
 
 AnthyInstance::AnthyInstance (AnthyFactory   *factory,
                               const String   &encoding,
@@ -75,7 +81,8 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
       m_preedit                (m_key2kana_tables),
       m_preedit_string_visible (false),
       m_lookup_table_visible   (false),
-      m_prev_input_mode        (SCIM_ANTHY_MODE_HIRAGANA)
+      m_prev_input_mode        (SCIM_ANTHY_MODE_HIRAGANA),
+      m_conv_mode              (SCIM_ANTHY_CONVERSION_MULTI_SEGMENT)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Instance : ";
 
@@ -125,15 +132,23 @@ bool
 AnthyInstance::process_remaining_key_event (const KeyEvent &key)
 {
     if (m_preedit.can_process_key_event (key)) {
-        // commit old conversion string before update preedit string
-        if (m_preedit.is_converting ())
-            action_commit (m_factory->m_learn_on_auto_commit);
+        if (m_preedit.is_converting ()) {
+            if (is_realtime_conversion ())
+                action_revert ();
+            else
+                action_commit (m_factory->m_learn_on_auto_commit);
+        }
 
         bool need_commit = m_preedit.process_key_event (key);
 
         if (need_commit) {
             action_commit (m_factory->m_learn_on_auto_commit);
         } else {
+            if (is_realtime_conversion ()) {
+                m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+                                   is_single_segment ());
+                m_preedit.select_segment (-1);
+            }
             show_preedit_string ();
             m_preedit_string_visible = true;
             set_preedition ();
@@ -347,6 +362,35 @@ AnthyInstance::install_properties (void)
             m_properties.push_back (prop);
         }
 
+        {
+            prop = Property (SCIM_PROP_CONV_MODE,
+                             "\xE9\x80\xA3", String (""),
+                             _("Conversion mode"));
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_CONV_MODE_MULTI_SEG,
+                             _("Multi segment"), String (""),
+                             _("Multi segment"));
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_CONV_MODE_SINGLE_SEG,
+                             _("Single segment"), String (""),
+                             _("Single segment"));
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_CONV_MODE_MULTI_REAL_TIME,
+                             _("Convert as you type (Multi segment)"),
+                             String (""),
+                             _("Convert as you type (Multi segment)"));
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_CONV_MODE_SINGLE_REAL_TIME,
+                             _("Convert as you type (Single segment)"),
+                             String (""),
+                             _("Convert as you type (Single segment)"));
+            m_properties.push_back (prop);
+        }
+
         if (m_factory->m_show_typing_method_label) {
             prop = Property (SCIM_PROP_TYPING_METHOD,
                              "\xEF\xBC\xB2", String (""), _("Typing method"));
@@ -412,7 +456,8 @@ AnthyInstance::install_properties (void)
         }
     }
 
-    set_input_mode (m_preedit.get_input_mode ());
+    set_input_mode(m_preedit.get_input_mode ());
+    set_conversion_mode (m_conv_mode);
     set_typing_method (m_key2kana_tables.get_typing_method ());
     set_period_style (m_key2kana_tables.get_period_style (),
                       m_key2kana_tables.get_comma_style ());
@@ -459,6 +504,41 @@ AnthyInstance::set_input_mode (InputMode mode)
         m_preedit.set_input_mode (mode);
         set_preedition ();
     }
+}
+
+void
+AnthyInstance::set_conversion_mode (ConversionMode mode)
+{
+    const char *label = "";
+
+    switch (mode) {
+    case SCIM_ANTHY_CONVERSION_MULTI_SEGMENT:
+        label = "\xE9\x80\xA3";
+        break;
+    case SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT:
+        label = "\xE5\x8D\x98";
+        break;
+    case SCIM_ANTHY_CONVERSION_MULTI_SEGMENT_IMMEDIATE:
+        label = "\xE9\x80\x90 \xE9\x80\xA3";
+        break;
+    case SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT_IMMEDIATE:
+        label = "\xE9\x80\x90 \xE5\x8D\x98";
+        break;
+    default:
+        break; 
+    }
+
+    if (label && *label /*&& m_factory->m_show_input_mode_label*/) {
+        PropertyList::iterator it = std::find (m_properties.begin (),
+                                               m_properties.end (),
+                                               SCIM_PROP_CONV_MODE);
+        if (it != m_properties.end ()) {
+            it->set_label (label);
+            update_property (*it);
+        }
+    }
+
+    m_conv_mode = mode;
 }
 
 void
@@ -563,12 +643,15 @@ AnthyInstance::action_convert (void)
 
     if (!m_preedit.is_converting ()) {
         // show conversion string
-        m_preedit.convert ();
+        m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+                           is_single_segment ());
         set_preedition ();
     } else {
         // show candidates window
-        // FIXME!
         m_preedit.get_candidates (m_lookup_table);
+
+        if (m_lookup_table.number_of_candidates () == 0)
+            return false;
 
         int selected = m_preedit.get_selected_candidate ();
         int page_size = m_lookup_table.get_page_size ();
@@ -1480,6 +1563,7 @@ AnthyInstance::trigger_property (const String &property)
     SCIM_DEBUG_IMENGINE(2)
         << "trigger_property : " << property << " - " << anthy_prop << "\n";
 
+    // input mode
     if (property == SCIM_PROP_INPUT_MODE_HIRAGANA) {
         set_input_mode (SCIM_ANTHY_MODE_HIRAGANA);
     } else if (property == SCIM_PROP_INPUT_MODE_KATAKANA) {
@@ -1491,11 +1575,23 @@ AnthyInstance::trigger_property (const String &property)
     } else if (property == SCIM_PROP_INPUT_MODE_WIDE_LATIN) {
         set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
 
+    // conversion mode
+    } else if (property == SCIM_PROP_CONV_MODE_MULTI_SEG) {
+        set_conversion_mode (SCIM_ANTHY_CONVERSION_MULTI_SEGMENT);
+    } else if (property == SCIM_PROP_CONV_MODE_SINGLE_SEG) {
+        set_conversion_mode (SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT);
+    } else if (property == SCIM_PROP_CONV_MODE_MULTI_REAL_TIME) {
+        set_conversion_mode (SCIM_ANTHY_CONVERSION_MULTI_SEGMENT_IMMEDIATE);
+    } else if (property == SCIM_PROP_CONV_MODE_SINGLE_REAL_TIME) {
+        set_conversion_mode (SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT_IMMEDIATE);
+
+    // typing method
     } else if (property == SCIM_PROP_TYPING_METHOD_ROMAJI) {
         set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);
     } else if (property == SCIM_PROP_TYPING_METHOD_KANA) {
         set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA);
 
+    // period type
     } else if (property == SCIM_PROP_PERIOD_STYLE_JAPANESE) {
         set_period_style (SCIM_ANTHY_PERIOD_JAPANESE,
                           SCIM_ANTHY_COMMA_JAPANESE);
@@ -1509,6 +1605,7 @@ AnthyInstance::trigger_property (const String &property)
         set_period_style (SCIM_ANTHY_PERIOD_HALF,
                           SCIM_ANTHY_COMMA_HALF);
 
+    // dictionary
     } else if (property == SCIM_PROP_DICT_ADD_WORD) {
         action_add_word ();
     } else if (property == SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL) {
@@ -1567,6 +1664,26 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     // setup toolbar
     m_properties.clear ();
     install_properties ();
+}
+
+bool
+AnthyInstance::is_single_segment (void)
+{
+    if (m_conv_mode == SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT ||
+        m_conv_mode == SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT_IMMEDIATE)
+        return true;
+    else
+        return false;
+}
+
+bool
+AnthyInstance::is_realtime_conversion (void)
+{
+    if (m_conv_mode == SCIM_ANTHY_CONVERSION_MULTI_SEGMENT_IMMEDIATE ||
+        m_conv_mode == SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT_IMMEDIATE)
+        return true;
+    else
+        return false;
 }
 /*
 vi:ts=4:nowrap:ai:expandtab

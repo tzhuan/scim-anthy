@@ -35,6 +35,13 @@
 using namespace scim;
 using namespace scim_anthy;
 
+typedef enum {
+    SCIM_ANTHY_CONVERSION_MULTI_SEGMENT,
+    SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT,
+    SCIM_ANTHY_CONVERSION_MULTI_SEGMENT_IMMEDIATE,
+    SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT_IMMEDIATE,
+} ConversionMode;
+
 class AnthyInstance : public IMEngineInstanceBase
 {
 public:
@@ -137,16 +144,20 @@ private:
     /* utility */
     void   set_preedition                     (void);
     void   install_properties                 (void);
-    void   set_input_mode                     (InputMode mode);
-    void   set_typing_method                  (TypingMethod method);
-    void   set_period_style                   (PeriodStyle period,
-                                               CommaStyle comma);
+    void   set_input_mode                     (InputMode      mode);
+    void   set_conversion_mode                (ConversionMode mode);
+    void   set_typing_method                  (TypingMethod   method);
+    void   set_period_style                   (PeriodStyle    period,
+                                               CommaStyle     comma);
     bool   is_selecting_candidates            (void);
-    void   select_candidate_no_direct         (unsigned int item);
-    bool   convert_kana                       (CandidateType type);
+    void   select_candidate_no_direct         (unsigned int   item);
+    bool   convert_kana                       (CandidateType  type);
 
-    bool   action_commit                      (bool learn);
-    bool   action_select_candidate            (unsigned int i);
+    bool   action_commit                      (bool           learn);
+    bool   action_select_candidate            (unsigned int   i);
+
+    bool   is_single_segment                  (void);
+    bool   is_realtime_conversion             (void);
 
 private:
     AnthyFactory         *m_factory;
@@ -167,6 +178,9 @@ private:
 
     /* for toolbar */
     PropertyList          m_properties;
+
+    /*  */
+    ConversionMode        m_conv_mode;
 };
 #endif /* __SCIM_ANTHY_IMENGINE_H__ */
 /*
