@@ -1,5 +1,10 @@
 2005-06-23 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.cpp: Select last segment when start selecting
+	candidates on "Convert as you type".
+
+2005-06-23 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_conversion.{cpp,h}, src/scim_anthy_imengine.{cpp,h}:
 	Started to implement "Convert as you type" feature.
 	* po/ja.po: Update.

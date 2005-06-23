@@ -647,6 +647,13 @@ AnthyInstance::action_convert (void)
                            is_single_segment ());
         set_preedition ();
     } else {
+        if (is_realtime_conversion ()) {
+            int n = m_preedit.get_nr_segments ();
+            if (n < 1)
+                return false;
+            m_preedit.select_segment (n - 1);
+        }
+
         // show candidates window
         m_preedit.get_candidates (m_lookup_table);
 
@@ -933,7 +940,14 @@ AnthyInstance::action_select_prev_segment (void)
     hide_lookup_table ();
     m_lookup_table_visible = false;
 
-    m_preedit.select_segment(m_preedit.get_selected_segment () - 1);
+    int idx = m_preedit.get_selected_segment ();
+    if (idx - 1 < 0) {
+        int n = m_preedit.get_nr_segments ();
+        if (n <= 0) return false;
+        m_preedit.select_segment (n - 1);
+    } else {
+        m_preedit.select_segment (idx - 1);
+    }
     set_preedition ();
 
     return true;
@@ -949,7 +963,18 @@ AnthyInstance::action_select_next_segment (void)
     hide_lookup_table ();
     m_lookup_table_visible = false;
 
-    m_preedit.select_segment(m_preedit.get_selected_segment () + 1);
+    int idx = m_preedit.get_selected_segment ();
+    if (idx < 0) {
+        m_preedit.select_segment(0);
+    } else {
+        int n = m_preedit.get_nr_segments ();
+        if (n <= 0)
+            return false;
+        if (idx + 1 >= n)
+            m_preedit.select_segment(0);
+        else
+            m_preedit.select_segment(idx + 1);
+    }
     set_preedition ();
 
     return true;
