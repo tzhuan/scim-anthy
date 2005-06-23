@@ -623,26 +623,26 @@ create_toolbar_page (void)
 
     /* show/hide toolbar label */
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     /* dictionary menu */
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL);
     g_signal_connect ((gpointer) widget, "toggled",
                       G_CALLBACK (on_dict_menu_label_toggled),
                       NULL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 2);
     gtk_widget_show (hbox);
     label = gtk_label_new ("    ");
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
@@ -651,7 +651,7 @@ create_toolbar_page (void)
     gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
 
     hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 2);
     gtk_widget_show (hbox);
     label = gtk_label_new ("    ");
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
