@@ -247,9 +247,9 @@ static gboolean on_key_list_view_button_press     (GtkWidget        *widget,
                                                    gpointer          user_data);
 static void     on_key_theme_menu_changed         (GtkOptionMenu    *omenu,
                                                    gpointer          user_data);
-static void     on_choose_keys_button_clicked     (GtkWidget        *button,
-                                                   gpointer          data);
 static void     on_key_list_selection_changed     (GtkTreeSelection *selection,
+                                                   gpointer          data);
+static void     on_choose_keys_button_clicked     (GtkWidget        *button,
                                                    gpointer          data);
 
 
