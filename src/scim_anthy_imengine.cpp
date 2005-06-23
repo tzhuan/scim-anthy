@@ -376,7 +376,7 @@ AnthyInstance::install_properties (void)
             m_properties.push_back (prop);
         }
 
-        {
+        if (m_factory->m_show_conv_mode_label) {
             prop = Property (SCIM_PROP_CONV_MODE,
                              "\xE9\x80\xA3", String (""),
                              _("Conversion mode"));

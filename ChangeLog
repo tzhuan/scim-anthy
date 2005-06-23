@@ -1,5 +1,12 @@
 2005-06-23 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_factory.{cpp,h}, src/scim_anthy_imengine.cpp,
+	  src/scim_anthy_prefs.{cpp,h}, src/scim_anthy_setup.cpp:
+	Add preference to show/hide conversion mode label on toolbar.
+	* po/ja.po: Update.
+
+2005-06-23 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine.cpp: Enable to delete letters on "Convert as
 	you type".
 

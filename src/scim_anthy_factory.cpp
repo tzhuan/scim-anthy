@@ -118,6 +118,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_dict_admin_command       (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
       m_add_word_command         (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
       m_show_input_mode_label    (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
+      m_show_conv_mode_label     (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
       m_show_typing_method_label (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT),
       m_show_period_style_label  (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT),
       m_show_dict_label          (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT),
@@ -352,6 +353,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_show_input_mode_label
             = config->read (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL,
                             m_show_input_mode_label);
+        m_show_conv_mode_label
+            = config->read (SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL,
+                            m_show_conv_mode_label);
         m_show_typing_method_label
             = config->read (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL,
                             m_show_typing_method_label);

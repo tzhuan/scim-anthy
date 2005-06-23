@@ -60,6 +60,7 @@ class AnthyFactory : public IMEngineFactoryBase
     String        m_dict_admin_command;
     String        m_add_word_command;
     bool          m_show_input_mode_label;
+    bool          m_show_conv_mode_label;
     bool          m_show_typing_method_label;
     bool          m_show_period_style_label;
     bool          m_show_dict_label;

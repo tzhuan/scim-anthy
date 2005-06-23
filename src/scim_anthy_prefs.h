@@ -39,6 +39,7 @@
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND            "/IMEngine/Anthy/AddWordCommand"
 
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL       "/IMEngine/Anthy/ShowInputModeLabel"
+#define SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL  "/IMEngine/Anthy/ShowConversionModeLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL    "/IMEngine/Anthy/ShowTypingMethodLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL     "/IMEngine/Anthy/ShowPeriodStyleLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL             "/IMEngine/Anthy/ShowDictLabel"
@@ -133,6 +134,7 @@
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT            "kasumi --add"
 
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT       true
+#define SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL_DEFAULT  true
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT    false
 #define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT     false
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT             false
