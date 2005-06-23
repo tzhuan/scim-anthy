@@ -647,7 +647,9 @@ AnthyInstance::action_convert (void)
                            is_single_segment ());
         set_preedition ();
     } else {
-        if (is_realtime_conversion ()) {
+        if (is_realtime_conversion () &&
+            m_preedit.get_selected_segment () < 0)
+        {
             int n = m_preedit.get_nr_segments ();
             if (n < 1)
                 return false;
