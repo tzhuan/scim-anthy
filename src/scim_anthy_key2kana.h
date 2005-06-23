@@ -38,21 +38,25 @@ typedef enum {
 class Key2KanaConvertor
 {
     Key2KanaTableSet  &m_tables;
+    bool               m_case_sensitive;
     WideString         m_pending;
     Key2KanaRule       m_exact_match;
 
 public:
-    Key2KanaConvertor (Key2KanaTableSet & tables);
-    virtual ~Key2KanaConvertor ();
+    Key2KanaConvertor             (Key2KanaTableSet & tables);
+    virtual ~Key2KanaConvertor    ();
 
-    bool       append        (const String & str,
-                              WideString   & result,
-                              WideString   & pending);
-    void       clear         (void);
+    bool       append             (const String & str,
+                                   WideString   & result,
+                                   WideString   & pending);
+    void       clear              (void);
 
-    bool       is_pending    (void);
-    WideString get_pending   (void);
-    WideString flush_pending (void);
+    bool       is_pending         (void);
+    WideString get_pending        (void);
+    WideString flush_pending      (void);
+
+    void       set_case_sensitive (bool sens) { m_case_sensitive = sens; }
+    bool       get_case_sensitive (void)      { return m_case_sensitive; }
 };
 
 }

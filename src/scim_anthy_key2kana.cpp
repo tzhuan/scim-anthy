@@ -23,7 +23,8 @@
 using namespace scim_anthy;
 
 Key2KanaConvertor::Key2KanaConvertor (Key2KanaTableSet & tables)
-    : m_tables (tables)
+    : m_tables         (tables),
+      m_case_sensitive (false)
 {
 }
 
@@ -36,12 +37,17 @@ Key2KanaConvertor::append (const String & str,
                            WideString & result, WideString & pending)
 {
     WideString widestr = utf8_mbstowcs (str);
-    WideString newstr = m_pending + widestr;
+    WideString matching_str = m_pending + widestr;
     Key2KanaRule exact_match;
     bool has_partial_match = false;
     bool retval = false;
 
-    /* FIXME! should be optimized */
+    if (!m_case_sensitive) {
+        String half = utf8_wcstombs (matching_str);
+        for (unsigned int i = 0; i < half.length (); i++)
+            half[i] = tolower (half[i]);
+        matching_str = utf8_mbstowcs (half);
+    }
 
     /* find matched table */
     std::vector<Key2KanaTable*> &tables = m_tables.get_tables();
@@ -53,9 +59,14 @@ Key2KanaConvertor::append (const String & str,
 
         for (unsigned int i = 0; i < rules.size(); i++) {
             /* matching */
-            WideString roma = utf8_mbstowcs(rules[i].get_sequence ());
-            if (roma.find (newstr) == 0) {
-                if (roma.length () == newstr.length ()) {
+            String seq = rules[i].get_sequence ();
+            if (!m_case_sensitive) {
+                for (unsigned int i = 0; i < seq.length (); i++)
+                    seq[i] = tolower (seq[i]);
+            }
+            WideString romaji = utf8_mbstowcs(seq);
+            if (romaji.find (matching_str) == 0) {
+                if (romaji.length () == matching_str.length ()) {
                     /* exact match */
                     exact_match = rules[i];
                 } else {
