@@ -362,6 +362,20 @@ AnthyInstance::install_properties (void)
             m_properties.push_back (prop);
         }
 
+        if (m_factory->m_show_typing_method_label) {
+            prop = Property (SCIM_PROP_TYPING_METHOD,
+                             "\xEF\xBC\xB2", String (""), _("Typing method"));
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_TYPING_METHOD_ROMAJI,
+                             _("Romaji"), String (""), _("Romaji"));
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_TYPING_METHOD_KANA,
+                             _("Kana"), String (""), _("Kana"));
+            m_properties.push_back (prop);
+        }
+
         {
             prop = Property (SCIM_PROP_CONV_MODE,
                              "\xE9\x80\xA3", String (""),
@@ -388,20 +402,6 @@ AnthyInstance::install_properties (void)
                              _("Convert as you type (Single segment)"),
                              String (""),
                              _("Convert as you type (Single segment)"));
-            m_properties.push_back (prop);
-        }
-
-        if (m_factory->m_show_typing_method_label) {
-            prop = Property (SCIM_PROP_TYPING_METHOD,
-                             "\xEF\xBC\xB2", String (""), _("Typing method"));
-            m_properties.push_back (prop);
-
-            prop = Property (SCIM_PROP_TYPING_METHOD_ROMAJI,
-                             _("Romaji"), String (""), _("Romaji"));
-            m_properties.push_back (prop);
-
-            prop = Property (SCIM_PROP_TYPING_METHOD_KANA,
-                             _("Kana"), String (""), _("Kana"));
             m_properties.push_back (prop);
         }
 
