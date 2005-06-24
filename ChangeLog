@@ -1,5 +1,10 @@
 2005-06-24 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.cpp:
+	Enable F6~F10 keys while "Convert as you type".
+
+2005-06-24 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_prefs.h: Make "Allow split romaji" setting as ture by
 	default.
 

@@ -1466,7 +1466,13 @@ AnthyInstance::convert_kana (CandidateType type)
     m_lookup_table_visible = false;
 
     if (m_preedit.is_converting ()) {
-        m_preedit.select_candidate (type);
+        int idx = m_preedit.get_selected_segment ();
+        if (idx < 0) {
+            action_revert ();
+            m_preedit.convert (type, true);
+        } else {
+            m_preedit.select_candidate (type);
+        }
     } else {
         m_preedit.convert (type, true);
     }
