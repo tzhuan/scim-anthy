@@ -46,7 +46,9 @@ class AnthyFactory : public IMEngineFactoryBase
     Connection    m_reload_signal_connection;
 
     /* for preferece */
+    String        m_input_mode;
     String        m_typing_method;
+    String        m_conversion_mode;
     String        m_period_style;
     String        m_space_type;
     String        m_ten_key_type;

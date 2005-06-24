@@ -181,10 +181,30 @@ BoolConfigData config_bool_common [] =
 StringConfigData config_string_common [] =
 {
     {
+        SCIM_ANTHY_CONFIG_INPUT_MODE,
+        SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT,
+        SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT,
+        N_("_Input mode: "),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_TYPING_METHOD,
         SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT,
         SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT,
         N_("Typing _method: "),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_CONVERSION_MODE,
+        SCIM_ANTHY_CONFIG_CONVERSION_MODE_DEFAULT,
+        SCIM_ANTHY_CONFIG_CONVERSION_MODE_DEFAULT,
+        N_("_Conversion mode: "),
         NULL,
         NULL,
         NULL,

@@ -104,7 +104,9 @@ AnthyFactory::AnthyFactory (const String &lang,
                             const ConfigPointer &config)
     : m_uuid                     (uuid),
       m_config                   (config),
+      m_input_mode               (SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT),
       m_typing_method            (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
+      m_conversion_mode          (SCIM_ANTHY_CONFIG_CONVERSION_MODE_DEFAULT),
       m_period_style             (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
       m_space_type               (SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT),
       m_ten_key_type             (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
@@ -311,9 +313,15 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     if (config) {
         String str;
 
+        m_input_mode
+            = config->read (SCIM_ANTHY_CONFIG_INPUT_MODE,
+                            m_input_mode);
         m_typing_method
             = config->read (SCIM_ANTHY_CONFIG_TYPING_METHOD,
                             m_typing_method);
+        m_conversion_mode
+            = config->read (SCIM_ANTHY_CONFIG_CONVERSION_MODE,
+                            m_conversion_mode);
         m_period_style
             = config->read (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
                             m_period_style);

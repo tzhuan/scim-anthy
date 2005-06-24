@@ -24,7 +24,9 @@
 /* config keys */
 #define SCIM_ANTHY_CONFIG_ON_KEY                      "/IMEngine/Anthy/OnKey"
 #define SCIM_ANTHY_CONFIG_USE_KANA                    "/IMEngine/Anthy/UseKana"
+#define SCIM_ANTHY_CONFIG_INPUT_MODE                  "/IMEngine/Anthy/InputMode"
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD               "/IMEngine/Anthy/TypingMethod"
+#define SCIM_ANTHY_CONFIG_CONVERSION_MODE             "/IMEngine/Anthy/ConversionMode"
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE                "/IMEngine/Anthy/PeriodStyle"
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE                  "/IMEngine/Anthy/SpaceType"
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE                "/IMEngine/Anthy/TenKeyType"
@@ -119,12 +121,14 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT                "Default"
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
 
+#define SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT                  "Hiragana"
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT               "Roma"
+#define SCIM_ANTHY_CONFIG_CONVERSION_MODE_DEFAULT             "MultiSeg"
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT                "Japanese"
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT                  "FollowMode"
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT                "FollowMode"
 #define SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT      false
-#define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    false
+#define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    true
 #define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT      true
 #define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT        true
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false

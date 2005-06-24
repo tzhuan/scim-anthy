@@ -189,10 +189,29 @@ static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (K
 const int INDEX_SEARCH_BY_KEY = __key_conf_pages_num;
 const int INDEX_ALL           = __key_conf_pages_num + 1;
 
+static ComboConfigCandidate input_modes[] =
+{
+    {N_("Hiragana"),            "Hiragana"},
+    {N_("Katakana"),            "Katakana"},
+    {N_("Half width katakana"), "HalfKatakana"},
+    {N_("Latin"),               "Latin"},
+    {N_("Wide latin"),          "WideLatin"},
+    {NULL, NULL},
+};
+
 static ComboConfigCandidate typing_methods[] =
 {
     {N_("Romaji typing method"), "Roma"},
     {N_("Kana typing method"),   "Kana"},
+    {NULL, NULL},
+};
+
+static ComboConfigCandidate conversion_modes[] =
+{
+    {N_("Multi segment"),                        "MultiSeg"},
+    {N_("Single segment"),                       "SingleSeg"},
+    {N_("Convert as you type (Multi segment)"),  "CAYT_MultiSeg"},
+    {N_("Convert as you type (Single segment)"), "CAYT_SingleSeg"},
     {NULL, NULL},
 };
 
@@ -506,183 +525,45 @@ create_common_page (void)
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
-    table = gtk_table_new (4, 2, FALSE);
+    table = gtk_table_new (6, 2, FALSE);
     gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
     gtk_widget_show (table);
+
+    /* input mode */
+    widget = create_combo (SCIM_ANTHY_CONFIG_INPUT_MODE,
+                           (gpointer) &input_modes,
+                           table, 0);
 
     /* typing method */
     widget = create_combo (SCIM_ANTHY_CONFIG_TYPING_METHOD,
                            (gpointer) &typing_methods,
-                           table, 0);
+                           table, 1);
+
+    /* conversion mode */
+    widget = create_combo (SCIM_ANTHY_CONFIG_CONVERSION_MODE,
+                           (gpointer) &conversion_modes,
+                           table, 2);
 
     /* period style */
     widget = create_combo (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
                            (gpointer) &period_styles,
-                           table, 1);
+                           table, 3);
 
     /* space_style */
     widget = create_combo (SCIM_ANTHY_CONFIG_SPACE_TYPE,
                            (gpointer) &space_types,
-                           table, 2);
+                           table, 4);
 
     /* ten key_style */
     widget = create_combo (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
                            (gpointer) &ten_key_types,
-                           table, 3);
+                           table, 5);
 
     /* auto convert */
     widget = create_check_button (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
-    /* close candidate window on select */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
-
     return vbox;
-}
-
-static GtkWidget *
-create_learning_page ()
-{
-    GtkWidget *vbox, *vbox2, *hbox, *alignment, *table;
-    GtkWidget *widget, *label, *button;
-
-    vbox = gtk_vbox_new (FALSE, 0);
-    gtk_widget_show (vbox);
-
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
-    gtk_widget_show (hbox);
-
-    label = gtk_label_new (_("<b>Enable/Disable learning</b>"));
-    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
-    gtk_widget_show (label);
-
-    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
-    gtk_widget_show (alignment);
-
-    vbox2 = gtk_vbox_new (FALSE, 0);
-    gtk_container_add (GTK_CONTAINER (alignment), vbox2);
-    gtk_widget_show (vbox2);
-
-    /* maual commit */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT);
-    gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, FALSE, 4);
-
-    /* auto commit */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT);
-    gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, FALSE, 4);
-
-    /* key preference */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
-    gtk_widget_show (hbox);
-
-    label = gtk_label_new (_("<b>Key preferences to commit "
-                             "with reversing learning preference</b>"));
-    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
-    gtk_widget_show (label);
-
-    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
-    gtk_widget_show (alignment);
-
-    table = gtk_table_new (3, 3, FALSE);
-    gtk_container_add (GTK_CONTAINER (alignment), table);
-    gtk_widget_show (table);
-
-    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
-        StringConfigData *entry = &config_keyboards_reverse_learning[i];
-        create_entry (entry, GTK_TABLE (table), i);
-        gtk_entry_set_editable (GTK_ENTRY (entry->widget), FALSE);
-        button = gtk_button_new_with_label ("...");
-        gtk_widget_show (button);
-        gtk_table_attach (GTK_TABLE (table), button, 2, 3, i, i + 1,
-                          GTK_FILL, GTK_FILL, 4, 4);
-        gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
-        g_signal_connect ((gpointer) button, "clicked",
-                          G_CALLBACK (on_default_key_selection_clicked),
-                          entry);
-    }
-
-    return vbox;
-}
-
-static GtkWidget *
-create_toolbar_page (void)
-{
-    GtkWidget *vbox, *hbox, *label, *widget;
-
-    vbox = gtk_vbox_new (FALSE, 0);
-    gtk_widget_show (vbox);
-
-    /* show/hide toolbar label */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
-
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
-
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
-
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
-
-    /* dictionary menu */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL);
-    g_signal_connect ((gpointer) widget, "toggled",
-                      G_CALLBACK (on_dict_menu_label_toggled),
-                      NULL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
-
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 2);
-    gtk_widget_show (hbox);
-    label = gtk_label_new ("    ");
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL);
-    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
-
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 2);
-    gtk_widget_show (hbox);
-    label = gtk_label_new ("    ");
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL);
-    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
-
-    // set initial state
-    on_dict_menu_label_toggled (GTK_TOGGLE_BUTTON (widget), NULL);
-
-    return vbox;
-}
-
-static GtkWidget *
-create_dict_page (void)
-{
-    GtkWidget *table;
-    StringConfigData *entry;
-
-    table = gtk_table_new (2, 2, FALSE);
-    gtk_widget_show (table);
-
-    // dict admin command
-    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND);
-    create_entry (entry, GTK_TABLE (table), 0);
-
-    // add word command
-    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND);
-    create_entry (entry, GTK_TABLE (table), 1);
-
-    return table;
 }
 
 static GtkWidget *
@@ -837,6 +718,165 @@ create_keyboard_page (void)
 }
 
 static GtkWidget *
+create_learning_page ()
+{
+    GtkWidget *vbox, *vbox2, *hbox, *alignment, *table;
+    GtkWidget *widget, *label, *button;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+
+    label = gtk_label_new (_("<b>Enable/Disable learning</b>"));
+    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+    gtk_widget_show (label);
+
+    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
+    gtk_widget_show (alignment);
+
+    vbox2 = gtk_vbox_new (FALSE, 0);
+    gtk_container_add (GTK_CONTAINER (alignment), vbox2);
+    gtk_widget_show (vbox2);
+
+    /* maual commit */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT);
+    gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, FALSE, 4);
+
+    /* auto commit */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT);
+    gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, FALSE, 4);
+
+    /* key preference */
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+
+    label = gtk_label_new (_("<b>Key preferences to commit "
+                             "with reversing learning preference</b>"));
+    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+    gtk_widget_show (label);
+
+    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
+    gtk_widget_show (alignment);
+
+    table = gtk_table_new (3, 3, FALSE);
+    gtk_container_add (GTK_CONTAINER (alignment), table);
+    gtk_widget_show (table);
+
+    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
+        StringConfigData *entry = &config_keyboards_reverse_learning[i];
+        create_entry (entry, GTK_TABLE (table), i);
+        gtk_entry_set_editable (GTK_ENTRY (entry->widget), FALSE);
+        button = gtk_button_new_with_label ("...");
+        gtk_widget_show (button);
+        gtk_table_attach (GTK_TABLE (table), button, 2, 3, i, i + 1,
+                          GTK_FILL, GTK_FILL, 4, 4);
+        gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
+        g_signal_connect ((gpointer) button, "clicked",
+                          G_CALLBACK (on_default_key_selection_clicked),
+                          entry);
+    }
+
+    return vbox;
+}
+
+static GtkWidget *
+create_dict_page (void)
+{
+    GtkWidget *table;
+    StringConfigData *entry;
+
+    table = gtk_table_new (2, 2, FALSE);
+    gtk_widget_show (table);
+
+    // dict admin command
+    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND);
+    create_entry (entry, GTK_TABLE (table), 0);
+
+    // add word command
+    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND);
+    create_entry (entry, GTK_TABLE (table), 1);
+
+    return table;
+}
+
+static GtkWidget *
+create_candidates_window_page (void)
+{
+    GtkWidget *vbox, *widget;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    /* close candidate window on select */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
+    return vbox;
+}
+
+static GtkWidget *
+create_toolbar_page (void)
+{
+    GtkWidget *vbox, *hbox, *label, *widget;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    /* show/hide toolbar label */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
+    /* dictionary menu */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL);
+    g_signal_connect ((gpointer) widget, "toggled",
+                      G_CALLBACK (on_dict_menu_label_toggled),
+                      NULL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 2);
+    gtk_widget_show (hbox);
+    label = gtk_label_new ("    ");
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL);
+    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 2);
+    gtk_widget_show (hbox);
+    label = gtk_label_new ("    ");
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL);
+    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+    // set initial state
+    on_dict_menu_label_toggled (GTK_TOGGLE_BUTTON (widget), NULL);
+
+    return vbox;
+}
+
+static GtkWidget *
 create_setup_window (void)
 {
     static GtkWidget *window = NULL;
@@ -875,6 +915,12 @@ create_setup_window (void)
         // Create the dictionary page.
         page = create_dict_page ();
         label = gtk_label_new (_("Dictionary"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the candidates widnow page.
+        page = create_candidates_window_page ();
+        label = gtk_label_new (_("Candidates window"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
