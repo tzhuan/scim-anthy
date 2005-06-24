@@ -90,7 +90,7 @@ scim-anthy provides some usefull user interfaces for Anthy using SCIM.
 
   You can install scim, anthy and scim-anthy by following command:
 
-     $ emerge scim-anthy
+    # emerge scim-anthy
 
 3.6 FreeBSD:
 
@@ -103,6 +103,12 @@ scim-anthy provides some usefull user interfaces for Anthy using SCIM.
     $ ./configure
     $ make
     # make install
+
+  If you installed the SCIM into /usr/local or any other non-standard
+  diretories, you should specify the PKG_CONFIG_PATH environment variable like
+  this:
+
+    $ PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./configure
 
 
 4. Usage
@@ -167,4 +173,4 @@ Special thanks to all scim-anthy developers and users!
    - Packager of deb package for Debian and Ubuntu.
 
  * Mamoru Komachi <usata at usata.org>
-   - Packager of Gentoo.
+   - Packager of Gentoo package.
