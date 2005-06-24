@@ -17,6 +17,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <sys/wait.h>
+
 #include "scim_anthy_utils.h"
 #include "scim_anthy_default_tables.h"
 
@@ -102,6 +104,64 @@ convert_to_katakana (WideString & kata,
         if (!found)
             kata += hira.substr(i, 1);
     }
+}
+
+void
+launch_program (const char *command)
+{
+    if (!command) return;
+
+    /* split string */
+    unsigned int len = strlen (command);
+    char tmp[len + 1];
+    strncpy (tmp, command, len);
+    tmp[len] = '\0';
+
+    char *str = tmp;
+    std::vector<char *> array;
+
+    for (unsigned int i = 0; i < len + 1; i++) {
+        if (!tmp[i] || isspace (tmp[i])) {
+            if (*str) {
+                tmp[i] = '\0';
+                array.push_back (str);
+            }
+            str = tmp + i + 1;
+        }
+    }
+
+    if (array.size () <= 0) return;
+    array.push_back (NULL);
+
+    char *args[array.size()];
+    for (unsigned int i = 0; i < array.size (); i++)
+        args[i] = array[i];
+
+
+    /* exec command */
+	pid_t child_pid;
+
+	child_pid = fork();
+	if (child_pid < 0) {
+		perror("fork");
+	} else if (child_pid == 0) {		 /* child process  */
+		pid_t grandchild_pid;
+
+		grandchild_pid = fork();
+		if (grandchild_pid < 0) {
+			perror("fork");
+			_exit(1);
+		} else if (grandchild_pid == 0) { /* grandchild process  */
+			execvp(args[0], args);
+			perror("execvp");
+			_exit(1);
+		} else {
+			_exit(0);
+		}
+	} else {                              /* parent process */
+		int status;
+		waitpid(child_pid, &status, 0);
+	}
 }
 
 }

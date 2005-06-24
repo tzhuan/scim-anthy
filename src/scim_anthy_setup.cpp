@@ -40,6 +40,7 @@
 #include "scim_anthy_prefs.h"
 #include "scim_anthy_default_tables.h"
 #include "scim_anthy_setup_romaji.h"
+#include "scim_anthy_utils.h"
 
 using namespace scim;
 using namespace scim_anthy;
@@ -270,6 +271,8 @@ static void     on_key_list_selection_changed     (GtkTreeSelection *selection,
                                                    gpointer          data);
 static void     on_choose_keys_button_clicked     (GtkWidget        *button,
                                                    gpointer          data);
+static void     on_dict_launch_button_clicked     (GtkButton        *button,
+                                                   gpointer          user_data);
 
 
 static BoolConfigData *
@@ -792,19 +795,37 @@ create_learning_page ()
 static GtkWidget *
 create_dict_page (void)
 {
-    GtkWidget *table;
+    GtkWidget *table, *button;
     StringConfigData *entry;
 
-    table = gtk_table_new (2, 2, FALSE);
+    table = gtk_table_new (2, 3, FALSE);
     gtk_widget_show (table);
 
     // dict admin command
     entry = find_string_config_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND);
     create_entry (entry, GTK_TABLE (table), 0);
 
+    button = gtk_button_new_with_mnemonic (_("_Launch"));
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (button),
+                      2, 3, 0, 1,
+                      (GtkAttachOptions) 0,
+                      (GtkAttachOptions) 0, 4, 4);
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_dict_launch_button_clicked), entry);
+    gtk_widget_show (button);
+
     // add word command
     entry = find_string_config_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND);
     create_entry (entry, GTK_TABLE (table), 1);
+
+    button = gtk_button_new_with_mnemonic (_("_Launch"));
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (button),
+                      2, 3, 1, 2,
+                      (GtkAttachOptions) 0,
+                      (GtkAttachOptions) 0, 4, 4);
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_dict_launch_button_clicked), entry);
+    gtk_widget_show (button);
 
     return table;
 }
@@ -1527,6 +1548,18 @@ on_choose_keys_button_clicked (GtkWidget *button, gpointer data)
 {
     GtkTreeView *treeview = GTK_TREE_VIEW (data);
     key_list_view_popup_key_selection (treeview);
+}
+
+static void
+on_dict_launch_button_clicked (GtkButton *button, gpointer user_data)
+{
+    StringConfigData *entry = static_cast <StringConfigData*> (user_data);
+
+    if (entry->widget) {
+        const char *command = gtk_entry_get_text (GTK_ENTRY (entry->widget));
+        if (command && *command)
+            launch_program (command);
+    }
 }
 
 }

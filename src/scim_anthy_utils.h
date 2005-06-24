@@ -34,6 +34,7 @@ void convert_to_half     (String           & half,
 void convert_to_katakana (WideString       & kata,
                           const WideString & hira,
                           bool               half = false);
+void launch_program      (const char       * command);
 
 }
 
