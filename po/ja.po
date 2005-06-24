@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-06-24 17:22+0900\n"
-"PO-Revision-Date: 2005-06-24 17:23+0900\n"
+"POT-Creation-Date: 2005-06-24 18:32+0900\n"
+"PO-Revision-Date: 2005-06-24 18:33+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -162,83 +162,95 @@ msgstr "半角"
 msgid "Follow input mode"
 msgstr "入力モードに従う"
 
-#: src/scim_anthy_setup.cpp:586
+#: src/scim_anthy_setup.cpp:246
+msgid "Do nothing"
+msgstr "なにもしない"
+
+#: src/scim_anthy_setup.cpp:247
+msgid "Start conversion"
+msgstr "変換を開始する"
+
+#: src/scim_anthy_setup.cpp:248 src/scim_anthy_prefs.cpp:321
+msgid "Commit"
+msgstr "確定"
+
+#: src/scim_anthy_setup.cpp:595
 msgid "_Group:"
 msgstr "グループ(_G):"
 
-#: src/scim_anthy_setup.cpp:607
+#: src/scim_anthy_setup.cpp:616
 msgid "Search by key"
 msgstr "キーで検索"
 
-#: src/scim_anthy_setup.cpp:611
+#: src/scim_anthy_setup.cpp:620
 msgid "all"
 msgstr "全て"
 
-#: src/scim_anthy_setup.cpp:654
+#: src/scim_anthy_setup.cpp:663
 msgid "Feature"
 msgstr "機能"
 
-#: src/scim_anthy_setup.cpp:663 src/scim_anthy_setup.cpp:920
+#: src/scim_anthy_setup.cpp:672 src/scim_anthy_setup.cpp:929
 msgid "Key bindings"
 msgstr "キーバインド"
 
-#: src/scim_anthy_setup.cpp:671
+#: src/scim_anthy_setup.cpp:680
 msgid "Description"
 msgstr "説明"
 
-#: src/scim_anthy_setup.cpp:695
+#: src/scim_anthy_setup.cpp:704
 msgid "Key bindings _theme:"
 msgstr "キーバインドテーマ:"
 
-#: src/scim_anthy_setup.cpp:709
+#: src/scim_anthy_setup.cpp:718
 msgid "_Choose keys..."
 msgstr "キーを設定...(_C)"
 
-#: src/scim_anthy_setup.cpp:736
+#: src/scim_anthy_setup.cpp:745
 msgid "<b>Enable/Disable learning</b>"
 msgstr "<b>学習の有効/無効</b>"
 
-#: src/scim_anthy_setup.cpp:763
+#: src/scim_anthy_setup.cpp:772
 msgid "<b>Key preferences to commit with reversing learning preference</b>"
 msgstr "<b>学習設定とは逆の方法で確定するキーの設定</b>"
 
-#: src/scim_anthy_setup.cpp:808 src/scim_anthy_setup.cpp:821
+#: src/scim_anthy_setup.cpp:817 src/scim_anthy_setup.cpp:830
 msgid "_Launch"
 msgstr "起動(_L)"
 
-#: src/scim_anthy_setup.cpp:914
+#: src/scim_anthy_setup.cpp:923
 msgid "Common"
 msgstr "一般"
 
-#: src/scim_anthy_setup.cpp:926
+#: src/scim_anthy_setup.cpp:935
 msgid "Romaji Typing"
 msgstr "ローマ字入力"
 
-#: src/scim_anthy_setup.cpp:932
+#: src/scim_anthy_setup.cpp:941
 msgid "Learning"
 msgstr "学習"
 
-#: src/scim_anthy_setup.cpp:938
+#: src/scim_anthy_setup.cpp:947
 msgid "Dictionary"
 msgstr "辞書"
 
-#: src/scim_anthy_setup.cpp:944
+#: src/scim_anthy_setup.cpp:953
 msgid "Candidates window"
 msgstr "候補ウィンドウ"
 
-#: src/scim_anthy_setup.cpp:950
+#: src/scim_anthy_setup.cpp:959
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: src/scim_anthy_setup.cpp:997 src/scim_anthy_setup_romaji.cpp:438
+#: src/scim_anthy_setup.cpp:1006 src/scim_anthy_setup_romaji.cpp:438
 msgid "User defined"
 msgstr "ユーザー定義"
 
-#: src/scim_anthy_setup.cpp:1000 src/scim_anthy_setup_romaji.cpp:442
+#: src/scim_anthy_setup.cpp:1009 src/scim_anthy_setup_romaji.cpp:442
 msgid "Default"
 msgstr "標準設定"
 
-#: src/scim_anthy_setup.cpp:1466
+#: src/scim_anthy_setup.cpp:1475
 msgid "Set key filter"
 msgstr "キ-フィルタ-をセット"
 
@@ -275,88 +287,88 @@ msgid "_Result:"
 msgstr "出力文字列(_R):"
 
 #: src/scim_anthy_prefs.cpp:34
-msgid "Start _conversion on inputting a comma or a period."
-msgstr "句読点入力時に変換を開始する(_C)"
-
-#: src/scim_anthy_prefs.cpp:44
 msgid "Close candidate window when select a candidate _directly."
 msgstr "候補を直接選択した時に候補ウィンドウを閉じる(_D)"
 
-#: src/scim_anthy_prefs.cpp:54
+#: src/scim_anthy_prefs.cpp:44
 msgid "Learn on _manual committing."
 msgstr "手動確定時に学習する(_M)"
 
-#: src/scim_anthy_prefs.cpp:64
+#: src/scim_anthy_prefs.cpp:54
 msgid "Learn on a_uto committing."
 msgstr "自動確定時に学習する(_U)"
 
-#: src/scim_anthy_prefs.cpp:74
+#: src/scim_anthy_prefs.cpp:64
 msgid "Use half-width characters for _symbols"
 msgstr "記号は半角で入力する(_S)"
 
-#: src/scim_anthy_prefs.cpp:84
+#: src/scim_anthy_prefs.cpp:74
 msgid "Use half-width characters for _numbers"
 msgstr "数字は半角で入力する(_N)"
 
-#: src/scim_anthy_prefs.cpp:94
+#: src/scim_anthy_prefs.cpp:84
 msgid "A_llow spliting romaji on editing preedit string"
 msgstr "文字列編集時にローマ字を分割できるようにする(_L)"
 
-#: src/scim_anthy_prefs.cpp:96
+#: src/scim_anthy_prefs.cpp:86
 msgid "If this check is enabled, you can delete each letter."
 msgstr "このチェックが入っている場合，各文字単位で文字を削除することができます"
 
-#: src/scim_anthy_prefs.cpp:103
+#: src/scim_anthy_prefs.cpp:93
 msgid "Show _input mode label"
 msgstr "入力モードラベルを表示(_I)"
 
-#: src/scim_anthy_prefs.cpp:113
+#: src/scim_anthy_prefs.cpp:103
 msgid "Show _conversion mode label"
 msgstr "変換モードラベルを表示(_C)"
 
-#: src/scim_anthy_prefs.cpp:123
+#: src/scim_anthy_prefs.cpp:113
 msgid "Show _typing method label"
 msgstr "入力方式ラベルを表示(_T)"
 
-#: src/scim_anthy_prefs.cpp:133
+#: src/scim_anthy_prefs.cpp:123
 msgid "Show _period style label"
 msgstr "句読点スタイルラベルを表示(_P)"
 
-#: src/scim_anthy_prefs.cpp:143
+#: src/scim_anthy_prefs.cpp:133
 msgid "Show _dictionary menu label"
 msgstr "辞書メニューラベルを表示(_D)"
 
-#: src/scim_anthy_prefs.cpp:153
+#: src/scim_anthy_prefs.cpp:143
 msgid "Show _edit dictionary label"
 msgstr "辞書編集ラベルを表示(_E)"
 
-#: src/scim_anthy_prefs.cpp:163
+#: src/scim_anthy_prefs.cpp:153
 msgid "Show _add word label"
 msgstr "単語追加ラベルを表示(_A)"
 
-#: src/scim_anthy_prefs.cpp:187
+#: src/scim_anthy_prefs.cpp:177
 msgid "_Input mode: "
 msgstr "入力モード(_I):"
 
-#: src/scim_anthy_prefs.cpp:197
+#: src/scim_anthy_prefs.cpp:187
 msgid "Typing _method: "
 msgstr "入力方式(_M): "
 
-#: src/scim_anthy_prefs.cpp:207
+#: src/scim_anthy_prefs.cpp:197
 msgid "_Conversion mode: "
 msgstr "変換モード(_C):"
 
-#: src/scim_anthy_prefs.cpp:217
+#: src/scim_anthy_prefs.cpp:207
 msgid "St_yle of comma and period: "
 msgstr "句読点のスタイル(_Y): "
 
-#: src/scim_anthy_prefs.cpp:227
+#: src/scim_anthy_prefs.cpp:217
 msgid "_Space type: "
 msgstr "空白のタイプ(_S): "
 
-#: src/scim_anthy_prefs.cpp:237
+#: src/scim_anthy_prefs.cpp:227
 msgid "Input from _ten key: "
 msgstr "テンキーからの入力(_T):"
+
+#: src/scim_anthy_prefs.cpp:237
+msgid "_Behavior on a comma or a period:"
+msgstr "句読点入力時の挙動(_B):"
 
 #: src/scim_anthy_prefs.cpp:247
 msgid "_Edit dictionary command:"
@@ -413,10 +425,6 @@ msgstr "全角空白を挿入するキーの設定"
 #: src/scim_anthy_prefs.cpp:313
 msgid "The key events to insert a wide space. "
 msgstr "全角空白を挿入するキーイベント"
-
-#: src/scim_anthy_prefs.cpp:321
-msgid "Commit"
-msgstr "確定"
 
 #: src/scim_anthy_prefs.cpp:322 src/scim_anthy_prefs.cpp:904
 msgid "Select commit keys"

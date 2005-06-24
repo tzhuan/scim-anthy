@@ -1667,7 +1667,12 @@ AnthyInstance::reload_config (const ConfigPointer &config)
         m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE);
 
     // set auto convert
-    m_preedit.set_auto_convert (m_factory->m_auto_convert);
+    if (m_factory->m_behavior_on_period == "Convert")
+        m_preedit.set_behavior_on_period (SCIM_ANTHY_CONVERT_ON_PERIOD);
+    else if (m_factory->m_behavior_on_period == "Commit")
+        m_preedit.set_behavior_on_period (SCIM_ANTHY_COMMIT_ON_PERIOD);
+    else
+        m_preedit.set_behavior_on_period (SCIM_ANTHY_NONE_ON_PERIOD);
 
     // setup toolbar
     m_properties.clear ();

@@ -32,11 +32,11 @@ static ConvRule *get_comma_rule               (TypingMethod method,
                                                CommaStyle   period);
 
 Preedit::Preedit (Key2KanaTableSet & tables)
-    : m_key2kana_tables  (tables),
-      m_reading          (tables),
-      m_conversion       (m_reading),
-      m_input_mode       (SCIM_ANTHY_MODE_HIRAGANA),
-      m_auto_convert     (false)
+    : m_key2kana_tables    (tables),
+      m_reading            (tables),
+      m_conversion         (m_reading),
+      m_input_mode         (SCIM_ANTHY_MODE_HIRAGANA),
+      m_behavior_on_period (SCIM_ANTHY_NONE_ON_PERIOD)
 {
 }
 
@@ -145,10 +145,13 @@ Preedit::process_key_event (const KeyEvent & key)
         String str;
         m_reading.get_raw (str, len - 1, 1);
         if (is_comma_or_period (str)) {
-            if (m_auto_convert && get_length () > 1)
+            if (m_behavior_on_period == SCIM_ANTHY_CONVERT_ON_PERIOD &&
+                get_length () > 1)
+            {
                 convert ();
-            else
-                /* FIXME! */;
+            } else if (m_behavior_on_period == SCIM_ANTHY_COMMIT_ON_PERIOD) {
+                return true;
+            }
         }
     }
 
@@ -350,15 +353,15 @@ Preedit::get_ten_key_type (void)
 }
 
 void
-Preedit::set_auto_convert (bool autoconv)
+Preedit::set_behavior_on_period (BehaviorOnPeriod behavior)
 {
-    m_auto_convert = autoconv;
+    m_behavior_on_period = behavior;
 }
 
-bool
-Preedit::get_auto_convert (void)
+BehaviorOnPeriod
+Preedit::get_behavior_on_period (void)
 {
-    return m_auto_convert;
+    return m_behavior_on_period;
 }
 
 void

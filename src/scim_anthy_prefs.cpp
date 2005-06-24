@@ -28,16 +28,6 @@ namespace scim_anthy {
 BoolConfigData config_bool_common [] =
 {
     {
-        SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD,
-        SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT,
-        SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT,
-        N_("Start _conversion on inputting a comma or a period."),
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-    {
         SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
         SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT,
         SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT,
@@ -235,6 +225,16 @@ StringConfigData config_string_common [] =
         SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT,
         SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT,
         N_("Input from _ten key: "),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
+        SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT,
+        SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT,
+        N_("_Behavior on a comma or a period:"),
         NULL,
         NULL,
         NULL,

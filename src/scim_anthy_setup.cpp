@@ -241,6 +241,14 @@ static ComboConfigCandidate ten_key_types[] =
     {NULL, NULL},
 };
 
+static ComboConfigCandidate behavior_on_period[] =
+{
+    {N_("Do nothing"),       "None"},
+    {N_("Start conversion"), "Convert"},
+    {N_("Commit"),           "Commit"},
+    {NULL, NULL},
+};
+
 
 static void     setup_key_theme_menu              (GtkOptionMenu *omenu);
 static void     setup_widget_value                (void);
@@ -562,9 +570,10 @@ create_common_page (void)
                            (gpointer) &ten_key_types,
                            table, 5);
 
-    /* auto convert */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+    /* behavior on period */
+    widget = create_combo (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
+                           (gpointer) &behavior_on_period,
+                           table, 6);
 
     return vbox;
 }

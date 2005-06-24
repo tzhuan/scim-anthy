@@ -110,7 +110,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_period_style             (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
       m_space_type               (SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT),
       m_ten_key_type             (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
-      m_auto_convert             (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD_DEFAULT),
+      m_behavior_on_period       (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT),
       m_close_cand_win_on_select (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT),
       m_learn_on_manual_commit   (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT),
       m_learn_on_auto_commit     (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT),
@@ -331,9 +331,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_ten_key_type
             = config->read (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
                             m_ten_key_type);
-        m_auto_convert
-            = config->read (SCIM_ANTHY_CONFIG_AUTO_CONVERT_ON_PERIOD,
-                            m_auto_convert);
+        m_behavior_on_period
+            = config->read (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
+                            m_behavior_on_period);
         m_close_cand_win_on_select
             = config->read (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
                             m_close_cand_win_on_select);

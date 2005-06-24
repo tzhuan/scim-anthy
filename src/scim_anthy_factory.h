@@ -52,7 +52,7 @@ class AnthyFactory : public IMEngineFactoryBase
     String        m_period_style;
     String        m_space_type;
     String        m_ten_key_type;
-    bool          m_auto_convert;
+    String        m_behavior_on_period;
     bool          m_close_cand_win_on_select;
     bool          m_learn_on_manual_commit;
     bool          m_learn_on_auto_commit;
