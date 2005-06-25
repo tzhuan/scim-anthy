@@ -142,6 +142,9 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
         bool need_commit = m_preedit.process_key_event (key);
 
         if (need_commit) {
+            if (is_realtime_conversion ())
+                m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+                                   is_single_segment ());
             action_commit (m_factory->m_learn_on_auto_commit);
         } else {
             if (is_realtime_conversion ()) {
