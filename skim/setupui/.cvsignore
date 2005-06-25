@@ -1,0 +1,14 @@
+.deps
+.libs
+Makefile
+Makefile.in
+kcm_skimplugin_scim_anthy.la
+scimanthysettingplugin.lo
+scimanthysettingplugin.moc
+anthy.cpp
+anthy.h
+anthy.lo
+anthyui.cpp
+anthyui.h
+anthyui.lo
+anthyui.moc
