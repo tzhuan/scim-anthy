@@ -101,5 +101,236 @@
       <label>Show adding a word label on toolbar or not</label>
       <default>true</default>
     </entry>
+
+
+    <entry name="_IMEngine_Anthy_KeyTheme" key="/IMEngine/Anthy/KeyTheme" type="String">
+      <label>Name of key bindings theme to use</label>
+      <default>Default</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_LatinModeKey" key="/IMEngine/Anthy/LatinModeKey" type="String">
+      <label></label>
+      <default>Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_WideLatinModeKey" key="/IMEngine/Anthy/WideLatinModeKey" type="String">
+      <label></label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CircleKanaModeKey" key="/IMEngine/Anthy/CircleKanaModeKey" type="String">
+      <label></label>
+      <default>Control+period,Control+greater,Hiragana_Katakana</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CircleTypingMethodKey" key="/IMEngine/Anthy/CircleTypingMethodKey" type="String">
+      <label></label>
+      <default>Alt+Romaji</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_HiraganaModeKey" key="/IMEngine/Anthy/HiraganaModeKey" type="String">
+      <label></label>
+      <default>Hiragana_Katakana</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_KatakanaModeKey" key="/IMEngine/Anthy/KatakanaModeKey" type="String">
+      <label></label>
+      <default>Shift+Hiragana_Katakana</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_InsertSpaceKey" key="/IMEngine/Anthy/InsertSpaceKey" type="String">
+      <label></label>
+      <default>space</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_InsertAltSpaceKey" key="/IMEngine/Anthy/InsertAltSpaceKey" type="String">
+      <label></label>
+      <default>Shift+space</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_InsertHalfSpaceKey" key="/IMEngine/Anthy/InsertHalfSpaceKey" type="String">
+      <label></label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_InsertWideSpaceKey" key="/IMEngine/Anthy/InsertWideSpaceKey" type="String">
+      <label></label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_BackSpaceKey" key="/IMEngine/Anthy/BackSpaceKey" type="String">
+      <label></label>
+      <default>BackSpace,Control+h,Control+H</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_DeleteKey" key="/IMEngine/Anthy/DeleteKey" type="String">
+      <label></label>
+      <default>Delete,Control+d,Control+D</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CommitKey" key="/IMEngine/Anthy/CommitKey" type="String">
+      <label></label>
+      <default>Return,KP_Enter,Control+j,Control+J,Control+m,Control+M</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConvertKey" key="/IMEngine/Anthy/ConvertKey" type="String">
+      <label></label>
+      <default>space</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CancelKey" key="/IMEngine/Anthy/CancelKey" type="String">
+      <label></label>
+      <default>Escape,Control+g,Control+G</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_MoveCaretFirstKey" key="/IMEngine/Anthy/MoveCaretFirstKey" type="String">
+      <label></label>
+      <default>Control+a,Control+A,Home</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_MoveCaretLastKey" key="/IMEngine/Anthy/MoveCaretLastKey" type="String">
+      <label></label>
+      <default>Control+e,Control+E,End</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_MoveCaretForwardKey" key="/IMEngine/Anthy/MoveCaretForwardKey" type="String">
+      <label></label>
+      <default>Right,Control+f,Control+F</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_MoveCaretBackwardKey" key="/IMEngine/Anthy/MoveCaretBackwardKey" type="String">
+      <label></label>
+      <default>Left,Control+b,Control+B</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_SelectFirstSegmentKey" key="/IMEngine/Anthy/SelectFirstSegmentKey" type="String">
+      <label></label>
+      <default>Control+a,Control+A,Home</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectLastSegmentKey" key="/IMEngine/Anthy/SelectLastSegmentKey" type="String">
+      <label></label>
+      <default>Control+e,Control+E,End</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectNextSegmentKey" key="/IMEngine/Anthy/SelectNextSegmentKey" type="String">
+      <label></label>
+      <default>Right,Control+f,Control+F</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectPrevSegmentKey" key="/IMEngine/Anthy/SelectPrevSegmentKey" type="String">
+      <label></label>
+      <default>Left,Control+b,Control+B</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ShrinkSegmentKey" key="/IMEngine/Anthy/ShrinkSegmentKey" type="String">
+      <label></label>
+      <default>Shift+Left,Control+i,Control+I</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ExpandSegmentKey" key="/IMEngine/Anthy/ExpandSegmentKey" type="String">
+      <label></label>
+      <default>Shift+Right,Control+o,Control+O</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CommitFirstSegmentKey" key="/IMEngine/Anthy/CommitFirstSegmentKey" type="String">
+      <label></label>
+      <default>Shift+Down</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CommitSelectedSegmentKey" key="/IMEngine/Anthy/CommitSelectedSegmentKey" type="String">
+      <label></label>
+      <default>Control+Down</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_SelectFirstCandidateKey" key="/IMEngine/Anthy/SelectFirstCandidateKey" type="String">
+      <label></label>
+      <default>Home</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectLastCandidateKey" key="/IMEngine/Anthy/SelectLastCandidateKey" type="String">
+      <label></label>
+      <default>End</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectNextCandidateKey" key="/IMEngine/Anthy/SelectNextCandidateKey" type="String">
+      <label></label>
+      <default>space,KP_Space,Down,KP_Add,Control+n,Control+N</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectPrevCandidateKey" key="/IMEngine/Anthy/SelectPrevCandidateKey" type="String">
+      <label></label>
+      <default>Up,KP_Subtract,Control+p,Control+P</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CandidatesPageUpKey" key="/IMEngine/Anthy/CandidatesPageUpKey" type="String">
+      <label></label>
+      <default>Page_Up</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CandidatesPageDownKey" key="/IMEngine/Anthy/CandidatesPageDownKey" type="String">
+      <label></label>
+      <default>Page_Down,KP_Tab</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_SelectCandidate1Key" key="/IMEngine/Anthy/SelectCandidate1Key" type="String">
+      <label>The key events to select the 1st candidate</label>
+      <default>1</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectCandidate2Key" key="/IMEngine/Anthy/SelectCandidate2Key" type="String">
+      <label>The key events to select the 2nd candidate</label>
+      <default>2</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectCandidate3Key" key="/IMEngine/Anthy/SelectCandidate3Key" type="String">
+      <label>The key events to select the 3rd candidate</label>
+      <default>3</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectCandidate4Key" key="/IMEngine/Anthy/SelectCandidate4Key" type="String">
+      <label>The key events to select the 4th candidate</label>
+      <default>4</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectCandidate5Key" key="/IMEngine/Anthy/SelectCandidate5Key" type="String">
+      <label>The key events to select the 5th candidate</label>
+      <default>5</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectCandidate6Key" key="/IMEngine/Anthy/SelectCandidate6Key" type="String">
+      <label>The key events to select the 6th candidate</label>
+      <default>6</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectCandidate7Key" key="/IMEngine/Anthy/SelectCandidate7Key" type="String">
+      <label>The key events to select the 7th candidate</label>
+      <default>7</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectCandidate8Key" key="/IMEngine/Anthy/SelectCandidate8Key" type="String">
+      <label>The key events to select the 8th candidate</label>
+      <default>8</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectCandidate9Key" key="/IMEngine/Anthy/SelectCandidate9Key" type="String">
+      <label>The key events to select the 9th candidate</label>
+      <default>9</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectCandidate1oKey" key="/IMEngine/Anthy/SelectCandidate10Key" type="String">
+      <label>The key events to select the 10th candidate</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_ConvToHiraganaKey" key="/IMEngine/Anthy/ConvToHiraganaKey" type="String">
+      <label></label>
+      <default>F6</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConvToKatakanaKey" key="/IMEngine/Anthy/ConvToKatakanaKey" type="String">
+      <label></label>
+      <default>F7</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConvToHalfKey" key="/IMEngine/Anthy/ConvToHalfKey" type="String">
+      <label></label>
+      <default>F8</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConvToHalfKatakanaKey" key="/IMEngine/Anthy/ConvToHalfKatakanaKey" type="String">
+      <label></label>
+      <default>Shift+F8</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConvToLatinKey" key="/IMEngine/Anthy/ConvToLatinKey" type="String">
+      <label></label>
+      <default>F9</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConvToWideLatinKey" key="/IMEngine/Anthy/ConvToWideLatinKey" type="String">
+      <label></label>
+      <default>F10</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_DictAdminKey" key="/IMEngine/Anthy/DictAdminKey" type="String">
+      <label></label>
+      <default>F11</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_AddWordKey" key="/IMEngine/Anthy/AddWordKey" type="String">
+      <label></label>
+      <default>F12</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_CommitReverseLearnKey" key="/IMEngine/Anthy/CommitReverseLearnKey" type="String">
+      <label></label>
+      <default>Shift+Return</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CommitFirstSegmentReverseLearnKey" key="/IMEngine/Anthy/CommitFirstSegmentReverseLearnKey" type="String">
+      <label></label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey" key="/IMEngine/Anthy/CommitSelectedSegmentReverseLearnKey" type="String">
+      <label></label>
+      <default></default>
+    </entry>
   </group>
 </kcfg>
