@@ -7,10 +7,10 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
-#include "scimsmartpinyinsettingplugin.h"
+#include "scimanthysettingplugin.h"
 
-#include "smartpinyin.h"
-#include "smartpinyinui.h"
+#include "anthy.h"
+#include "anthyui.h"
 
 #include <qcheckbox.h>
 
@@ -50,4 +50,4 @@ ScimSmartPinyinSettingPlugin::~ScimSmartPinyinSettingPlugin()
 }
 
 
-#include "scimsmartpinyinsettingplugin.moc"
+#include "scimanthysettingplugin.moc"

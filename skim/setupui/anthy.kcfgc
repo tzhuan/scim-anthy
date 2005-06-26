@@ -1,4 +1,4 @@
-File=smartpinyin.kcfg
-ClassName=SmartPinyinConfig
+File=anthy.kcfg
+ClassName=AnthyConfig
 Singleton=true
 Mutators=false
