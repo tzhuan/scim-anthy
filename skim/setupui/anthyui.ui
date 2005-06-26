@@ -1,8 +1,8 @@
 <!DOCTYPE UI><UI version="3.2" stdsetdef="1">
-<class>SmartPinyinSettingUI</class>
+<class>AnthySettingUI</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>SmartPinyinSettingUI</cstring>
+        <cstring>ANthySettingUI</cstring>
     </property>
     <property name="geometry">
         <rect>
@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Smart Pinyin</string>
+        <string>Anthy</string>
     </property>
     <vbox>
         <property name="name">

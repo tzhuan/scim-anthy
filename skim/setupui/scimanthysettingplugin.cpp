@@ -24,17 +24,17 @@ K_EXPORT_COMPONENT_FACTORY( kcm_skimplugin_scim_smartpinyin,
 
 class ScimSmartPinyinSettingPlugin::ScimSmartPinyinSettingPluginPrivate {
 public:
-    SmartPinyinSettingUI * ui;
+    AnthySettingUI * ui;
 };
 
 ScimSmartPinyinSettingPlugin::ScimSmartPinyinSettingPlugin(QWidget *parent, 
   const char */*name*/, const QStringList &args)
  : KAutoCModule( ScimSmartPinyinSettingLoaderFactory::instance(), 
-     parent, args, SmartPinyinConfig::self() ),
+     parent, args, AnthyConfig::self() ),
    d(new ScimSmartPinyinSettingPluginPrivate)
 {
     KGlobal::locale()->insertCatalogue("skim-scim-pinyin");
-    d->ui = new SmartPinyinSettingUI(this);
+    d->ui = new AnthySettingUI(this);
     setMainWidget(d->ui);
     
     //FIXME: emit toggle signals to update corresponding connected widgets
