@@ -22,8 +22,6 @@
 #define __SCIM_ANTHY_PREFS_H__
 
 /* config keys */
-#define SCIM_ANTHY_CONFIG_ON_KEY                      "/IMEngine/Anthy/OnKey"
-#define SCIM_ANTHY_CONFIG_USE_KANA                    "/IMEngine/Anthy/UseKana"
 #define SCIM_ANTHY_CONFIG_INPUT_MODE                  "/IMEngine/Anthy/InputMode"
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD               "/IMEngine/Anthy/TypingMethod"
 #define SCIM_ANTHY_CONFIG_CONVERSION_MODE             "/IMEngine/Anthy/ConversionMode"
@@ -31,14 +29,21 @@
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE                  "/IMEngine/Anthy/SpaceType"
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE                "/IMEngine/Anthy/TenKeyType"
 #define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD          "/IMEngine/Anthy/BehaviorOnPeriod"
-#define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
-#define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT      "/IMEngine/Anthy/LearnOnManualCommit"
-#define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT        "/IMEngine/Anthy/LearnOnAutoCommit"
+
+#define SCIM_ANTHY_CONFIG_ROMAJI_THEME                "/IMEngine/Anthy/RomajiTheme"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL          "/IMEngine/Anthy/RomajiHalfSymbol"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER          "/IMEngine/Anthy/RomajiHalfNumber"
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT          "/IMEngine/Anthy/RomajiAllowSplit"
+
+#define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT      "/IMEngine/Anthy/LearnOnManualCommit"
+#define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT        "/IMEngine/Anthy/LearnOnAutoCommit"
+
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND          "/IMEngine/Anthy/DictAdminCommand"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND            "/IMEngine/Anthy/AddWordCommand"
+
+#define SCIM_ANTHY_CONFIG_COLOR_THEME                 "/IMEngine/Anthy/ColorTheme"
+
+#define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
 
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL       "/IMEngine/Anthy/ShowInputModeLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL  "/IMEngine/Anthy/ShowConversionModeLabel"
@@ -49,8 +54,6 @@
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL         "/IMEngine/Anthy/ShowAddWordLabel"
 
 #define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme"
-#define SCIM_ANTHY_CONFIG_ROMAJI_THEME                "/IMEngine/Anthy/RomajiTheme"
-#define SCIM_ANTHY_CONFIG_COLOR_THEME                 "/IMEngine/Anthy/ColorTheme"
 
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY                  "/IMEngine/Anthy/CommitKey"
 #define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY    "/IMEngine/Anthy/CommitReverseLearnKey"
@@ -117,10 +120,6 @@
 
 
 /* default config values */
-#define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default"
-#define SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT                "Default"
-#define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
-
 #define SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT                  "Hiragana"
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT               "Roma"
 #define SCIM_ANTHY_CONFIG_CONVERSION_MODE_DEFAULT             "MultiSeg"
@@ -128,12 +127,19 @@
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT                  "FollowMode"
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT                "FollowMode"
 #define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT          "None"
+
+#define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
+
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    true
-#define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT      true
-#define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT        true
+
+#define SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT                "Default"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT          true
+
+#define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT      true
+#define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT        true
+
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT          "kasumi"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT            "kasumi --add"
 
@@ -145,6 +151,7 @@
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT       true
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT         true
 
+#define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default"
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+J,Control+m,Control+M"
 #define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT    "Shift+Return"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"
