@@ -35,7 +35,8 @@ public:
 };
 
 ScimAnthySettingPlugin::ScimAnthySettingPlugin(QWidget *parent, 
-  const char */*name*/, const QStringList &args)
+					       const char */*name*/,
+					       const QStringList &args)
  : KAutoCModule( ScimAnthySettingLoaderFactory::instance(), 
      parent, args, AnthyConfig::self() ),
    d(new ScimAnthySettingPluginPrivate)

@@ -19,18 +19,18 @@
 
 #include "utils/kautocmodule.h"
 
-class AnthySettingPlugin : public KAutoCModule
+class ScimAnthySettingPlugin : public KAutoCModule
 {
 Q_OBJECT
 public:
-    AnthyPinyinSettingPlugin(QWidget *parent, 
-			     const char */*name*/,
-			     const QStringList &args);
+    ScimAnthySettingPlugin(QWidget *parent, 
+			   const char */*name*/,
+			   const QStringList &args);
 
-    ~AnthySettingPlugin();
+    ~ScimAnthySettingPlugin();
 private:
-    class AnthySettingPluginPrivate;
-    AnthySettingPluginPrivate * d;
+    class ScimAnthySettingPluginPrivate;
+    ScimAnthySettingPluginPrivate * d;
 };
 
 #endif
