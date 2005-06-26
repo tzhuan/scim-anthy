@@ -7,22 +7,30 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  **************************************************************************/
-#ifndef SCIMSMARTPINYINSETTINGPLUGIN_H
-#define SCIMSMARTPINYINSETTINGPLUGIN_H
+
+/*
+ *  2005-06-26 Takuro Ashie <ashie@homa.ne.jp>
+ *
+ *    * Adapt to Anthy IMEngine.
+ */
+
+#ifndef SCIMANTHYSETTINGPLUGIN_H
+#define SCIMANTHYSETTINGPLUGIN_H
 
 #include "utils/kautocmodule.h"
 
-class ScimSmartPinyinSettingPlugin : public KAutoCModule
+class AnthySettingPlugin : public KAutoCModule
 {
 Q_OBJECT
 public:
-    ScimSmartPinyinSettingPlugin(QWidget *parent, 
-  const char */*name*/, const QStringList &args);
+    AnthyPinyinSettingPlugin(QWidget *parent, 
+			     const char */*name*/,
+			     const QStringList &args);
 
-    ~ScimSmartPinyinSettingPlugin();
+    ~AnthySettingPlugin();
 private:
-    class ScimSmartPinyinSettingPluginPrivate;
-    ScimSmartPinyinSettingPluginPrivate * d;
+    class AnthySettingPluginPrivate;
+    AnthySettingPluginPrivate * d;
 };
 
 #endif

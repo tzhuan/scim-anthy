@@ -7,6 +7,13 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
+
+/*
+ *  2005-06-26 Takuro Ashie <ashie@homa.ne.jp>
+ *
+ *    * Adapt to Anthy IMEngine.
+ */
+
 #include "scimanthysettingplugin.h"
 
 #include "anthy.h"
@@ -17,21 +24,21 @@
 #include <kgenericfactory.h>
 #include <klocale.h>
 
-typedef KGenericFactory<ScimSmartPinyinSettingPlugin> ScimSmartPinyinSettingLoaderFactory;
+typedef KGenericFactory<ScimAnthySettingPlugin> ScimAnthySettingLoaderFactory;
 
-K_EXPORT_COMPONENT_FACTORY( kcm_skimplugin_scim_smartpinyin, 
-    ScimSmartPinyinSettingLoaderFactory( "kcm_skimplugin_scim_smartpinyin" ) )
+K_EXPORT_COMPONENT_FACTORY( kcm_skimplugin_scim_anthy, 
+    ScimAnthySettingLoaderFactory( "kcm_skimplugin_scim_anthy" ) )
 
-class ScimSmartPinyinSettingPlugin::ScimSmartPinyinSettingPluginPrivate {
+class ScimAnthySettingPlugin::ScimAnthySettingPluginPrivate {
 public:
     AnthySettingUI * ui;
 };
 
-ScimSmartPinyinSettingPlugin::ScimSmartPinyinSettingPlugin(QWidget *parent, 
+ScimAnthySettingPlugin::ScimAnthySettingPlugin(QWidget *parent, 
   const char */*name*/, const QStringList &args)
- : KAutoCModule( ScimSmartPinyinSettingLoaderFactory::instance(), 
+ : KAutoCModule( ScimAnthySettingLoaderFactory::instance(), 
      parent, args, AnthyConfig::self() ),
-   d(new ScimSmartPinyinSettingPluginPrivate)
+   d(new ScimAnthySettingPluginPrivate)
 {
     KGlobal::locale()->insertCatalogue("skim-scim-pinyin");
     d->ui = new AnthySettingUI(this);
@@ -44,7 +51,7 @@ ScimSmartPinyinSettingPlugin::ScimSmartPinyinSettingPlugin(QWidget *parent,
     d->ui->kcfg__IMEngine_Pinyin_Ambiguities->toggle();
 }
 
-ScimSmartPinyinSettingPlugin::~ScimSmartPinyinSettingPlugin() 
+ScimAnthySettingPlugin::~ScimAnthySettingPlugin() 
 {
     KGlobal::locale()->removeCatalogue("skim-scim-pinyin");
 }
