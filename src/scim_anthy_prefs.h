@@ -46,8 +46,8 @@
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
 
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL       "/IMEngine/Anthy/ShowInputModeLabel"
-#define SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL  "/IMEngine/Anthy/ShowConversionModeLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL    "/IMEngine/Anthy/ShowTypingMethodLabel"
+#define SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL  "/IMEngine/Anthy/ShowConversionModeLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL     "/IMEngine/Anthy/ShowPeriodStyleLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL             "/IMEngine/Anthy/ShowDictLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL       "/IMEngine/Anthy/ShowDictAdminLabel"
@@ -55,18 +55,23 @@
 
 #define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme"
 
-#define SCIM_ANTHY_CONFIG_COMMIT_KEY                  "/IMEngine/Anthy/CommitKey"
-#define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY    "/IMEngine/Anthy/CommitReverseLearnKey"
-#define SCIM_ANTHY_CONFIG_CONVERT_KEY                 "/IMEngine/Anthy/ConvertKey"
-#define SCIM_ANTHY_CONFIG_CANCEL_KEY                  "/IMEngine/Anthy/CancelKey"
-
-#define SCIM_ANTHY_CONFIG_BACKSPACE_KEY               "/IMEngine/Anthy/BackSpaceKey"
-#define SCIM_ANTHY_CONFIG_DELETE_KEY                  "/IMEngine/Anthy/DeleteKey"
+#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY              "/IMEngine/Anthy/LatinModeKey"
+#define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY         "/IMEngine/Anthy/WideLatinModeKey"
+#define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY        "/IMEngine/Anthy/CircleKanaModeKey"
+#define SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY    "/IMEngine/Anthy/CircleTypingMethodKey"
+#define SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY           "/IMEngine/Anthy/HiraganaModeKey"
+#define SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY           "/IMEngine/Anthy/KatakanaModeKey"
 
 #define SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY            "/IMEngine/Anthy/InsertSpaceKey"
 #define SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY        "/IMEngine/Anthy/InsertAltSpaceKey"
 #define SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY       "/IMEngine/Anthy/InsertHalfSpaceKey"
 #define SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY       "/IMEngine/Anthy/InsertWideSpaceKey"
+#define SCIM_ANTHY_CONFIG_BACKSPACE_KEY               "/IMEngine/Anthy/BackSpaceKey"
+#define SCIM_ANTHY_CONFIG_DELETE_KEY                  "/IMEngine/Anthy/DeleteKey"
+#define SCIM_ANTHY_CONFIG_COMMIT_KEY                  "/IMEngine/Anthy/CommitKey"
+#define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY    "/IMEngine/Anthy/CommitReverseLearnKey"
+#define SCIM_ANTHY_CONFIG_CONVERT_KEY                 "/IMEngine/Anthy/ConvertKey"
+#define SCIM_ANTHY_CONFIG_CANCEL_KEY                  "/IMEngine/Anthy/CancelKey"
 
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY        "/IMEngine/Anthy/MoveCaretFirstKey"
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY         "/IMEngine/Anthy/MoveCaretLastKey"
@@ -108,13 +113,6 @@
 #define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY           "/IMEngine/Anthy/ConvertToLatinKey"
 #define SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY      "/IMEngine/Anthy/ConvertToWideLatinKey"
 
-#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY              "/IMEngine/Anthy/LatinModeKey"
-#define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY         "/IMEngine/Anthy/WideLatinModeKey"
-#define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY        "/IMEngine/Anthy/CircleKanaModeKey"
-#define SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY    "/IMEngine/Anthy/CircleTypingMethodKey"
-#define SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY           "/IMEngine/Anthy/HiraganaModeKey"
-#define SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY           "/IMEngine/Anthy/KatakanaModeKey"
-
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY              "/IMEngine/Anthy/DictAdminKey"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY                "/IMEngine/Anthy/AddWordKey"
 
@@ -128,10 +126,6 @@
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT                "FollowMode"
 #define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT          "None"
 
-#define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
-
-#define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    true
-
 #define SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT                "Default"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT          false
@@ -143,27 +137,37 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT          "kasumi"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT            "kasumi --add"
 
+#define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
+
+#define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    true
+
 #define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT       true
-#define SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL_DEFAULT  true
 #define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT    false
+#define SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL_DEFAULT  true
 #define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT     false
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT             false
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT       true
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT         true
 
 #define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default"
-#define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+J,Control+m,Control+M"
-#define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT    "Shift+Return"
-#define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"
-#define SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT                  "Escape,Control+g,Control+G"
 
-#define SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT               "BackSpace,Control+h,Control+H"
-#define SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT                  "Delete,Control+d,Control+D"
+#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
+#define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         ""
+#define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT        "Control+period,Control+greater,Hiragana_Katakana"
+#define SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT    "Alt+Romaji"
+#define SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT           "Hiragana_Katakana"
+#define SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT           "Shift+Hiragana_Katakana"
 
 #define SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT            "space"
 #define SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT        "Shift+space"
 #define SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT       " "
 #define SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT       " "
+#define SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT               "BackSpace,Control+h,Control+H"
+#define SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT                  "Delete,Control+d,Control+D"
+#define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+J,Control+m,Control+M"
+#define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT    "Shift+Return"
+#define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"
+#define SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT                  "Escape,Control+g,Control+G"
 
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT        "Control+a,Control+A,Home"
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT         "Control+e,Control+E,End"
@@ -207,13 +211,6 @@
 
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT              "F11"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT                "F12"
-
-#define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
-#define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         ""
-#define SCIM_ANTHY_CONFIG_CIRCLE_KANA_MODE_KEY_DEFAULT        "Control+period,Control+greater,Hiragana_Katakana"
-#define SCIM_ANTHY_CONFIG_CIRCLE_TYPING_METHOD_KEY_DEFAULT    "Alt+Romaji"
-#define SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT           "Hiragana_Katakana"
-#define SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT           "Shift+Hiragana_Katakana"
 
 
 #ifdef SCIM_ANTHY_USE_GTK
