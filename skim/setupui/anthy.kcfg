@@ -3,19 +3,103 @@
 <kcfg>
   <kcfgfile name="skimrc"/>
   <group name="SCIM">
-    <entry name="_IMEngine_Pinyin_AlwaysShowLookup" key="/IMEngine/Pinyin/AlwaysShowLookup" type="Bool">
-      <label>Lookup table should always be shown</label>
+    <entry name="_IMEngine_Anthy_InputMode" key="/IMEngine/Anthy/InputMode" type="String">
+      <label>Initial input mode</label>
+      <default>Hiragana</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_TypingMethod" key="/IMEngine/Anthy/TypingMethod" type="String">
+      <label>Initial typing method</label>
+      <default>Roma</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConversionMode" key="/IMEngine/Anthy/ConversionMode" type="String">
+      <label>Initial conversion mode</label>
+      <default>MultiSeg</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_PeriodStyle" key="/IMEngine/Anthy/PeriodStyle" type="String">
+      <label>Initial character type of period and comma style</label>
+      <default>FollowMode</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_TenKeyType" key="/IMEngine/Anthy/TenKeyType" type="String">
+      <label>Initial character width which is inputed by ten key</label>
+      <default>FollowMode</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_BehaviorOnPeriod" key="/IMEngine/Anthy/BehaviorOnPeriod" type="String">
+      <label>Specify behavior on inputting a period or comma</label>
+      <default>None</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_RomajiTheme" key="/IMEngine/Anthy/RomajiTheme" type="String">
+      <label>Romaji table name to use</label>
+      <default>Default</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_HalfSymbol" key="/IMEngine/Anthy/HalfSymbol" type="Bool">
+      <label>Whether input symbol as half width or not</label>
       <default>false</default>
     </entry>
-
-    <entry name="_IMEngine_Pinyin_BurstStackSize" key="/IMEngine/Pinyin/BurstStackSize" type="Int">
-      <label>no idea</label>
-      <default>128</default>
+    <entry name="_IMEngine_Anthy_HalfNumber" key="/IMEngine/Anthy/HalfNumber" type="Bool">
+      <label>Whether input number as half width or not</label>
+      <default>false</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_AllowSplit" key="/IMEngine/Anthy/AllowSplit" type="Bool">
+      <label>Allow split syllable or not</label>
+      <default>true</default>
     </entry>
 
-    <entry name="_IMEngine_Pinyin_ChineseSwitchKey" key="/IMEngine/Pinyin/ChineseSwitchKey" type="String">
-      <label>Chinese mode switch shortcut</label>
-      <default>Control+slash</default>
+    <entry name="_IMEngine_Anthy_LearnOnManulCommit" key="/IMEngine/Anthy/LearnOnManualCommit" type="Bool">
+      <label>Learn the frequency of the commited word on manul commit</label>
+      <default>true</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_LearnOnAutoCommit" key="/IMEngine/Anthy/LearnOnAutoCommit" type="Bool">
+      <label>Learn the frequency of the commited word on auto commit</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_DictAdminCommand" key="/IMEngine/Anthy/DictAdminCommand" type="String">
+      <label>External command to administer the personal dictionary</label>
+      <default>kasumi</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_AddWordCommand" key="/IMEngine/Anthy/AddWordCommand" type="String">
+      <label>External command to add a word to the personal dictionary</label>
+      <default>kasumi --add</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_ColorTheme" key="/IMEngine/Anthy/ColorTheme" type="String">
+      <label>Name of preedit color theme to use</label>
+      <default>Default</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_CloseCandWinOnSelect" key="/IMEngine/Anthy/CloseCandWinOnSelect" type="Bool">
+      <label>Whether close the lookup table when select a candidate directly or not</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_ShowInputModeLabel" key="/IMEngine/Anthy/ShowInputModeLabel" type="Bool">
+      <label>Show input mode label on toolbar or not</label>
+      <default>true</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ShowTypingMethodLabel" key="/IMEngine/Anthy/ShowTypingMethodLabel" type="Bool">
+      <label>Show typing method label on toolbar or not</label>
+      <default>false</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ShowConversionModeLabel" key="/IMEngine/Anthy/ShowConversionModeLabel" type="Bool">
+      <label>Show conversion mode label on toolbar or not</label>
+      <default>true</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ShowPeriodStyleLabel" key="/IMEngine/Anthy/ShowPeriodStyleLabel" type="Bool">
+      <label>Show period style label on toolbar or not</label>
+      <default>false</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ShowDictLabel" key="/IMEngine/Anthy/ShowDictLabel" type="Bool">
+      <label>Show dictionary label on toolbar or not</label>
+      <default>false</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ShowDictAdminLabel" key="/IMEngine/Anthy/ShowDictAdminLabel" type="Bool">
+      <label>Show dictionary administration label on toolbar or not</label>
+      <default>true</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ShowAddWordLabel" key="/IMEngine/Anthy/ShowAddWordLabel" type="Bool">
+      <label>Show adding a word label on toolbar or not</label>
+      <default>true</default>
     </entry>
   </group>
 </kcfg>
