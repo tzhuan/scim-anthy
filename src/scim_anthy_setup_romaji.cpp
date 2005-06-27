@@ -92,16 +92,16 @@ romaji_page_create_ui (void)
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
+    /* romaji splitting */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+
     /* symbol */
     widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     /* number */
     widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
-
-    /* romaji splitting */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     /* romaji table */
