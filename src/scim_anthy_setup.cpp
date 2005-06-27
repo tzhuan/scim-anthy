@@ -1096,7 +1096,7 @@ setup_widget_value (void)
     }
 
     gtk_option_menu_set_history
-        (GTK_OPTION_MENU (__widget_key_categories_menu), 1);
+        (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
     gtk_widget_set_sensitive (__widget_key_filter, FALSE);
     gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
     GtkTreeModel *model;
