@@ -2,6 +2,10 @@
 
 	* configure.ac: Version-0.5.0.
 
+2005-06-28 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/Makefile.am: Add header files.
+
 2005-06-27 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_setup_romaji.cpp: Changed widget order.

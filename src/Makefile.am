@@ -21,6 +21,8 @@ noinst_HEADERS = \
 	scim_anthy_key2kana_table.h \
 	scim_anthy_default_tables.h \
 	scim_anthy_style_file.h \
+	scim_anthy_setup.h \
+	scim_anthy_setup_romaji.h \
 	scim_anthy_utils.h
 
 moduledir = @SCIM_MODULEDIR@/IMEngine

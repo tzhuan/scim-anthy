@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-06-25 18:30+0900\n"
+"POT-Creation-Date: 2005-06-28 11:50+0900\n"
 "PO-Revision-Date: 2005-06-24 18:33+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,92 +13,92 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:340
+#: src/scim_anthy_imengine.cpp:343
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:344 src/scim_anthy_setup.cpp:195
+#: src/scim_anthy_imengine.cpp:347 src/scim_anthy_setup.cpp:195
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:348 src/scim_anthy_setup.cpp:196
+#: src/scim_anthy_imengine.cpp:351 src/scim_anthy_setup.cpp:196
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:352 src/scim_anthy_imengine.cpp:353
+#: src/scim_anthy_imengine.cpp:355 src/scim_anthy_imengine.cpp:356
 #: src/scim_anthy_setup.cpp:197
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:357 src/scim_anthy_setup.cpp:198
+#: src/scim_anthy_imengine.cpp:360 src/scim_anthy_setup.cpp:198
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:357
+#: src/scim_anthy_imengine.cpp:360
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:361 src/scim_anthy_setup.cpp:199
+#: src/scim_anthy_imengine.cpp:364 src/scim_anthy_setup.cpp:199
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:367
+#: src/scim_anthy_imengine.cpp:370
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:371
+#: src/scim_anthy_imengine.cpp:374
 msgid "Romaji"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:375
+#: src/scim_anthy_imengine.cpp:378
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:382
+#: src/scim_anthy_imengine.cpp:385
 msgid "Conversion mode"
 msgstr "変換モード"
 
-#: src/scim_anthy_imengine.cpp:386 src/scim_anthy_imengine.cpp:387
+#: src/scim_anthy_imengine.cpp:389 src/scim_anthy_imengine.cpp:390
 #: src/scim_anthy_setup.cpp:212
 msgid "Multi segment"
 msgstr "連文節"
 
-#: src/scim_anthy_imengine.cpp:391 src/scim_anthy_imengine.cpp:392
+#: src/scim_anthy_imengine.cpp:394 src/scim_anthy_imengine.cpp:395
 #: src/scim_anthy_setup.cpp:213
 msgid "Single segment"
 msgstr "単文節"
 
-#: src/scim_anthy_imengine.cpp:396 src/scim_anthy_imengine.cpp:398
+#: src/scim_anthy_imengine.cpp:399 src/scim_anthy_imengine.cpp:401
 #: src/scim_anthy_setup.cpp:214
 msgid "Convert as you type (Multi segment)"
 msgstr "逐次変換(連文節)"
 
-#: src/scim_anthy_imengine.cpp:402 src/scim_anthy_imengine.cpp:404
+#: src/scim_anthy_imengine.cpp:405 src/scim_anthy_imengine.cpp:407
 #: src/scim_anthy_setup.cpp:215
 msgid "Convert as you type (Single segment)"
 msgstr "逐次変換(単文節)"
 
-#: src/scim_anthy_imengine.cpp:411
+#: src/scim_anthy_imengine.cpp:414
 msgid "Period style"
 msgstr "句読点スタイル"
 
-#: src/scim_anthy_imengine.cpp:438
+#: src/scim_anthy_imengine.cpp:441
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:443
+#: src/scim_anthy_imengine.cpp:446
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:445
+#: src/scim_anthy_imengine.cpp:448
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:451 src/scim_anthy_prefs.cpp:879
+#: src/scim_anthy_imengine.cpp:454 src/scim_anthy_prefs.cpp:879
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:453
+#: src/scim_anthy_imengine.cpp:456
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
@@ -170,7 +170,7 @@ msgstr "なにもしない"
 msgid "Start conversion"
 msgstr "変換を開始する"
 
-#: src/scim_anthy_setup.cpp:248 src/scim_anthy_prefs.cpp:321
+#: src/scim_anthy_setup.cpp:248 src/scim_anthy_prefs.cpp:341
 msgid "Commit"
 msgstr "確定"
 
@@ -426,61 +426,61 @@ msgstr "全角空白を挿入するキーの設定"
 msgid "The key events to insert a wide space. "
 msgstr "全角空白を挿入するキーイベント"
 
-#: src/scim_anthy_prefs.cpp:322 src/scim_anthy_prefs.cpp:904
-msgid "Select commit keys"
-msgstr "確定キーの設定"
-
-#: src/scim_anthy_prefs.cpp:323
-msgid "The key events to commit the preedit string. "
-msgstr "文字列を確定するキーイベント"
-
-#: src/scim_anthy_prefs.cpp:331
-msgid "Convert"
-msgstr "変換"
-
-#: src/scim_anthy_prefs.cpp:332
-msgid "Select convert keys"
-msgstr "変換キーの設定"
-
-#: src/scim_anthy_prefs.cpp:333
-msgid "The key events to convert the preedit string to kanji. "
-msgstr "文字列を漢字に変換するキーイベント"
-
-#: src/scim_anthy_prefs.cpp:341
-msgid "Cancel"
-msgstr "キャンセル"
-
-#: src/scim_anthy_prefs.cpp:342
-msgid "Select cancel keys"
-msgstr "キャンセルキーの設定"
-
-#: src/scim_anthy_prefs.cpp:343
-msgid "The key events to cancel preediting or converting. "
-msgstr "文字変換や文字入力をキャンセルするキーイベント"
-
-#: src/scim_anthy_prefs.cpp:351
+#: src/scim_anthy_prefs.cpp:321
 msgid "Backspace"
 msgstr "バックスペース"
 
-#: src/scim_anthy_prefs.cpp:352
+#: src/scim_anthy_prefs.cpp:322
 msgid "Select backspace keys"
 msgstr "バックスペースキーの設定"
 
-#: src/scim_anthy_prefs.cpp:353
+#: src/scim_anthy_prefs.cpp:323
 msgid "The key events to delete a character before caret. "
 msgstr "キャレットの前の文字を削除するキーイベント"
 
-#: src/scim_anthy_prefs.cpp:361
+#: src/scim_anthy_prefs.cpp:331
 msgid "Delete"
 msgstr "削除"
 
-#: src/scim_anthy_prefs.cpp:362
+#: src/scim_anthy_prefs.cpp:332
 msgid "Select delete keys"
 msgstr "削除キーの設定"
 
-#: src/scim_anthy_prefs.cpp:363
+#: src/scim_anthy_prefs.cpp:333
 msgid "The key events to delete a character after caret. "
 msgstr "キャレットの後の文字を削除するキーイベント"
+
+#: src/scim_anthy_prefs.cpp:342 src/scim_anthy_prefs.cpp:904
+msgid "Select commit keys"
+msgstr "確定キーの設定"
+
+#: src/scim_anthy_prefs.cpp:343
+msgid "The key events to commit the preedit string. "
+msgstr "文字列を確定するキーイベント"
+
+#: src/scim_anthy_prefs.cpp:351
+msgid "Convert"
+msgstr "変換"
+
+#: src/scim_anthy_prefs.cpp:352
+msgid "Select convert keys"
+msgstr "変換キーの設定"
+
+#: src/scim_anthy_prefs.cpp:353
+msgid "The key events to convert the preedit string to kanji. "
+msgstr "文字列を漢字に変換するキーイベント"
+
+#: src/scim_anthy_prefs.cpp:361
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: src/scim_anthy_prefs.cpp:362
+msgid "Select cancel keys"
+msgstr "キャンセルキーの設定"
+
+#: src/scim_anthy_prefs.cpp:363
+msgid "The key events to cancel preediting or converting. "
+msgstr "文字変換や文字入力をキャンセルするキーイベント"
 
 #: src/scim_anthy_prefs.cpp:385
 msgid "Move to first"
