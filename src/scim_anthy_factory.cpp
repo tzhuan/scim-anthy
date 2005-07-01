@@ -379,6 +379,24 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_show_add_word_label
             = config->read (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL,
                             m_show_add_word_label);
+    	// color settings
+        int red, green, blue;
+        str = config->read (String (SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR),
+                            String (SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR_DEFAULT));
+        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
+        m_segment_fg_color = SCIM_RGB_COLOR (red, green, blue);
+        str = config->read (String (SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR),
+                            String (SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR_DEFAULT));
+        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
+        m_segment_bg_color = SCIM_RGB_COLOR (red, green, blue);
+        str = config->read (String (SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR),
+                            String (SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR_DEFAULT));
+        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
+        m_preedit_fg_color = SCIM_RGB_COLOR (red, green, blue);
+        str = config->read (String (SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR),
+                            String (SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR_DEFAULT));
+        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
+        m_preedit_bg_color = SCIM_RGB_COLOR (red, green, blue);
 
         // clear old actions
         m_actions.clear ();

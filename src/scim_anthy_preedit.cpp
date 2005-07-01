@@ -95,9 +95,20 @@ AttributeList
 Preedit::get_attribute_list (void)
 {
     if (is_converting ())
+    {
         return m_conversion.get_attribute_list ();
-    else
-        return AttributeList ();
+    } else {
+        AttributeList attrs;
+        unsigned int fg_color, bg_color;
+        m_conversion.get_preedit_colors (&fg_color, &bg_color);
+        attrs.push_back (Attribute (0, get_length (),
+                                    SCIM_ATTR_FOREGROUND, 
+                                    fg_color));
+        attrs.push_back (Attribute (0, get_length (),
+                                    SCIM_ATTR_BACKGROUND,
+                                    bg_color));
+        return attrs;
+    }
 }
 
 bool
@@ -404,6 +415,29 @@ Preedit::is_comma_or_period (const String & str)
     return false;
 }
 
+void
+Preedit::set_segment_colors (unsigned int fg_color, unsigned int bg_color)
+{
+    m_conversion.set_segment_colors (fg_color, bg_color);
+}
+
+bool
+Preedit::get_segment_colors (unsigned int *fg_color, unsigned int *bg_color)
+{
+    m_conversion.get_segment_colors (fg_color, bg_color);
+}
+
+void
+Preedit::set_preedit_colors (unsigned int fg_color, unsigned int bg_color)
+{
+    m_conversion.set_preedit_colors (fg_color, bg_color);
+}
+
+bool
+Preedit::get_preedit_colors (unsigned int *fg_color, unsigned int *bg_color)
+{
+    m_conversion.get_preedit_colors (fg_color, bg_color);
+}
 
 
 /*

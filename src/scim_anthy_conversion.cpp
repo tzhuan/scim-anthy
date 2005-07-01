@@ -389,16 +389,27 @@ Conversion::get_attribute_list (void)
          it++, seg_id++)
     {
         // create attribute for this segment
-        Attribute attr (pos, it->get_string().length (),
-                        SCIM_ATTR_DECORATE);
-        if ((int) seg_id == m_cur_segment)
-            attr.set_value (SCIM_ATTR_DECORATE_REVERSE);
-        else
-            attr.set_value (SCIM_ATTR_DECORATE_UNDERLINE);
+        Attribute d_attr (pos, it->get_string().length (),
+                          SCIM_ATTR_DECORATE);
+        Attribute f_attr (pos, it->get_string().length (),
+                          SCIM_ATTR_FOREGROUND);
+        Attribute b_attr (pos, it->get_string().length (),
+                          SCIM_ATTR_BACKGROUND);
+        if ((int) seg_id == m_cur_segment) {
+            f_attr.set_value (m_segment_fg_color);
+            b_attr.set_value (m_segment_bg_color);
+        } else {
+            d_attr.set_value (SCIM_ATTR_DECORATE_UNDERLINE);
+            f_attr.set_value (m_preedit_fg_color);
+            b_attr.set_value (m_preedit_bg_color);
+        }
 
         // join
-        if (it->get_string().length () > 0)
-            attrs.push_back (attr);
+        if (it->get_string().length () > 0) {
+            attrs.push_back (d_attr);
+            attrs.push_back (f_attr);
+            attrs.push_back (b_attr);
+        }
 
         pos += it->get_string().length ();
     }
@@ -643,3 +654,36 @@ Conversion::select_candidate (int candidate_id, int segment_id)
                                                         candidate_id),
                                     candidate_id);
 }
+
+void
+Conversion::set_segment_colors (unsigned int fg_color, unsigned int bg_color)
+{
+    m_segment_fg_color = fg_color;
+    m_segment_bg_color = bg_color;
+}
+
+bool
+Conversion::get_segment_colors (unsigned int *fg_color, unsigned int *bg_color)
+{
+    *fg_color = m_segment_fg_color;
+    *bg_color = m_segment_bg_color;
+
+    return true;
+}
+
+void
+Conversion::set_preedit_colors (unsigned int fg_color, unsigned int bg_color)
+{
+    m_preedit_fg_color = fg_color;
+    m_preedit_bg_color = bg_color;
+}
+
+bool
+Conversion::get_preedit_colors (unsigned int *fg_color, unsigned int *bg_color)
+{
+    *fg_color = m_preedit_fg_color;
+    *bg_color = m_preedit_bg_color;
+
+    return true;
+}
+

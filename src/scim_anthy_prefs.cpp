@@ -941,4 +941,46 @@ StringConfigData config_keyboards_reverse_learning [] =
     },
 };
 
+ColorConfigData config_color_common [] =
+{
+    {
+        SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR,
+        SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR_DEFAULT,
+        SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR_DEFAULT,
+        SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR,
+        SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR_DEFAULT,
+        SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR_DEFAULT,
+        N_("_Selected segment color:"),
+        N_("The color of selected segment text"),
+        N_("The color of selected segment text in the preedition"),
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR,
+        SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR_DEFAULT,
+        SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR_DEFAULT,
+        SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR,
+        SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR_DEFAULT,
+        SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR_DEFAULT,
+        N_("_Preediting text color:"),
+        N_("The color of preediting text"),
+        N_("The color of preediting text in the preedition"),
+        NULL,
+        false,
+    },
+    {
+        NULL,
+        "",
+        "",
+        NULL,
+        "",
+        "",
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+};
 }

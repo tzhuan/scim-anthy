@@ -1677,6 +1677,12 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     else
         m_preedit.set_behavior_on_period (SCIM_ANTHY_NONE_ON_PERIOD);
 
+    // set colors
+    m_preedit.set_segment_colors (m_factory->m_segment_fg_color,
+                                  m_factory->m_segment_bg_color);
+    m_preedit.set_preedit_colors (m_factory->m_preedit_fg_color,
+                                  m_factory->m_preedit_bg_color);
+
     // setup toolbar
     m_properties.clear ();
     install_properties ();

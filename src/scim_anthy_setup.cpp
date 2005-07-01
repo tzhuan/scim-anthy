@@ -41,6 +41,7 @@
 #include "scim_anthy_default_tables.h"
 #include "scim_anthy_setup_romaji.h"
 #include "scim_anthy_utils.h"
+#include "scim_color_button.h"
 
 using namespace scim;
 using namespace scim_anthy;
@@ -281,6 +282,8 @@ static void     on_choose_keys_button_clicked     (GtkWidget        *button,
                                                    gpointer          data);
 static void     on_dict_launch_button_clicked     (GtkButton        *button,
                                                    gpointer          user_data);
+static void     on_color_button_changed           (ScimColorButton  *button,
+                                                   gpointer          user_data);
 
 
 static BoolConfigData *
@@ -322,6 +325,21 @@ find_key_config_entry (const char *config_key)
             if (entry->key && !strcmp (entry->key, config_key))
                 return entry;
         }
+    }
+
+    return NULL;
+}
+
+static ColorConfigData *
+find_color_config_entry (const char *config_key)
+{
+    if (!config_key)
+        return NULL;
+
+    for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
+        ColorConfigData *entry = &config_color_common[i];
+        if (entry->fg_key && !strcmp (entry->fg_key, config_key))
+            return entry;
     }
 
     return NULL;
@@ -437,6 +455,45 @@ create_combo (const char *config_key, gpointer candidates_p,
                               _(entry->tooltip), NULL);
 
     return GTK_WIDGET (entry->widget);
+}
+
+static GtkWidget *
+create_color_button (const char *config_key)
+{
+    ColorConfigData *entry = find_color_config_entry (config_key);
+    if (!entry)
+        return NULL;
+
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_widget_show (hbox);
+
+    GtkWidget *label = NULL;
+    if (entry->label) {
+        label = gtk_label_new_with_mnemonic (_(entry->label));
+        gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+        gtk_widget_show (label);
+    }
+
+    entry->widget = scim_color_button_new ();
+    gtk_widget_set_size_request (GTK_WIDGET (entry->widget), 32, 24);
+    gtk_color_button_set_title (GTK_COLOR_BUTTON (entry->widget), entry->title);
+    gtk_container_set_border_width (GTK_CONTAINER (entry->widget), 4);
+    g_signal_connect (G_OBJECT (entry->widget), "color-changed",
+                      G_CALLBACK (on_color_button_changed),
+                      entry);
+    gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (entry->widget), FALSE, FALSE, 2);
+    gtk_widget_show (GTK_WIDGET (entry->widget));
+
+    if (label)
+        gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (entry->widget));
+
+    if (!__widget_tooltips)
+        __widget_tooltips = gtk_tooltips_new();
+    if (entry->tooltip)
+        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
+                              _(entry->tooltip), NULL);
+
+    return hbox;
 }
 
 static void
@@ -907,6 +964,30 @@ create_toolbar_page (void)
 }
 
 static GtkWidget *
+create_appearance_page (void)
+{
+    GtkWidget *vbox, *widget, *hbox; 
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    /* color */
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 2);
+    gtk_widget_show (hbox);
+    widget = create_color_button (SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR);
+    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 2);
+    gtk_widget_show (hbox);
+    widget = create_color_button (SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR);
+    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+    return vbox;
+}
+
+static GtkWidget *
 create_setup_window (void)
 {
     static GtkWidget *window = NULL;
@@ -957,6 +1038,12 @@ create_setup_window (void)
         // Create the toolbar page.
         page = create_toolbar_page ();
         label = gtk_label_new (_("Toolbar"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the appearance  page.
+        page = create_appearance_page ();
+        label = gtk_label_new (_("Appearance"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
@@ -1094,6 +1181,17 @@ setup_widget_value (void)
                 config_keyboards_reverse_learning[i].value.c_str ());
         }
     }
+    
+    for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
+        ColorConfigData &entry = config_color_common[i];
+        if (entry.widget) {
+            GdkColor fg_color, bg_color;
+            gdk_color_parse (entry.fg_value.c_str (), &fg_color);
+            gdk_color_parse (entry.bg_value.c_str (), &bg_color);
+            scim_color_button_set_colors (SCIM_COLOR_BUTTON (entry.widget),
+                                          &fg_color, &bg_color);
+        }
+    }
 
     gtk_option_menu_set_history
         (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
@@ -1181,6 +1279,12 @@ load_config (const ConfigPointer &config)
         entry.value = config->read (String (entry.key), entry.value);
     }
 
+    for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
+        ColorConfigData &entry = config_color_common[i];
+        entry.fg_value = config->read (String (entry.fg_key), entry.fg_value);
+        entry.bg_value = config->read (String (entry.bg_key), entry.bg_value);
+    }
+
     romaji_page_load_config (config);
 
     setup_widget_value ();
@@ -1198,6 +1302,9 @@ load_config (const ConfigPointer &config)
 
     for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++)
         config_keyboards_reverse_learning[i].changed = false;
+
+    for (unsigned int i = 0; config_color_common[i].fg_key; i++)
+        config_color_common[i].changed = false;
 
     __config_changed = false;
 }
@@ -1239,6 +1346,15 @@ save_config (const ConfigPointer &config)
         StringConfigData &entry = config_keyboards_reverse_learning[i];
         if (entry.changed)
             entry.value = config->write (String (entry.key), entry.value);
+        entry.changed = false;
+    }
+
+    for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
+        ColorConfigData &entry = config_color_common[i];
+        if (entry.changed) {
+            entry.fg_value = config->write (String (entry.fg_key), entry.fg_value);
+            entry.bg_value = config->write (String (entry.bg_key), entry.bg_value);
+        }
         entry.changed = false;
     }
 
@@ -1568,6 +1684,33 @@ on_dict_launch_button_clicked (GtkButton *button, gpointer user_data)
         const char *command = gtk_entry_get_text (GTK_ENTRY (entry->widget));
         if (command && *command)
             launch_program (command);
+    }
+}
+
+static void
+on_color_button_changed (ScimColorButton *button,
+                         gpointer         user_data)
+{
+    ColorConfigData *entry = static_cast <ColorConfigData*> (user_data);
+
+    if (entry->widget) {
+        GdkColor fg_color, bg_color;
+        gchar fg_color_str[8], bg_color_str[8];
+        scim_color_button_get_colors (button, &fg_color, &bg_color);
+        g_snprintf (fg_color_str, G_N_ELEMENTS (fg_color_str),
+                    "#%02X%02X%02X", 
+                    (fg_color.red>>8),
+                    (fg_color.green>>8),
+                    (fg_color.blue>>8));
+        g_snprintf (bg_color_str, G_N_ELEMENTS (bg_color_str),
+                    "#%02X%02X%02X", 
+                    (bg_color.red>>8),
+                    (bg_color.green>>8),
+                    (bg_color.blue>>8));
+        entry->fg_value = String (fg_color_str);
+        entry->bg_value = String (bg_color_str);
+        entry->changed = true;
+        __config_changed = true;
     }
 }
 

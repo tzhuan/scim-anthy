@@ -116,6 +116,11 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY              "/IMEngine/Anthy/DictAdminKey"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY                "/IMEngine/Anthy/AddWordKey"
 
+#define SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR            "/IMEngine/Anthy/SegmentFGColor"
+#define SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR            "/IMEngine/Anthy/SegmentBGColor"
+#define SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR            "/IMEngine/Anthy/PreeditFGColor"
+#define SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR            "/IMEngine/Anthy/PreeditBGColor"
+
 
 /* default config values */
 #define SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT                  "Hiragana"
@@ -212,6 +217,11 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT              "F11"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT                "F12"
 
+#define SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR_DEFAULT            "#FFFFFF"
+#define SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR_DEFAULT            "#0900A5"
+#define SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR_DEFAULT            "#006010"
+#define SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR_DEFAULT            "#FFFFFF"
+
 
 #ifdef SCIM_ANTHY_USE_GTK
 
@@ -248,6 +258,21 @@ struct StringConfigData
     bool        changed;
 };
 
+struct ColorConfigData
+{
+    const char *fg_key;
+    String      fg_value;
+    String      fg_default_value;
+    const char *bg_key;
+    String      bg_value;
+    String      bg_default_value;
+    const char *label;
+    const char *title;
+    const char *tooltip;
+    void       *widget;
+    bool        changed;
+};
+
 extern BoolConfigData   config_bool_common [];
 extern StringConfigData config_string_common [];
 extern StringConfigData config_keyboards_edit [];
@@ -259,6 +284,7 @@ extern StringConfigData config_keyboards_converting [];
 extern StringConfigData config_keyboards_mode [];
 extern StringConfigData config_keyboards_dict [];
 extern StringConfigData config_keyboards_reverse_learning [];
+extern ColorConfigData  config_color_common [];
 
 }
 

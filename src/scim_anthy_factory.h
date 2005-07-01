@@ -68,6 +68,10 @@ class AnthyFactory : public IMEngineFactoryBase
     bool          m_show_dict_label;
     bool          m_show_dict_admin_label;
     bool          m_show_add_word_label;
+    unsigned int  m_segment_fg_color;
+    unsigned int  m_segment_bg_color;
+    unsigned int  m_preedit_fg_color;
+    unsigned int  m_preedit_bg_color;
 
     StyleFile     m_style;
     Key2KanaTable *m_custom_romaji_table;
