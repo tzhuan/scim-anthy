@@ -476,8 +476,6 @@ create_color_button (const char *config_key)
 
     entry->widget = scim_color_button_new ();
     gtk_widget_set_size_request (GTK_WIDGET (entry->widget), 32, 24);
-    gtk_color_button_set_title (GTK_COLOR_BUTTON (entry->widget), entry->title);
-    gtk_container_set_border_width (GTK_CONTAINER (entry->widget), 4);
     g_signal_connect (G_OBJECT (entry->widget), "color-changed",
                       G_CALLBACK (on_color_button_changed),
                       entry);
