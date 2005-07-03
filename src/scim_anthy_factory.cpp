@@ -402,10 +402,6 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_actions.clear ();
 
         // candidates keys
-        APPEND_ACTION (SELECT_FIRST_CANDIDATE,  action_select_first_candidate);
-        APPEND_ACTION (SELECT_LAST_CANDIDATE,   action_select_last_candidate);
-        APPEND_ACTION (SELECT_NEXT_CANDIDATE,   action_select_next_candidate);
-        APPEND_ACTION (SELECT_PREV_CANDIDATE,   action_select_prev_candidate);
         APPEND_ACTION (CANDIDATES_PAGE_UP,      action_candidates_page_up);
         APPEND_ACTION (CANDIDATES_PAGE_DOWN,    action_candidates_page_down);
         APPEND_ACTION (SELECT_CANDIDATE_1,      action_select_candidate_1);
@@ -418,6 +414,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         APPEND_ACTION (SELECT_CANDIDATE_8,      action_select_candidate_8);
         APPEND_ACTION (SELECT_CANDIDATE_9,      action_select_candidate_9);
         APPEND_ACTION (SELECT_CANDIDATE_10,     action_select_candidate_10);
+        APPEND_ACTION (SELECT_FIRST_CANDIDATE,  action_select_first_candidate);
+        APPEND_ACTION (SELECT_LAST_CANDIDATE,   action_select_last_candidate);
+        APPEND_ACTION (SELECT_NEXT_CANDIDATE,   action_select_next_candidate);
+        APPEND_ACTION (SELECT_PREV_CANDIDATE,   action_select_prev_candidate);
 
         // segment keys
         APPEND_ACTION (SELECT_FIRST_SEGMENT,    action_select_first_segment);
