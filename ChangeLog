@@ -1,3 +1,9 @@
+2005-07-04 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* src/scim_color_button.{cpp,h},
+	  src/scim_anthy_setup.cpp:
+	Use String class for color value.
+
 2005-07-03 Takuro Ashie <ashie@homa.ne.jp>
 
 	* data/atok.sty: Fixed typo.

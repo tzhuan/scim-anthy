@@ -1183,11 +1183,8 @@ setup_widget_value (void)
     for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
         ColorConfigData &entry = config_color_common[i];
         if (entry.widget) {
-            GdkColor fg_color, bg_color;
-            gdk_color_parse (entry.fg_value.c_str (), &fg_color);
-            gdk_color_parse (entry.bg_value.c_str (), &bg_color);
             scim_color_button_set_colors (SCIM_COLOR_BUTTON (entry.widget),
-                                          &fg_color, &bg_color);
+                                          entry.fg_value, entry.bg_value);
         }
     }
 
@@ -1692,21 +1689,7 @@ on_color_button_changed (ScimColorButton *button,
     ColorConfigData *entry = static_cast <ColorConfigData*> (user_data);
 
     if (entry->widget) {
-        GdkColor fg_color, bg_color;
-        gchar fg_color_str[8], bg_color_str[8];
-        scim_color_button_get_colors (button, &fg_color, &bg_color);
-        g_snprintf (fg_color_str, G_N_ELEMENTS (fg_color_str),
-                    "#%02X%02X%02X", 
-                    (fg_color.red>>8),
-                    (fg_color.green>>8),
-                    (fg_color.blue>>8));
-        g_snprintf (bg_color_str, G_N_ELEMENTS (bg_color_str),
-                    "#%02X%02X%02X", 
-                    (bg_color.red>>8),
-                    (bg_color.green>>8),
-                    (bg_color.blue>>8));
-        entry->fg_value = String (fg_color_str);
-        entry->bg_value = String (bg_color_str);
+        scim_color_button_get_colors (button, &entry->fg_value, &entry->bg_value);
         entry->changed = true;
         __config_changed = true;
     }

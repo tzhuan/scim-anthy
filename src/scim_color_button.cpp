@@ -437,32 +437,43 @@ scim_color_button_new (void)
 
 gboolean
 scim_color_button_get_colors (ScimColorButton *button,
-                              GdkColor *fg_color,
-                              GdkColor *bg_color)
+                              String *fg_value,
+                              String *bg_value)
 {
-    fg_color->red   = button->fg_color.red;
-    fg_color->green = button->fg_color.green;
-    fg_color->blue  = button->fg_color.blue;
+    GdkColor fg_color, bg_color;
+    gchar fg_color_str[8], bg_color_str[8];
 
-    bg_color->red   = button->bg_color.red;
-    bg_color->green = button->bg_color.green;
-    bg_color->blue  = button->bg_color.blue;
+    g_snprintf (fg_color_str, G_N_ELEMENTS (fg_color_str),
+                "#%02X%02X%02X", 
+                ((button->fg_color.red)>>8),
+                ((button->fg_color.green)>>8),
+                ((button->fg_color.blue)>>8));
+    g_snprintf (bg_color_str, G_N_ELEMENTS (bg_color_str),
+                "#%02X%02X%02X", 
+                ((button->bg_color.red)>>8),
+                ((button->bg_color.green)>>8),
+                ((button->bg_color.blue)>>8));
+    *fg_value = String (fg_color_str); 
+    *bg_value = String (bg_color_str); 
 
     return TRUE;
 }
 
 gboolean
 scim_color_button_set_colors (ScimColorButton *button,
-                              GdkColor *fg_color,
-                              GdkColor *bg_color)
+                              const String &fg_value,
+                              const String &bg_value)
 {
-    button->fg_color.red   = fg_color->red;
-    button->fg_color.green = fg_color->green;
-    button->fg_color.blue  = fg_color->blue;
+    GdkColor fg_color, bg_color;
+    gdk_color_parse (fg_value.c_str (), &fg_color);
+    gdk_color_parse (bg_value.c_str (), &bg_color);
+    button->fg_color.red   = fg_color.red;
+    button->fg_color.green = fg_color.green;
+    button->fg_color.blue  = fg_color.blue;
 
-    button->bg_color.red   = bg_color->red;
-    button->bg_color.green = bg_color->green;
-    button->bg_color.blue  = bg_color->blue;
+    button->bg_color.red   = bg_color.red;
+    button->bg_color.green = bg_color.green;
+    button->bg_color.blue  = bg_color.blue;
 
     return TRUE;
 }

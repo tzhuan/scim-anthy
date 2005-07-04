@@ -25,7 +25,9 @@
 
 
 #include <gtk/gtk.h>
+#include <scim.h>
 
+using namespace scim;
 
 #define SCIM_TYPE_COLOR_BUTTON            (scim_color_button_get_type ())
 #define SCIM_COLOR_BUTTON(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), SCIM_TYPE_COLOR_BUTTON, ScimColorButton))
@@ -70,10 +72,10 @@ GType       scim_color_button_get_type    (void) G_GNUC_CONST;
 GtkWidget * scim_color_button_new         (void);
 
 gboolean    scim_color_button_get_colors  (ScimColorButton *button,
-					   GdkColor *fg_color,
-					   GdkColor *bg_color);
+					   String *fg_value,
+					   String *bg_value);
 gboolean    scim_color_button_set_colors  (ScimColorButton *button,
-					   GdkColor *fg_color,
-					   GdkColor *bg_color);
+					   const String &fg_value,
+					   const String &bg_value);
 
 #endif  /*  __SCIM_COLOR_BUTTON_H__  */
