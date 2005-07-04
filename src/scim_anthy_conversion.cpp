@@ -389,26 +389,25 @@ Conversion::get_attribute_list (void)
          it++, seg_id++)
     {
         // create attribute for this segment
-        Attribute d_attr (pos, it->get_string().length (),
-                          SCIM_ATTR_DECORATE);
-        Attribute f_attr (pos, it->get_string().length (),
-                          SCIM_ATTR_FOREGROUND);
-        Attribute b_attr (pos, it->get_string().length (),
-                          SCIM_ATTR_BACKGROUND);
-        if ((int) seg_id == m_cur_segment) {
-            f_attr.set_value (m_segment_fg_color);
-            b_attr.set_value (m_segment_bg_color);
-        } else {
-            d_attr.set_value (SCIM_ATTR_DECORATE_UNDERLINE);
-            f_attr.set_value (m_preedit_fg_color);
-            b_attr.set_value (m_preedit_bg_color);
-        }
+        if (it->get_string().length () <= 0) {
+            pos += it->get_string().length ();
+            continue;
+	}
 
-        // join
-        if (it->get_string().length () > 0) {
-            attrs.push_back (d_attr);
-            attrs.push_back (f_attr);
-            attrs.push_back (b_attr);
+        if ((int) seg_id == m_cur_segment) {
+            attrs.push_back (Attribute (pos, it->get_string().length(),
+				        SCIM_ATTR_FOREGROUND,
+					m_segment_fg_color));
+            attrs.push_back (Attribute (pos, it->get_string().length(),
+				        SCIM_ATTR_BACKGROUND,
+					m_segment_bg_color));
+        } else {
+            attrs.push_back (Attribute (pos, it->get_string().length(),
+				        SCIM_ATTR_BACKGROUND,
+					m_preedit_bg_color));
+            attrs.push_back (Attribute (pos, it->get_string().length(),
+				        SCIM_ATTR_DECORATE,
+					SCIM_ATTR_DECORATE_UNDERLINE));
         }
 
         pos += it->get_string().length ();
