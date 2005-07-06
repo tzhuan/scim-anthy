@@ -209,7 +209,7 @@ scim_color_button_expose (GtkWidget      *widget,
 {
     ScimColorButton *button = SCIM_COLOR_BUTTON (widget);
     gint            width, height;
-    gint            swap_w, swap_h;
+    gint            swap_w = 0, swap_h = 0;
     gint            rect_w, rect_h;
   
     if (!GTK_WIDGET_DRAWABLE (widget))
@@ -225,9 +225,11 @@ scim_color_button_expose (GtkWidget      *widget,
 				      NULL);
     }
 
-    swap_w = gdk_pixbuf_get_width  (button->swap_icon);
-    swap_h = gdk_pixbuf_get_height (button->swap_icon);
-  
+    if (button->swap_icon) {
+      swap_w = gdk_pixbuf_get_width  (button->swap_icon);
+      swap_h = gdk_pixbuf_get_height (button->swap_icon);
+    }  
+
     if (swap_w < width / 2 && swap_h < height / 2) {
         gdk_draw_pixbuf (widget->window, NULL, button->swap_icon,
                          0, 0, width - swap_w, 0, swap_w, swap_h,
