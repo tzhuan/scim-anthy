@@ -125,7 +125,7 @@
 
 /* default config values */
 #define SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT                  "Hiragana"
-#define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT               "Roma"
+#define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT               "Romaji"
 #define SCIM_ANTHY_CONFIG_CONVERSION_MODE_DEFAULT             "MultiSeg"
 #define SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT                "Japanese"
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT                  "FollowMode"

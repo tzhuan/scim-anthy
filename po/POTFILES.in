@@ -3,3 +3,4 @@ src/scim_anthy_factory.cpp
 src/scim_anthy_setup.cpp
 src/scim_anthy_setup_romaji.cpp
 src/scim_anthy_prefs.cpp
+src/scim_color_button.cpp

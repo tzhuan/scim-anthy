@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-07-06 23:43+0900\n"
-"PO-Revision-Date: 2005-07-06 23:55+0900\n"
+"POT-Creation-Date: 2005-07-07 00:25+0900\n"
+"PO-Revision-Date: 2005-07-07 00:26+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -502,7 +502,9 @@ msgstr "なにもしないキーの設定"
 msgid ""
 "The key events to eat and do nothing anymore. For example, it can be used to "
 "disable space key completely."
-msgstr "アプリケーションに渡さず、それ以上何もしないキーイベント。例えば、スペースキーを完全に無効にしたいときに指定します。"
+msgstr ""
+"アプリケーションに渡さず、それ以上何もしないキーイベント。例えば、スペース"
+"キーを完全に無効にしたいときに指定します。"
 
 #: src/scim_anthy_prefs.cpp:396
 msgid "Move to first"
@@ -1057,6 +1059,14 @@ msgstr "編集文字列の色"
 #: src/scim_anthy_prefs.cpp:979
 msgid "The color of preediting text in the preedition"
 msgstr "編集文字列の色"
+
+#: src/scim_color_button.cpp:317
+msgid "Foreground color"
+msgstr "前景色"
+
+#: src/scim_color_button.cpp:317
+msgid "Background color"
+msgstr "背景色"
 
 #~ msgid "Options"
 #~ msgstr "オプション"
