@@ -211,7 +211,6 @@ scim_color_button_expose (GtkWidget      *widget,
     gint            width, height;
     gint            swap_w, swap_h;
     gint            rect_w, rect_h;
-    GdkColor        color;
   
     if (!GTK_WIDGET_DRAWABLE (widget))
         return FALSE;
@@ -221,7 +220,9 @@ scim_color_button_expose (GtkWidget      *widget,
   
     /*  draw the swap colors pixbuf  */
     if (!button->swap_icon) {
-        button->swap_icon = gdk_pixbuf_new_from_file (SCIM_ICONDIR"/stock-swap-colors.png", NULL);
+        button->swap_icon
+	  = gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-swap-colors.png",
+				      NULL);
     }
 
     swap_w = gdk_pixbuf_get_width  (button->swap_icon);
@@ -234,10 +235,10 @@ scim_color_button_expose (GtkWidget      *widget,
     } else {
         swap_w = swap_h = 0;
     }
-  
+
     rect_h = height - swap_h - 2;
     rect_w = width  - swap_w - 4;
-  
+
     if (rect_h > (height * 3 / 4)) {
         rect_w = MAX (rect_w - (rect_h - ((height * 3 / 4))),
                       width * 2 / 3);
@@ -440,7 +441,6 @@ scim_color_button_get_colors (ScimColorButton *button,
                               String *fg_value,
                               String *bg_value)
 {
-    GdkColor fg_color, bg_color;
     gchar fg_color_str[8], bg_color_str[8];
 
     g_snprintf (fg_color_str, G_N_ELEMENTS (fg_color_str),
