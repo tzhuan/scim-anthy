@@ -252,6 +252,7 @@ func (AnthyInstance *anthy)       \
     return anthy->func ();        \
 }
 
+ANTHY_DEFINE_ACTION (action_do_nothing);
 ANTHY_DEFINE_ACTION (action_commit_follow_preference);
 ANTHY_DEFINE_ACTION (action_commit_reverse_preference);
 ANTHY_DEFINE_ACTION (action_convert);
@@ -470,6 +471,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         // dict keys
         APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);
         APPEND_ACTION (ADD_WORD,                action_add_word);
+
+        // disabled key
+        APPEND_ACTION (DO_NOTHING,              action_do_nothing);
     }
 
 

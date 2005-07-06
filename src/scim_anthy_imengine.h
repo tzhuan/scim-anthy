@@ -64,7 +64,9 @@ public:
     virtual void reload_config                (const ConfigPointer &config);
 
 public:
-    /* actinos */
+    /* actions */
+    bool   action_do_nothing                  (void);
+
     bool   action_convert                     (void);
     bool   action_revert                      (void);
     bool   action_commit_follow_preference    (void);

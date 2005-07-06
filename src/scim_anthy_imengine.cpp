@@ -645,6 +645,12 @@ AnthyInstance::is_selecting_candidates (void)
 }
 
 bool
+AnthyInstance::action_do_nothing (void)
+{
+    return true;
+}
+
+bool
 AnthyInstance::action_convert (void)
 {
     if (!m_preedit.is_preediting ())

@@ -72,6 +72,7 @@
 #define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY    "/IMEngine/Anthy/CommitReverseLearnKey"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY                 "/IMEngine/Anthy/ConvertKey"
 #define SCIM_ANTHY_CONFIG_CANCEL_KEY                  "/IMEngine/Anthy/CancelKey"
+#define SCIM_ANTHY_CONFIG_DO_NOTHING_KEY              "/IMEngine/Anthy/DoNothingKey"
 
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY        "/IMEngine/Anthy/MoveCaretFirstKey"
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY         "/IMEngine/Anthy/MoveCaretLastKey"
@@ -165,14 +166,15 @@
 
 #define SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT            "space"
 #define SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT        "Shift+space"
-#define SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT       " "
-#define SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT       " "
+#define SCIM_ANTHY_CONFIG_INSERT_HALF_SPACE_KEY_DEFAULT       ""
+#define SCIM_ANTHY_CONFIG_INSERT_WIDE_SPACE_KEY_DEFAULT       ""
 #define SCIM_ANTHY_CONFIG_BACKSPACE_KEY_DEFAULT               "BackSpace,Control+h,Control+H"
 #define SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT                  "Delete,Control+d,Control+D"
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+J,Control+m,Control+M"
 #define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT    "Shift+Return"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"
 #define SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT                  "Escape,Control+g,Control+G"
+#define SCIM_ANTHY_CONFIG_DO_NOTHING_KEY_DEFAULT              ""
 
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT        "Control+a,Control+A,Home"
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_LAST_KEY_DEFAULT         "Control+e,Control+E,End"

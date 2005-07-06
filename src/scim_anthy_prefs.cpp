@@ -365,6 +365,17 @@ StringConfigData config_keyboards_edit [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_DO_NOTHING_KEY,
+        SCIM_ANTHY_CONFIG_DO_NOTHING_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_DO_NOTHING_KEY_DEFAULT,
+        N_("Do nothing"),
+        N_("Select do nothing keys"),
+        N_("The key events to eat and do nothing anymore. "
+           "For example, it can be used to disable space key completely."),
+        NULL,
+        false,
+    },
+    {
         NULL,
         "",
         "",

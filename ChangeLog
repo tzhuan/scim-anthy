@@ -1,5 +1,13 @@
 2005-07-06 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_factory.cpp, src/scim_anthy_imengine.{cpp,h},
+	  src/scim_anthy_prefs.{cpp,h}: 
+	Add "Do nothing" action to disable certain key event such as space key.
+	It may be needed to use space key as thumb shift key, or insert a space
+	at a release event of space key, not a press event.
+
+2005-07-06 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_setup.cpp: Fixed order of buttons for showing/hiding
 	toolbar items.
 
