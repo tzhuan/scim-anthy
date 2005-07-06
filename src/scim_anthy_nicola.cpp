@@ -53,15 +53,25 @@ NicolaConvertor::can_append (const KeyEvent & key)
 void
 NicolaConvertor::search (const KeyEvent key,
                          NicolaShiftType shift_type,
-                         WideString &result)
+                         WideString &result,
+                         String &raw)
 {
     NicolaRule *table = scim_anthy_nicola_table;
 
-    String str;
-    str += key.get_ascii_code ();
+    raw = key.get_ascii_code ();
+
+    String str1;
+    if (m_case_sensitive)
+        str1 = raw;
+    else
+        str1 = tolower (key.get_ascii_code ());
 
     for (unsigned int i = 0; table[i].key; i++) {
-        if (!strcmp (str.c_str (), table[i].key)) {
+        String str2 = table[i].key;
+        for (i = 0; !m_case_sensitive && i < str2.length (); i++)
+            str2[i] = tolower (str2[i]);
+
+        if (str1 == str2) {
             switch (shift_type) {
             case SCIM_ANTHY_NICOLA_SHIFT_RIGHT:
                 result = utf8_mbstowcs (table[i].right_shift);
@@ -76,6 +86,9 @@ NicolaConvertor::search (const KeyEvent key,
             break;
         }
     }
+
+    if (result.empty ())
+        result = utf8_mbstowcs (raw);
 }
 
 bool
@@ -87,19 +100,16 @@ NicolaConvertor::append (const KeyEvent & key,
     if (isprint (key.get_ascii_code ())) {
         if (key.is_key_press ()) {
             if (m_shift_type == SCIM_ANTHY_NICOLA_SHIFT_RIGHT) {
-                search (key, SCIM_ANTHY_NICOLA_SHIFT_RIGHT, result);
-                raw = key.code;
+                search (key, SCIM_ANTHY_NICOLA_SHIFT_RIGHT, result, raw);
                 m_shift_type = SCIM_ANTHY_NICOLA_SHIFT_NONE;
             } else if (m_shift_type == SCIM_ANTHY_NICOLA_SHIFT_LEFT) {
-                search (key, SCIM_ANTHY_NICOLA_SHIFT_LEFT, result);
-                raw = key.code;
+                search (key, SCIM_ANTHY_NICOLA_SHIFT_LEFT, result, raw);
                 m_shift_type = SCIM_ANTHY_NICOLA_SHIFT_NONE;
             } else {
                 if (m_has_pressed_key) {
                     search (m_prev_pressed_key,
                             SCIM_ANTHY_NICOLA_SHIFT_NONE,
-                            result);
-                    raw = m_prev_pressed_key.code;
+                            result, raw);
                     m_has_pressed_key = false;
                 }
 
@@ -107,11 +117,10 @@ NicolaConvertor::append (const KeyEvent & key,
                 m_has_pressed_key = true;
             }
 
-        } else if (m_has_pressed_key && m_prev_pressed_key.code == key.code) {
+        } else if (m_has_pressed_key /*&& m_prev_pressed_key.code == key.code*/) {
             search (m_prev_pressed_key,
                     SCIM_ANTHY_NICOLA_SHIFT_NONE,
-                    result);
-            raw = m_prev_pressed_key.code;
+                    result, raw);
             m_has_pressed_key = false;
         }
 
@@ -123,8 +132,7 @@ NicolaConvertor::append (const KeyEvent & key,
             if (m_has_pressed_key) {
                 search (m_prev_pressed_key,
                         SCIM_ANTHY_NICOLA_SHIFT_RIGHT,
-                        result);
-                raw = m_prev_pressed_key.code;
+                        result, raw);
                 m_has_pressed_key = false;
                 m_shift_type = SCIM_ANTHY_NICOLA_SHIFT_NONE;
 
@@ -141,8 +149,7 @@ NicolaConvertor::append (const KeyEvent & key,
             if (m_has_pressed_key) {
                 search (m_prev_pressed_key,
                         SCIM_ANTHY_NICOLA_SHIFT_LEFT,
-                        result);
-                raw = m_prev_pressed_key.code;
+                        result, raw);
                 m_has_pressed_key = false;
                 m_shift_type = SCIM_ANTHY_NICOLA_SHIFT_NONE;
 
@@ -184,6 +191,18 @@ WideString
 NicolaConvertor::flush_pending (void)
 {
     return WideString ();
+}
+
+void
+NicolaConvertor::set_case_sensitive (bool sens)
+{
+    m_case_sensitive = sens;
+}
+
+bool
+NicolaConvertor::get_case_sensitive (void)
+{
+    return m_case_sensitive;
 }
 
 void

@@ -60,8 +60,8 @@ public:
     WideString get_pending        (void);
     WideString flush_pending      (void);
 
-    void       set_case_sensitive (bool sens) { m_case_sensitive = sens; }
-    bool       get_case_sensitive (void)      { return m_case_sensitive; }
+    void       set_case_sensitive (bool sens);
+    bool       get_case_sensitive (void);
 
     void       set_ten_key_type   (TenKeyType type);
     TenKeyType get_ten_key_type   (void);
@@ -69,7 +69,8 @@ public:
 private:
     void       search             (const KeyEvent   key,
                                    NicolaShiftType  shift_type,
-                                   WideString      &result);
+                                   WideString      &result,
+                                   String          &raw);
 
 private:
     //Key2KanaTableSet  &m_tables;
