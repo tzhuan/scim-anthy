@@ -68,8 +68,8 @@ NicolaConvertor::search (const KeyEvent key,
 
     for (unsigned int i = 0; table[i].key; i++) {
         String str2 = table[i].key;
-        for (i = 0; !m_case_sensitive && i < str2.length (); i++)
-            str2[i] = tolower (str2[i]);
+        for (unsigned int j = 0; !m_case_sensitive && j < str2.length (); j++)
+            str2[j] = tolower (str2[j]);
 
         if (str1 == str2) {
             switch (shift_type) {
