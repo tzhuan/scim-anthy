@@ -466,6 +466,7 @@ create_color_button (const char *config_key)
         return NULL;
 
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
     gtk_widget_show (hbox);
 
     GtkWidget *label = NULL;
@@ -480,11 +481,13 @@ create_color_button (const char *config_key)
     g_signal_connect (G_OBJECT (entry->widget), "color-changed",
                       G_CALLBACK (on_color_button_changed),
                       entry);
-    gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (entry->widget), FALSE, FALSE, 2);
+    gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (entry->widget),
+                        FALSE, FALSE, 2);
     gtk_widget_show (GTK_WIDGET (entry->widget));
 
     if (label)
-        gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (entry->widget));
+        gtk_label_set_mnemonic_widget (GTK_LABEL (label),
+                                       GTK_WIDGET (entry->widget));
 
     if (!__widget_tooltips)
         __widget_tooltips = gtk_tooltips_new();
