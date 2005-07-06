@@ -40,6 +40,13 @@ typedef struct _WideRule
     const char *wide;
 } WideRule;
 
+typedef struct _NicolaRule
+{
+    const char *key;
+    const char *single;
+    const char *left_shift;
+    const char *right_shift;
+} NicolaRule;
 
 // fundamental table
 extern ConvRule scim_anthy_romaji_typing_rule[];
@@ -73,5 +80,8 @@ extern ConvRule scim_anthy_kana_half_comma_rule[];
 // misc
 extern HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[];
 extern WideRule             scim_anthy_wide_table[];
+
+// nicola
+extern NicolaRule scim_anthy_nicola_table[];
 
 #endif /* __SCIM_ANTHY_DEFAULT_TABLES_H__ */

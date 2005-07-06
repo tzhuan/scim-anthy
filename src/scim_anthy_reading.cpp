@@ -94,10 +94,10 @@ ReadingSegment::split (ReadingSegments &segments)
 
 Reading::Reading (Key2KanaTableSet & tables)
     : m_key2kana_tables (tables),
-      m_key2kana        (m_key2kana_tables),
+      m_key2kana_normal (m_key2kana_tables),
+      m_key2kana        (&m_key2kana_normal),
       m_segment_pos     (0),
-      m_caret_offset    (0),
-      m_ten_key_type    (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
+      m_caret_offset    (0)
 {
 }
 
@@ -108,116 +108,13 @@ Reading::~Reading ()
 bool
 Reading::can_process_key_event (const KeyEvent & key)
 {
-    // ignore short cut keys of apllication.
-    if (key.mask & SCIM_KEY_ControlMask ||
-        key.mask & SCIM_KEY_AltMask)
-    {
-        return false;
-    }
-
-    if (isprint(key.get_ascii_code ()) && !isspace(key.get_ascii_code ()))
-        return true;
-
-    if (key.code >= SCIM_KEY_KP_0 && key.code <= SCIM_KEY_KP_9)
-        return true;
-
-    if (key.code >= SCIM_KEY_KP_Multiply && key.code <= SCIM_KEY_KP_Divide)
-        return true;
-
-    if (key.code == SCIM_KEY_KP_Equal)
-        return true;
-
-    return false;
+    return m_key2kana->can_append (key);
 }
 
 bool
 Reading::process_key_event (const KeyEvent & key)
 {
-    bool is_ten_key = true;
-
     if (!can_process_key_event (key))
-        return false;
-
-    char str[2];
-
-    switch (key.code) {
-    case SCIM_KEY_KP_Equal:
-        str[0] = '=';
-        break;
-
-    case SCIM_KEY_KP_Multiply:
-        str[0] = '*';
-        break;
-
-    case SCIM_KEY_KP_Add:
-        str[0] = '+';
-        break;
-
-    case SCIM_KEY_KP_Separator:
-        str[0] = ',';
-        break;
-
-    case SCIM_KEY_KP_Subtract:
-        str[0] = '-';
-        break;
-
-    case SCIM_KEY_KP_Decimal:
-        str[0] = '.';
-        break;
-
-    case SCIM_KEY_KP_Divide:
-        str[0] = '/';
-        break;
-
-    case SCIM_KEY_KP_0:
-    case SCIM_KEY_KP_1:
-    case SCIM_KEY_KP_2:
-    case SCIM_KEY_KP_3:
-    case SCIM_KEY_KP_4:
-    case SCIM_KEY_KP_5:
-    case SCIM_KEY_KP_6:
-    case SCIM_KEY_KP_7:
-    case SCIM_KEY_KP_8:
-    case SCIM_KEY_KP_9:
-        str[0] = '0' + key.code - SCIM_KEY_KP_0;
-        break;
-
-    default:
-        is_ten_key = false;
-        str[0] = key.code;
-        break;
-    }
-
-    str[1] = '\0';
-
-    bool half = true;
-    bool prev_symbol = m_key2kana_tables.symbol_is_half ();
-    bool prev_number = m_key2kana_tables.number_is_half ();
-
-    if (is_ten_key && m_ten_key_type != SCIM_ANTHY_TEN_KEY_FOLLOW_MODE) {
-        if (m_ten_key_type == SCIM_ANTHY_TEN_KEY_HALF)
-            half = true;
-        else if (m_ten_key_type == SCIM_ANTHY_TEN_KEY_WIDE)
-            half = false;
-
-        m_key2kana_tables.set_symbol_width (half);
-        m_key2kana_tables.set_number_width (half);
-    }
-
-    bool retval = append_str (String (str));
-
-    if (is_ten_key && m_ten_key_type != SCIM_ANTHY_TEN_KEY_FOLLOW_MODE) {
-        m_key2kana_tables.set_symbol_width (prev_symbol);
-        m_key2kana_tables.set_number_width (prev_number);
-    }
-
-    return retval;
-}
-
-bool
-Reading::append_str (const String & str)
-{
-    if (str.length () <= 0)
         return false;
 
     if (m_caret_offset != 0) {
@@ -225,11 +122,12 @@ Reading::append_str (const String & str)
         reset_pending ();
     }
 
-    bool was_pending = m_key2kana.is_pending ();
+    bool was_pending = m_key2kana->is_pending ();
 
+    String raw;
     WideString result, pending;
     bool need_commiting;
-    need_commiting = m_key2kana.append (str, result, pending);
+    need_commiting = m_key2kana->append (key, result, pending, raw);
 
     ReadingSegments::iterator begin = m_segments.begin ();
 
@@ -247,17 +145,17 @@ Reading::append_str (const String & str)
         m_segments[m_segment_pos - 1].kana = result;
 
         ReadingSegment c;
-        c.raw += str;
+        c.raw += raw;
         c.kana = pending;
         m_segments.insert (begin + m_segment_pos, c);
         m_segment_pos++;
 
     } else if (result.length () > 0) {
-        m_segments[m_segment_pos - 1].raw += str;
+        m_segments[m_segment_pos - 1].raw += raw;
         m_segments[m_segment_pos - 1].kana = result;
 
     } else if (pending.length () > 0) {
-        m_segments[m_segment_pos - 1].raw += str;
+        m_segments[m_segment_pos - 1].raw += raw;
         m_segments[m_segment_pos - 1].kana = pending;
 
     } else {
@@ -270,10 +168,10 @@ Reading::append_str (const String & str)
 void
 Reading::finish (void)
 {
-    if (!m_key2kana.is_pending ()) return;
+    if (!m_key2kana->is_pending ()) return;
 
     WideString result;
-    result = m_key2kana.flush_pending ();
+    result = m_key2kana->flush_pending ();
     if (result.length () > 0)
         m_segments[m_segment_pos - 1].kana = result;
 }
@@ -281,9 +179,9 @@ Reading::finish (void)
 void
 Reading::clear (void)
 {
-    m_key2kana.clear ();
+    m_key2kana->clear ();
     m_segments.clear ();
-    m_segment_pos = 0;
+    m_segment_pos  = 0;
     m_caret_offset = 0;
 }
 
@@ -387,47 +285,6 @@ Reading::get_raw (String & str, unsigned int start, int len)
             break;
     }
 }
-
-#if 0
-void
-Preedit::get (WideString & substr,
-              unsigned int start, unsigned int len,
-              StringType type)
-{
-    WideString kana;
-    String raw;
-
-    switch (type) {
-    case SCIM_ANTHY_STRING_LATIN:
-        get_raw (raw, start, len);
-        substr = utf8_mbstowcs (raw);
-        break;
-
-    case SCIM_ANTHY_STRING_WIDE_LATIN:
-        get_raw (raw, start, len);
-        convert_to_wide (substr, raw);
-        break;
-
-    case SCIM_ANTHY_STRING_HIRAGANA:
-        get (substr, start, len);
-        break;
-
-    case SCIM_ANTHY_STRING_KATAKANA:
-        get (kana, start, len);
-        convert_to_katakana (substr, kana);
-        break;
-
-    case SCIM_ANTHY_STRING_HALF_KATAKANA:
-        get (kana, start, len);
-        convert_to_katakana (substr, kana, true);
-        break;
-
-    default:
-        return;
-        break;
-    }
-}
-#endif
 
 void
 Reading::split_segment (unsigned int seg_id)
@@ -549,8 +406,8 @@ Reading::erase (unsigned int start, int len, bool allow_split)
 void
 Reading::reset_pending (void)
 {
-    if (m_key2kana.is_pending ())
-        m_key2kana.clear ();
+    if (m_key2kana->is_pending ())
+        m_key2kana->clear ();
 
     if (m_segment_pos <= 0)
         return;
@@ -560,8 +417,8 @@ Reading::reset_pending (void)
          i++)
     {
         WideString result, pending;
-        m_key2kana.append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
-                           result, pending);
+        m_key2kana->append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
+                            result, pending);
     }
 }
 
@@ -598,7 +455,7 @@ Reading::set_caret_pos (unsigned int pos)
     if (pos == get_caret_pos ())
         return;
 
-    m_key2kana.clear ();
+    m_key2kana->clear ();
 
     if (pos >= get_length ()) {
         m_segment_pos = m_segments.size ();
@@ -630,8 +487,8 @@ Reading::move_caret (int step, bool allow_split)
     if (step == 0)
         return;
 
-    if (m_key2kana.is_pending ()) {
-        m_key2kana.clear ();
+    if (m_key2kana->is_pending ()) {
+        m_key2kana->clear ();
     }
 
     if (allow_split) {
@@ -682,11 +539,32 @@ Reading::move_caret (int step, bool allow_split)
 void
 Reading::set_ten_key_type (TenKeyType type)
 {
-    m_ten_key_type = type;
+    m_key2kana->set_ten_key_type (type);
 }
 
 TenKeyType
 Reading::get_ten_key_type (void)
 {
-    return m_ten_key_type;
+    return m_key2kana->get_ten_key_type ();
+}
+
+void
+Reading::set_typing_method (TypingMethod method,
+                            Key2KanaTable *fundamental_table)
+{
+    if (method == SCIM_ANTHY_TYPING_METHOD_NICOLA) {
+        m_key2kana = &m_nicola;
+    } else {
+        m_key2kana = &m_key2kana_normal;
+        m_key2kana_tables.set_typing_method (method, fundamental_table);
+    }
+}
+
+TypingMethod
+Reading::get_typing_method (void)
+{
+    if (m_key2kana == &m_nicola)
+        return SCIM_ANTHY_TYPING_METHOD_NICOLA;
+    else
+        return m_key2kana_tables.get_typing_method ();
 }

@@ -135,11 +135,11 @@ public:
 
 private:
     /* processing key event */
+    bool   process_key_event_input            (const KeyEvent &key);
     bool   process_key_event_lookup_keybind   (const KeyEvent &key);
     bool   process_key_event_without_preedit  (const KeyEvent &key);
     bool   process_key_event_with_preedit     (const KeyEvent &key);
     bool   process_key_event_with_candidate   (const KeyEvent &key);
-    bool   process_remaining_key_event        (const KeyEvent &key);
 
     /* utility */
     void   set_preedition                     (void);

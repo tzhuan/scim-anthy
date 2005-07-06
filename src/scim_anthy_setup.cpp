@@ -203,8 +203,9 @@ static ComboConfigCandidate input_modes[] =
 
 static ComboConfigCandidate typing_methods[] =
 {
-    {N_("Romaji typing method"), "Roma"},
-    {N_("Kana typing method"),   "Kana"},
+    {N_("Romaji typing method"),      "Roma"},
+    {N_("Kana typing method"),        "Kana"},
+    {N_("Thumb shift typing method"), "NICOLA"},
     {NULL, NULL},
 };
 

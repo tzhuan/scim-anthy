@@ -57,6 +57,7 @@ public:
     virtual unsigned int  get_length             (void);
     virtual WideString    get_string             (void);
     virtual AttributeList get_attribute_list     (void);
+    virtual Reading      &get_reading            (void);
 
     virtual bool          is_preediting          (void);
     virtual bool          is_converting          (void);

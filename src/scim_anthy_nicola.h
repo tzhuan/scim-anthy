@@ -18,9 +18,10 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __SCIM_ANTHY_KEY2KANA_H__
-#define __SCIM_ANTHY_KEY2KANA_H__
+#ifndef __SCIM_ANTHY_NICOLA_H__
+#define __SCIM_ANTHY_NICOLA_H__
 
+#define Uses_SCIM_ICONV
 #define Uses_SCIM_EVENT
 #include <scim.h>
 
@@ -32,11 +33,17 @@ using namespace scim;
 
 namespace scim_anthy {
 
-class Key2KanaConvertor : public Key2KanaConvertorBase
+typedef enum {
+    SCIM_ANTHY_NICOLA_SHIFT_NONE,
+    SCIM_ANTHY_NICOLA_SHIFT_LEFT,
+    SCIM_ANTHY_NICOLA_SHIFT_RIGHT,
+} NicolaShiftType;
+
+class NicolaConvertor : public Key2KanaConvertorBase
 {
 public:
-    Key2KanaConvertor             (Key2KanaTableSet & tables);
-    virtual ~Key2KanaConvertor    ();
+    NicolaConvertor               ();
+    virtual ~NicolaConvertor      ();
 
     bool       can_append         (const KeyEvent & key);
 
@@ -60,19 +67,25 @@ public:
     TenKeyType get_ten_key_type   (void);
 
 private:
-    Key2KanaTableSet  &m_tables;
+    void       search             (const KeyEvent   key,
+                                   NicolaShiftType  shift_type,
+                                   WideString      &result);
+
+private:
+    //Key2KanaTableSet  &m_tables;
 
     // mode
-    bool               m_case_sensitive;
-    TenKeyType         m_ten_key_type;
+    bool            m_case_sensitive;
+    TenKeyType      m_ten_key_type;
 
     // state
-    WideString         m_pending;
-    Key2KanaRule       m_exact_match;
+    KeyEvent        m_prev_pressed_key;
+    bool            m_has_pressed_key;
+    NicolaShiftType m_shift_type;
 };
 
 }
-#endif /* __SCIM_ANTHY_KEY2KANA_H__ */
+#endif /* __SCIM_ANTHY_NICOLA_H__ */
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

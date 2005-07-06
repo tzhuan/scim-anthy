@@ -24,12 +24,130 @@ using namespace scim_anthy;
 
 Key2KanaConvertor::Key2KanaConvertor (Key2KanaTableSet & tables)
     : m_tables         (tables),
-      m_case_sensitive (false)
+      m_case_sensitive (false),
+      m_ten_key_type   (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
 {
 }
 
 Key2KanaConvertor::~Key2KanaConvertor ()
 {
+}
+
+bool
+Key2KanaConvertor::can_append (const KeyEvent & key)
+{
+    // ignore key release.
+    if (key.is_key_release ())
+        return false;
+
+    // ignore short cut keys of apllication.
+    if (key.mask & SCIM_KEY_ControlMask ||
+        key.mask & SCIM_KEY_AltMask)
+    {
+        return false;
+    }
+
+    if (isprint(key.get_ascii_code ()) && !isspace(key.get_ascii_code ()))
+        return true;
+
+    if (key.code >= SCIM_KEY_KP_0 && key.code <= SCIM_KEY_KP_9)
+        return true;
+
+    if (key.code >= SCIM_KEY_KP_Multiply && key.code <= SCIM_KEY_KP_Divide)
+        return true;
+
+    if (key.code == SCIM_KEY_KP_Equal)
+        return true;
+
+    return false;
+}
+
+bool
+Key2KanaConvertor::append (const KeyEvent & key,
+                           WideString & result,
+                           WideString & pending,
+                           String &raw)
+{
+    bool is_ten_key = true;
+
+    if (!can_append (key))
+        return false;
+
+    char str[2];
+
+    switch (key.code) {
+    case SCIM_KEY_KP_Equal:
+        str[0] = '=';
+        break;
+
+    case SCIM_KEY_KP_Multiply:
+        str[0] = '*';
+        break;
+
+    case SCIM_KEY_KP_Add:
+        str[0] = '+';
+        break;
+
+    case SCIM_KEY_KP_Separator:
+        str[0] = ',';
+        break;
+
+    case SCIM_KEY_KP_Subtract:
+        str[0] = '-';
+        break;
+
+    case SCIM_KEY_KP_Decimal:
+        str[0] = '.';
+        break;
+
+    case SCIM_KEY_KP_Divide:
+        str[0] = '/';
+        break;
+
+    case SCIM_KEY_KP_0:
+    case SCIM_KEY_KP_1:
+    case SCIM_KEY_KP_2:
+    case SCIM_KEY_KP_3:
+    case SCIM_KEY_KP_4:
+    case SCIM_KEY_KP_5:
+    case SCIM_KEY_KP_6:
+    case SCIM_KEY_KP_7:
+    case SCIM_KEY_KP_8:
+    case SCIM_KEY_KP_9:
+        str[0] = '0' + key.code - SCIM_KEY_KP_0;
+        break;
+
+    default:
+        is_ten_key = false;
+        str[0] = key.code;
+        break;
+    }
+
+    str[1] = '\0';
+    raw = str;
+
+    bool half = true;
+    bool prev_symbol = m_tables.symbol_is_half ();
+    bool prev_number = m_tables.number_is_half ();
+
+    if (is_ten_key && m_ten_key_type != SCIM_ANTHY_TEN_KEY_FOLLOW_MODE) {
+        if (m_ten_key_type == SCIM_ANTHY_TEN_KEY_HALF)
+            half = true;
+        else if (m_ten_key_type == SCIM_ANTHY_TEN_KEY_WIDE)
+            half = false;
+
+        m_tables.set_symbol_width (half);
+        m_tables.set_number_width (half);
+    }
+
+    bool retval = append (String (str), result, pending);
+
+    if (is_ten_key && m_ten_key_type != SCIM_ANTHY_TEN_KEY_FOLLOW_MODE) {
+        m_tables.set_symbol_width (prev_symbol);
+        m_tables.set_number_width (prev_number);
+    }
+
+    return retval;
 }
 
 bool
@@ -165,6 +283,18 @@ Key2KanaConvertor::flush_pending (void)
     }
     clear ();
     return result;
+}
+
+void
+Key2KanaConvertor::set_ten_key_type (TenKeyType type)
+{
+    m_ten_key_type = type;
+}
+
+TenKeyType
+Key2KanaConvertor::get_ten_key_type (void)
+{
+    return m_ten_key_type;
 }
 /*
 vi:ts=4:nowrap:ai:expandtab

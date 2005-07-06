@@ -60,6 +60,7 @@
 #define SCIM_PROP_TYPING_METHOD              "/IMEngine/Anthy/TypingMethod"
 #define SCIM_PROP_TYPING_METHOD_ROMAJI       "/IMEngine/Anthy/TypingMethod/RomaKana"
 #define SCIM_PROP_TYPING_METHOD_KANA         "/IMEngine/Anthy/TypingMethod/Kana"
+#define SCIM_PROP_TYPING_METHOD_NICOLA       "/IMEngine/Anthy/TypingMethod/NICOLA"
 
 #define SCIM_PROP_PERIOD_STYLE               "/IMEngine/Anthy/PeriodType"
 #define SCIM_PROP_PERIOD_STYLE_JAPANESE      "/IMEngine/Anthy/PeriodType/Japanese"
@@ -96,40 +97,7 @@ AnthyInstance::~AnthyInstance ()
 }
 
 bool
-AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
-{
-    std::vector<Action>::iterator it;
-    for (it = m_factory->m_actions.begin();
-         it != m_factory->m_actions.end();
-         it++)
-    {
-        if (it->perform (this, key))
-            return true;
-    }
-
-    return false;
-}
-
-bool
-AnthyInstance::process_key_event_without_preedit (const KeyEvent& key)
-{
-    return process_remaining_key_event (key);
-}
-
-bool
-AnthyInstance::process_key_event_with_preedit (const KeyEvent& key)
-{
-    return process_remaining_key_event (key);
-}
-
-bool
-AnthyInstance::process_key_event_with_candidate (const KeyEvent &key)
-{
-    return process_remaining_key_event (key);
-}
-
-bool
-AnthyInstance::process_remaining_key_event (const KeyEvent &key)
+AnthyInstance::process_key_event_input (const KeyEvent &key)
 {
     if (m_preedit.can_process_key_event (key)) {
         if (m_preedit.is_converting ()) {
@@ -160,10 +128,40 @@ AnthyInstance::process_remaining_key_event (const KeyEvent &key)
         return true;
     }
 
-    if (m_preedit.is_preediting ())
-        return true;
-    else
-        return false;
+    return false;
+}
+
+bool
+AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
+{
+    std::vector<Action>::iterator it;
+    for (it = m_factory->m_actions.begin();
+         it != m_factory->m_actions.end();
+         it++)
+    {
+        if (it->perform (this, key))
+            return true;
+    }
+
+    return false;
+}
+
+bool
+AnthyInstance::process_key_event_without_preedit (const KeyEvent& key)
+{
+    return false;
+}
+
+bool
+AnthyInstance::process_key_event_with_preedit (const KeyEvent& key)
+{
+    return false;
+}
+
+bool
+AnthyInstance::process_key_event_with_candidate (const KeyEvent &key)
+{
+    return false;
 }
 
 bool
@@ -172,15 +170,8 @@ AnthyInstance::process_key_event (const KeyEvent& key)
     SCIM_DEBUG_IMENGINE(2) << "process_key_event.\n";
     KeyEvent newkey;
 
-    // ignore key release.
-    if (key.is_key_release ())
+    if (process_key_event_input (key))
         return true;
-
-    // ignore modifier keys
-    if (key.code == SCIM_KEY_Shift_L || key.code == SCIM_KEY_Shift_R ||
-        key.code == SCIM_KEY_Control_L || key.code == SCIM_KEY_Control_R ||
-        key.code == SCIM_KEY_Alt_L || key.code == SCIM_KEY_Alt_R)
-        return false;
 
     // lookup user defined key bindings
     if (process_key_event_lookup_keybind (key))
@@ -191,11 +182,19 @@ AnthyInstance::process_key_event (const KeyEvent& key)
 
     // process hard coded keys
     if (is_selecting_candidates ())
-        return process_key_event_with_candidate (key);
+        if (process_key_event_with_candidate (key))
+            return true;
     else if (m_preedit.is_preediting ())
-        return process_key_event_with_preedit(key);
+        if (process_key_event_with_preedit(key))
+            return true;
     else
-        return process_key_event_without_preedit(key);
+        if (process_key_event_without_preedit(key))
+            return true;
+
+    if (m_preedit.is_preediting ())
+        return true;
+    else
+        return false;
 }
 
 void
@@ -377,6 +376,10 @@ AnthyInstance::install_properties (void)
             prop = Property (SCIM_PROP_TYPING_METHOD_KANA,
                              _("Kana"), String (""), _("Kana"));
             m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_TYPING_METHOD_NICOLA,
+                             _("Thumb shift"), String (""), _("Thumb shift"));
+            m_properties.push_back (prop);
         }
 
         if (m_factory->m_show_conv_mode_label) {
@@ -461,7 +464,7 @@ AnthyInstance::install_properties (void)
 
     set_input_mode(m_preedit.get_input_mode ());
     set_conversion_mode (m_conv_mode);
-    set_typing_method (m_key2kana_tables.get_typing_method ());
+    set_typing_method (m_preedit.get_reading().get_typing_method ());
     set_period_style (m_key2kana_tables.get_period_style (),
                       m_key2kana_tables.get_comma_style ());
 
@@ -556,6 +559,9 @@ AnthyInstance::set_typing_method (TypingMethod method)
     case SCIM_ANTHY_TYPING_METHOD_KANA:
         label = "\xE3\x81\x8B";
         break;
+    case SCIM_ANTHY_TYPING_METHOD_NICOLA:
+        label = "\xE8\xA6\xAA";
+        break;
     default:
         break;
     }
@@ -570,11 +576,11 @@ AnthyInstance::set_typing_method (TypingMethod method)
         }
     }
 
-    if (method != m_key2kana_tables.get_typing_method ()) {
+    if (method != m_preedit.get_reading().get_typing_method ()) {
         Key2KanaTable *fundamental_table = NULL;
         if (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI)
             fundamental_table = m_factory->m_custom_romaji_table;
-        m_key2kana_tables.set_typing_method
+        m_preedit.get_reading().set_typing_method
             (method, fundamental_table);
     }
 }
@@ -1372,9 +1378,11 @@ AnthyInstance::action_circle_typing_method (void)
 {
     TypingMethod method;
 
-    method = m_key2kana_tables.get_typing_method ();
-    if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
+    method = m_preedit.get_reading().get_typing_method ();
+    if (method == SCIM_ANTHY_TYPING_METHOD_NICOLA)
         method = SCIM_ANTHY_TYPING_METHOD_ROMAJI;
+    else if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
+        method = SCIM_ANTHY_TYPING_METHOD_NICOLA;
     else
         method = SCIM_ANTHY_TYPING_METHOD_KANA;
 
@@ -1579,6 +1587,8 @@ AnthyInstance::trigger_property (const String &property)
         set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);
     } else if (property == SCIM_PROP_TYPING_METHOD_KANA) {
         set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA);
+    } else if (property == SCIM_PROP_TYPING_METHOD_NICOLA) {
+        set_typing_method (SCIM_ANTHY_TYPING_METHOD_NICOLA);
 
     // period type
     } else if (property == SCIM_PROP_PERIOD_STYLE_JAPANESE) {
@@ -1623,15 +1633,16 @@ AnthyInstance::reload_config (const ConfigPointer &config)
         m_preedit.set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
 
     // set typing method
-    if (m_factory->m_typing_method == "Kana")
-        m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA,
-                                             NULL);
-    else if (m_factory->m_typing_method == "Roma")
-        m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
-                                             m_factory->m_custom_romaji_table);
+    if (m_factory->m_typing_method == "NICOLA")
+        m_preedit.get_reading().set_typing_method
+            (SCIM_ANTHY_TYPING_METHOD_NICOLA, NULL);
+    else if (m_factory->m_typing_method == "Kana")
+        m_preedit.get_reading().set_typing_method
+            (SCIM_ANTHY_TYPING_METHOD_KANA, NULL);
     else
-        m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
-                                             m_factory->m_custom_romaji_table);
+        m_preedit.get_reading().set_typing_method
+            (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
+             m_factory->m_custom_romaji_table);
 
     // set conversion mode
     if (m_factory->m_conversion_mode == "MultiSeg")
@@ -1663,11 +1674,11 @@ AnthyInstance::reload_config (const ConfigPointer &config)
 
     // set ten key type
     if (m_factory->m_ten_key_type == "Half")
-        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_HALF);
+        m_preedit.get_reading().set_ten_key_type (SCIM_ANTHY_TEN_KEY_HALF);
     else if (m_factory->m_ten_key_type == "Wide")
-        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_WIDE);
+        m_preedit.get_reading().set_ten_key_type (SCIM_ANTHY_TEN_KEY_WIDE);
     else 
-        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE);
+        m_preedit.get_reading().set_ten_key_type (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE);
 
     // set auto convert
     if (m_factory->m_behavior_on_period == "Convert")

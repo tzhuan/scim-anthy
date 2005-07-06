@@ -24,6 +24,7 @@
 #define Uses_SCIM_EVENT
 #include <scim.h>
 #include "scim_anthy_key2kana.h"
+#include "scim_anthy_nicola.h"
 
 using namespace scim;
 
@@ -38,12 +39,6 @@ typedef enum {
     SCIM_ANTHY_STRING_KATAKANA,
     SCIM_ANTHY_STRING_HALF_KATAKANA,
 } StringType;
-
-typedef enum {
-    SCIM_ANTHY_TEN_KEY_HALF,
-    SCIM_ANTHY_TEN_KEY_WIDE,
-    SCIM_ANTHY_TEN_KEY_FOLLOW_MODE,
-} TenKeyType;
 
 class Reading;
 class ReadingSegment;
@@ -66,7 +61,6 @@ private:
 //    KeyEvents  keys;
     String     raw;
     WideString kana;
-
 };
 
 class Reading
@@ -94,11 +88,6 @@ public:
     void         get_raw               (String     & string,
                                         unsigned int start  = 0,
                                         int          length = -1);
-#if 0
-    void         get_key_events        (KeyEvents  & events,
-                                        unsigned int start  = 0,
-                                        int          length = -1);
-#endif
     void         erase                 (unsigned int start  = 0,
                                         int          length = -1,
                                         bool         allow_split = false);
@@ -109,26 +98,29 @@ public:
     void         move_caret            (int          step,
                                         bool         allow_split = false);
 
-    void         set_ten_key_type      (TenKeyType type);
+    void         set_ten_key_type      (TenKeyType   type);
     TenKeyType   get_ten_key_type      (void);
 
+    void         set_typing_method     (TypingMethod   method,
+                                        Key2KanaTable *fundamental_table
+                                        = NULL);
+    TypingMethod get_typing_method     (void);
+
 private:
-    bool         append_str            (const String & str);
     void         reset_pending         (void);
     void         split_segment         (unsigned int seg_id);
 
 private:
     // convertors
-    Key2KanaTableSet  &m_key2kana_tables;
-    Key2KanaConvertor  m_key2kana;
+    Key2KanaTableSet      &m_key2kana_tables;
+    Key2KanaConvertor      m_key2kana_normal;
+    NicolaConvertor        m_nicola;
+    Key2KanaConvertorBase *m_key2kana;
 
     // state
-    ReadingSegments    m_segments;
-    unsigned int       m_segment_pos;
-    unsigned int       m_caret_offset;
-
-    // mode
-    TenKeyType         m_ten_key_type;
+    ReadingSegments        m_segments;
+    unsigned int           m_segment_pos;
+    unsigned int           m_caret_offset;
 };
 
 }

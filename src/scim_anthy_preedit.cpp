@@ -111,6 +111,12 @@ Preedit::get_attribute_list (void)
     }
 }
 
+Reading &
+Preedit::get_reading (void)
+{
+    return m_reading;
+}
+
 bool
 Preedit::is_preediting (void)
 {
@@ -424,7 +430,7 @@ Preedit::set_segment_colors (unsigned int fg_color, unsigned int bg_color)
 bool
 Preedit::get_segment_colors (unsigned int *fg_color, unsigned int *bg_color)
 {
-    m_conversion.get_segment_colors (fg_color, bg_color);
+    return m_conversion.get_segment_colors (fg_color, bg_color);
 }
 
 void
@@ -436,7 +442,7 @@ Preedit::set_preedit_colors (unsigned int fg_color, unsigned int bg_color)
 bool
 Preedit::get_preedit_colors (unsigned int *fg_color, unsigned int *bg_color)
 {
-    m_conversion.get_preedit_colors (fg_color, bg_color);
+    return m_conversion.get_preedit_colors (fg_color, bg_color);
 }
 
 
