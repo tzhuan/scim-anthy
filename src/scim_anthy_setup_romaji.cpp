@@ -503,26 +503,21 @@ setup_romaji_window_value (GtkTreeView *treeview)
     gtk_list_store_clear (store);
 
     const char *section_name = "RomajiTable/FundamentalTable";
-    StyleLines section;
-    __user_style_file.get_entry_list (section, section_name);
-    if (section.empty ()) {
+    std::vector<String> keys;
+    __user_style_file.get_key_list (keys, section_name);
+    if (keys.empty ()) {
         load_romaji_theme ();
-        __user_style_file.get_entry_list (section, section_name);
+        __user_style_file.get_key_list (keys, section_name);
     }
 
-    StyleLines::iterator it;
-    for (it = section.begin (); it != section.end (); it++) {
-        if (it->get_type() != SCIM_ANTHY_STYLE_LINE_KEY)
-            continue;
-
-        String key;
+    std::vector<String>::iterator it;
+    for (it = keys.begin (); it != keys.end (); it++) {
         WideString value;
-        it->get_key (key);
-        __user_style_file.get_string (value, section_name, key);
+        __user_style_file.get_string (value, section_name, *it);
         GtkTreeIter iter;
         gtk_list_store_append (store, &iter);
         gtk_list_store_set (store, &iter,
-                            0, key.c_str (),
+                            0, it->c_str (),
                             1, utf8_wcstombs(value).c_str (),
                             2, "",
                             -1);
@@ -552,8 +547,7 @@ load_romaji_theme (void)
         __config_romaji_theme = "User defined";
 
         StyleLines lines;
-        bool success = __user_style_file.get_entry_list (
-            lines, section);
+        bool success = __user_style_file.get_entry_list (lines, section);
         if (!success || lines.empty ()) {
             ConvRule *table = scim_anthy_romaji_typing_rule;
             for (unsigned int i = 0; table[i].string; i++) {
@@ -582,21 +576,14 @@ load_romaji_theme (void)
         __config_romaji_theme = __style_list[theme_idx].get_title ();
         __user_style_file.delete_section (section);
 
-        StyleLines lines;
-        bool success = __style_list[theme_idx].get_entry_list (
-            lines, section);
+        std::vector<String> keys;
+        bool success = __style_list[theme_idx].get_key_list (keys, section);
         if (success) {
-            StyleLines::iterator it;
-            for (it = lines.begin (); it != lines.end (); it++) {
-                if (it->get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
-                    continue;
-                String key;
+            std::vector<String>::iterator it;
+            for (it = keys.begin (); it != keys.end (); it++) {
                 WideString value;
-                it->get_key (key);
-                //it->get_value (value);
-                __style_list[theme_idx].get_string (value, section, key);
-                __user_style_file.set_string (section,
-                                              key,
+                __style_list[theme_idx].get_string (value, section, *it);
+                __user_style_file.set_string (section, *it,
                                               utf8_wcstombs (value));
             }
         }

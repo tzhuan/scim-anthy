@@ -461,13 +461,42 @@ StyleFile::get_entry_list (StyleLines &lines, String section)
         if (it->size () <= 0)
             continue;
 
-        StyleLines::iterator lit;
         String s;
         (*it)[0].get_section (s);
         if (s == section) {
             lines = (*it);
             return true;
         }
+    }
+
+    return false;
+}
+
+bool
+StyleFile::get_key_list (std::vector<String> &keys, String section)
+{
+    StyleSections::iterator it;
+    for (it = m_sections.begin (); it != m_sections.end (); it++) {
+        if (it->size () <= 0)
+            continue;
+
+        String s;
+
+        (*it)[0].get_section (s);
+        if (s != section)
+            continue;
+
+        StyleLines &lines = (*it);
+        StyleLines::iterator lit;
+        for (lit = lines.begin (); lit != lines.end (); lit++) {
+            if (lit->get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
+                continue;
+
+            String key;
+            lit->get_key (key);
+            keys.push_back (key);
+        }
+        return true;
     }
 
     return false;
@@ -514,6 +543,28 @@ StyleFile::delete_section (String section)
             return;
         }
     }
+}
+
+Key2KanaTable *
+StyleFile::get_key2kana_table (String section)
+{
+    Key2KanaTable *table = NULL;
+
+    std::vector<String> keys;
+    bool success = get_key_list (keys, section);
+    if (success) {
+        table = new Key2KanaTable (utf8_mbstowcs (get_title ()));
+        std::vector<String>::iterator it;
+        for (it = keys.begin (); it != keys.end (); it++) {
+            WideString value;
+            get_string (value, section, *it);
+            table->append_rule (*it,
+                                utf8_wcstombs (value),
+                                String ());
+        }
+    }
+
+    return table;
 }
 
 void

@@ -477,8 +477,7 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     }
 
 
-    // test code for loading custom romaji table
-    Key2KanaTable *table = NULL;
+    // load custom style
     String user_style_file = scim_get_home_dir ();
     user_style_file +=
         SCIM_PATH_DELIM_STRING
@@ -487,31 +486,16 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         "Anthy"
         SCIM_PATH_DELIM_STRING
         "config.sty";
-
     bool loaded = m_style.load (user_style_file.c_str ());
-    if (loaded) {
-        StyleLines lines;
-        bool success = m_style.get_entry_list (
-            lines, "RomajiTable/FundamentalTable");
-        if (success) {
-            table = new Key2KanaTable (utf8_mbstowcs (m_style.get_title ()));
-            StyleLines::iterator it;
-            for (it = lines.begin (); it != lines.end (); it++) {
-                String key;
-                WideString value;
-                it->get_key (key);
-                it->get_value (value);
-                table->get_table().push_back (
-                    Key2KanaRule (key,
-                                  utf8_wcstombs (value),
-                                  String ()));
-            }
-        }
-    }
 
-    if (m_custom_romaji_table)
+    // load custom romaji table
+    const char *section = "RomajiTable/FundamentalTable";
+    if (m_custom_romaji_table) {
         delete m_custom_romaji_table;
-    m_custom_romaji_table = table;
+        m_custom_romaji_table = NULL;
+    }
+    if (loaded)
+        m_custom_romaji_table = m_style.get_key2kana_table (section);
 
 
     // reload config for all instance

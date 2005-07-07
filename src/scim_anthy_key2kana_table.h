@@ -59,7 +59,9 @@ class Key2KanaRule
 {
 public:
     Key2KanaRule ();
-    Key2KanaRule (String sequence, String result, String cont);
+    Key2KanaRule (String sequence,
+                  String result,
+                  String cont);
     virtual ~Key2KanaRule ();
 
     String get_sequence        (void) { return m_sequence; }
@@ -81,10 +83,15 @@ class Key2KanaTable
 {
 public:
     Key2KanaTable (WideString name);
-    Key2KanaTable (WideString name, ConvRule *table);
+    Key2KanaTable (WideString name,
+                   ConvRule *table);
     virtual ~Key2KanaTable ();
 
-    Key2KanaRules & get_table (void) { return m_rules; }
+    Key2KanaRules & get_table   (void) { return m_rules; }
+
+    void            append_rule (String sequence,
+                                 String result,
+                                 String cont);
 
 private:
     WideString    m_name;

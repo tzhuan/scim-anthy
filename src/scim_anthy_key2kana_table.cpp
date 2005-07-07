@@ -134,16 +134,23 @@ Key2KanaTable::Key2KanaTable (WideString name, ConvRule *table)
     : m_name (name)
 {
     for (unsigned int i = 0; table[i].string; i++) {
-        m_rules.push_back (
-            Key2KanaRule (
-                table[i].string ? table[i].string : "",
-                table[i].result ? table[i].result : "",
-                table[i].cont   ? table[i].cont   : ""));
+        append_rule (table[i].string ? table[i].string : "",
+                     table[i].result ? table[i].result : "",
+                     table[i].cont   ? table[i].cont   : "");
     }
 }
 
 Key2KanaTable::~Key2KanaTable ()
 {
+}
+
+void
+Key2KanaTable::append_rule (String sequence,
+                            String result,
+                            String cont)
+{
+    // FIXME! check duplicates
+    m_rules.push_back (Key2KanaRule (sequence, result, cont));
 }
 
 

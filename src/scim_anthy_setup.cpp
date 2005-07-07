@@ -788,6 +788,121 @@ create_keyboard_page (void)
     return vbox;
 }
 
+static void
+setup_kana_theme_menu (GtkOptionMenu *omenu)
+{
+    GtkWidget *menu = gtk_menu_new ();
+    gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu),
+                              menu);
+    gtk_widget_show (menu);
+
+    // create menu items
+    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("User defined"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    //gtk_widget_show (menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Default"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    gtk_widget_show (menuitem);
+
+#if 0
+    StyleFiles::iterator it;
+    unsigned int i;
+    for (i = 0, it = __style_list.begin ();
+         it != __style_list.end ();
+         i++, it++)
+    {
+        const char *section_name = "RomajiTable/FundamentalTable";
+        StyleLines section;
+        if (!it->get_entry_list (section, section_name))
+            continue;
+
+        menuitem = gtk_menu_item_new_with_label (_(it->get_title().c_str()));
+        g_object_set_data (G_OBJECT (menuitem),
+                           INDEX_KEY, GINT_TO_POINTER (i));
+        gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+        gtk_widget_show (menuitem);
+    }
+
+    // set default value
+    g_signal_handlers_block_by_func (
+        G_OBJECT (omenu),
+        (gpointer) (on_romaji_theme_menu_changed),
+        NULL);
+
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
+
+    if (__config_romaji_theme == "User defined") {
+        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+
+    } else {
+        GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
+        for (i = 2, node = g_list_next (g_list_next (list));
+             node;
+             i++, node = g_list_next (node))
+        {
+            gint idx = GPOINTER_TO_INT (
+                g_object_get_data (G_OBJECT (node->data),
+                                   INDEX_KEY));
+            if (__style_list[idx].get_title () == __config_romaji_theme) {
+                gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
+                break;
+            }
+        }
+    }
+
+    g_signal_handlers_unblock_by_func (
+        G_OBJECT (omenu),
+        (gpointer) (on_romaji_theme_menu_changed),
+        NULL);
+#else
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
+#endif
+}
+
+static GtkWidget *
+create_kana_typing_page (void)
+{
+    GtkWidget *vbox;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+
+    /* romaji table */
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    GtkWidget *label = gtk_label_new_with_mnemonic (_("Kana _table:"));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (label);
+
+    GtkWidget *omenu = gtk_option_menu_new ();
+#if 0
+    __widget_romaji_theme_menu = omenu;
+    g_signal_connect (G_OBJECT (omenu), "changed",
+                      G_CALLBACK (on_romaji_theme_menu_changed), NULL);
+#endif
+    gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
+    gtk_widget_show (omenu);
+
+    gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
+
+    GtkWidget *button = gtk_button_new_with_mnemonic (_("_Customize..."));
+#if 0
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_romaji_customize_button_clicked), NULL);
+#endif
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
+    gtk_widget_show (button);
+
+    setup_kana_theme_menu (GTK_OPTION_MENU (omenu));
+
+    return vbox;
+}
+
 static GtkWidget *
 create_learning_page ()
 {
@@ -1007,7 +1122,7 @@ create_setup_window (void)
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
-        // Create the key bind pages.
+        // Create the key bind page.
         page = create_keyboard_page ();
         label = gtk_label_new (_("Key bindings"));
         gtk_widget_show (label);
@@ -1015,7 +1130,13 @@ create_setup_window (void)
 
         // Create the romaji page.
         page = romaji_page_create_ui ();
-        label = gtk_label_new (_("Romaji Typing"));
+        label = gtk_label_new (_("Romaji typing"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the kana typing page.
+        page = create_kana_typing_page ();
+        label = gtk_label_new (_("Kana typing"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
