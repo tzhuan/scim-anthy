@@ -75,6 +75,7 @@ class AnthyFactory : public IMEngineFactoryBase
 
     StyleFile     m_style;
     Key2KanaTable *m_custom_romaji_table;
+    Key2KanaTable *m_custom_kana_table;
 
     std::vector<AnthyInstance*> m_config_listeners;
 

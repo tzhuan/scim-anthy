@@ -580,6 +580,8 @@ AnthyInstance::set_typing_method (TypingMethod method)
         Key2KanaTable *fundamental_table = NULL;
         if (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI)
             fundamental_table = m_factory->m_custom_romaji_table;
+        else if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
+            fundamental_table = m_factory->m_custom_kana_table;
         m_preedit.set_typing_method
             (method, fundamental_table);
     }
@@ -1644,7 +1646,8 @@ AnthyInstance::reload_config (const ConfigPointer &config)
             (SCIM_ANTHY_TYPING_METHOD_NICOLA, NULL);
     else if (m_factory->m_typing_method == "Kana")
         m_preedit.set_typing_method
-            (SCIM_ANTHY_TYPING_METHOD_KANA, NULL);
+            (SCIM_ANTHY_TYPING_METHOD_KANA,
+             m_factory->m_custom_kana_table);
     else
         m_preedit.set_typing_method
             (SCIM_ANTHY_TYPING_METHOD_ROMAJI,

@@ -126,7 +126,8 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_show_dict_label          (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT),
       m_show_dict_admin_label    (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT),
       m_show_add_word_label      (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT),
-      m_custom_romaji_table      (NULL)
+      m_custom_romaji_table      (NULL),
+      m_custom_kana_table        (NULL)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Factory :\n";
     SCIM_DEBUG_IMENGINE(1) << "  Lang : " << lang << "\n";
@@ -489,13 +490,22 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     bool loaded = m_style.load (user_style_file.c_str ());
 
     // load custom romaji table
-    const char *section = "RomajiTable/FundamentalTable";
+    const char *section_romaji = "RomajiTable/FundamentalTable";
     if (m_custom_romaji_table) {
         delete m_custom_romaji_table;
         m_custom_romaji_table = NULL;
     }
     if (loaded)
-        m_custom_romaji_table = m_style.get_key2kana_table (section);
+        m_custom_romaji_table = m_style.get_key2kana_table (section_romaji);
+
+    // load custom kana table
+    const char *section_kana = "KanaTable/FundamentalTable";
+    if (m_custom_kana_table) {
+        delete m_custom_kana_table;
+        m_custom_kana_table = NULL;
+    }
+    if (loaded)
+        m_custom_kana_table = m_style.get_key2kana_table (section_kana);
 
 
     // reload config for all instance
