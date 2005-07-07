@@ -179,8 +179,8 @@ Key2KanaConvertor::append (const String & str,
             /* matching */
             String seq = rules[i].get_sequence ();
             if (!m_case_sensitive) {
-                for (unsigned int j = 0; j < seq.length (); i++)
-                    seq[i] = tolower (seq[j]);
+                for (unsigned int j = 0; j < seq.length (); j++)
+                    seq[j] = tolower (seq[j]);
             }
             WideString romaji = utf8_mbstowcs(seq);
             if (romaji.find (matching_str) == 0) {
