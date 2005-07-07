@@ -25,12 +25,15 @@ using namespace scim_anthy;
 static Key2KanaTable romaji_table (
     utf8_mbstowcs ("DefaultRomajiTable"),
     scim_anthy_romaji_typing_rule);
-static Key2KanaTable romaji_consonant_table (
-    utf8_mbstowcs ("DefaultRomajiConsonantTable"),
-    scim_anthy_romaji_consonant_rule);
+static Key2KanaTable romaji_double_consonant_table (
+    utf8_mbstowcs ("DefaultRomajiDoubleConsonantTable"),
+    scim_anthy_romaji_double_consonant_rule);
 static Key2KanaTable kana_table (
     utf8_mbstowcs ("DefaultKanaTable"),
     scim_anthy_kana_typing_rule);
+static Key2KanaTable kana_voiced_consonant_table (
+    utf8_mbstowcs ("DefaultKanaVoicedConsonantTable"),
+    scim_anthy_kana_voiced_consonant_rule);
 
 // symbols
 static Key2KanaTable half_symbol_table (
@@ -272,10 +275,11 @@ Key2KanaTableSet::reset_tables (void)
 
     if (!m_fundamental_table) {
         if (is_romaji) {
-            m_all_tables.push_back (&romaji_consonant_table);
+            m_all_tables.push_back (&romaji_double_consonant_table);
             m_all_tables.push_back (&romaji_table);
         } else if (is_kana) {
             m_all_tables.push_back (&kana_table);
+            m_all_tables.push_back (&kana_voiced_consonant_table);
         }
     } else {
 #if 0
@@ -284,9 +288,10 @@ Key2KanaTableSet::reset_tables (void)
             m_all_tables.push_back (&(*it));
 #else
         if (is_romaji) {
-            m_all_tables.push_back (&romaji_consonant_table);
+            m_all_tables.push_back (&romaji_double_consonant_table);
             m_all_tables.push_back (m_fundamental_table);
         } else if (is_kana) {
+            m_all_tables.push_back (&kana_voiced_consonant_table);
             m_all_tables.push_back (m_fundamental_table);
         }
 #endif

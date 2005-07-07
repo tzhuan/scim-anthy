@@ -235,7 +235,7 @@ ConvRule scim_anthy_romaji_typing_rule[] = {
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romaji_consonant_rule[] = {
+ConvRule scim_anthy_romaji_double_consonant_rule[] = {
 {"vv",	"っ",	"v"},
 {"xx",	"っ",	"x"},
 {"kk",	"っ",	"k"},
@@ -413,6 +413,17 @@ ConvRule scim_anthy_kana_typing_rule[] = {
 {"0",	"わ",	""},
 {"|",	"ー",	""},
 {"\\",	"ろ",	""},
+{">",	"。",	""},
+{"<",	"、",	""},
+{"?",	"・",	""},
+{"@",	"゛",	""},
+{"[",	"゜",	""},
+{"{",	"「",	""},
+{"}",	"」",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_kana_voiced_consonant_rule[] = {
 {"か@",	"が",	""},
 {"き@",	"ぎ",	""},
 {"く@",	"ぐ",	""},
@@ -438,14 +449,6 @@ ConvRule scim_anthy_kana_typing_rule[] = {
 {"ふ[",	"ぷ",	""},
 {"へ[",	"ぺ",	""},
 {"ほ[",	"ぽ",	""},
-{">",	"。",	""},
-{"<",	"、",	""},
-{"?",	"・",	""},
-{"@",	"゛",	""},
-{"[",	"゜",	""},
-{"{",	"「",	""},
-{"}",	"」",	""},
-{NULL,	NULL,	NULL},
 };
 
 ConvRule scim_anthy_romaji_ja_period_rule[] = {

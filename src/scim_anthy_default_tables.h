@@ -50,8 +50,9 @@ typedef struct _NicolaRule
 
 // fundamental table
 extern ConvRule scim_anthy_romaji_typing_rule[];
-extern ConvRule scim_anthy_romaji_consonant_rule[];
+extern ConvRule scim_anthy_romaji_double_consonant_rule[];
 extern ConvRule scim_anthy_kana_typing_rule[];
+extern ConvRule scim_anthy_kana_voiced_consonant_rule[];
 
 // symbol & number
 extern ConvRule scim_anthy_romaji_half_symbol_rule[];
