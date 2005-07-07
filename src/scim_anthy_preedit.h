@@ -104,6 +104,10 @@ public:
     // preference
     virtual void          set_input_mode         (InputMode mode);
     virtual InputMode     get_input_mode         (void);
+    virtual void          set_typing_method      (TypingMethod method,
+                                                  Key2KanaTable *fund_table
+                                                  = NULL);
+    virtual TypingMethod  get_typing_method      (void);
     virtual void          set_ten_key_type       (TenKeyType type);
     virtual TenKeyType    get_ten_key_type       (void);
     virtual void          set_behavior_on_period (BehaviorOnPeriod behavior);
@@ -111,6 +115,7 @@ public:
                           get_behavior_on_period (void);
     virtual void          set_allow_split_romaji (bool allow);
     virtual bool          get_allow_split_romaji (void);
+
     virtual void          set_preedit_colors     (unsigned int  fg_color,
                                                   unsigned int  bg_color);
     virtual bool          get_preedit_colors     (unsigned int *fg_color,

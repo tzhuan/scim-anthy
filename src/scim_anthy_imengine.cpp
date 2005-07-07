@@ -464,7 +464,7 @@ AnthyInstance::install_properties (void)
 
     set_input_mode(m_preedit.get_input_mode ());
     set_conversion_mode (m_conv_mode);
-    set_typing_method (m_preedit.get_reading().get_typing_method ());
+    set_typing_method (m_preedit.get_typing_method ());
     set_period_style (m_key2kana_tables.get_period_style (),
                       m_key2kana_tables.get_comma_style ());
 
@@ -576,11 +576,11 @@ AnthyInstance::set_typing_method (TypingMethod method)
         }
     }
 
-    if (method != m_preedit.get_reading().get_typing_method ()) {
+    if (method != m_preedit.get_typing_method ()) {
         Key2KanaTable *fundamental_table = NULL;
         if (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI)
             fundamental_table = m_factory->m_custom_romaji_table;
-        m_preedit.get_reading().set_typing_method
+        m_preedit.set_typing_method
             (method, fundamental_table);
     }
 }
@@ -1384,7 +1384,7 @@ AnthyInstance::action_circle_typing_method (void)
 {
     TypingMethod method;
 
-    method = m_preedit.get_reading().get_typing_method ();
+    method = m_preedit.get_typing_method ();
     if (method == SCIM_ANTHY_TYPING_METHOD_NICOLA)
         method = SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     else if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
@@ -1640,13 +1640,13 @@ AnthyInstance::reload_config (const ConfigPointer &config)
 
     // set typing method
     if (m_factory->m_typing_method == "NICOLA")
-        m_preedit.get_reading().set_typing_method
+        m_preedit.set_typing_method
             (SCIM_ANTHY_TYPING_METHOD_NICOLA, NULL);
     else if (m_factory->m_typing_method == "Kana")
-        m_preedit.get_reading().set_typing_method
+        m_preedit.set_typing_method
             (SCIM_ANTHY_TYPING_METHOD_KANA, NULL);
     else
-        m_preedit.get_reading().set_typing_method
+        m_preedit.set_typing_method
             (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
              m_factory->m_custom_romaji_table);
 
@@ -1680,11 +1680,11 @@ AnthyInstance::reload_config (const ConfigPointer &config)
 
     // set ten key type
     if (m_factory->m_ten_key_type == "Half")
-        m_preedit.get_reading().set_ten_key_type (SCIM_ANTHY_TEN_KEY_HALF);
+        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_HALF);
     else if (m_factory->m_ten_key_type == "Wide")
-        m_preedit.get_reading().set_ten_key_type (SCIM_ANTHY_TEN_KEY_WIDE);
+        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_WIDE);
     else 
-        m_preedit.get_reading().set_ten_key_type (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE);
+        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE);
 
     // set auto convert
     if (m_factory->m_behavior_on_period == "Convert")

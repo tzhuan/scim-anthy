@@ -358,6 +358,18 @@ Preedit::get_input_mode (void)
 }
 
 void
+Preedit::set_typing_method (TypingMethod method, Key2KanaTable *fund_table)
+{
+    m_reading.set_typing_method (method, fund_table);
+}
+
+TypingMethod
+Preedit::get_typing_method (void)
+{
+    return m_reading.get_typing_method ();
+}
+
+void
 Preedit::set_ten_key_type (TenKeyType type)
 {
     m_reading.set_ten_key_type (type);

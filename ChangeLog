@@ -1,5 +1,10 @@
 2005-07-07 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.cpp, src/scim_anthy_preedit.{cpp,h}:
+	Revive set_typing_method() and get_typing_method() of Preedit class.
+
+2005-07-07 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_color_button.cpp: Remove compile time & run time warnings.
 
 2005-07-07 Takuro Ashie <ashie@homa.ne.jp>
