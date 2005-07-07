@@ -1803,7 +1803,7 @@ on_dict_launch_button_clicked (GtkButton *button, gpointer user_data)
     if (entry->widget) {
         const char *command = gtk_entry_get_text (GTK_ENTRY (entry->widget));
         if (command && *command)
-            launch_program (command);
+            util_launch_program (command);
     }
 }
 

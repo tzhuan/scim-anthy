@@ -25,7 +25,27 @@
 namespace scim_anthy {
 
 void
-convert_to_wide (WideString & wide, const String & str)
+util_split_string (String &str, std::vector<String> &str_list,
+                   char *delim, int num)
+{
+    String::size_type start = 0, end;
+
+    for (int i = 0; (num > 0 && i < num) || start < str.length (); i++) {
+        end = str.find (delim, start);
+        if ((num > 0 && i == num - 1) || (end == String::npos))
+            end = str.length ();
+
+        if (start < str.length ()) {
+            str_list.push_back (str.substr (start, end - start));
+            start = end + strlen (delim);
+        } else {
+            str_list.push_back (String ());
+        }
+    }
+}
+
+void
+util_convert_to_wide (WideString & wide, const String & str)
 {
     if (str.length () < 0)
         return;
@@ -51,7 +71,7 @@ convert_to_wide (WideString & wide, const String & str)
 }
 
 void
-convert_to_half (String & half, const WideString & str)
+util_convert_to_half (String & half, const WideString & str)
 {
     if (str.length () < 0)
         return;
@@ -76,9 +96,9 @@ convert_to_half (String & half, const WideString & str)
 }
 
 void
-convert_to_katakana (WideString & kata,
-                     const WideString & hira,
-                     bool half)
+util_convert_to_katakana (WideString & kata,
+                          const WideString & hira,
+                          bool half)
 {
     if (hira.length () < 0)
         return;
@@ -107,7 +127,7 @@ convert_to_katakana (WideString & kata,
 }
 
 void
-launch_program (const char *command)
+util_launch_program (const char *command)
 {
     if (!command) return;
 

@@ -68,18 +68,18 @@ Preedit::get_string (void)
         WideString widestr;
         switch (m_input_mode) {
         case SCIM_ANTHY_MODE_KATAKANA:
-            convert_to_katakana (widestr, m_reading.get ());
+            util_convert_to_katakana (widestr, m_reading.get ());
             return widestr;
 
         case SCIM_ANTHY_MODE_HALF_KATAKANA:
-            convert_to_katakana (widestr, m_reading.get (), true);
+            util_convert_to_katakana (widestr, m_reading.get (), true);
             return widestr;
 
         case SCIM_ANTHY_MODE_LATIN:
             return utf8_mbstowcs (m_reading.get_raw ());
 
         case SCIM_ANTHY_MODE_WIDE_LATIN:
-            convert_to_wide (widestr, m_reading.get_raw ());
+            util_convert_to_wide (widestr, m_reading.get_raw ());
             return widestr;
 
         case SCIM_ANTHY_MODE_HIRAGANA:

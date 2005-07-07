@@ -1,5 +1,12 @@
 2005-07-07 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_conversion.cpp, src/scim_anthy_imengine.cpp,
+	  src/scim_anthy_preedit.cpp, src/scim_anthy_setup.cpp,
+	  src/scim_anthy_utils.{cpp,h}:
+	Changed naming rule of global functions.
+
+2005-07-07 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_key2kana.cpp:
 	It's the ashie's refactoring ;-P
 	It's ashie quality ;-P

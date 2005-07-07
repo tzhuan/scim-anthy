@@ -27,14 +27,18 @@ using namespace scim;
 
 namespace scim_anthy {
 
-void convert_to_wide     (WideString       & wide,
-                          const String     & str);
-void convert_to_half     (String           & half,
-                          const WideString & str);
-void convert_to_katakana (WideString       & kata,
-                          const WideString & hira,
-                          bool               half = false);
-void launch_program      (const char       * command);
+void util_split_string        (String              &str,
+                               std::vector<String> &str_list,
+                               char                *delim,
+                               int                  num);
+void util_convert_to_wide     (WideString          &wide,
+                               const String        &str);
+void util_convert_to_half     (String              &half,
+                               const WideString    &str);
+void util_convert_to_katakana (WideString          &kata,
+                               const WideString    &hira,
+                               bool                 half = false);
+void util_launch_program      (const char          *command);
 
 }
 

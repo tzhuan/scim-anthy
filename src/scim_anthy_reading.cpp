@@ -211,7 +211,7 @@ Reading::get (WideString & str, unsigned int start, int len, StringType type)
 
     case SCIM_ANTHY_STRING_WIDE_LATIN:
         get_raw (raw, start, len);
-        convert_to_wide (str, raw);
+        util_convert_to_wide (str, raw);
         return;
 
     default:
@@ -246,11 +246,11 @@ Reading::get (WideString & str, unsigned int start, int len, StringType type)
         break;
 
     case SCIM_ANTHY_STRING_KATAKANA:
-        convert_to_katakana (str, kana);
+        util_convert_to_katakana (str, kana);
         break;
 
     case SCIM_ANTHY_STRING_HALF_KATAKANA:
-        convert_to_katakana (str, kana, true);
+        util_convert_to_katakana (str, kana, true);
         break;
 
     default:

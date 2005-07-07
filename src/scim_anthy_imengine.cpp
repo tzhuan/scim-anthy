@@ -1538,7 +1538,7 @@ AnthyInstance::action_convert_to_wide_latin (void)
 bool
 AnthyInstance::action_add_word (void)
 {
-    launch_program (m_factory->m_add_word_command.c_str ());
+    util_launch_program (m_factory->m_add_word_command.c_str ());
 
     return true;
 }
@@ -1546,7 +1546,7 @@ AnthyInstance::action_add_word (void)
 bool
 AnthyInstance::action_launch_dict_admin_tool (void)
 {
-    launch_program (m_factory->m_dict_admin_command.c_str ());
+    util_launch_program (m_factory->m_dict_admin_command.c_str ());
 
     return true;
 }

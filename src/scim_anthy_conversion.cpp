@@ -257,9 +257,9 @@ Conversion::get_reading_substr (WideString &string,
     case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
         if (prev_cand == SCIM_ANTHY_CANDIDATE_WIDE_LATIN) {
             String str;
-            convert_to_half (str, m_segments[segment_id].get_string ());
+            util_convert_to_half (str, m_segments[segment_id].get_string ());
             rotate_case (str);
-            convert_to_wide (string, str);
+            util_convert_to_wide (string, str);
         } else {
             m_reading.get (string, seg_start, seg_len,
                            SCIM_ANTHY_STRING_WIDE_LATIN);
