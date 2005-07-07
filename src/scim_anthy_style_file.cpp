@@ -18,6 +18,7 @@
  */
 
 #include "scim_anthy_style_file.h"
+#include "scim_anthy_utils.h"
 
 using namespace scim_anthy;
 
@@ -556,11 +557,11 @@ StyleFile::get_key2kana_table (String section)
         table = new Key2KanaTable (utf8_mbstowcs (get_title ()));
         std::vector<String>::iterator it;
         for (it = keys.begin (); it != keys.end (); it++) {
-            WideString value;
+            String value;
+            std::vector<String> str_list;
             get_string (value, section, *it);
-            table->append_rule (*it,
-                                utf8_wcstombs (value),
-                                String ());
+            util_split_string (value, str_list, ",", 2);
+            table->append_rule (*it, str_list[0], str_list[1]);
         }
     }
 

@@ -558,6 +558,11 @@ Reading::set_typing_method (TypingMethod method,
         m_key2kana = &m_key2kana_normal;
         m_key2kana_tables.set_typing_method (method, fundamental_table);
     }
+
+    if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
+        m_key2kana_normal.set_case_sensitive (true);
+    else
+        m_key2kana_normal.set_case_sensitive (false);
 }
 
 TypingMethod
