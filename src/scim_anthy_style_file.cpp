@@ -30,7 +30,7 @@ escape (const String &str)
 
     for (unsigned int i = 0; i < dest.size (); i++) {
         if (dest[i] == '#'  ||                   // for comment
-            dest[i] == '\\' ||                   // for backslash it self
+            dest[i] == '\\' ||                   // for backslash itself
             dest[i] == '='  ||                   // for separatort
             dest[i] == '['  || dest[i] == ']' || // for section
             dest[i] == '\t' || dest[i] == ',')   // for array
