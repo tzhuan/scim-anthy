@@ -115,6 +115,10 @@ public: // for getting specific data
 private:
     void   clear                 (void);
     void   setup_default_entries (void);
+    StyleLines *
+           find_section          (const String  &section);
+    StyleLines &
+           append_new_section    (const String  &section);
 
 private:
     IConvert      m_iconv;

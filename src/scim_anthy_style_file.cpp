@@ -407,24 +407,18 @@ bool
 StyleFile::get_string_array (std::vector<String> &value,
                              String section, String key)
 {
-    StyleSections::iterator it;
-    for (it = m_sections.begin (); it != m_sections.end (); it++) {
-        if (it->size () <= 0)
-            continue;
+    StyleLines *lines = find_section (section);
+    if (!lines)
+        return false;
 
-        String s, k;
-        (*it)[0].get_section (s);
-
-        if (s != section)
-            continue;
-
-        StyleLines::iterator lit;
-        for (lit = it->begin (); lit != it->end (); lit++) {
-            lit->get_key (k);
-            if (k == key) {
-                lit->get_value_array (value);
-                return true;
-            }
+    // find entry
+    StyleLines::iterator lit;
+    for (lit = lines->begin (); lit != lines->end (); lit++) {
+        String k;
+        lit->get_key (k);
+        if (k == key) {
+            lit->get_value_array (value);
+            return true;
         }
     }
 
@@ -450,28 +444,20 @@ StyleFile::get_string_array (std::vector<WideString> &value,
 void
 StyleFile::set_string (String section, String key, String value)
 {
-    // find section
-    StyleSections::iterator it;
-    for (it = m_sections.begin (); it != m_sections.end (); it++) {
-        if (it->size () <= 0)
-            continue;
-
-        String s, k;
-        (*it)[0].get_section (s);
-
-        if (s != section)
-            continue;
-
+    StyleLines *lines = find_section (section);
+    if (lines) {
         // find entry
-        StyleLines::iterator lit, last = it->begin () + 1;
-        for (lit = last; lit != it->end (); lit++) {
+        StyleLines::iterator lit, last = lines->begin () + 1;
+        for (lit = last; lit != lines->end (); lit++) {
             StyleLineType type = lit->get_type ();
             if (type != SCIM_ANTHY_STYLE_LINE_SPACE)
                 last = lit;
+
+            String k;
             lit->get_key (k);
 
             // replace existing entry
-            if (k == key) {
+            if (k.length () > 0 && k == key) {
                 lit->set_value (value);
                 return;
             }
@@ -479,34 +465,16 @@ StyleFile::set_string (String section, String key, String value)
 
         // append new entry if no mathced entry exists.
         String str = escape (key) + String ("=") + escape (value);
-        //it->insert (last + 1, StyleLine (this, str.c_str ()));
-        it->push_back (StyleLine (this, str.c_str ()));
-        return;
+        lines->insert (last + 1, StyleLine (this, str.c_str ()));
+        //lines->push_back (StyleLine (this, str.c_str ()));
+
+    } else {
+        StyleLines &newsec = append_new_section (section);
+
+        // append new entry
+        String str = escape (key) + String ("=") + escape (value);
+        newsec.push_back (StyleLine (this, str.c_str ()));
     }
-
-    // append space
-    if (!m_sections.empty()) {
-        StyleLines &sec = m_sections.back ();
-        if (sec.empty() ||
-            sec.back().get_type() != SCIM_ANTHY_STYLE_LINE_SPACE)
-        {
-            sec.push_back (StyleLine (this, ""));
-        }
-    }
-
-    //
-    // append new section
-    //
-    m_sections.push_back (StyleLines ());
-    StyleLines &newsec = m_sections.back ();
-
-    // new section entry
-    String str = String ("[") + String (section) + String ("]");
-    newsec.push_back (StyleLine (this, str.c_str ()));
-
-    // new key entry
-    str = escape (key) + String ("=") + escape (value);
-    newsec.push_back (StyleLine (this, str.c_str ()));
 }
 
 bool
@@ -538,54 +506,37 @@ StyleFile::get_entry_list (StyleLines &lines, String section)
 bool
 StyleFile::get_key_list (std::vector<String> &keys, String section)
 {
-    StyleSections::iterator it;
-    for (it = m_sections.begin (); it != m_sections.end (); it++) {
-        if (it->size () <= 0)
+    StyleLines *lines = find_section (section);
+    if (!lines)
+        return false;
+
+    StyleLines::iterator lit;
+    for (lit = lines->begin (); lit != lines->end (); lit++) {
+        if (lit->get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
             continue;
 
-        String s;
-
-        (*it)[0].get_section (s);
-        if (s != section)
-            continue;
-
-        StyleLines &lines = (*it);
-        StyleLines::iterator lit;
-        for (lit = lines.begin (); lit != lines.end (); lit++) {
-            if (lit->get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
-                continue;
-
-            String key;
-            lit->get_key (key);
-            keys.push_back (key);
-        }
-        return true;
+        String key;
+        lit->get_key (key);
+        keys.push_back (key);
     }
-
-    return false;
+    return true;
 }
 
 void
 StyleFile::delete_key (String section, String key)
 {
-    StyleSections::iterator it;
-    for (it = m_sections.begin (); it != m_sections.end (); it++) {
-        if (it->size () <= 0)
-            continue;
+    StyleLines *lines = find_section (section);
+    if (!lines)
+        return;
 
-        String s, k;
-        (*it)[0].get_section (s);
-
-        if (s != section)
-            continue;
-
-        StyleLines::iterator lit;
-        for (lit = it->begin (); lit != it->end (); lit++) {
-            lit->get_key (k);
-            if (k == key) {
-                it->erase (lit);
-                return;
-            }
+    // find entry
+    StyleLines::iterator lit;
+    for (lit = lines->begin (); lit != lines->end (); lit++) {
+        String k;
+        lit->get_key (k);
+        if (k == key) {
+            lines->erase (lit);
+            return;
         }
     }
 }
@@ -647,4 +598,49 @@ StyleFile::setup_default_entries (void)
     newsec.push_back (StyleLine (this, str.c_str ()));
     str = String ("Title") + String ("=") + escape (m_title);
     newsec.push_back (StyleLine (this, str.c_str ()));
+}
+
+StyleLines *
+StyleFile::find_section (const String  &section)
+{
+    // find section
+    StyleSections::iterator it;
+    for (it = m_sections.begin (); it != m_sections.end (); it++) {
+        if (it->size () <= 0)
+            continue;
+
+        String s;
+        (*it)[0].get_section (s);
+
+        if (s == section)
+            return &(*it);
+    }
+
+    return NULL;
+}
+
+StyleLines &
+StyleFile::append_new_section (const String &section)
+{
+    // append space before new section
+    if (!m_sections.empty()) {
+        StyleLines &sec = m_sections.back ();
+        if (sec.empty() ||
+            sec.back().get_type() != SCIM_ANTHY_STYLE_LINE_SPACE)
+        {
+            sec.push_back (StyleLine (this, ""));
+        }
+    }
+
+    //
+    // append new section
+    //
+    m_sections.push_back (StyleLines ());
+    StyleLines &newsec = m_sections.back ();
+
+    // new section entry
+    String str = String ("[") + String (section) + String ("]");
+    newsec.push_back (StyleLine (this, str.c_str ()));
+
+    return newsec;
 }
