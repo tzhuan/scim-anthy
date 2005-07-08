@@ -34,7 +34,8 @@ escape (const String &str)
             dest[i] == '\\' ||                   // for backslash itself
             dest[i] == '='  ||                   // for separatort
             dest[i] == '['  || dest[i] == ']' || // for section
-            dest[i] == '\t' || dest[i] == ',')   // for array
+            dest[i] == ','  ||                   // for array
+            dest[i] == ' '  || dest[i] == '\t')  // for space
         {
             dest.insert (i, "\\");
             i++;
@@ -167,44 +168,41 @@ StyleLine::get_key (String &key)
     return true;
 }
 
+static int
+get_value_position (String &str)
+{
+    unsigned int spos;
+    for (spos = 0;
+         spos < str.length ();
+         spos++)
+    {
+        if (str[spos] == '\\') {
+            spos++;
+            continue;
+        }
+        if (str[spos] == '=') {
+            break;
+        }
+    }
+    if (spos >= str.length ())
+        return true;
+    else
+        spos++;
+    for (;
+         spos < str.length () && isspace(str[spos]);
+         spos++);
+
+    return spos;
+}
+
 bool
 StyleLine::get_value (String &value)
 {
     if (get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
         return false;
 
-    unsigned int spos, epos;
-    for (spos = 0;
-         spos < m_line.length ();
-         spos++)
-    {
-        if (m_line[spos] == '\\') {
-            spos++;
-            continue;
-        }
-        if (m_line[spos] == '=') {
-            break;
-        }
-    }
-    if (spos >= m_line.length ())
-        return true;
-    else
-        spos++;
-    for (;
-         spos < m_line.length () && isspace(m_line[spos]);
-         spos++);
-
-#if 0
-    // reduce traling space.
-    for (epos = m_line.length ();
-         epos >= spos && isspace (m_line[epos]);
-         epos--);
-    if (!isspace(m_line[epos]))
-        epos++;
-#else
-    // don't reduce trailing space.
-    epos = m_line.length ();
-#endif
+    unsigned int spos = get_value_position (m_line);
+    unsigned int epos = m_line.length ();
 
     value = unescape (m_line.substr (spos, epos - spos));
 
@@ -212,13 +210,33 @@ StyleLine::get_value (String &value)
 }
 
 bool
-StyleLine::get_value (WideString &value)
+StyleLine::get_value_array (std::vector<String> &value)
 {
-    String str;
-    bool success = get_value (str);
-    if (!success)
+    if (get_type () != SCIM_ANTHY_STYLE_LINE_KEY)
         return false;
-    value = utf8_mbstowcs (str);
+
+    unsigned int spos = get_value_position (m_line);
+    unsigned int epos = m_line.length ();
+
+    unsigned int head_of_element = spos;
+    for (unsigned int i = spos; i <= epos; i++) {
+        if (i < epos && m_line[i] == '\\') {
+            i++;
+            continue;
+        }
+
+        if (i == epos || m_line[i] == ',') {
+            String str;
+            if (head_of_element == epos)
+                str = String ();
+            else
+                str = unescape (m_line.substr (head_of_element,
+                                               i - head_of_element));
+            value.push_back (str);
+            head_of_element = i + 1;
+        }
+    }
+
     return true;
 }
 
@@ -383,6 +401,50 @@ StyleFile::get_string (WideString &value, String section, String key)
         return false;
     // FIXME! should be converted on loading.
     return m_iconv.convert (value, str);
+}
+
+bool
+StyleFile::get_string_array (std::vector<String> &value,
+                             String section, String key)
+{
+    StyleSections::iterator it;
+    for (it = m_sections.begin (); it != m_sections.end (); it++) {
+        if (it->size () <= 0)
+            continue;
+
+        String s, k;
+        (*it)[0].get_section (s);
+
+        if (s != section)
+            continue;
+
+        StyleLines::iterator lit;
+        for (lit = it->begin (); lit != it->end (); lit++) {
+            lit->get_key (k);
+            if (k == key) {
+                lit->get_value_array (value);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool
+StyleFile::get_string_array (std::vector<WideString> &value,
+                             String section, String key)
+{
+    std::vector<String> array;
+    bool success = get_string_array (array, section, key);
+    if (!success)
+        return false;
+
+    // FIXME! should be converted on loading.
+    std::vector<String>::iterator it;
+    for (it = array.begin (); it != array.end (); it++)
+        value.push_back (utf8_mbstowcs (*it));
+    return true;
 }
 
 void
@@ -557,11 +619,14 @@ StyleFile::get_key2kana_table (String section)
         table = new Key2KanaTable (utf8_mbstowcs (get_title ()));
         std::vector<String>::iterator it;
         for (it = keys.begin (); it != keys.end (); it++) {
-            String value;
-            std::vector<String> str_list;
-            get_string (value, section, *it);
-            util_split_string (value, str_list, ",", 2);
-            table->append_rule (*it, str_list[0], str_list[1]);
+            std::vector<WideString> array;
+            get_string_array (array, section, *it);
+            String result, cont;
+            if (array.size () > 0)
+                result = utf8_wcstombs (array[0]);
+            if (array.size () > 1)
+                cont = utf8_wcstombs (array[1]);
+            table->append_rule (*it, result, cont);
         }
     }
 

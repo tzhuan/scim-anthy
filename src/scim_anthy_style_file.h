@@ -54,13 +54,14 @@ public:
     ~StyleLine ();
 
 public:
-    StyleLineType get_type    (void);
-    void          get_line    (String     &line) { line = m_line; }
-    bool          get_section (String     &section);
-    bool          get_key     (String     &key);
-    bool          get_value   (String     &value);
-    bool          get_value   (WideString &value);
-    void          set_value   (String      value);
+    StyleLineType get_type        (void);
+    void          get_line        (String     &line) { line = m_line; }
+    bool          get_section     (String     &section);
+    bool          get_key         (String     &key);
+    bool          get_value       (String     &value);
+    void          set_value       (String      value);
+    bool          get_value_array (std::vector<String> &value);
+    void          set_value_array (std::vector<String> &value);
 
 private:
     StyleFile     *m_style_file;
@@ -81,29 +82,35 @@ public:
     String get_encoding          (void);
     String get_title             (void);
 
-    bool   get_string            (String              &value,
-                                  String               section,
-                                  String               key);
-    bool   get_string            (WideString          &value,
-                                  String               section,
-                                  String               key);
-    bool   get_section_list      (StyleSections       &sections);
-    bool   get_entry_list        (StyleLines          &lines,
-                                  String               section);
+    bool   get_section_list      (StyleSections &sections);
+    bool   get_entry_list        (StyleLines    &lines,
+                                  String         section);
     bool   get_key_list          (std::vector<String> &keys,
-                                  String               section);
+                                  String         section);
+    bool   get_string            (String        &value,
+                                  String         section,
+                                  String         key);
+    bool   get_string            (WideString    &value,
+                                  String         section,
+                                  String         key);
+    bool   get_string_array      (std::vector<String> &value,
+                                  String         section,
+                                  String         key);
+    bool   get_string_array      (std::vector<WideString> &value,
+                                  String         section,
+                                  String         key);
 
-    void   set_string            (String               section,
-                                  String               key,
-                                  String               value);
+    void   set_string            (String         section,
+                                  String         key,
+                                  String         value);
 
-    void   delete_key            (String               section,
-                                  String               key);
-    void   delete_section        (String               section);
+    void   delete_key            (String         section,
+                                  String         key);
+    void   delete_section        (String         section);
 
 public: // for getting specific data
     Key2KanaTable *
-           get_key2kana_table    (String               section);
+           get_key2kana_table    (String         section);
 
 private:
     void   clear                 (void);
