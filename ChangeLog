@@ -1,5 +1,9 @@
 2005-07-08 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_setup_romaji.cpp: Use new functions to getting array.
+
+2005-07-08 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_style_file.{cpp,h}: Refactoring.
 
 2005-07-08 Takuro Ashie <ashie@homa.ne.jp>

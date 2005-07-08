@@ -512,14 +512,17 @@ setup_romaji_window_value (GtkTreeView *treeview)
 
     std::vector<String>::iterator it;
     for (it = keys.begin (); it != keys.end (); it++) {
-        WideString value;
-        __user_style_file.get_string (value, section_name, *it);
+        std::vector<WideString> value;
+        __user_style_file.get_string_array (value, section_name, *it);
+        String result, cont;
+        if (value.size () > 0) result = utf8_wcstombs(value[0]);
+        if (value.size () > 1) cont   = utf8_wcstombs(value[1]);
         GtkTreeIter iter;
         gtk_list_store_append (store, &iter);
         gtk_list_store_set (store, &iter,
                             0, it->c_str (),
-                            1, utf8_wcstombs(value).c_str (),
-                            2, "",
+                            1, result.c_str (),
+                            2, cont.c_str (),
                             -1);
     }
 }
@@ -634,6 +637,7 @@ add_romaji_entry (GtkTreeView *treeview)
     gtk_list_store_set (GTK_LIST_STORE (model), &iter,
                         0, sequence,
                         1, result,
+                        2, "",
                         -1);
     __user_style_file.set_string ("RomajiTable/FundamentalTable",
                                   sequence, result);
