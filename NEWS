@@ -1,3 +1,10 @@
+Overview of Changes from scim-anthy-0.5.0 to scim-anthy-0.5.1
+=============================================================
+* The bug that some letters cannot be typed correctly on kana typing mode has
+  been fixed.
+* The bug that some key bindings of ATOK style aren't set correctly has been
+  fixed. (Thanks AWASHIRO Ikuya)
+
 Overview of Changes from scim-anthy-0.4.3 to scim-anthy-0.5.0
 =============================================================
 * Enable to customize romaji table.
