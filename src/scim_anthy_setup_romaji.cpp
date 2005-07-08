@@ -527,6 +527,24 @@ setup_romaji_window_value (GtkTreeView *treeview)
     }
 }
 
+static void
+setup_default_romaji_table ()
+{
+    const char *section = "RomajiTable/FundamentalTable";
+    __user_style_file.delete_section (section);
+    ConvRule *table = scim_anthy_romaji_typing_rule;
+    for (unsigned int i = 0; table[i].string; i++) {
+        std::vector<String> value;
+        if (table[i].result && *(table[i].result))
+            value.push_back (table[i].result);
+        if (table[i].cont && *(table[i].cont))
+            value.push_back (table[i].cont);
+        __user_style_file.set_string_array (section,
+                                            table[i].string,
+                                            value);
+    }
+}
+
 static bool
 load_romaji_theme (void)
 {
@@ -551,27 +569,16 @@ load_romaji_theme (void)
 
         StyleLines lines;
         bool success = __user_style_file.get_entry_list (lines, section);
-        if (!success || lines.empty ()) {
-            ConvRule *table = scim_anthy_romaji_typing_rule;
-            for (unsigned int i = 0; table[i].string; i++) {
-                __user_style_file.set_string (section,
-                                              table[i].string,
-                                              table[i].result);
-            }
-        }
+        if (!success || lines.empty ())
+            setup_default_romaji_table ();
+
         return true;
 
     } else if (idx == 1) {
         // Default table
         __config_romaji_theme = "Default";
-        __user_style_file.delete_section (section);
+        setup_default_romaji_table ();
 
-        ConvRule *table = scim_anthy_romaji_typing_rule;
-        for (unsigned int i = 0; table[i].string; i++) {
-            __user_style_file.set_string (section,
-                                          table[i].string,
-                                          table[i].result);
-        }
         return true;
 
     } else if (theme_idx >= 0 && theme_idx < (int) __style_list.size ()) {
@@ -584,10 +591,9 @@ load_romaji_theme (void)
         if (success) {
             std::vector<String>::iterator it;
             for (it = keys.begin (); it != keys.end (); it++) {
-                WideString value;
-                __style_list[theme_idx].get_string (value, section, *it);
-                __user_style_file.set_string (section, *it,
-                                              utf8_wcstombs (value));
+                std::vector<WideString> value;
+                __style_list[theme_idx].get_string_array (value, section, *it);
+                __user_style_file.set_string_array (section, *it, value);
             }
         }
         return true;

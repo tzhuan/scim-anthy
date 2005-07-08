@@ -61,11 +61,28 @@ unescape (const String &str)
     return dest;
 }
 
-StyleLine::StyleLine (StyleFile *style_file, const char *line)
+StyleLine::StyleLine (StyleFile *style_file, String line)
     : m_style_file (style_file),
       m_line  (line),
       m_type  (SCIM_ANTHY_STYLE_LINE_UNKNOWN)
 {
+}
+
+StyleLine::StyleLine (StyleFile *style_file, String key, String value)
+    : m_style_file (style_file),
+      m_line  (escape (key) + String ("=")),
+      m_type  (SCIM_ANTHY_STYLE_LINE_KEY)
+{
+    set_value (value);
+}
+
+StyleLine::StyleLine (StyleFile *style_file, String key,
+                      std::vector<String> &value)
+    : m_style_file (style_file),
+      m_line  (escape (key) + String("=")),
+      m_type  (SCIM_ANTHY_STYLE_LINE_KEY)
+{
+    set_value_array (value);
 }
 
 StyleLine::~StyleLine ()
@@ -209,6 +226,14 @@ StyleLine::get_value (String &value)
     return true;
 }
 
+void
+StyleLine::set_value (String value)
+{
+    String key;
+    get_key (key);
+    m_line = escape (key) + String ("=") + escape (value);
+}
+
 bool
 StyleLine::get_value_array (std::vector<String> &value)
 {
@@ -241,11 +266,17 @@ StyleLine::get_value_array (std::vector<String> &value)
 }
 
 void
-StyleLine::set_value (String value)
+StyleLine::set_value_array (std::vector<String> &value)
 {
     String key;
     get_key (key);
-    m_line = escape (key) + String ("=") + escape (value);
+
+    m_line = escape (key) + String ("=");
+    for (unsigned int i = 0; i < value.size (); i++) {
+        if (i != 0)
+            m_line += ",";
+        m_line += escape (value[i]);
+    }
 }
 
 
@@ -277,8 +308,9 @@ StyleFile::load (const char *filename)
         if (in_file.eof ())
             break;
 
-        // FIXME! convert to UTF-8 or WideString
-        StyleLine line (this, buf);
+        WideString dest;
+        m_iconv.convert (dest, buf);
+        StyleLine line (this, utf8_wcstombs (dest));
         StyleLineType type = line.get_type ();
 
         if (type == SCIM_ANTHY_STYLE_LINE_SECTION) {
@@ -328,10 +360,10 @@ StyleFile::save (const char *filename)
     for (it = m_sections.begin (); it != m_sections.end (); it++) {
         StyleLines::iterator lit;
         for (lit = it->begin (); lit != it->end (); lit++) {
-            String line;
+            String line, dest;
             lit->get_line (line);
-            // FIXME! should convert to specified encoding.
-            out_file << line.c_str () << std::endl;
+            m_iconv.convert (dest, utf8_mbstowcs (line));
+            out_file << dest.c_str () << std::endl;
         }
     }
 
@@ -399,8 +431,8 @@ StyleFile::get_string (WideString &value, String section, String key)
     bool success = get_string (str, section, key);
     if (!success)
         return false;
-    // FIXME! should be converted on loading.
-    return m_iconv.convert (value, str);
+    value = utf8_mbstowcs (str);
+    return true;
 }
 
 bool
@@ -434,7 +466,6 @@ StyleFile::get_string_array (std::vector<WideString> &value,
     if (!success)
         return false;
 
-    // FIXME! should be converted on loading.
     std::vector<String>::iterator it;
     for (it = array.begin (); it != array.end (); it++)
         value.push_back (utf8_mbstowcs (*it));
@@ -464,17 +495,65 @@ StyleFile::set_string (String section, String key, String value)
         }
 
         // append new entry if no mathced entry exists.
-        String str = escape (key) + String ("=") + escape (value);
-        lines->insert (last + 1, StyleLine (this, str.c_str ()));
-        //lines->push_back (StyleLine (this, str.c_str ()));
+        lines->insert (last + 1, StyleLine (this, key, value));
 
     } else {
         StyleLines &newsec = append_new_section (section);
 
         // append new entry
-        String str = escape (key) + String ("=") + escape (value);
-        newsec.push_back (StyleLine (this, str.c_str ()));
+        newsec.push_back (StyleLine (this, key, value));
     }
+}
+
+void
+StyleFile::set_string (String section, String key, WideString value)
+{
+    set_string (section, key, utf8_wcstombs (value));
+}
+
+void
+StyleFile::set_string_array (String section, String key,
+                             std::vector<String> &value)
+{
+    StyleLines *lines = find_section (section);
+    if (lines) {
+        // find entry
+        StyleLines::iterator lit, last = lines->begin () + 1;
+        for (lit = last; lit != lines->end (); lit++) {
+            StyleLineType type = lit->get_type ();
+            if (type != SCIM_ANTHY_STYLE_LINE_SPACE)
+                last = lit;
+
+            String k;
+            lit->get_key (k);
+
+            // replace existing entry
+            if (k.length () > 0 && k == key) {
+                lit->set_value_array (value);
+                return;
+            }
+        }
+
+        // append new entry if no mathced entry exists.
+        lines->insert (last + 1, StyleLine (this, key, value));
+
+    } else {
+        StyleLines &newsec = append_new_section (section);
+
+        // append new entry
+        newsec.push_back (StyleLine (this, key, value));
+    }
+}
+
+void
+StyleFile::set_string_array (String section, String key,
+                             std::vector<WideString> &value)
+{
+    std::vector<String> array;
+    std::vector<WideString>::iterator it;
+    for (it = value.begin (); it != value.end (); it++)
+        array.push_back (utf8_wcstombs (*it));
+    set_string_array (section, key, array);
 }
 
 bool

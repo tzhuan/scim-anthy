@@ -50,7 +50,13 @@ class StyleLine
 {
 public:
     StyleLine (StyleFile  *style_file,
-               const char *line);
+               String      line);
+    StyleLine (StyleFile  *style_file,
+               String      key,
+               String      value);
+    StyleLine (StyleFile  *style_file,
+               String      key,
+               std::vector<String> &value);
     ~StyleLine ();
 
 public:
@@ -103,6 +109,15 @@ public:
     void   set_string            (String         section,
                                   String         key,
                                   String         value);
+    void   set_string            (String         section,
+                                  String         key,
+                                  WideString     value);
+    void   set_string_array      (String         section,
+                                  String         key,
+                                  std::vector<String> &value);
+    void   set_string_array      (String         section,
+                                  String         key,
+                                  std::vector<WideString> &value);
 
     void   delete_key            (String         section,
                                   String         key);
