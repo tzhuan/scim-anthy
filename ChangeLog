@@ -1,5 +1,9 @@
 2005-07-08 Takuro Ashie <ashie@homa.ne.jp>
 
+	* configure.ac: Version-0.5.1 (BRANCH_0_5_0 branch).
+
+2005-07-08 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_setup_romaji.cpp: Use new functions to getting array.
 
 2005-07-08 Takuro Ashie <ashie@homa.ne.jp>
