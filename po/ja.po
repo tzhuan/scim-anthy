@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-07-07 12:50+0900\n"
+"POT-Creation-Date: 2005-07-09 21:33+0900\n"
 "PO-Revision-Date: 2005-07-07 12:51+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -198,7 +198,7 @@ msgstr "全て"
 msgid "Feature"
 msgstr "機能"
 
-#: src/scim_anthy_setup.cpp:731 src/scim_anthy_setup.cpp:1023
+#: src/scim_anthy_setup.cpp:731 src/scim_anthy_setup.cpp:1127
 msgid "Key bindings"
 msgstr "キーバインド"
 
@@ -214,69 +214,75 @@ msgstr "キーバインドテーマ:"
 msgid "_Choose keys..."
 msgstr "キーを設定...(_C)"
 
-#: src/scim_anthy_setup.cpp:815
-msgid "<b>Enable/Disable learning</b>"
-msgstr "<b>学習の有効/無効</b>"
-
-#: src/scim_anthy_setup.cpp:842
-msgid "<b>Key preferences to commit with reversing learning preference</b>"
-msgstr "<b>学習設定とは逆の方法で確定するキーの設定</b>"
-
-#: src/scim_anthy_setup.cpp:887 src/scim_anthy_setup.cpp:900
-msgid "_Launch"
-msgstr "起動(_L)"
-
-#: src/scim_anthy_setup.cpp:1017
-msgid "Common"
-msgstr "一般"
-
-#: src/scim_anthy_setup.cpp:1029
-msgid "Romaji typing"
-msgstr "ローマ字入力"
-
-#: src/scim_anthy_setup.cpp:1035
-msgid "Kana typing"
-msgstr "かな入力"
-
-#: src/scim_anthy_setup.cpp:1041
-msgid "Learning"
-msgstr "学習"
-
-#: src/scim_anthy_setup.cpp:1047
-msgid "Dictionary"
-msgstr "辞書"
-
-#: src/scim_anthy_setup.cpp:1053
-msgid "Candidates window"
-msgstr "候補ウィンドウ"
-
-#: src/scim_anthy_setup.cpp:1059
-msgid "Toolbar"
-msgstr "ツールバー"
-
-#: src/scim_anthy_setup.cpp:1065
-msgid "Appearance"
-msgstr "外観"
-
-#: src/scim_anthy_setup.cpp:1112 src/scim_anthy_setup_romaji.cpp:438
+#: src/scim_anthy_setup.cpp:800 src/scim_anthy_setup.cpp:1216
+#: src/scim_anthy_setup_romaji.cpp:438
 msgid "User defined"
 msgstr "ユーザー定義"
 
-#: src/scim_anthy_setup.cpp:1115 src/scim_anthy_setup_romaji.cpp:442
+#: src/scim_anthy_setup.cpp:804 src/scim_anthy_setup.cpp:1219
+#: src/scim_anthy_setup_romaji.cpp:442
 msgid "Default"
 msgstr "標準設定"
 
-#: src/scim_anthy_setup.cpp:1607
+#: src/scim_anthy_setup.cpp:878
+msgid "Kana _table:"
+msgstr "かなテーブル(_T):"
+
+#: src/scim_anthy_setup.cpp:893 src/scim_anthy_setup_romaji.cpp:126
+msgid "_Customize..."
+msgstr "カスタマイズ...(_C)"
+
+#: src/scim_anthy_setup.cpp:919
+msgid "<b>Enable/Disable learning</b>"
+msgstr "<b>学習の有効/無効</b>"
+
+#: src/scim_anthy_setup.cpp:946
+msgid "<b>Key preferences to commit with reversing learning preference</b>"
+msgstr "<b>学習設定とは逆の方法で確定するキーの設定</b>"
+
+#: src/scim_anthy_setup.cpp:991 src/scim_anthy_setup.cpp:1004
+msgid "_Launch"
+msgstr "起動(_L)"
+
+#: src/scim_anthy_setup.cpp:1121
+msgid "Common"
+msgstr "一般"
+
+#: src/scim_anthy_setup.cpp:1133
+msgid "Romaji typing"
+msgstr "ローマ字入力"
+
+#: src/scim_anthy_setup.cpp:1139
+msgid "Kana typing"
+msgstr "かな入力"
+
+#: src/scim_anthy_setup.cpp:1145
+msgid "Learning"
+msgstr "学習"
+
+#: src/scim_anthy_setup.cpp:1151
+msgid "Dictionary"
+msgstr "辞書"
+
+#: src/scim_anthy_setup.cpp:1157
+msgid "Candidates window"
+msgstr "候補ウィンドウ"
+
+#: src/scim_anthy_setup.cpp:1163
+msgid "Toolbar"
+msgstr "ツールバー"
+
+#: src/scim_anthy_setup.cpp:1169
+msgid "Appearance"
+msgstr "外観"
+
+#: src/scim_anthy_setup.cpp:1711
 msgid "Set key filter"
 msgstr "キ-フィルタ-をセット"
 
 #: src/scim_anthy_setup_romaji.cpp:113 src/scim_anthy_setup_romaji.cpp:251
 msgid "Romaji _table:"
 msgstr "ローマ字テーブル(_T):"
-
-#: src/scim_anthy_setup_romaji.cpp:126
-msgid "_Customize..."
-msgstr "カスタマイズ...(_C)"
 
 #: src/scim_anthy_setup_romaji.cpp:235
 msgid "Customize romaji table"

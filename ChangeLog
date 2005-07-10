@@ -1,3 +1,7 @@
+2005-07-10 Takuro Ashie <ashie@homa.ne.jp>
+
+	* po/ja.po: Update.
+
 2005-07-08 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_style_file.{cpp,h}, src/scim_anthy_setup_romaji.cpp:
