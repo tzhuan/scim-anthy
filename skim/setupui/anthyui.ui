@@ -2,7 +2,7 @@
 <class>AnthySettingUI</class>
 <widget class="QWidget">
     <property name="name">
-        <cstring>ANthySettingUI</cstring>
+        <cstring>AnthySettingUI</cstring>
     </property>
     <property name="geometry">
         <rect>
