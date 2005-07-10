@@ -25,6 +25,7 @@ noinst_HEADERS = \
 	scim_anthy_style_file.h \
 	scim_anthy_setup.h \
 	scim_anthy_setup_romaji.h \
+	scim_anthy_table_editor.h \
 	scim_anthy_utils.h \
 	scim_color_button.h
 
@@ -70,6 +71,7 @@ anthy_imengine_setup_la_SOURCES = \
 	scim_anthy_default_tables.cpp \
 	scim_anthy_prefs.cpp \
 	scim_anthy_utils.cpp \
+	scim_anthy_table_editor.cpp \
 	scim_color_button.cpp
 
 anthy_imengine_setup_la_CFLAGS  = @SCIM_GTKUTILS_CFLAGS@ @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@

@@ -40,6 +40,7 @@ using namespace scim;
 namespace scim_anthy {
 
 #define INDEX_KEY "scim-anthy::Index"
+static const char * const __romaji_fund_table = "RomajiTable/FundamentalTable";
 
 // Internal data declaration.
 static GtkWidget   * __widget_romaji_theme_menu     = NULL;
@@ -449,9 +450,8 @@ setup_romaji_theme_menu (GtkOptionMenu *omenu)
          it != __style_list.end ();
          i++, it++)
     {
-        const char *section_name = "RomajiTable/FundamentalTable";
         StyleLines section;
-        if (!it->get_entry_list (section, section_name))
+        if (!it->get_entry_list (section, __romaji_fund_table))
             continue;
 
         menuitem = gtk_menu_item_new_with_label (_(it->get_title().c_str()));
@@ -502,18 +502,17 @@ setup_romaji_window_value (GtkTreeView *treeview)
 
     gtk_list_store_clear (store);
 
-    const char *section_name = "RomajiTable/FundamentalTable";
     std::vector<String> keys;
-    __user_style_file.get_key_list (keys, section_name);
+    __user_style_file.get_key_list (keys, __romaji_fund_table);
     if (keys.empty ()) {
         load_romaji_theme ();
-        __user_style_file.get_key_list (keys, section_name);
+        __user_style_file.get_key_list (keys, __romaji_fund_table);
     }
 
     std::vector<String>::iterator it;
     for (it = keys.begin (); it != keys.end (); it++) {
         std::vector<WideString> value;
-        __user_style_file.get_string_array (value, section_name, *it);
+        __user_style_file.get_string_array (value, __romaji_fund_table, *it);
         String result, cont;
         if (value.size () > 0) result = utf8_wcstombs(value[0]);
         if (value.size () > 1) cont   = utf8_wcstombs(value[1]);
@@ -530,8 +529,7 @@ setup_romaji_window_value (GtkTreeView *treeview)
 static void
 setup_default_romaji_table ()
 {
-    const char *section = "RomajiTable/FundamentalTable";
-    __user_style_file.delete_section (section);
+    __user_style_file.delete_section (__romaji_fund_table);
     ConvRule *table = scim_anthy_romaji_typing_rule;
     for (unsigned int i = 0; table[i].string; i++) {
         std::vector<String> value;
@@ -539,7 +537,7 @@ setup_default_romaji_table ()
             value.push_back (table[i].result);
         if (table[i].cont && *(table[i].cont))
             value.push_back (table[i].cont);
-        __user_style_file.set_string_array (section,
+        __user_style_file.set_string_array (__romaji_fund_table,
                                             table[i].string,
                                             value);
     }
@@ -560,15 +558,14 @@ load_romaji_theme (void)
     gint theme_idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menuitem),
                                                          INDEX_KEY));
 
-    const char *section = "RomajiTable/FundamentalTable";
-
     // set new romaji table
     if (idx == 0) {
         // User defined table
         __config_romaji_theme = "User defined";
 
         StyleLines lines;
-        bool success = __user_style_file.get_entry_list (lines, section);
+        bool success = __user_style_file.get_entry_list
+                           (lines, __romaji_fund_table);
         if (!success || lines.empty ())
             setup_default_romaji_table ();
 
@@ -584,16 +581,19 @@ load_romaji_theme (void)
     } else if (theme_idx >= 0 && theme_idx < (int) __style_list.size ()) {
         // Tables defined in system theme files
         __config_romaji_theme = __style_list[theme_idx].get_title ();
-        __user_style_file.delete_section (section);
+        __user_style_file.delete_section (__romaji_fund_table);
 
         std::vector<String> keys;
-        bool success = __style_list[theme_idx].get_key_list (keys, section);
+        bool success = __style_list[theme_idx].get_key_list
+                           (keys, __romaji_fund_table);
         if (success) {
             std::vector<String>::iterator it;
             for (it = keys.begin (); it != keys.end (); it++) {
                 std::vector<WideString> value;
-                __style_list[theme_idx].get_string_array (value, section, *it);
-                __user_style_file.set_string_array (section, *it, value);
+                __style_list[theme_idx].get_string_array
+                    (value, __romaji_fund_table, *it);
+                __user_style_file.set_string_array (__romaji_fund_table,
+                                                    *it, value);
             }
         }
         return true;
@@ -645,7 +645,7 @@ add_romaji_entry (GtkTreeView *treeview)
                         1, result,
                         2, "",
                         -1);
-    __user_style_file.set_string ("RomajiTable/FundamentalTable",
+    __user_style_file.set_string (__romaji_fund_table,
                                   sequence, result);
 
     GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
@@ -692,7 +692,7 @@ remove_romaji_entry (GtkTreeView *treeview)
     if (path)
         gtk_tree_path_free (path);
 
-    __user_style_file.delete_key ("RomajiTable/FundamentalTable", sequence);
+    __user_style_file.delete_key (__romaji_fund_table, sequence);
     gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 
     // Changed menu item to "User deined"
