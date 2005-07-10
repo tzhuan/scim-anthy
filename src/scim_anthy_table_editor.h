@@ -48,7 +48,11 @@ struct _ScimAnthyTableEditor
 
 struct _ScimAnthyTableEditorClass
 {
-  GtkDialogClass parent_class;
+    GtkDialogClass parent_class;
+
+    /* -- signals -- */
+    void (*add_entry)    (ScimAnthyTableEditor *editor);
+    void (*remove_entry) (ScimAnthyTableEditor *editor);
 };
 
 

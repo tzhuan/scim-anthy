@@ -27,11 +27,17 @@
 #include <ctype.h>
 #include "scim_anthy_intl.h"
 
-static void     scim_anthy_table_editor_class_init (ScimAnthyTableEditorClass *klass);
-static void     scim_anthy_table_editor_init       (ScimAnthyTableEditor      *object);
+enum {
+    ADD_ENTRY_SIGNAL,
+    REMOVE_ENTRY_SIGNAL,
+    LAST_SIGNAL,
+};
 
-static void add_entry                       (ScimAnthyTableEditor *editor);
-static void remove_entry                    (ScimAnthyTableEditor *editor);
+static void scim_anthy_table_editor_class_init   (ScimAnthyTableEditorClass *klass);
+static void scim_anthy_table_editor_init         (ScimAnthyTableEditor      *object);
+
+static void scim_anthy_table_editor_add_entry    (ScimAnthyTableEditor *editor);
+static void scim_anthy_table_editor_remove_entry (ScimAnthyTableEditor *editor);
 
 static gint compare_sequence_string         (GtkTreeModel     *model,
                                              GtkTreeIter      *a,
@@ -58,6 +64,7 @@ static void on_sequence_entry_insert_text   (GtkEditable      *editable,
                                              gint             *position,
                                              gpointer          data);
 
+static guint editor_signals[LAST_SIGNAL] = { 0 };
 static GtkDialogClass *parent_class = NULL;
 
 GType
@@ -89,12 +96,30 @@ scim_anthy_table_editor_get_type (void)
 static void
 scim_anthy_table_editor_class_init (ScimAnthyTableEditorClass *klass)
 {
-#if 0
-    GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
-    GtkWidgetClass *widget_class     = GTK_WIDGET_CLASS (klass);
-#endif  
+    //GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
+    //GtkWidgetClass *widget_class     = GTK_WIDGET_CLASS (klass);
 
     parent_class = (GtkDialogClass *) g_type_class_peek_parent (klass);
+
+    editor_signals[ADD_ENTRY_SIGNAL] =
+      g_signal_new ("add-entry",
+  		  G_TYPE_FROM_CLASS (klass),
+  		  G_SIGNAL_RUN_LAST,
+  		  G_STRUCT_OFFSET (ScimAnthyTableEditorClass, add_entry),
+  		  NULL, NULL,
+  		  g_cclosure_marshal_VOID__VOID,
+  		  G_TYPE_NONE, 0);
+    editor_signals[REMOVE_ENTRY_SIGNAL] =
+      g_signal_new ("remove-entry",
+  		  G_TYPE_FROM_CLASS (klass),
+  		  G_SIGNAL_RUN_LAST,
+  		  G_STRUCT_OFFSET (ScimAnthyTableEditorClass, remove_entry),
+  		  NULL, NULL,
+  		  g_cclosure_marshal_VOID__VOID,
+  		  G_TYPE_NONE, 0);
+
+    klass->add_entry    = scim_anthy_table_editor_add_entry;
+    klass->remove_entry = scim_anthy_table_editor_remove_entry;
 }
 
 static void
@@ -102,55 +127,16 @@ scim_anthy_table_editor_init (ScimAnthyTableEditor *editor)
 {
     GtkWidget *label;
 
-#if 0
-    GtkWidget *dialog = gtk_dialog_new_with_buttons (
-        _("Customize romaji table"),
-        parent,
-        GTK_DIALOG_DESTROY_WITH_PARENT,
-        GTK_STOCK_CLOSE, GTK_RESPONSE_NONE,
-        NULL);
-#endif
+    gtk_dialog_add_buttons (GTK_DIALOG (editor),
+                            GTK_STOCK_CLOSE, GTK_RESPONSE_NONE,
+                            NULL);
 
     gtk_window_set_default_size (GTK_WINDOW (editor), 350, 250);
     gtk_window_set_position (GTK_WINDOW (editor),
                              GTK_WIN_POS_CENTER_ON_PARENT);
 
-    // option menu area
-    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
-    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), hbox,
-                        FALSE, FALSE, 0);
-    gtk_widget_show(hbox);
-
-#if 0
-    label = gtk_label_new_with_mnemonic (_("Romaji _table:"));
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
-    gtk_widget_show (label);
-
-    GtkWidget *omenu = gtk_option_menu_new ();
-    __widget_romaji_theme_menu2 = omenu;
-    g_object_add_weak_pointer (G_OBJECT (omenu),
-                               (gpointer*) &__widget_romaji_theme_menu2);
-    gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
-    setup_romaji_theme_menu (GTK_OPTION_MENU (omenu));
-    gtk_option_menu_set_history
-        (Gtk_OPTION_MENU (omenu),
-         gtk_option_menu_get_history (
-             GTK_OPTION_MENU (__widget_romaji_theme_menu)));
-    gtk_widget_show (omenu);
-
-    gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
-#endif
-
-#if 0
-    GtkWidget *button = gtk_button_new_with_mnemonic ("Save _as...");
-    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
-    gtk_widget_show (button);
-#endif
-
-
     // edit area
-    hbox = gtk_hbox_new (FALSE, 0);
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), hbox,
                         TRUE, TRUE, 0);
@@ -286,14 +272,6 @@ scim_anthy_table_editor_init (ScimAnthyTableEditor *editor)
     gtk_widget_set_sensitive (button, FALSE);
     gtk_widget_show (button);
 
-    // set data and connect signals
-#if 0
-    setup_romaji_window_value (GTK_TREE_VIEW (treeview));
-    g_signal_connect (G_OBJECT (omenu), "changed",
-                      G_CALLBACK (on_romaji_theme_menu_changed),
-                      treeview);
-#endif
-
     // clearn
     g_object_unref (store);
 }
@@ -307,7 +285,7 @@ scim_anthy_table_editor_new (void)
 
 
 static void
-add_entry (ScimAnthyTableEditor *editor)
+scim_anthy_table_editor_add_entry (ScimAnthyTableEditor *editor)
 {
     GtkTreeView *treeview = GTK_TREE_VIEW (editor->treeview);
     GtkTreeModel *model = gtk_tree_view_get_model (treeview);
@@ -350,22 +328,10 @@ add_entry (ScimAnthyTableEditor *editor)
     GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
     gtk_tree_view_set_cursor (treeview, path, NULL, FALSE);
     gtk_tree_path_free (path);
-
-#if 0
-    // real add
-    __user_style_file.set_string (__romaji_fund_table,
-                                  sequence, result);
-
-    // change menu item to "User defined"
-    gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_romaji_theme_menu2), 0);
-
-    __style_changed = true;
-#endif
 }
 
 static void
-remove_entry (ScimAnthyTableEditor *editor)
+scim_anthy_table_editor_remove_entry (ScimAnthyTableEditor *editor)
 {
     GtkTreeView *treeview = GTK_TREE_VIEW (editor->treeview);
     GtkTreeSelection *selection = gtk_tree_view_get_selection (treeview);
@@ -401,17 +367,6 @@ remove_entry (ScimAnthyTableEditor *editor)
     gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 
     g_free (sequence);
-
-#if 0
-    // real remove
-    __user_style_file.delete_key (__romaji_fund_table, sequence);
-
-    // change menu item to "User deined"
-    gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_romaji_theme_menu2), 0);
-
-    __style_changed = true;
-#endif
 }
 
 static gint
@@ -529,21 +484,21 @@ static void
 on_add_button_clicked (GtkButton *button, gpointer data)
 {
     ScimAnthyTableEditor *editor = SCIM_ANTHY_TABLE_EDITOR (data);
-    add_entry (editor);
+    g_signal_emit (editor, editor_signals[ADD_ENTRY_SIGNAL], 0);
 }
 
 static void
 on_remove_button_clicked (GtkButton *button, gpointer data)
 {
     ScimAnthyTableEditor *editor = SCIM_ANTHY_TABLE_EDITOR (data);
-    remove_entry (editor);
+    g_signal_emit (editor, editor_signals[REMOVE_ENTRY_SIGNAL], 0);
 }
 
 static void
 on_entry_activate (GtkEntry *entry, gpointer data)
 {
     ScimAnthyTableEditor *editor = SCIM_ANTHY_TABLE_EDITOR (data);
-    add_entry (editor);
+    g_signal_emit (editor, editor_signals[ADD_ENTRY_SIGNAL], 0);
 }
 
 static void
