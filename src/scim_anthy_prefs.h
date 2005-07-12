@@ -35,6 +35,8 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER          "/IMEngine/Anthy/RomajiHalfNumber"
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT          "/IMEngine/Anthy/RomajiAllowSplit"
 
+#define SCIM_ANTHY_CONFIG_KANA_THEME                  "/IMEngine/Anthy/RomajiTheme"
+
 #define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT      "/IMEngine/Anthy/LearnOnManualCommit"
 #define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT        "/IMEngine/Anthy/LearnOnAutoCommit"
 
@@ -136,6 +138,8 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT          true
+
+#define SCIM_ANTHY_CONFIG_KANA_THEME_DEFAULT                  "Default"
 
 #define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT      true
 #define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT        true
