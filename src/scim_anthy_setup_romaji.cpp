@@ -254,8 +254,7 @@ setup_romaji_theme_menu (GtkOptionMenu *omenu)
              i++, node = g_list_next (node))
         {
             gint idx = GPOINTER_TO_INT (
-                g_object_get_data (G_OBJECT (node->data),
-                                   INDEX_KEY));
+                g_object_get_data (G_OBJECT (node->data), INDEX_KEY));
             if (__style_list[idx].get_title () == __config_romaji_theme) {
                 gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
                 break;
