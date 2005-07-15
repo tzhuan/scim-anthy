@@ -488,7 +488,7 @@ StyleFile::set_string (String section, String key, String value)
         for (lit = last; lit != lines->end (); lit++) {
             StyleLineType type = lit->get_type ();
             if (type != SCIM_ANTHY_STYLE_LINE_SPACE)
-                last = lit;
+                last = lit + 1;
 
             String k;
             lit->get_key (k);
@@ -501,7 +501,7 @@ StyleFile::set_string (String section, String key, String value)
         }
 
         // append new entry if no mathced entry exists.
-        lines->insert (last + 1, StyleLine (this, key, value));
+        lines->insert (last, StyleLine (this, key, value));
 
     } else {
         StyleLines &newsec = append_new_section (section);
