@@ -479,33 +479,32 @@ AnthyFactory::reload_config (const ConfigPointer &config)
 
 
     // load custom style
-    String user_style_file = scim_get_home_dir ();
-    user_style_file +=
-        SCIM_PATH_DELIM_STRING
-        ".scim"
-        SCIM_PATH_DELIM_STRING
-        "Anthy"
-        SCIM_PATH_DELIM_STRING
-        "config.sty";
-    bool loaded = m_style.load (user_style_file.c_str ());
+    StyleFile style;
+    String file;
 
     // load custom romaji table
     const char *section_romaji = "RomajiTable/FundamentalTable";
+    file = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE),
+                         String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE_DEFAULT));
     if (m_custom_romaji_table) {
         delete m_custom_romaji_table;
         m_custom_romaji_table = NULL;
     }
-    if (loaded)
-        m_custom_romaji_table = m_style.get_key2kana_table (section_romaji);
+    if (style.load (file.c_str ())) {
+        m_custom_romaji_table = style.get_key2kana_table (section_romaji);
+    }
 
     // load custom kana table
     const char *section_kana = "KanaTable/FundamentalTable";
+    file = config->read (String (SCIM_ANTHY_CONFIG_KANA_THEME_FILE),
+                         String (SCIM_ANTHY_CONFIG_KANA_THEME_FILE_DEFAULT));
     if (m_custom_kana_table) {
         delete m_custom_kana_table;
         m_custom_kana_table = NULL;
     }
-    if (loaded)
-        m_custom_kana_table = m_style.get_key2kana_table (section_kana);
+    if (style.load (file.c_str ())) {
+        m_custom_kana_table = style.get_key2kana_table (section_kana);
+    }
 
 
     // reload config for all instance

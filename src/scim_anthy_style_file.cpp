@@ -397,6 +397,12 @@ StyleFile::get_title (void)
     return m_title;
 }
 
+String
+StyleFile::get_file_name (void)
+{
+    return m_filename;
+}
+
 bool
 StyleFile::get_string (String &value, String section, String key)
 {

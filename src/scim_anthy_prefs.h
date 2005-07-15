@@ -31,11 +31,13 @@
 #define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD          "/IMEngine/Anthy/BehaviorOnPeriod"
 
 #define SCIM_ANTHY_CONFIG_ROMAJI_THEME                "/IMEngine/Anthy/RomajiTheme"
+#define SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE           "/IMEngine/Anthy/RomajiThemeFile"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL          "/IMEngine/Anthy/RomajiHalfSymbol"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER          "/IMEngine/Anthy/RomajiHalfNumber"
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT          "/IMEngine/Anthy/RomajiAllowSplit"
 
-#define SCIM_ANTHY_CONFIG_KANA_THEME                  "/IMEngine/Anthy/RomajiTheme"
+#define SCIM_ANTHY_CONFIG_KANA_THEME                  "/IMEngine/Anthy/KanaTheme"
+#define SCIM_ANTHY_CONFIG_KANA_THEME_FILE             "/IMEngine/Anthy/KanaThemeFile"
 
 #define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT      "/IMEngine/Anthy/LearnOnManualCommit"
 #define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT        "/IMEngine/Anthy/LearnOnAutoCommit"
@@ -44,6 +46,7 @@
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND            "/IMEngine/Anthy/AddWordCommand"
 
 #define SCIM_ANTHY_CONFIG_COLOR_THEME                 "/IMEngine/Anthy/ColorTheme"
+#define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE            "/IMEngine/Anthy/ColorThemeFile"
 
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
 
@@ -56,6 +59,7 @@
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL         "/IMEngine/Anthy/ShowAddWordLabel"
 
 #define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme"
+#define SCIM_ANTHY_CONFIG_KEY_THEME_FILE              "/IMEngine/Anthy/KeyThemeFile"
 
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY              "/IMEngine/Anthy/LatinModeKey"
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY         "/IMEngine/Anthy/WideLatinModeKey"
@@ -135,11 +139,13 @@
 #define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT          "None"
 
 #define SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT                "Default"
+#define SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE_DEFAULT           ""
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT          true
 
 #define SCIM_ANTHY_CONFIG_KANA_THEME_DEFAULT                  "Default"
+#define SCIM_ANTHY_CONFIG_KANA_THEME_FILE_DEFAULT             ""
 
 #define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT      true
 #define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT        true
@@ -148,6 +154,7 @@
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT            "kasumi --add"
 
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
+#define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE_DEFAULT            ""
 
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    true
 
@@ -160,6 +167,7 @@
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT         true
 
 #define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default"
+#define SCIM_ANTHY_CONFIG_KEY_THEME_FILE_DEFAULT              ""
 
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
 #define SCIM_ANTHY_CONFIG_WIDE_LATIN_MODE_KEY_DEFAULT         ""

@@ -47,7 +47,8 @@ static const char * const __romaji_fund_table = "RomajiTable/FundamentalTable";
 static GtkWidget   * __widget_romaji_theme_menu     = NULL;
 static GtkWidget   * __widget_romaji_theme_menu2    = NULL;
 
-static String __config_romaji_theme = SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT;
+static String __config_romaji_theme      = SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT;
+static String __config_romaji_theme_file = SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE_DEFAULT;
 
 
 static GtkWidget *create_romaji_window            (GtkWindow            *parent);
@@ -64,7 +65,11 @@ static void     on_romaji_customize_button_clicked(GtkWidget            *button,
                                                    gpointer              data);
 static void     on_table_editor_add_entry         (ScimAnthyTableEditor *editor,
                                                    gpointer              data);
+static void     on_table_editor_added_entry       (ScimAnthyTableEditor *editor,
+                                                   gpointer              data);
 static void     on_table_editor_remove_entry      (ScimAnthyTableEditor *editor,
+                                                   gpointer              data);
+static void     on_table_editor_removed_entry     (ScimAnthyTableEditor *editor,
                                                    gpointer              data);
 
 GtkWidget *
@@ -123,6 +128,9 @@ romaji_page_load_config (const ConfigPointer &config)
     __config_romaji_theme
         = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME),
                         String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT));
+    __config_romaji_theme_file
+        = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE),
+                        String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE_DEFAULT));
     setup_romaji_page ();
 }
 
@@ -132,6 +140,9 @@ romaji_page_save_config (const ConfigPointer &config)
     __config_romaji_theme
         = config->write (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME),
                          String (__config_romaji_theme));
+    __config_romaji_theme_file
+        = config->write (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE),
+                         String (__config_romaji_theme_file));
 }
 
 bool
@@ -187,11 +198,17 @@ create_romaji_window (GtkWindow *parent)
     g_signal_connect (G_OBJECT (omenu), "changed",
                       G_CALLBACK (on_romaji_theme_menu_changed),
                       dialog);
+    g_signal_connect (G_OBJECT (dialog), "add-entry",
+                      G_CALLBACK (on_table_editor_add_entry),
+                      NULL);
+    g_signal_connect (G_OBJECT (dialog), "remove-entry",
+                      G_CALLBACK (on_table_editor_remove_entry),
+                      NULL);
     g_signal_connect_after (G_OBJECT (dialog), "add-entry",
-                            G_CALLBACK (on_table_editor_add_entry),
+                            G_CALLBACK (on_table_editor_added_entry),
                             NULL);
     g_signal_connect_after (G_OBJECT (dialog), "remove-entry",
-                            G_CALLBACK (on_table_editor_remove_entry),
+                            G_CALLBACK (on_table_editor_removed_entry),
                             NULL);
 
     return dialog;
@@ -244,7 +261,7 @@ setup_romaji_theme_menu (GtkOptionMenu *omenu)
 
     gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
 
-    if (__config_romaji_theme == "User defined") {
+    if (__config_romaji_theme_file == __user_style_file.get_file_name ()) {
         gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
 
     } else {
@@ -255,7 +272,7 @@ setup_romaji_theme_menu (GtkOptionMenu *omenu)
         {
             gint idx = GPOINTER_TO_INT (
                 g_object_get_data (G_OBJECT (node->data), INDEX_KEY));
-            if (__style_list[idx].get_title () == __config_romaji_theme) {
+            if (__style_list[idx].get_file_name () == __config_romaji_theme_file) {
                 gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
                 break;
             }
@@ -341,7 +358,7 @@ load_romaji_theme (void)
     // set new romaji table
     if (idx == 0) {
         // User defined table
-        __config_romaji_theme = "User defined";
+        __config_romaji_theme_file = __user_style_file.get_file_name ();
         StyleLines lines;
         bool success = __user_style_file.get_entry_list
                            (lines, __romaji_fund_table);
@@ -352,14 +369,14 @@ load_romaji_theme (void)
 
     } else if (idx == 1) {
         // Default table
-        __config_romaji_theme = "Default";
+        __config_romaji_theme_file = "";
         setup_default_romaji_table ();
 
         return true;
 
     } else if (theme_idx >= 0 && theme_idx < (int) __style_list.size ()) {
         // Tables defined in system theme files
-        __config_romaji_theme = __style_list[theme_idx].get_title ();
+        __config_romaji_theme_file = __style_list[theme_idx].get_file_name ();
         __user_style_file.delete_section (__romaji_fund_table);
 
         std::vector<String> keys;
@@ -433,7 +450,11 @@ on_table_editor_add_entry (ScimAnthyTableEditor *editor, gpointer data)
 
     // real add
     __user_style_file.set_string (__romaji_fund_table, sequence, result);
+}
 
+static void
+on_table_editor_added_entry (ScimAnthyTableEditor *editor, gpointer data)
+{
     // change menu item to "User defined"
     gtk_option_menu_set_history (
         GTK_OPTION_MENU (__widget_romaji_theme_menu2), 0);
@@ -450,6 +471,12 @@ on_table_editor_remove_entry (ScimAnthyTableEditor *editor, gpointer data)
     // real remove
     __user_style_file.delete_key (__romaji_fund_table, sequence);
 
+    __style_changed = true;
+}
+
+static void
+on_table_editor_removed_entry (ScimAnthyTableEditor *editor, gpointer data)
+{
     // change menu item to "User deined"
     gtk_option_menu_set_history (
         GTK_OPTION_MENU (__widget_romaji_theme_menu2), 0);

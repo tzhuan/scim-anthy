@@ -87,6 +87,7 @@ public:
 
     String get_encoding          (void);
     String get_title             (void);
+    String get_file_name         (void);
 
     bool   get_section_list      (StyleSections &sections);
     bool   get_entry_list        (StyleLines    &lines,

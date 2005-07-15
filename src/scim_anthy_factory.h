@@ -73,7 +73,6 @@ class AnthyFactory : public IMEngineFactoryBase
     unsigned int  m_preedit_fg_color;
     unsigned int  m_preedit_bg_color;
 
-    StyleFile     m_style;
     Key2KanaTable *m_custom_romaji_table;
     Key2KanaTable *m_custom_kana_table;
 
