@@ -46,7 +46,7 @@ static Key2KanaTable wide_symbol_table (
 // numbers
 static Key2KanaTable half_number_table (
     utf8_mbstowcs ("DefaultRomajiHalfNumberTable"),
-    scim_anthy_romaji_wide_number_rule);
+    scim_anthy_romaji_half_number_rule);
 static Key2KanaTable wide_number_table (
     utf8_mbstowcs ("DefaultRomajiWideNumberTable"),
     scim_anthy_romaji_wide_number_rule);
@@ -214,6 +214,20 @@ Key2KanaTableSet::reset_tables (void)
     bool is_romaji = m_typing_method == SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     bool is_kana   = m_typing_method == SCIM_ANTHY_TYPING_METHOD_KANA;
 
+    if (is_romaji) {
+        // symbols table
+        if (m_use_half_symbol)
+            m_all_tables.push_back (&half_symbol_table);
+        else
+            m_all_tables.push_back (&wide_symbol_table);
+
+        // numbers table
+        if (m_use_half_number)
+            m_all_tables.push_back (&half_number_table);
+        else
+            m_all_tables.push_back (&wide_number_table);
+    }
+
     if (is_romaji || is_kana)
     {
         switch (m_period_style) {
@@ -264,20 +278,6 @@ Key2KanaTableSet::reset_tables (void)
         default:
             break;
         }
-    }
-
-    if (is_romaji) {
-        // symbols table
-        if (m_use_half_symbol)
-            m_all_tables.push_back (&half_symbol_table);
-        else
-            m_all_tables.push_back (&wide_symbol_table);
-
-        // numbers table
-        if (m_use_half_number)
-            m_all_tables.push_back (&half_number_table);
-        else
-            m_all_tables.push_back (&wide_number_table);
     }
 
     if (!m_fundamental_table) {
