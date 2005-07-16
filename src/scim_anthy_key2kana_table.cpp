@@ -283,8 +283,8 @@ Key2KanaTableSet::reset_tables (void)
             m_all_tables.push_back (&romaji_double_consonant_table);
             m_all_tables.push_back (&romaji_table);
         } else if (is_kana) {
-            m_all_tables.push_back (&kana_table);
             m_all_tables.push_back (&kana_voiced_consonant_table);
+            m_all_tables.push_back (&kana_table);
         }
     } else {
 #if 0
