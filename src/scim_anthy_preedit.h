@@ -103,6 +103,10 @@ public:
     // preference
     virtual void          set_input_mode         (InputMode mode);
     virtual InputMode     get_input_mode         (void);
+    virtual void          set_typing_method      (TypingMethod method,
+                                                  Key2KanaTable *fund_table
+                                                  = NULL);
+    virtual TypingMethod  get_typing_method      (void);
     virtual void          set_ten_key_type       (TenKeyType type);
     virtual TenKeyType    get_ten_key_type       (void);
     virtual void          set_behavior_on_period (BehaviorOnPeriod behavior);

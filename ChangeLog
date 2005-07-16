@@ -1,3 +1,30 @@
+2005-07-16 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.ac: Version-0.5.2.
+
+2005-07-16 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_default_tables.cpp, src/scim_anthy_key2kana_table.cpp:
+	The bug that preferences for period, comma and width of numbers aren't
+	applied correctly has been fixed.
+
+2005-07-08 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.ac: Version-0.5.1.
+
+2005-07-07 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine.cpp, src/scim_anthy_preedit.{cpp,h}:
+	Revive set_typing_method() and get_typing_method() of Preedit class.
+	Set Key2KanaConvertor as case sensitive when switch typing method to
+	kana typing mode.
+
+2005-07-03 Takuro Ashie <ashie@homa.ne.jp>
+
+	* data/atok.sty: Fixed typo.
+	  src/scim_anthy_factory: Raise priority of PageUp and PageDown.
+	  Thanks AWASHIRO ikuya.
+
 2005-06-29 Takuro Ashie <ashie@homa.ne.jp>
 
 	* configure.ac: Version-0.5.0.

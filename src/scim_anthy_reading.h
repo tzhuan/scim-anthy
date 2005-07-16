@@ -109,8 +109,13 @@ public:
     void         move_caret            (int          step,
                                         bool         allow_split = false);
 
-    void         set_ten_key_type      (TenKeyType type);
+    void         set_ten_key_type      (TenKeyType   type);
     TenKeyType   get_ten_key_type      (void);
+
+    void         set_typing_method     (TypingMethod   method,
+                                        Key2KanaTable *fundamental_table
+                                        = NULL);
+    TypingMethod get_typing_method     (void);
 
 private:
     bool         append_str            (const String & str);
