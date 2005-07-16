@@ -1,3 +1,8 @@
+Overview of Changes from scim-anthy-0.5.1 to scim-anthy-0.5.2
+=============================================================
+* The bug that preferences of period, comma and width of numbers aren't
+  applied correctly has been fixed.
+
 Overview of Changes from scim-anthy-0.5.0 to scim-anthy-0.5.1
 =============================================================
 * The bug that some letters cannot be typed correctly on kana typing mode has
