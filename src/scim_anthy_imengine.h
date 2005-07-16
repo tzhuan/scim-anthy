@@ -145,6 +145,7 @@ private:
 
     /* utility */
     void   set_preedition                     (void);
+    void   set_lookup_table                   (void);
     void   install_properties                 (void);
     void   set_input_mode                     (InputMode      mode);
     void   set_conversion_mode                (ConversionMode mode);
@@ -174,6 +175,7 @@ private:
     /* for candidates window */
     CommonLookupTable     m_lookup_table;
     bool                  m_lookup_table_visible;
+    unsigned int          m_n_conv_key_pressed;
 
     /* for toggling latin and wide latin */
     InputMode             m_prev_input_mode;

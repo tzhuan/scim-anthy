@@ -403,6 +403,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         // clear old actions
         m_actions.clear ();
 
+        // convert key
+        APPEND_ACTION (CONVERT,                 action_convert);
+
         // candidates keys
         APPEND_ACTION (CANDIDATES_PAGE_UP,      action_candidates_page_up);
         APPEND_ACTION (CANDIDATES_PAGE_DOWN,    action_candidates_page_down);
@@ -435,7 +438,7 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         APPEND_ACTION (COMMIT_SELECTED_SEGMENT_REVERSE_LEARN,
                        action_commit_selected_segment_reverse_preference);
 
-        // convert keys
+        // direct convert keys
         APPEND_ACTION (CONV_TO_HIRAGANA,        action_convert_to_hiragana);
         APPEND_ACTION (CONV_TO_KATAKANA,        action_convert_to_katakana);
         APPEND_ACTION (CONV_TO_HALF,            action_convert_to_half);
@@ -454,7 +457,7 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         APPEND_ACTION (DELETE,                  action_delete);
         APPEND_ACTION (COMMIT,                  action_commit_follow_preference);
         APPEND_ACTION (COMMIT_REVERSE_LEARN,    action_commit_reverse_preference);
-        APPEND_ACTION (CONVERT,                 action_convert);
+        //APPEND_ACTION (CONVERT,                 action_convert);
         APPEND_ACTION (CANCEL,                  action_revert);
         APPEND_ACTION (INSERT_SPACE,            action_insert_space);
         APPEND_ACTION (INSERT_ALT_SPACE,        action_insert_alternative_space);

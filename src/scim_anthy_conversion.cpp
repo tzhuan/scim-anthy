@@ -584,6 +584,8 @@ Conversion::get_candidates (CommonLookupTable &table, int segment_id)
 
         free (buf);
     }
+
+    table.set_cursor_pos (get_selected_candidate ());
 }
 
 int

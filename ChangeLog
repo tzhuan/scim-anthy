@@ -1,5 +1,12 @@
 2005-07-16 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_conversion.cpp: Set initial cursor position of lookup
+	table.
+	* src/scim_anthy_factory.cpp, src/scim_anthy_imengine.{cpp,h}:
+	Count the number of times on which the convertion key was pressed.
+
+2005-07-16 Takuro Ashie <ashie@homa.ne.jp>
+
 	* data/Makefile.am, data/azik.sty: Add AZIK extended romaji table.
 
 2005-07-16 Takuro Ashie <ashie@homa.ne.jp>
