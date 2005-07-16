@@ -54,6 +54,7 @@ class AnthyFactory : public IMEngineFactoryBase
     String        m_ten_key_type;
     String        m_behavior_on_period;
     bool          m_close_cand_win_on_select;
+    int           m_n_triggers_to_show_cand_win;
     bool          m_learn_on_manual_commit;
     bool          m_learn_on_auto_commit;
     bool          m_romaji_half_symbol;

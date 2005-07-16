@@ -102,32 +102,33 @@ extern "C" {
 AnthyFactory::AnthyFactory (const String &lang,
                             const String &uuid,
                             const ConfigPointer &config)
-    : m_uuid                     (uuid),
-      m_config                   (config),
-      m_input_mode               (SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT),
-      m_typing_method            (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
-      m_conversion_mode          (SCIM_ANTHY_CONFIG_CONVERSION_MODE_DEFAULT),
-      m_period_style             (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
-      m_space_type               (SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT),
-      m_ten_key_type             (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
-      m_behavior_on_period       (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT),
-      m_close_cand_win_on_select (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT),
-      m_learn_on_manual_commit   (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT),
-      m_learn_on_auto_commit     (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT),
-      m_romaji_half_symbol       (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT),
-      m_romaji_half_number       (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT),
-      m_romaji_allow_split       (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT),
-      m_dict_admin_command       (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
-      m_add_word_command         (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
-      m_show_input_mode_label    (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
-      m_show_conv_mode_label     (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
-      m_show_typing_method_label (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT),
-      m_show_period_style_label  (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT),
-      m_show_dict_label          (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT),
-      m_show_dict_admin_label    (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT),
-      m_show_add_word_label      (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT),
-      m_custom_romaji_table      (NULL),
-      m_custom_kana_table        (NULL)
+    : m_uuid                        (uuid),
+      m_config                      (config),
+      m_input_mode                  (SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT),
+      m_typing_method               (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
+      m_conversion_mode             (SCIM_ANTHY_CONFIG_CONVERSION_MODE_DEFAULT),
+      m_period_style                (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
+      m_space_type                  (SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT),
+      m_ten_key_type                (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
+      m_behavior_on_period          (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT),
+      m_close_cand_win_on_select    (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT),
+      m_n_triggers_to_show_cand_win (SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN_DEFAULT),
+      m_learn_on_manual_commit      (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT),
+      m_learn_on_auto_commit        (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT),
+      m_romaji_half_symbol          (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT),
+      m_romaji_half_number          (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT),
+      m_romaji_allow_split          (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT),
+      m_dict_admin_command          (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
+      m_add_word_command            (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
+      m_show_input_mode_label       (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
+      m_show_conv_mode_label        (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
+      m_show_typing_method_label    (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT),
+      m_show_period_style_label     (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL_DEFAULT),
+      m_show_dict_label             (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT),
+      m_show_dict_admin_label       (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT),
+      m_show_add_word_label         (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT),
+      m_custom_romaji_table         (NULL),
+      m_custom_kana_table           (NULL)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Factory :\n";
     SCIM_DEBUG_IMENGINE(1) << "  Lang : " << lang << "\n";
@@ -339,6 +340,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_close_cand_win_on_select
             = config->read (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
                             m_close_cand_win_on_select);
+        m_n_triggers_to_show_cand_win
+            = config->read (SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN,
+                            m_n_triggers_to_show_cand_win);
         m_learn_on_manual_commit
             = config->read (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT,
                             m_learn_on_manual_commit);

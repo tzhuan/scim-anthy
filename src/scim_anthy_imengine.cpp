@@ -363,7 +363,9 @@ AnthyInstance::set_lookup_table (void)
 
     }
 
-    if (!m_lookup_table_visible && m_n_conv_key_pressed >= 2) {
+    if (!m_lookup_table_visible &&
+        (int) m_n_conv_key_pressed >= m_factory->m_n_triggers_to_show_cand_win)
+    {
         show_lookup_table ();
         m_lookup_table_visible = true;
         m_n_conv_key_pressed = 0;
