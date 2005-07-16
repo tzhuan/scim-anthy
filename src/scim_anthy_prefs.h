@@ -262,6 +262,19 @@ struct BoolConfigData
     bool        changed;
 };
 
+struct IntConfigData
+{
+    const char *key;
+    int         value;
+    int         default_value;
+    int         min, max, step;
+    const char *label;
+    const char *title;
+    const char *tooltip;
+    void       *widget;
+    bool        changed;
+};
+
 struct StringConfigData
 {
     const char *key;
@@ -290,6 +303,7 @@ struct ColorConfigData
 };
 
 extern BoolConfigData   config_bool_common [];
+extern IntConfigData    config_int_common [];
 extern StringConfigData config_string_common [];
 extern StringConfigData config_keyboards_edit [];
 extern StringConfigData config_keyboards_caret [];

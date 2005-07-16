@@ -260,6 +260,8 @@ static void     on_default_editable_changed       (GtkEditable      *editable,
                                                    gpointer          user_data);
 static void     on_default_toggle_button_toggled  (GtkToggleButton  *togglebutton,
                                                    gpointer          user_data);
+static void     on_default_spin_button_changed    (GtkSpinButton    *spinbutton,
+                                                   gpointer          user_data);
 static void     on_default_key_selection_clicked  (GtkButton        *button,
                                                    gpointer          user_data);
 static void     on_default_combo_changed          (GtkEditable      *editable,
@@ -296,6 +298,21 @@ find_bool_config_entry (const char *config_key)
 
     for (unsigned int i = 0; config_bool_common[i].key; i++) {
         BoolConfigData *entry = &config_bool_common[i];
+        if (entry->key && !strcmp (entry->key, config_key))
+            return entry;
+    }
+
+    return NULL;
+}
+
+static IntConfigData *
+find_int_config_entry (const char *config_key)
+{
+    if (!config_key)
+        return NULL;
+
+    for (unsigned int i = 0; config_int_common[i].key; i++) {
+        IntConfigData *entry = &config_int_common[i];
         if (entry->key && !strcmp (entry->key, config_key))
             return entry;
     }
@@ -380,6 +397,39 @@ create_check_button (const char *config_key)
                               _(entry->tooltip), NULL);
 
     return GTK_WIDGET (entry->widget);
+}
+
+GtkWidget *
+create_spin_button (const char *config_key)
+{
+    IntConfigData *entry = find_int_config_entry (config_key);
+    if (!entry)
+        return NULL;
+
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    gtk_widget_show (hbox);
+
+    GtkWidget *label = gtk_label_new_with_mnemonic (entry->label);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (GTK_WIDGET (label));
+
+    entry->widget = gtk_spin_button_new_with_range (entry->min, entry->max,
+                                                    entry->step);
+    gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (entry->widget),
+                        FALSE, FALSE, 2);
+    g_signal_connect (G_OBJECT (entry->widget), "value-changed",
+                      G_CALLBACK (on_default_spin_button_changed),
+                      entry);
+    gtk_widget_show (GTK_WIDGET (entry->widget));
+
+    if (!__widget_tooltips)
+        __widget_tooltips = gtk_tooltips_new();
+    if (entry->tooltip)
+        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
+                              _(entry->tooltip), NULL);
+
+    return hbox;
 }
 
 static void
@@ -911,6 +961,10 @@ create_candidates_window_page (void)
     widget = create_check_button (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
+    /* number of triggers until show candidates window */
+    widget = create_spin_button (SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
     return vbox;
 }
 
@@ -1164,6 +1218,13 @@ setup_widget_value (void)
                                           entry.value);
     }
 
+    for (unsigned int i = 0; config_int_common[i].key; i++) {
+        IntConfigData &entry = config_int_common[i];
+        if (entry.widget)
+            gtk_spin_button_set_value (GTK_SPIN_BUTTON (entry.widget),
+                                       entry.value);
+    }
+
     for (unsigned int i = 0; config_string_common[i].key; i++) {
         StringConfigData &entry = config_string_common[i];
         if (entry.widget && GTK_IS_COMBO (entry.widget))
@@ -1267,6 +1328,11 @@ load_config (const ConfigPointer &config)
         entry.value = config->read (String (entry.key), entry.value);
     }
 
+    for (unsigned int i = 0; config_int_common[i].key; i++) {
+        IntConfigData &entry = config_int_common[i];
+        entry.value = config->read (String (entry.key), entry.value);
+    }
+
     for (unsigned int i = 0; config_string_common[i].key; i++) {
         StringConfigData &entry = config_string_common[i];
         entry.value = config->read (String (entry.key), entry.value);
@@ -1299,6 +1365,9 @@ load_config (const ConfigPointer &config)
     for (unsigned int i = 0; config_bool_common[i].key; i++)
         config_bool_common[i].changed = false;
 
+    for (unsigned int i = 0; config_int_common[i].key; i++)
+        config_int_common[i].changed = false;
+
     for (unsigned int i = 0; config_string_common[i].key; i++)
         config_string_common[i].changed = false;
 
@@ -1328,6 +1397,13 @@ save_config (const ConfigPointer &config)
 
     for (unsigned int i = 0; config_bool_common[i].key; i++) {
         BoolConfigData &entry = config_bool_common[i];
+        if (entry.changed)
+            entry.value = config->write (String (entry.key), entry.value);
+        entry.changed = false;
+    }
+
+    for (unsigned int i = 0; config_int_common[i].key; i++) {
+        IntConfigData &entry = config_int_common[i];
         if (entry.changed)
             entry.value = config->write (String (entry.key), entry.value);
         entry.changed = false;
@@ -1396,6 +1472,18 @@ on_default_toggle_button_toggled (GtkToggleButton *togglebutton,
 
     if (entry) {
         entry->value = gtk_toggle_button_get_active (togglebutton);
+        entry->changed = true;
+        __config_changed = true;
+    }
+}
+
+static void
+on_default_spin_button_changed (GtkSpinButton *spinbutton, gpointer user_data)
+{
+    IntConfigData *entry = static_cast<IntConfigData*> (user_data);
+
+    if (entry) {
+        entry->value = static_cast<int> (gtk_spin_button_get_value (spinbutton));
         entry->changed = true;
         __config_changed = true;
     }

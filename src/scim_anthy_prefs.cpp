@@ -168,6 +168,33 @@ BoolConfigData config_bool_common [] =
     },
 };
 
+IntConfigData config_int_common [] =
+{
+    {
+        SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN,
+        SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN_DEFAULT,
+        SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN_DEFAULT,
+        0, 100, 1,
+        N_("Number of times to press a key until show lookup table:"),
+        NULL,
+        N_("Number of times to press a conversion key until show lookup table."
+           "Specify 0 to never show it."),
+        NULL,
+        false,
+    },
+    {
+        NULL,
+        0,
+        0,
+        0, 0, 0,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+};
+
 StringConfigData config_string_common [] =
 {
     {

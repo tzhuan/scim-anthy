@@ -1,5 +1,10 @@
 2005-07-16 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_prefs.{cpp,h}, src/scim_anthy_setup.cpp:
+	Added a widget to set the previous added preference.
+
+2005-07-16 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_factory.{cpp,h}, src/scim_anthy_imengine.cpp:
 	  src/scim_anthy_prefs.h:
 	Add a preference to set number of triggers to show lookup table.
