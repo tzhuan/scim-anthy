@@ -55,10 +55,10 @@ extern ConvRule scim_anthy_kana_typing_rule[];
 extern ConvRule scim_anthy_kana_voiced_consonant_rule[];
 
 // symbol & number
-extern ConvRule scim_anthy_romaji_half_symbol_rule[];
-extern ConvRule scim_anthy_romaji_wide_symbol_rule[];
-extern ConvRule scim_anthy_romaji_half_number_rule[];
-extern ConvRule scim_anthy_romaji_wide_number_rule[];
+extern ConvRule scim_anthy_half_symbol_rule[];
+extern ConvRule scim_anthy_wide_symbol_rule[];
+extern ConvRule scim_anthy_half_number_rule[];
+extern ConvRule scim_anthy_wide_number_rule[];
 
 // period table
 extern ConvRule scim_anthy_romaji_ja_period_rule[];

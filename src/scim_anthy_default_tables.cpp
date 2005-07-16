@@ -257,7 +257,7 @@ ConvRule scim_anthy_romaji_double_consonant_rule[] = {
 {NULL,  NULL,   NULL},
 };
 
-ConvRule scim_anthy_romaji_half_symbol_rule[] = {
+ConvRule scim_anthy_half_symbol_rule[] = {
 {",",	",",	""},
 {".",	".",	""},
 {"!",	"!",	""},
@@ -270,6 +270,7 @@ ConvRule scim_anthy_romaji_half_symbol_rule[] = {
 {"(",	"(",	""},
 {")",	")",	""},
 {"~",	"~",	""},
+{"-",	"-",	""},
 {"=",	"=",	""},
 {"^",	"^",	""},
 {"\\",	"\\",	""},
@@ -292,7 +293,7 @@ ConvRule scim_anthy_romaji_half_symbol_rule[] = {
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romaji_wide_symbol_rule[] = {
+ConvRule scim_anthy_wide_symbol_rule[] = {
 {",",	"、",	""},
 {".",	"。",	""},
 {"!",	"！",	""},
@@ -305,6 +306,7 @@ ConvRule scim_anthy_romaji_wide_symbol_rule[] = {
 {"(",	"（",	""},
 {")",	"）",	""},
 {"~",	"〜",	""},
+{"-",	"ー",	""},
 {"=",	"＝",	""},
 {"^",	"＾",	""},
 {"\\",	"＼",	""},
@@ -327,7 +329,7 @@ ConvRule scim_anthy_romaji_wide_symbol_rule[] = {
 {NULL,	NULL,	NULL},
 };
 
-ConvRule scim_anthy_romaji_half_number_rule[] = {
+ConvRule scim_anthy_half_number_rule[] = {
 {"1", "1", ""},
 {"2", "2", ""},
 {"3", "3", ""},
@@ -342,7 +344,7 @@ ConvRule scim_anthy_romaji_half_number_rule[] = {
 };
 
 
-ConvRule scim_anthy_romaji_wide_number_rule[] = {
+ConvRule scim_anthy_wide_number_rule[] = {
 {"1", "１", ""},
 {"2", "２", ""},
 {"3", "３", ""},
