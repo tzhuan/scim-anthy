@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-07-17 09:51+0900\n"
-"PO-Revision-Date: 2005-07-17 09:51+0900\n"
+"POT-Creation-Date: 2005-07-17 19:34+0900\n"
+"PO-Revision-Date: 2005-07-17 19:38+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -182,93 +182,93 @@ msgstr "変換を開始する"
 msgid "Commit"
 msgstr "確定"
 
-#: src/scim_anthy_setup.cpp:707
+#: src/scim_anthy_setup.cpp:709
 msgid "_Group:"
 msgstr "グループ(_G):"
 
-#: src/scim_anthy_setup.cpp:728
+#: src/scim_anthy_setup.cpp:730
 msgid "Search by key"
 msgstr "キーで検索"
 
-#: src/scim_anthy_setup.cpp:732
+#: src/scim_anthy_setup.cpp:734
 msgid "all"
 msgstr "全て"
 
-#: src/scim_anthy_setup.cpp:775
+#: src/scim_anthy_setup.cpp:777
 msgid "Feature"
 msgstr "機能"
 
-#: src/scim_anthy_setup.cpp:784 src/scim_anthy_setup.cpp:1077
+#: src/scim_anthy_setup.cpp:786 src/scim_anthy_setup.cpp:1079
 msgid "Key bindings"
 msgstr "キーバインド"
 
-#: src/scim_anthy_setup.cpp:792
+#: src/scim_anthy_setup.cpp:794
 msgid "Description"
 msgstr "説明"
 
-#: src/scim_anthy_setup.cpp:816
+#: src/scim_anthy_setup.cpp:818
 msgid "Key bindings _theme:"
 msgstr "キーバインドテーマ:"
 
-#: src/scim_anthy_setup.cpp:830
+#: src/scim_anthy_setup.cpp:832
 msgid "_Choose keys..."
 msgstr "キーを設定...(_C)"
 
-#: src/scim_anthy_setup.cpp:857
+#: src/scim_anthy_setup.cpp:859
 msgid "<b>Enable/Disable learning</b>"
 msgstr "<b>学習の有効/無効</b>"
 
-#: src/scim_anthy_setup.cpp:884
+#: src/scim_anthy_setup.cpp:886
 msgid "<b>Key preferences to commit with reversing learning preference</b>"
 msgstr "<b>学習設定とは逆の方法で確定するキーの設定</b>"
 
-#: src/scim_anthy_setup.cpp:929 src/scim_anthy_setup.cpp:942
+#: src/scim_anthy_setup.cpp:931 src/scim_anthy_setup.cpp:944
 msgid "_Launch"
 msgstr "起動(_L)"
 
-#: src/scim_anthy_setup.cpp:1071
+#: src/scim_anthy_setup.cpp:1073
 msgid "Common"
 msgstr "一般"
 
-#: src/scim_anthy_setup.cpp:1083
+#: src/scim_anthy_setup.cpp:1085
 msgid "Romaji typing"
 msgstr "ローマ字入力"
 
-#: src/scim_anthy_setup.cpp:1089
+#: src/scim_anthy_setup.cpp:1091
 msgid "Kana typing"
 msgstr "かな入力"
 
-#: src/scim_anthy_setup.cpp:1095
+#: src/scim_anthy_setup.cpp:1097
 msgid "Learning"
 msgstr "学習"
 
-#: src/scim_anthy_setup.cpp:1101
+#: src/scim_anthy_setup.cpp:1103
 msgid "Dictionary"
 msgstr "辞書"
 
-#: src/scim_anthy_setup.cpp:1107
+#: src/scim_anthy_setup.cpp:1109
 msgid "Candidates window"
 msgstr "候補ウィンドウ"
 
-#: src/scim_anthy_setup.cpp:1113
+#: src/scim_anthy_setup.cpp:1115
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: src/scim_anthy_setup.cpp:1119
+#: src/scim_anthy_setup.cpp:1121
 msgid "Appearance"
 msgstr "外観"
 
-#: src/scim_anthy_setup.cpp:1166 src/scim_anthy_setup_romaji.cpp:232
+#: src/scim_anthy_setup.cpp:1168 src/scim_anthy_setup_romaji.cpp:232
 #: src/scim_anthy_setup_kana.cpp:221
 msgid "User defined"
 msgstr "ユーザー定義"
 
-#: src/scim_anthy_setup.cpp:1169 src/scim_anthy_setup_romaji.cpp:235
+#: src/scim_anthy_setup.cpp:1171 src/scim_anthy_setup_romaji.cpp:235
 #: src/scim_anthy_setup_kana.cpp:224
 msgid "Default"
 msgstr "標準設定"
 
-#: src/scim_anthy_setup.cpp:1698
+#: src/scim_anthy_setup.cpp:1700
 msgid "Set key filter"
 msgstr "キ-フィルタ-をセット"
 
@@ -369,24 +369,23 @@ msgid "Show _add word label"
 msgstr "単語追加ラベルを表示(_A)"
 
 #: src/scim_anthy_prefs.cpp:178
-msgid "Number of candidates to show in a page:"
-msgstr "1ページに表示する候補数:"
+msgid "Number of candidates to show in a _page:"
+msgstr "1ページに表示する候補数(_P):"
 
 #: src/scim_anthy_prefs.cpp:180
-msgid "The number of candidates to show in a page of the candidates window."
-msgstr "1ページに表示する候補数"
+msgid ""
+"Specify the number of candidates to show in a page of the candidates window."
+msgstr "1ページに表示する候補数を指定します"
 
 #: src/scim_anthy_prefs.cpp:189
-msgid "Number of triggers until show:"
-msgstr "表示開始までの変換キー押下数"
+msgid "Number of _triggers until show:"
+msgstr "表示開始までの変換キー押下数(_T)"
 
 #: src/scim_anthy_prefs.cpp:191
 msgid ""
 "The number of times to press a conversion key until show the candidates "
 "window.Specify 0 to never show it."
-msgstr ""
-"候補ウィンドウを表示までに必要な変換キーの押下数です。0を指定すると候補ウィン"
-"ドウを一切表示までしません。"
+msgstr "候補ウィンドウを表示するまでに必要な変換キーの押下数です。0を指定すると候補ウィンドウを一切表示しません。"
 
 #: src/scim_anthy_prefs.cpp:215
 msgid "_Input mode: "

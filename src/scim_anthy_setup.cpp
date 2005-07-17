@@ -417,6 +417,8 @@ create_spin_button (const char *config_key, GtkTable *table, int i)
 
     entry->widget = gtk_spin_button_new_with_range (entry->min, entry->max,
                                                     entry->step);
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label),
+                                   GTK_WIDGET (entry->widget));
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (entry->widget),
                       1, 2, i, i+1,
                       (GtkAttachOptions) 0,

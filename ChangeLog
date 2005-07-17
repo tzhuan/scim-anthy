@@ -1,5 +1,10 @@
 2005-07-17 Takuro Ashie <ashie@homa.ne.jp>
 
+	* po/ja.po, src/scim_anthy_prefs.cpp, src/scim_anthy_setup.cpp:
+	Set mnemonic for spin button and fix typo.
+
+2005-07-17 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/src/scim_anthy_factory.{cpp,h}, src/scim_anthy_imengine.cpp,
 	  src/scim_anthy_prefs.{cpp,h}, src/scim_anthy_setup.cpp:
 	Added preference to set the page size of the lookup table.
