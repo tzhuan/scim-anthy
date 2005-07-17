@@ -1713,6 +1713,12 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     else
         m_preedit.set_behavior_on_period (SCIM_ANTHY_NONE_ON_PERIOD);
 
+    // set lookup table
+    if (m_factory->m_cand_win_page_size > 0)
+        m_lookup_table.set_page_size (m_factory->m_cand_win_page_size);
+    else
+        m_lookup_table.set_page_size (SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE_DEFAULT);
+    
     // set colors
     m_preedit.set_segment_colors (m_factory->m_segment_fg_color,
                                   m_factory->m_segment_bg_color);

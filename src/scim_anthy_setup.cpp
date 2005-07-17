@@ -399,25 +399,29 @@ create_check_button (const char *config_key)
     return GTK_WIDGET (entry->widget);
 }
 
-GtkWidget *
-create_spin_button (const char *config_key)
+static void
+create_spin_button (const char *config_key, GtkTable *table, int i)
 {
     IntConfigData *entry = find_int_config_entry (config_key);
     if (!entry)
-        return NULL;
+        return;
 
-    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
-    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
-    gtk_widget_show (hbox);
-
-    GtkWidget *label = gtk_label_new_with_mnemonic (entry->label);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    GtkWidget *label = gtk_label_new_with_mnemonic (_(entry->label));
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_misc_set_padding (GTK_MISC (label), 4, 0);
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL),
+                      4, 4);
     gtk_widget_show (GTK_WIDGET (label));
 
     entry->widget = gtk_spin_button_new_with_range (entry->min, entry->max,
                                                     entry->step);
-    gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (entry->widget),
-                        FALSE, FALSE, 2);
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (entry->widget),
+                      1, 2, i, i+1,
+                      (GtkAttachOptions) 0,
+                      (GtkAttachOptions) 0,
+                      4, 4);
     g_signal_connect (G_OBJECT (entry->widget), "value-changed",
                       G_CALLBACK (on_default_spin_button_changed),
                       entry);
@@ -428,8 +432,6 @@ create_spin_button (const char *config_key)
     if (entry->tooltip)
         gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
                               _(entry->tooltip), NULL);
-
-    return hbox;
 }
 
 static void
@@ -952,7 +954,7 @@ create_dict_page (void)
 static GtkWidget *
 create_candidates_window_page (void)
 {
-    GtkWidget *vbox, *widget;
+    GtkWidget *vbox, *widget, *table;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
@@ -961,9 +963,17 @@ create_candidates_window_page (void)
     widget = create_check_button (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
+    table = gtk_table_new (2, 2, FALSE);
+    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
+    gtk_widget_show (table);
+
     /* number of triggers until show candidates window */
-    widget = create_spin_button (SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    create_spin_button (SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE,
+                        GTK_TABLE (table), 0);
+
+    /* number of triggers until show candidates window */
+    create_spin_button (SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN,
+                        GTK_TABLE (table), 1);
 
     return vbox;
 }

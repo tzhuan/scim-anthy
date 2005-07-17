@@ -171,13 +171,24 @@ BoolConfigData config_bool_common [] =
 IntConfigData config_int_common [] =
 {
     {
+        SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE,
+        SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE_DEFAULT,
+        SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE_DEFAULT,
+        1, 100, 1,
+        N_("Number of candidates to show in a page:"),
+        NULL,
+        N_("The number of candidates to show in a page of the candidates window."),
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN,
         SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN_DEFAULT,
         SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN_DEFAULT,
         0, 100, 1,
-        N_("Number of times to press a key until show lookup table:"),
+        N_("Number of triggers until show:"),
         NULL,
-        N_("Number of times to press a conversion key until show lookup table."
+        N_("The number of times to press a conversion key until show the candidates window."
            "Specify 0 to never show it."),
         NULL,
         false,

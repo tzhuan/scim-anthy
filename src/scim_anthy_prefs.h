@@ -48,6 +48,7 @@
 #define SCIM_ANTHY_CONFIG_COLOR_THEME                 "/IMEngine/Anthy/ColorTheme"
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE            "/IMEngine/Anthy/ColorThemeFile"
 
+#define SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE          "/IMEngine/Anthy/CandWinPageSize"
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
 #define SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN "/IMEngine/Anthy/NTriggersToShowCandWin"
 
@@ -157,6 +158,7 @@
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE_DEFAULT            ""
 
+#define SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE_DEFAULT          10
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    true
 #define SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN_DEFAULT 2
 
