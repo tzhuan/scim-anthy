@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
 "POT-Creation-Date: 2005-07-17 19:34+0900\n"
-"PO-Revision-Date: 2005-07-17 19:38+0900\n"
+"PO-Revision-Date: 2005-07-19 14:37+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -379,13 +379,15 @@ msgstr "1ページに表示する候補数を指定します"
 
 #: src/scim_anthy_prefs.cpp:189
 msgid "Number of _triggers until show:"
-msgstr "表示開始までの変換キー押下数(_T)"
+msgstr "表示開始までの変換キー押下数(_T):"
 
 #: src/scim_anthy_prefs.cpp:191
 msgid ""
 "The number of times to press a conversion key until show the candidates "
 "window.Specify 0 to never show it."
-msgstr "候補ウィンドウを表示するまでに必要な変換キーの押下数です。0を指定すると候補ウィンドウを一切表示しません。"
+msgstr ""
+"候補ウィンドウを表示するまでに必要な変換キーの押下数です。0を指定すると候補"
+"ウィンドウを一切表示しません。"
 
 #: src/scim_anthy_prefs.cpp:215
 msgid "_Input mode: "
