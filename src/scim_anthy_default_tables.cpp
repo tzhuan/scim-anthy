@@ -1,7 +1,27 @@
-/* FIXME! this table should be separated as external file */
+/* -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
+/*
+ *  Copyright (C) 2004-2005 Takuro Ashie
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2, or (at your option)
+ *  any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
 
+#define Uses_SCIM_EVENT
 #include <scim.h>
 #include "scim_anthy_default_tables.h"
+
+using namespace scim;
 
 /* from Suikyo */
 ConvRule scim_anthy_romaji_typing_rule[] = {
@@ -706,7 +726,6 @@ HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[] = {
 {NULL,	NULL,	NULL},
 };
 
-/* from uim */
 WideRule scim_anthy_wide_table[] = {
 {"a", "ａ"},
 {"b", "ｂ"},
@@ -802,6 +821,79 @@ WideRule scim_anthy_wide_table[] = {
 {"/", "／"},
 {"_",  "＿"},
 {NULL, NULL},
+};
+
+KanaRule scim_anthy_kana_table[] = {
+{SCIM_KEY_kana_fullstop,        "。"},
+{SCIM_KEY_kana_openingbracket,  "「"},
+{SCIM_KEY_kana_closingbracket,  "」"},
+{SCIM_KEY_kana_comma,           "、"},
+{SCIM_KEY_kana_conjunctive,     "・"},
+{SCIM_KEY_kana_middledot,       "・"},
+{SCIM_KEY_kana_WO,              "を"},
+{SCIM_KEY_kana_a,               "ぁ"},
+{SCIM_KEY_kana_i,               "ぃ"},
+{SCIM_KEY_kana_u,               "ぅ"},
+{SCIM_KEY_kana_e,               "ぇ"},
+{SCIM_KEY_kana_o,               "ぉ"},
+{SCIM_KEY_kana_ya,              "ゃ"},
+{SCIM_KEY_kana_yu,              "ゅ"},
+{SCIM_KEY_kana_yo,              "ょ"},
+{SCIM_KEY_kana_tsu,             "っ"},
+{SCIM_KEY_kana_tu,              "っ"},
+{SCIM_KEY_prolongedsound,       "ー"},
+{SCIM_KEY_kana_A,               "あ"},
+{SCIM_KEY_kana_I,               "い"},
+{SCIM_KEY_kana_U,               "う"},
+{SCIM_KEY_kana_E,               "え"},
+{SCIM_KEY_kana_O,               "お"},
+{SCIM_KEY_kana_O,               "お"},
+{SCIM_KEY_kana_KA,              "か"},
+{SCIM_KEY_kana_KI,              "き"},
+{SCIM_KEY_kana_KU,              "く"},
+{SCIM_KEY_kana_KE,              "け"},
+{SCIM_KEY_kana_KO,              "こ"},
+{SCIM_KEY_kana_SA,              "さ"},
+{SCIM_KEY_kana_SHI,             "し"},
+{SCIM_KEY_kana_SU,              "す"},
+{SCIM_KEY_kana_SE,              "せ"},
+{SCIM_KEY_kana_SO,              "そ"},
+{SCIM_KEY_kana_TA,              "た"},
+{SCIM_KEY_kana_CHI,             "ち"},
+{SCIM_KEY_kana_TI,              "ち"},
+{SCIM_KEY_kana_TSU,             "つ"},
+{SCIM_KEY_kana_TU,              "つ"},
+{SCIM_KEY_kana_TE,              "て"},
+{SCIM_KEY_kana_TO,              "と"},
+{SCIM_KEY_kana_NA,              "な"},
+{SCIM_KEY_kana_NI,              "に"},
+{SCIM_KEY_kana_NU,              "ぬ"},
+{SCIM_KEY_kana_NE,              "ね"},
+{SCIM_KEY_kana_NO,              "の"},
+{SCIM_KEY_kana_HA,              "は"},
+{SCIM_KEY_kana_HI,              "ひ"},
+{SCIM_KEY_kana_FU,              "ふ"},
+{SCIM_KEY_kana_HU,              "ふ"},
+{SCIM_KEY_kana_HE,              "へ"},
+{SCIM_KEY_kana_HO,              "ほ"},
+{SCIM_KEY_kana_MA,              "ま"},
+{SCIM_KEY_kana_MI,              "み"},
+{SCIM_KEY_kana_MU,              "む"},
+{SCIM_KEY_kana_ME,              "め"},
+{SCIM_KEY_kana_MO,              "も"},
+{SCIM_KEY_kana_YA,              "や"},
+{SCIM_KEY_kana_YU,              "ゆ"},
+{SCIM_KEY_kana_YO,              "よ"},
+{SCIM_KEY_kana_RA,              "ら"},
+{SCIM_KEY_kana_RI,              "り"},
+{SCIM_KEY_kana_RU,              "る"},
+{SCIM_KEY_kana_RE,              "れ"},
+{SCIM_KEY_kana_RO,              "ろ"},
+{SCIM_KEY_kana_WA,              "わ"},
+{SCIM_KEY_kana_N,               "ん"},
+{SCIM_KEY_voicedsound,          "゛"},
+{SCIM_KEY_semivoicedsound,      "゜"},
+{0, NULL}
 };
 
 NicolaRule scim_anthy_nicola_table[] = {

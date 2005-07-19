@@ -40,6 +40,12 @@ typedef struct _WideRule
     const char *wide;
 } WideRule;
 
+typedef struct _KanaRule
+{
+    int         code;
+    const char *kana;
+} KanaRule;
+
 typedef struct _NicolaRule
 {
     const char *key;
@@ -81,6 +87,9 @@ extern ConvRule scim_anthy_kana_half_comma_rule[];
 // misc
 extern HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[];
 extern WideRule             scim_anthy_wide_table[];
+
+// kana
+extern KanaRule   scim_anthy_kana_table[];
 
 // nicola
 extern NicolaRule scim_anthy_nicola_table[];
