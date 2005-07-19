@@ -3,7 +3,6 @@ Version-0.6.0 (Planning to release at July 29th, 2005)
   * Commit automatically when input upper letter on romaji typing.
   * Add preedit color preference
   * Style file
-    - Load global setting.
     - Add "Save as..." feature.
     - Enable/Disable special internal tables such as symbol/number table.
     - Support "table set" feature.
