@@ -1,3 +1,9 @@
+2005-07-19 Takuro Ashie <ashie@homa.ne.jp>
+
+	* data/atok.sty, data/msime.sty: Add "Zenkaku_Hankaku" to LatinModeKey.
+	* src/scim_anthy_factory.cpp, src/scim_anthy_setup.cpp:
+	Load key bindings from system wide style file.
+
 2005-07-17 Takuro Ashie <ashie@homa.ne.jp>
 
 	* po/ja.po, src/scim_anthy_prefs.cpp, src/scim_anthy_setup.cpp:

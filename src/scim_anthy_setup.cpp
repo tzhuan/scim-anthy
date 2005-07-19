@@ -174,7 +174,8 @@ static GtkWidget   * __widget_key_list_view         = NULL;
 static GtkWidget   * __widget_choose_keys_button    = NULL;
 static GtkTooltips * __widget_tooltips              = NULL;
 
-static String __config_key_theme    = SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT;
+static String __config_key_theme      = SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT;
+static String __config_key_theme_file = SCIM_ANTHY_CONFIG_KEY_THEME_FILE_DEFAULT;
 
 static struct KeyboardConfigPage __key_conf_pages[] =
 {
@@ -1197,7 +1198,7 @@ setup_key_theme_menu (GtkOptionMenu *omenu)
 
     gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
 
-    if (__config_key_theme == "User defined") {
+    if (__config_key_theme_file == __user_style_file.get_file_name ()) {
         gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
 
     } else {
@@ -1208,7 +1209,7 @@ setup_key_theme_menu (GtkOptionMenu *omenu)
         {
             gint idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (node->data),
                                                            INDEX_KEY));
-            if (__style_list[idx].get_title () == __config_key_theme) {
+            if (__style_list[idx].get_file_name () == __config_key_theme_file) {
                 gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
                 break;
             }
@@ -1334,6 +1335,9 @@ load_config (const ConfigPointer &config)
     __config_key_theme
         = config->read (String (SCIM_ANTHY_CONFIG_KEY_THEME),
                         String (SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT));
+    __config_key_theme_file
+        = config->read (String (SCIM_ANTHY_CONFIG_KEY_THEME_FILE),
+                        String (SCIM_ANTHY_CONFIG_KEY_THEME_FILE_DEFAULT));
 
     for (unsigned int i = 0; config_bool_common[i].key; i++) {
         BoolConfigData &entry = config_bool_common[i];
@@ -1406,6 +1410,9 @@ save_config (const ConfigPointer &config)
     __config_key_theme
         = config->write (String (SCIM_ANTHY_CONFIG_KEY_THEME),
                          String (__config_key_theme));
+    __config_key_theme_file
+        = config->write (String (SCIM_ANTHY_CONFIG_KEY_THEME_FILE),
+                         String (__config_key_theme_file));
 
     for (unsigned int i = 0; config_bool_common[i].key; i++) {
         BoolConfigData &entry = config_bool_common[i];
@@ -1641,7 +1648,8 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
 
     // set new key bindings
     if (idx == 0) {
-        __config_key_theme = "User defined";
+        __config_key_theme      = String ("User defined");
+        __config_key_theme_file = __user_style_file.get_file_name ();
 
     } else if (idx == 1) {
         for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
@@ -1650,7 +1658,8 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
                     = __key_conf_pages[j].data[i].default_value;
             }
         }
-        __config_key_theme = "Default";
+        __config_key_theme      = String ("Default");
+        __config_key_theme_file = String ("");
 
     } else if (theme_idx >= 0) {
         // reset key bindings
@@ -1671,7 +1680,8 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
                 std::cerr << "No entry for : " << key << std::endl;
             }
         }
-        __config_key_theme = __style_list[theme_idx].get_title ();
+        __config_key_theme      = __style_list[theme_idx].get_title ();
+        __config_key_theme_file = __style_list[theme_idx].get_file_name ();
     }
 
     // sync widgets

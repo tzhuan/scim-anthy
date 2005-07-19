@@ -242,8 +242,19 @@ AnthyFactory::remove_config_listener (AnthyInstance *listener)
 #define APPEND_ACTION(key, func)                                               \
 {                                                                              \
     String name = "func", str;                                                 \
-    str = config->read (String (SCIM_ANTHY_CONFIG_##key##_KEY),                \
-                        String (SCIM_ANTHY_CONFIG_##key##_KEY_DEFAULT));       \
+    if (loaded) {                                                              \
+        String str2, str3;                                                     \
+        str2 = String (SCIM_ANTHY_CONFIG_##key##_KEY);                         \
+        str3 = String ("/IMEngine/Anthy/");                                    \
+        if (str2.length () > str3.length ()) {                                 \
+                str2 = str2.substr (str3.length (),                            \
+                                    str2.length () - str3.length ());          \
+            style.get_string (str, section_key, str2);                         \
+        }                                                                      \
+    } else if (config) {                                                       \
+        str = config->read (String (SCIM_ANTHY_CONFIG_##key##_KEY),            \
+                            String (SCIM_ANTHY_CONFIG_##key##_KEY_DEFAULT));   \
+    }                                                                          \
     m_actions.push_back (Action (name, str, func));                            \
 }
 #endif
@@ -407,91 +418,95 @@ AnthyFactory::reload_config (const ConfigPointer &config)
                             String (SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR_DEFAULT));
         sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
         m_preedit_bg_color = SCIM_RGB_COLOR (red, green, blue);
-
-        // clear old actions
-        m_actions.clear ();
-
-        // convert key
-        APPEND_ACTION (CONVERT,                 action_convert);
-
-        // candidates keys
-        APPEND_ACTION (CANDIDATES_PAGE_UP,      action_candidates_page_up);
-        APPEND_ACTION (CANDIDATES_PAGE_DOWN,    action_candidates_page_down);
-        APPEND_ACTION (SELECT_CANDIDATE_1,      action_select_candidate_1);
-        APPEND_ACTION (SELECT_CANDIDATE_2,      action_select_candidate_2);
-        APPEND_ACTION (SELECT_CANDIDATE_3,      action_select_candidate_3);
-        APPEND_ACTION (SELECT_CANDIDATE_4,      action_select_candidate_4);
-        APPEND_ACTION (SELECT_CANDIDATE_5,      action_select_candidate_5);
-        APPEND_ACTION (SELECT_CANDIDATE_6,      action_select_candidate_6);
-        APPEND_ACTION (SELECT_CANDIDATE_7,      action_select_candidate_7);
-        APPEND_ACTION (SELECT_CANDIDATE_8,      action_select_candidate_8);
-        APPEND_ACTION (SELECT_CANDIDATE_9,      action_select_candidate_9);
-        APPEND_ACTION (SELECT_CANDIDATE_10,     action_select_candidate_10);
-        APPEND_ACTION (SELECT_FIRST_CANDIDATE,  action_select_first_candidate);
-        APPEND_ACTION (SELECT_LAST_CANDIDATE,   action_select_last_candidate);
-        APPEND_ACTION (SELECT_NEXT_CANDIDATE,   action_select_next_candidate);
-        APPEND_ACTION (SELECT_PREV_CANDIDATE,   action_select_prev_candidate);
-
-        // segment keys
-        APPEND_ACTION (SELECT_FIRST_SEGMENT,    action_select_first_segment);
-        APPEND_ACTION (SELECT_LAST_SEGMENT,     action_select_last_segment);
-        APPEND_ACTION (SELECT_NEXT_SEGMENT,     action_select_next_segment);
-        APPEND_ACTION (SELECT_PREV_SEGMENT,     action_select_prev_segment);
-        APPEND_ACTION (SHRINK_SEGMENT,          action_shrink_segment);
-        APPEND_ACTION (EXPAND_SEGMENT,          action_expand_segment);
-        APPEND_ACTION (COMMIT_FIRST_SEGMENT,    action_commit_first_segment);
-        APPEND_ACTION (COMMIT_SELECTED_SEGMENT, action_commit_selected_segment);
-        APPEND_ACTION (COMMIT_FIRST_SEGMENT_REVERSE_LEARN,
-                       action_commit_first_segment_reverse_preference);
-        APPEND_ACTION (COMMIT_SELECTED_SEGMENT_REVERSE_LEARN,
-                       action_commit_selected_segment_reverse_preference);
-
-        // direct convert keys
-        APPEND_ACTION (CONV_TO_HIRAGANA,        action_convert_to_hiragana);
-        APPEND_ACTION (CONV_TO_KATAKANA,        action_convert_to_katakana);
-        APPEND_ACTION (CONV_TO_HALF,            action_convert_to_half);
-        APPEND_ACTION (CONV_TO_HALF_KATAKANA,   action_convert_to_half_katakana);
-        APPEND_ACTION (CONV_TO_LATIN,           action_convert_to_latin);
-        APPEND_ACTION (CONV_TO_WIDE_LATIN,      action_convert_to_wide_latin);
-
-        // caret keys
-        APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_first);
-        APPEND_ACTION (MOVE_CARET_LAST,         action_move_caret_last);
-        APPEND_ACTION (MOVE_CARET_FORWARD,      action_move_caret_forward);
-        APPEND_ACTION (MOVE_CARET_BACKWARD,     action_move_caret_backward);
-
-        // edit keys
-        APPEND_ACTION (BACKSPACE,               action_back);
-        APPEND_ACTION (DELETE,                  action_delete);
-        APPEND_ACTION (COMMIT,                  action_commit_follow_preference);
-        APPEND_ACTION (COMMIT_REVERSE_LEARN,    action_commit_reverse_preference);
-        //APPEND_ACTION (CONVERT,                 action_convert);
-        APPEND_ACTION (CANCEL,                  action_revert);
-        APPEND_ACTION (INSERT_SPACE,            action_insert_space);
-        APPEND_ACTION (INSERT_ALT_SPACE,        action_insert_alternative_space);
-        APPEND_ACTION (INSERT_HALF_SPACE,       action_insert_half_space);
-        APPEND_ACTION (INSERT_WIDE_SPACE,       action_insert_wide_space);
-
-        // mode keys
-        APPEND_ACTION (LATIN_MODE,              action_toggle_latin_mode);
-        APPEND_ACTION (WIDE_LATIN_MODE,         action_toggle_wide_latin_mode);
-        APPEND_ACTION (CIRCLE_KANA_MODE,        action_circle_kana_mode);
-        APPEND_ACTION (CIRCLE_TYPING_METHOD,    action_circle_typing_method);
-        APPEND_ACTION (HIRAGANA_MODE,           action_hiragana_mode);
-        APPEND_ACTION (KATAKANA_MODE,           action_katakana_mode);
-
-        // dict keys
-        APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);
-        APPEND_ACTION (ADD_WORD,                action_add_word);
-
-        // disabled key
-        APPEND_ACTION (DO_NOTHING,              action_do_nothing);
     }
 
-
-    // load custom style
     StyleFile style;
     String file;
+    bool loaded = false;
+
+    // load key bindings
+    const char *section_key = "KeyBindings";
+    file = config->read (String (SCIM_ANTHY_CONFIG_KEY_THEME_FILE),
+                         String (SCIM_ANTHY_CONFIG_KEY_THEME_FILE_DEFAULT));
+    loaded = style.load (file.c_str ());
+
+    // clear old actions
+    m_actions.clear ();
+
+    // convert key
+    APPEND_ACTION (CONVERT,                 action_convert);
+
+    // candidates keys
+    APPEND_ACTION (CANDIDATES_PAGE_UP,      action_candidates_page_up);
+    APPEND_ACTION (CANDIDATES_PAGE_DOWN,    action_candidates_page_down);
+    APPEND_ACTION (SELECT_CANDIDATE_1,      action_select_candidate_1);
+    APPEND_ACTION (SELECT_CANDIDATE_2,      action_select_candidate_2);
+    APPEND_ACTION (SELECT_CANDIDATE_3,      action_select_candidate_3);
+    APPEND_ACTION (SELECT_CANDIDATE_4,      action_select_candidate_4);
+    APPEND_ACTION (SELECT_CANDIDATE_5,      action_select_candidate_5);
+    APPEND_ACTION (SELECT_CANDIDATE_6,      action_select_candidate_6);
+    APPEND_ACTION (SELECT_CANDIDATE_7,      action_select_candidate_7);
+    APPEND_ACTION (SELECT_CANDIDATE_8,      action_select_candidate_8);
+    APPEND_ACTION (SELECT_CANDIDATE_9,      action_select_candidate_9);
+    APPEND_ACTION (SELECT_CANDIDATE_10,     action_select_candidate_10);
+    APPEND_ACTION (SELECT_FIRST_CANDIDATE,  action_select_first_candidate);
+    APPEND_ACTION (SELECT_LAST_CANDIDATE,   action_select_last_candidate);
+    APPEND_ACTION (SELECT_NEXT_CANDIDATE,   action_select_next_candidate);
+    APPEND_ACTION (SELECT_PREV_CANDIDATE,   action_select_prev_candidate);
+
+    // segment keys
+    APPEND_ACTION (SELECT_FIRST_SEGMENT,    action_select_first_segment);
+    APPEND_ACTION (SELECT_LAST_SEGMENT,     action_select_last_segment);
+    APPEND_ACTION (SELECT_NEXT_SEGMENT,     action_select_next_segment);
+    APPEND_ACTION (SELECT_PREV_SEGMENT,     action_select_prev_segment);
+    APPEND_ACTION (SHRINK_SEGMENT,          action_shrink_segment);
+    APPEND_ACTION (EXPAND_SEGMENT,          action_expand_segment);
+    APPEND_ACTION (COMMIT_FIRST_SEGMENT,    action_commit_first_segment);
+    APPEND_ACTION (COMMIT_SELECTED_SEGMENT, action_commit_selected_segment);
+    APPEND_ACTION (COMMIT_FIRST_SEGMENT_REVERSE_LEARN,
+                   action_commit_first_segment_reverse_preference);
+    APPEND_ACTION (COMMIT_SELECTED_SEGMENT_REVERSE_LEARN,
+                   action_commit_selected_segment_reverse_preference);
+
+    // direct convert keys
+    APPEND_ACTION (CONV_TO_HIRAGANA,        action_convert_to_hiragana);
+    APPEND_ACTION (CONV_TO_KATAKANA,        action_convert_to_katakana);
+    APPEND_ACTION (CONV_TO_HALF,            action_convert_to_half);
+    APPEND_ACTION (CONV_TO_HALF_KATAKANA,   action_convert_to_half_katakana);
+    APPEND_ACTION (CONV_TO_LATIN,           action_convert_to_latin);
+    APPEND_ACTION (CONV_TO_WIDE_LATIN,      action_convert_to_wide_latin);
+
+    // caret keys
+    APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_first);
+    APPEND_ACTION (MOVE_CARET_LAST,         action_move_caret_last);
+    APPEND_ACTION (MOVE_CARET_FORWARD,      action_move_caret_forward);
+    APPEND_ACTION (MOVE_CARET_BACKWARD,     action_move_caret_backward);
+
+    // edit keys
+    APPEND_ACTION (BACKSPACE,               action_back);
+    APPEND_ACTION (DELETE,                  action_delete);
+    APPEND_ACTION (COMMIT,                  action_commit_follow_preference);
+    APPEND_ACTION (COMMIT_REVERSE_LEARN,    action_commit_reverse_preference);
+    APPEND_ACTION (CANCEL,                  action_revert);
+    APPEND_ACTION (INSERT_SPACE,            action_insert_space);
+    APPEND_ACTION (INSERT_ALT_SPACE,        action_insert_alternative_space);
+    APPEND_ACTION (INSERT_HALF_SPACE,       action_insert_half_space);
+    APPEND_ACTION (INSERT_WIDE_SPACE,       action_insert_wide_space);
+
+    // mode keys
+    APPEND_ACTION (LATIN_MODE,              action_toggle_latin_mode);
+    APPEND_ACTION (WIDE_LATIN_MODE,         action_toggle_wide_latin_mode);
+    APPEND_ACTION (CIRCLE_KANA_MODE,        action_circle_kana_mode);
+    APPEND_ACTION (CIRCLE_TYPING_METHOD,    action_circle_typing_method);
+    APPEND_ACTION (HIRAGANA_MODE,           action_hiragana_mode);
+    APPEND_ACTION (KATAKANA_MODE,           action_katakana_mode);
+
+    // dict keys
+    APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);
+    APPEND_ACTION (ADD_WORD,                action_add_word);
+
+    // disabled key
+    APPEND_ACTION (DO_NOTHING,              action_do_nothing);
 
     // load custom romaji table
     const char *section_romaji = "RomajiTable/FundamentalTable";
