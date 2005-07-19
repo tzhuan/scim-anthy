@@ -1,5 +1,11 @@
 2005-07-19 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.cpp, src/scim_anthy_setup.cpp:
+	Disable NICOLA by default because some required features aren't
+	implemented yet. To enable it, please define ENABLE_NICOLA macro.
+
+2005-07-19 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_default_tables.{cpp,h}: Add KanaRule.
 
 2005-07-19 Takuro Ashie <ashie@homa.ne.jp>

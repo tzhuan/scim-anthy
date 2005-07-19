@@ -169,7 +169,6 @@ bool
 AnthyInstance::process_key_event (const KeyEvent& key)
 {
     SCIM_DEBUG_IMENGINE(2) << "process_key_event.\n";
-    KeyEvent newkey;
 
     if (process_key_event_input (key))
         return true;
@@ -419,9 +418,11 @@ AnthyInstance::install_properties (void)
                              _("Kana"), String (""), _("Kana"));
             m_properties.push_back (prop);
 
+#ifdef ENABLE_NICOLA
             prop = Property (SCIM_PROP_TYPING_METHOD_NICOLA,
                              _("Thumb shift"), String (""), _("Thumb shift"));
             m_properties.push_back (prop);
+#endif /* ENABLE_NICOLA */
         }
 
         if (m_factory->m_show_conv_mode_label) {
@@ -1402,10 +1403,15 @@ AnthyInstance::action_circle_typing_method (void)
     TypingMethod method;
 
     method = m_preedit.get_typing_method ();
+#ifdef ENABLE_NICOLA
     if (method == SCIM_ANTHY_TYPING_METHOD_NICOLA)
         method = SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     else if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
         method = SCIM_ANTHY_TYPING_METHOD_NICOLA;
+#else
+    if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
+        method = SCIM_ANTHY_TYPING_METHOD_ROMAJI;
+#endif /* ENABLE_NICOLA */
     else
         method = SCIM_ANTHY_TYPING_METHOD_KANA;
 
