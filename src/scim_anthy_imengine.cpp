@@ -111,9 +111,13 @@ AnthyInstance::process_key_event_input (const KeyEvent &key)
         bool need_commit = m_preedit.process_key_event (key);
 
         if (need_commit) {
-            if (is_realtime_conversion ())
+            if (is_realtime_conversion () &&
+                m_preedit.get_input_mode () != SCIM_ANTHY_MODE_LATIN &&
+                m_preedit.get_input_mode () != SCIM_ANTHY_MODE_WIDE_LATIN)
+            {
                 m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
                                    is_single_segment ());
+            }
             action_commit (m_factory->m_learn_on_auto_commit);
         } else {
             if (is_realtime_conversion ()) {
