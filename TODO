@@ -1,26 +1,29 @@
 Version-0.6.0 (Planning to release at July 29th, 2005)
 
-  * Commit automatically when input upper letter on romaji typing.
-  * Style file
-    - Add "Save as..." feature.
-    - Enable/Disable special internal tables such as symbol/number table.
-    - Support "table set" feature.
+  * Clean up
 
 Version-0.7.0 (Planning to release at Sep 29th, 2005)
 
   * SKIM plugin.
+  * Commit automatically when input upper letter on romaji typing.
   * Inline word register mode.
   * Provide more style files.
   * Add help.
 
 Version-0.8.0 (Planning to release at Nov 29th, 2005)
 
-  * Implement formal Kana typing method.
+  * Style file
+    - Add "Save as..." feature.
+    - Enable/Disable special internal tables such as symbol/number table.
+    - Support "table set" feature.
+  * NICOLA support
+
+Version-0.9.0 (Planning to release at Jan 29th, 2006)
+
   * Search a character by Bushu (inline).
   * Search a character by code (inline).
   * Search a symbol (inline).
-
-Version-0.9.0 (Planning to release at Jan 29th, 2006)
+  * (Implement formal Kana typing method.)
 
 Version-1.0.0 (Planning to release at Mar 29th, 2006)
 
