@@ -125,7 +125,11 @@ Reading::process_key_event (const KeyEvent & key)
         reset_pending ();
     }
 
-    bool was_pending = m_key2kana->is_pending ();
+    bool was_pending;
+    if (m_kana.can_append (key))
+        was_pending = m_kana.is_pending ();
+    else
+        was_pending = m_key2kana->is_pending ();
 
     String raw;
     WideString result, pending;
@@ -186,6 +190,7 @@ void
 Reading::clear (void)
 {
     m_key2kana->clear ();
+    m_kana.clear ();
     m_segments.clear ();
     m_segment_pos  = 0;
     m_caret_offset = 0;
@@ -425,11 +430,9 @@ Reading::reset_pending (void)
         WideString result, pending;
         m_key2kana->append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
                             result, pending);
-#if 0
-        m_kana.append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
-                       result, pending);
-#endif
     }
+
+    m_kana.set_pending (utf8_wcstombs (m_segments[m_segment_pos - 1].kana));
 }
 
 unsigned int
@@ -466,6 +469,7 @@ Reading::set_caret_pos (unsigned int pos)
         return;
 
     m_key2kana->clear ();
+    m_kana.clear ();
 
     if (pos >= get_length ()) {
         m_segment_pos = m_segments.size ();
@@ -497,9 +501,8 @@ Reading::move_caret (int step, bool allow_split)
     if (step == 0)
         return;
 
-    if (m_key2kana->is_pending ()) {
-        m_key2kana->clear ();
-    }
+    m_key2kana->clear ();
+    m_kana.clear ();
 
     if (allow_split) {
         unsigned int pos = get_caret_pos ();

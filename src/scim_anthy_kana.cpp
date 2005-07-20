@@ -18,11 +18,70 @@
  */
 
 #include "scim_anthy_kana.h"
+#include "scim_anthy_default_tables.h"
 
 using namespace scim_anthy;
 
+static bool
+has_voiced_consonant (String str)
+{
+    VoicedConsonantRule *table = scim_anthy_voiced_consonant_table;
+
+    for (unsigned int i = 0; table[i].string; i++) {
+        if (!strcmp (str.c_str (), table[i].string) &&
+            table[i].voiced && *table[i].voiced)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static bool
+has_half_voiced_consonant (String str)
+{
+    VoicedConsonantRule *table = scim_anthy_voiced_consonant_table;
+
+    for (unsigned int i = 0; table[i].string; i++) {
+        if (!strcmp (str.c_str (), table[i].string) &&
+            table[i].half_voiced && *table[i].half_voiced)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+String
+to_voiced_consonant (String str)
+{
+    VoicedConsonantRule *table = scim_anthy_voiced_consonant_table;
+
+    for (unsigned int i = 0; table[i].string; i++) {
+        if (!strcmp (str.c_str (), table[i].string))
+            return String (table[i].voiced);
+    }
+
+    return str;
+}
+
+String
+to_half_voiced_consonant (String str)
+{
+    VoicedConsonantRule *table = scim_anthy_voiced_consonant_table;
+
+    for (unsigned int i = 0; table[i].string; i++) {
+        if (!strcmp (str.c_str (), table[i].string))
+            return String (table[i].half_voiced);
+    }
+
+    return str;
+}
+
 KanaConvertor::KanaConvertor ()
-    : m_ten_key_type    (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
+    : m_ten_key_type (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
 {
 }
 
@@ -62,11 +121,39 @@ KanaConvertor::append (const KeyEvent & key,
 {
     KanaRule *table = scim_anthy_kana_table;
 
+    if (key.code == SCIM_KEY_voicedsound &&
+        !m_pending.empty () && has_voiced_consonant (m_pending))
+    {
+        result = utf8_mbstowcs (to_voiced_consonant (m_pending));
+        raw    = key.get_ascii_code ();
+        m_pending = String ();
+        return false;
+    }
+
+    if (key.code == SCIM_KEY_semivoicedsound &&
+        !m_pending.empty () && has_half_voiced_consonant (m_pending))
+    {
+        result = utf8_mbstowcs (to_half_voiced_consonant (m_pending));
+        raw    = key.get_ascii_code ();
+        m_pending = String ();
+        return false;
+    }
+
     for (unsigned int i = 0; table[i].code; i++) {
         if (table[i].code == key.code) {
-            result = utf8_mbstowcs (table[i].kana);
-            raw    = key.get_ascii_code ();
-            return false;
+            bool retval = m_pending.empty () ? false : true;
+
+            if (has_voiced_consonant (table[i].kana)) {
+                result = WideString ();
+                pending = utf8_mbstowcs (table[i].kana);
+                m_pending = table[i].kana;
+            } else {
+                result = utf8_mbstowcs (table[i].kana);
+                m_pending = String ();
+            }
+            raw = key.get_ascii_code ();
+
+            return retval;
         }
     }
 
@@ -74,6 +161,7 @@ KanaConvertor::append (const KeyEvent & key,
     s += key.get_ascii_code ();
     result = utf8_mbstowcs (s);
     raw    = s;
+    m_pending = String ();
 
     return false;
 }
@@ -89,18 +177,19 @@ KanaConvertor::append (const String   & str,
 void
 KanaConvertor::clear (void)
 {
+    m_pending = String ();
 }
 
 bool
 KanaConvertor::is_pending (void)
 {
-    return false;
+    return !m_pending.empty ();
 }
 
 WideString
 KanaConvertor::get_pending (void)
 {
-    return WideString ();
+    return WideString (utf8_mbstowcs (m_pending));
 }
 
 WideString
@@ -131,6 +220,15 @@ KanaConvertor::get_ten_key_type (void)
 {
     return m_ten_key_type;
 }
+
+void
+KanaConvertor::set_pending (String str)
+{
+    m_pending = String ();
+    if (has_voiced_consonant (str))
+        m_pending = str;
+}
+
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

@@ -59,9 +59,15 @@ public:
     void       set_ten_key_type   (TenKeyType type);
     TenKeyType get_ten_key_type   (void);
 
+public:
+    void       set_pending        (String str);
+
 private:
     // mode
-    TenKeyType      m_ten_key_type;
+    TenKeyType m_ten_key_type;
+
+    // state
+    String     m_pending;
 };
 
 }
