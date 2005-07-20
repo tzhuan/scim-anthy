@@ -1655,56 +1655,64 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     m_preedit.set_allow_split_romaji (m_factory->m_romaji_allow_split);
 
     // set input mode
-    if (m_factory->m_input_mode == "Hiragana")
-        m_preedit.set_input_mode (SCIM_ANTHY_MODE_HIRAGANA);
-    else if (m_factory->m_input_mode == "Katakana")
-        m_preedit.set_input_mode (SCIM_ANTHY_MODE_KATAKANA);
-    else if (m_factory->m_input_mode == "HalfKatakana")
-        m_preedit.set_input_mode (SCIM_ANTHY_MODE_HALF_KATAKANA);
-    else if (m_factory->m_input_mode == "Latin")
-        m_preedit.set_input_mode (SCIM_ANTHY_MODE_LATIN);
-    else if (m_factory->m_input_mode == "WideLatin")
-        m_preedit.set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
+    if (!m_factory->m_show_input_mode_label) {
+        if (m_factory->m_input_mode == "Hiragana")
+            m_preedit.set_input_mode (SCIM_ANTHY_MODE_HIRAGANA);
+        else if (m_factory->m_input_mode == "Katakana")
+            m_preedit.set_input_mode (SCIM_ANTHY_MODE_KATAKANA);
+        else if (m_factory->m_input_mode == "HalfKatakana")
+            m_preedit.set_input_mode (SCIM_ANTHY_MODE_HALF_KATAKANA);
+        else if (m_factory->m_input_mode == "Latin")
+            m_preedit.set_input_mode (SCIM_ANTHY_MODE_LATIN);
+        else if (m_factory->m_input_mode == "WideLatin")
+            m_preedit.set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
+    }
 
     // set typing method
-    if (m_factory->m_typing_method == "NICOLA")
-        m_preedit.set_typing_method
-            (SCIM_ANTHY_TYPING_METHOD_NICOLA, NULL);
-    else if (m_factory->m_typing_method == "Kana")
-        m_preedit.set_typing_method
-            (SCIM_ANTHY_TYPING_METHOD_KANA,
-             m_factory->m_custom_kana_table);
-    else
-        m_preedit.set_typing_method
-            (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
-             m_factory->m_custom_romaji_table);
+    if (!m_factory->m_show_typing_method_label) {
+        if (m_factory->m_typing_method == "NICOLA")
+            m_preedit.set_typing_method
+                (SCIM_ANTHY_TYPING_METHOD_NICOLA, NULL);
+        else if (m_factory->m_typing_method == "Kana")
+            m_preedit.set_typing_method
+                (SCIM_ANTHY_TYPING_METHOD_KANA,
+                 m_factory->m_custom_kana_table);
+        else
+            m_preedit.set_typing_method
+                (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
+                 m_factory->m_custom_romaji_table);
+    }
 
     // set conversion mode
-    if (m_factory->m_conversion_mode == "MultiSeg")
-        m_conv_mode = SCIM_ANTHY_CONVERSION_MULTI_SEGMENT;
-    else if (m_factory->m_conversion_mode == "SingleSeg")
-        m_conv_mode = SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT;
-    else if (m_factory->m_conversion_mode == "CAYT_MultiSeg")
-        m_conv_mode = SCIM_ANTHY_CONVERSION_MULTI_SEGMENT_IMMEDIATE;
-    else if (m_factory->m_conversion_mode == "CAYT_SingleSeg")
-        m_conv_mode = SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT_IMMEDIATE;
+    if (!m_factory->m_show_conv_mode_label) {
+        if (m_factory->m_conversion_mode == "MultiSeg")
+            m_conv_mode = SCIM_ANTHY_CONVERSION_MULTI_SEGMENT;
+        else if (m_factory->m_conversion_mode == "SingleSeg")
+            m_conv_mode = SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT;
+        else if (m_factory->m_conversion_mode == "CAYT_MultiSeg")
+            m_conv_mode = SCIM_ANTHY_CONVERSION_MULTI_SEGMENT_IMMEDIATE;
+        else if (m_factory->m_conversion_mode == "CAYT_SingleSeg")
+            m_conv_mode = SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT_IMMEDIATE;
+    }
 
     // set period style
-    if (m_factory->m_period_style == "WideLatin") {
-        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
-        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_WIDE);
-    } else if (m_factory->m_period_style == "Latin") {
-        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_HALF);
-        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_HALF);
-    } else if (m_factory->m_period_style == "Japanese") {
-        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
-        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
-    } else if (m_factory->m_period_style == "WideLatin_Japanese") {
-        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
-        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
-    } else {
-        m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
-        m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
+    if (!m_factory->m_show_period_style_label) {
+        if (m_factory->m_period_style == "WideLatin") {
+            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
+            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_WIDE);
+        } else if (m_factory->m_period_style == "Latin") {
+            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_HALF);
+            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_HALF);
+        } else if (m_factory->m_period_style == "Japanese") {
+            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
+            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
+        } else if (m_factory->m_period_style == "WideLatin_Japanese") {
+            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
+            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
+        } else {
+            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
+            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
+        }
     }
 
     // set ten key type
