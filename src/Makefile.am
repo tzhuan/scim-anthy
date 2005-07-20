@@ -20,6 +20,7 @@ noinst_HEADERS = \
 	scim_anthy_key2kana_table.h \
 	scim_anthy_key2kana_base.h \
 	scim_anthy_key2kana.h \
+	scim_anthy_kana.h \
 	scim_anthy_nicola.h \
 	scim_anthy_default_tables.h \
 	scim_anthy_style_file.h \
@@ -42,6 +43,7 @@ anthy_la_SOURCES = \
 	scim_anthy_conversion.cpp \
 	scim_anthy_key2kana.cpp \
 	scim_anthy_key2kana_table.cpp \
+	scim_anthy_kana.cpp \
 	scim_anthy_nicola.cpp \
 	scim_anthy_default_tables.cpp \
 	scim_anthy_style_file.cpp \
