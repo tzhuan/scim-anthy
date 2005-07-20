@@ -214,7 +214,7 @@ AnthyInstance::select_candidate_no_direct (unsigned int item)
     if (!is_selecting_candidates ()) return;
 
     SCIM_DEBUG_IMENGINE(2) << "select_candidate_no_direct.\n";
- 
+
     // update lookup table
     m_lookup_table.set_cursor_pos_in_current_page (item);
     update_lookup_table (m_lookup_table);
