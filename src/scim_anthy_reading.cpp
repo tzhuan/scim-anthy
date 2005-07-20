@@ -108,6 +108,9 @@ Reading::~Reading ()
 bool
 Reading::can_process_key_event (const KeyEvent & key)
 {
+    if (m_kana.can_append (key))
+        return true;
+
     return m_key2kana->can_append (key);
 }
 
@@ -127,7 +130,10 @@ Reading::process_key_event (const KeyEvent & key)
     String raw;
     WideString result, pending;
     bool need_commiting;
-    need_commiting = m_key2kana->append (key, result, pending, raw);
+    if (m_kana.can_append (key))
+        need_commiting = m_kana.append (key, result, pending, raw);
+    else
+        need_commiting = m_key2kana->append (key, result, pending, raw);
 
     ReadingSegments::iterator begin = m_segments.begin ();
 
@@ -419,6 +425,10 @@ Reading::reset_pending (void)
         WideString result, pending;
         m_key2kana->append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
                             result, pending);
+#if 0
+        m_kana.append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
+                       result, pending);
+#endif
     }
 }
 

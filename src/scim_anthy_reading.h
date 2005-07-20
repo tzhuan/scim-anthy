@@ -24,6 +24,7 @@
 #define Uses_SCIM_EVENT
 #include <scim.h>
 #include "scim_anthy_key2kana.h"
+#include "scim_anthy_kana.h"
 #include "scim_anthy_nicola.h"
 
 using namespace scim;
@@ -114,6 +115,7 @@ private:
     // convertors
     Key2KanaTableSet      &m_key2kana_tables;
     Key2KanaConvertor      m_key2kana_normal;
+    KanaConvertor          m_kana;
     NicolaConvertor        m_nicola;
     Key2KanaConvertorBase *m_key2kana;
 

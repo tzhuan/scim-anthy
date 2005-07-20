@@ -1,6 +1,10 @@
 2005-07-20 Takuro Ashie <ashie@homa.ne.jp>
 
-	* scim_anthy_kana.{cpp,h}: Added to support kana symbol of X.
+	* src/scim_anthy_reding.{cpp,h}: Test for supporting kana symbol of X.
+
+2005-07-20 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_kana.{cpp,h}: Added to support kana symbol of X.
 
 2005-07-20 Takuro Ashie <ashie@homa.ne.jp>
 
