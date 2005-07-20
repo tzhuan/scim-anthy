@@ -232,9 +232,7 @@ AnthyInstance::select_candidate (unsigned int item)
     select_candidate_no_direct (item);
 
     if (m_factory->m_close_cand_win_on_select) {
-        m_lookup_table.clear ();
-        hide_lookup_table ();
-        m_lookup_table_visible = false;
+        unset_lookup_table ();
         action_select_next_segment();
     }
 }
@@ -288,12 +286,10 @@ AnthyInstance::reset ()
     m_preedit.clear ();
     m_lookup_table.clear ();
 
-    hide_lookup_table ();
+    unset_lookup_table ();
+
     hide_preedit_string ();
-
     m_preedit_string_visible = false;
-    m_lookup_table_visible   = false;
-
     set_preedition ();
 }
 
@@ -374,6 +370,15 @@ AnthyInstance::set_lookup_table (void)
         m_lookup_table_visible = true;
         m_n_conv_key_pressed = 0;
     }
+}
+
+void
+AnthyInstance::unset_lookup_table (void)
+{
+    m_lookup_table.clear ();
+    hide_lookup_table ();
+    m_lookup_table_visible = false;
+    m_n_conv_key_pressed = 0;
 }
 
 void
@@ -731,17 +736,12 @@ AnthyInstance::action_revert (void)
     if (is_selecting_candidates ()) {
         m_lookup_table.clear ();
         if (m_lookup_table_visible) {
-            hide_lookup_table ();
-            m_lookup_table_visible = false;
-            m_n_conv_key_pressed = 0;
+            unset_lookup_table ();
             return true;
         }
     }
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     m_preedit.revert ();
     set_preedition ();
@@ -979,10 +979,7 @@ AnthyInstance::action_select_prev_segment (void)
     if (!m_preedit.is_converting ())
         return false;
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     int idx = m_preedit.get_selected_segment ();
     if (idx - 1 < 0) {
@@ -1003,10 +1000,7 @@ AnthyInstance::action_select_next_segment (void)
     if (!m_preedit.is_converting ())
         return false;
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     int idx = m_preedit.get_selected_segment ();
     if (idx < 0) {
@@ -1031,10 +1025,7 @@ AnthyInstance::action_select_first_segment (void)
     if (!m_preedit.is_converting ())
         return false;
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     m_preedit.select_segment(0);
     set_preedition ();
@@ -1051,10 +1042,7 @@ AnthyInstance::action_select_last_segment (void)
     int n = m_preedit.get_nr_segments ();
     if (n <= 0) return false;
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     m_preedit.select_segment(n - 1);
     set_preedition ();
@@ -1068,10 +1056,7 @@ AnthyInstance::action_shrink_segment (void)
     if (!m_preedit.is_converting ())
         return false;
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     m_preedit.resize_segment (-1);
     set_preedition ();
@@ -1085,10 +1070,7 @@ AnthyInstance::action_expand_segment (void)
     if (!m_preedit.is_converting ())
         return false;
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     m_preedit.resize_segment (1);
     set_preedition ();
@@ -1107,10 +1089,7 @@ AnthyInstance::action_commit_first_segment (void)
         }
     }
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     commit_string (m_preedit.get_segment_string (0));
     if (m_factory->m_learn_on_manual_commit)
@@ -1132,10 +1111,7 @@ AnthyInstance::action_commit_selected_segment (void)
         }
     }
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     for (int i = 0; i <= m_preedit.get_selected_segment (); i++)
         commit_string (m_preedit.get_segment_string (i));
@@ -1158,10 +1134,7 @@ AnthyInstance::action_commit_first_segment_reverse_preference (void)
         }
     }
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     commit_string (m_preedit.get_segment_string (0));
     if (!m_factory->m_learn_on_manual_commit)
@@ -1183,10 +1156,7 @@ AnthyInstance::action_commit_selected_segment_reverse_preference (void)
         }
     }
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     for (int i = 0; i <= m_preedit.get_selected_segment (); i++)
         commit_string (m_preedit.get_segment_string (i));
@@ -1505,10 +1475,7 @@ AnthyInstance::convert_kana (CandidateType type)
     if (!m_preedit.is_preediting ())
         return false;
 
-    m_lookup_table.clear ();
-    hide_lookup_table ();
-    m_lookup_table_visible = false;
-    m_n_conv_key_pressed = 0;
+    unset_lookup_table ();
 
     if (m_preedit.is_converting ()) {
         int idx = m_preedit.get_selected_segment ();

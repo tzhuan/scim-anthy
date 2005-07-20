@@ -146,6 +146,7 @@ private:
     /* utility */
     void   set_preedition                     (void);
     void   set_lookup_table                   (void);
+    void   unset_lookup_table                 (void);
     void   install_properties                 (void);
     void   set_input_mode                     (InputMode      mode);
     void   set_conversion_mode                (ConversionMode mode);
