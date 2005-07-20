@@ -92,6 +92,7 @@ public:
     void            append_rule (String sequence,
                                  String result,
                                  String cont);
+    void            clear       (void);
 
 private:
     WideString    m_name;
@@ -146,8 +147,8 @@ private:
 
     // tables
     Key2KanaTable               *m_fundamental_table;
+    Key2KanaTable                m_voiced_consonant_table;
     std::vector<Key2KanaTable*> *m_additional_table;
-    //std::vector<Key2KanaTable>   m_tables;
     std::vector<Key2KanaTable*>  m_all_tables;
 
     // flags

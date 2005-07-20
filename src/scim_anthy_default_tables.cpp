@@ -823,6 +823,30 @@ WideRule scim_anthy_wide_table[] = {
 {NULL, NULL},
 };
 
+VoicedConsonantRule scim_anthy_voiced_consonant_table[] = {
+{"か",	"が",	""},
+{"き",	"ぎ",	""},
+{"く",	"ぐ",	""},
+{"け",	"げ",	""},
+{"こ",	"ご",	""},
+{"さ",	"ざ",	""},
+{"し",	"じ",	""},
+{"す",	"ず",	""},
+{"せ",	"ぜ",	""},
+{"そ",	"ぞ",	""},
+{"た",	"だ",	""},
+{"ち",	"ぢ",	""},
+{"つ",	"づ",	""},
+{"て",	"で",	""},
+{"と",	"ど",	""},
+{"は",	"ば",	"ば"},
+{"ひ",	"び",	"び"},
+{"ふ",	"ぶ",	"ぶ"},
+{"へ",	"べ",	"べ"},
+{"ほ",	"ぼ",	"ぼ"},
+{NULL, NULL, NULL},
+};
+
 KanaRule scim_anthy_kana_table[] = {
 {SCIM_KEY_kana_fullstop,        "。"},
 {SCIM_KEY_kana_openingbracket,  "「"},

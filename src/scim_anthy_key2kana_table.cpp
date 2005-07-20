@@ -153,14 +153,23 @@ Key2KanaTable::append_rule (String sequence,
     m_rules.push_back (Key2KanaRule (sequence, result, cont));
 }
 
+void
+Key2KanaTable::clear (void)
+{
+    m_rules.clear ();
+
+}
 
 Key2KanaTableSet::Key2KanaTableSet ()
-    : m_name            (utf8_mbstowcs ("")),
-      m_typing_method   (SCIM_ANTHY_TYPING_METHOD_ROMAJI),
-      m_period_style    (SCIM_ANTHY_PERIOD_JAPANESE),
-      m_comma_style     (SCIM_ANTHY_COMMA_JAPANESE),
-      m_use_half_symbol (false),
-      m_use_half_number (false)
+    : m_name                   (utf8_mbstowcs ("")),
+      m_fundamental_table      (NULL),
+      m_voiced_consonant_table (Key2KanaTable (utf8_mbstowcs ("voiced consonant table"))),
+      m_additional_table       (NULL),
+      m_typing_method          (SCIM_ANTHY_TYPING_METHOD_ROMAJI),
+      m_period_style           (SCIM_ANTHY_PERIOD_JAPANESE),
+      m_comma_style            (SCIM_ANTHY_COMMA_JAPANESE),
+      m_use_half_symbol        (false),
+      m_use_half_number        (false)
 {
     set_typing_method (m_typing_method);
 }
@@ -204,6 +213,54 @@ Key2KanaTableSet::set_comma_style (CommaStyle  style)
 {
     m_comma_style = style;
     reset_tables ();
+}
+
+static void
+create_voiced_consonant_table (Key2KanaTable &table, Key2KanaTable &fund_table)
+{
+    table.clear ();
+
+    const String sonant_mark      = String ("\xE3\x82\x9B");
+    const String half_sonant_mark = String ("\xE3\x82\x9C");
+    std::vector<String> sonant_mark_list;
+    std::vector<String> half_sonant_mark_list;
+
+    Key2KanaRules::iterator it;
+    Key2KanaRules &rules = fund_table.get_table ();
+    for (it = rules.begin (); it != rules.end (); it++) {
+        String result = it->get_result ();
+        if (result == sonant_mark)
+            sonant_mark_list.push_back (it->get_sequence ());
+        else if (result == half_sonant_mark)
+            half_sonant_mark_list.push_back (it->get_sequence ());
+    }
+
+    VoicedConsonantRule *templ = scim_anthy_voiced_consonant_table;
+
+    for (unsigned int i = 0; templ[i].string; i++) {
+        if (templ[i].voiced && *templ[i].voiced) {
+            std::vector<String>::iterator it;
+            for (it = sonant_mark_list.begin ();
+                 it != sonant_mark_list.end ();
+                 it++)
+            {
+                table.append_rule (String (templ[i].string) + *it,
+                                   String (templ[i].voiced),
+                                   String ());
+            }
+        }
+        if (templ[i].half_voiced && *templ[i].half_voiced) {
+            std::vector<String>::iterator it;
+            for (it = half_sonant_mark_list.begin ();
+                 it != half_sonant_mark_list.end ();
+                 it++)
+            {
+                table.append_rule (String (templ[i].string) + *it,
+                                   String (templ[i].half_voiced),
+                                   String ());
+            }
+        }
+    }
 }
 
 void
@@ -283,7 +340,9 @@ Key2KanaTableSet::reset_tables (void)
             m_all_tables.push_back (&romaji_double_consonant_table);
             m_all_tables.push_back (&romaji_table);
         } else if (is_kana) {
-            m_all_tables.push_back (&kana_voiced_consonant_table);
+            create_voiced_consonant_table (m_voiced_consonant_table,
+                                           kana_table);
+            m_all_tables.push_back (&m_voiced_consonant_table);
             m_all_tables.push_back (&kana_table);
         }
     } else {
@@ -296,7 +355,9 @@ Key2KanaTableSet::reset_tables (void)
             m_all_tables.push_back (&romaji_double_consonant_table);
             m_all_tables.push_back (m_fundamental_table);
         } else if (is_kana) {
-            m_all_tables.push_back (&kana_voiced_consonant_table);
+            create_voiced_consonant_table (m_voiced_consonant_table,
+                                           *m_fundamental_table);
+            m_all_tables.push_back (&m_voiced_consonant_table);
             m_all_tables.push_back (m_fundamental_table);
         }
 #endif

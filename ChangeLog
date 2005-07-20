@@ -1,3 +1,9 @@
+2005-07-20 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_key2kana_table.{cpp,h},
+	  src/scim_anthy_default_tables.{cpp,h}:
+	Create voiced consonant table automatically.
+
 2005-07-19 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.cpp: Don't use convert as you type on Latin

@@ -42,9 +42,16 @@ typedef struct _WideRule
 
 typedef struct _KanaRule
 {
-    int         code;
-    const char *kana;
+    unsigned int  code;
+    const char   *kana;
 } KanaRule;
+
+typedef struct _VoicedConsonantRule
+{
+    const char *string;
+    const char *voiced;
+    const char *half_voiced;
+} VoicedConsonantRule;
 
 typedef struct _NicolaRule
 {
@@ -87,6 +94,7 @@ extern ConvRule scim_anthy_kana_half_comma_rule[];
 // misc
 extern HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[];
 extern WideRule             scim_anthy_wide_table[];
+extern VoicedConsonantRule  scim_anthy_voiced_consonant_table[];
 
 // kana
 extern KanaRule   scim_anthy_kana_table[];
