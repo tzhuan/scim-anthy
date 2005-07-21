@@ -145,8 +145,8 @@ NicolaConvertor::get_thumb_key_type (const KeyEvent key)
 
 void
 NicolaConvertor::on_key_repeat (const KeyEvent key,
-                                    WideString &result,
-                                    String &raw)
+                                WideString &result,
+                                String &raw)
 {
     if (key.is_key_release ()) {
         m_repeat_char_key  = KeyEvent ();
