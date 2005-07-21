@@ -207,9 +207,7 @@ static ComboConfigCandidate typing_methods[] =
 {
     {N_("Romaji typing method"),      "Romaji"},
     {N_("Kana typing method"),        "Kana"},
-#ifdef ENABLE_NICOLA
     {N_("Thumb shift typing method"), "NICOLA"},
-#endif /* ENABLE_NICOLA */
     {NULL, NULL},
 };
 

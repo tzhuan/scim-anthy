@@ -11,11 +11,7 @@ Overview of Changes from scim-anthy-0.5.2 to scim-anthy-0.6.0
       You should customize /etc/X11/xorg.conf to switch it.
       See http://ikumi.revery.net/cmp/kanainputonx.htm for more details.
     - Typing method indicator on the panel doesn't follow X's kana typing mode.
-* Experimental NICOLA support. To enable it, run configure with
-  CPPFLAGS="-DENABLE_NICOLA":
-    $ CPPFLAGS="-DENABLE_NICOLA" ./configure
-    $ make
-    # make install
+* Experimental NICOLA support.
 * Other minor fixes.
 
 Overview of Changes from scim-anthy-0.5.1 to scim-anthy-0.5.2
