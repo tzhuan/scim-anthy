@@ -109,7 +109,7 @@ NicolaConvertor::search (const KeyEvent key,
         }
     }
 
-    if (!result.empty ()) {
+    if (result.empty ()) {
         result = utf8_mbstowcs (raw);
     }
 }
