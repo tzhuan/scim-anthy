@@ -31,6 +31,8 @@
 
 using namespace scim;
 
+class AnthyInstance;
+
 namespace scim_anthy {
 
 typedef enum {
@@ -50,7 +52,7 @@ typedef enum {
 class Preedit
 {
 public:
-    Preedit (Key2KanaTableSet & tables);
+    Preedit (AnthyInstance &anthy, Key2KanaTableSet & tables);
     virtual ~Preedit ();
 
     // getting status

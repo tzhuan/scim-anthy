@@ -19,11 +19,13 @@
  */
 
 #include "scim_anthy_nicola.h"
+#include "scim_anthy_imengine.h"
 
 using namespace scim_anthy;
 
-NicolaConvertor::NicolaConvertor ()
+NicolaConvertor::NicolaConvertor (AnthyInstance &anthy)
     : //m_tables            (tables),
+      m_anthy             (anthy),
       m_case_sensitive    (false),
       m_ten_key_type      (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE),
       m_nicola_time       (200000)
@@ -55,7 +57,7 @@ NicolaConvertor::can_append (const KeyEvent & key)
         return true;
     }
 
-    if (key.code == SCIM_KEY_Henkan || key.code == SCIM_KEY_Muhenkan)
+    if (is_thumb_key (key))
         return true;
 
     return false;
@@ -280,11 +282,11 @@ NicolaConvertor::on_thumb_key_pressed (const KeyEvent key,
         m_repeat_thumb_key = key;
 
     } else if (is_thumb_key (key) && key.is_key_release ()) {
-        // emmit_key_event (m_prev_thumb_key);
+        emmit_key_event (m_prev_thumb_key);
         m_prev_thumb_key = KeyEvent ();
 
     } else if (is_thumb_key (key) & key.is_key_press ()) {
-        // emmit_key_event (m_prev_thumb_key);
+        emmit_key_event (m_prev_thumb_key);
         m_prev_thumb_key = key;
         gettimeofday (&m_time_thumb, NULL);
 
@@ -359,6 +361,13 @@ bool
 NicolaConvertor::is_repeating (void)
 {
     return !m_repeat_char_key.empty () || !m_repeat_thumb_key.empty ();
+}
+
+void
+NicolaConvertor::emmit_key_event (const KeyEvent & key)
+{
+    m_through_key_event = key;
+    m_anthy.process_key_event (key);
 }
 
 bool

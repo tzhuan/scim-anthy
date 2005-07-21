@@ -31,9 +31,9 @@ static ConvRule *get_period_rule              (TypingMethod method,
 static ConvRule *get_comma_rule               (TypingMethod method,
                                                CommaStyle   period);
 
-Preedit::Preedit (Key2KanaTableSet & tables)
+Preedit::Preedit (AnthyInstance &anthy, Key2KanaTableSet & tables)
     : m_key2kana_tables    (tables),
-      m_reading            (tables),
+      m_reading            (anthy, tables),
       m_conversion         (m_reading),
       m_input_mode         (SCIM_ANTHY_MODE_HIRAGANA),
       m_behavior_on_period (SCIM_ANTHY_NONE_ON_PERIOD)

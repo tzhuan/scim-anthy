@@ -32,6 +32,8 @@
 
 using namespace scim;
 
+class AnthyInstance;
+
 namespace scim_anthy {
 
 typedef enum {
@@ -43,7 +45,7 @@ typedef enum {
 class NicolaConvertor : public Key2KanaConvertorBase
 {
 public:
-    NicolaConvertor                 ();
+    NicolaConvertor                 (AnthyInstance &anthy);
     virtual ~NicolaConvertor        ();
 
     bool       can_append           (const KeyEvent & key);
@@ -94,9 +96,12 @@ private:
     void       on_no_key_pressed    (const KeyEvent   key);
 
     bool       is_repeating         (void);
+    void       emmit_key_event      (const KeyEvent & key);
 
 private:
     //Key2KanaTableSet  &m_tables;
+
+    AnthyInstance  &m_anthy;
 
     // mode
     bool            m_case_sensitive;

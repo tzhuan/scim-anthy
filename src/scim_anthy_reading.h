@@ -29,6 +29,8 @@
 
 using namespace scim;
 
+class AnthyInstance;
+
 namespace scim_anthy {
 
 typedef std::vector<KeyEvent> KeyEvents;
@@ -67,7 +69,7 @@ private:
 class Reading
 {
 public:
-    Reading (Key2KanaTableSet & tables);
+    Reading (AnthyInstance &anthy, Key2KanaTableSet & tables);
     virtual ~Reading ();
 
     bool         can_process_key_event (const KeyEvent & key);

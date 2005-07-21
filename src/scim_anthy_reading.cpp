@@ -92,9 +92,10 @@ ReadingSegment::split (ReadingSegments &segments)
 
 
 
-Reading::Reading (Key2KanaTableSet & tables)
+Reading::Reading (AnthyInstance &anthy, Key2KanaTableSet & tables)
     : m_key2kana_tables (tables),
       m_key2kana_normal (m_key2kana_tables),
+      m_nicola          (anthy),
       m_key2kana        (&m_key2kana_normal),
       m_segment_pos     (0),
       m_caret_offset    (0)
