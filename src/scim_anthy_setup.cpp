@@ -334,7 +334,7 @@ find_int_config_entry (const char *config_key)
     return NULL;
 }
 
-static StringConfigData *
+StringConfigData *
 find_string_config_entry (const char *config_key)
 {
     if (!config_key)
@@ -413,7 +413,7 @@ create_check_button (const char *config_key)
     return GTK_WIDGET (entry->widget);
 }
 
-static void
+void
 create_spin_button (const char *config_key, GtkTable *table, int i)
 {
     IntConfigData *entry = find_int_config_entry (config_key);
@@ -429,15 +429,20 @@ create_spin_button (const char *config_key, GtkTable *table, int i)
                       4, 4);
     gtk_widget_show (GTK_WIDGET (label));
 
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (hbox),
+                      1, 2, i, i+1,
+                      (GtkAttachOptions) GTK_FILL,
+                      (GtkAttachOptions) GTK_FILL,
+                      4, 4);
+    gtk_widget_show (hbox);
+
     entry->widget = gtk_spin_button_new_with_range (entry->min, entry->max,
                                                     entry->step);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label),
                                    GTK_WIDGET (entry->widget));
-    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (entry->widget),
-                      1, 2, i, i+1,
-                      (GtkAttachOptions) 0,
-                      (GtkAttachOptions) 0,
-                      4, 4);
+    gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (entry->widget),
+                        FALSE, FALSE, 0);
     g_signal_connect (G_OBJECT (entry->widget), "value-changed",
                       G_CALLBACK (on_default_spin_button_changed),
                       entry);
@@ -450,7 +455,7 @@ create_spin_button (const char *config_key, GtkTable *table, int i)
                               _(entry->tooltip), NULL);
 }
 
-static void
+GtkWidget *
 create_entry (StringConfigData *data, GtkTable *table, int i)
 {
     GtkWidget *label = gtk_label_new (NULL);
@@ -478,6 +483,8 @@ create_entry (StringConfigData *data, GtkTable *table, int i)
     if (data->tooltip)
         gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (data->widget),
                               _(data->tooltip), NULL);
+
+    return GTK_WIDGET (data->widget);
 }
 
 GtkWidget *
@@ -582,7 +589,7 @@ create_option_menu (const char *config_key, gpointer candidates_p)
     return hbox;
 }
 
-static GtkWidget *
+GtkWidget *
 create_color_button (const char *config_key)
 {
     ColorConfigData *entry = find_color_config_entry (config_key);
@@ -969,8 +976,8 @@ create_learning_page ()
 
     for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
         StringConfigData *entry = &config_keyboards_reverse_learning[i];
-        create_entry (entry, GTK_TABLE (table), i);
-        gtk_entry_set_editable (GTK_ENTRY (entry->widget), FALSE);
+        widget = create_entry (entry, GTK_TABLE (table), i);
+        gtk_entry_set_editable (GTK_ENTRY (widget), FALSE);
         button = gtk_button_new_with_label ("...");
         gtk_widget_show (button);
         gtk_table_attach (GTK_TABLE (table), button, 2, 3, i, i + 1,

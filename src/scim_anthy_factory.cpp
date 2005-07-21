@@ -526,8 +526,8 @@ AnthyFactory::reload_config (const ConfigPointer &config)
 
     // load custom kana table
     const char *section_kana = "KanaTable/FundamentalTable";
-    file = config->read (String (SCIM_ANTHY_CONFIG_KANA_THEME_FILE),
-                         String (SCIM_ANTHY_CONFIG_KANA_THEME_FILE_DEFAULT));
+    file = config->read (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE),
+                         String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT));
     if (m_custom_kana_table) {
         delete m_custom_kana_table;
         m_custom_kana_table = NULL;

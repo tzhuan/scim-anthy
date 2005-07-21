@@ -45,22 +45,24 @@ namespace scim_anthy {
 static const char * const __kana_fund_table = "KanaTable/FundamentalTable";
 
 // Internal data declaration.
-static GtkWidget   * __widget_kana_theme_menu     = NULL;
-static GtkWidget   * __widget_kana_theme_menu2    = NULL;
+static GtkWidget   * __widget_kana_layout_menu     = NULL;
+static GtkWidget   * __widget_kana_layout_menu2    = NULL;
+static GtkWidget   * __widget_nicola_layout_menu   = NULL;
 
-static String __config_kana_theme      = SCIM_ANTHY_CONFIG_KANA_THEME_DEFAULT;
-static String __config_kana_theme_file = SCIM_ANTHY_CONFIG_KANA_THEME_FILE_DEFAULT;
+static String __config_kana_layout      = SCIM_ANTHY_CONFIG_KANA_LAYOUT_DEFAULT;
+static String __config_kana_layout_file = SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT;
 
 
 static GtkWidget *create_kana_window              (GtkWindow            *parent);
 
 static void     setup_kana_page                   (void);
-static void     setup_kana_theme_menu             (GtkOptionMenu        *omenu);
+static void     setup_kana_layout_menu             (GtkOptionMenu        *omenu);
+static void     setup_nicola_layout_menu           (GtkOptionMenu        *omenu);
 static void     setup_kana_window_value           (ScimAnthyTableEditor *editor);
 
-static bool     load_kana_theme                   (void);
+static bool     load_kana_layout                   (void);
 
-static void     on_kana_theme_menu_changed        (GtkOptionMenu        *omenu,
+static void     on_kana_layout_menu_changed        (GtkOptionMenu        *omenu,
                                                    gpointer              user_data);
 static void     on_kana_customize_button_clicked  (GtkWidget            *button,
                                                    gpointer              data);
@@ -81,20 +83,35 @@ kana_page_create_ui (void)
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
-    /* kana table */
+    // JIS Kana Layout
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+
+    GtkWidget *label = gtk_label_new (_("<b>JIS Kana Layout</b>"));
+    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+    gtk_widget_show (label);
+
+    GtkWidget *alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 8, 24, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
+    gtk_widget_show (alignment);
+
+    /* kana table */
+    hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+    gtk_container_add (GTK_CONTAINER (alignment), hbox);
     gtk_widget_show(hbox);
 
-    GtkWidget *label = gtk_label_new_with_mnemonic (_("Kana _table:"));
+    label = gtk_label_new_with_mnemonic (_("La_yout:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
     gtk_widget_show (label);
 
     GtkWidget *omenu = gtk_option_menu_new ();
-    __widget_kana_theme_menu = omenu;
+    __widget_kana_layout_menu = omenu;
     g_signal_connect (G_OBJECT (omenu), "changed",
-                      G_CALLBACK (on_kana_theme_menu_changed), NULL);
+                      G_CALLBACK (on_kana_layout_menu_changed), NULL);
     gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
     gtk_widget_show (omenu);
 
@@ -106,6 +123,97 @@ kana_page_create_ui (void)
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
     gtk_widget_show (button);
 
+
+    // NICOLA Layout
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+
+    label = gtk_label_new (_("<b>NICOLA Layout (Not implemented yet)</b>"));
+    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+    gtk_widget_show (label);
+
+    gtk_widget_set_sensitive (hbox, FALSE);
+
+    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
+    gtk_widget_show (alignment);
+
+    GtkWidget *vbox2 = gtk_vbox_new (FALSE, 0);
+    gtk_container_add (GTK_CONTAINER (alignment), vbox2);
+    gtk_widget_show (vbox2);
+
+    /* nicola table */
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    gtk_box_pack_start (GTK_BOX (vbox2), hbox, FALSE, FALSE, 4);
+    gtk_widget_show(hbox);
+
+    label = gtk_label_new_with_mnemonic (_("La_yout:"));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (label);
+
+    omenu = gtk_option_menu_new ();
+    __widget_nicola_layout_menu = omenu;
+#if 0
+    g_signal_connect (G_OBJECT (omenu), "changed",
+                      G_CALLBACK (on_kana_layout_menu_changed), NULL);
+#endif
+    gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
+    gtk_widget_show (omenu);
+
+    gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
+
+    button = gtk_button_new_with_mnemonic (_("_Customize..."));
+#if 0
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_kana_customize_button_clicked), NULL);
+#endif
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
+    gtk_widget_show (button);
+
+    /* thumb shift keys */
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox2), hbox, FALSE, FALSE, 0);
+    gtk_widget_show (hbox);
+
+    GtkWidget *table = gtk_table_new (2, 2, FALSE);
+    gtk_box_pack_start (GTK_BOX (vbox2), table, FALSE, FALSE, 4);
+    gtk_widget_show (table);
+
+    // left
+    StringConfigData *entry;
+    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY);
+    GtkWidget *widget = create_entry (entry, GTK_TABLE (table), 0);
+    gtk_entry_set_editable (GTK_ENTRY (widget), FALSE);
+
+    button = gtk_button_new_with_label ("...");
+    gtk_widget_show (button);
+    gtk_table_attach (GTK_TABLE (table), button, 2, 3, 0, 1,
+                      GTK_FILL, GTK_FILL, 4, 4);
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
+
+    // right
+    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY);
+    widget = create_entry (entry, GTK_TABLE (table), 1);
+    gtk_entry_set_editable (GTK_ENTRY (widget), FALSE);
+
+    button = gtk_button_new_with_label ("...");
+    gtk_widget_show (button);
+    gtk_table_attach (GTK_TABLE (table), button, 2, 3, 1, 2,
+                          GTK_FILL, GTK_FILL, 4, 4);
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
+
+    /* NICOLA time */
+    create_spin_button (SCIM_ANTHY_CONFIG_NICOLA_TIME,
+                        GTK_TABLE (table), 3);
+
+    gtk_widget_set_sensitive (alignment, FALSE);
+
+
+    // prepare
     setup_kana_page ();
 
     return vbox;
@@ -114,24 +222,24 @@ kana_page_create_ui (void)
 void
 kana_page_load_config (const ConfigPointer &config)
 {
-    __config_kana_theme
-        = config->read (String (SCIM_ANTHY_CONFIG_KANA_THEME),
-                        String (SCIM_ANTHY_CONFIG_KANA_THEME_DEFAULT));
-    __config_kana_theme_file
-        = config->read (String (SCIM_ANTHY_CONFIG_KANA_THEME_FILE),
-                        String (SCIM_ANTHY_CONFIG_KANA_THEME_FILE_DEFAULT));
+    __config_kana_layout
+        = config->read (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT),
+                        String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_DEFAULT));
+    __config_kana_layout_file
+        = config->read (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE),
+                        String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT));
     setup_kana_page ();
 }
 
 void
 kana_page_save_config (const ConfigPointer &config)
 {
-    __config_kana_theme
-        = config->write (String (SCIM_ANTHY_CONFIG_KANA_THEME),
-                         String (__config_kana_theme));
-    __config_kana_theme_file
-        = config->write (String (SCIM_ANTHY_CONFIG_KANA_THEME_FILE),
-                         String (__config_kana_theme_file));
+    __config_kana_layout
+        = config->write (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT),
+                         String (__config_kana_layout));
+    __config_kana_layout_file
+        = config->write (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE),
+                         String (__config_kana_layout_file));
 }
 
 bool
@@ -163,15 +271,15 @@ create_kana_window (GtkWindow *parent)
     gtk_widget_show (label);
 
     GtkWidget *omenu = gtk_option_menu_new ();
-    __widget_kana_theme_menu2 = omenu;
+    __widget_kana_layout_menu2 = omenu;
     g_object_add_weak_pointer (G_OBJECT (omenu),
-                               (gpointer*) &__widget_kana_theme_menu2);
+                               (gpointer*) &__widget_kana_layout_menu2);
     gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
-    setup_kana_theme_menu (GTK_OPTION_MENU (omenu));
+    setup_kana_layout_menu (GTK_OPTION_MENU (omenu));
     gtk_option_menu_set_history
         (GTK_OPTION_MENU (omenu),
          gtk_option_menu_get_history (
-             GTK_OPTION_MENU (__widget_kana_theme_menu)));
+             GTK_OPTION_MENU (__widget_kana_layout_menu)));
     gtk_widget_show (omenu);
 
     gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
@@ -185,7 +293,7 @@ create_kana_window (GtkWindow *parent)
     // set data and connect signals
     setup_kana_window_value (SCIM_ANTHY_TABLE_EDITOR (dialog));
     g_signal_connect (G_OBJECT (omenu), "changed",
-                      G_CALLBACK (on_kana_theme_menu_changed),
+                      G_CALLBACK (on_kana_layout_menu_changed),
                       dialog);
     g_signal_connect (G_OBJECT (dialog), "add-entry",
                       G_CALLBACK (on_table_editor_add_entry),
@@ -206,11 +314,12 @@ create_kana_window (GtkWindow *parent)
 static void
 setup_kana_page (void)
 {
-    setup_kana_theme_menu (GTK_OPTION_MENU (__widget_kana_theme_menu));
+    setup_kana_layout_menu (GTK_OPTION_MENU (__widget_kana_layout_menu));
+    setup_nicola_layout_menu (GTK_OPTION_MENU (__widget_nicola_layout_menu));
 }
 
 static void
-setup_kana_theme_menu (GtkOptionMenu *omenu)
+setup_kana_layout_menu (GtkOptionMenu *omenu)
 {
     GtkWidget *menu = gtk_menu_new ();
     gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu),
@@ -245,12 +354,12 @@ setup_kana_theme_menu (GtkOptionMenu *omenu)
     // set default value
     g_signal_handlers_block_by_func (
         G_OBJECT (omenu),
-        (gpointer) (on_kana_theme_menu_changed),
+        (gpointer) (on_kana_layout_menu_changed),
         NULL);
 
     gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
 
-    if (__config_kana_theme_file == __user_style_file.get_file_name ()) {
+    if (__config_kana_layout_file == __user_style_file.get_file_name ()) {
         gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
 
     } else {
@@ -261,7 +370,7 @@ setup_kana_theme_menu (GtkOptionMenu *omenu)
         {
             gint idx = GPOINTER_TO_INT (
                 g_object_get_data (G_OBJECT (node->data), INDEX_KEY));
-            if (__style_list[idx].get_file_name () == __config_kana_theme_file) {
+            if (__style_list[idx].get_file_name () == __config_kana_layout_file) {
                 gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
                 break;
             }
@@ -270,8 +379,27 @@ setup_kana_theme_menu (GtkOptionMenu *omenu)
 
     g_signal_handlers_unblock_by_func (
         G_OBJECT (omenu),
-        (gpointer) (on_kana_theme_menu_changed),
+        (gpointer) (on_kana_layout_menu_changed),
         NULL);
+}
+
+static void
+setup_nicola_layout_menu (GtkOptionMenu *omenu)
+{
+    GtkWidget *menu = gtk_menu_new ();
+    gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu),
+                              menu);
+    gtk_widget_show (menu);
+
+    // create menu items
+    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("User defined"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Default"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    gtk_widget_show (menuitem);
+
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
 }
 
 static void
@@ -286,7 +414,7 @@ setup_kana_window_value (ScimAnthyTableEditor *editor)
     std::vector<String> keys;
     __user_style_file.get_key_list (keys, __kana_fund_table);
     if (keys.empty ()) {
-        load_kana_theme ();
+        load_kana_layout ();
         __user_style_file.get_key_list (keys, __kana_fund_table);
     }
 
@@ -330,9 +458,9 @@ setup_default_kana_table (void)
 }
 
 static bool
-load_kana_theme (void)
+load_kana_layout (void)
 {
-    GtkOptionMenu *omenu = GTK_OPTION_MENU (__widget_kana_theme_menu);
+    GtkOptionMenu *omenu = GTK_OPTION_MENU (__widget_kana_layout_menu);
     gint idx = gtk_option_menu_get_history (omenu);
     GtkWidget *menu = gtk_option_menu_get_menu (omenu);
     GList *list = gtk_container_get_children (GTK_CONTAINER (menu));
@@ -347,7 +475,7 @@ load_kana_theme (void)
     // set new kana table
     if (idx == 0) {
         // User defined table
-        __config_kana_theme_file = __user_style_file.get_file_name ();
+        __config_kana_layout_file = __user_style_file.get_file_name ();
         StyleLines lines;
         bool success = __user_style_file.get_entry_list
                            (lines, __kana_fund_table);
@@ -358,14 +486,14 @@ load_kana_theme (void)
 
     } else if (idx == 1) {
         // Default table
-        __config_kana_theme_file = "";
+        __config_kana_layout_file = "";
         setup_default_kana_table ();
 
         return true;
 
     } else if (theme_idx >= 0 && theme_idx < (int) __style_list.size ()) {
         // Tables defined in system theme files
-        __config_kana_theme_file = __style_list[theme_idx].get_file_name ();
+        __config_kana_layout_file = __style_list[theme_idx].get_file_name ();
         __user_style_file.delete_section (__kana_fund_table);
 
         std::vector<String> keys;
@@ -410,28 +538,28 @@ has_voiced_consonant (String str)
 }
 
 static void
-on_kana_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
+on_kana_layout_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
 {
     bool success;
 
-    if (__widget_kana_theme_menu != GTK_WIDGET (omenu)) {
+    if (__widget_kana_layout_menu != GTK_WIDGET (omenu)) {
         g_signal_handlers_block_by_func (
-            G_OBJECT (__widget_kana_theme_menu),
-            (gpointer) (on_kana_theme_menu_changed),
+            G_OBJECT (__widget_kana_layout_menu),
+            (gpointer) (on_kana_layout_menu_changed),
             NULL);
         gtk_option_menu_set_history (
-            GTK_OPTION_MENU (__widget_kana_theme_menu),
+            GTK_OPTION_MENU (__widget_kana_layout_menu),
             gtk_option_menu_get_history (omenu));
         g_signal_handlers_unblock_by_func (
-            G_OBJECT (__widget_kana_theme_menu),
-            (gpointer) (on_kana_theme_menu_changed),
+            G_OBJECT (__widget_kana_layout_menu),
+            (gpointer) (on_kana_layout_menu_changed),
             NULL);
 
-        success = load_kana_theme ();
+        success = load_kana_layout ();
 
         setup_kana_window_value (SCIM_ANTHY_TABLE_EDITOR (user_data));
     } else {
-        success = load_kana_theme ();
+        success = load_kana_layout ();
     }
 
     if (success) {
@@ -470,7 +598,7 @@ on_table_editor_added_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     // change menu item to "User defined"
     gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_kana_theme_menu2), 0);
+        GTK_OPTION_MENU (__widget_kana_layout_menu2), 0);
 
     __style_changed = true;
 }
@@ -490,7 +618,7 @@ on_table_editor_removed_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     // change menu item to "User deined"
     gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_kana_theme_menu2), 0);
+        GTK_OPTION_MENU (__widget_kana_layout_menu2), 0);
 
     __style_changed = true;
 }

@@ -36,11 +36,23 @@
 
 namespace scim_anthy {
 
+StringConfigData *find_string_config_entry (const char *config_key);
+
 GtkWidget *create_check_button (const char *config_key);
+void       create_spin_button  (const char *config_key,
+                                GtkTable   *table,
+                                int         i);
+GtkWidget *create_entry        (StringConfigData *data,
+                                GtkTable   *table,
+                                int         i);
 GtkWidget *create_combo        (const char *config_key,
                                 gpointer    candidates_p,
                                 GtkWidget  *table,
                                 gint        idx);
+GtkWidget *create_option_menu  (const char *config_key,
+                                gpointer    candidates_p);
+GtkWidget *create_color_button (const char *config_key);
+
 extern StyleFiles __style_list;
 extern StyleFile  __user_style_file;
 extern bool __config_changed;
