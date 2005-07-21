@@ -49,6 +49,7 @@
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE            "/IMEngine/Anthy/ColorThemeFile"
 
 #define SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE          "/IMEngine/Anthy/CandWinPageSize"
+#define SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL       "/IMEngine/Anthy/ShowCandidatesLabel"
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
 #define SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN "/IMEngine/Anthy/NTriggersToShowCandWin"
 
@@ -125,8 +126,10 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY              "/IMEngine/Anthy/DictAdminKey"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY                "/IMEngine/Anthy/AddWordKey"
 
+#define SCIM_ANTHY_CONFIG_SEGMENT_STYLE               "/IMEngine/Anthy/SegmentStyle"
 #define SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR            "/IMEngine/Anthy/SegmentFGColor"
 #define SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR            "/IMEngine/Anthy/SegmentBGColor"
+#define SCIM_ANTHY_CONFIG_PREEDIT_STYLE               "/IMEngine/Anthy/PreeditStyle"
 #define SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR            "/IMEngine/Anthy/PreeditFGColor"
 #define SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR            "/IMEngine/Anthy/PreeditBGColor"
 
@@ -158,6 +161,7 @@
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE_DEFAULT            ""
 
+#define SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL_DEFAULT       true
 #define SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE_DEFAULT          10
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    true
 #define SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN_DEFAULT 2
@@ -235,8 +239,10 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT              "F11"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT                "F12"
 
+#define SCIM_ANTHY_CONFIG_SEGMENT_STYLE_DEFAULT               "Color"
 #define SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR_DEFAULT            "#FFFFFF"
 #define SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR_DEFAULT            "#0900A5"
+#define SCIM_ANTHY_CONFIG_PREEDIT_STYLE_DEFAULT               "Color"
 #define SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR_DEFAULT            "#006010"
 #define SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR_DEFAULT            "#FFFFFF"
 

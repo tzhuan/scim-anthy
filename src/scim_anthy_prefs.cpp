@@ -28,6 +28,16 @@ namespace scim_anthy {
 BoolConfigData config_bool_common [] =
 {
     {
+        SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL,
+        SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL_DEFAULT,
+        SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL_DEFAULT,
+        N_("Show \"_Candidates\" label"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
         SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT,
         SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT,
@@ -293,6 +303,26 @@ StringConfigData config_string_common [] =
         SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT,
         SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT,
         N_("_Add word command:"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_SEGMENT_STYLE,
+        SCIM_ANTHY_CONFIG_SEGMENT_STYLE_DEFAULT,
+        SCIM_ANTHY_CONFIG_SEGMENT_STYLE_DEFAULT,
+        N_("Style of selected segment:"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_PREEDIT_STYLE,
+        SCIM_ANTHY_CONFIG_PREEDIT_STYLE_DEFAULT,
+        SCIM_ANTHY_CONFIG_PREEDIT_STYLE_DEFAULT,
+        N_("Style of preedit:"),
         NULL,
         NULL,
         NULL,

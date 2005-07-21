@@ -256,6 +256,17 @@ static ComboConfigCandidate behavior_on_period[] =
 };
 
 
+static ComboConfigCandidate preedit_style[] =
+{
+    {N_("None"),       "None"},
+    {N_("Underline"),  "Underline"},
+    {N_("Reverse"),    "Reverse"},
+    {N_("Highlight"),  "Highlight"},
+    {N_("Color"),      "Color"},
+    {NULL, NULL},
+};
+
+
 static void     setup_key_theme_menu              (GtkOptionMenu *omenu);
 static void     setup_widget_value                (void);
 
@@ -514,6 +525,61 @@ create_combo (const char *config_key, gpointer candidates_p,
                               _(entry->tooltip), NULL);
 
     return GTK_WIDGET (entry->widget);
+}
+
+GtkWidget *
+create_option_menu (const char *config_key, gpointer candidates_p)
+{
+    StringConfigData *entry = find_string_config_entry (config_key);
+    ComboConfigCandidate *data = static_cast<ComboConfigCandidate*> (candidates_p);
+    if (!entry)
+        return NULL;
+
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_widget_show (hbox);
+
+    GtkWidget *label;
+    label = gtk_label_new_with_mnemonic (_(entry->label));
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_misc_set_padding (GTK_MISC (label), 4, 0);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (label);
+
+    entry->widget = gtk_option_menu_new ();
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label),
+                                   GTK_WIDGET (entry->widget));
+    gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (entry->widget),
+                        FALSE, FALSE, 2);
+    gtk_widget_show (GTK_WIDGET (entry->widget));
+    g_object_set_data (G_OBJECT (entry->widget),
+                       DATA_POINTER_KEY,
+                       (gpointer) candidates_p);
+
+    GtkWidget *menu = gtk_menu_new ();
+    gtk_option_menu_set_menu (GTK_OPTION_MENU (entry->widget), menu);
+    gtk_widget_show (menu);
+
+    for (unsigned int i = 0; data[i].label; i++) {
+        GtkWidget *menuitem = gtk_menu_item_new_with_label (_(data[i].label));
+        gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+        gtk_widget_show (menuitem);
+    }
+
+    gtk_option_menu_set_history (GTK_OPTION_MENU (entry->widget), 0);
+
+#if 0
+    g_signal_connect ((gpointer) GTK_COMBO (entry->widget)->entry, "changed",
+                      G_CALLBACK (on_default_combo_changed),
+                      entry);
+#endif
+
+    if (!__widget_tooltips)
+        __widget_tooltips = gtk_tooltips_new();
+    if (entry->tooltip)
+        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
+                              _(entry->tooltip), NULL);
+
+    return hbox;
 }
 
 static GtkWidget *
@@ -964,6 +1030,10 @@ create_candidates_window_page (void)
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
+    /* show candidates label */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
     /* close candidate window on select */
     widget = create_check_button (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
@@ -1043,13 +1113,28 @@ create_appearance_page (void)
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
-    /* color */
+#if 0
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_SEGMENT_STYLE,
+                                 &preedit_style);
+    gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 2);
+    gtk_widget_show (widget);
+#endif
+
+    /* segment color */
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 2);
     gtk_widget_show (hbox);
     widget = create_color_button (SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR);
     gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
 
+#if 0
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_PREEDIT_STYLE,
+                                 &preedit_style);
+    gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 2);
+    gtk_widget_show (widget);
+#endif
+
+    /* preedit color */
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 2);
     gtk_widget_show (hbox);

@@ -53,6 +53,7 @@ class AnthyFactory : public IMEngineFactoryBase
     String        m_space_type;
     String        m_ten_key_type;
     String        m_behavior_on_period;
+    bool          m_show_candidates_label;
     bool          m_close_cand_win_on_select;
     int           m_cand_win_page_size;
     int           m_n_triggers_to_show_cand_win;
