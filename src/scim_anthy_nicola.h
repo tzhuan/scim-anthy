@@ -93,6 +93,8 @@ private:
                                      String         & raw);
     void       on_no_key_pressed    (const KeyEvent   key);
 
+    bool       is_repeating         (void);
+
 private:
     //Key2KanaTableSet  &m_tables;
 
@@ -104,11 +106,10 @@ private:
 
     // state
     KeyEvent        m_prev_char_key;
-    NicolaShiftType m_prev_thumb_key;
-    bool            m_has_pressed_key;
+    KeyEvent        m_prev_thumb_key;
 
     KeyEvent        m_repeat_char_key;
-    NicolaShiftType m_repeat_thumb_key;
+    KeyEvent        m_repeat_thumb_key;
     bool            m_is_repeating;
 
     struct timeval  m_time_char;
