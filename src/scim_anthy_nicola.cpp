@@ -142,9 +142,9 @@ NicolaConvertor::get_thumb_shift_key_type (const KeyEvent key)
 }
 
 void
-NicolaConvertor::handle_repeat (const KeyEvent key,
-                                WideString &result,
-                                String &raw)
+NicolaConvertor::handle_key_repeat (const KeyEvent key,
+                                    WideString &result,
+                                    String &raw)
 {
     if (key.is_key_release ()) {
         m_repeat_thumb_shift = SCIM_ANTHY_NICOLA_SHIFT_NONE;
@@ -355,7 +355,7 @@ NicolaConvertor::append (const KeyEvent & key,
                          String &raw)
 {
     if (m_is_repeating) {
-        handle_repeat (key, result, raw);
+        handle_key_repeat (key, result, raw);
     } else if (m_shift_type != SCIM_ANTHY_NICOLA_SHIFT_NONE &&
                m_has_pressed_key)
     {

@@ -78,7 +78,8 @@ private:
     bool       is_right_thumb_shift_key (const KeyEvent   key);
     NicolaShiftType
                get_thumb_shift_key_type (const KeyEvent   key);
-    void       handle_repeat            (const KeyEvent   key,
+
+    void       handle_key_repeat        (const KeyEvent   key,
                                          WideString     & result,
                                          String         & raw);
     void       handle_both_key_pressed  (const KeyEvent   key,
