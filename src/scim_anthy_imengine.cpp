@@ -222,6 +222,13 @@ AnthyInstance::select_candidate_no_direct (unsigned int item)
     // update preedit
     m_preedit.select_candidate (m_lookup_table.get_cursor_pos ());
     set_preedition ();
+
+    // update aux string
+    char buf[256];
+    sprintf (buf, _("Candidates (%d/%d)"),
+             m_lookup_table.get_cursor_pos () + 1,
+             m_lookup_table.number_of_candidates ());
+    update_aux_string (utf8_mbstowcs (buf));
 }
 
 void
@@ -369,6 +376,13 @@ AnthyInstance::set_lookup_table (void)
         show_lookup_table ();
         m_lookup_table_visible = true;
         m_n_conv_key_pressed = 0;
+
+        char buf[256];
+        sprintf (buf, _("Candidates (%d/%d)"),
+                 m_lookup_table.get_cursor_pos () + 1,
+                 m_lookup_table.number_of_candidates ());
+        update_aux_string (utf8_mbstowcs (buf));
+        show_aux_string ();
     }
 }
 
@@ -379,6 +393,9 @@ AnthyInstance::unset_lookup_table (void)
     hide_lookup_table ();
     m_lookup_table_visible = false;
     m_n_conv_key_pressed = 0;
+
+    update_aux_string (utf8_mbstowcs (""));
+    hide_aux_string ();
 }
 
 void
