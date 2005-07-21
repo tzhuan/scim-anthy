@@ -43,55 +43,55 @@ typedef enum {
 class NicolaConvertor : public Key2KanaConvertorBase
 {
 public:
-    NicolaConvertor               ();
-    virtual ~NicolaConvertor      ();
+    NicolaConvertor                 ();
+    virtual ~NicolaConvertor        ();
 
-    bool       can_append         (const KeyEvent & key);
+    bool       can_append           (const KeyEvent & key);
 
-    bool       append             (const KeyEvent & key,
-                                   WideString     & result,
-                                   WideString     & pending,
-                                   String         & raw);
-    bool       append             (const String   & str,
-                                   WideString     & result,
-                                   WideString     & pending);
-    void       clear              (void);
+    bool       append               (const KeyEvent & key,
+                                     WideString     & result,
+                                     WideString     & pending,
+                                     String         & raw);
+    bool       append               (const String   & str,
+                                     WideString     & result,
+                                     WideString     & pending);
+    void       clear                (void);
 
-    bool       is_pending         (void);
-    WideString get_pending        (void);
-    WideString flush_pending      (void);
+    bool       is_pending           (void);
+    WideString get_pending          (void);
+    WideString flush_pending        (void);
 
-    void       set_case_sensitive (bool sens);
-    bool       get_case_sensitive (void);
+    void       set_case_sensitive   (bool sens);
+    bool       get_case_sensitive   (void);
 
-    void       set_ten_key_type   (TenKeyType type);
-    TenKeyType get_ten_key_type   (void);
+    void       set_ten_key_type     (TenKeyType type);
+    TenKeyType get_ten_key_type     (void);
 
 private:
-    void       search                   (const KeyEvent   key,
-                                         NicolaShiftType  shift_type,
-                                         WideString      &result,
-                                         String          &raw);
-    bool       is_char_key              (const KeyEvent   key);
-    bool       is_thumb_shift_key       (const KeyEvent   key);
-    bool       is_left_thumb_shift_key  (const KeyEvent   key);
-    bool       is_right_thumb_shift_key (const KeyEvent   key);
+    void       search               (const KeyEvent   key,
+                                     NicolaShiftType  shift_type,
+                                     WideString      &result,
+                                     String          &raw);
+    bool       is_char_key          (const KeyEvent   key);
+    bool       is_thumb_key         (const KeyEvent   key);
+    bool       is_left_thumb_key    (const KeyEvent   key);
+    bool       is_right_thumb_key   (const KeyEvent   key);
     NicolaShiftType
-               get_thumb_shift_key_type (const KeyEvent   key);
+               get_thumb_key_type   (const KeyEvent   key);
 
-    void       handle_key_repeat        (const KeyEvent   key,
-                                         WideString     & result,
-                                         String         & raw);
-    void       handle_both_key_pressed  (const KeyEvent   key,
-                                         WideString     & result,
-                                         String         & raw);
-    void       handle_thumb_key_pressed (const KeyEvent   key,
-                                         WideString     & result,
-                                         String         & raw);
-    void       handle_char_key_pressed  (const KeyEvent   key,
-                                         WideString     & result,
-                                         String         & raw);
-    void       handle_no_key_pressed    (const KeyEvent   key);
+    void       on_key_repeat        (const KeyEvent   key,
+                                     WideString     & result,
+                                     String         & raw);
+    void       on_both_key_pressed  (const KeyEvent   key,
+                                     WideString     & result,
+                                     String         & raw);
+    void       on_thumb_key_pressed (const KeyEvent   key,
+                                     WideString     & result,
+                                     String         & raw);
+    void       on_char_key_pressed  (const KeyEvent   key,
+                                     WideString     & result,
+                                     String         & raw);
+    void       on_no_key_pressed    (const KeyEvent   key);
 
 private:
     //Key2KanaTableSet  &m_tables;
@@ -103,16 +103,18 @@ private:
     long            m_nicola_time;
 
     // state
-    KeyEvent        m_prev_pressed_key;
+    KeyEvent        m_prev_char_key;
+    NicolaShiftType m_prev_thumb_key;
     bool            m_has_pressed_key;
-    NicolaShiftType m_shift_type;
 
-    KeyEvent        m_repeat_key;
-    NicolaShiftType m_repeat_thumb_shift;
+    KeyEvent        m_repeat_char_key;
+    NicolaShiftType m_repeat_thumb_key;
     bool            m_is_repeating;
 
-    struct timeval  m_time;
+    struct timeval  m_time_char;
     struct timeval  m_time_thumb;
+
+    bool            m_through_key_event;
 };
 
 }
