@@ -24,6 +24,7 @@
 #define Uses_SCIM_ICONV
 #define Uses_SCIM_EVENT
 #include <scim.h>
+#include <sys/time.h>
 
 #include "scim_anthy_key2kana_base.h"
 #include "scim_anthy_default_tables.h"
@@ -67,10 +68,28 @@ public:
     TenKeyType get_ten_key_type   (void);
 
 private:
-    void       search             (const KeyEvent   key,
-                                   NicolaShiftType  shift_type,
-                                   WideString      &result,
-                                   String          &raw);
+    void       search                   (const KeyEvent   key,
+                                         NicolaShiftType  shift_type,
+                                         WideString      &result,
+                                         String          &raw);
+    bool       is_thumb_shift_key       (const KeyEvent   key);
+    bool       is_left_thumb_shift_key  (const KeyEvent   key);
+    bool       is_right_thumb_shift_key (const KeyEvent   key);
+    NicolaShiftType
+               get_thumb_shift_key_type (const KeyEvent   key);
+    void       handle_repeat            (const KeyEvent   key,
+                                         WideString     & result,
+                                         String         & raw);
+    void       handle_both_key_pressed  (const KeyEvent   key,
+                                         WideString     & result,
+                                         String         & raw);
+    void       handle_thumb_key_pressed (const KeyEvent   key,
+                                         WideString     & result,
+                                         String         & raw);
+    void       handle_char_key_pressed  (const KeyEvent   key,
+                                         WideString     & result,
+                                         String         & raw);
+    void       handle_no_key_pressed    (const KeyEvent   key);
 
 private:
     //Key2KanaTableSet  &m_tables;
@@ -79,10 +98,19 @@ private:
     bool            m_case_sensitive;
     TenKeyType      m_ten_key_type;
 
+    long            m_nicola_time;
+
     // state
     KeyEvent        m_prev_pressed_key;
     bool            m_has_pressed_key;
     NicolaShiftType m_shift_type;
+
+    KeyEvent        m_repeat_key;
+    NicolaShiftType m_repeat_thumb_shift;
+    bool            m_is_repeating;
+
+    struct timeval  m_time;
+    struct timeval  m_time_thumb;
 };
 
 }
