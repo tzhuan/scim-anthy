@@ -95,6 +95,15 @@ NicolaConvertor::search (const KeyEvent key,
 }
 
 bool
+NicolaConvertor::is_char_key (const KeyEvent key)
+{
+    if (!is_thumb_shift_key (key) && isprint (key.get_ascii_code ()))
+        return true;
+    else
+        return false;
+}
+
+bool
 NicolaConvertor::is_thumb_shift_key (const KeyEvent key)
 {
     if (is_left_thumb_shift_key (key) || is_right_thumb_shift_key (key))
@@ -133,9 +142,9 @@ NicolaConvertor::get_thumb_shift_key_type (const KeyEvent key)
 }
 
 void
-NicolaConvertor::handle_repeat (const KeyEvent   key,
-                                WideString     & result,
-                                String         & raw)
+NicolaConvertor::handle_repeat (const KeyEvent key,
+                                WideString &result,
+                                String &raw)
 {
     if (key.is_key_release ()) {
         m_repeat_thumb_shift = SCIM_ANTHY_NICOLA_SHIFT_NONE;
@@ -193,7 +202,7 @@ NicolaConvertor::handle_both_key_pressed (const KeyEvent key,
         m_shift_type = get_thumb_shift_key_type (key);
         m_is_repeating = true;
 
-    } else if (!is_thumb_shift_key (key) && isprint (key.get_ascii_code ())) {
+    } else if (is_char_key (key)) {
         if (key.is_key_press ()) {
             if (diff2 < diff1) {
                 WideString result1, result2;
@@ -205,14 +214,10 @@ NicolaConvertor::handle_both_key_pressed (const KeyEvent key,
                 result = result1 + result2;
                 raw = raw1 + raw2;
 
-                /*
-                m_has_pressed_key = false;
-                m_shift_type = SCIM_ANTHY_NICOLA_SHIFT_NONE;
-                */
+                // repeat
                 m_repeat_key = key;
                 m_repeat_thumb_shift = get_thumb_shift_key_type (key);
                 m_is_repeating = true;
-                
 
             } else {
                 search (m_prev_pressed_key, m_shift_type, result, raw);
@@ -227,23 +232,27 @@ NicolaConvertor::handle_both_key_pressed (const KeyEvent key,
                         SCIM_ANTHY_NICOLA_SHIFT_NONE,
                         result, raw);
                 m_has_pressed_key = false;
+
             } else {
                 search (m_prev_pressed_key, m_shift_type, result, raw);
                 m_has_pressed_key = false;
                 m_shift_type = SCIM_ANTHY_NICOLA_SHIFT_NONE;
             }
         }
+
     } else if (is_thumb_shift_key (key)) {
         if (key.is_key_press ()) {
             search (m_prev_pressed_key, m_shift_type, result, raw);
             m_has_pressed_key = false;
             m_shift_type = get_thumb_shift_key_type (key);
             gettimeofday (&m_time_thumb, NULL);
+
         } else {
             search (m_prev_pressed_key, m_shift_type, result, raw);
             m_has_pressed_key = false;
             m_shift_type = SCIM_ANTHY_NICOLA_SHIFT_NONE;
         }
+
     } else {
         search (m_prev_pressed_key, m_shift_type, result, raw);
         m_has_pressed_key = false;
@@ -268,7 +277,7 @@ NicolaConvertor::handle_thumb_key_pressed (const KeyEvent key,
         m_shift_type = get_thumb_shift_key_type (key);
         gettimeofday (&m_time_thumb, NULL);
 
-    } else if (isprint (key.get_ascii_code ()) && key.is_key_press ()) {
+    } else if (is_char_key (key) && key.is_key_press ()) {
         m_prev_pressed_key = key;
         m_has_pressed_key  = true;
         gettimeofday (&m_time, NULL);
@@ -297,9 +306,7 @@ NicolaConvertor::handle_char_key_pressed (const KeyEvent key,
         m_prev_pressed_key = key;
         m_is_repeating = true;
 
-    } else if (!is_thumb_shift_key (key) &&
-               isprint (key.get_ascii_code ()) && key.is_key_press ())
-    {
+    } else if (is_char_key (key) && key.is_key_press ()) {
         search (m_prev_pressed_key,
                 SCIM_ANTHY_NICOLA_SHIFT_NONE,
                 result, raw);
@@ -316,6 +323,7 @@ NicolaConvertor::handle_char_key_pressed (const KeyEvent key,
                 SCIM_ANTHY_NICOLA_SHIFT_NONE,
                 result, raw);
         m_has_pressed_key  = false;
+
     } else {
         search (m_prev_pressed_key,
                 SCIM_ANTHY_NICOLA_SHIFT_NONE,
@@ -330,7 +338,7 @@ NicolaConvertor::handle_no_key_pressed (const KeyEvent key)
     if (key.is_key_release ())
         return;
 
-    if (!is_thumb_shift_key (key) && isprint (key.get_ascii_code ())) {
+    if (is_char_key (key)) {
         m_prev_pressed_key = key;
         m_has_pressed_key = true;
         gettimeofday (&m_time, NULL);

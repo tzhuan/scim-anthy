@@ -72,6 +72,7 @@ private:
                                          NicolaShiftType  shift_type,
                                          WideString      &result,
                                          String          &raw);
+    bool       is_char_key              (const KeyEvent   key);
     bool       is_thumb_shift_key       (const KeyEvent   key);
     bool       is_left_thumb_shift_key  (const KeyEvent   key);
     bool       is_right_thumb_shift_key (const KeyEvent   key);
