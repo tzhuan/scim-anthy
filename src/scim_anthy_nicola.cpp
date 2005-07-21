@@ -39,15 +39,24 @@ NicolaConvertor::~NicolaConvertor ()
 bool
 NicolaConvertor::can_append (const KeyEvent & key)
 {
-    if (is_repeating () && key.is_key_press () &&
-        (key == m_repeat_char_key || key == m_repeat_thumb_key) &&
-        m_repeat_char_key.empty ())
-    {
-        return false;
+    if (is_repeating ()) {
+        if (key.is_key_press () &&
+            (key == m_repeat_char_key || key == m_repeat_thumb_key) &&
+            m_repeat_char_key.empty ())
+        {
+            return false;
+        }
     }
 
     if (key == m_through_key_event) {
         m_through_key_event = KeyEvent ();
+        return false;
+    }
+
+    // ignore short cut keys of apllication.
+    if (key.mask & SCIM_KEY_ControlMask ||
+        key.mask & SCIM_KEY_AltMask)
+    {
         return false;
     }
 
@@ -100,8 +109,9 @@ NicolaConvertor::search (const KeyEvent key,
         }
     }
 
-    if (result.empty ())
+    if (!result.empty ()) {
         result = utf8_mbstowcs (raw);
+    }
 }
 
 bool
@@ -157,6 +167,8 @@ NicolaConvertor::on_key_repeat (const KeyEvent key,
                                 String &raw)
 {
     if (key.is_key_release ()) {
+        if (!m_repeat_char_key.empty ())
+            emmit_key_event (key);
         m_repeat_char_key  = KeyEvent ();
         m_repeat_thumb_key = KeyEvent ();
         m_prev_char_key    = KeyEvent ();
@@ -283,6 +295,7 @@ NicolaConvertor::on_thumb_key_pressed (const KeyEvent key,
 
     } else if (is_thumb_key (key) && key.is_key_release ()) {
         emmit_key_event (m_prev_thumb_key);
+        emmit_key_event (key);
         m_prev_thumb_key = KeyEvent ();
 
     } else if (is_thumb_key (key) & key.is_key_press ()) {
