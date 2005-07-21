@@ -38,7 +38,8 @@ bool
 NicolaConvertor::can_append (const KeyEvent & key)
 {
     if (is_repeating () && key.is_key_press () &&
-        (key == m_repeat_char_key || key == m_repeat_thumb_key))
+        (key == m_repeat_char_key || key == m_repeat_thumb_key) &&
+        m_repeat_char_key.empty ())
     {
         return false;
     }
