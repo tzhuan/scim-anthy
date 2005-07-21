@@ -1,3 +1,18 @@
+Overview of Changes from scim-anthy-0.5.2 to scim-anthy-0.6.0
+=============================================================
+* Add preedit color preference.
+* Add some prefereneces for lookup window.
+* Add AZIK extended romaji table.
+* Enable to customize kana typing table.
+* Add a kana table for 101 keyborad.
+* Support kana key symbols of X Window System.
+  But this feature has some limitations:
+    - You can't switch to X's kana typing mode from scim-anthy.
+      You should customize /etc/X11/xorg.conf to switch it.
+      See http://ikumi.revery.net/cmp/kanainputonx.htm for more details.
+    - Typing method indicator on the panel doesn't follow X's kana typing mode.
+* Other minor fixes.
+
 Overview of Changes from scim-anthy-0.5.1 to scim-anthy-0.5.2
 =============================================================
 * The bug that preferences of period, comma and width of numbers aren't
