@@ -26,8 +26,7 @@ NicolaConvertor::NicolaConvertor ()
     : //m_tables            (tables),
       m_case_sensitive    (false),
       m_ten_key_type      (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE),
-      m_nicola_time       (200000),
-      m_through_key_event (false)
+      m_nicola_time       (200000)
 {
 }
 
@@ -44,8 +43,8 @@ NicolaConvertor::can_append (const KeyEvent & key)
         return false;
     }
 
-    if (m_through_key_event) {
-        m_through_key_event = false;
+    if (key == m_through_key_event) {
+        m_through_key_event = KeyEvent ();
         return false;
     }
 
@@ -283,7 +282,7 @@ NicolaConvertor::on_thumb_key_pressed (const KeyEvent key,
         // emmit_key_event (m_prev_thumb_key);
         m_prev_thumb_key = KeyEvent ();
 
-    } else if (is_thumb_key (key) && key.is_key_press ()) {
+    } else if (is_thumb_key (key) & key.is_key_press ()) {
         // emmit_key_event (m_prev_thumb_key);
         m_prev_thumb_key = key;
         gettimeofday (&m_time_thumb, NULL);

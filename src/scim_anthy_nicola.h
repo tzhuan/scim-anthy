@@ -115,7 +115,7 @@ private:
     struct timeval  m_time_char;
     struct timeval  m_time_thumb;
 
-    bool            m_through_key_event;
+    KeyEvent        m_through_key_event;
 };
 
 }
