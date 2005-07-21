@@ -392,22 +392,22 @@ Conversion::get_attribute_list (void)
         if (it->get_string().length () <= 0) {
             pos += it->get_string().length ();
             continue;
-	}
+        }
 
         if ((int) seg_id == m_cur_segment) {
             attrs.push_back (Attribute (pos, it->get_string().length(),
-				        SCIM_ATTR_FOREGROUND,
-					m_segment_fg_color));
+                                        SCIM_ATTR_FOREGROUND,
+                                        m_segment_fg_color));
             attrs.push_back (Attribute (pos, it->get_string().length(),
-				        SCIM_ATTR_BACKGROUND,
-					m_segment_bg_color));
+                                        SCIM_ATTR_BACKGROUND,
+                                        m_segment_bg_color));
         } else {
             attrs.push_back (Attribute (pos, it->get_string().length(),
-				        SCIM_ATTR_BACKGROUND,
-					m_preedit_bg_color));
+                                        SCIM_ATTR_BACKGROUND,
+                                        m_preedit_bg_color));
             attrs.push_back (Attribute (pos, it->get_string().length(),
-				        SCIM_ATTR_DECORATE,
-					SCIM_ATTR_DECORATE_UNDERLINE));
+                                        SCIM_ATTR_DECORATE,
+                                        SCIM_ATTR_DECORATE_UNDERLINE));
         }
 
         pos += it->get_string().length ();

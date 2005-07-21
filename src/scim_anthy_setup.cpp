@@ -256,6 +256,7 @@ static ComboConfigCandidate behavior_on_period[] =
 };
 
 
+#if 0
 static ComboConfigCandidate preedit_style[] =
 {
     {N_("None"),       "None"},
@@ -265,6 +266,7 @@ static ComboConfigCandidate preedit_style[] =
     {N_("Color"),      "Color"},
     {NULL, NULL},
 };
+#endif
 
 
 static void     setup_key_theme_menu              (GtkOptionMenu *omenu);
