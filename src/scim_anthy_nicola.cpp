@@ -377,12 +377,16 @@ NicolaConvertor::append (const KeyEvent & key,
 {
     if (is_repeating ()) {
         on_key_repeat (key, result, raw);
+
     } else if (!m_prev_thumb_key.empty () && !m_prev_char_key.empty ()) {
         on_both_key_pressed (key, result, raw);
+
     } else if (!m_prev_thumb_key.empty ()) {
         on_thumb_key_pressed (key, result, raw);
+
     } else if (!m_prev_char_key.empty ()) {
         on_char_key_pressed (key, result, raw);
+
     } else {
         on_no_key_pressed (key);
     }
