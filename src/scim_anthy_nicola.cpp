@@ -159,10 +159,10 @@ NicolaConvertor::on_key_repeat (const KeyEvent key,
         m_has_pressed_key = false;
 
     } else if ((key == m_repeat_char_key) ||
-               (m_repeat_thumb_key == get_thumb_key_type (key)))
+               (get_thumb_key_type (key) == m_repeat_thumb_key))
     {
         if (m_has_pressed_key)
-            search (m_prev_char_key, m_prev_thumb_key, result, raw);
+            search (m_repeat_char_key, m_repeat_thumb_key, result, raw);
         else
             ; // FIXME! emmit key event and through it
 
@@ -204,8 +204,8 @@ NicolaConvertor::on_both_key_pressed (const KeyEvent key,
 
     if (key.is_key_press () && m_prev_thumb_key == get_thumb_key_type (key)) {
         search (m_prev_char_key, m_prev_thumb_key, result, raw);
-        m_prev_char_key = key;
-        m_prev_thumb_key = get_thumb_key_type (key);
+        m_repeat_char_key  = m_prev_char_key;
+        m_repeat_thumb_key = m_prev_thumb_key;
         m_is_repeating = true;
 
     } else if (is_char_key (key)) {
@@ -222,7 +222,7 @@ NicolaConvertor::on_both_key_pressed (const KeyEvent key,
 
                 // repeat
                 m_repeat_char_key = key;
-                m_repeat_thumb_key = get_thumb_key_type (key);
+                m_repeat_thumb_key = m_prev_thumb_key;
                 m_is_repeating = true;
 
             } else {
@@ -291,8 +291,8 @@ NicolaConvertor::on_thumb_key_pressed (const KeyEvent key,
         search (m_prev_char_key, m_prev_thumb_key, result, raw);
 
         // repeat
-        m_repeat_char_key = key;
-        m_repeat_thumb_key = get_thumb_key_type (key);
+        m_repeat_char_key  = m_prev_char_key;
+        m_repeat_thumb_key = m_prev_thumb_key;
         m_is_repeating = true;
 
     } else {
