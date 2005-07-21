@@ -97,15 +97,29 @@ AnthyInstance::~AnthyInstance ()
     m_factory->remove_config_listener (this);
 }
 
+// FIXME!
+bool
+AnthyInstance::is_nicola_thumb_shift_key (const KeyEvent &key)
+{
+    if (m_preedit.get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA)
+        return false;
+
+    if (key.code == SCIM_KEY_Henkan || key.code == SCIM_KEY_space)
+        return true;
+
+    return false;
+}
+
 bool
 AnthyInstance::process_key_event_input (const KeyEvent &key)
 {
     if (m_preedit.can_process_key_event (key)) {
         if (m_preedit.is_converting ()) {
-            if (is_realtime_conversion ())
+            if (is_realtime_conversion ()) {
                 action_revert ();
-            else
+            } else if (!is_nicola_thumb_shift_key (key)) {
                 action_commit (m_factory->m_learn_on_auto_commit);
+            }
         }
 
         bool need_commit = m_preedit.process_key_event (key);

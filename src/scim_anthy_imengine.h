@@ -166,6 +166,9 @@ private:
     bool   is_single_segment                  (void);
     bool   is_realtime_conversion             (void);
 
+private: // FIXME!
+    bool   is_nicola_thumb_shift_key          (const KeyEvent &key);
+
 private:
     AnthyFactory         *m_factory;
 
@@ -189,6 +192,9 @@ private:
 
     /*  */
     ConversionMode        m_conv_mode;
+
+    /* FIXME! */
+    bool                  m_forwarding_thumb_shift_key;
 };
 #endif /* __SCIM_ANTHY_IMENGINE_H__ */
 /*

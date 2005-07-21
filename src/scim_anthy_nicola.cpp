@@ -134,7 +134,7 @@ NicolaConvertor::is_left_thumb_key (const KeyEvent key)
 bool
 NicolaConvertor::is_right_thumb_key (const KeyEvent key)
 {
-    if (key.code == SCIM_KEY_Henkan)
+    if (key.code == SCIM_KEY_Henkan || key.code == SCIM_KEY_space)
         return true;
 
     return false;
@@ -367,6 +367,8 @@ void
 NicolaConvertor::emmit_key_event (const KeyEvent & key)
 {
     m_through_key_event = key;
+
+    //m_anthy.forward_key_event (key);
     m_anthy.process_key_event (key);
 }
 
