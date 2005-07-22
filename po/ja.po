@@ -320,7 +320,7 @@ msgstr "レイアウト(_Y):"
 
 #: src/scim_anthy_setup_kana.cpp:132
 msgid "<b>NICOLA Layout</b>"
-msgstr "<b>NICOLAかな配列</b>"
+msgstr "<b>NICOLA配列</b>"
 
 #: src/scim_anthy_setup_kana.cpp:152
 msgid "La_yout (Not implemented yet):"
