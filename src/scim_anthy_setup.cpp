@@ -39,6 +39,7 @@
 #include "scim_anthy_style_file.h"
 #include "scim_anthy_prefs.h"
 #include "scim_anthy_default_tables.h"
+#include "scim_anthy_setup.h"
 #include "scim_anthy_setup_romaji.h"
 #include "scim_anthy_setup_kana.h"
 #include "scim_anthy_utils.h"
@@ -276,8 +277,10 @@ static void     on_default_toggle_button_toggled  (GtkToggleButton  *togglebutto
                                                    gpointer          user_data);
 static void     on_default_spin_button_changed    (GtkSpinButton    *spinbutton,
                                                    gpointer          user_data);
+#if 0
 static void     on_default_key_selection_clicked  (GtkButton        *button,
                                                    gpointer          user_data);
+#endif
 static void     on_default_combo_changed          (GtkEditable      *editable,
                                                    gpointer          user_data);
 static void     on_key_filter_selection_clicked   (GtkButton        *button,
@@ -1603,7 +1606,7 @@ on_default_editable_changed (GtkEditable *editable,
     }
 }
 
-static void
+void
 on_default_key_selection_clicked (GtkButton *button,
                                   gpointer   user_data)
 {

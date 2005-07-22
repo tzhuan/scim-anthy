@@ -37,56 +37,6 @@ using namespace scim_anthy;
 
 class AnthyFactory : public IMEngineFactoryBase
 {
-    String m_uuid;
-
-    friend class AnthyInstance;
-
-    /* config */
-    ConfigPointer m_config;
-    Connection    m_reload_signal_connection;
-
-    /* for preferece */
-    String        m_input_mode;
-    String        m_typing_method;
-    String        m_conversion_mode;
-    String        m_period_style;
-    String        m_space_type;
-    String        m_ten_key_type;
-    String        m_behavior_on_period;
-    bool          m_show_candidates_label;
-    bool          m_close_cand_win_on_select;
-    int           m_cand_win_page_size;
-    int           m_n_triggers_to_show_cand_win;
-    bool          m_learn_on_manual_commit;
-    bool          m_learn_on_auto_commit;
-    bool          m_romaji_half_symbol;
-    bool          m_romaji_half_number;
-    bool          m_romaji_allow_split;
-    int           m_nicola_time;
-    KeyEventList  m_left_thumb_keys;
-    KeyEventList  m_right_thumb_keys;
-    String        m_dict_admin_command;
-    String        m_add_word_command;
-    bool          m_show_input_mode_label;
-    bool          m_show_conv_mode_label;
-    bool          m_show_typing_method_label;
-    bool          m_show_period_style_label;
-    bool          m_show_dict_label;
-    bool          m_show_dict_admin_label;
-    bool          m_show_add_word_label;
-    unsigned int  m_segment_fg_color;
-    unsigned int  m_segment_bg_color;
-    unsigned int  m_preedit_fg_color;
-    unsigned int  m_preedit_bg_color;
-
-    Key2KanaTable *m_custom_romaji_table;
-    Key2KanaTable *m_custom_kana_table;
-
-    std::vector<AnthyInstance*> m_config_listeners;
-
-    /* for key bindings */
-    std::vector<Action> m_actions;
-
 public:
     AnthyFactory (const String &lang,
                   const String &uuid,
@@ -108,6 +58,55 @@ public:
 
 private:
     void reload_config (const ConfigPointer &config);
+
+private:
+    String                      m_uuid;
+    Connection                  m_reload_signal_connection;
+    std::vector<AnthyInstance*> m_config_listeners;
+
+public:
+    /* config */
+    ConfigPointer m_config;
+
+    /* for preferece */
+    String         m_input_mode;
+    String         m_typing_method;
+    String         m_conversion_mode;
+    String         m_period_style;
+    String         m_space_type;
+    String         m_ten_key_type;
+    String         m_behavior_on_period;
+    bool           m_show_candidates_label;
+    bool           m_close_cand_win_on_select;
+    int            m_cand_win_page_size;
+    int            m_n_triggers_to_show_cand_win;
+    bool           m_learn_on_manual_commit;
+    bool           m_learn_on_auto_commit;
+    bool           m_romaji_half_symbol;
+    bool           m_romaji_half_number;
+    bool           m_romaji_allow_split;
+    int            m_nicola_time;
+    KeyEventList   m_left_thumb_keys;
+    KeyEventList   m_right_thumb_keys;
+    String         m_dict_admin_command;
+    String         m_add_word_command;
+    bool           m_show_input_mode_label;
+    bool           m_show_conv_mode_label;
+    bool           m_show_typing_method_label;
+    bool           m_show_period_style_label;
+    bool           m_show_dict_label;
+    bool           m_show_dict_admin_label;
+    bool           m_show_add_word_label;
+    unsigned int   m_segment_fg_color;
+    unsigned int   m_segment_bg_color;
+    unsigned int   m_preedit_fg_color;
+    unsigned int   m_preedit_bg_color;
+
+    Key2KanaTable *m_custom_romaji_table;
+    Key2KanaTable *m_custom_kana_table;
+
+    /* for key bindings */
+    std::vector<Action> m_actions;
 };
 
 #endif /* __SCIM_ANTHY_FACTORY_H__ */

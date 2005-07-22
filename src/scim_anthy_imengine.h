@@ -138,6 +138,10 @@ public:
     void   actoin_register_word               (void);
     */
 
+public:
+    AnthyFactory *
+           get_factory                        (void) { return m_factory; };
+
 private:
     /* processing key event */
     bool   process_key_event_input            (const KeyEvent &key);

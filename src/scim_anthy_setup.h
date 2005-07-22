@@ -53,6 +53,9 @@ GtkWidget *create_option_menu  (const char *config_key,
                                 gpointer    candidates_p);
 GtkWidget *create_color_button (const char *config_key);
 
+void on_default_key_selection_clicked (GtkButton *button,
+                                       gpointer   user_data);
+
 extern StyleFiles __style_list;
 extern StyleFile  __user_style_file;
 extern bool __config_changed;

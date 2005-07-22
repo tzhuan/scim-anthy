@@ -18,8 +18,12 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#define Uses_SCIM_IMENGINE
+#define Uses_SCIM_CONFIG_BASE
 #include "scim_anthy_nicola.h"
+#include "scim_anthy_factory.h"
 #include "scim_anthy_imengine.h"
+#include "scim_anthy_utils.h"
 
 using namespace scim_anthy;
 
@@ -27,8 +31,7 @@ NicolaConvertor::NicolaConvertor (AnthyInstance &anthy)
     : //m_tables            (tables),
       m_anthy             (anthy),
       m_case_sensitive    (false),
-      m_ten_key_type      (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE),
-      m_nicola_time       (200000)
+      m_ten_key_type      (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
 {
 }
 
@@ -135,19 +138,13 @@ NicolaConvertor::is_thumb_key (const KeyEvent key)
 bool
 NicolaConvertor::is_left_thumb_key (const KeyEvent key)
 {
-    if (key.code == SCIM_KEY_Muhenkan)
-        return true;
-
-    return false;
+    return util_match_key_event (m_anthy.get_factory()->m_left_thumb_keys, key);
 }
 
 bool
 NicolaConvertor::is_right_thumb_key (const KeyEvent key)
 {
-    if (key.code == SCIM_KEY_Henkan || key.code == SCIM_KEY_space)
-        return true;
-
-    return false;
+    return util_match_key_event (m_anthy.get_factory()->m_right_thumb_keys, key);
 }
 
 NicolaShiftType
@@ -248,7 +245,9 @@ NicolaConvertor::on_both_key_pressed (const KeyEvent key,
             }
 
         } else {
-            if (diff2 < m_nicola_time && diff1 > diff2) {
+            if (diff2 < m_anthy.get_factory()->m_nicola_time * 1000 &&
+                diff1 > diff2)
+            {
                 search (m_prev_char_key, SCIM_ANTHY_NICOLA_SHIFT_NONE,
                         result, raw);
                 m_prev_char_key = KeyEvent ();

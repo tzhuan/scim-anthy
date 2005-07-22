@@ -107,8 +107,6 @@ private:
     bool            m_case_sensitive;
     TenKeyType      m_ten_key_type;
 
-    long            m_nicola_time;
-
     // state
     KeyEvent        m_prev_char_key;
     KeyEvent        m_prev_thumb_key;

@@ -129,7 +129,7 @@ kana_page_create_ui (void)
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
     gtk_widget_show (hbox);
 
-    label = gtk_label_new (_("<b>NICOLA Layout (Not implemented yet)</b>"));
+    label = gtk_label_new (_("<b>NICOLA Layout</b>"));
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
     gtk_widget_show (label);
@@ -148,10 +148,10 @@ kana_page_create_ui (void)
     /* nicola table */
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
-    gtk_box_pack_start (GTK_BOX (vbox2), hbox, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox2), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
-    label = gtk_label_new_with_mnemonic (_("La_yout:"));
+    label = gtk_label_new_with_mnemonic (_("La_yout (Not implemented yet):"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
     gtk_widget_show (label);
 
@@ -174,6 +174,8 @@ kana_page_create_ui (void)
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
     gtk_widget_show (button);
 
+    gtk_widget_set_sensitive (hbox, FALSE);
+
     /* thumb shift keys */
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (vbox2), hbox, FALSE, FALSE, 0);
@@ -194,6 +196,9 @@ kana_page_create_ui (void)
     gtk_table_attach (GTK_TABLE (table), button, 2, 3, 0, 1,
                       GTK_FILL, GTK_FILL, 4, 4);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
+    g_signal_connect ((gpointer) button, "clicked",
+                      G_CALLBACK (on_default_key_selection_clicked),
+                      entry);
 
     // right
     entry = find_string_config_entry (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY);
@@ -205,12 +210,13 @@ kana_page_create_ui (void)
     gtk_table_attach (GTK_TABLE (table), button, 2, 3, 1, 2,
                           GTK_FILL, GTK_FILL, 4, 4);
     gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
+    g_signal_connect ((gpointer) button, "clicked",
+                      G_CALLBACK (on_default_key_selection_clicked),
+                      entry);
 
     /* NICOLA time */
     create_spin_button (SCIM_ANTHY_CONFIG_NICOLA_TIME,
                         GTK_TABLE (table), 3);
-
-    gtk_widget_set_sensitive (alignment, FALSE);
 
 
     // prepare
