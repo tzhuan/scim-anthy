@@ -187,6 +187,7 @@ IntConfigData config_int_common [] =
         1, 100, 1,
         N_("Number of candidates to show in a _page:"),
         NULL,
+        NULL,
         N_("Specify the number of candidates to show in a page of the candidates window."),
         NULL,
         false,
@@ -197,6 +198,7 @@ IntConfigData config_int_common [] =
         SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN_DEFAULT,
         0, 100, 1,
         N_("Number of _triggers until show:"),
+        N_("[times]"),
         NULL,
         N_("The number of times to press a conversion key until show the candidates window."
            "Specify 0 to never show it."),
@@ -209,6 +211,7 @@ IntConfigData config_int_common [] =
         SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT,
         0, 1000, 200,
         N_("_Simultaneous key pressing time:"),
+        N_("[msec]"),
         NULL,
         N_("Simultaneous key pressing time."),
         NULL,

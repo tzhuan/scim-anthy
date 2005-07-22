@@ -439,6 +439,15 @@ create_spin_button (const char *config_key, GtkTable *table, int i)
                       entry);
     gtk_widget_show (GTK_WIDGET (entry->widget));
 
+    if (entry->unit) {
+        label = gtk_label_new_with_mnemonic (_(entry->unit));
+        gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+        gtk_misc_set_padding (GTK_MISC (label), 4, 0);
+        gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (label),
+                            FALSE, FALSE, 0);
+        gtk_widget_show (GTK_WIDGET (label));
+    }
+
     if (!__widget_tooltips)
         __widget_tooltips = gtk_tooltips_new();
     if (entry->tooltip)

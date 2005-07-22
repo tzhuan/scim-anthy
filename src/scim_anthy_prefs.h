@@ -289,6 +289,7 @@ struct IntConfigData
     int         default_value;
     int         min, max, step;
     const char *label;
+    const char *unit;
     const char *title;
     const char *tooltip;
     void       *widget;
