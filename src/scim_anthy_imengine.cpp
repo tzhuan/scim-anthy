@@ -78,7 +78,7 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
                               int             id)
     : IMEngineInstanceBase     (factory, encoding, id),
       m_factory                (factory),
-      m_prev_key               (0,0),
+      m_on_init                (true),
       m_preedit                (*this, m_key2kana_tables),
       m_preedit_string_visible (false),
       m_lookup_table_visible   (false),
@@ -90,6 +90,7 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
 
     reload_config (m_factory->m_config);
     m_factory->append_config_listener (this);
+    m_on_init = false;
 }
 
 AnthyInstance::~AnthyInstance ()
@@ -1653,7 +1654,7 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     m_preedit.set_allow_split_romaji (m_factory->m_romaji_allow_split);
 
     // set input mode
-    if (!m_factory->m_show_input_mode_label) {
+    if (m_on_init || !m_factory->m_show_input_mode_label) {
         if (m_factory->m_input_mode == "Hiragana")
             m_preedit.set_input_mode (SCIM_ANTHY_MODE_HIRAGANA);
         else if (m_factory->m_input_mode == "Katakana")
@@ -1667,7 +1668,7 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     }
 
     // set typing method
-    if (!m_factory->m_show_typing_method_label) {
+    if (m_on_init || !m_factory->m_show_typing_method_label) {
         if (m_factory->m_typing_method == "NICOLA")
             m_preedit.set_typing_method
                 (SCIM_ANTHY_TYPING_METHOD_NICOLA, NULL);
@@ -1682,7 +1683,7 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     }
 
     // set conversion mode
-    if (!m_factory->m_show_conv_mode_label) {
+    if (m_on_init || !m_factory->m_show_conv_mode_label) {
         if (m_factory->m_conversion_mode == "MultiSeg")
             m_conv_mode = SCIM_ANTHY_CONVERSION_MULTI_SEGMENT;
         else if (m_factory->m_conversion_mode == "SingleSeg")
@@ -1694,7 +1695,7 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     }
 
     // set period style
-    if (!m_factory->m_show_period_style_label) {
+    if (m_on_init || !m_factory->m_show_period_style_label) {
         if (m_factory->m_period_style == "WideLatin") {
             m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
             m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_WIDE);

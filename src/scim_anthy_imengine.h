@@ -176,7 +176,7 @@ private: // FIXME!
 private:
     AnthyFactory         *m_factory;
 
-    KeyEvent              m_prev_key;
+    bool                  m_on_init;
 
     /* for preedit */
     Key2KanaTableSet      m_key2kana_tables;
