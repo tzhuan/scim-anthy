@@ -21,12 +21,15 @@
 #define __SCIM_ANTHY_UTILS_H__
 
 #define Uses_SCIM_ICONV
+#define Uses_SCIM_EVENT
 #include <scim.h>
 
 using namespace scim;
 
 namespace scim_anthy {
 
+bool util_match_key_event     (const KeyEventList  &list,
+                               const KeyEvent      &key);
 void util_split_string        (String              &str,
                                std::vector<String> &str_list,
                                char                *delim,

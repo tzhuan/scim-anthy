@@ -378,18 +378,6 @@ find_color_config_entry (const char *config_key)
     return NULL;
 }
 
-static bool
-match_key_event (const KeyEventList &list, const KeyEvent &key)
-{
-    KeyEventList::const_iterator kit;
-
-    for (kit = list.begin (); kit != list.end (); kit++) {
-        if (key.code == kit->code && key.mask == kit->mask)
-             return true;
-    }
-    return false;
-}
-
 GtkWidget *
 create_check_button (const char *config_key)
 {
@@ -649,7 +637,7 @@ append_key_bindings (GtkTreeView *treeview, gint idx, const gchar *filter)
             KeyEventList::const_iterator kit;
             bool found = true;
             for (kit = keys1.begin (); kit != keys1.end (); kit++) {
-                if (!match_key_event (keys2, *kit)) {
+                if (!util_match_key_event (keys2, *kit)) {
                     found = false;
                     break;
                 }

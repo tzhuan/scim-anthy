@@ -120,6 +120,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_romaji_half_symbol          (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT),
       m_romaji_half_number          (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT),
       m_romaji_allow_split          (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT),
+      m_nicola_time                 (SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT),
       m_dict_admin_command          (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
       m_add_word_command            (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
       m_show_input_mode_label       (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
@@ -330,94 +331,134 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         String str;
 
         m_input_mode
-            = config->read (SCIM_ANTHY_CONFIG_INPUT_MODE,
+            = config->read (String (SCIM_ANTHY_CONFIG_INPUT_MODE),
                             m_input_mode);
+
         m_typing_method
-            = config->read (SCIM_ANTHY_CONFIG_TYPING_METHOD,
+            = config->read (String (SCIM_ANTHY_CONFIG_TYPING_METHOD),
                             m_typing_method);
+
         m_conversion_mode
-            = config->read (SCIM_ANTHY_CONFIG_CONVERSION_MODE,
+            = config->read (String (SCIM_ANTHY_CONFIG_CONVERSION_MODE),
                             m_conversion_mode);
+
         m_period_style
-            = config->read (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
+            = config->read (String (SCIM_ANTHY_CONFIG_PERIOD_STYLE),
                             m_period_style);
+
         m_space_type
-            = config->read (SCIM_ANTHY_CONFIG_SPACE_TYPE,
+            = config->read (String (SCIM_ANTHY_CONFIG_SPACE_TYPE),
                             m_space_type);
+
         m_ten_key_type
-            = config->read (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
+            = config->read (String (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE),
                             m_ten_key_type);
+
         m_behavior_on_period
-            = config->read (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
+            = config->read (String (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD),
                             m_behavior_on_period);
+
         m_cand_win_page_size
-            = config->read (SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE,
+            = config->read (String (SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE),
                             m_cand_win_page_size);
+
         m_show_candidates_label
-            = config->read (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL,
+            = config->read (String (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL),
                             m_show_candidates_label);
+
         m_close_cand_win_on_select
-            = config->read (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
+            = config->read (String (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT),
                             m_close_cand_win_on_select);
+
         m_n_triggers_to_show_cand_win
-            = config->read (SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN,
+            = config->read (String (SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN),
                             m_n_triggers_to_show_cand_win);
+
         m_learn_on_manual_commit
-            = config->read (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT,
+            = config->read (String (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT),
                             m_learn_on_manual_commit);
+
         m_learn_on_auto_commit
-            = config->read (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT,
+            = config->read (String (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT),
                             m_learn_on_auto_commit);
+
         m_romaji_half_symbol
-            = config->read (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL,
+            = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL),
                             m_romaji_half_symbol);
+
         m_romaji_half_number
-            = config->read (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER,
+            = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER),
                             m_romaji_half_number);
+
         m_romaji_allow_split
-            = config->read (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT,
+            = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT),
                             m_romaji_allow_split);
+
+        m_nicola_time
+            = config->read (String (SCIM_ANTHY_CONFIG_NICOLA_TIME),
+                            m_nicola_time);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY),
+                            String (SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY_DEFAULT));
+        scim_string_to_key_list (m_left_thumb_keys, str);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY),
+                            String (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY_DEFAULT));
+        scim_string_to_key_list (m_right_thumb_keys, str);
+
         m_dict_admin_command
-            = config->read (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
+            = config->read (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND),
                             m_dict_admin_command);
+
         m_add_word_command
-            = config->read (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND,
+            = config->read (String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND),
                             m_add_word_command);
+
         m_show_input_mode_label
-            = config->read (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL,
+            = config->read (String (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL),
                             m_show_input_mode_label);
+
         m_show_conv_mode_label
-            = config->read (SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL,
+            = config->read (String (SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL),
                             m_show_conv_mode_label);
+
         m_show_typing_method_label
-            = config->read (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL,
+            = config->read (String (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL),
                             m_show_typing_method_label);
+
         m_show_period_style_label
-            = config->read (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL,
+            = config->read (String (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL),
                             m_show_period_style_label);
+
         m_show_dict_label
-            = config->read (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL,
+            = config->read (String (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL),
                             m_show_dict_label);
+
         m_show_dict_admin_label
-            = config->read (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL,
+            = config->read (String (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL),
                             m_show_dict_admin_label);
+
         m_show_add_word_label
-            = config->read (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL,
+            = config->read (String (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL),
                             m_show_add_word_label);
     	// color settings
         int red, green, blue;
+
         str = config->read (String (SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR),
                             String (SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR_DEFAULT));
         sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
         m_segment_fg_color = SCIM_RGB_COLOR (red, green, blue);
+
         str = config->read (String (SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR),
                             String (SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR_DEFAULT));
         sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
         m_segment_bg_color = SCIM_RGB_COLOR (red, green, blue);
+
         str = config->read (String (SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR),
                             String (SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR_DEFAULT));
         sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
         m_preedit_fg_color = SCIM_RGB_COLOR (red, green, blue);
+
         str = config->read (String (SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR),
                             String (SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR_DEFAULT));
         sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);

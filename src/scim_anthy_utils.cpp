@@ -24,6 +24,18 @@
 
 namespace scim_anthy {
 
+bool
+util_match_key_event (const KeyEventList &list, const KeyEvent &key)
+{
+    KeyEventList::const_iterator kit;
+
+    for (kit = list.begin (); kit != list.end (); kit++) {
+        if (key.code == kit->code /*&& key.mask == kit->mask*/)
+             return true;
+    }
+    return false;
+}
+
 void
 util_split_string (String &str, std::vector<String> &str_list,
                    char *delim, int num)
