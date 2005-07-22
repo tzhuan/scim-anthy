@@ -22,6 +22,7 @@
 #endif
 
 #include "scim_anthy_action.h"
+#include "scim_anthy_utils.h"
 
 using namespace scim_anthy;
 
@@ -75,13 +76,5 @@ Action::perform (AnthyInstance *performer, const KeyEvent &key)
 bool
 Action::match_key_event (const KeyEvent &key)
 {
-    KeyEventList::const_iterator kit;
-
-    for (kit = m_key_bindings.begin (); kit != m_key_bindings.end (); ++kit) {
-        uint16 mask = key.mask;
-        mask &= ~SCIM_KEY_CapsLockMask;
-        if (key.code == kit->code && mask == kit->mask)
-             return true;
-    }
-    return false;
+    return util_match_key_event (m_key_bindings, key, SCIM_KEY_CapsLockMask);
 }

@@ -104,8 +104,8 @@ AnthyInstance::is_nicola_thumb_shift_key (const KeyEvent &key)
     if (m_preedit.get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA)
         return false;
 
-    if (util_match_key_event (m_factory->m_left_thumb_keys, key) ||
-        util_match_key_event (m_factory->m_right_thumb_keys, key))
+    if (util_match_key_event (m_factory->m_left_thumb_keys, key, 0xFFFF) ||
+        util_match_key_event (m_factory->m_right_thumb_keys, key, 0xFFFF))
     {
         return true;
     }

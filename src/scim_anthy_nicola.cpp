@@ -138,13 +138,15 @@ NicolaConvertor::is_thumb_key (const KeyEvent key)
 bool
 NicolaConvertor::is_left_thumb_key (const KeyEvent key)
 {
-    return util_match_key_event (m_anthy.get_factory()->m_left_thumb_keys, key);
+    return util_match_key_event (m_anthy.get_factory()->m_left_thumb_keys, key,
+                                 0xFFFF);
 }
 
 bool
 NicolaConvertor::is_right_thumb_key (const KeyEvent key)
 {
-    return util_match_key_event (m_anthy.get_factory()->m_right_thumb_keys, key);
+    return util_match_key_event (m_anthy.get_factory()->m_right_thumb_keys, key,
+                                 0xFFFF);
 }
 
 NicolaShiftType

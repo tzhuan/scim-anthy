@@ -25,12 +25,20 @@
 namespace scim_anthy {
 
 bool
-util_match_key_event (const KeyEventList &list, const KeyEvent &key)
+util_match_key_event (const KeyEventList &list, const KeyEvent &key,
+                      uint16 ignore_mask)
 {
     KeyEventList::const_iterator kit;
 
     for (kit = list.begin (); kit != list.end (); kit++) {
-        if (key.code == kit->code /*&& key.mask == kit->mask*/)
+        uint16 mod1, mod2;
+
+        mod1 = kit->mask;
+        mod2 = key.mask;
+        mod1 &= ~ignore_mask;
+        mod2 &= ~ignore_mask;
+
+        if (key.code == kit->code && mod1 == mod2)
              return true;
     }
     return false;

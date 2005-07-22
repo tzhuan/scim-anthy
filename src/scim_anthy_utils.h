@@ -29,7 +29,8 @@ using namespace scim;
 namespace scim_anthy {
 
 bool util_match_key_event     (const KeyEventList  &list,
-                               const KeyEvent      &key);
+                               const KeyEvent      &key,
+                               uint16               ignore_mask = 0);
 void util_split_string        (String              &str,
                                std::vector<String> &str_list,
                                char                *delim,
