@@ -134,8 +134,6 @@ kana_page_create_ui (void)
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
     gtk_widget_show (label);
 
-    gtk_widget_set_sensitive (hbox, FALSE);
-
     alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
     gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
     gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
