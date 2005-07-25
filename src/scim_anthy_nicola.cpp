@@ -182,7 +182,7 @@ NicolaConvertor::on_key_repeat (const KeyEvent key,
         }
 
 
-    } else if (!is_thumb_key (key) && key != m_repeat_char_key) {
+    } else if (!is_thumb_key (key) && !(key == m_repeat_char_key)) {
         m_repeat_char_key  = KeyEvent ();
         m_repeat_thumb_key = KeyEvent ();
         m_prev_char_key    = key;
