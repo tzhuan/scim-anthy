@@ -21,6 +21,8 @@
   #include <config.h>
 #endif
 
+#include "scim_anthy_factory.h"
+#include "scim_anthy_imengine.h"
 #include "scim_anthy_preedit.h"
 #include "scim_anthy_utils.h"
 
@@ -32,9 +34,10 @@ static ConvRule *get_comma_rule               (TypingMethod method,
                                                CommaStyle   period);
 
 Preedit::Preedit (AnthyInstance &anthy, Key2KanaTableSet & tables)
-    : m_key2kana_tables    (tables),
+    : m_anthy              (anthy),
+      m_key2kana_tables    (tables),
       m_reading            (anthy, tables),
-      m_conversion         (m_reading),
+      m_conversion         (m_anthy, m_reading),
       m_input_mode         (SCIM_ANTHY_MODE_HIRAGANA),
       m_behavior_on_period (SCIM_ANTHY_NONE_ON_PERIOD)
 {
@@ -99,12 +102,14 @@ Preedit::get_attribute_list (void)
         return m_conversion.get_attribute_list ();
     } else {
         AttributeList attrs;
-        attrs.push_back (Attribute (0, get_length (),
-                                    SCIM_ATTR_FOREGROUND, 
-                                    m_preedit_fg_color));
-        attrs.push_back (Attribute (0, get_length (),
-                                    SCIM_ATTR_BACKGROUND,
-                                    m_preedit_bg_color));
+        attrs.push_back (
+            Attribute (0, get_length (),
+                       SCIM_ATTR_FOREGROUND, 
+                       m_anthy.get_factory()->m_preedit_fg_color));
+        attrs.push_back (
+            Attribute (0, get_length (),
+                       SCIM_ATTR_BACKGROUND,
+                       m_anthy.get_factory()->m_preedit_bg_color));
         return attrs;
     }
 }
@@ -430,47 +435,6 @@ Preedit::is_comma_or_period (const String & str)
     }
 
     return false;
-}
-
-void
-Preedit::set_preedit_colors (unsigned int fg_color, unsigned int bg_color)
-{
-    m_preedit_fg_color = fg_color;
-    m_preedit_bg_color = bg_color;
-}
-
-bool
-Preedit::get_preedit_colors (unsigned int *fg_color, unsigned int *bg_color)
-{
-    if (fg_color)
-        *fg_color = m_preedit_fg_color;
-    if (bg_color)
-        *bg_color = m_preedit_bg_color;
-    return true;
-}
-
-void
-Preedit::set_conversion_colors (unsigned int fg_color, unsigned int bg_color)
-{
-    m_conversion.set_conversion_colors (fg_color, bg_color);
-}
-
-bool
-Preedit::get_conversion_colors (unsigned int *fg_color, unsigned int *bg_color)
-{
-    return m_conversion.get_conversion_colors (fg_color, bg_color);
-}
-
-void
-Preedit::set_selected_segment_colors (unsigned int fg_color, unsigned int bg_color)
-{
-    m_conversion.set_selected_segment_colors (fg_color, bg_color);
-}
-
-bool
-Preedit::get_selected_segment_colors (unsigned int *fg_color, unsigned int *bg_color)
-{
-    return m_conversion.get_selected_segment_colors (fg_color, bg_color);
 }
 
 

@@ -261,7 +261,9 @@ static ComboConfigCandidate preedit_style[] =
     {N_("Underline"),     "Underline"},
     {N_("Reverse"),       "Reverse"},
     {N_("Highlight"),     "Highlight"},
-    {N_("Color"),         "Color"},
+    {N_("String color"),  "FGColor"},
+    {N_("BG color"),      "BGColor"},
+    {N_("Both color"),    "Color"},
     {NULL, NULL},
 };
 

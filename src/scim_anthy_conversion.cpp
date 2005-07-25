@@ -17,6 +17,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include "scim_anthy_factory.h"
+#include "scim_anthy_imengine.h"
 #include "scim_anthy_conversion.h"
 #include "scim_anthy_utils.h"
 
@@ -68,8 +70,9 @@ ConversionSegment::set_reading_length (unsigned int len)
 }
 
 
-Conversion::Conversion (Reading &reading)
-    : m_reading          (reading),
+Conversion::Conversion (AnthyInstance &anthy, Reading &reading)
+    : m_anthy            (anthy),
+      m_reading          (reading),
       m_anthy_context    (anthy_create_context()),
       m_start_id         (0),
       m_cur_segment      (-1)
@@ -395,19 +398,23 @@ Conversion::get_attribute_list (void)
         }
 
         if ((int) seg_id == m_cur_segment) {
-            attrs.push_back (Attribute (pos, it->get_string().length(),
-                                        SCIM_ATTR_FOREGROUND,
-                                        m_selected_segment_fg_color));
-            attrs.push_back (Attribute (pos, it->get_string().length(),
-                                        SCIM_ATTR_BACKGROUND,
-                                        m_selected_segment_bg_color));
+            attrs.push_back (
+                Attribute (pos, it->get_string().length(),
+                           SCIM_ATTR_FOREGROUND,
+                           m_anthy.get_factory()->m_selected_segment_fg_color));
+            attrs.push_back (
+                Attribute (pos, it->get_string().length(),
+                           SCIM_ATTR_BACKGROUND,
+                           m_anthy.get_factory()->m_selected_segment_bg_color));
         } else {
-            attrs.push_back (Attribute (pos, it->get_string().length(),
-                                        SCIM_ATTR_FOREGROUND,
-                                        m_conversion_fg_color));
-            attrs.push_back (Attribute (pos, it->get_string().length(),
-                                        SCIM_ATTR_BACKGROUND,
-                                        m_conversion_bg_color));
+            attrs.push_back (
+                Attribute (pos, it->get_string().length(),
+                           SCIM_ATTR_FOREGROUND,
+                           m_anthy.get_factory()->m_conversion_fg_color));
+            attrs.push_back (
+                Attribute (pos, it->get_string().length(),
+                           SCIM_ATTR_BACKGROUND,
+                           m_anthy.get_factory()->m_conversion_bg_color));
 #if 0
             attrs.push_back (Attribute (pos, it->get_string().length(),
                                         SCIM_ATTR_DECORATE,
@@ -659,44 +666,4 @@ Conversion::select_candidate (int candidate_id, int segment_id)
         m_segments[segment_id].set (get_segment_string (segment_id,
                                                         candidate_id),
                                     candidate_id);
-}
-
-void
-Conversion::set_conversion_colors (unsigned int fg_color,
-                                   unsigned int bg_color)
-{
-    m_conversion_fg_color = fg_color;
-    m_conversion_bg_color = bg_color;
-}
-
-bool
-Conversion::get_conversion_colors (unsigned int *fg_color,
-                                   unsigned int *bg_color)
-{
-    if (fg_color)
-        *fg_color = m_conversion_fg_color;
-    if (bg_color)
-        *bg_color = m_conversion_bg_color;
-
-    return true;
-}
-
-void
-Conversion::set_selected_segment_colors (unsigned int fg_color,
-                                         unsigned int bg_color)
-{
-    m_selected_segment_fg_color = fg_color;
-    m_selected_segment_bg_color = bg_color;
-}
-
-bool
-Conversion::get_selected_segment_colors (unsigned int *fg_color,
-                                         unsigned int *bg_color)
-{
-    if (fg_color)
-        *fg_color = m_selected_segment_fg_color;
-    if (bg_color)
-        *bg_color = m_selected_segment_bg_color;
-
-    return true;
 }

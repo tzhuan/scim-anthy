@@ -114,6 +114,8 @@ private:
     void         split_segment         (unsigned int seg_id);
 
 private:
+    AnthyInstance         &m_anthy;
+
     // convertors
     Key2KanaTableSet      &m_key2kana_tables;
     Key2KanaConvertor      m_key2kana_normal;

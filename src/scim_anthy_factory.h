@@ -26,6 +26,8 @@
 #ifndef __SCIM_ANTHY_FACTORY_H__
 #define __SCIM_ANTHY_FACTORY_H__
 
+#define Uses_SCIM_IMENGINE
+#define Uses_SCIM_CONFIG_BASE
 #include <anthy/anthy.h>
 #include <scim.h>
 #include "scim_anthy_action.h"

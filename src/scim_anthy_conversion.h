@@ -30,6 +30,8 @@
 
 using namespace scim;
 
+class AnthyInstance;
+
 namespace scim_anthy {
 
 typedef enum {
@@ -69,7 +71,7 @@ typedef std::vector<ConversionSegment> ConversionSegments;
 class Conversion
 {
 public:
-    Conversion (Reading &reading);
+    Conversion (AnthyInstance &anthy, Reading &reading);
     virtual ~Conversion ();
 
     // starting and finishing
@@ -105,15 +107,6 @@ public:
     int           get_selected_candidate (int segment_id = -1);
     void          select_candidate       (int candidate_id,
                                           int segment_id = -1);
-    // preference
-    void          set_conversion_colors       (unsigned int  fg_color,
-                                               unsigned int  bg_color);
-    bool          get_conversion_colors       (unsigned int *fg_color,
-                                               unsigned int *bg_color);
-    void          set_selected_segment_colors (unsigned int  fg_color,
-                                               unsigned int  bg_color);
-    bool          get_selected_segment_colors (unsigned int *fg_color,
-                                               unsigned int *bg_color);
 
 private:
     void          get_reading_substr     (WideString &string,
@@ -124,6 +117,8 @@ private:
     void          join_all_segments      (void);
 
 private:
+    AnthyInstance     &m_anthy;
+
     // convertors
     IConvert           m_iconv;
     Reading           &m_reading;
