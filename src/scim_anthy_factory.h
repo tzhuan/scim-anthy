@@ -78,20 +78,25 @@ public:
     String         m_space_type;
     String         m_ten_key_type;
     String         m_behavior_on_period;
+
     bool           m_show_candidates_label;
     bool           m_close_cand_win_on_select;
     int            m_cand_win_page_size;
     int            m_n_triggers_to_show_cand_win;
+
     bool           m_learn_on_manual_commit;
     bool           m_learn_on_auto_commit;
+
     bool           m_romaji_half_symbol;
     bool           m_romaji_half_number;
     bool           m_romaji_allow_split;
     int            m_nicola_time;
     KeyEventList   m_left_thumb_keys;
     KeyEventList   m_right_thumb_keys;
+
     String         m_dict_admin_command;
     String         m_add_word_command;
+
     bool           m_show_input_mode_label;
     bool           m_show_conv_mode_label;
     bool           m_show_typing_method_label;
@@ -99,10 +104,14 @@ public:
     bool           m_show_dict_label;
     bool           m_show_dict_admin_label;
     bool           m_show_add_word_label;
+
+    String         m_preedit_style;
     unsigned int   m_preedit_fg_color;
     unsigned int   m_preedit_bg_color;
+    String         m_conversion_style;
     unsigned int   m_conversion_fg_color;
     unsigned int   m_conversion_bg_color;
+    String         m_selected_segment_style;
     unsigned int   m_selected_segment_fg_color;
     unsigned int   m_selected_segment_bg_color;
 

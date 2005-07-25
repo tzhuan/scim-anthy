@@ -147,6 +147,40 @@ util_convert_to_katakana (WideString & kata,
 }
 
 void
+util_create_attributes (AttributeList &attrs,
+                        unsigned int start,
+                        unsigned int length,
+                        String type,
+                        unsigned int fg_color,
+                        unsigned int bg_color)
+{
+    if (type == "None") {
+        return;
+    } else if (type == "Underline") {
+        attrs.push_back (Attribute (start, length,
+                                    SCIM_ATTR_DECORATE, 
+                                    SCIM_ATTR_DECORATE_UNDERLINE));
+    } else if (type == "Reverse") {
+        attrs.push_back (Attribute (start, length,
+                                    SCIM_ATTR_DECORATE, 
+                                    SCIM_ATTR_DECORATE_REVERSE));
+    } else if (type == "Highlight") {
+        attrs.push_back (Attribute (start, length,
+                                    SCIM_ATTR_DECORATE, 
+                                    SCIM_ATTR_DECORATE_HIGHLIGHT));
+    } else {
+        if (type == "Color" || type == "FGColor")
+            attrs.push_back (Attribute (start, length,
+                                        SCIM_ATTR_FOREGROUND,
+                                        fg_color));
+        if (type == "Color" || type == "BGColor")
+            attrs.push_back (Attribute (start, length,
+                                        SCIM_ATTR_BACKGROUND,
+                                        bg_color));
+    }
+}
+
+void
 util_launch_program (const char *command)
 {
     if (!command) return;

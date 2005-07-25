@@ -22,6 +22,7 @@
 
 #define Uses_SCIM_ICONV
 #define Uses_SCIM_EVENT
+#define Uses_SCIM_ATTRIBUTE
 #include <scim.h>
 
 using namespace scim;
@@ -42,6 +43,12 @@ void util_convert_to_half     (String              &half,
 void util_convert_to_katakana (WideString          &kata,
                                const WideString    &hira,
                                bool                 half = false);
+void util_create_attributes   (AttributeList       &attrs,
+                               unsigned int         start,
+                               unsigned int         length,
+                               String               type,
+                               unsigned int         fg_color,
+                               unsigned int         bg_color);
 void util_launch_program      (const char          *command);
 
 }

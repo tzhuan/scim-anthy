@@ -102,6 +102,11 @@ Preedit::get_attribute_list (void)
         return m_conversion.get_attribute_list ();
     } else {
         AttributeList attrs;
+        util_create_attributes (attrs, 0, get_length (),
+                                m_anthy.get_factory()->m_preedit_style,
+                                m_anthy.get_factory()->m_preedit_fg_color,
+                                m_anthy.get_factory()->m_preedit_bg_color);
+#if 0
         attrs.push_back (
             Attribute (0, get_length (),
                        SCIM_ATTR_FOREGROUND, 
@@ -110,6 +115,7 @@ Preedit::get_attribute_list (void)
             Attribute (0, get_length (),
                        SCIM_ATTR_BACKGROUND,
                        m_anthy.get_factory()->m_preedit_bg_color));
+#endif
         return attrs;
     }
 }
