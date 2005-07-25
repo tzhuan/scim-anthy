@@ -106,14 +106,14 @@ public:
     void          select_candidate       (int candidate_id,
                                           int segment_id = -1);
     // preference
-    void          set_preedit_colors     (unsigned int  fg_color,
-                                          unsigned int  bg_color);
-    bool          get_preedit_colors     (unsigned int *fg_color,
-                                          unsigned int *bg_color);
-    void          set_segment_colors     (unsigned int  fg_color,
-                                          unsigned int  bg_color);
-    bool          get_segment_colors     (unsigned int *fg_color,
-                                          unsigned int *bg_color);
+    void          set_conversion_colors       (unsigned int  fg_color,
+                                               unsigned int  bg_color);
+    bool          get_conversion_colors       (unsigned int *fg_color,
+                                               unsigned int *bg_color);
+    void          set_selected_segment_colors (unsigned int  fg_color,
+                                               unsigned int  bg_color);
+    bool          get_selected_segment_colors (unsigned int *fg_color,
+                                               unsigned int *bg_color);
 
 private:
     void          get_reading_substr     (WideString &string,
@@ -135,10 +135,10 @@ private:
     int                m_cur_segment; // relative position from m_start_id
 
     // colors
-    unsigned int       m_preedit_fg_color;
-    unsigned int       m_preedit_bg_color;
-    unsigned int       m_segment_fg_color;
-    unsigned int       m_segment_bg_color;
+    unsigned int       m_conversion_fg_color;
+    unsigned int       m_conversion_bg_color;
+    unsigned int       m_selected_segment_fg_color;
+    unsigned int       m_selected_segment_bg_color;
 };
 
 }

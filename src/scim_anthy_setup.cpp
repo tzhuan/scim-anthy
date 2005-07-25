@@ -255,17 +255,15 @@ static ComboConfigCandidate behavior_on_period[] =
 };
 
 
-#if 0
 static ComboConfigCandidate preedit_style[] =
 {
-    {N_("None"),       "None"},
-    {N_("Underline"),  "Underline"},
-    {N_("Reverse"),    "Reverse"},
-    {N_("Highlight"),  "Highlight"},
-    {N_("Color"),      "Color"},
+    {N_("No decoration"), "None"},
+    {N_("Underline"),     "Underline"},
+    {N_("Reverse"),       "Reverse"},
+    {N_("Highlight"),     "Highlight"},
+    {N_("Color"),         "Color"},
     {NULL, NULL},
 };
-#endif
 
 
 static void     setup_key_theme_menu              (GtkOptionMenu *omenu);
@@ -282,6 +280,10 @@ static void     on_default_key_selection_clicked  (GtkButton        *button,
                                                    gpointer          user_data);
 #endif
 static void     on_default_combo_changed          (GtkEditable      *editable,
+                                                   gpointer          user_data);
+static void     on_default_option_menu_changed    (GtkOptionMenu    *omenu,
+                                                   gpointer          user_data);
+static void     on_preedit_style_menu_changed     (GtkOptionMenu    *omenu,
                                                    gpointer          user_data);
 static void     on_key_filter_selection_clicked   (GtkButton        *button,
                                                    gpointer          user_data);
@@ -405,7 +407,7 @@ create_check_button (const char *config_key)
 }
 
 void
-create_spin_button (const char *config_key, GtkTable *table, int i)
+create_spin_button (const char *config_key, GtkTable *table, int idx)
 {
     IntConfigData *entry = find_int_config_entry (config_key);
     if (!entry)
@@ -414,7 +416,7 @@ create_spin_button (const char *config_key, GtkTable *table, int i)
     GtkWidget *label = gtk_label_new_with_mnemonic (_(entry->label));
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
     gtk_misc_set_padding (GTK_MISC (label), 4, 0);
-    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, idx, idx + 1,
                       (GtkAttachOptions) (GTK_FILL),
                       (GtkAttachOptions) (GTK_FILL),
                       4, 4);
@@ -422,7 +424,7 @@ create_spin_button (const char *config_key, GtkTable *table, int i)
 
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (hbox),
-                      1, 2, i, i+1,
+                      1, 2, idx, idx + 1,
                       (GtkAttachOptions) GTK_FILL,
                       (GtkAttachOptions) GTK_FILL,
                       4, 4);
@@ -456,14 +458,14 @@ create_spin_button (const char *config_key, GtkTable *table, int i)
 }
 
 GtkWidget *
-create_entry (StringConfigData *data, GtkTable *table, int i)
+create_entry (StringConfigData *data, GtkTable *table, int idx)
 {
     GtkWidget *label = gtk_label_new (NULL);
     gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(data->label));
     gtk_widget_show (label);
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
     gtk_misc_set_padding (GTK_MISC (label), 4, 0);
-    gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, idx, idx + 1,
                       (GtkAttachOptions) (GTK_FILL),
                       (GtkAttachOptions) (GTK_FILL), 4, 4);
     (data)->widget = gtk_entry_new ();
@@ -474,7 +476,7 @@ create_entry (StringConfigData *data, GtkTable *table, int i)
                       data);
     gtk_widget_show (GTK_WIDGET (data->widget));
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (data->widget),
-                      1, 2, i, i+1,
+                      1, 2, idx, idx + 1,
                       (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
                       (GtkAttachOptions) (GTK_FILL), 4, 4);
 
@@ -489,7 +491,7 @@ create_entry (StringConfigData *data, GtkTable *table, int i)
 
 GtkWidget *
 create_combo (const char *config_key, gpointer candidates_p,
-              GtkWidget *table, gint idx)
+              GtkTable *table, gint idx)
 {
     StringConfigData *entry = find_string_config_entry (config_key);
     if (!entry)
@@ -535,29 +537,31 @@ create_combo (const char *config_key, gpointer candidates_p,
 }
 
 GtkWidget *
-create_option_menu (const char *config_key, gpointer candidates_p)
+create_option_menu (const char *config_key, gpointer candidates_p,
+                    GtkTable *table, gint idx)
 {
     StringConfigData *entry = find_string_config_entry (config_key);
     ComboConfigCandidate *data = static_cast<ComboConfigCandidate*> (candidates_p);
     if (!entry)
         return NULL;
 
-    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
-    gtk_widget_show (hbox);
-
     GtkWidget *label;
     label = gtk_label_new_with_mnemonic (_(entry->label));
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
     gtk_misc_set_padding (GTK_MISC (label), 4, 0);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    gtk_table_attach (GTK_TABLE (table), label, 0, 1, idx, idx + 1,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
     gtk_widget_show (label);
 
     entry->widget = gtk_option_menu_new ();
     gtk_label_set_mnemonic_widget (GTK_LABEL (label),
                                    GTK_WIDGET (entry->widget));
-    gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (entry->widget),
-                        FALSE, FALSE, 2);
     gtk_widget_show (GTK_WIDGET (entry->widget));
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (entry->widget),
+                      1, 2, idx, idx + 1,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
     g_object_set_data (G_OBJECT (entry->widget),
                        DATA_POINTER_KEY,
                        (gpointer) candidates_p);
@@ -574,11 +578,9 @@ create_option_menu (const char *config_key, gpointer candidates_p)
 
     gtk_option_menu_set_history (GTK_OPTION_MENU (entry->widget), 0);
 
-#if 0
-    g_signal_connect ((gpointer) GTK_COMBO (entry->widget)->entry, "changed",
-                      G_CALLBACK (on_default_combo_changed),
+    g_signal_connect ((gpointer) GTK_OPTION_MENU (entry->widget), "changed",
+                      G_CALLBACK (on_default_option_menu_changed),
                       entry);
-#endif
 
     if (!__widget_tooltips)
         __widget_tooltips = gtk_tooltips_new();
@@ -586,7 +588,7 @@ create_option_menu (const char *config_key, gpointer candidates_p)
         gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
                               _(entry->tooltip), NULL);
 
-    return hbox;
+    return GTK_WIDGET (entry->widget);
 }
 
 GtkWidget *
@@ -733,37 +735,37 @@ create_common_page (void)
     /* input mode */
     widget = create_combo (SCIM_ANTHY_CONFIG_INPUT_MODE,
                            (gpointer) &input_modes,
-                           table, 0);
+                           GTK_TABLE (table), 0);
 
     /* typing method */
     widget = create_combo (SCIM_ANTHY_CONFIG_TYPING_METHOD,
                            (gpointer) &typing_methods,
-                           table, 1);
+                           GTK_TABLE (table), 1);
 
     /* conversion mode */
     widget = create_combo (SCIM_ANTHY_CONFIG_CONVERSION_MODE,
                            (gpointer) &conversion_modes,
-                           table, 2);
+                           GTK_TABLE (table), 2);
 
     /* period style */
     widget = create_combo (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
                            (gpointer) &period_styles,
-                           table, 3);
+                           GTK_TABLE (table), 3);
 
     /* space_style */
     widget = create_combo (SCIM_ANTHY_CONFIG_SPACE_TYPE,
                            (gpointer) &space_types,
-                           table, 4);
+                           GTK_TABLE (table), 4);
 
     /* ten key_style */
     widget = create_combo (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
                            (gpointer) &ten_key_types,
-                           table, 5);
+                           GTK_TABLE (table), 5);
 
     /* behavior on period */
     widget = create_combo (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
                            (gpointer) &behavior_on_period,
-                           table, 6);
+                           GTK_TABLE (table), 6);
 
     return vbox;
 }
@@ -1115,38 +1117,65 @@ create_toolbar_page (void)
 static GtkWidget *
 create_appearance_page (void)
 {
-    GtkWidget *vbox, *widget, *hbox; 
+    GtkWidget *vbox, *table, *omenu, *widget, *hbox; 
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
-#if 0
-    widget = create_option_menu (SCIM_ANTHY_CONFIG_SEGMENT_STYLE,
-                                 &preedit_style);
-    gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 2);
-    gtk_widget_show (widget);
-#endif
+    table = gtk_table_new (2, 3, FALSE);
+    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
+    gtk_widget_show (table);
 
-    /* segment color */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 2);
-    gtk_widget_show (hbox);
-    widget = create_color_button (SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR);
-    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
-
-#if 0
-    widget = create_option_menu (SCIM_ANTHY_CONFIG_PREEDIT_STYLE,
-                                 &preedit_style);
-    gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 2);
-    gtk_widget_show (widget);
-#endif
+    /* preedit style */
+    omenu = create_option_menu (SCIM_ANTHY_CONFIG_PREEDIT_STYLE,
+                                &preedit_style, GTK_TABLE (table), 0);
 
     /* preedit color */
     hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 2);
     gtk_widget_show (hbox);
     widget = create_color_button (SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR);
     gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+    gtk_table_attach (GTK_TABLE (table), hbox, 2, 3, 0, 1,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
+    gtk_widget_set_sensitive (hbox, FALSE);
+
+    g_signal_connect ((gpointer) GTK_OPTION_MENU (omenu), "changed",
+                      G_CALLBACK (on_preedit_style_menu_changed), hbox);
+
+    /* conversion style */
+    omenu = create_option_menu (SCIM_ANTHY_CONFIG_CONVERSION_STYLE,
+                                &preedit_style, GTK_TABLE (table), 1);
+
+    /* conversion color */
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_widget_show (hbox);
+    widget = create_color_button (SCIM_ANTHY_CONFIG_CONVERSION_FG_COLOR);
+    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+    gtk_table_attach (GTK_TABLE (table), hbox, 2, 3, 1, 2,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
+    gtk_widget_set_sensitive (hbox, FALSE);
+
+    g_signal_connect ((gpointer) GTK_OPTION_MENU (omenu), "changed",
+                      G_CALLBACK (on_preedit_style_menu_changed), hbox);
+
+    /* selected segment style */
+    omenu = create_option_menu (SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_STYLE,
+                                &preedit_style, GTK_TABLE (table), 2);
+
+    /* selected segment color */
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_widget_show (hbox);
+    widget = create_color_button (SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_FG_COLOR);
+    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+    gtk_table_attach (GTK_TABLE (table), hbox, 2, 3, 2, 3,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
+    gtk_widget_set_sensitive (hbox, FALSE);
+
+    g_signal_connect ((gpointer) GTK_OPTION_MENU (omenu), "changed",
+                      G_CALLBACK (on_preedit_style_menu_changed), hbox);
 
     return vbox;
 }
@@ -1252,6 +1281,21 @@ setup_combo_value (GtkCombo *combo, const String & str)
 }
 
 static void
+setup_option_menu_value (GtkOptionMenu *omenu, const String & str)
+{
+    ComboConfigCandidate *data
+        = static_cast<ComboConfigCandidate*>
+        (g_object_get_data (G_OBJECT (omenu), DATA_POINTER_KEY));
+
+    for (unsigned int i = 0; data[i].label; i++) {
+        if (!strcmp (data[i].data, str.c_str ())) {
+            gtk_option_menu_set_history (omenu, i);
+            return;
+        }
+    }
+}
+
+static void
 setup_key_theme_menu (GtkOptionMenu *omenu)
 {
     GtkWidget *menu = gtk_menu_new ();
@@ -1334,11 +1378,15 @@ setup_widget_value (void)
 
     for (unsigned int i = 0; config_string_common[i].key; i++) {
         StringConfigData &entry = config_string_common[i];
-        if (entry.widget && GTK_IS_COMBO (entry.widget))
+        if (entry.widget && GTK_IS_OPTION_MENU (entry.widget)) {
+            setup_option_menu_value (GTK_OPTION_MENU (entry.widget),
+                                     entry.value);
+        } else if (entry.widget && GTK_IS_COMBO (entry.widget)) {
             setup_combo_value (GTK_COMBO (entry.widget), entry.value);
-        else if (entry.widget && GTK_IS_ENTRY (entry.widget))
+        } else if (entry.widget && GTK_IS_ENTRY (entry.widget)) {
             gtk_entry_set_text (GTK_ENTRY (entry.widget),
                                 entry.value.c_str ());
+        }
     }
 
     for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
@@ -1661,12 +1709,50 @@ on_default_combo_changed (GtkEditable *editable,
 
     for (unsigned int i = 0; data[i].label; i++) {
         if (label && !strcmp (_(data[i].label), label)) {
-            entry->value = data[i].data;
-            entry->changed = true;
+            entry->value     = data[i].data;
+            entry->changed   = true;
             __config_changed = true;
             break;
         }
     }
+}
+
+static void
+on_default_option_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
+{
+    StringConfigData *entry = static_cast<StringConfigData*> (user_data);
+    ComboConfigCandidate *data = static_cast<ComboConfigCandidate*>
+        (g_object_get_data (G_OBJECT (omenu),
+                            DATA_POINTER_KEY));
+
+    if (!entry) return;
+    if (!data) return;
+
+    for (int i = 0; data[i].label; i++) {
+        if (i == gtk_option_menu_get_history (omenu)) {
+            entry->value     = data[i].data;
+            entry->changed   = true;
+            __config_changed = true;
+            break;
+        }
+    }
+}
+
+static void
+on_preedit_style_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
+{
+    GtkWidget *widget = GTK_WIDGET (user_data);
+
+    gint idx = gtk_option_menu_get_history (omenu);
+
+    for (int i = 0; preedit_style[i].data && i <= idx; i++) {
+        if (i == idx && !strcmp (preedit_style[i].data, "Color")) {
+            gtk_widget_set_sensitive (widget, TRUE);
+            return;
+        }
+    }
+
+    gtk_widget_set_sensitive (widget, FALSE);
 }
 
 static void

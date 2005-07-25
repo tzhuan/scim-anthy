@@ -99,14 +99,12 @@ Preedit::get_attribute_list (void)
         return m_conversion.get_attribute_list ();
     } else {
         AttributeList attrs;
-        unsigned int fg_color, bg_color;
-        m_conversion.get_preedit_colors (&fg_color, &bg_color);
         attrs.push_back (Attribute (0, get_length (),
                                     SCIM_ATTR_FOREGROUND, 
-                                    fg_color));
+                                    m_preedit_fg_color));
         attrs.push_back (Attribute (0, get_length (),
                                     SCIM_ATTR_BACKGROUND,
-                                    bg_color));
+                                    m_preedit_bg_color));
         return attrs;
     }
 }
@@ -434,27 +432,44 @@ Preedit::is_comma_or_period (const String & str)
 }
 
 void
-Preedit::set_segment_colors (unsigned int fg_color, unsigned int bg_color)
-{
-    m_conversion.set_segment_colors (fg_color, bg_color);
-}
-
-bool
-Preedit::get_segment_colors (unsigned int *fg_color, unsigned int *bg_color)
-{
-    return m_conversion.get_segment_colors (fg_color, bg_color);
-}
-
-void
 Preedit::set_preedit_colors (unsigned int fg_color, unsigned int bg_color)
 {
-    m_conversion.set_preedit_colors (fg_color, bg_color);
+    m_preedit_fg_color = fg_color;
+    m_preedit_bg_color = bg_color;
 }
 
 bool
 Preedit::get_preedit_colors (unsigned int *fg_color, unsigned int *bg_color)
 {
-    return m_conversion.get_preedit_colors (fg_color, bg_color);
+    if (fg_color)
+        *fg_color = m_preedit_fg_color;
+    if (bg_color)
+        *bg_color = m_preedit_bg_color;
+    return true;
+}
+
+void
+Preedit::set_conversion_colors (unsigned int fg_color, unsigned int bg_color)
+{
+    m_conversion.set_conversion_colors (fg_color, bg_color);
+}
+
+bool
+Preedit::get_conversion_colors (unsigned int *fg_color, unsigned int *bg_color)
+{
+    return m_conversion.get_conversion_colors (fg_color, bg_color);
+}
+
+void
+Preedit::set_selected_segment_colors (unsigned int fg_color, unsigned int bg_color)
+{
+    m_conversion.set_selected_segment_colors (fg_color, bg_color);
+}
+
+bool
+Preedit::get_selected_segment_colors (unsigned int *fg_color, unsigned int *bg_color)
+{
+    return m_conversion.get_selected_segment_colors (fg_color, bg_color);
 }
 
 

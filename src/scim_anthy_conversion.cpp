@@ -397,17 +397,22 @@ Conversion::get_attribute_list (void)
         if ((int) seg_id == m_cur_segment) {
             attrs.push_back (Attribute (pos, it->get_string().length(),
                                         SCIM_ATTR_FOREGROUND,
-                                        m_segment_fg_color));
+                                        m_selected_segment_fg_color));
             attrs.push_back (Attribute (pos, it->get_string().length(),
                                         SCIM_ATTR_BACKGROUND,
-                                        m_segment_bg_color));
+                                        m_selected_segment_bg_color));
         } else {
             attrs.push_back (Attribute (pos, it->get_string().length(),
+                                        SCIM_ATTR_FOREGROUND,
+                                        m_conversion_fg_color));
+            attrs.push_back (Attribute (pos, it->get_string().length(),
                                         SCIM_ATTR_BACKGROUND,
-                                        m_preedit_bg_color));
+                                        m_conversion_bg_color));
+#if 0
             attrs.push_back (Attribute (pos, it->get_string().length(),
                                         SCIM_ATTR_DECORATE,
                                         SCIM_ATTR_DECORATE_UNDERLINE));
+#endif
         }
 
         pos += it->get_string().length ();
@@ -657,34 +662,41 @@ Conversion::select_candidate (int candidate_id, int segment_id)
 }
 
 void
-Conversion::set_segment_colors (unsigned int fg_color, unsigned int bg_color)
+Conversion::set_conversion_colors (unsigned int fg_color,
+                                   unsigned int bg_color)
 {
-    m_segment_fg_color = fg_color;
-    m_segment_bg_color = bg_color;
+    m_conversion_fg_color = fg_color;
+    m_conversion_bg_color = bg_color;
 }
 
 bool
-Conversion::get_segment_colors (unsigned int *fg_color, unsigned int *bg_color)
+Conversion::get_conversion_colors (unsigned int *fg_color,
+                                   unsigned int *bg_color)
 {
-    *fg_color = m_segment_fg_color;
-    *bg_color = m_segment_bg_color;
+    if (fg_color)
+        *fg_color = m_conversion_fg_color;
+    if (bg_color)
+        *bg_color = m_conversion_bg_color;
 
     return true;
 }
 
 void
-Conversion::set_preedit_colors (unsigned int fg_color, unsigned int bg_color)
+Conversion::set_selected_segment_colors (unsigned int fg_color,
+                                         unsigned int bg_color)
 {
-    m_preedit_fg_color = fg_color;
-    m_preedit_bg_color = bg_color;
+    m_selected_segment_fg_color = fg_color;
+    m_selected_segment_bg_color = bg_color;
 }
 
 bool
-Conversion::get_preedit_colors (unsigned int *fg_color, unsigned int *bg_color)
+Conversion::get_selected_segment_colors (unsigned int *fg_color,
+                                         unsigned int *bg_color)
 {
-    *fg_color = m_preedit_fg_color;
-    *bg_color = m_preedit_bg_color;
+    if (fg_color)
+        *fg_color = m_selected_segment_fg_color;
+    if (bg_color)
+        *bg_color = m_selected_segment_bg_color;
 
     return true;
 }
-

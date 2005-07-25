@@ -118,14 +118,18 @@ public:
     virtual void          set_allow_split_romaji (bool allow);
     virtual bool          get_allow_split_romaji (void);
 
-    virtual void          set_preedit_colors     (unsigned int  fg_color,
-                                                  unsigned int  bg_color);
-    virtual bool          get_preedit_colors     (unsigned int *fg_color,
-                                                  unsigned int *bg_color);
-    virtual void          set_segment_colors     (unsigned int  fg_color,
-                                                  unsigned int  bg_color);
-    virtual bool          get_segment_colors     (unsigned int *fg_color,
-                                                  unsigned int *bg_color);
+    virtual void          set_preedit_colors          (unsigned int  fg_color,
+                                                       unsigned int  bg_color);
+    virtual bool          get_preedit_colors          (unsigned int *fg_color,
+                                                       unsigned int *bg_color);
+    virtual void          set_conversion_colors       (unsigned int  fg_color,
+                                                       unsigned int  bg_color);
+    virtual bool          get_conversion_colors       (unsigned int *fg_color,
+                                                       unsigned int *bg_color);
+    virtual void          set_selected_segment_colors (unsigned int  fg_color,
+                                                       unsigned int  bg_color);
+    virtual bool          get_selected_segment_colors (unsigned int *fg_color,
+                                                       unsigned int *bg_color);
 
 private:
     void          get_reading_substr             (WideString & substr,
@@ -144,6 +148,9 @@ private:
     InputMode         m_input_mode;
     BehaviorOnPeriod  m_behavior_on_period;
     bool              m_romaji_allow_split;
+
+    unsigned int      m_preedit_fg_color;
+    unsigned int      m_preedit_bg_color;
 };
 
 }

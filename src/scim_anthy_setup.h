@@ -41,16 +41,18 @@ StringConfigData *find_string_config_entry (const char *config_key);
 GtkWidget *create_check_button (const char *config_key);
 void       create_spin_button  (const char *config_key,
                                 GtkTable   *table,
-                                int         i);
+                                int         idx);
 GtkWidget *create_entry        (StringConfigData *data,
                                 GtkTable   *table,
-                                int         i);
+                                int         idx);
 GtkWidget *create_combo        (const char *config_key,
                                 gpointer    candidates_p,
-                                GtkWidget  *table,
+                                GtkTable   *table,
                                 gint        idx);
 GtkWidget *create_option_menu  (const char *config_key,
-                                gpointer    candidates_p);
+                                gpointer    candidates_p,
+                                GtkTable   *table,
+                                gint        idx);
 GtkWidget *create_color_button (const char *config_key);
 
 void on_default_key_selection_clicked (GtkButton *button,

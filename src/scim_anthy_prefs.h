@@ -36,8 +36,8 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER          "/IMEngine/Anthy/RomajiHalfNumber"
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT          "/IMEngine/Anthy/RomajiAllowSplit"
 
-#define SCIM_ANTHY_CONFIG_KANA_LAYOUT                "/IMEngine/Anthy/KanaLayout"
-#define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE           "/IMEngine/Anthy/KanaLayoutFile"
+#define SCIM_ANTHY_CONFIG_KANA_LAYOUT                 "/IMEngine/Anthy/KanaLayout"
+#define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE            "/IMEngine/Anthy/KanaLayoutFile"
 
 #define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT               "/IMEngine/Anthy/NICOLALayout"
 #define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE          "/IMEngine/Anthy/NICOLALayoutFile"
@@ -132,12 +132,15 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY              "/IMEngine/Anthy/DictAdminKey"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY                "/IMEngine/Anthy/AddWordKey"
 
-#define SCIM_ANTHY_CONFIG_SEGMENT_STYLE               "/IMEngine/Anthy/SegmentStyle"
-#define SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR            "/IMEngine/Anthy/SegmentFGColor"
-#define SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR            "/IMEngine/Anthy/SegmentBGColor"
 #define SCIM_ANTHY_CONFIG_PREEDIT_STYLE               "/IMEngine/Anthy/PreeditStyle"
 #define SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR            "/IMEngine/Anthy/PreeditFGColor"
 #define SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR            "/IMEngine/Anthy/PreeditBGColor"
+#define SCIM_ANTHY_CONFIG_CONVERSION_STYLE            "/IMEngine/Anthy/ConversionStyle"
+#define SCIM_ANTHY_CONFIG_CONVERSION_FG_COLOR         "/IMEngine/Anthy/ConversionFGColor"
+#define SCIM_ANTHY_CONFIG_CONVERSION_BG_COLOR         "/IMEngine/Anthy/ConversionBGColor"
+#define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_STYLE      "/IMEngine/Anthy/SelectedSegmentStyle"
+#define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_FG_COLOR   "/IMEngine/Anthy/SelectedSegmentFGColor"
+#define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_BG_COLOR   "/IMEngine/Anthy/SelectedSegmentBGColor"
 
 
 /* default config values */
@@ -251,12 +254,15 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT              "F11"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT                "F12"
 
-#define SCIM_ANTHY_CONFIG_SEGMENT_STYLE_DEFAULT               "Color"
-#define SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR_DEFAULT            "#FFFFFF"
-#define SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR_DEFAULT            "#0900A5"
 #define SCIM_ANTHY_CONFIG_PREEDIT_STYLE_DEFAULT               "Color"
 #define SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR_DEFAULT            "#006010"
 #define SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR_DEFAULT            "#FFFFFF"
+#define SCIM_ANTHY_CONFIG_CONVERSION_STYLE_DEFAULT            "Color"
+#define SCIM_ANTHY_CONFIG_CONVERSION_FG_COLOR_DEFAULT         "#006010"
+#define SCIM_ANTHY_CONFIG_CONVERSION_BG_COLOR_DEFAULT         "#FFFFFF"
+#define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_STYLE_DEFAULT      "Color"
+#define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_FG_COLOR_DEFAULT   "#FFFFFF"
+#define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_BG_COLOR_DEFAULT   "#0900A5"
 
 
 #ifdef SCIM_ANTHY_USE_GTK

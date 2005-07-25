@@ -97,10 +97,12 @@ public:
     bool           m_show_dict_label;
     bool           m_show_dict_admin_label;
     bool           m_show_add_word_label;
-    unsigned int   m_segment_fg_color;
-    unsigned int   m_segment_bg_color;
     unsigned int   m_preedit_fg_color;
     unsigned int   m_preedit_bg_color;
+    unsigned int   m_conversion_fg_color;
+    unsigned int   m_conversion_bg_color;
+    unsigned int   m_selected_segment_fg_color;
+    unsigned int   m_selected_segment_bg_color;
 
     Key2KanaTable *m_custom_romaji_table;
     Key2KanaTable *m_custom_kana_table;

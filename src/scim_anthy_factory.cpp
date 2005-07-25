@@ -441,19 +441,11 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_show_add_word_label
             = config->read (String (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL),
                             m_show_add_word_label);
+
     	// color settings
         int red, green, blue;
 
-        str = config->read (String (SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR),
-                            String (SCIM_ANTHY_CONFIG_SEGMENT_FG_COLOR_DEFAULT));
-        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
-        m_segment_fg_color = SCIM_RGB_COLOR (red, green, blue);
-
-        str = config->read (String (SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR),
-                            String (SCIM_ANTHY_CONFIG_SEGMENT_BG_COLOR_DEFAULT));
-        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
-        m_segment_bg_color = SCIM_RGB_COLOR (red, green, blue);
-
+        // preedit string color
         str = config->read (String (SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR),
                             String (SCIM_ANTHY_CONFIG_PREEDIT_FG_COLOR_DEFAULT));
         sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
@@ -463,6 +455,28 @@ AnthyFactory::reload_config (const ConfigPointer &config)
                             String (SCIM_ANTHY_CONFIG_PREEDIT_BG_COLOR_DEFAULT));
         sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
         m_preedit_bg_color = SCIM_RGB_COLOR (red, green, blue);
+
+        // conversion string color
+        str = config->read (String (SCIM_ANTHY_CONFIG_CONVERSION_FG_COLOR),
+                            String (SCIM_ANTHY_CONFIG_CONVERSION_FG_COLOR_DEFAULT));
+        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
+        m_conversion_fg_color = SCIM_RGB_COLOR (red, green, blue);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_CONVERSION_BG_COLOR),
+                            String (SCIM_ANTHY_CONFIG_CONVERSION_BG_COLOR_DEFAULT));
+        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
+        m_conversion_bg_color = SCIM_RGB_COLOR (red, green, blue);
+
+        // selected segment color
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_FG_COLOR),
+                            String (SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_FG_COLOR_DEFAULT));
+        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
+        m_selected_segment_fg_color = SCIM_RGB_COLOR (red, green, blue);
+
+        str = config->read (String (SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_BG_COLOR),
+                            String (SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_BG_COLOR_DEFAULT));
+        sscanf (str.c_str (), "#%02X%02X%02X", &red, &green, &blue);
+        m_selected_segment_bg_color = SCIM_RGB_COLOR (red, green, blue);
     }
 
     StyleFile style;

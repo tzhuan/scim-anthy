@@ -1737,10 +1737,12 @@ AnthyInstance::reload_config (const ConfigPointer &config)
         m_lookup_table.set_page_size (SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE_DEFAULT);
     
     // set colors
-    m_preedit.set_segment_colors (m_factory->m_segment_fg_color,
-                                  m_factory->m_segment_bg_color);
-    m_preedit.set_preedit_colors (m_factory->m_preedit_fg_color,
-                                  m_factory->m_preedit_bg_color);
+    m_preedit.set_preedit_colors          (m_factory->m_preedit_fg_color,
+                                           m_factory->m_preedit_bg_color);
+    m_preedit.set_conversion_colors       (m_factory->m_conversion_fg_color,
+                                           m_factory->m_conversion_bg_color);
+    m_preedit.set_selected_segment_colors (m_factory->m_selected_segment_fg_color,
+                                           m_factory->m_selected_segment_bg_color);
 
     // setup toolbar
     m_properties.clear ();
