@@ -1748,7 +1748,11 @@ on_preedit_style_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     gint idx = gtk_option_menu_get_history (omenu);
 
     for (int i = 0; preedit_style[i].data && i <= idx; i++) {
-        if (i == idx && !strcmp (preedit_style[i].data, "Color")) {
+        if (i == idx &&
+            (!strcmp (preedit_style[i].data, "Color") ||
+             !strcmp (preedit_style[i].data, "FGColor") ||
+             !strcmp (preedit_style[i].data, "BGColor")))
+        {
             gtk_widget_set_sensitive (widget, TRUE);
             return;
         }
