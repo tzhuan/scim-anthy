@@ -208,6 +208,7 @@ Preedit::finish (void)
 void
 Preedit::convert (CandidateType type, bool single_segment)
 {
+    m_reading.finish ();
     m_conversion.start (type, single_segment);
 }
 
