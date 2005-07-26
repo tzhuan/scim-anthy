@@ -556,7 +556,9 @@ Reading::move_caret (int step, bool allow_split)
 void
 Reading::set_ten_key_type (TenKeyType type)
 {
-    m_key2kana->set_ten_key_type (type);
+    m_key2kana_normal.set_ten_key_type (type);
+    m_kana.set_ten_key_type (type);
+    m_nicola.set_ten_key_type (type);
 }
 
 TenKeyType

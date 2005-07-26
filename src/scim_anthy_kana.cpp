@@ -19,6 +19,7 @@
 
 #include "scim_anthy_kana.h"
 #include "scim_anthy_default_tables.h"
+#include "scim_anthy_utils.h"
 
 using namespace scim_anthy;
 
@@ -110,6 +111,15 @@ KanaConvertor::can_append (const KeyEvent & key)
         return true;
     }
 
+#if 0
+    if (key.code == SCIM_KEY_KP_Equal ||
+        (key.code >= SCIM_KEY_KP_Multiply &&
+         key.code <= SCIM_KEY_KP_9))
+    {
+        return true;
+    }
+#endif
+
     return false;
 }
 
@@ -119,8 +129,29 @@ KanaConvertor::append (const KeyEvent & key,
                        WideString & pending,
                        String &raw)
 {
-    KanaRule *table = scim_anthy_kana_table;
+    KeyCodeToCharRule *table = scim_anthy_keypad_table;
 
+    // handle keypad code
+    if (key.code == SCIM_KEY_KP_Equal ||
+        (key.code >= SCIM_KEY_KP_Multiply &&
+         key.code <= SCIM_KEY_KP_9))
+    {
+        for (unsigned int i = 0; table[i].code; i++) {
+            if (table[i].code == key.code) {
+                if (m_ten_key_type == SCIM_ANTHY_TEN_KEY_WIDE)
+                    util_convert_to_wide (result, table[i].kana);
+                else
+                    result = utf8_mbstowcs (table[i].kana);
+                raw = table[i].kana;
+
+                return false;
+            }
+        }
+    }
+
+    table = scim_anthy_kana_table;
+
+    // handle voiced sound
     if (key.code == SCIM_KEY_voicedsound &&
         !m_pending.empty () && has_voiced_consonant (m_pending))
     {
@@ -130,6 +161,7 @@ KanaConvertor::append (const KeyEvent & key,
         return false;
     }
 
+    // handle semi voiced sound
     if (key.code == SCIM_KEY_semivoicedsound &&
         !m_pending.empty () && has_half_voiced_consonant (m_pending))
     {
@@ -139,6 +171,7 @@ KanaConvertor::append (const KeyEvent & key,
         return false;
     }
 
+    // kana key code
     for (unsigned int i = 0; table[i].code; i++) {
         if (table[i].code == key.code) {
             bool retval = m_pending.empty () ? false : true;

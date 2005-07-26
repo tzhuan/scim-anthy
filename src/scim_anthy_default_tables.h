@@ -40,11 +40,11 @@ typedef struct _WideRule
     const char *wide;
 } WideRule;
 
-typedef struct _KanaRule
+typedef struct _KeyCodeToCharRule
 {
     unsigned int  code;
     const char   *kana;
-} KanaRule;
+} KeyCodeToCharRule;
 
 typedef struct _VoicedConsonantRule
 {
@@ -96,10 +96,11 @@ extern HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[];
 extern WideRule             scim_anthy_wide_table[];
 extern VoicedConsonantRule  scim_anthy_voiced_consonant_table[];
 
-// kana
-extern KanaRule   scim_anthy_kana_table[];
+// key code
+extern KeyCodeToCharRule    scim_anthy_keypad_table[];
+extern KeyCodeToCharRule    scim_anthy_kana_table[];
 
 // nicola
-extern NicolaRule scim_anthy_nicola_table[];
+extern NicolaRule           scim_anthy_nicola_table[];
 
 #endif /* __SCIM_ANTHY_DEFAULT_TABLES_H__ */

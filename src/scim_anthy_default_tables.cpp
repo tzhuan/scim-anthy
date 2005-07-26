@@ -819,7 +819,8 @@ WideRule scim_anthy_wide_table[] = {
 {">", "＞"},
 {"?", "？"},
 {"/", "／"},
-{"_",  "＿"},
+{"_", "＿"},
+{"*", "＊"},
 {NULL, NULL},
 };
 
@@ -847,7 +848,28 @@ VoicedConsonantRule scim_anthy_voiced_consonant_table[] = {
 {NULL, NULL, NULL},
 };
 
-KanaRule scim_anthy_kana_table[] = {
+KeyCodeToCharRule scim_anthy_keypad_table[] = {
+{SCIM_KEY_KP_Equal,		"="},
+{SCIM_KEY_KP_Multiply,	"*"},
+{SCIM_KEY_KP_Add,		"+"},
+{SCIM_KEY_KP_Separator,	","},
+{SCIM_KEY_KP_Subtract,	"-"},
+{SCIM_KEY_KP_Decimal,	"."},
+{SCIM_KEY_KP_Divide,	"/"},
+{SCIM_KEY_KP_0,			"0"},
+{SCIM_KEY_KP_1,			"1"},
+{SCIM_KEY_KP_2,			"2"},
+{SCIM_KEY_KP_3,			"3"},
+{SCIM_KEY_KP_4,			"4"},
+{SCIM_KEY_KP_5,			"5"},
+{SCIM_KEY_KP_6,			"6"},
+{SCIM_KEY_KP_7,			"7"},
+{SCIM_KEY_KP_8,			"8"},
+{SCIM_KEY_KP_9,			"9"},
+{0, NULL}
+};
+
+KeyCodeToCharRule scim_anthy_kana_table[] = {
 {SCIM_KEY_kana_fullstop,        "。"},
 {SCIM_KEY_kana_openingbracket,  "「"},
 {SCIM_KEY_kana_closingbracket,  "」"},
