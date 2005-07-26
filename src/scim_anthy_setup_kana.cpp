@@ -211,10 +211,11 @@ kana_page_create_ui (void)
                       G_CALLBACK (on_default_key_selection_clicked),
                       entry);
 
+#if 0
     /* NICOLA time */
     create_spin_button (SCIM_ANTHY_CONFIG_NICOLA_TIME,
                         GTK_TABLE (table), 3);
-
+#endif
 
     // prepare
     setup_kana_page ();
