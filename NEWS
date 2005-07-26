@@ -17,10 +17,16 @@ Overview of Changes from scim-anthy-0.5.2 to scim-anthy-0.6.0
 * Other minor fixes.
 
 
+Overview of Changes from scim-anthy-0.5.2 to scim-anthy-0.5.3
+=============================================================
+* Fix a wrong key binding in the Microsoft Windows like key bindings.
+
+
 Overview of Changes from scim-anthy-0.5.1 to scim-anthy-0.5.2
 =============================================================
 * The bug that preferences of period, comma and width of numbers aren't
   applied correctly has been fixed.
+
 
 Overview of Changes from scim-anthy-0.5.0 to scim-anthy-0.5.1
 =============================================================
@@ -28,6 +34,7 @@ Overview of Changes from scim-anthy-0.5.0 to scim-anthy-0.5.1
   been fixed.
 * The bug that some key bindings of ATOK style aren't set correctly has been
   fixed. (Thanks AWASHIRO Ikuya)
+
 
 Overview of Changes from scim-anthy-0.4.3 to scim-anthy-0.5.0
 =============================================================
@@ -39,11 +46,13 @@ Overview of Changes from scim-anthy-0.4.3 to scim-anthy-0.5.0
 * Enable to rotate case of alphabet letters on pressing F8, F9 and F10 key like   ATOK or Microsoft IME.
 * Other minor bug fixes. (Thanks! UTUMI-san, SATO-san)
 
+
 Overview of Changes from scim-anthy-0.4.2 to scim-anthy-0.4.3
 =============================================================
 * Fix for gcc-4.0. Thanks UTUMI-san.
 * Fix a bug that selecting first & last candidate feature doesn't work.
   Thanks BANDO-san.
+
 
 Overview of Changes from scim-anthy-0.4.1 to scim-anthy-0.4.2
 =============================================================
@@ -51,10 +60,12 @@ Overview of Changes from scim-anthy-0.4.1 to scim-anthy-0.4.2
 * Update automake version because previous version reduce filename extension
   of the module.
 
+
 Overview of Changes from scim-anthy-0.4.0 to scim-anthy-0.4.1
 =============================================================
 * Fix a bug that scim-anthy eats all key events although it doesn't have
   preedit string (Thanks! DAIRIKI-san).
+
 
 Overview of Changes from scim-anthy-0.3.2 to scim-anthy-0.4.0
 =============================================================
@@ -71,6 +82,7 @@ Overview of Changes from scim-anthy-0.3.2 to scim-anthy-0.4.0
 * Add some symbols to romaji-table (Thanks! David Oftedal and Yukiko Bando).
 * Other minor bug fixes (Thaks! UTUMI Hirosi).
 
+
 Overview of Changes from scim-anthy-0.3.1 to scim-anthy-0.3.2
 =============================================================
 * Fixed a bug that the 10th candidate on the lookup window can't be selected by
@@ -79,9 +91,11 @@ Overview of Changes from scim-anthy-0.3.1 to scim-anthy-0.3.2
   Thanks to UTUMI-san and DAIRIKI-san.
 * Fixed some clash bugs. Thanks to DAIRIKI-san.
 
+
 Overview of Changes from scim-anthy-0.3.0 to scim-anthy-0.3.1
 =============================================================
 * Update automake version.
+
 
 Overview of Changes from scim-anthy-0.2.0 to scim-anthy-0.3.0
 =============================================================
@@ -92,6 +106,7 @@ Overview of Changes from scim-anthy-0.2.0 to scim-anthy-0.3.0
 * Fixed a bug which clashes the scim-setup when reload the config.
   (Thanks! James Su)
 * Other minor fixes (Thanks! UTUMI-san, Bando-san)
+
 
 scim-anthy-0.2.0
 =============================================================
