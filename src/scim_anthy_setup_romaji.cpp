@@ -47,7 +47,6 @@ static const char * const __romaji_fund_table = "RomajiTable/FundamentalTable";
 static GtkWidget   * __widget_romaji_theme_menu     = NULL;
 static GtkWidget   * __widget_romaji_theme_menu2    = NULL;
 
-static String __config_romaji_theme      = SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT;
 static String __config_romaji_theme_file = SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE_DEFAULT;
 
 
@@ -125,9 +124,6 @@ romaji_page_create_ui (void)
 void
 romaji_page_load_config (const ConfigPointer &config)
 {
-    __config_romaji_theme
-        = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME),
-                        String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT));
     __config_romaji_theme_file
         = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE),
                         String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE_DEFAULT));
@@ -137,9 +133,6 @@ romaji_page_load_config (const ConfigPointer &config)
 void
 romaji_page_save_config (const ConfigPointer &config)
 {
-    __config_romaji_theme
-        = config->write (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME),
-                         String (__config_romaji_theme));
     __config_romaji_theme_file
         = config->write (String (SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE),
                          String (__config_romaji_theme_file));

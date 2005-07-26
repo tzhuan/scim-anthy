@@ -49,7 +49,6 @@ static GtkWidget   * __widget_kana_layout_menu     = NULL;
 static GtkWidget   * __widget_kana_layout_menu2    = NULL;
 static GtkWidget   * __widget_nicola_layout_menu   = NULL;
 
-static String __config_kana_layout      = SCIM_ANTHY_CONFIG_KANA_LAYOUT_DEFAULT;
 static String __config_kana_layout_file = SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT;
 
 
@@ -226,9 +225,6 @@ kana_page_create_ui (void)
 void
 kana_page_load_config (const ConfigPointer &config)
 {
-    __config_kana_layout
-        = config->read (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT),
-                        String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_DEFAULT));
     __config_kana_layout_file
         = config->read (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE),
                         String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT));
@@ -238,9 +234,6 @@ kana_page_load_config (const ConfigPointer &config)
 void
 kana_page_save_config (const ConfigPointer &config)
 {
-    __config_kana_layout
-        = config->write (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT),
-                         String (__config_kana_layout));
     __config_kana_layout_file
         = config->write (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE),
                          String (__config_kana_layout_file));

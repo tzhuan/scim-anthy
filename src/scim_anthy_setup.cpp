@@ -1338,7 +1338,9 @@ setup_key_theme_menu (GtkOptionMenu *omenu)
 
     gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
 
-    if (__config_key_theme_file == __user_style_file.get_file_name ()) {
+    if (__config_key_theme_file == __user_style_file.get_file_name () ||
+        __config_key_theme      == __user_style_file.get_title ())
+    {
         gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
 
     } else {
@@ -1835,7 +1837,7 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     // set new key bindings
     if (idx == 0) {
         __config_key_theme      = String ("User defined");
-        __config_key_theme_file = __user_style_file.get_file_name ();
+        __config_key_theme_file = String (""); //__user_style_file.get_file_name ();
 
     } else if (idx == 1) {
         for (unsigned int j = 0; j < __key_conf_pages_num; j++) {

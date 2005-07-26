@@ -30,13 +30,11 @@
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE                "/IMEngine/Anthy/TenKeyType"
 #define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD          "/IMEngine/Anthy/BehaviorOnPeriod"
 
-#define SCIM_ANTHY_CONFIG_ROMAJI_THEME                "/IMEngine/Anthy/RomajiTheme"
 #define SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE           "/IMEngine/Anthy/RomajiThemeFile"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL          "/IMEngine/Anthy/RomajiHalfSymbol"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER          "/IMEngine/Anthy/RomajiHalfNumber"
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT          "/IMEngine/Anthy/RomajiAllowSplit"
 
-#define SCIM_ANTHY_CONFIG_KANA_LAYOUT                 "/IMEngine/Anthy/KanaLayout"
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE            "/IMEngine/Anthy/KanaLayoutFile"
 
 #define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT               "/IMEngine/Anthy/NICOLALayout"
@@ -152,13 +150,11 @@
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT                "FollowMode"
 #define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT          "None"
 
-#define SCIM_ANTHY_CONFIG_ROMAJI_THEME_DEFAULT                "Default"
 #define SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE_DEFAULT           ""
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT          true
 
-#define SCIM_ANTHY_CONFIG_KANA_LAYOUT_DEFAULT                 "Default"
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT            ""
 
 #define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_DEFAULT               "Default"
