@@ -12,7 +12,7 @@ Overview of Changes from scim-anthy-0.5.2 to scim-anthy-0.6.0
     - You can't switch to X's kana typing mode from scim-anthy.
       You should customize /etc/X11/xorg.conf to switch it.
       See http://ikumi.revery.net/cmp/kanainputonx.htm for more details.
-    - Typing method indicator on the panel doesn't follow X's kana typing mode.
+    - Typing method indicator on the panel doesn't indicate X's kana lock state.
 * Experimental NICOLA support.
 * Other minor fixes.
 

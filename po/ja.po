@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-07-26 02:39+0900\n"
+"POT-Creation-Date: 2005-07-26 16:26+0900\n"
 "PO-Revision-Date: 2005-07-26 02:42+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -291,54 +291,54 @@ msgstr "ツールバー"
 msgid "Appearance"
 msgstr "外観"
 
-#: src/scim_anthy_setup.cpp:1309 src/scim_anthy_setup_romaji.cpp:232
-#: src/scim_anthy_setup_kana.cpp:334 src/scim_anthy_setup_kana.cpp:399
+#: src/scim_anthy_setup.cpp:1309 src/scim_anthy_setup_romaji.cpp:225
+#: src/scim_anthy_setup_kana.cpp:327 src/scim_anthy_setup_kana.cpp:392
 msgid "User defined"
 msgstr "ユーザー定義"
 
-#: src/scim_anthy_setup.cpp:1312 src/scim_anthy_setup_romaji.cpp:235
-#: src/scim_anthy_setup_kana.cpp:337 src/scim_anthy_setup_kana.cpp:402
+#: src/scim_anthy_setup.cpp:1312 src/scim_anthy_setup_romaji.cpp:228
+#: src/scim_anthy_setup_kana.cpp:330 src/scim_anthy_setup_kana.cpp:395
 msgid "Default"
 msgstr "標準設定"
 
-#: src/scim_anthy_setup.cpp:1892
+#: src/scim_anthy_setup.cpp:1898
 msgid "Set key filter"
 msgstr "キ-フィルタ-をセット"
 
-#: src/scim_anthy_setup_romaji.cpp:101 src/scim_anthy_setup_romaji.cpp:172
+#: src/scim_anthy_setup_romaji.cpp:100 src/scim_anthy_setup_romaji.cpp:165
 msgid "Romaji _table:"
 msgstr "ローマ字テーブル(_T):"
 
-#: src/scim_anthy_setup_romaji.cpp:114 src/scim_anthy_setup_kana.cpp:120
-#: src/scim_anthy_setup_kana.cpp:167
+#: src/scim_anthy_setup_romaji.cpp:113 src/scim_anthy_setup_kana.cpp:119
+#: src/scim_anthy_setup_kana.cpp:166
 msgid "_Customize..."
 msgstr "カスタマイズ...(_C)"
 
-#: src/scim_anthy_setup_romaji.cpp:162
+#: src/scim_anthy_setup_romaji.cpp:155
 msgid "Customize romaji table"
 msgstr "ローマ字テーブルのカスタマイズ"
 
-#: src/scim_anthy_setup_kana.cpp:91
+#: src/scim_anthy_setup_kana.cpp:90
 msgid "<b>JIS Kana Layout</b>"
 msgstr "<b>JISかな配列</b>"
 
-#: src/scim_anthy_setup_kana.cpp:107
+#: src/scim_anthy_setup_kana.cpp:106
 msgid "La_yout:"
 msgstr "レイアウト(_Y):"
 
-#: src/scim_anthy_setup_kana.cpp:132
+#: src/scim_anthy_setup_kana.cpp:131
 msgid "<b>NICOLA Layout</b>"
 msgstr "<b>NICOLA配列</b>"
 
-#: src/scim_anthy_setup_kana.cpp:152
+#: src/scim_anthy_setup_kana.cpp:151
 msgid "La_yout (Not implemented yet):"
 msgstr "レイアウト(未実装)(_Y):"
 
-#: src/scim_anthy_setup_kana.cpp:263
+#: src/scim_anthy_setup_kana.cpp:256
 msgid "Customize kana table"
 msgstr "かなテーブルのカスタマイズ"
 
-#: src/scim_anthy_setup_kana.cpp:273
+#: src/scim_anthy_setup_kana.cpp:266
 msgid "Kana _table:"
 msgstr "かなテーブル(_T):"
 
