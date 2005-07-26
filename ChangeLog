@@ -1,5 +1,10 @@
 2005-07-26 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_reading.cpp: Don't create new segment if empty string
+	is returned from Key2KanaConvertor.
+
+2005-07-26 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_conversion.cpp, src/scim_anthy_factory.{cpp,h},
 	  src/scim_anthy_preedit.cpp, src/scim_anthy_prefs.h,
 	  src/scim_anthy_utils.{cpp,h}:

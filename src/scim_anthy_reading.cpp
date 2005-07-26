@@ -144,12 +144,14 @@ Reading::process_key_event (const KeyEvent & key)
     ReadingSegments::iterator begin = m_segments.begin ();
 
     // fix previous segment and prepare next segment if needed
-    if (!was_pending ||  // previous segment was already fixed
-        need_commiting)  // previous segment has been fixed
-    {
-        ReadingSegment c;
-        m_segments.insert (begin + m_segment_pos, c);
-        m_segment_pos++;
+    if (!result.empty () || !pending.empty ()) {
+        if (!was_pending ||  // previous segment was already fixed
+            need_commiting)  // previous segment has been fixed
+        {
+            ReadingSegment c;
+            m_segments.insert (begin + m_segment_pos, c);
+            m_segment_pos++;
+        }
     }
 
     // fill segment
