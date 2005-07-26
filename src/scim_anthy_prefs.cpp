@@ -209,7 +209,7 @@ IntConfigData config_int_common [] =
         SCIM_ANTHY_CONFIG_NICOLA_TIME,
         SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT,
         SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT,
-        0, 1000, 200,
+        0, 10000, 1,
         N_("_Simultaneous key pressing time:"),
         N_("[msec]"),
         NULL,
