@@ -173,7 +173,7 @@ Reading::process_key_event (const KeyEvent & key)
         m_segments[m_segment_pos - 1].kana = pending;
 
     } else {
-        // error
+
     }
 
     return false;
