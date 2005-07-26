@@ -749,6 +749,7 @@ AnthyInstance::action_convert (void)
 
     if (!m_preedit.is_converting ()) {
         // show conversion string
+        m_preedit.finish ();
         m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
                            is_single_segment ());
         set_preedition ();
@@ -1513,11 +1514,13 @@ AnthyInstance::convert_kana (CandidateType type)
         int idx = m_preedit.get_selected_segment ();
         if (idx < 0) {
             action_revert ();
+            m_preedit.finish ();
             m_preedit.convert (type, true);
         } else {
             m_preedit.select_candidate (type);
         }
     } else {
+        m_preedit.finish ();
         m_preedit.convert (type, true);
     }
 
