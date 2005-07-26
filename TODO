@@ -1,14 +1,16 @@
 Version-0.7.0 (Planning to release at Sep 29th, 2005)
 
+  * Refactoring.
+  * Handle key pad correctly.
   * SKIM plugin.
-  * NICOLA support
-  * Commit automatically when input upper letter on romaji typing.
-  * Inline word register mode.
+  * Customizable NICOLA layout.
   * Provide more style files.
   * Add help.
+  * (Commit automatically when input upper letter on romaji typing.)
 
 Version-0.8.0 (Planning to release at Nov 29th, 2005)
 
+  * Inline word register mode.
   * Style file
     - Add "Save as..." feature.
     - Enable/Disable special internal tables such as symbol/number table.
@@ -23,4 +25,5 @@ Version-0.9.0 (Planning to release at Jan 29th, 2006)
 
 Version-1.0.0 (Planning to release at Mar 29th, 2006)
 
+  * Refactoring.
   * Squash all major bugs!
