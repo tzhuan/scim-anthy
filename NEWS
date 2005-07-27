@@ -19,7 +19,7 @@ Overview of Changes from scim-anthy-0.5.2 to scim-anthy-0.6.0
 
 Overview of Changes from scim-anthy-0.5.2 to scim-anthy-0.5.3
 =============================================================
-* Fix a wrong key binding in the Microsoft Windows like key bindings.
+* Fix a wrong key binding in the Microsoft IME like key bindings.
 
 
 Overview of Changes from scim-anthy-0.5.1 to scim-anthy-0.5.2
