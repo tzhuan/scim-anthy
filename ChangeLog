@@ -1,3 +1,11 @@
+2005-07-29 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.ac: Version-0.6.0.
+
+2005-07-29 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.ac: Version-0.5.3 (BRNACH_0_5_0).
+
 2005-07-26 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_setup_kana.cpp: Comment out NICOLA time setting.
