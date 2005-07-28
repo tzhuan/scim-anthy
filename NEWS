@@ -1,6 +1,6 @@
-Overview of Changes from scim-anthy-0.5.2 to scim-anthy-0.6.0
+Overview of Changes from scim-anthy-0.5.3 to scim-anthy-0.6.0
 =============================================================
-* Loading method of key bindings and romaji table has been changed.
+* Loading romaji table method has been changed.
   Old user settings will be cleared when you change it by scim-setup.
 * Add preedit color preference.
 * Add some prefereneces for lookup window.
