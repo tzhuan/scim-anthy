@@ -690,3 +690,21 @@ Reading::get_ten_key_type (void)
 {
     return m_ten_key_type;
 }
+
+void
+Reading::set_typing_method (TypingMethod method,
+                            Key2KanaTable *fundamental_table)
+{
+    m_key2kana_tables.set_typing_method (method, fundamental_table);
+
+    if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
+        m_key2kana.set_case_sensitive (true);
+    else
+        m_key2kana.set_case_sensitive (false);
+}
+
+TypingMethod
+Reading::get_typing_method (void)
+{
+    return m_key2kana_tables.get_typing_method ();
+}

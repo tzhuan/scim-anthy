@@ -357,6 +357,10 @@ ConvRule scim_anthy_romaji_wide_number_rule[] = {
 };
 
 ConvRule scim_anthy_kana_typing_rule[] = {
+#if 0
+{">",	"。",	""},
+{"<",	"、",	""},
+#endif
 {"#",	"ぁ",	""},
 {"E",	"ぃ",	""},
 {"$",	"ぅ",	""},
@@ -438,8 +442,6 @@ ConvRule scim_anthy_kana_typing_rule[] = {
 {"ふ[",	"ぷ",	""},
 {"へ[",	"ぺ",	""},
 {"ほ[",	"ぽ",	""},
-{">",	"。",	""},
-{"<",	"、",	""},
 {"?",	"・",	""},
 {"@",	"゛",	""},
 {"[",	"゜",	""},

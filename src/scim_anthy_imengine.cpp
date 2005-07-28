@@ -461,7 +461,7 @@ AnthyInstance::install_properties (void)
 
     set_input_mode(m_preedit.get_input_mode ());
     set_conversion_mode (m_conv_mode);
-    set_typing_method (m_key2kana_tables.get_typing_method ());
+    set_typing_method (m_preedit.get_typing_method ());
     set_period_style (m_key2kana_tables.get_period_style (),
                       m_key2kana_tables.get_comma_style ());
 
@@ -570,12 +570,11 @@ AnthyInstance::set_typing_method (TypingMethod method)
         }
     }
 
-    if (method != m_key2kana_tables.get_typing_method ()) {
+    if (method != m_preedit.get_typing_method ()) {
         Key2KanaTable *fundamental_table = NULL;
         if (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI)
             fundamental_table = m_factory->m_custom_romaji_table;
-        m_key2kana_tables.set_typing_method
-            (method, fundamental_table);
+        m_preedit.set_typing_method (method, fundamental_table);
     }
 }
 
@@ -646,6 +645,7 @@ AnthyInstance::action_convert (void)
 
     if (!m_preedit.is_converting ()) {
         // show conversion string
+        m_preedit.finish ();
         m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
                            is_single_segment ());
         set_preedition ();
@@ -1372,7 +1372,7 @@ AnthyInstance::action_circle_typing_method (void)
 {
     TypingMethod method;
 
-    method = m_key2kana_tables.get_typing_method ();
+    method = m_preedit.get_typing_method ();
     if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
         method = SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     else
@@ -1472,11 +1472,13 @@ AnthyInstance::convert_kana (CandidateType type)
         int idx = m_preedit.get_selected_segment ();
         if (idx < 0) {
             action_revert ();
+            m_preedit.finish ();
             m_preedit.convert (type, true);
         } else {
             m_preedit.select_candidate (type);
         }
     } else {
+        m_preedit.finish ();
         m_preedit.convert (type, true);
     }
 
@@ -1624,14 +1626,14 @@ AnthyInstance::reload_config (const ConfigPointer &config)
 
     // set typing method
     if (m_factory->m_typing_method == "Kana")
-        m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA,
-                                             NULL);
+        m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA,
+                                     NULL);
     else if (m_factory->m_typing_method == "Roma")
-        m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
-                                             m_factory->m_custom_romaji_table);
+        m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
+                                     m_factory->m_custom_romaji_table);
     else
-        m_key2kana_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
-                                             m_factory->m_custom_romaji_table);
+        m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
+                                     m_factory->m_custom_romaji_table);
 
     // set conversion mode
     if (m_factory->m_conversion_mode == "MultiSeg")
