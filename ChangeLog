@@ -6,6 +6,11 @@
 
 	* configure.ac: Version-0.5.3 (BRNACH_0_5_0).
 
+2005-07-28 Takuro Ashie <ashie@homa.ne.jp>
+
+	* data/nicola-a.sty, data/nicola-j.sty, data/oasys100j.sty:
+	Add copyright notice.
+
 2005-07-26 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_setup_kana.cpp: Comment out NICOLA time setting.
