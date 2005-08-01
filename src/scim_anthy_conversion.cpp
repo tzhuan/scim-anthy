@@ -403,37 +403,12 @@ Conversion::get_attribute_list (void)
                 m_anthy.get_factory()->m_selected_segment_style,
                 m_anthy.get_factory()->m_selected_segment_fg_color,
                 m_anthy.get_factory()->m_selected_segment_bg_color);
-#if 0
-            attrs.push_back (
-                Attribute (pos, it->get_string().length(),
-                           SCIM_ATTR_FOREGROUND,
-                           m_anthy.get_factory()->m_selected_segment_fg_color));
-            attrs.push_back (
-                Attribute (pos, it->get_string().length(),
-                           SCIM_ATTR_BACKGROUND,
-                           m_anthy.get_factory()->m_selected_segment_bg_color));
-#endif
         } else {
             util_create_attributes (
                 attrs, pos, it->get_string().length(),
                 m_anthy.get_factory()->m_conversion_style,
                 m_anthy.get_factory()->m_conversion_fg_color,
                 m_anthy.get_factory()->m_conversion_bg_color);
-#if 0
-            attrs.push_back (
-                Attribute (pos, it->get_string().length(),
-                           SCIM_ATTR_FOREGROUND,
-                           m_anthy.get_factory()->m_conversion_fg_color));
-            attrs.push_back (
-                Attribute (pos, it->get_string().length(),
-                           SCIM_ATTR_BACKGROUND,
-                           m_anthy.get_factory()->m_conversion_bg_color));
-#endif
-#if 0
-            attrs.push_back (Attribute (pos, it->get_string().length(),
-                                        SCIM_ATTR_DECORATE,
-                                        SCIM_ATTR_DECORATE_UNDERLINE));
-#endif
         }
 
         pos += it->get_string().length ();
