@@ -292,6 +292,10 @@ StyleFile::~StyleFile ()
 bool
 StyleFile::load (const char *filename)
 {
+    clear ();
+    setup_default_entries ();
+    m_filename = filename;
+
     std::ifstream in_file (filename);
     if (!in_file)
         return false;
