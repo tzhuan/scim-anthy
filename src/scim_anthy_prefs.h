@@ -336,7 +336,6 @@ extern StringConfigData config_keyboards_direct_select [];
 extern StringConfigData config_keyboards_converting [];
 extern StringConfigData config_keyboards_mode [];
 extern StringConfigData config_keyboards_dict [];
-extern StringConfigData config_keyboards_reverse_learning [];
 extern ColorConfigData  config_color_common [];
 
 }

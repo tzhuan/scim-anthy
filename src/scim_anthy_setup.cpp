@@ -277,10 +277,8 @@ static void     on_default_toggle_button_toggled  (GtkToggleButton  *togglebutto
                                                    gpointer          user_data);
 static void     on_default_spin_button_changed    (GtkSpinButton    *spinbutton,
                                                    gpointer          user_data);
-#if 0
 static void     on_default_key_selection_clicked  (GtkButton        *button,
                                                    gpointer          user_data);
-#endif
 static void     on_default_combo_changed          (GtkEditable      *editable,
                                                    gpointer          user_data);
 static void     on_default_option_menu_changed    (GtkOptionMenu    *omenu,
@@ -341,7 +339,7 @@ find_int_config_entry (const char *config_key)
     return NULL;
 }
 
-StringConfigData *
+static StringConfigData *
 find_string_config_entry (const char *config_key)
 {
     if (!config_key)
@@ -408,12 +406,12 @@ create_check_button (const char *config_key)
     return GTK_WIDGET (entry->widget);
 }
 
-void
+GtkWidget *
 create_spin_button (const char *config_key, GtkTable *table, int idx)
 {
     IntConfigData *entry = find_int_config_entry (config_key);
     if (!entry)
-        return;
+        return NULL;
 
     GtkWidget *label = gtk_label_new_with_mnemonic (_(entry->label));
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
@@ -457,38 +455,44 @@ create_spin_button (const char *config_key, GtkTable *table, int idx)
     if (entry->tooltip)
         gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
                               _(entry->tooltip), NULL);
+
+    return GTK_WIDGET (entry->widget);
 }
 
 GtkWidget *
-create_entry (StringConfigData *data, GtkTable *table, int idx)
+create_entry (const char *config_key, GtkTable *table, int idx)
 {
+    StringConfigData *entry = find_string_config_entry (config_key);
+    if (!entry)
+        return NULL;
+
     GtkWidget *label = gtk_label_new (NULL);
-    gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(data->label));
+    gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(entry->label));
     gtk_widget_show (label);
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
     gtk_misc_set_padding (GTK_MISC (label), 4, 0);
     gtk_table_attach (GTK_TABLE (table), label, 0, 1, idx, idx + 1,
                       (GtkAttachOptions) (GTK_FILL),
                       (GtkAttachOptions) (GTK_FILL), 4, 4);
-    (data)->widget = gtk_entry_new ();
+    (entry)->widget = gtk_entry_new ();
     gtk_label_set_mnemonic_widget (GTK_LABEL (label),
-                                   GTK_WIDGET (data->widget));
-    g_signal_connect ((gpointer) (data)->widget, "changed",
+                                   GTK_WIDGET (entry->widget));
+    g_signal_connect ((gpointer) (entry)->widget, "changed",
                       G_CALLBACK (on_default_editable_changed),
-                      data);
-    gtk_widget_show (GTK_WIDGET (data->widget));
-    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (data->widget),
+                      entry);
+    gtk_widget_show (GTK_WIDGET (entry->widget));
+    gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (entry->widget),
                       1, 2, idx, idx + 1,
                       (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
                       (GtkAttachOptions) (GTK_FILL), 4, 4);
 
     if (!__widget_tooltips)
         __widget_tooltips = gtk_tooltips_new();
-    if (data->tooltip)
-        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (data->widget),
-                              _(data->tooltip), NULL);
+    if (entry->tooltip)
+        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
+                              _(entry->tooltip), NULL);
 
-    return GTK_WIDGET (data->widget);
+    return GTK_WIDGET (entry->widget);
 }
 
 GtkWidget *
@@ -591,6 +595,24 @@ create_option_menu (const char *config_key, gpointer candidates_p,
                               _(entry->tooltip), NULL);
 
     return GTK_WIDGET (entry->widget);
+}
+
+GtkWidget *
+create_key_select_button (const char *config_key, GtkTable *table, int idx)
+{
+    StringConfigData *entry = find_string_config_entry (config_key);
+    if (!entry)
+        return NULL;
+
+    GtkWidget *button = gtk_button_new_with_label ("...");
+    gtk_widget_show (button);
+    gtk_table_attach (GTK_TABLE (table), button, 2, 3, idx, idx + 1,
+                      GTK_FILL, GTK_FILL, 4, 4);
+    g_signal_connect ((gpointer) button, "clicked",
+                      G_CALLBACK (on_default_key_selection_clicked),
+                      entry);
+
+    return button;
 }
 
 GtkWidget *
@@ -927,7 +949,7 @@ static GtkWidget *
 create_learning_page ()
 {
     GtkWidget *vbox, *vbox2, *hbox, *alignment, *table;
-    GtkWidget *widget, *label, *button;
+    GtkWidget *widget, *label;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
@@ -978,18 +1000,22 @@ create_learning_page ()
     gtk_container_add (GTK_CONTAINER (alignment), table);
     gtk_widget_show (table);
 
-    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
-        StringConfigData *entry = &config_keyboards_reverse_learning[i];
-        widget = create_entry (entry, GTK_TABLE (table), i);
+    StringConfigData *entries[3];
+    entries [0] = find_string_config_entry (
+        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY);
+    entries [1] = find_string_config_entry (
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY);
+    entries [2] = find_string_config_entry (
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY);
+
+    for (unsigned int i = 0;
+         i < sizeof (entries) / sizeof (StringConfigData*);
+         i++)
+    {
+        StringConfigData *entry = entries[i];
+        widget = create_entry (entry->key, GTK_TABLE (table), i);
         gtk_entry_set_editable (GTK_ENTRY (widget), FALSE);
-        button = gtk_button_new_with_label ("...");
-        gtk_widget_show (button);
-        gtk_table_attach (GTK_TABLE (table), button, 2, 3, i, i + 1,
-                          GTK_FILL, GTK_FILL, 4, 4);
-        gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
-        g_signal_connect ((gpointer) button, "clicked",
-                          G_CALLBACK (on_default_key_selection_clicked),
-                          entry);
+        create_key_select_button (entry->key, GTK_TABLE (table), i);
     }
 
     return vbox;
@@ -1005,8 +1031,9 @@ create_dict_page (void)
     gtk_widget_show (table);
 
     // dict admin command
+    create_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
+                  GTK_TABLE (table), 0);
     entry = find_string_config_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND);
-    create_entry (entry, GTK_TABLE (table), 0);
 
     button = gtk_button_new_with_mnemonic (_("_Launch"));
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (button),
@@ -1018,8 +1045,9 @@ create_dict_page (void)
     gtk_widget_show (button);
 
     // add word command
+    create_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND,
+                  GTK_TABLE (table), 1);
     entry = find_string_config_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND);
-    create_entry (entry, GTK_TABLE (table), 1);
 
     button = gtk_button_new_with_mnemonic (_("_Launch"));
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (button),
@@ -1402,14 +1430,6 @@ setup_widget_value (void)
             }
         }
     }
-
-    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
-        if (config_keyboards_reverse_learning[i].widget) {
-            gtk_entry_set_text (
-                GTK_ENTRY (config_keyboards_reverse_learning[i].widget),
-                config_keyboards_reverse_learning[i].value.c_str ());
-        }
-    }
     
     for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
         ColorConfigData &entry = config_color_common[i];
@@ -1508,11 +1528,6 @@ load_config (const ConfigPointer &config)
         }
     }
 
-    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
-        StringConfigData &entry = config_keyboards_reverse_learning[i];
-        entry.value = config->read (String (entry.key), entry.value);
-    }
-
     for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
         ColorConfigData &entry = config_color_common[i];
         entry.fg_value = config->read (String (entry.fg_key), entry.fg_value);
@@ -1537,9 +1552,6 @@ load_config (const ConfigPointer &config)
         for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++)
             __key_conf_pages[j].data[i].changed = false;
     }
-
-    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++)
-        config_keyboards_reverse_learning[i].changed = false;
 
     for (unsigned int i = 0; config_color_common[i].fg_key; i++)
         config_color_common[i].changed = false;
@@ -1588,13 +1600,6 @@ save_config (const ConfigPointer &config)
                                String (__key_conf_pages[j].data[i].value));
             __key_conf_pages[j].data[i].changed = false;
         }
-    }
-
-    for (unsigned int i = 0; config_keyboards_reverse_learning[i].key; i++) {
-        StringConfigData &entry = config_keyboards_reverse_learning[i];
-        if (entry.changed)
-            entry.value = config->write (String (entry.key), entry.value);
-        entry.changed = false;
     }
 
     for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
@@ -1667,7 +1672,7 @@ on_default_editable_changed (GtkEditable *editable,
     }
 }
 
-void
+static void
 on_default_key_selection_clicked (GtkButton *button,
                                   gpointer   user_data)
 {

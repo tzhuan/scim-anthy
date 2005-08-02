@@ -183,33 +183,18 @@ kana_page_create_ui (void)
     gtk_widget_show (table);
 
     // left
-    StringConfigData *entry;
-    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY);
-    GtkWidget *widget = create_entry (entry, GTK_TABLE (table), 0);
+    GtkWidget *widget = create_entry (SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY,
+                                      GTK_TABLE (table), 0);
     gtk_entry_set_editable (GTK_ENTRY (widget), FALSE);
-
-    button = gtk_button_new_with_label ("...");
-    gtk_widget_show (button);
-    gtk_table_attach (GTK_TABLE (table), button, 2, 3, 0, 1,
-                      GTK_FILL, GTK_FILL, 4, 4);
-    gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
-    g_signal_connect ((gpointer) button, "clicked",
-                      G_CALLBACK (on_default_key_selection_clicked),
-                      entry);
+    widget = create_key_select_button (SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY,
+                                       GTK_TABLE (table), 0);
 
     // right
-    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY);
-    widget = create_entry (entry, GTK_TABLE (table), 1);
+    widget = create_entry (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY,
+                           GTK_TABLE (table), 1);
     gtk_entry_set_editable (GTK_ENTRY (widget), FALSE);
-
-    button = gtk_button_new_with_label ("...");
-    gtk_widget_show (button);
-    gtk_table_attach (GTK_TABLE (table), button, 2, 3, 1, 2,
-                          GTK_FILL, GTK_FILL, 4, 4);
-    gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
-    g_signal_connect ((gpointer) button, "clicked",
-                      G_CALLBACK (on_default_key_selection_clicked),
-                      entry);
+    widget = create_key_select_button (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY,
+                                       GTK_TABLE (table), 1);
 
 #if 0
     /* NICOLA time */

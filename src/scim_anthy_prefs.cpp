@@ -323,6 +323,39 @@ StringConfigData config_string_common [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY,
+        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT,
+        N_("_Commit:"),
+        N_("Select commit keys"),
+        N_("The key events to commit the preedit string "
+           "with reversing the preference of learning. "),
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY,
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
+        N_("Commit the _first segment:"),
+        N_("Select keys to commit the first segment"),
+        N_("The key events to commit the first segment "
+           "with reversing the preference of learning. "),
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY,
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
+        N_("Commit the _selected segment:"),
+        N_("Select keys to commit the selected segment"),
+        N_("The key events to commit the selected segment "
+           "with reversing the preference of learning. "),
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
         SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,
         SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,
@@ -1002,53 +1035,6 @@ StringConfigData config_keyboards_dict [] =
         N_("Add a word"),
         N_("Select add a word keys"),
         N_("The key events to launch the tool to add a word. "),
-        NULL,
-        false,
-    },
-    {
-        NULL,
-        "",
-        "",
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        false,
-    },
-};
-
-StringConfigData config_keyboards_reverse_learning [] =
-{
-    {
-        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY,
-        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT,
-        N_("_Commit:"),
-        N_("Select commit keys"),
-        N_("The key events to commit the preedit string "
-           "with reversing the preference of learning. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY,
-        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_COMMIT_FIRST_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
-        N_("Commit the _first segment:"),
-        N_("Select keys to commit the first segment"),
-        N_("The key events to commit the first segment "
-           "with reversing the preference of learning. "),
-        NULL,
-        false,
-    },
-    {
-        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY,
-        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
-        SCIM_ANTHY_CONFIG_COMMIT_SELECTED_SEGMENT_REVERSE_LEARN_KEY_DEFAULT,
-        N_("Commit the _selected segment:"),
-        N_("Select keys to commit the selected segment"),
-        N_("The key events to commit the selected segment "
-           "with reversing the preference of learning. "),
         NULL,
         false,
     },
