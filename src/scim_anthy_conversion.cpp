@@ -151,8 +151,8 @@ Conversion::clear (void)
 
     m_segments.clear ();
     
-    m_start_id        = 0;
-    m_cur_segment     = -1;
+    m_start_id    = 0;
+    m_cur_segment = -1;
 }
 
 void

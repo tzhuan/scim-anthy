@@ -194,8 +194,9 @@ Reading::finish (void)
 void
 Reading::clear (void)
 {
-    m_key2kana->clear ();
+    m_key2kana_normal.clear ();
     m_kana.clear ();
+    m_nicola.clear ();
     m_segments.clear ();
     m_segment_pos  = 0;
     m_caret_offset = 0;
