@@ -110,6 +110,9 @@ public:
                                                   Key2KanaTable *fund_table
                                                   = NULL);
     virtual TypingMethod  get_typing_method      (void);
+
+#if 1
+    // FIMXE! Read from config directly
     virtual void          set_ten_key_type       (TenKeyType type);
     virtual TenKeyType    get_ten_key_type       (void);
     virtual void          set_behavior_on_period (BehaviorOnPeriod behavior);
@@ -117,13 +120,14 @@ public:
                           get_behavior_on_period (void);
     virtual void          set_allow_split_romaji (bool allow);
     virtual bool          get_allow_split_romaji (void);
+#endif
 
 private:
-    void          get_reading_substr             (WideString & substr,
+    void                  get_reading_substr     (WideString & substr,
                                                   unsigned int start,
                                                   unsigned int len,
                                                   CandidateType type);
-    bool          is_comma_or_period             (const String & str);
+    bool                  is_comma_or_period     (const String & str);
 
 private:
     AnthyInstance    &m_anthy;
