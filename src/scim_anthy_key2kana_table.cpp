@@ -346,11 +346,6 @@ Key2KanaTableSet::reset_tables (void)
             m_all_tables.push_back (&kana_table);
         }
     } else {
-#if 0
-        std::vector<Key2KanaTable>::iterator it;
-        for (it = m_tables.begin (); it != m_tables.end (); it++)
-            m_all_tables.push_back (&(*it));
-#else
         if (is_romaji) {
             m_all_tables.push_back (&romaji_double_consonant_table);
             m_all_tables.push_back (m_fundamental_table);
@@ -360,6 +355,5 @@ Key2KanaTableSet::reset_tables (void)
             m_all_tables.push_back (&m_voiced_consonant_table);
             m_all_tables.push_back (m_fundamental_table);
         }
-#endif
     }
 }
