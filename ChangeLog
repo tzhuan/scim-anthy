@@ -1,5 +1,10 @@
 2005-08-02 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.{cpp,h}: Add get_typing_method() and
+	get_input_mode ().
+
+2005-08-02 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anhthy_conversion.h: Remove needless code.
 	* src/scim_anhthy_conversion.h, src/scim_anthy_reading.h: Minor fix.
 

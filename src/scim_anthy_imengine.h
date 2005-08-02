@@ -140,7 +140,11 @@ public:
 
 public:
     AnthyFactory *
-           get_factory                        (void) { return m_factory; };
+           get_factory                        (void);
+    TypingMethod
+           get_typing_method                  (void);
+    InputMode
+           get_input_mode                     (void);
 
 private:
     /* processing key event */

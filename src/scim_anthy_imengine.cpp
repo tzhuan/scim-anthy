@@ -102,7 +102,7 @@ AnthyInstance::~AnthyInstance ()
 bool
 AnthyInstance::is_nicola_thumb_shift_key (const KeyEvent &key)
 {
-    if (m_preedit.get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA)
+    if (get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA)
         return false;
 
     if (util_match_key_event (m_factory->m_left_thumb_keys, key, 0xFFFF) ||
@@ -130,8 +130,8 @@ AnthyInstance::process_key_event_input (const KeyEvent &key)
 
         if (need_commit) {
             if (is_realtime_conversion () &&
-                m_preedit.get_input_mode () != SCIM_ANTHY_MODE_LATIN &&
-                m_preedit.get_input_mode () != SCIM_ANTHY_MODE_WIDE_LATIN)
+                get_input_mode () != SCIM_ANTHY_MODE_LATIN &&
+                get_input_mode () != SCIM_ANTHY_MODE_WIDE_LATIN)
             {
                 m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
                                    is_single_segment ());
@@ -194,7 +194,7 @@ AnthyInstance::process_key_event (const KeyEvent& key)
 
     // FIXME!
     // for NICOLA thumb shift key
-    if (m_preedit.get_typing_method () == SCIM_ANTHY_TYPING_METHOD_NICOLA &&
+    if (get_typing_method () == SCIM_ANTHY_TYPING_METHOD_NICOLA &&
         is_nicola_thumb_shift_key (key))
     {
         if (process_key_event_input (key))
@@ -217,7 +217,7 @@ AnthyInstance::process_key_event (const KeyEvent& key)
             return true;
 
     // for input key event
-    if (m_preedit.get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA ||
+    if (get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA ||
         !is_nicola_thumb_shift_key (key))
     {
         if (process_key_event_input (key))
@@ -562,9 +562,9 @@ AnthyInstance::install_properties (void)
         }
     }
 
-    set_input_mode(m_preedit.get_input_mode ());
+    set_input_mode(get_input_mode ());
     set_conversion_mode (m_conv_mode);
-    set_typing_method (m_preedit.get_typing_method ());
+    set_typing_method (get_typing_method ());
     set_period_style (m_key2kana_tables.get_period_style (),
                       m_key2kana_tables.get_comma_style ());
 
@@ -606,7 +606,7 @@ AnthyInstance::set_input_mode (InputMode mode)
         }
     }
 
-    if (mode != m_preedit.get_input_mode ()) {
+    if (mode != get_input_mode ()) {
         m_preedit.set_input_mode (mode);
         set_preedition ();
     }
@@ -676,7 +676,7 @@ AnthyInstance::set_typing_method (TypingMethod method)
         }
     }
 
-    if (method != m_preedit.get_typing_method ()) {
+    if (method != get_typing_method ()) {
         Key2KanaTable *fundamental_table = NULL;
         if (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI)
             fundamental_table = m_factory->m_custom_romaji_table;
@@ -895,7 +895,7 @@ AnthyInstance::action_insert_space (void)
     bool is_wide = false;
 
     if (m_factory->m_space_type == "FollowMode") {
-        InputMode mode = m_preedit.get_input_mode ();
+        InputMode mode = get_input_mode ();
         if (mode == SCIM_ANTHY_MODE_LATIN ||
             mode == SCIM_ANTHY_MODE_HALF_KATAKANA)
         {
@@ -924,7 +924,7 @@ AnthyInstance::action_insert_alternative_space (void)
     bool is_wide = false;
 
     if (m_factory->m_space_type == "FollowMode") {
-        InputMode mode = m_preedit.get_input_mode ();
+        InputMode mode = get_input_mode ();
         if (mode == SCIM_ANTHY_MODE_LATIN ||
             mode == SCIM_ANTHY_MODE_HALF_KATAKANA)
         {
@@ -1425,7 +1425,7 @@ AnthyInstance::action_circle_typing_method (void)
 {
     TypingMethod method;
 
-    method = m_preedit.get_typing_method ();
+    method = get_typing_method ();
     if (method == SCIM_ANTHY_TYPING_METHOD_NICOLA)
         method = SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     else if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
@@ -1443,12 +1443,12 @@ AnthyInstance::action_circle_kana_mode (void)
 {
     InputMode mode;
 
-    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
-        m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
+    if (get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
+        get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
     {
         mode = SCIM_ANTHY_MODE_HIRAGANA;
     } else {
-        switch (m_preedit.get_input_mode ()) {
+        switch (get_input_mode ()) {
         case SCIM_ANTHY_MODE_HIRAGANA:
             mode = SCIM_ANTHY_MODE_KATAKANA;
             break;
@@ -1470,13 +1470,13 @@ AnthyInstance::action_circle_kana_mode (void)
 bool
 AnthyInstance::action_toggle_latin_mode (void)
 {
-    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
-        m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
+    if (get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
+        get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
     {
         set_input_mode (m_prev_input_mode);
         m_preedit.set_input_mode (m_prev_input_mode);
     } else {
-        m_prev_input_mode = m_preedit.get_input_mode ();
+        m_prev_input_mode = get_input_mode ();
         set_input_mode (SCIM_ANTHY_MODE_LATIN);
         m_preedit.set_input_mode (SCIM_ANTHY_MODE_LATIN);
     }
@@ -1487,12 +1487,12 @@ AnthyInstance::action_toggle_latin_mode (void)
 bool
 AnthyInstance::action_toggle_wide_latin_mode (void)
 {
-    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
-        m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
+    if (get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
+        get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
     {
         set_input_mode (m_prev_input_mode);
     } else {
-        m_prev_input_mode = m_preedit.get_input_mode ();
+        m_prev_input_mode = get_input_mode ();
         set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
     }
 
@@ -1598,6 +1598,24 @@ AnthyInstance::action_regist_word (void)
 {
 }
 #endif
+
+AnthyFactory *
+AnthyInstance::get_factory (void)
+{
+    return m_factory;
+}
+
+TypingMethod
+AnthyInstance::get_typing_method (void)
+{
+    return m_preedit.get_typing_method ();
+}
+
+InputMode
+AnthyInstance::get_input_mode (void)
+{
+    return m_preedit.get_input_mode ();
+}
 
 void
 AnthyInstance::trigger_property (const String &property)
