@@ -18,6 +18,8 @@
  */
 
 #include "scim_anthy_kana.h"
+#include "scim_anthy_factory.h"
+#include "scim_anthy_imengine.h"
 #include "scim_anthy_default_tables.h"
 #include "scim_anthy_utils.h"
 
@@ -81,8 +83,8 @@ to_half_voiced_consonant (String str)
     return str;
 }
 
-KanaConvertor::KanaConvertor ()
-    : m_ten_key_type (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
+KanaConvertor::KanaConvertor (AnthyInstance &anthy)
+    : m_anthy (anthy)
 {
 }
 
@@ -136,9 +138,11 @@ KanaConvertor::append (const KeyEvent & key,
         (key.code >= SCIM_KEY_KP_Multiply &&
          key.code <= SCIM_KEY_KP_9))
     {
+        String ten_key_type = m_anthy.get_factory()->m_ten_key_type;
+
         for (unsigned int i = 0; table[i].code; i++) {
             if (table[i].code == key.code) {
-                if (m_ten_key_type == SCIM_ANTHY_TEN_KEY_WIDE)
+                if (ten_key_type == "Wide")
                     util_convert_to_wide (result, table[i].kana);
                 else
                     result = utf8_mbstowcs (table[i].kana);
@@ -240,18 +244,6 @@ bool
 KanaConvertor::get_case_sensitive (void)
 {
     return false;
-}
-
-void
-KanaConvertor::set_ten_key_type (TenKeyType type)
-{
-    m_ten_key_type = type;
-}
-
-TenKeyType
-KanaConvertor::get_ten_key_type (void)
-{
-    return m_ten_key_type;
 }
 
 void

@@ -38,8 +38,7 @@ Preedit::Preedit (AnthyInstance &anthy, Key2KanaTableSet & tables)
       m_key2kana_tables    (tables),
       m_reading            (anthy, tables),
       m_conversion         (m_anthy, m_reading),
-      m_input_mode         (SCIM_ANTHY_MODE_HIRAGANA),
-      m_behavior_on_period (SCIM_ANTHY_NONE_ON_PERIOD)
+      m_input_mode         (SCIM_ANTHY_MODE_HIRAGANA)
 {
 }
 
@@ -161,11 +160,11 @@ Preedit::process_key_event (const KeyEvent & key)
         String str;
         m_reading.get_raw (str, len - 1, 1);
         if (is_comma_or_period (str)) {
-            if (m_behavior_on_period == SCIM_ANTHY_CONVERT_ON_PERIOD &&
+            if (m_anthy.get_factory()->m_behavior_on_period == "Convert" &&
                 get_length () > 1)
             {
                 convert ();
-            } else if (m_behavior_on_period == SCIM_ANTHY_COMMIT_ON_PERIOD) {
+            } else if (m_anthy.get_factory()->m_behavior_on_period == "Commit") {
                 return true;
             }
         }
@@ -184,9 +183,10 @@ Preedit::erase (bool backward)
     revert ();
 
     // erase
-    TypingMethod method = m_key2kana_tables.get_typing_method ();
+    TypingMethod method = get_typing_method ();
     bool allow_split
-        = (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI) && m_romaji_allow_split;
+        = method == SCIM_ANTHY_TYPING_METHOD_ROMAJI &&
+          m_anthy.get_factory()->m_romaji_allow_split;
     if (backward && m_reading.get_caret_pos () == 0)
         return;
     if (!backward && m_reading.get_caret_pos () >= m_reading.get_length ())
@@ -322,9 +322,10 @@ Preedit::move_caret (int step)
     if (is_converting ())
         return;
 
-    TypingMethod method = m_key2kana_tables.get_typing_method ();
+    TypingMethod method = get_typing_method ();
     bool allow_split
-        = (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI) && m_romaji_allow_split;
+        = method == SCIM_ANTHY_TYPING_METHOD_ROMAJI &&
+          m_anthy.get_factory()->m_romaji_allow_split;
 
     m_reading.move_caret (step, allow_split);
 }
@@ -368,46 +369,10 @@ Preedit::get_typing_method (void)
     return m_reading.get_typing_method ();
 }
 
-void
-Preedit::set_ten_key_type (TenKeyType type)
-{
-    m_reading.set_ten_key_type (type);
-}
-
-TenKeyType
-Preedit::get_ten_key_type (void)
-{
-    return m_reading.get_ten_key_type ();
-}
-
-void
-Preedit::set_behavior_on_period (BehaviorOnPeriod behavior)
-{
-    m_behavior_on_period = behavior;
-}
-
-BehaviorOnPeriod
-Preedit::get_behavior_on_period (void)
-{
-    return m_behavior_on_period;
-}
-
-void
-Preedit::set_allow_split_romaji (bool allow)
-{
-    m_romaji_allow_split = allow;
-}
-
-bool
-Preedit::get_allow_split_romaji (void)
-{
-    return m_romaji_allow_split;
-}
-
 bool
 Preedit::is_comma_or_period (const String & str)
 {
-    TypingMethod typing = m_key2kana_tables.get_typing_method ();
+    TypingMethod typing = get_typing_method ();
     PeriodStyle  period = m_key2kana_tables.get_period_style ();
     CommaStyle   comma  = m_key2kana_tables.get_comma_style ();
 

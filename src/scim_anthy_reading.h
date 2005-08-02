@@ -101,12 +101,6 @@ public:
     void         move_caret            (int          step,
                                         bool         allow_split = false);
 
-#if 1
-    // FIMXE! Read from config directly
-    void         set_ten_key_type      (TenKeyType   type);
-    TenKeyType   get_ten_key_type      (void);
-#endif
-
     void         set_typing_method     (TypingMethod   method,
                                         Key2KanaTable *fundamental_table
                                         = NULL);

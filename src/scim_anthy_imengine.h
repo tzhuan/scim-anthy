@@ -178,7 +178,7 @@ private:
 
     bool                  m_on_init;
 
-    /* for preedit */
+   /* for preedit */
     Key2KanaTableSet      m_key2kana_tables;
     Preedit               m_preedit;
     bool                  m_preedit_string_visible;
@@ -196,9 +196,6 @@ private:
 
     /*  */
     ConversionMode        m_conv_mode;
-
-    /* FIXME! */
-    bool                  m_forwarding_thumb_shift_key;
 };
 #endif /* __SCIM_ANTHY_IMENGINE_H__ */
 /*

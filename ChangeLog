@@ -1,5 +1,14 @@
 2005-08-02 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.{cpp,h}, src/scim_anthy_kana.{cpp,h},
+	  src/scim_anthy_key2kana.{cpp,h}, src/scim_anthy_key2kana_base.h,
+	  src/scim_anthy_nicola.{cpp,h}, src/scim_anthy_preedit.{cpp,h},
+	  src/scim_anthy_reading.{cpp,h}:
+	Make each object to read static configurations directly from
+	AnthyFactory.
+
+2005-08-02 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_prefs.{cpp,h}, src/scim_anthy_setup.{cpp,h},
 	  src/scim_anthy_setup_kana.cpp: Clean up.
 

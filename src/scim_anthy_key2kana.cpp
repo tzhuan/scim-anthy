@@ -19,13 +19,16 @@
  */
 
 #include "scim_anthy_key2kana.h"
+#include "scim_anthy_factory.h"
+#include "scim_anthy_imengine.h"
 
 using namespace scim_anthy;
 
-Key2KanaConvertor::Key2KanaConvertor (Key2KanaTableSet & tables)
-    : m_tables         (tables),
-      m_case_sensitive (false),
-      m_ten_key_type   (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
+Key2KanaConvertor::Key2KanaConvertor (AnthyInstance    & anthy,
+                                      Key2KanaTableSet & tables)
+    : m_anthy          (anthy),
+      m_tables         (tables),
+      m_case_sensitive (false)
 {
 }
 
@@ -130,10 +133,12 @@ Key2KanaConvertor::append (const KeyEvent & key,
     bool prev_symbol = m_tables.symbol_is_half ();
     bool prev_number = m_tables.number_is_half ();
 
-    if (is_ten_key && m_ten_key_type != SCIM_ANTHY_TEN_KEY_FOLLOW_MODE) {
-        if (m_ten_key_type == SCIM_ANTHY_TEN_KEY_HALF)
+    String ten_key_type = m_anthy.get_factory()->m_ten_key_type;
+
+    if (is_ten_key && ten_key_type != "FollowMode") {
+        if (ten_key_type == "Half")
             half = true;
-        else if (m_ten_key_type == SCIM_ANTHY_TEN_KEY_WIDE)
+        else if (ten_key_type == "Wide")
             half = false;
 
         m_tables.set_symbol_width (half);
@@ -142,7 +147,7 @@ Key2KanaConvertor::append (const KeyEvent & key,
 
     bool retval = append (String (str), result, pending);
 
-    if (is_ten_key && m_ten_key_type != SCIM_ANTHY_TEN_KEY_FOLLOW_MODE) {
+    if (is_ten_key && ten_key_type != "FollowMode") {
         m_tables.set_symbol_width (prev_symbol);
         m_tables.set_number_width (prev_number);
     }
@@ -283,18 +288,6 @@ Key2KanaConvertor::flush_pending (void)
     }
     clear ();
     return result;
-}
-
-void
-Key2KanaConvertor::set_ten_key_type (TenKeyType type)
-{
-    m_ten_key_type = type;
-}
-
-TenKeyType
-Key2KanaConvertor::get_ten_key_type (void)
-{
-    return m_ten_key_type;
 }
 /*
 vi:ts=4:nowrap:ai:expandtab

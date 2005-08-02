@@ -95,7 +95,8 @@ ReadingSegment::split (ReadingSegments &segments)
 Reading::Reading (AnthyInstance &anthy, Key2KanaTableSet &tables)
     : m_anthy           (anthy),
       m_key2kana_tables (tables),
-      m_key2kana_normal (m_key2kana_tables),
+      m_key2kana_normal (anthy, m_key2kana_tables),
+      m_kana            (anthy),
       m_nicola          (anthy),
       m_key2kana        (&m_key2kana_normal),
       m_segment_pos     (0),
@@ -404,7 +405,7 @@ Reading::erase (unsigned int start, int len, bool allow_split)
             }
         }
 
-        // Now all letters in the range is removed.
+        // Now all letters in the range are removed.
         // Exit the loop.
         if (len <= 0)
             break;
@@ -551,20 +552,6 @@ Reading::move_caret (int step, bool allow_split)
     }
 
     reset_pending ();
-}
-
-void
-Reading::set_ten_key_type (TenKeyType type)
-{
-    m_key2kana_normal.set_ten_key_type (type);
-    m_kana.set_ten_key_type (type);
-    m_nicola.set_ten_key_type (type);
-}
-
-TenKeyType
-Reading::get_ten_key_type (void)
-{
-    return m_key2kana->get_ten_key_type ();
 }
 
 void

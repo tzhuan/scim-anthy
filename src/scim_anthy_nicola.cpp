@@ -30,8 +30,7 @@ using namespace scim_anthy;
 NicolaConvertor::NicolaConvertor (AnthyInstance &anthy)
     : //m_tables            (tables),
       m_anthy             (anthy),
-      m_case_sensitive    (false),
-      m_ten_key_type      (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE)
+      m_case_sensitive    (false)
 {
 }
 
@@ -452,18 +451,6 @@ bool
 NicolaConvertor::get_case_sensitive (void)
 {
     return m_case_sensitive;
-}
-
-void
-NicolaConvertor::set_ten_key_type (TenKeyType type)
-{
-    m_ten_key_type = type;
-}
-
-TenKeyType
-NicolaConvertor::get_ten_key_type (void)
-{
-    return m_ten_key_type;
 }
 /*
 vi:ts=4:nowrap:ai:expandtab

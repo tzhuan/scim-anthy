@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
- *  Copyright (C) Hiroyuki Ikezoe <poincare@ikezoe.net>
- *  Copyright (C) 2004 Takuro Ashie <ashie@homa.ne.jp>
+ *  Copyright (C) 2004 - 2005 Hiroyuki Ikezoe <poincare@ikezoe.net>
+ *  Copyright (C) 2004 - 2005 Takuro Ashie <ashie@homa.ne.jp>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -1665,7 +1665,6 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     // set romaji settings
     m_key2kana_tables.set_symbol_width (m_factory->m_romaji_half_symbol);
     m_key2kana_tables.set_number_width (m_factory->m_romaji_half_number);
-    m_preedit.set_allow_split_romaji (m_factory->m_romaji_allow_split);
 
     // set input mode
     if (m_on_init || !m_factory->m_show_input_mode_label) {
@@ -1727,22 +1726,6 @@ AnthyInstance::reload_config (const ConfigPointer &config)
             m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
         }
     }
-
-    // set ten key type
-    if (m_factory->m_ten_key_type == "Half")
-        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_HALF);
-    else if (m_factory->m_ten_key_type == "Wide")
-        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_WIDE);
-    else 
-        m_preedit.set_ten_key_type (SCIM_ANTHY_TEN_KEY_FOLLOW_MODE);
-
-    // set auto convert
-    if (m_factory->m_behavior_on_period == "Convert")
-        m_preedit.set_behavior_on_period (SCIM_ANTHY_CONVERT_ON_PERIOD);
-    else if (m_factory->m_behavior_on_period == "Commit")
-        m_preedit.set_behavior_on_period (SCIM_ANTHY_COMMIT_ON_PERIOD);
-    else
-        m_preedit.set_behavior_on_period (SCIM_ANTHY_NONE_ON_PERIOD);
 
     // set lookup table
     if (m_factory->m_cand_win_page_size > 0)

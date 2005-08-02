@@ -43,12 +43,6 @@ typedef enum {
     SCIM_ANTHY_MODE_WIDE_LATIN,
 } InputMode;
 
-typedef enum {
-    SCIM_ANTHY_NONE_ON_PERIOD,
-    SCIM_ANTHY_CONVERT_ON_PERIOD,
-    SCIM_ANTHY_COMMIT_ON_PERIOD,
-} BehaviorOnPeriod;
-
 class Preedit
 {
 public:
@@ -111,17 +105,6 @@ public:
                                                   = NULL);
     virtual TypingMethod  get_typing_method      (void);
 
-#if 1
-    // FIMXE! Read from config directly
-    virtual void          set_ten_key_type       (TenKeyType type);
-    virtual TenKeyType    get_ten_key_type       (void);
-    virtual void          set_behavior_on_period (BehaviorOnPeriod behavior);
-    virtual BehaviorOnPeriod
-                          get_behavior_on_period (void);
-    virtual void          set_allow_split_romaji (bool allow);
-    virtual bool          get_allow_split_romaji (void);
-#endif
-
 private:
     void                  get_reading_substr     (WideString & substr,
                                                   unsigned int start,
@@ -139,11 +122,6 @@ private:
 
     // mode flags
     InputMode         m_input_mode;
-    BehaviorOnPeriod  m_behavior_on_period;
-    bool              m_romaji_allow_split;
-
-    unsigned int      m_preedit_fg_color;
-    unsigned int      m_preedit_bg_color;
 };
 
 }

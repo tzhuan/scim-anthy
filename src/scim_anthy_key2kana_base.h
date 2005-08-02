@@ -28,12 +28,6 @@ using namespace scim;
 
 namespace scim_anthy {
 
-typedef enum {
-    SCIM_ANTHY_TEN_KEY_HALF,
-    SCIM_ANTHY_TEN_KEY_WIDE,
-    SCIM_ANTHY_TEN_KEY_FOLLOW_MODE,
-} TenKeyType;
-
 class Key2KanaConvertorBase
 {
 public:
@@ -57,9 +51,6 @@ public:
 
     virtual void       set_case_sensitive (bool sensitive) = 0;
     virtual bool       get_case_sensitive (void) = 0;
-
-    virtual void       set_ten_key_type   (TenKeyType type) = 0;
-    virtual TenKeyType get_ten_key_type   (void) = 0;
 };
 
 }

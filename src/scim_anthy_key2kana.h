@@ -30,12 +30,15 @@
 
 using namespace scim;
 
+class AnthyInstance;
+
 namespace scim_anthy {
 
 class Key2KanaConvertor : public Key2KanaConvertorBase
 {
 public:
-    Key2KanaConvertor             (Key2KanaTableSet & tables);
+    Key2KanaConvertor             (AnthyInstance    & anthy,
+                                   Key2KanaTableSet & tables);
     virtual ~Key2KanaConvertor    ();
 
     bool       can_append         (const KeyEvent & key);
@@ -56,15 +59,12 @@ public:
     void       set_case_sensitive (bool sens) { m_case_sensitive = sens; }
     bool       get_case_sensitive (void)      { return m_case_sensitive; }
 
-    void       set_ten_key_type   (TenKeyType type);
-    TenKeyType get_ten_key_type   (void);
-
 private:
+    AnthyInstance     &m_anthy;
     Key2KanaTableSet  &m_tables;
 
     // mode
     bool               m_case_sensitive;
-    TenKeyType         m_ten_key_type;
 
     // state
     WideString         m_pending;
