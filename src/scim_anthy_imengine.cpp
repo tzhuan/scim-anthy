@@ -192,15 +192,18 @@ AnthyInstance::process_key_event (const KeyEvent& key)
 {
     SCIM_DEBUG_IMENGINE(2) << "process_key_event.\n";
 
-    if (process_key_event_input (key))
-        return true;
+    // FIXME!
+    // for NICOLA thumb shift key
+    if (m_preedit.get_typing_method () == SCIM_ANTHY_TYPING_METHOD_NICOLA &&
+        is_nicola_thumb_shift_key (key))
+    {
+        if (process_key_event_input (key))
+            return true;
+    }
 
     // lookup user defined key bindings
     if (process_key_event_lookup_keybind (key))
         return true;
-
-    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN)
-        return false;
 
     // process hard coded keys
     if (is_selecting_candidates () && m_lookup_table_visible)
@@ -212,6 +215,14 @@ AnthyInstance::process_key_event (const KeyEvent& key)
     else
         if (process_key_event_without_preedit(key))
             return true;
+
+    // for input key event
+    if (m_preedit.get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA ||
+        !is_nicola_thumb_shift_key (key))
+    {
+        if (process_key_event_input (key))
+            return true;
+    }
 
     if (m_preedit.is_preediting ())
         return true;
