@@ -25,14 +25,9 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#define Uses_SCIM_CONFIG_BASE
-#define Uses_SCIM_EVENT
 #define SCIM_ANTHY_USE_GTK
 #include <scim.h>
-#include "scim_anthy_intl.h"
 #include "scim_anthy_style_file.h"
-#include "scim_anthy_prefs.h"
-#include "scim_anthy_default_tables.h"
 
 namespace scim_anthy {
 
