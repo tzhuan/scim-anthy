@@ -77,38 +77,38 @@ public:
     void         finish                (void);
     void         clear                 (void);
 
-    WideString   get                   (unsigned int start  = 0,
-                                        int          length = -1,
-                                        StringType   type
+    WideString   get                   (unsigned int     start  = 0,
+                                        int              length = -1,
+                                        StringType       type
                                         = SCIM_ANTHY_STRING_HIRAGANA);
-    void         get                   (WideString & string,
-                                        unsigned int start  = 0,
-                                        int          length = -1,
-                                        StringType   type
+    void         get                   (WideString     & string,
+                                        unsigned int     start  = 0,
+                                        int              length = -1,
+                                        StringType       type
                                         = SCIM_ANTHY_STRING_HIRAGANA);
-    String       get_raw               (unsigned int start  = 0,
-                                        int          length = -1);
-    void         get_raw               (String     & string,
-                                        unsigned int start  = 0,
-                                        int          length = -1);
-    void         erase                 (unsigned int start  = 0,
-                                        int          length = -1,
-                                        bool         allow_split = false);
+    String       get_raw               (unsigned int     start  = 0,
+                                        int              length = -1);
+    void         get_raw               (String         & string,
+                                        unsigned int     start  = 0,
+                                        int              length = -1);
+    void         erase                 (unsigned int     start  = 0,
+                                        int              length = -1,
+                                        bool             allow_split = false);
 
     unsigned int get_length            (void);
     unsigned int get_caret_pos         (void);
-    void         set_caret_pos         (unsigned int pos);
-    void         move_caret            (int          step,
-                                        bool         allow_split = false);
+    void         set_caret_pos         (unsigned int     pos);
+    void         move_caret            (int              step,
+                                        bool             allow_split = false);
 
-    void         set_typing_method     (TypingMethod   method,
-                                        Key2KanaTable *fundamental_table
+    void         set_typing_method     (TypingMethod     method,
+                                        Key2KanaTable   *fundamental_table
                                         = NULL);
     TypingMethod get_typing_method     (void);
 
 private:
     void         reset_pending         (void);
-    void         split_segment         (unsigned int seg_id);
+    void         split_segment         (unsigned int     seg_id);
 
 private:
     AnthyInstance         &m_anthy;
