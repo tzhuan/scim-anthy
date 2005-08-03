@@ -27,7 +27,6 @@
 #include <sys/time.h>
 
 #include "scim_anthy_key2kana_base.h"
-#include "scim_anthy_default_tables.h"
 #include "scim_anthy_key2kana_table.h"
 
 using namespace scim;
