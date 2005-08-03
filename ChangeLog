@@ -1,3 +1,8 @@
+2005-08-03 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_key2kana.cpp, scim_anthy_key2kana_table.{cpp,h},
+	  scim_anthy_style_file.cpp: Ready for customizable NICOLA layout.
+
 2005-08-02 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.{cpp,h}: Add get_typing_method() and

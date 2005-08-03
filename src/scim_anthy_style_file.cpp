@@ -659,14 +659,16 @@ StyleFile::get_key2kana_table (String section)
         table = new Key2KanaTable (utf8_mbstowcs (get_title ()));
         std::vector<String>::iterator it;
         for (it = keys.begin (); it != keys.end (); it++) {
-            std::vector<WideString> array;
+            std::vector<String> array;
             get_string_array (array, section, *it);
+#if 0
             String result, cont;
             if (array.size () > 0)
                 result = utf8_wcstombs (array[0]);
             if (array.size () > 1)
                 cont = utf8_wcstombs (array[1]);
-            table->append_rule (*it, result, cont);
+#endif
+            table->append_rule (*it, array);
         }
     }
 

@@ -98,10 +98,10 @@ Key2KanaRule::Key2KanaRule ()
 {
 }
 
-Key2KanaRule::Key2KanaRule (String sequence, String result, String cont)
+Key2KanaRule::Key2KanaRule (String sequence,
+                            const std::vector<String> &result)
     : m_sequence (sequence),
-      m_result   (result),
-      m_continue (cont)
+      m_result   (result)
 {
 }
 
@@ -110,18 +110,43 @@ Key2KanaRule::~Key2KanaRule ()
 {
 }
 
+String
+Key2KanaRule::get_sequence (void)
+{
+    return m_sequence;
+}
+
+String
+Key2KanaRule::get_result (unsigned int idx)
+{
+    if (idx < m_result.size ())
+        return m_result[idx];
+
+    return String ();
+}
+
 void
 Key2KanaRule::clear (void)
 {
     m_sequence = String ();
-    m_result   = String ();
-    m_continue = String ();
+    m_result.clear ();
 }
 
 bool
 Key2KanaRule::is_empty (void)
 {
-    return m_sequence.empty () && m_result.empty () && m_continue.empty ();
+    if (!m_sequence.empty ())
+        return false;
+
+    if (m_result.empty ())
+        return true;
+
+    for (unsigned int i = 0; i < m_result.size (); i++) {
+        if (!m_result[i].empty ())
+            return false;
+    }
+
+    return true;
 }
 
 
@@ -146,11 +171,36 @@ Key2KanaTable::~Key2KanaTable ()
 
 void
 Key2KanaTable::append_rule (String sequence,
+                            const std::vector<String> &result)
+{
+    // FIXME! check duplicates
+    m_rules.push_back (Key2KanaRule (sequence, result));
+}
+
+void
+Key2KanaTable::append_rule (String sequence,
                             String result,
                             String cont)
 {
     // FIXME! check duplicates
-    m_rules.push_back (Key2KanaRule (sequence, result, cont));
+    std::vector<String> list;
+    list.push_back (result);
+    list.push_back (cont);
+    m_rules.push_back (Key2KanaRule (sequence, list));
+}
+
+void
+Key2KanaTable::append_rule (String sequence,
+                            String normal,
+                            String left_shift,
+                            String right_shift)
+{
+    // FIXME! check duplicates
+    std::vector<String> list;
+    list.push_back (normal);
+    list.push_back (left_shift);
+    list.push_back (right_shift);
+    m_rules.push_back (Key2KanaRule (sequence, list));
 }
 
 void
@@ -228,7 +278,7 @@ create_voiced_consonant_table (Key2KanaTable &table, Key2KanaTable &fund_table)
     Key2KanaRules::iterator it;
     Key2KanaRules &rules = fund_table.get_table ();
     for (it = rules.begin (); it != rules.end (); it++) {
-        String result = it->get_result ();
+        String result = it->get_result (0);
         if (result == sonant_mark)
             sonant_mark_list.push_back (it->get_sequence ());
         else if (result == half_sonant_mark)

@@ -60,22 +60,19 @@ class Key2KanaRule
 public:
     Key2KanaRule ();
     Key2KanaRule (String sequence,
-                  String result,
-                  String cont);
+                  const std::vector<String> &result);
     virtual ~Key2KanaRule ();
 
-    String get_sequence        (void) { return m_sequence; }
-    String get_result          (void) { return m_result; }
-    String get_continue_string (void) { return m_continue; }
+    String get_sequence        (void);
+    String get_result          (unsigned int idx);
 
     void   clear               (void);
 
     bool   is_empty            (void);
 
 private:
-    String m_sequence;
-    String m_result;
-    String m_continue;
+    String              m_sequence;
+    std::vector<String> m_result;
 };
 
 
@@ -90,8 +87,14 @@ public:
     Key2KanaRules & get_table   (void) { return m_rules; }
 
     void            append_rule (String sequence,
+                                 const std::vector<String> &result);
+    void            append_rule (String sequence,
                                  String result,
                                  String cont);
+    void            append_rule (String sequence,
+                                 String normal,
+                                 String left_shift,
+                                 String right_shift);
     void            clear       (void);
 
 private:

@@ -208,20 +208,20 @@ Key2KanaConvertor::append (const String & str,
         pending   =  m_pending;
 
     } else if (!exact_match.is_empty()) {
-        if (!exact_match.get_continue_string().empty())
+        if (!exact_match.get_result(1).empty())
             m_exact_match = exact_match;
         else
             m_exact_match.clear ();
-        m_pending = utf8_mbstowcs (exact_match.get_continue_string ());
-        result    = utf8_mbstowcs (exact_match.get_result ());
+        m_pending = utf8_mbstowcs (exact_match.get_result (1));
+        result    = utf8_mbstowcs (exact_match.get_result (0));
         pending   = m_pending;
 
     } else {
         if (!m_exact_match.is_empty()) {
-            if (!m_exact_match.get_result().empty() &&
-                m_exact_match.get_continue_string().empty())
+            if (!m_exact_match.get_result(0).empty() &&
+                m_exact_match.get_result(1).empty())
             {
-                result = utf8_mbstowcs (m_exact_match.get_result());
+                result = utf8_mbstowcs (m_exact_match.get_result(0));
             } else {
                 retval = true; /* commit prev pending */
             }
@@ -276,12 +276,12 @@ Key2KanaConvertor::flush_pending (void)
 {
     WideString result;
     if (!m_exact_match.is_empty ()) {
-        if (!m_exact_match.get_result().empty() &&
-            m_exact_match.get_continue_string().empty())
+        if (!m_exact_match.get_result(0).empty() &&
+            m_exact_match.get_result(1).empty())
         {
-            result = utf8_mbstowcs (m_exact_match.get_result());
-        } else if (!m_exact_match.get_continue_string().empty()) {
-            result += utf8_mbstowcs (m_exact_match.get_continue_string());
+            result = utf8_mbstowcs (m_exact_match.get_result(0));
+        } else if (!m_exact_match.get_result(1).empty()) {
+            result += utf8_mbstowcs (m_exact_match.get_result(1));
         } else if (m_pending.length () > 0) {
             result += m_pending;
         }
