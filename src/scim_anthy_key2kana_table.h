@@ -79,9 +79,11 @@ private:
 class Key2KanaTable
 {
 public:
-    Key2KanaTable (WideString name);
-    Key2KanaTable (WideString name,
-                   ConvRule *table);
+    Key2KanaTable (WideString  name);
+    Key2KanaTable (WideString  name,
+                   ConvRule   *table);
+    Key2KanaTable (WideString  name,
+                   NicolaRule *table);
     virtual ~Key2KanaTable ();
 
     Key2KanaRules & get_table   (void) { return m_rules; }
@@ -129,7 +131,7 @@ public:
          get_comma_style         (void) { return m_comma_style; }
 
 #if 0
-    // void set_use_consonant_table (bool use);
+    void set_use_consonant_table (bool use);
     void set_use_symbol_table    (bool use);
     void set_use_number_table    (bool use);
     void set_use_period_table    (bool use);

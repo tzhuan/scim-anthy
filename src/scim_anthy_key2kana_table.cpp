@@ -34,6 +34,9 @@ static Key2KanaTable kana_table (
 static Key2KanaTable kana_voiced_consonant_table (
     utf8_mbstowcs ("DefaultKanaVoicedConsonantTable"),
     scim_anthy_kana_voiced_consonant_rule);
+static Key2KanaTable nicola_table (
+    utf8_mbstowcs ("DefaultNICOLATable"),
+    scim_anthy_nicola_table);
 
 // symbols
 static Key2KanaTable half_symbol_table (
@@ -162,6 +165,17 @@ Key2KanaTable::Key2KanaTable (WideString name, ConvRule *table)
         append_rule (table[i].string ? table[i].string : "",
                      table[i].result ? table[i].result : "",
                      table[i].cont   ? table[i].cont   : "");
+    }
+}
+
+Key2KanaTable::Key2KanaTable (WideString name, NicolaRule *table)
+    : m_name (name)
+{
+    for (unsigned int i = 0; table[i].key; i++) {
+        append_rule (table[i].key         ? table[i].key           : "",
+                     table[i].single      ? table[i].single        : "",
+                     table[i].left_shift  ? table[i].left_shift    : "",
+                     table[i].right_shift ? table[i].right_shift   : "");
     }
 }
 
@@ -318,6 +332,7 @@ Key2KanaTableSet::reset_tables (void)
 {
     m_all_tables.clear ();
 
+    bool is_nicola = m_typing_method == SCIM_ANTHY_TYPING_METHOD_NICOLA;
     bool is_romaji = m_typing_method == SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     bool is_kana   = m_typing_method == SCIM_ANTHY_TYPING_METHOD_KANA;
 
@@ -394,6 +409,8 @@ Key2KanaTableSet::reset_tables (void)
                                            kana_table);
             m_all_tables.push_back (&m_voiced_consonant_table);
             m_all_tables.push_back (&kana_table);
+        } else if (is_nicola) {
+            m_all_tables.push_back (&nicola_table);
         }
     } else {
         if (is_romaji) {
@@ -403,6 +420,8 @@ Key2KanaTableSet::reset_tables (void)
             create_voiced_consonant_table (m_voiced_consonant_table,
                                            *m_fundamental_table);
             m_all_tables.push_back (&m_voiced_consonant_table);
+            m_all_tables.push_back (m_fundamental_table);
+        } else if (is_nicola) {
             m_all_tables.push_back (m_fundamental_table);
         }
     }

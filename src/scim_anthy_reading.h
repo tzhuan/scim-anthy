@@ -113,8 +113,11 @@ private:
 private:
     AnthyInstance         &m_anthy;
 
-    // convertors
+    // tables
     Key2KanaTableSet      &m_key2kana_tables;
+    Key2KanaTableSet       m_nicola_tables;
+
+    // convertors
     Key2KanaConvertor      m_key2kana_normal;
     KanaConvertor          m_kana;
     NicolaConvertor        m_nicola;

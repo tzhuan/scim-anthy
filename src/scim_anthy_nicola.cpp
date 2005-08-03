@@ -27,8 +27,9 @@
 
 using namespace scim_anthy;
 
-NicolaConvertor::NicolaConvertor (AnthyInstance &anthy)
-    : //m_tables            (tables),
+NicolaConvertor::NicolaConvertor (AnthyInstance &anthy,
+                                  Key2KanaTableSet &tables)
+    : m_tables            (tables),
       m_anthy             (anthy),
       m_case_sensitive    (false)
 {
@@ -80,8 +81,6 @@ NicolaConvertor::search (const KeyEvent key,
                          WideString &result,
                          String &raw)
 {
-    NicolaRule *table = scim_anthy_nicola_table;
-
     raw = key.get_ascii_code ();
 
     String str1;
@@ -90,24 +89,37 @@ NicolaConvertor::search (const KeyEvent key,
     else
         str1 = tolower (key.get_ascii_code ());
 
-    for (unsigned int i = 0; table[i].key; i++) {
-        String str2 = table[i].key;
-        for (unsigned int j = 0; !m_case_sensitive && j < str2.length (); j++)
-            str2[j] = tolower (str2[j]);
+    std::vector<Key2KanaTable*> &tables = m_tables.get_tables();
+    for (unsigned int j = 0; j < tables.size (); j++) {
+        if (!tables[j])
+            continue;
 
-        if (str1 == str2) {
-            switch (shift_type) {
-            case SCIM_ANTHY_NICOLA_SHIFT_RIGHT:
-                result = utf8_mbstowcs (table[i].right_shift);
-                break;
-            case SCIM_ANTHY_NICOLA_SHIFT_LEFT:
-                result = utf8_mbstowcs (table[i].left_shift);
-                break;
-            default:
-                result = utf8_mbstowcs (table[i].single);
+        Key2KanaRules &rules = tables[j]->get_table ();
+
+        for (unsigned int i = 0; i < rules.size (); i++) {
+            String str2 = rules[i].get_sequence ();
+
+            for (unsigned int k = 0;
+                 !m_case_sensitive && k < str2.length ();
+                 k++)
+            {
+                str2[k] = tolower (str2[k]);
+            }
+
+            if (str1 == str2) {
+                switch (shift_type) {
+                case SCIM_ANTHY_NICOLA_SHIFT_RIGHT:
+                    result = utf8_mbstowcs (rules[i].get_result (2));
+                    break;
+                case SCIM_ANTHY_NICOLA_SHIFT_LEFT:
+                    result = utf8_mbstowcs (rules[i].get_result (1));
+                    break;
+                default:
+                    result = utf8_mbstowcs (rules[i].get_result (0));
+                    break;
+                }
                 break;
             }
-            break;
         }
     }
 
@@ -137,14 +149,16 @@ NicolaConvertor::is_thumb_key (const KeyEvent key)
 bool
 NicolaConvertor::is_left_thumb_key (const KeyEvent key)
 {
-    return util_match_key_event (m_anthy.get_factory()->m_left_thumb_keys, key,
+    return util_match_key_event (m_anthy.get_factory()->m_left_thumb_keys,
+                                 key,
                                  0xFFFF);
 }
 
 bool
 NicolaConvertor::is_right_thumb_key (const KeyEvent key)
 {
-    return util_match_key_event (m_anthy.get_factory()->m_right_thumb_keys, key,
+    return util_match_key_event (m_anthy.get_factory()->m_right_thumb_keys,
+                                 key,
                                  0xFFFF);
 }
 

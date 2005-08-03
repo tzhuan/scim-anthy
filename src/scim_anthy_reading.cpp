@@ -97,11 +97,12 @@ Reading::Reading (AnthyInstance &anthy, Key2KanaTableSet &tables)
       m_key2kana_tables (tables),
       m_key2kana_normal (anthy, m_key2kana_tables),
       m_kana            (anthy),
-      m_nicola          (anthy),
+      m_nicola          (anthy, m_nicola_tables),
       m_key2kana        (&m_key2kana_normal),
       m_segment_pos     (0),
       m_caret_offset    (0)
 {
+    m_nicola_tables.set_typing_method (SCIM_ANTHY_TYPING_METHOD_NICOLA);
 }
 
 Reading::~Reading ()
