@@ -33,10 +33,10 @@ static ConvRule *get_period_rule              (TypingMethod method,
 static ConvRule *get_comma_rule               (TypingMethod method,
                                                CommaStyle   period);
 
-Preedit::Preedit (AnthyInstance &anthy, Key2KanaTableSet & tables)
+Preedit::Preedit (AnthyInstance &anthy)
     : m_anthy              (anthy),
-      m_key2kana_tables    (tables),
-      m_reading            (anthy, tables),
+      //m_key2kana_tables    (tables),
+      m_reading            (anthy),
       m_conversion         (m_anthy, m_reading),
       m_input_mode         (SCIM_ANTHY_MODE_HIRAGANA)
 {
@@ -358,9 +358,9 @@ Preedit::get_input_mode (void)
 }
 
 void
-Preedit::set_typing_method (TypingMethod method, Key2KanaTable *fund_table)
+Preedit::set_typing_method (TypingMethod method)
 {
-    m_reading.set_typing_method (method, fund_table);
+    m_reading.set_typing_method (method);
 }
 
 TypingMethod

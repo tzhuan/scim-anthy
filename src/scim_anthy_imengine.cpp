@@ -79,7 +79,7 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
     : IMEngineInstanceBase     (factory, encoding, id),
       m_factory                (factory),
       m_on_init                (true),
-      m_preedit                (*this, m_key2kana_tables),
+      m_preedit                (*this),
       m_preedit_string_visible (false),
       m_lookup_table_visible   (false),
       m_n_conv_key_pressed     (0),
@@ -682,7 +682,7 @@ AnthyInstance::set_typing_method (TypingMethod method)
             fundamental_table = m_factory->m_custom_romaji_table;
         else if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
             fundamental_table = m_factory->m_custom_kana_table;
-        m_preedit.set_typing_method (method, fundamental_table);
+        m_preedit.set_typing_method (method);
     }
 }
 
@@ -1699,16 +1699,11 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     // set typing method
     if (m_on_init || !m_factory->m_show_typing_method_label) {
         if (m_factory->m_typing_method == "NICOLA")
-            m_preedit.set_typing_method
-                (SCIM_ANTHY_TYPING_METHOD_NICOLA, NULL);
+            m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_NICOLA);
         else if (m_factory->m_typing_method == "Kana")
-            m_preedit.set_typing_method
-                (SCIM_ANTHY_TYPING_METHOD_KANA,
-                 m_factory->m_custom_kana_table);
+            m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA);
         else
-            m_preedit.set_typing_method
-                (SCIM_ANTHY_TYPING_METHOD_ROMAJI,
-                 m_factory->m_custom_romaji_table);
+            m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);
     }
 
     // set conversion mode

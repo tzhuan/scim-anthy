@@ -117,6 +117,7 @@ public:
 
     Key2KanaTable *m_custom_romaji_table;
     Key2KanaTable *m_custom_kana_table;
+    Key2KanaTable *m_custom_nicola_table;
 
     /* for key bindings */
     std::vector<Action> m_actions;

@@ -69,7 +69,7 @@ private:
 class Reading
 {
 public:
-    Reading (AnthyInstance &anthy, Key2KanaTableSet & tables);
+    Reading (AnthyInstance &anthy);
     virtual ~Reading ();
 
     bool         can_process_key_event (const KeyEvent & key);
@@ -101,9 +101,7 @@ public:
     void         move_caret            (int              step,
                                         bool             allow_split = false);
 
-    void         set_typing_method     (TypingMethod     method,
-                                        Key2KanaTable   *fundamental_table
-                                        = NULL);
+    void         set_typing_method     (TypingMethod     method);
     TypingMethod get_typing_method     (void);
     void         set_period_style      (PeriodStyle      style);
     PeriodStyle  get_period_style      (void);
@@ -122,7 +120,7 @@ private:
     AnthyInstance         &m_anthy;
 
     // tables
-    Key2KanaTableSet      &m_key2kana_tables;
+    Key2KanaTableSet       m_key2kana_tables;
     Key2KanaTableSet       m_nicola_tables;
 
     // convertors

@@ -18,6 +18,8 @@
  */
 
 #include "scim_anthy_reading.h"
+#include "scim_anthy_factory.h"
+#include "scim_anthy_imengine.h"
 #include "scim_anthy_utils.h"
 
 using namespace scim_anthy;
@@ -92,9 +94,9 @@ ReadingSegment::split (ReadingSegments &segments)
 
 
 
-Reading::Reading (AnthyInstance &anthy, Key2KanaTableSet &tables)
+Reading::Reading (AnthyInstance &anthy)
     : m_anthy           (anthy),
-      m_key2kana_tables (tables),
+      //m_key2kana_tables (tables),
       m_key2kana_normal (anthy, m_key2kana_tables),
       m_kana            (anthy),
       m_nicola          (anthy, m_nicola_tables),
@@ -557,9 +559,17 @@ Reading::move_caret (int step, bool allow_split)
 }
 
 void
-Reading::set_typing_method (TypingMethod method,
-                            Key2KanaTable *fundamental_table)
+Reading::set_typing_method (TypingMethod method)
 {
+    Key2KanaTable *fundamental_table;
+
+    if (m_anthy.get_factory()->m_typing_method == "NICOLA")
+        fundamental_table = m_anthy.get_factory()->m_custom_nicola_table;
+    else if (m_anthy.get_factory()->m_typing_method == "Kana")
+        fundamental_table = m_anthy.get_factory()->m_custom_kana_table;
+    else
+        fundamental_table = m_anthy.get_factory()->m_custom_romaji_table;
+
     if (method == SCIM_ANTHY_TYPING_METHOD_NICOLA) {
         m_key2kana = &m_nicola;
     } else {

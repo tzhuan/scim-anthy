@@ -183,7 +183,6 @@ private:
     bool                  m_on_init;
 
    /* for preedit */
-    Key2KanaTableSet      m_key2kana_tables;
     Preedit               m_preedit;
     bool                  m_preedit_string_visible;
 

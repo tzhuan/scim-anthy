@@ -134,7 +134,8 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_conversion_style            (SCIM_ANTHY_CONFIG_CONVERSION_STYLE_DEFAULT),
       m_selected_segment_style      (SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_STYLE_DEFAULT),
       m_custom_romaji_table         (NULL),
-      m_custom_kana_table           (NULL)
+      m_custom_kana_table           (NULL),
+      m_custom_nicola_table         (NULL)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Factory :\n";
     SCIM_DEBUG_IMENGINE(1) << "  Lang : " << lang << "\n";
@@ -601,6 +602,18 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     }
     if (style.load (file.c_str ())) {
         m_custom_kana_table = style.get_key2kana_table (section_kana);
+    }
+
+    // load custom NICOLA table
+    const char *section_nicola = "NICOLATable/FundamentalTable";
+    file = config->read (String (SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE),
+                         String (SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE_DEFAULT));
+    if (m_custom_nicola_table) {
+        delete m_custom_nicola_table;
+        m_custom_nicola_table = NULL;
+    }
+    if (style.load (file.c_str ())) {
+        m_custom_nicola_table = style.get_key2kana_table (section_nicola);
     }
 
 

@@ -46,7 +46,7 @@ typedef enum {
 class Preedit
 {
 public:
-    Preedit (AnthyInstance &anthy, Key2KanaTableSet & tables);
+    Preedit (AnthyInstance &anthy);
     virtual ~Preedit ();
 
     // getting status
@@ -100,9 +100,7 @@ public:
     // preference
     virtual void          set_input_mode         (InputMode      mode);
     virtual InputMode     get_input_mode         (void);
-    virtual void          set_typing_method      (TypingMethod   method,
-                                                  Key2KanaTable *fund_table
-                                                  = NULL);
+    virtual void          set_typing_method      (TypingMethod   method);
     virtual TypingMethod  get_typing_method      (void);
     virtual void          set_period_style       (PeriodStyle    style);
     virtual PeriodStyle   get_period_style       (void);
@@ -124,7 +122,6 @@ private:
     AnthyInstance    &m_anthy;
 
     // converter objects
-    Key2KanaTableSet &m_key2kana_tables;
     Reading           m_reading;
     Conversion        m_conversion;
 
