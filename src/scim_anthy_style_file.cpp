@@ -661,13 +661,6 @@ StyleFile::get_key2kana_table (String section)
         for (it = keys.begin (); it != keys.end (); it++) {
             std::vector<String> array;
             get_string_array (array, section, *it);
-#if 0
-            String result, cont;
-            if (array.size () > 0)
-                result = utf8_wcstombs (array[0]);
-            if (array.size () > 1)
-                cont = utf8_wcstombs (array[1]);
-#endif
             table->append_rule (*it, array);
         }
     }

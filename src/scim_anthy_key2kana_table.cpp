@@ -332,9 +332,9 @@ Key2KanaTableSet::reset_tables (void)
 {
     m_all_tables.clear ();
 
-    bool is_nicola = m_typing_method == SCIM_ANTHY_TYPING_METHOD_NICOLA;
     bool is_romaji = m_typing_method == SCIM_ANTHY_TYPING_METHOD_ROMAJI;
     bool is_kana   = m_typing_method == SCIM_ANTHY_TYPING_METHOD_KANA;
+    bool is_nicola = m_typing_method == SCIM_ANTHY_TYPING_METHOD_NICOLA;
 
     // symbols table
     if (m_use_half_symbol)

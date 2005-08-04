@@ -563,17 +563,16 @@ Reading::set_typing_method (TypingMethod method)
 {
     Key2KanaTable *fundamental_table = NULL;
 
-    if (m_anthy.get_factory()->m_typing_method == "NICOLA")
-        fundamental_table = m_anthy.get_factory()->m_custom_nicola_table;
-    else if (m_anthy.get_factory()->m_typing_method == "Kana")
-        fundamental_table = m_anthy.get_factory()->m_custom_kana_table;
-    else
-        fundamental_table = m_anthy.get_factory()->m_custom_romaji_table;
-
     if (method == SCIM_ANTHY_TYPING_METHOD_NICOLA) {
+        fundamental_table = m_anthy.get_factory()->m_custom_nicola_table;
         m_key2kana = &m_nicola;
+        m_nicola_tables.set_typing_method (method, fundamental_table);
+    } else if (method == SCIM_ANTHY_TYPING_METHOD_KANA) {
+        fundamental_table = m_anthy.get_factory()->m_custom_kana_table;
+        m_key2kana = &m_key2kana_normal;
         m_key2kana_tables.set_typing_method (method, fundamental_table);
     } else {
+        fundamental_table = m_anthy.get_factory()->m_custom_romaji_table;
         m_key2kana = &m_key2kana_normal;
         m_key2kana_tables.set_typing_method (method, fundamental_table);
     }
