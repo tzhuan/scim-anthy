@@ -421,8 +421,8 @@ bool
 Preedit::is_comma_or_period (const String & str)
 {
     TypingMethod typing = get_typing_method ();
-    PeriodStyle  period = m_key2kana_tables.get_period_style ();
-    CommaStyle   comma  = m_key2kana_tables.get_comma_style ();
+    PeriodStyle  period = get_period_style ();
+    CommaStyle   comma  = get_comma_style ();
 
     ConvRule *period_rule = get_period_rule (typing, period);
     ConvRule *comma_rule  = get_comma_rule  (typing, comma);

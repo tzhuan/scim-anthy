@@ -682,8 +682,7 @@ AnthyInstance::set_typing_method (TypingMethod method)
             fundamental_table = m_factory->m_custom_romaji_table;
         else if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
             fundamental_table = m_factory->m_custom_kana_table;
-        m_preedit.set_typing_method
-            (method, fundamental_table);
+        m_preedit.set_typing_method (method, fundamental_table);
     }
 }
 
