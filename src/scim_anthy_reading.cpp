@@ -561,7 +561,7 @@ Reading::move_caret (int step, bool allow_split)
 void
 Reading::set_typing_method (TypingMethod method)
 {
-    Key2KanaTable *fundamental_table;
+    Key2KanaTable *fundamental_table = NULL;
 
     if (m_anthy.get_factory()->m_typing_method == "NICOLA")
         fundamental_table = m_anthy.get_factory()->m_custom_nicola_table;
@@ -572,6 +572,7 @@ Reading::set_typing_method (TypingMethod method)
 
     if (method == SCIM_ANTHY_TYPING_METHOD_NICOLA) {
         m_key2kana = &m_nicola;
+        m_key2kana_tables.set_typing_method (method, fundamental_table);
     } else {
         m_key2kana = &m_key2kana_normal;
         m_key2kana_tables.set_typing_method (method, fundamental_table);
