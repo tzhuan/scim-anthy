@@ -369,6 +369,54 @@ Preedit::get_typing_method (void)
     return m_reading.get_typing_method ();
 }
 
+void
+Preedit::set_period_style (PeriodStyle style)
+{
+    m_reading.set_period_style (style);
+}
+
+PeriodStyle
+Preedit::get_period_style (void)
+{
+    return m_reading.get_period_style ();
+}
+
+void
+Preedit::set_comma_style (CommaStyle style)
+{
+    m_reading.set_comma_style (style);
+}
+
+CommaStyle
+Preedit::get_comma_style (void)
+{
+    return m_reading.get_comma_style ();
+}
+
+void
+Preedit::set_symbol_width (bool half)
+{
+    m_reading.set_symbol_width (half);
+}
+
+bool
+Preedit::get_symbol_width (void)
+{
+    return m_reading.get_symbol_width ();
+}
+
+void
+Preedit::set_number_width (bool half)
+{
+    m_reading.set_number_width (half);
+}
+
+bool
+Preedit::get_number_width (void)
+{
+    return m_reading.get_number_width ();
+}
+
 bool
 Preedit::is_comma_or_period (const String & str)
 {

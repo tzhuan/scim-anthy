@@ -581,3 +581,51 @@ Reading::get_typing_method (void)
     else
         return m_key2kana_tables.get_typing_method ();
 }
+
+void
+Reading::set_period_style (PeriodStyle style)
+{
+    m_key2kana_tables.set_period_style (style);
+}
+
+PeriodStyle
+Reading::get_period_style (void)
+{
+    return m_key2kana_tables.get_period_style ();
+}
+
+void
+Reading::set_comma_style (CommaStyle style)
+{
+    m_key2kana_tables.set_comma_style (style);
+}
+
+CommaStyle
+Reading::get_comma_style (void)
+{
+    return m_key2kana_tables.get_comma_style ();
+}
+
+void
+Reading::set_symbol_width (bool half)
+{
+    m_key2kana_tables.set_symbol_width (half);
+}
+
+bool
+Reading::get_symbol_width (void)
+{
+    return m_key2kana_tables.symbol_is_half ();
+}
+
+void
+Reading::set_number_width (bool half)
+{
+    m_key2kana_tables.set_number_width (half);
+}
+
+bool
+Reading::get_number_width (void)
+{
+    return m_key2kana_tables.number_is_half ();
+}

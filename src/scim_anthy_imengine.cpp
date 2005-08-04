@@ -565,8 +565,8 @@ AnthyInstance::install_properties (void)
     set_input_mode(get_input_mode ());
     set_conversion_mode (m_conv_mode);
     set_typing_method (get_typing_method ());
-    set_period_style (m_key2kana_tables.get_period_style (),
-                      m_key2kana_tables.get_comma_style ());
+    set_period_style (m_preedit.get_period_style (),
+                      m_preedit.get_comma_style ());
 
     register_properties (m_properties);
 }
@@ -731,10 +731,10 @@ AnthyInstance::set_period_style (PeriodStyle period,
         }
     }
 
-    if (period != m_key2kana_tables.get_period_style ())
-        m_key2kana_tables.set_period_style (period);
-    if (comma != m_key2kana_tables.get_comma_style ())
-        m_key2kana_tables.set_comma_style (comma);
+    if (period != m_preedit.get_period_style ())
+        m_preedit.set_period_style (period);
+    if (comma != m_preedit.get_comma_style ())
+        m_preedit.set_comma_style (comma);
 }
 
 bool
@@ -1227,8 +1227,7 @@ AnthyInstance::action_select_next_candidate (void)
         set_lookup_table ();
 
     int end = m_lookup_table.number_of_candidates () - 1;
-    if (m_lookup_table.get_cursor_pos () == end)
-    {
+    if (m_lookup_table.get_cursor_pos () == end) {
         m_lookup_table.set_cursor_pos (0);
     } else {
         m_lookup_table.cursor_down ();
@@ -1681,8 +1680,8 @@ void
 AnthyInstance::reload_config (const ConfigPointer &config)
 {
     // set romaji settings
-    m_key2kana_tables.set_symbol_width (m_factory->m_romaji_half_symbol);
-    m_key2kana_tables.set_number_width (m_factory->m_romaji_half_number);
+    m_preedit.set_symbol_width (m_factory->m_romaji_half_symbol);
+    m_preedit.set_number_width (m_factory->m_romaji_half_number);
 
     // set input mode
     if (m_on_init || !m_factory->m_show_input_mode_label) {
@@ -1728,20 +1727,20 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     // set period style
     if (m_on_init || !m_factory->m_show_period_style_label) {
         if (m_factory->m_period_style == "WideLatin") {
-            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
-            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_WIDE);
+            m_preedit.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
+            m_preedit.set_period_style (SCIM_ANTHY_PERIOD_WIDE);
         } else if (m_factory->m_period_style == "Latin") {
-            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_HALF);
-            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_HALF);
+            m_preedit.set_comma_style  (SCIM_ANTHY_COMMA_HALF);
+            m_preedit.set_period_style (SCIM_ANTHY_PERIOD_HALF);
         } else if (m_factory->m_period_style == "Japanese") {
-            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
-            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
+            m_preedit.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
+            m_preedit.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
         } else if (m_factory->m_period_style == "WideLatin_Japanese") {
-            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
-            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
+            m_preedit.set_comma_style  (SCIM_ANTHY_COMMA_WIDE);
+            m_preedit.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
         } else {
-            m_key2kana_tables.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
-            m_key2kana_tables.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
+            m_preedit.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
+            m_preedit.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
         }
     }
 

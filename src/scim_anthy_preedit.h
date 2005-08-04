@@ -91,25 +91,33 @@ public:
 
     // manipulating the caret
     virtual unsigned int  get_caret_pos          (void);
-    virtual void          set_caret_pos          (unsigned int pos);
-    virtual void          move_caret             (int len);
+    virtual void          set_caret_pos          (unsigned int   pos);
+    virtual void          move_caret             (int            len);
 
     // clear all string
     virtual void          clear                  (void);
 
     // preference
-    virtual void          set_input_mode         (InputMode mode);
+    virtual void          set_input_mode         (InputMode      mode);
     virtual InputMode     get_input_mode         (void);
-    virtual void          set_typing_method      (TypingMethod method,
+    virtual void          set_typing_method      (TypingMethod   method,
                                                   Key2KanaTable *fund_table
                                                   = NULL);
     virtual TypingMethod  get_typing_method      (void);
+    virtual void          set_period_style       (PeriodStyle    style);
+    virtual PeriodStyle   get_period_style       (void);
+    virtual void          set_comma_style        (CommaStyle     style);
+    virtual CommaStyle    get_comma_style        (void);
+    virtual void          set_symbol_width       (bool           half);
+    virtual bool          get_symbol_width       (void);
+    virtual void          set_number_width       (bool           half);
+    virtual bool          get_number_width       (void);
 
 private:
-    void                  get_reading_substr     (WideString & substr,
-                                                  unsigned int start,
-                                                  unsigned int len,
-                                                  CandidateType type);
+    void                  get_reading_substr     (WideString   & substr,
+                                                  unsigned int   start,
+                                                  unsigned int   len,
+                                                  CandidateType  type);
     bool                  is_comma_or_period     (const String & str);
 
 private:

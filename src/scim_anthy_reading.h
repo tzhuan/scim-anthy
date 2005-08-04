@@ -105,6 +105,14 @@ public:
                                         Key2KanaTable   *fundamental_table
                                         = NULL);
     TypingMethod get_typing_method     (void);
+    void         set_period_style      (PeriodStyle      style);
+    PeriodStyle  get_period_style      (void);
+    void         set_comma_style       (CommaStyle       style);
+    CommaStyle   get_comma_style       (void);
+    void         set_symbol_width      (bool             half);
+    bool         get_symbol_width      (void);
+    void         set_number_width      (bool             half);
+    bool         get_number_width      (void);
 
 private:
     void         reset_pending         (void);
