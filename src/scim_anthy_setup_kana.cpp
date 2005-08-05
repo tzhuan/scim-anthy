@@ -42,37 +42,45 @@ using namespace scim;
 namespace scim_anthy {
 
 #define INDEX_KEY "scim-anthy::Index"
-static const char * const __kana_fund_table = "KanaTable/FundamentalTable";
+static const char * const __kana_fund_table   = "KanaTable/FundamentalTable";
+static const char * const __nicola_fund_table = "NICOLATable/FundamentalTable";
 
 // Internal data declaration.
 static GtkWidget   * __widget_kana_layout_menu     = NULL;
 static GtkWidget   * __widget_kana_layout_menu2    = NULL;
 static GtkWidget   * __widget_nicola_layout_menu   = NULL;
+static GtkWidget   * __widget_nicola_layout_menu2  = NULL;
 
-static String __config_kana_layout_file = SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT;
+static String __config_kana_layout_file   = SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT;
+static String __config_nicola_layout_file = SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE_DEFAULT;
 
 
-static GtkWidget *create_kana_window              (GtkWindow            *parent);
+static GtkWidget *create_kana_window               (GtkWindow            *parent);
+static GtkWidget *create_nicola_window             (GtkWindow            *parent);
 
-static void     setup_kana_page                   (void);
+static void     setup_kana_page                    (void);
 static void     setup_kana_layout_menu             (GtkOptionMenu        *omenu);
 static void     setup_nicola_layout_menu           (GtkOptionMenu        *omenu);
-static void     setup_kana_window_value           (ScimAnthyTableEditor *editor);
+static void     setup_kana_window_value            (ScimAnthyTableEditor *editor);
 
 static bool     load_kana_layout                   (void);
 
 static void     on_kana_layout_menu_changed        (GtkOptionMenu        *omenu,
-                                                   gpointer              user_data);
-static void     on_kana_customize_button_clicked  (GtkWidget            *button,
-                                                   gpointer              data);
-static void     on_table_editor_add_entry         (ScimAnthyTableEditor *editor,
-                                                   gpointer              data);
-static void     on_table_editor_added_entry       (ScimAnthyTableEditor *editor,
-                                                   gpointer              data);
-static void     on_table_editor_remove_entry      (ScimAnthyTableEditor *editor,
-                                                   gpointer              data);
-static void     on_table_editor_removed_entry     (ScimAnthyTableEditor *editor,
-                                                   gpointer              data);
+                                                    gpointer              user_data);
+static void     on_kana_customize_button_clicked   (GtkWidget            *button,
+                                                    gpointer              data);
+static void     on_kana_table_editor_add_entry     (ScimAnthyTableEditor *editor,
+                                                    gpointer              data);
+static void     on_kana_table_editor_added_entry   (ScimAnthyTableEditor *editor,
+                                                    gpointer              data);
+static void     on_kana_table_editor_remove_entry  (ScimAnthyTableEditor *editor,
+                                                    gpointer              data);
+static void     on_kana_table_editor_removed_entry (ScimAnthyTableEditor *editor,
+                                                    gpointer              data);
+static void     on_nicola_layout_menu_changed      (GtkOptionMenu        *omenu,
+                                                    gpointer              user_data);
+static void     on_nicola_customize_button_clicked (GtkWidget            *button,
+                                                    gpointer              data);
 
 GtkWidget *
 kana_page_create_ui (void)
@@ -148,30 +156,24 @@ kana_page_create_ui (void)
     gtk_box_pack_start (GTK_BOX (vbox2), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
-    label = gtk_label_new_with_mnemonic (_("La_yout (Not implemented yet):"));
+    label = gtk_label_new_with_mnemonic (_("La_yout:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
     gtk_widget_show (label);
 
     omenu = gtk_option_menu_new ();
     __widget_nicola_layout_menu = omenu;
-#if 0
     g_signal_connect (G_OBJECT (omenu), "changed",
-                      G_CALLBACK (on_kana_layout_menu_changed), NULL);
-#endif
+                      G_CALLBACK (on_nicola_layout_menu_changed), NULL);
     gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
     gtk_widget_show (omenu);
 
     gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
 
     button = gtk_button_new_with_mnemonic (_("_Customize..."));
-#if 0
     g_signal_connect (G_OBJECT (button), "clicked",
-                      G_CALLBACK (on_kana_customize_button_clicked), NULL);
-#endif
+                      G_CALLBACK (on_nicola_customize_button_clicked), NULL);
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
     gtk_widget_show (button);
-
-    gtk_widget_set_sensitive (hbox, FALSE);
 
     /* thumb shift keys */
     hbox = gtk_hbox_new (FALSE, 0);
@@ -214,6 +216,9 @@ kana_page_load_config (const ConfigPointer &config)
     __config_kana_layout_file
         = config->read (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE),
                         String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT));
+    __config_nicola_layout_file
+        = config->read (String (SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE),
+                        String (SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE_DEFAULT));
     setup_kana_page ();
 }
 
@@ -223,6 +228,9 @@ kana_page_save_config (const ConfigPointer &config)
     __config_kana_layout_file
         = config->write (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE),
                          String (__config_kana_layout_file));
+    __config_nicola_layout_file
+        = config->write (String (SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE),
+                         String (__config_nicola_layout_file));
 }
 
 bool
@@ -279,17 +287,82 @@ create_kana_window (GtkWindow *parent)
                       G_CALLBACK (on_kana_layout_menu_changed),
                       dialog);
     g_signal_connect (G_OBJECT (dialog), "add-entry",
-                      G_CALLBACK (on_table_editor_add_entry),
+                      G_CALLBACK (on_kana_table_editor_add_entry),
                       NULL);
     g_signal_connect (G_OBJECT (dialog), "remove-entry",
-                      G_CALLBACK (on_table_editor_remove_entry),
+                      G_CALLBACK (on_kana_table_editor_remove_entry),
                       NULL);
     g_signal_connect_after (G_OBJECT (dialog), "add-entry",
-                            G_CALLBACK (on_table_editor_added_entry),
+                            G_CALLBACK (on_kana_table_editor_added_entry),
                             NULL);
     g_signal_connect_after (G_OBJECT (dialog), "remove-entry",
-                            G_CALLBACK (on_table_editor_removed_entry),
+                            G_CALLBACK (on_kana_table_editor_removed_entry),
                             NULL);
+
+    return dialog;
+}
+
+
+static GtkWidget *
+create_nicola_window (GtkWindow *parent)
+{
+    GtkWidget *dialog = scim_anthy_table_editor_new ();
+    gtk_window_set_transient_for (GTK_WINDOW (dialog),
+                                  GTK_WINDOW (parent));
+    gtk_window_set_title (GTK_WINDOW (dialog),
+                          _("Customize NICOLA table"));
+
+    // option menu area
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox,
+                        FALSE, FALSE, 0);
+    gtk_box_reorder_child (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, 0);
+    gtk_widget_show(hbox);
+
+    GtkWidget *label = gtk_label_new_with_mnemonic (_("NICOLA _table:"));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+    gtk_widget_show (label);
+
+    GtkWidget *omenu = gtk_option_menu_new ();
+    __widget_nicola_layout_menu2 = omenu;
+    g_object_add_weak_pointer (G_OBJECT (omenu),
+                               (gpointer*) &__widget_nicola_layout_menu2);
+    gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
+    setup_nicola_layout_menu (GTK_OPTION_MENU (omenu));
+    gtk_option_menu_set_history
+        (GTK_OPTION_MENU (omenu),
+         gtk_option_menu_get_history (
+             GTK_OPTION_MENU (__widget_nicola_layout_menu)));
+    gtk_widget_show (omenu);
+
+    gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
+
+#if 0
+    GtkWidget *button = gtk_button_new_with_mnemonic ("Save _as...");
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
+    gtk_widget_show (button);
+#endif
+
+#if 0
+    // set data and connect signals
+    setup_nicola_window_value (SCIM_ANTHY_TABLE_EDITOR (dialog));
+    g_signal_connect (G_OBJECT (omenu), "changed",
+                      G_CALLBACK (on_nicola_layout_menu_changed),
+                      dialog);
+    g_signal_connect (G_OBJECT (dialog), "add-entry",
+                      G_CALLBACK (on_nicola_table_editor_add_entry),
+                      NULL);
+    g_signal_connect (G_OBJECT (dialog), "remove-entry",
+                      G_CALLBACK (on_nicola_table_editor_remove_entry),
+                      NULL);
+    g_signal_connect_after (G_OBJECT (dialog), "add-entry",
+                            G_CALLBACK (on_nicola_table_editor_added_entry),
+                            NULL);
+    g_signal_connect_after (G_OBJECT (dialog), "remove-entry",
+                            G_CALLBACK (on_nicola_table_editor_removed_entry),
+                            NULL);
+#endif
 
     return dialog;
 }
@@ -382,7 +455,53 @@ setup_nicola_layout_menu (GtkOptionMenu *omenu)
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
     gtk_widget_show (menuitem);
 
+    StyleFiles::iterator it;
+    unsigned int i;
+    for (i = 0, it = __style_list.begin ();
+         it != __style_list.end ();
+         i++, it++)
+    {
+        StyleLines section;
+        if (!it->get_entry_list (section, __nicola_fund_table))
+            continue;
+
+        menuitem = gtk_menu_item_new_with_label (_(it->get_title().c_str()));
+        g_object_set_data (G_OBJECT (menuitem),
+                           INDEX_KEY, GINT_TO_POINTER (i));
+        gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+        gtk_widget_show (menuitem);
+    }
+
+    // set default value
+    g_signal_handlers_block_by_func (
+        G_OBJECT (omenu),
+        (gpointer) (on_nicola_layout_menu_changed),
+        NULL);
+
     gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
+
+    if (__config_nicola_layout_file == __user_style_file.get_file_name ()) {
+        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+
+    } else {
+        GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
+        for (i = 2, node = g_list_next (g_list_next (list));
+             node;
+             i++, node = g_list_next (node))
+        {
+            gint idx = GPOINTER_TO_INT (
+                g_object_get_data (G_OBJECT (node->data), INDEX_KEY));
+            if (__style_list[idx].get_file_name () == __config_nicola_layout_file) {
+                gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), i);
+                break;
+            }
+        }
+    }
+
+    g_signal_handlers_unblock_by_func (
+        G_OBJECT (omenu),
+        (gpointer) (on_nicola_layout_menu_changed),
+        NULL);
 }
 
 static void
@@ -440,6 +559,26 @@ setup_default_kana_table (void)
     }
 }
 
+static void
+setup_default_nicola_table (void)
+{
+    __user_style_file.delete_section (__nicola_fund_table);
+    NicolaRule *table = scim_anthy_nicola_table;
+    for (unsigned int i = 0; table[i].key; i++) {
+        std::vector<String> value;
+        const char *str;
+        str = table[i].single ? table[i].single : "";
+        value.push_back (str);
+        str = table[i].left_shift ? table[i].left_shift : "";
+        value.push_back (str);
+        str = table[i].right_shift ? table[i].right_shift : "";
+        value.push_back (str);
+        __user_style_file.set_string_array (__nicola_fund_table,
+                                            table[i].key,
+                                            value);
+    }
+}
+
 static bool
 load_kana_layout (void)
 {
@@ -489,6 +628,66 @@ load_kana_layout (void)
                 __style_list[theme_idx].get_string_array
                     (value, __kana_fund_table, *it);
                 __user_style_file.set_string_array (__kana_fund_table,
+                                                    *it, value);
+            }
+        }
+        return true;
+
+    } else {
+        // error
+        return false;
+    }
+}
+
+static bool
+load_nicola_layout (void)
+{
+    GtkOptionMenu *omenu = GTK_OPTION_MENU (__widget_nicola_layout_menu);
+    gint idx = gtk_option_menu_get_history (omenu);
+    GtkWidget *menu = gtk_option_menu_get_menu (omenu);
+    GList *list = gtk_container_get_children (GTK_CONTAINER (menu));
+    GtkWidget *menuitem = GTK_WIDGET (g_list_nth_data (list, idx));
+
+    if (!menuitem)
+        return false;
+
+    gint theme_idx = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menuitem),
+                                                         INDEX_KEY));
+
+    // set new NICOLA table
+    if (idx == 0) {
+        // User defined table
+        __config_nicola_layout_file = __user_style_file.get_file_name ();
+        StyleLines lines;
+        bool success = __user_style_file.get_entry_list
+                           (lines, __nicola_fund_table);
+        if (!success || lines.empty ())
+            setup_default_nicola_table ();
+
+        return true;
+
+    } else if (idx == 1) {
+        // Default table
+        __config_nicola_layout_file = "";
+        setup_default_nicola_table ();
+
+        return true;
+
+    } else if (theme_idx >= 0 && theme_idx < (int) __style_list.size ()) {
+        // Tables defined in system theme files
+        __config_nicola_layout_file = __style_list[theme_idx].get_file_name ();
+        __user_style_file.delete_section (__nicola_fund_table);
+
+        std::vector<String> keys;
+        bool success = __style_list[theme_idx].get_key_list
+                           (keys, __nicola_fund_table);
+        if (success) {
+            std::vector<String>::iterator it;
+            for (it = keys.begin (); it != keys.end (); it++) {
+                std::vector<WideString> value;
+                __style_list[theme_idx].get_string_array
+                    (value, __nicola_fund_table, *it);
+                __user_style_file.set_string_array (__nicola_fund_table,
                                                     *it, value);
             }
         }
@@ -562,7 +761,7 @@ on_kana_customize_button_clicked (GtkWidget *button, gpointer data)
 }
 
 static void
-on_table_editor_add_entry (ScimAnthyTableEditor *editor, gpointer data)
+on_kana_table_editor_add_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     const gchar *sequence, *result;
     sequence = gtk_entry_get_text (GTK_ENTRY (editor->sequence_entry));
@@ -577,7 +776,7 @@ on_table_editor_add_entry (ScimAnthyTableEditor *editor, gpointer data)
 }
 
 static void
-on_table_editor_added_entry (ScimAnthyTableEditor *editor, gpointer data)
+on_kana_table_editor_added_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     // change menu item to "User defined"
     gtk_option_menu_set_history (
@@ -587,7 +786,7 @@ on_table_editor_added_entry (ScimAnthyTableEditor *editor, gpointer data)
 }
 
 static void
-on_table_editor_remove_entry (ScimAnthyTableEditor *editor, gpointer data)
+on_kana_table_editor_remove_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     const gchar *sequence;
     sequence = gtk_entry_get_text (GTK_ENTRY (editor->sequence_entry));
@@ -597,13 +796,54 @@ on_table_editor_remove_entry (ScimAnthyTableEditor *editor, gpointer data)
 }
 
 static void
-on_table_editor_removed_entry (ScimAnthyTableEditor *editor, gpointer data)
+on_kana_table_editor_removed_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     // change menu item to "User deined"
     gtk_option_menu_set_history (
         GTK_OPTION_MENU (__widget_kana_layout_menu2), 0);
 
     __style_changed = true;
+}
+
+static void
+on_nicola_layout_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
+{
+    bool success;
+
+    if (__widget_nicola_layout_menu != GTK_WIDGET (omenu)) {
+        g_signal_handlers_block_by_func (
+            G_OBJECT (__widget_nicola_layout_menu),
+            (gpointer) (on_nicola_layout_menu_changed),
+            NULL);
+        gtk_option_menu_set_history (
+            GTK_OPTION_MENU (__widget_nicola_layout_menu),
+            gtk_option_menu_get_history (omenu));
+        g_signal_handlers_unblock_by_func (
+            G_OBJECT (__widget_nicola_layout_menu),
+            (gpointer) (on_nicola_layout_menu_changed),
+            NULL);
+
+        success = load_nicola_layout ();
+
+        //setup_nicola_window_value (SCIM_ANTHY_TABLE_EDITOR (user_data));
+    } else {
+        success = load_nicola_layout ();
+    }
+
+    if (success) {
+        // sync widgets
+        __style_changed  = true;
+        __config_changed = true;
+    }
+}
+
+static void
+on_nicola_customize_button_clicked (GtkWidget *button, gpointer data)
+{
+    GtkWidget *widget = create_nicola_window (
+        GTK_WINDOW (gtk_widget_get_toplevel (button)));
+    gtk_dialog_run (GTK_DIALOG (widget));
+    gtk_widget_destroy (widget);
 }
 
 }
