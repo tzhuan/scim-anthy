@@ -149,6 +149,12 @@ static GtkWidget *
 create_romaji_window (GtkWindow *parent)
 {
     GtkWidget *dialog = scim_anthy_table_editor_new ();
+    const char *titles[3];
+    titles[0] = _("Sequence");
+    titles[1] = _("Result");
+    titles[2] = NULL;
+    scim_anthy_table_editor_set_columns (SCIM_ANTHY_TABLE_EDITOR (dialog),
+                                         titles);
     gtk_window_set_transient_for (GTK_WINDOW (dialog),
                                   GTK_WINDOW (parent));
     gtk_window_set_title (GTK_WINDOW (dialog),
@@ -306,7 +312,6 @@ setup_romaji_window_value (ScimAnthyTableEditor *editor)
         gtk_list_store_set (store, &iter,
                             0, it->c_str (),
                             1, result.c_str (),
-                            2, cont.c_str (),
                             -1);
     }
 }
@@ -438,8 +443,8 @@ static void
 on_table_editor_add_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     const gchar *sequence, *result;
-    sequence = gtk_entry_get_text (GTK_ENTRY (editor->sequence_entry));
-    result   = gtk_entry_get_text (GTK_ENTRY (editor->result_entry));
+    sequence = scim_anthy_table_editor_get_nth_text (editor, 0);
+    result   = scim_anthy_table_editor_get_nth_text (editor, 1);
 
     // real add
     __user_style_file.set_string (__romaji_fund_table, sequence, result);
@@ -459,7 +464,7 @@ static void
 on_table_editor_remove_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     const gchar *sequence;
-    sequence = gtk_entry_get_text (GTK_ENTRY (editor->sequence_entry));
+    sequence = scim_anthy_table_editor_get_nth_text (editor, 0);
 
     // real remove
     __user_style_file.delete_key (__romaji_fund_table, sequence);

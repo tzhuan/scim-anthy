@@ -39,11 +39,12 @@ struct _ScimAnthyTableEditor
 
     GtkWidget *treeview;
 
+    GtkWidget *button_area;
+
     GtkWidget *add_button;
     GtkWidget *remove_button;
 
-    GtkWidget *sequence_entry;
-    GtkWidget *result_entry;
+    GList     *entries;
 };
 
 struct _ScimAnthyTableEditorClass
@@ -56,7 +57,11 @@ struct _ScimAnthyTableEditorClass
 };
 
 
-GType       scim_anthy_table_editor_get_type    (void) G_GNUC_CONST;
-GtkWidget * scim_anthy_table_editor_new         (void);
+GType       scim_anthy_table_editor_get_type     (void) G_GNUC_CONST;
+GtkWidget  *scim_anthy_table_editor_new          (void);
+const char *scim_anthy_table_editor_get_nth_text (ScimAnthyTableEditor *editor,
+                                                  guint                 nth);
+void        scim_anthy_table_editor_set_columns  (ScimAnthyTableEditor *editor,
+                                                  const char          **titles);
 
 #endif /* __SCIM_ANTHY_TABLE_EDITOR_H__ */

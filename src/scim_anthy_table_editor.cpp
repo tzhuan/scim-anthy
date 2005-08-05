@@ -35,6 +35,7 @@ enum {
 
 static void scim_anthy_table_editor_class_init   (ScimAnthyTableEditorClass *klass);
 static void scim_anthy_table_editor_init         (ScimAnthyTableEditor      *object);
+static void scim_anthy_table_editor_dispose      (GObject                   *object);
 
 static void scim_anthy_table_editor_add_entry    (ScimAnthyTableEditor *editor);
 static void scim_anthy_table_editor_remove_entry (ScimAnthyTableEditor *editor);
@@ -96,7 +97,7 @@ scim_anthy_table_editor_get_type (void)
 static void
 scim_anthy_table_editor_class_init (ScimAnthyTableEditorClass *klass)
 {
-    //GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
+    GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
     //GtkWidgetClass *widget_class     = GTK_WIDGET_CLASS (klass);
 
     parent_class = (GtkDialogClass *) g_type_class_peek_parent (klass);
@@ -118,15 +119,14 @@ scim_anthy_table_editor_class_init (ScimAnthyTableEditorClass *klass)
   		  g_cclosure_marshal_VOID__VOID,
   		  G_TYPE_NONE, 0);
 
-    klass->add_entry    = scim_anthy_table_editor_add_entry;
-    klass->remove_entry = scim_anthy_table_editor_remove_entry;
+    gobject_class->dispose = scim_anthy_table_editor_dispose;
+    klass->add_entry       = scim_anthy_table_editor_add_entry;
+    klass->remove_entry    = scim_anthy_table_editor_remove_entry;
 }
 
 static void
 scim_anthy_table_editor_init (ScimAnthyTableEditor *editor)
 {
-    GtkWidget *label;
-
     gtk_dialog_add_buttons (GTK_DIALOG (editor),
                             GTK_STOCK_CLOSE, GTK_RESPONSE_NONE,
                             NULL);
@@ -152,12 +152,7 @@ scim_anthy_table_editor_init (ScimAnthyTableEditor *editor)
     gtk_box_pack_start (GTK_BOX (hbox), scrwin, TRUE, TRUE, 0);
     gtk_widget_show (scrwin);
 
-    GtkListStore *store = gtk_list_store_new (3,
-                                              G_TYPE_STRING,
-                                              G_TYPE_STRING,
-                                              G_TYPE_STRING);
-
-    GtkWidget *treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+    GtkWidget *treeview = gtk_tree_view_new ();
     editor->treeview = treeview;
     gtk_container_add (GTK_CONTAINER (scrwin), treeview);
     gtk_widget_show (treeview);
@@ -170,110 +165,27 @@ scim_anthy_table_editor_init (ScimAnthyTableEditor *editor)
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
     gtk_tree_view_set_headers_clickable (GTK_TREE_VIEW (treeview), TRUE);
 
-    // sequence column
-    GtkCellRenderer *cell;
-    GtkTreeViewColumn *column;
-    cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (
-        _("Sequence"), cell,
-        "text", 0,
-        NULL);
-	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (column, 80);
-	gtk_tree_view_column_set_resizable(column, TRUE);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
-    gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (store), 0,
-                                     compare_sequence_string,
-                                     NULL, NULL);
-    gtk_tree_view_column_set_sort_column_id (column, 0);
-
-    // result column
-    cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (
-        _("Result"), cell,
-        "text", 1,
-        NULL);
-	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (column, 80);
-	gtk_tree_view_column_set_resizable(column, TRUE);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
-    gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (store), 1,
-                                     compare_result_string,
-                                     NULL, NULL);
-    gtk_tree_view_column_set_sort_column_id (column, 1);
-
-#if 0
-    // pending column
-    cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (
-        _("Pending"), cell,
-        "text", 2,
-        NULL);
-	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (column, 80);
-	gtk_tree_view_column_set_resizable(column, TRUE);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
-    gtk_tree_view_column_set_sort_column_id (column, 2);
-#endif
-
     // button area
     GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
+    editor->button_area = vbox;
     gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, FALSE, 5);
     gtk_widget_show (vbox);
 
-    label = gtk_label_new_with_mnemonic (_("_Sequence:"));
-    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 2);
-    gtk_widget_show (label);
+    editor->entries = NULL;
+}
 
-    GtkWidget *entry = gtk_entry_new ();
-    editor->sequence_entry = entry;
-    gtk_box_pack_start (GTK_BOX (vbox), entry, FALSE, FALSE, 2);
-    gtk_widget_set_size_request (entry, 80, -1);
-    g_signal_connect (G_OBJECT (entry), "activate",
-                      G_CALLBACK (on_entry_activate), editor);
-    g_signal_connect (G_OBJECT (entry), "changed",
-                      G_CALLBACK (on_entry_changed), editor);
-    g_signal_connect (G_OBJECT (entry), "insert-text",
-                      G_CALLBACK (on_sequence_entry_insert_text),
-                      editor);
-    gtk_widget_show (entry);
-    gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
+static void
+scim_anthy_table_editor_dispose (GObject *object)
+{
+    ScimAnthyTableEditor *editor = SCIM_ANTHY_TABLE_EDITOR (editor);
 
-    label = gtk_label_new_with_mnemonic (_("_Result:"));
-    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 2);
-    gtk_widget_show (label);
+    if (editor->entries) {
+        g_list_free (editor->entries);
+        editor->entries = NULL;
+    }
 
-    entry = gtk_entry_new ();
-    editor->result_entry = entry;
-    gtk_box_pack_start (GTK_BOX (vbox), entry, FALSE, FALSE, 2);
-    gtk_widget_set_size_request (entry, 80, -1);
-    g_signal_connect (G_OBJECT (entry), "activate",
-                      G_CALLBACK (on_entry_activate), editor);
-    g_signal_connect (G_OBJECT (entry), "changed",
-                      G_CALLBACK (on_entry_changed), editor);
-    gtk_widget_show (entry);
-    gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
-
-    GtkWidget *button = gtk_button_new_from_stock (GTK_STOCK_ADD);
-    editor->add_button = button;
-    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 5);
-    g_signal_connect (G_OBJECT (button), "clicked",
-                      G_CALLBACK (on_add_button_clicked), editor);
-    gtk_widget_set_sensitive (button, FALSE);
-    gtk_widget_show (button);
-
-    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-    editor->remove_button = button;
-    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 5);
-    g_signal_connect (G_OBJECT (button), "clicked",
-                      G_CALLBACK (on_remove_button_clicked), editor);
-    gtk_widget_set_sensitive (button, FALSE);
-    gtk_widget_show (button);
-
-    // clearn
-    g_object_unref (store);
+	if (G_OBJECT_CLASS(parent_class)->dispose)
+		G_OBJECT_CLASS(parent_class)->dispose(object);
 }
 
 GtkWidget *
@@ -283,6 +195,110 @@ scim_anthy_table_editor_new (void)
                                     NULL));
 }
 
+void
+scim_anthy_table_editor_set_columns (ScimAnthyTableEditor *editor,
+                                     const char          **titles)
+{
+    g_return_if_fail (SCIM_ANTHY_IS_TABLE_EDITOR (editor));
+
+    if (!titles)
+        return;
+
+    gint n_cols;
+    for (n_cols = 0; titles[n_cols]; n_cols++);
+    if (n_cols <= 0)
+        return;
+
+    GType types[n_cols];
+    for (gint i = 0; i < n_cols; i++)
+        types[i] = G_TYPE_STRING;
+
+    GtkListStore *store = gtk_list_store_newv (n_cols, types);
+    gtk_tree_view_set_model (GTK_TREE_VIEW (editor->treeview),
+                             GTK_TREE_MODEL (store));
+
+    // columns
+    for (int i = 0; i < n_cols; i++) {
+        GtkCellRenderer *cell;
+        GtkTreeViewColumn *column;
+        cell = gtk_cell_renderer_text_new ();
+        column = gtk_tree_view_column_new_with_attributes (titles[i], cell,
+                                                           "text", i,
+                                                           NULL);
+        gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+        gtk_tree_view_column_set_fixed_width (column, 80);
+        gtk_tree_view_column_set_resizable(column, TRUE);
+        gtk_tree_view_append_column(GTK_TREE_VIEW(editor->treeview), column);
+
+        if (i == 0)
+            gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (store), i,
+                                             compare_sequence_string,
+                                             NULL, NULL);
+        if (i == 1)
+            gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (store), i,
+                                             compare_result_string,
+                                             NULL, NULL);
+
+        gtk_tree_view_column_set_sort_column_id (column, i);
+    }
+
+    // entries
+    for (int i = 0; i < n_cols; i++) {
+        GtkWidget *label = gtk_label_new_with_mnemonic (titles[i]);
+        gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+        gtk_box_pack_start (GTK_BOX (editor->button_area), label, FALSE, FALSE, 2);
+        gtk_widget_show (label);
+
+        GtkWidget *entry = gtk_entry_new ();
+        gtk_box_pack_start (GTK_BOX (editor->button_area), entry,
+                            FALSE, FALSE, 2);
+        gtk_widget_set_size_request (entry, 80, -1);
+        g_signal_connect (G_OBJECT (entry), "activate",
+                          G_CALLBACK (on_entry_activate), editor);
+        g_signal_connect (G_OBJECT (entry), "changed",
+                          G_CALLBACK (on_entry_changed), editor);
+        if (i == 0)
+            g_signal_connect (G_OBJECT (entry), "insert-text",
+                              G_CALLBACK (on_sequence_entry_insert_text),
+                              editor);
+        gtk_widget_show (entry);
+        gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
+
+        editor->entries = g_list_append (editor->entries, entry);
+    }
+
+    // buttons
+    GtkWidget *button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    editor->add_button = button;
+    gtk_box_pack_start (GTK_BOX (editor->button_area), button, FALSE, FALSE, 5);
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_add_button_clicked), editor);
+    gtk_widget_set_sensitive (button, FALSE);
+    gtk_widget_show (button);
+
+    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    editor->remove_button = button;
+    gtk_box_pack_start (GTK_BOX (editor->button_area), button, FALSE, FALSE, 5);
+    g_signal_connect (G_OBJECT (button), "clicked",
+                      G_CALLBACK (on_remove_button_clicked), editor);
+    gtk_widget_set_sensitive (button, FALSE);
+    gtk_widget_show (button);
+
+    // clean
+    g_object_unref (store);
+}
+
+const char *
+scim_anthy_table_editor_get_nth_text (ScimAnthyTableEditor *editor, guint nth)
+{
+    g_return_val_if_fail (SCIM_ANTHY_IS_TABLE_EDITOR (editor), "");
+
+    GtkEntry *entry = GTK_ENTRY (g_list_nth_data (editor->entries, nth));
+    if (!entry)
+        return "";
+
+    return gtk_entry_get_text (entry);
+}
 
 static void
 scim_anthy_table_editor_add_entry (ScimAnthyTableEditor *editor)
@@ -293,11 +309,11 @@ scim_anthy_table_editor_add_entry (ScimAnthyTableEditor *editor)
  
     gboolean go_next;
     bool found = false;
-    const gchar *sequence, *result;
-    sequence = gtk_entry_get_text (GTK_ENTRY (editor->sequence_entry));
-    result   = gtk_entry_get_text (GTK_ENTRY (editor->result_entry));
 
-    if (!sequence || !result)
+    const gchar *sequence;
+    sequence = scim_anthy_table_editor_get_nth_text (editor, 0);
+
+    if (!sequence)
         return;
 
     for (go_next = gtk_tree_model_get_iter_first (model, &iter);
@@ -319,11 +335,17 @@ scim_anthy_table_editor_add_entry (ScimAnthyTableEditor *editor)
     if (!found)
         gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 
-    gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-                        0, sequence,
-                        1, result,
-                        2, "",
-                        -1);
+    GList *node;
+    gint i;
+    for (i = 0, node = editor->entries;
+         node;
+         i++, node = g_list_next (node))
+    {
+        const char *text = gtk_entry_get_text (GTK_ENTRY (node->data));
+        gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+                            i, text,
+                            -1);
+    }
 
     GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
     gtk_tree_view_set_cursor (treeview, path, NULL, FALSE);
@@ -458,25 +480,24 @@ on_table_view_selection_changed (GtkTreeSelection *selection, gpointer data)
         }
     }
 
+    GList *node;
+
     if (selected) {
-        gchar *sequence = NULL, *result = NULL;
-        gtk_tree_model_get (model, &iter,
-                            0, &sequence,
-                            1, &result,
-                            -1);
-        if (editor->sequence_entry)
-            gtk_entry_set_text (GTK_ENTRY (editor->sequence_entry),
-                                sequence);
-        if (editor->result_entry)
-            gtk_entry_set_text (GTK_ENTRY (editor->result_entry),
-                                result);
-        g_free (sequence);
-        g_free (result);
+        gint i;
+        for (i = 0, node = editor->entries;
+             node;
+             i++, node = g_list_next (node))
+        {
+            gchar *str = NULL;
+            gtk_tree_model_get (model, &iter,
+                                i, &str,
+                                -1);
+            gtk_entry_set_text (GTK_ENTRY (node->data), str);
+            g_free (str);
+        }
     } else {
-        if (editor->sequence_entry)
-            gtk_entry_set_text (GTK_ENTRY (editor->sequence_entry), "");
-        if (editor->result_entry)
-            gtk_entry_set_text (GTK_ENTRY (editor->result_entry), "");
+        for (node = editor->entries; node; node = g_list_next (node))
+            gtk_entry_set_text (GTK_ENTRY (node->data), "");
     }
 }
 
@@ -505,11 +526,14 @@ static void
 on_entry_changed (GtkEditable *editable, gpointer data)
 {
     ScimAnthyTableEditor *editor = SCIM_ANTHY_TABLE_EDITOR (data);
-    const char *seq, *res;
-    seq = gtk_entry_get_text (GTK_ENTRY (editor->sequence_entry));
-    res = gtk_entry_get_text (GTK_ENTRY (editor->result_entry));
+    const char *seq;
+
+    if (!editor->entries || !editor->entries->data)
+        return;
+
+    seq = gtk_entry_get_text (GTK_ENTRY (editor->entries->data));
     gtk_widget_set_sensitive (editor->add_button,
-                              seq && *seq && res && *res);
+                              seq && *seq);
 }
 
 static void
