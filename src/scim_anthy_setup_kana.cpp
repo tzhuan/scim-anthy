@@ -323,7 +323,7 @@ static GtkWidget *
 create_nicola_window (GtkWindow *parent)
 {
     GtkWidget *dialog = scim_anthy_table_editor_new ();
-    gtk_window_set_default_size (GTK_WINDOW (dialog), 480, 350);
+    gtk_window_set_default_size (GTK_WINDOW (dialog), 450, 350);
     const char *titles[5];
     titles[0] = _("Key");
     titles[1] = _("Single press");
