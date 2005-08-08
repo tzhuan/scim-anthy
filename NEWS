@@ -1,3 +1,10 @@
+Overview of Changes from scim-anthy-0.6.0 to scim-anthy-0.6.1
+=============================================================
+* The bug that some key bindings is dead has been fixed.
+  Thanks Ryo Dairiki.
+* The bug that custom typing tables aren't set correctly has been fixed.
+* Pluged a memory leak.
+
 Overview of Changes from scim-anthy-0.5.3 to scim-anthy-0.6.0
 =============================================================
 * Method of loading romaji table has been changed.

@@ -1704,6 +1704,8 @@ AnthyInstance::reload_config (const ConfigPointer &config)
             m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA);
         else
             m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);
+    } else {
+        m_preedit.set_typing_method (m_preedit.get_typing_method ());
     }
 
     // set conversion mode

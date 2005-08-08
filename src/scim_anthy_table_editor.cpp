@@ -40,11 +40,7 @@ static void scim_anthy_table_editor_dispose      (GObject                   *obj
 static void scim_anthy_table_editor_add_entry    (ScimAnthyTableEditor *editor);
 static void scim_anthy_table_editor_remove_entry (ScimAnthyTableEditor *editor);
 
-static gint compare_sequence_string         (GtkTreeModel     *model,
-                                             GtkTreeIter      *a,
-                                             GtkTreeIter      *b,
-                                             gpointer          user_data);
-static gint compare_result_string           (GtkTreeModel     *model,
+static gint compare_string                  (GtkTreeModel     *model,
                                              GtkTreeIter      *a,
                                              GtkTreeIter      *b,
                                              gpointer          user_data);
@@ -128,7 +124,7 @@ static void
 scim_anthy_table_editor_init (ScimAnthyTableEditor *editor)
 {
     gtk_dialog_add_buttons (GTK_DIALOG (editor),
-                            GTK_STOCK_CLOSE, GTK_RESPONSE_NONE,
+                            GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
                             NULL);
 
     gtk_window_set_default_size (GTK_WINDOW (editor), 350, 250);
@@ -230,15 +226,9 @@ scim_anthy_table_editor_set_columns (ScimAnthyTableEditor *editor,
         gtk_tree_view_column_set_resizable(column, TRUE);
         gtk_tree_view_append_column(GTK_TREE_VIEW(editor->treeview), column);
 
-        if (i == 0)
-            gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (store), i,
-                                             compare_sequence_string,
-                                             NULL, NULL);
-        if (i == 1)
-            gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (store), i,
-                                             compare_result_string,
-                                             NULL, NULL);
-
+        gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (store), i,
+                                         compare_string,
+                                         GINT_TO_POINTER (i), NULL);
         gtk_tree_view_column_set_sort_column_id (column, i);
     }
 
@@ -392,70 +382,41 @@ scim_anthy_table_editor_remove_entry (ScimAnthyTableEditor *editor)
 }
 
 static gint
-compare_sequence_string (GtkTreeModel *model,
-                         GtkTreeIter *a,
-                         GtkTreeIter *b,
-                         gpointer user_data)
+compare_string (GtkTreeModel *model,
+                GtkTreeIter *a,
+                GtkTreeIter *b,
+                gpointer user_data)
 {
+    gint n_cols, column, cur_column = GPOINTER_TO_INT (user_data);
     gint ret;
 
     gchar *seq1 = NULL, *seq2 = NULL;
     gtk_tree_model_get (model, a,
-                        0, &seq1,
+                        cur_column, &seq1,
                         -1);
     gtk_tree_model_get (model, b,
-                        0, &seq2,
+                        cur_column, &seq2,
                         -1);
     ret = strcmp (seq1, seq2);
     g_free (seq1);
     g_free (seq2);
 
-    if (ret == 0) {
+    n_cols = gtk_tree_model_get_n_columns (model);
+    for (column = 0; ret == 0 || column < n_cols; column++) {
         gchar *res1 = NULL, *res2 = NULL;
+
+        if (cur_column == column)
+            continue;
+
         gtk_tree_model_get (model, a,
-                            1, &res1,
+                            column, &res1,
                             -1);
         gtk_tree_model_get (model, b,
-                            1, &res2,
+                            column, &res2,
                             -1);
         ret = strcmp (res1, res2);
         g_free (res1);
         g_free (res2);
-    }
-
-    return ret;
-}
-
-static gint
-compare_result_string (GtkTreeModel *model,
-                       GtkTreeIter *a,
-                       GtkTreeIter *b,
-                       gpointer user_data)
-{
-    gint ret;
-
-    gchar *res1 = NULL, *res2 = NULL;
-    gtk_tree_model_get (model, a,
-                        1, &res1,
-                        -1);
-    gtk_tree_model_get (model, b,
-                        1, &res2,
-                        -1);
-    ret = strcmp (res1, res2);
-    g_free (res1);
-    g_free (res2);
-
-    if (ret == 0) {
-        gchar *seq1 = NULL, *seq2 = NULL;
-        gtk_tree_model_get (model, a,
-                            0, &seq1,
-                            -1);
-        gtk_tree_model_get (model, b,
-                            0, &seq2,
-                            -1);
-        ret = strcmp (seq1, seq2);
-        g_free (seq1);
-        g_free (seq2);
     }
 
     return ret;
