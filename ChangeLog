@@ -2,6 +2,10 @@
 
 	* configfure.ac: Version-0.6.1 (Branch 0.6.0).
 
+2005-08-09 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_factory.cpp: Set correct default value.
+
 2005-08-08 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_factory.cpp: Plug memory leak. Check file name length
