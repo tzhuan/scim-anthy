@@ -4,6 +4,11 @@
 
 2005-08-10 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.cpp: Revive multi/dead key related code.
+	Thanks Yukiko Bando.
+
+2005-08-10 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_table_editor.cpp: NULL check before strcmp().
 
 2005-08-09 Takuro Ashie <ashie@homa.ne.jp>

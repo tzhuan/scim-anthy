@@ -216,6 +216,10 @@ AnthyInstance::process_key_event (const KeyEvent& key)
         if (process_key_event_without_preedit(key))
             return true;
 
+    // for Multi/Dead key
+    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN)
+        return false;
+
     // for input key event
     if (get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA ||
         !is_nicola_thumb_shift_key (key))
