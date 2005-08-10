@@ -388,35 +388,54 @@ compare_string (GtkTreeModel *model,
                 gpointer user_data)
 {
     gint n_cols, column, cur_column = GPOINTER_TO_INT (user_data);
-    gint ret;
-
-    gchar *seq1 = NULL, *seq2 = NULL;
-    gtk_tree_model_get (model, a,
-                        cur_column, &seq1,
-                        -1);
-    gtk_tree_model_get (model, b,
-                        cur_column, &seq2,
-                        -1);
-    ret = strcmp (seq1, seq2);
-    g_free (seq1);
-    g_free (seq2);
+    gint ret = 0;
 
     n_cols = gtk_tree_model_get_n_columns (model);
+
+    if (cur_column < n_cols) {
+        gchar *seq1 = NULL, *seq2 = NULL;
+        gtk_tree_model_get (model, a,
+                            cur_column, &seq1,
+                            -1);
+        gtk_tree_model_get (model, b,
+                            cur_column, &seq2,
+                            -1);
+        if (!seq1 && seq2) {
+            ret = -1;
+        } else if (seq1 && !seq2) {
+            ret = 1;
+        } else if (seq1 && seq2) {
+            ret = strcmp (seq1, seq2);
+        } else {
+            ret = 0;
+        }
+        g_free (seq1);
+        g_free (seq2);
+    }
+
     for (column = 0; ret == 0 || column < n_cols; column++) {
-        gchar *res1 = NULL, *res2 = NULL;
+        gchar *seq1 = NULL, *seq2 = NULL;
 
         if (cur_column == column)
             continue;
 
         gtk_tree_model_get (model, a,
-                            column, &res1,
+                            column, &seq1,
                             -1);
         gtk_tree_model_get (model, b,
-                            column, &res2,
+                            column, &seq2,
                             -1);
-        ret = strcmp (res1, res2);
-        g_free (res1);
-        g_free (res2);
+        if (!seq1 && seq2) {
+            ret = -1;
+        } else if (seq1 && !seq2) {
+            ret = 1;
+        } else if (!seq1 && !seq2) {
+            ret = strcmp (seq1, seq2);
+        } else {
+            ret = 0;
+        }
+        g_free (seq1);
+        g_free (seq2);
     }
 
     return ret;
