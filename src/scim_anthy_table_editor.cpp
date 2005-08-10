@@ -413,7 +413,7 @@ compare_string (GtkTreeModel *model,
         g_free (seq2);
     }
 
-    for (column = 0; ret == 0 || column < n_cols; column++) {
+    for (column = 0; ret == 0 && column < n_cols; column++) {
         gchar *seq1 = NULL, *seq2 = NULL;
 
         if (cur_column == column)
