@@ -384,7 +384,15 @@ compare_sequence_string (GtkTreeModel *model,
     gtk_tree_model_get (model, b,
                         0, &seq2,
                         -1);
-    ret = strcmp (seq1, seq2);
+    if (!seq1 && seq2) {
+        ret = -1;
+    } else if (seq1 && !seq2) {
+        ret = 1;
+    } else if (seq1 && seq2) {
+        ret = strcmp (seq1, seq2);
+    } else {
+        ret = 0;
+    }
     g_free (seq1);
     g_free (seq2);
 
@@ -396,7 +404,15 @@ compare_sequence_string (GtkTreeModel *model,
         gtk_tree_model_get (model, b,
                             1, &res2,
                             -1);
-        ret = strcmp (res1, res2);
+        if (!res1 && res2) {
+            ret = -1;
+        } else if (res1 && !res2) {
+            ret = 1;
+        } else if (res1 && res2) {
+            ret = strcmp (res1, res2);
+        } else {
+            ret = 0;
+        }
         g_free (res1);
         g_free (res2);
     }
@@ -419,7 +435,15 @@ compare_result_string (GtkTreeModel *model,
     gtk_tree_model_get (model, b,
                         1, &res2,
                         -1);
-    ret = strcmp (res1, res2);
+    if (!res1 && res2) {
+        ret = -1;
+    } else if (res1 && !res2) {
+        ret = 1;
+    } else if (res1 && res2) {
+        ret = strcmp (res1, res2);
+    } else {
+        ret = 0;
+    }
     g_free (res1);
     g_free (res2);
 
@@ -431,7 +455,15 @@ compare_result_string (GtkTreeModel *model,
         gtk_tree_model_get (model, b,
                             0, &seq2,
                             -1);
-        ret = strcmp (seq1, seq2);
+        if (!seq1 && seq2) {
+            ret = -1;
+        } else if (seq1 && !seq2) {
+            ret = 1;
+        } else if (seq1 && seq2) {
+            ret = strcmp (seq1, seq2);
+        } else {
+            ret = 0;
+        }
         g_free (seq1);
         g_free (seq2);
     }

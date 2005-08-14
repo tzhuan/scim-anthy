@@ -156,6 +156,11 @@ AnthyFactory::~AnthyFactory ()
         delete m_custom_romaji_table;
         m_custom_romaji_table = NULL;
     }
+
+    if (m_custom_kana_table) {
+        delete m_custom_kana_table;
+        m_custom_kana_table = NULL;
+    }
 }
 
 WideString
@@ -587,7 +592,7 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         delete m_custom_romaji_table;
         m_custom_romaji_table = NULL;
     }
-    if (style.load (file.c_str ())) {
+    if (!file.empty () && style.load (file.c_str ())) {
         m_custom_romaji_table = style.get_key2kana_table (section_romaji);
     }
 
@@ -599,7 +604,7 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         delete m_custom_kana_table;
         m_custom_kana_table = NULL;
     }
-    if (style.load (file.c_str ())) {
+    if (!file.empty () && style.load (file.c_str ())) {
         m_custom_kana_table = style.get_key2kana_table (section_kana);
     }
 
