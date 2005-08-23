@@ -194,6 +194,9 @@ static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (K
 const int KEY_CATEGORY_INDEX_SEARCH_BY_KEY = __key_conf_pages_num;
 const int KEY_CATEGORY_INDEX_ALL           = __key_conf_pages_num + 1;
 
+const int KEY_THEME_INDEX_USER_DEFINED = 0;
+const int KEY_THEME_INDEX_DEFAULT      = 1;
+
 static ComboConfigCandidate input_modes[] =
 {
     {N_("Hiragana"),            "Hiragana"},
@@ -734,7 +737,8 @@ key_list_view_popup_key_selection (GtkTreeView *treeview)
                                     COLUMN_VALUE, data->value.c_str(),
                                     -1);
                 gtk_option_menu_set_history (
-                    GTK_OPTION_MENU (__widget_key_theme_menu), 0);
+                    GTK_OPTION_MENU (__widget_key_theme_menu),
+                    KEY_THEME_INDEX_USER_DEFINED);
                 data->changed = true;
                 __config_changed = true;
             }
@@ -1364,12 +1368,14 @@ setup_key_theme_menu (GtkOptionMenu *omenu)
                                      (gpointer) (on_key_theme_menu_changed),
                                      NULL);
 
-    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu),
+                                 KEY_THEME_INDEX_DEFAULT);
 
     if (__config_key_theme_file == __user_style_file.get_file_name () ||
         __config_key_theme      == __user_style_file.get_title ())
     {
-        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu),
+                                     KEY_THEME_INDEX_USER_DEFINED);
 
     } else {
         GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
@@ -1443,12 +1449,6 @@ setup_widget_value (void)
         (GTK_OPTION_MENU (__widget_key_categories_menu), KEY_CATEGORY_INDEX_ALL);
     gtk_widget_set_sensitive (__widget_key_filter, FALSE);
     gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
-#if 0
-    GtkTreeModel *model;
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (__widget_key_list_view));
-    gtk_list_store_clear (GTK_LIST_STORE (model));
-    append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
-#endif
 
     // setup option menu
     setup_key_theme_menu (GTK_OPTION_MENU (__widget_key_theme_menu));
@@ -1842,11 +1842,11 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     }
 
     // set new key bindings
-    if (idx == 0) {
+    if (idx == KEY_THEME_INDEX_USER_DEFINED) {
         __config_key_theme      = String ("User defined");
         __config_key_theme_file = String (""); //__user_style_file.get_file_name ();
 
-    } else if (idx == 1) {
+    } else if (idx == KEY_THEME_INDEX_DEFAULT) {
         for (unsigned int j = 0; j < __key_conf_pages_num; j++) {
             for (unsigned int i = 0; __key_conf_pages[j].data[i].key; i++) {
                 __key_conf_pages[j].data[i].value
@@ -1880,7 +1880,7 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     }
 
     // sync widgets
-    if (idx != 0) {
+    if (idx != KEY_THEME_INDEX_USER_DEFINED) {
         gtk_option_menu_set_history
             (GTK_OPTION_MENU (__widget_key_categories_menu),
              KEY_CATEGORY_INDEX_ALL);
