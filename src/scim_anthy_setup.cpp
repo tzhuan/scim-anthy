@@ -1446,7 +1446,8 @@ setup_widget_value (void)
     }
 
     gtk_option_menu_set_history
-        (GTK_OPTION_MENU (__widget_key_categories_menu), KEY_CATEGORY_INDEX_ALL);
+        (GTK_OPTION_MENU (__widget_key_categories_menu),
+         KEY_CATEGORY_INDEX_ALL);
     gtk_widget_set_sensitive (__widget_key_filter, FALSE);
     gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
 
@@ -1607,8 +1608,10 @@ save_config (const ConfigPointer &config)
     for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
         ColorConfigData &entry = config_color_common[i];
         if (entry.changed) {
-            entry.fg_value = config->write (String (entry.fg_key), entry.fg_value);
-            entry.bg_value = config->write (String (entry.bg_key), entry.bg_value);
+            entry.fg_value = config->write (String (entry.fg_key),
+                                            entry.fg_value);
+            entry.bg_value = config->write (String (entry.bg_key),
+                                            entry.bg_value);
         }
         entry.changed = false;
     }
