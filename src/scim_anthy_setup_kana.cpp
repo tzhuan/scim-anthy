@@ -662,7 +662,7 @@ load_kana_layout (void)
                                                          INDEX_KEY));
 
     // set new kana table
-    if (idx == KANA_LAYOUT_INDEX_USER_DEFINED {
+    if (idx == KANA_LAYOUT_INDEX_USER_DEFINED) {
         // User defined table
         __config_kana_layout_file = __user_style_file.get_file_name ();
         StyleLines lines;
