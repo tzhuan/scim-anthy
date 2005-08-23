@@ -191,8 +191,8 @@ static struct KeyboardConfigPage __key_conf_pages[] =
 };
 static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (KeyboardConfigPage);
 
-const int INDEX_SEARCH_BY_KEY = __key_conf_pages_num;
-const int INDEX_ALL           = __key_conf_pages_num + 1;
+const int KEY_CATEGORY_INDEX_SEARCH_BY_KEY = __key_conf_pages_num;
+const int KEY_CATEGORY_INDEX_ALL           = __key_conf_pages_num + 1;
 
 static ComboConfigCandidate input_modes[] =
 {
@@ -1440,13 +1440,15 @@ setup_widget_value (void)
     }
 
     gtk_option_menu_set_history
-        (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
+        (GTK_OPTION_MENU (__widget_key_categories_menu), KEY_CATEGORY_INDEX_ALL);
     gtk_widget_set_sensitive (__widget_key_filter, FALSE);
     gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
+#if 0
     GtkTreeModel *model;
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (__widget_key_list_view));
     gtk_list_store_clear (GTK_LIST_STORE (model));
     append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
+#endif
 
     // setup option menu
     setup_key_theme_menu (GTK_OPTION_MENU (__widget_key_theme_menu));
@@ -1798,14 +1800,14 @@ on_key_category_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     if (idx >= 0 && idx < (gint) __key_conf_pages_num) {
         append_key_bindings (treeview, idx, NULL);
 
-    } else if (idx == INDEX_SEARCH_BY_KEY) {
+    } else if (idx == KEY_CATEGORY_INDEX_SEARCH_BY_KEY) {
         // search by key
         use_filter = true;
         const char *str = gtk_entry_get_text (GTK_ENTRY (__widget_key_filter));
         for (unsigned int i = 0; i < __key_conf_pages_num; i++)
             append_key_bindings (treeview, i, str);
 
-    } else if (idx == INDEX_ALL) {
+    } else if (idx == KEY_CATEGORY_INDEX_ALL) {
         // all
         for (unsigned int i = 0; i < __key_conf_pages_num; i++)
             append_key_bindings (treeview, i, NULL);
@@ -1880,14 +1882,22 @@ on_key_theme_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
     // sync widgets
     if (idx != 0) {
         gtk_option_menu_set_history
-            (GTK_OPTION_MENU (__widget_key_categories_menu), 0);
+            (GTK_OPTION_MENU (__widget_key_categories_menu),
+             KEY_CATEGORY_INDEX_ALL);
         gtk_widget_set_sensitive (__widget_key_filter, FALSE);
         gtk_widget_set_sensitive (__widget_key_filter_button, FALSE);
         GtkTreeModel *model;
         model = gtk_tree_view_get_model (
             GTK_TREE_VIEW (__widget_key_list_view));
         gtk_list_store_clear (GTK_LIST_STORE (model));
-        append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view), 0, NULL);
+#if 0
+        append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view),
+                             KEY_CATEGORY_INDEX_ALL, NULL);
+#else
+        for (unsigned int i = 0; i < __key_conf_pages_num; i++)
+            append_key_bindings (GTK_TREE_VIEW (__widget_key_list_view),
+                                 i, NULL);
+#endif
     }
 
     __config_changed = true;
