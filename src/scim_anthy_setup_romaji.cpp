@@ -43,12 +43,14 @@ namespace scim_anthy {
 #define INDEX_KEY "scim-anthy::Index"
 static const char * const __romaji_fund_table = "RomajiTable/FundamentalTable";
 
+static const int ROMAJI_THEME_INDEX_USER_DEFINED = 0;
+static const int ROMAJI_THEME_INDEX_DEFAULT      = 1;
+
 // Internal data declaration.
 static GtkWidget   * __widget_romaji_theme_menu     = NULL;
 static GtkWidget   * __widget_romaji_theme_menu2    = NULL;
 
 static String __config_romaji_theme_file = SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE_DEFAULT;
-
 
 static GtkWidget *create_romaji_window            (GtkWindow            *parent);
 
@@ -258,10 +260,12 @@ setup_romaji_theme_menu (GtkOptionMenu *omenu)
         (gpointer) (on_romaji_theme_menu_changed),
         NULL);
 
-    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu),
+                                 ROMAJI_THEME_INDEX_DEFAULT);
 
     if (__config_romaji_theme_file == __user_style_file.get_file_name ()) {
-        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu),
+                                     ROMAJI_THEME_INDEX_USER_DEFINED);
 
     } else {
         GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
@@ -354,7 +358,7 @@ load_romaji_theme (void)
                                                          INDEX_KEY));
 
     // set new romaji table
-    if (idx == 0) {
+    if (idx == ROMAJI_THEME_INDEX_USER_DEFINED) {
         // User defined table
         __config_romaji_theme_file = __user_style_file.get_file_name ();
         StyleLines lines;
@@ -365,7 +369,7 @@ load_romaji_theme (void)
 
         return true;
 
-    } else if (idx == 1) {
+    } else if (idx == ROMAJI_THEME_INDEX_DEFAULT) {
         // Default table
         __config_romaji_theme_file = "";
         setup_default_romaji_table ();
@@ -455,7 +459,8 @@ on_table_editor_added_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     // change menu item to "User defined"
     gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_romaji_theme_menu2), 0);
+        GTK_OPTION_MENU (__widget_romaji_theme_menu2),
+        ROMAJI_THEME_INDEX_USER_DEFINED);
 
     __style_changed = true;
 }
@@ -477,7 +482,8 @@ on_table_editor_removed_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     // change menu item to "User deined"
     gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_romaji_theme_menu2), 0);
+        GTK_OPTION_MENU (__widget_romaji_theme_menu2),
+        ROMAJI_THEME_INDEX_USER_DEFINED);
 
     __style_changed = true;
 }

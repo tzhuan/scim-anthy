@@ -45,6 +45,12 @@ namespace scim_anthy {
 static const char * const __kana_fund_table   = "KanaTable/FundamentalTable";
 static const char * const __nicola_fund_table = "NICOLATable/FundamentalTable";
 
+static const int KANA_LAYOUT_INDEX_USER_DEFINED = 0;
+static const int KANA_LAYOUT_INDEX_DEFAULT      = 1;
+
+static const int NICOLA_LAYOUT_INDEX_USER_DEFINED = 0;
+static const int NICOLA_LAYOUT_INDEX_DEFAULT      = 1;
+
 // Internal data declaration.
 static GtkWidget   * __widget_kana_layout_menu     = NULL;
 static GtkWidget   * __widget_kana_layout_menu2    = NULL;
@@ -436,10 +442,12 @@ setup_kana_layout_menu (GtkOptionMenu *omenu)
         (gpointer) (on_kana_layout_menu_changed),
         NULL);
 
-    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu),
+                                 KANA_LAYOUT_INDEX_DEFAULT);
 
     if (__config_kana_layout_file == __user_style_file.get_file_name ()) {
-        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu),
+                                     KANA_LAYOUT_INDEX_USER_DEFINED);
 
     } else {
         GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
@@ -501,10 +509,12 @@ setup_nicola_layout_menu (GtkOptionMenu *omenu)
         (gpointer) (on_nicola_layout_menu_changed),
         NULL);
 
-    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 1);
+    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu),
+                                 NICOLA_LAYOUT_INDEX_DEFAULT);
 
     if (__config_nicola_layout_file == __user_style_file.get_file_name ()) {
-        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+        gtk_option_menu_set_history (GTK_OPTION_MENU (omenu),
+                                     NICOLA_LAYOUT_INDEX_USER_DEFINED);
 
     } else {
         GList *node, *list = gtk_container_get_children (GTK_CONTAINER (menu));
@@ -652,7 +662,7 @@ load_kana_layout (void)
                                                          INDEX_KEY));
 
     // set new kana table
-    if (idx == 0) {
+    if (idx == KANA_LAYOUT_INDEX_USER_DEFINED {
         // User defined table
         __config_kana_layout_file = __user_style_file.get_file_name ();
         StyleLines lines;
@@ -663,7 +673,7 @@ load_kana_layout (void)
 
         return true;
 
-    } else if (idx == 1) {
+    } else if (idx == KANA_LAYOUT_INDEX_DEFAULT) {
         // Default table
         __config_kana_layout_file = "";
         setup_default_kana_table ();
@@ -712,7 +722,7 @@ load_nicola_layout (void)
                                                          INDEX_KEY));
 
     // set new NICOLA table
-    if (idx == 0) {
+    if (idx == NICOLA_LAYOUT_INDEX_USER_DEFINED) {
         // User defined table
         __config_nicola_layout_file = __user_style_file.get_file_name ();
         StyleLines lines;
@@ -723,7 +733,7 @@ load_nicola_layout (void)
 
         return true;
 
-    } else if (idx == 1) {
+    } else if (idx == NICOLA_LAYOUT_INDEX_DEFAULT) {
         // Default table
         __config_nicola_layout_file = "";
         setup_default_nicola_table ();
@@ -837,7 +847,8 @@ on_kana_table_editor_added_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     // change menu item to "User defined"
     gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_kana_layout_menu2), 0);
+        GTK_OPTION_MENU (__widget_kana_layout_menu2),
+        KANA_LAYOUT_INDEX_USER_DEFINED);
 
     __style_changed = true;
 }
@@ -857,7 +868,8 @@ on_kana_table_editor_removed_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     // change menu item to "User deined"
     gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_kana_layout_menu2), 0);
+        GTK_OPTION_MENU (__widget_kana_layout_menu2),
+        KANA_LAYOUT_INDEX_USER_DEFINED);
 
     __style_changed = true;
 }
@@ -919,7 +931,8 @@ on_nicola_table_editor_added_entry (ScimAnthyTableEditor *editor, gpointer data)
 {
     // change menu item to "User defined"
     gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_nicola_layout_menu2), 0);
+        GTK_OPTION_MENU (__widget_nicola_layout_menu2),
+        NICOLA_LAYOUT_INDEX_USER_DEFINED);
 
     __style_changed = true;
 }
@@ -939,7 +952,8 @@ on_nicola_table_editor_removed_entry (ScimAnthyTableEditor *editor, gpointer dat
 {
     // change menu item to "User deined"
     gtk_option_menu_set_history (
-        GTK_OPTION_MENU (__widget_nicola_layout_menu2), 0);
+        GTK_OPTION_MENU (__widget_nicola_layout_menu2),
+        NICOLA_LAYOUT_INDEX_USER_DEFINED);
 
     __style_changed = true;
 }
