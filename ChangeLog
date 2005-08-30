@@ -1,5 +1,9 @@
 2005-08-30 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_prefs.h: Show dictionary menu on the panel by default.
+
+2005-08-30 Takuro Ashie <ashie@homa.ne.jp>
+
 	* data/scim-anthy.png: Replace with new icon.
 
 2005-08-30 Takuro Ashie <ashie@homa.ne.jp>
