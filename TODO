@@ -1,6 +1,7 @@
 Version-0.7.0 (Planning to release at Sep 29th, 2005)
 
   * Refactoring.
+  * Implement "Cancel All".
   * Handle key pad correctly.
   * SKIM plugin.
   * Provide more style files.
