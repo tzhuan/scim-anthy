@@ -510,6 +510,16 @@ StringConfigData config_keyboards_edit [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_CANCEL_ALL_KEY,
+        SCIM_ANTHY_CONFIG_CANCEL_ALL_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CANCEL_ALL_KEY_DEFAULT,
+        N_("Cancel all"),
+        N_("Select cancel all keys"),
+        N_("The key events to return to initial state. "),
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_DO_NOTHING_KEY,
         SCIM_ANTHY_CONFIG_DO_NOTHING_KEY_DEFAULT,
         SCIM_ANTHY_CONFIG_DO_NOTHING_KEY_DEFAULT,
@@ -870,6 +880,26 @@ StringConfigData config_keyboards_direct_select [] =
 
 StringConfigData config_keyboards_converting [] =
 {
+    {
+        SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_FORWARD_KEY,
+        SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_FORWARD_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_FORWARD_KEY_DEFAULT,
+        N_("Convert character type to forward"),
+        N_("Select keys to convert characgter type to forward"),
+        N_("Rotate character type forward."),
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_BACKWARD_KEY,
+        SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_BACKWARD_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_BACKWARD_KEY_DEFAULT,
+        N_("Convert character type to backward"),
+        N_("Select keys to convert characgter type to backward"),
+        N_("Rotate character type backward."),
+        NULL,
+        false,
+    },
     {
         SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY,
         SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT,

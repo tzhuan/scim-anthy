@@ -802,6 +802,16 @@ AnthyInstance::action_revert (void)
 }
 
 bool
+AnthyInstance::action_cancel_all (void)
+{
+    if (!m_preedit.is_preediting ())
+        return false;
+
+    reset ();
+    return true;
+}
+
+bool
 AnthyInstance::action_commit (bool learn)
 {
     if (!m_preedit.is_preediting ())
@@ -1296,6 +1306,7 @@ AnthyInstance::action_candidates_page_up(void)
 {
     if (!m_preedit.is_converting ()) return false;
     if (!is_selecting_candidates ()) return false;
+    if (!m_lookup_table_visible) return false;
 
     m_lookup_table.page_up ();
 
@@ -1310,6 +1321,7 @@ AnthyInstance::action_candidates_page_down (void)
 {
     if (!m_preedit.is_converting ()) return false;
     if (!is_selecting_candidates ()) return false;
+    if (!m_lookup_table_visible) return false;
 
     m_lookup_table.page_down ();
 
@@ -1576,6 +1588,102 @@ bool
 AnthyInstance::action_convert_to_wide_latin (void)
 {
     return convert_kana (SCIM_ANTHY_CANDIDATE_WIDE_LATIN);
+}
+
+bool
+AnthyInstance::action_convert_char_type_forward (void)
+{
+    if (!m_preedit.is_preediting ())
+        return false;
+
+    unset_lookup_table ();
+
+    if (m_preedit.is_converting ()) {
+        int idx = m_preedit.get_selected_segment ();
+        if (idx < 0) {
+            action_revert ();
+            m_preedit.finish ();
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_HIRAGANA, true);
+        } else {
+            int cand = m_preedit.get_selected_candidate ();
+            switch (cand)
+            {
+            case SCIM_ANTHY_CANDIDATE_HIRAGANA:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_KATAKANA);
+                break;
+            case SCIM_ANTHY_CANDIDATE_KATAKANA:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_HALF_KATAKANA);
+                break;
+            case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_WIDE_LATIN);
+                break;
+            case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_LATIN);
+                break;
+            case SCIM_ANTHY_CANDIDATE_LATIN:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_HIRAGANA);
+                break;
+            default:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_HIRAGANA);
+                break;
+            }
+        }
+    } else {
+        m_preedit.finish ();
+        m_preedit.convert (SCIM_ANTHY_CANDIDATE_HIRAGANA, true);
+    }
+
+    set_preedition ();
+
+    return true;
+}
+
+bool
+AnthyInstance::action_convert_char_type_backward (void)
+{
+    if (!m_preedit.is_preediting ())
+        return false;
+
+    unset_lookup_table ();
+
+    if (m_preedit.is_converting ()) {
+        int idx = m_preedit.get_selected_segment ();
+        if (idx < 0) {
+            action_revert ();
+            m_preedit.finish ();
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_HIRAGANA, true);
+        } else {
+            int cand = m_preedit.get_selected_candidate ();
+            switch (cand)
+            {
+            case SCIM_ANTHY_CANDIDATE_HIRAGANA:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_LATIN);
+                break;
+            case SCIM_ANTHY_CANDIDATE_KATAKANA:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_HIRAGANA);
+                break;
+            case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_KATAKANA);
+                break;
+            case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_HALF_KATAKANA);
+                break;
+            case SCIM_ANTHY_CANDIDATE_LATIN:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_WIDE_LATIN);
+                break;
+            default:
+                m_preedit.select_candidate (SCIM_ANTHY_CANDIDATE_HIRAGANA);
+                break;
+            }
+        }
+    } else {
+        m_preedit.finish ();
+        m_preedit.convert (SCIM_ANTHY_CANDIDATE_HIRAGANA, true);
+    }
+
+    set_preedition ();
+
+    return true;
 }
 
 bool

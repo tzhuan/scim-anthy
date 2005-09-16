@@ -85,6 +85,7 @@
 #define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY    "/IMEngine/Anthy/CommitReverseLearnKey"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY                 "/IMEngine/Anthy/ConvertKey"
 #define SCIM_ANTHY_CONFIG_CANCEL_KEY                  "/IMEngine/Anthy/CancelKey"
+#define SCIM_ANTHY_CONFIG_CANCEL_ALL_KEY              "/IMEngine/Anthy/CancelAllKey"
 #define SCIM_ANTHY_CONFIG_DO_NOTHING_KEY              "/IMEngine/Anthy/DoNothingKey"
 
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY        "/IMEngine/Anthy/MoveCaretFirstKey"
@@ -120,6 +121,8 @@
 #define SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY      "/IMEngine/Anthy/SelectCandidates9Key"
 #define SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY     "/IMEngine/Anthy/SelectCandidates10Key"
 
+#define SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_FORWARD_KEY  "/IMEngine/Anthy/ConvertCharTypeForwardKey"
+#define SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_BACKWARD_KEY "/IMEngine/Anthy/ConvertCharTypeBackwardKey"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY        "/IMEngine/Anthy/ConvertToHiraganaKey"
 #define SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY        "/IMEngine/Anthy/ConvertToKatakanaKey"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HALF_KEY            "/IMEngine/Anthy/ConvertToHalfKey"
@@ -205,6 +208,7 @@
 #define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT    "Shift+Return"
 #define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"
 #define SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT                  "Escape,Control+g,Control+G"
+#define SCIM_ANTHY_CONFIG_CANCEL_ALL_KEY_DEFAULT              ""
 #define SCIM_ANTHY_CONFIG_DO_NOTHING_KEY_DEFAULT              ""
 
 #define SCIM_ANTHY_CONFIG_MOVE_CARET_FIRST_KEY_DEFAULT        "Control+a,Control+A,Home"
@@ -240,6 +244,9 @@
 #define SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_9_KEY_DEFAULT      "9"
 #define SCIM_ANTHY_CONFIG_SELECT_CANDIDATE_10_KEY_DEFAULT     "0"
 
+#define SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_FORWARD_KEY_DEFAULT  ""
+#define SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_BACKWARD_KEY_DEFAULT ""
+#define SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT        "F7"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT        "F6"
 #define SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT        "F7"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HALF_KEY_DEFAULT            "F8"

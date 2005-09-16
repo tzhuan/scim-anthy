@@ -72,6 +72,7 @@ public:
 
     bool   action_convert                     (void);
     bool   action_revert                      (void);
+    bool   action_cancel_all                  (void);
     bool   action_commit_follow_preference    (void);
     bool   action_commit_reverse_preference   (void);
     bool   action_commit_first_segment        (void);
@@ -123,6 +124,8 @@ public:
     bool   action_convert_to_half_katakana    (void);
     bool   action_convert_to_latin            (void);
     bool   action_convert_to_wide_latin       (void);
+    bool   action_convert_char_type_forward   (void);
+    bool   action_convert_char_type_backward  (void);
 
     bool   action_circle_input_mode           (void);
     bool   action_circle_typing_method        (void);

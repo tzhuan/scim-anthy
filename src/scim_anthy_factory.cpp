@@ -277,6 +277,7 @@ AnthyFactory::remove_config_listener (AnthyInstance *listener)
 }
 #endif
 
+// FIXME
 #define ANTHY_DEFINE_ACTION(func) \
 static bool                       \
 func (AnthyInstance *anthy)       \
@@ -289,6 +290,7 @@ ANTHY_DEFINE_ACTION (action_commit_follow_preference);
 ANTHY_DEFINE_ACTION (action_commit_reverse_preference);
 ANTHY_DEFINE_ACTION (action_convert);
 ANTHY_DEFINE_ACTION (action_revert);
+ANTHY_DEFINE_ACTION (action_cancel_all);
 ANTHY_DEFINE_ACTION (action_back);
 ANTHY_DEFINE_ACTION (action_delete);
 ANTHY_DEFINE_ACTION (action_insert_space);
@@ -325,6 +327,8 @@ ANTHY_DEFINE_ACTION (action_select_candidate_7);
 ANTHY_DEFINE_ACTION (action_select_candidate_8);
 ANTHY_DEFINE_ACTION (action_select_candidate_9);
 ANTHY_DEFINE_ACTION (action_select_candidate_10);
+ANTHY_DEFINE_ACTION (action_convert_char_type_forward);
+ANTHY_DEFINE_ACTION (action_convert_char_type_backward);
 ANTHY_DEFINE_ACTION (action_convert_to_hiragana);
 ANTHY_DEFINE_ACTION (action_convert_to_katakana);
 ANTHY_DEFINE_ACTION (action_convert_to_half);
@@ -553,6 +557,8 @@ AnthyFactory::reload_config (const ConfigPointer &config)
                    action_commit_selected_segment_reverse_preference);
 
     // direct convert keys
+    APPEND_ACTION (CONV_CHAR_TYPE_FORWARD,  action_convert_char_type_forward);
+    APPEND_ACTION (CONV_CHAR_TYPE_BACKWARD, action_convert_char_type_backward);
     APPEND_ACTION (CONV_TO_HIRAGANA,        action_convert_to_hiragana);
     APPEND_ACTION (CONV_TO_KATAKANA,        action_convert_to_katakana);
     APPEND_ACTION (CONV_TO_HALF,            action_convert_to_half);
@@ -572,6 +578,7 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     APPEND_ACTION (COMMIT,                  action_commit_follow_preference);
     APPEND_ACTION (COMMIT_REVERSE_LEARN,    action_commit_reverse_preference);
     APPEND_ACTION (CANCEL,                  action_revert);
+    APPEND_ACTION (CANCEL_ALL,              action_cancel_all);
     APPEND_ACTION (INSERT_SPACE,            action_insert_space);
     APPEND_ACTION (INSERT_ALT_SPACE,        action_insert_alternative_space);
     APPEND_ACTION (INSERT_HALF_SPACE,       action_insert_half_space);
