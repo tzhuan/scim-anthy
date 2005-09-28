@@ -1,20 +1,15 @@
-Version-0.7.0 (Planning to release at Sep 29th, 2005)
-
-  * Refactoring.
-  * Implement "Cancel All".
-  * Handle key pad correctly.
-  * SKIM plugin.
-  * Provide more style files.
-  * Add help.
-  * (Commit automatically when input upper letter on romaji typing.)
-
 Version-0.8.0 (Planning to release at Nov 29th, 2005)
 
-  * Inline word register mode.
+  * Inline word register.
   * Style file
+    - Wnn like style file.
     - Add "Save as..." feature.
     - Enable/Disable special internal tables such as symbol/number table.
     - (Support "table set" feature.)
+  * Handle key pad correctly.
+  * SKIM plugin.
+  * Add help.
+  * (Commit automatically when input upper letter on romaji typing.)
 
 Version-0.9.0 (Planning to release at Jan 29th, 2006)
 
