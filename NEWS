@@ -1,7 +1,8 @@
 Overview of Changes from scim-anthy-0.6.1 to scim-anthy-0.7.0
 =============================================================
 * Show dictionary menu on the panel by default.
-  It uses kasumi, and it's very important package for scim-anthy.
+  It uses kasumi (http://kasumi.sourceforge.jp/).
+  It's very important package for scim-anthy.
   Distributors, please install also kasumi when install scim-anthy.
 * Enable to customize NICOLA table.
 * Replace the scim-anthy icon with new one. Thanks SHIMODA-san.
