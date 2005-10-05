@@ -1,3 +1,7 @@
+Overview of Changes from scim-anthy-0.7.0 to scim-anthy-0.7.1
+=============================================================
+* Fix a bug that sicm-setup crashes when close romaji editor.
+
 Overview of Changes from scim-anthy-0.6.1 to scim-anthy-0.7.0
 =============================================================
 * Show dictionary menu on the panel by default.
