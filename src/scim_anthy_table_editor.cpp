@@ -173,7 +173,7 @@ scim_anthy_table_editor_init (ScimAnthyTableEditor *editor)
 static void
 scim_anthy_table_editor_dispose (GObject *object)
 {
-    ScimAnthyTableEditor *editor = SCIM_ANTHY_TABLE_EDITOR (editor);
+    ScimAnthyTableEditor *editor = SCIM_ANTHY_TABLE_EDITOR (object);
 
     if (editor->entries) {
         g_list_free (editor->entries);

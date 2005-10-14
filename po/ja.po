@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-09-28 11:22+0900\n"
-"PO-Revision-Date: 2005-08-05 14:56+0900\n"
+"POT-Creation-Date: 2005-10-14 22:47+0900\n"
+"PO-Revision-Date: 2005-10-14 22:48+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -113,9 +113,11 @@ msgstr "単語を辞書に追加"
 
 #: src/scim_anthy_factory.cpp:182
 msgid ""
-"Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>Copyright (C) "
-"2004,2005 Hiroyuki Ikezoe <poincare@ikezoe.net>\n"
+"Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>\n"
+"Copyright (C) 2004,2005 Hiroyuki Ikezoe <poincare@ikezoe.net>"
 msgstr ""
+"Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>\n"
+"Copyright (C) 2004,2005 Hiroyuki Ikezoe <poincare@ikezoe.net>"
 
 #: src/scim_anthy_setup.cpp:118
 msgid "Anthy"
@@ -672,19 +674,16 @@ msgid "The key events to cancel preediting or converting. "
 msgstr "文字変換や文字入力をキャンセルするキーイベント"
 
 #: src/scim_anthy_prefs.cpp:516
-#, fuzzy
 msgid "Cancel all"
-msgstr "キャンセル"
+msgstr "全てキャンセル"
 
 #: src/scim_anthy_prefs.cpp:517
-#, fuzzy
 msgid "Select cancel all keys"
-msgstr "キャンセルキーの設定"
+msgstr "全てをキャンセルするキーの設定"
 
 #: src/scim_anthy_prefs.cpp:518
-#, fuzzy
 msgid "The key events to return to initial state. "
-msgstr "空白を挿入するキーイベント"
+msgstr "初期状態へ戻るキーイベント"
 
 #: src/scim_anthy_prefs.cpp:527
 msgid "Select do nothing keys"
@@ -1027,32 +1026,28 @@ msgid "The key events to select the 10th candidate. "
 msgstr "10番目の候補を選択するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:887
-#, fuzzy
 msgid "Convert character type to forward"
-msgstr "前方へ移動するキーの設定"
+msgstr "次の文字種に変換"
 
 #: src/scim_anthy_prefs.cpp:888
-#, fuzzy
-msgid "Select keys to convert characgter type to forward"
-msgstr "半角変換キーの設定"
+msgid "Select keys to convert character type to forward"
+msgstr "次の文字種に変換するキーの設定"
 
 #: src/scim_anthy_prefs.cpp:889
 msgid "Rotate character type forward."
-msgstr ""
+msgstr "文字種を次に変換"
 
 #: src/scim_anthy_prefs.cpp:897
-#, fuzzy
 msgid "Convert character type to backward"
-msgstr "後方へ移動するキーの設定"
+msgstr "前の文字種に変換"
 
 #: src/scim_anthy_prefs.cpp:898
-#, fuzzy
-msgid "Select keys to convert characgter type to backward"
-msgstr "カタカナ変換キーの設定"
+msgid "Select keys to convert character type to backward"
+msgstr "前の文字種に変換するキーの設定"
 
 #: src/scim_anthy_prefs.cpp:899
 msgid "Rotate character type backward."
-msgstr ""
+msgstr "前の文字種に変換"
 
 #: src/scim_anthy_prefs.cpp:907
 msgid "Convert to hiragana"
