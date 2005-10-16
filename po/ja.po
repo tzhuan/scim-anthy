@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-10-14 22:47+0900\n"
+"POT-Creation-Date: 2005-10-16 23:42+0000\n"
 "PO-Revision-Date: 2005-10-14 22:48+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -383,15 +383,15 @@ msgid "Show \"_Candidates\" label"
 msgstr "「候補一覧」ラベルを表示(_C)"
 
 #: src/scim_anthy_prefs.cpp:44
-msgid "Close candidate window when select a candidate _directly."
+msgid "Close candidate window when select a candidate _directly"
 msgstr "候補を直接選択した時に候補ウィンドウを閉じる(_D)"
 
 #: src/scim_anthy_prefs.cpp:54
-msgid "Learn on _manual committing."
+msgid "Learn on _manual committing"
 msgstr "手動確定時に学習する(_M)"
 
 #: src/scim_anthy_prefs.cpp:64
-msgid "Learn on a_uto committing."
+msgid "Learn on a_uto committing"
 msgstr "自動確定時に学習する(_U)"
 
 #: src/scim_anthy_prefs.cpp:74
@@ -554,11 +554,11 @@ msgid ""
 msgstr "学習設定とは逆の方法で選択文節を確定するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:362
-msgid "_Edit dictionary command:"
+msgid "\"_Edit dictionary\" command:"
 msgstr "辞書編集コマンド(_E):"
 
 #: src/scim_anthy_prefs.cpp:372
-msgid "_Add word command:"
+msgid "\"_Add word\" command:"
 msgstr "単語追加コマンド(_A):"
 
 #: src/scim_anthy_prefs.cpp:382

@@ -1,5 +1,10 @@
 2005-10-16 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_prefs.cpp: Fix typo.
+	* po/ja.po: Update.
+
+2005-10-16 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_prefs.h: Add Henkan key to "Convert key" and "Next
 	candidate" key.
 
