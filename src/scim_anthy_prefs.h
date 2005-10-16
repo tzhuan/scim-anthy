@@ -206,7 +206,7 @@
 #define SCIM_ANTHY_CONFIG_DELETE_KEY_DEFAULT                  "Delete,Control+d,Control+D"
 #define SCIM_ANTHY_CONFIG_COMMIT_KEY_DEFAULT                  "Return,KP_Enter,Control+j,Control+J,Control+m,Control+M"
 #define SCIM_ANTHY_CONFIG_COMMIT_REVERSE_LEARN_KEY_DEFAULT    "Shift+Return"
-#define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space"
+#define SCIM_ANTHY_CONFIG_CONVERT_KEY_DEFAULT                 "space,KP_Space,Henkan"
 #define SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT                  "Escape,Control+g,Control+G"
 #define SCIM_ANTHY_CONFIG_CANCEL_ALL_KEY_DEFAULT              ""
 #define SCIM_ANTHY_CONFIG_DO_NOTHING_KEY_DEFAULT              ""
@@ -229,7 +229,7 @@
 
 #define SCIM_ANTHY_CONFIG_SELECT_FIRST_CANDIDATE_KEY_DEFAULT  "Home"
 #define SCIM_ANTHY_CONFIG_SELECT_LAST_CANDIDATE_KEY_DEFAULT   "End"
-#define SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT   "space,KP_Space,Down,KP_Add,Control+n,Control+N"
+#define SCIM_ANTHY_CONFIG_SELECT_NEXT_CANDIDATE_KEY_DEFAULT   "space,KP_Space,Henkan,Down,KP_Add,Control+n,Control+N"
 #define SCIM_ANTHY_CONFIG_SELECT_PREV_CANDIDATE_KEY_DEFAULT   "Up,KP_Subtract,Control+p,Control+P"
 #define SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_UP_KEY_DEFAULT      "Page_Up"
 #define SCIM_ANTHY_CONFIG_CANDIDATES_PAGE_DOWN_KEY_DEFAULT    "Page_Down,KP_Tab"
