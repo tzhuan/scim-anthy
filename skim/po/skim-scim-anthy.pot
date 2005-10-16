@@ -1,0 +1,297 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-10-17 01:04+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../setupui/anthyui.cpp:221 ../setupui/anthyui.cpp:642
+msgid "Features"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:222 ../setupui/anthyui.cpp:643
+msgid "Key bindings"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:621
+msgid "Anthy"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:622
+msgid "Modes"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:623
+msgid "Conversion mode:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:624
+msgid "Style of comma and period:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:625
+msgid "Space type:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:626
+msgid "Input from ten key:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:627
+msgid "Behavior on comma and period:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:628
+msgid "Typing method:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:629
+msgid "Input mode:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:630
+msgid "Dictionary"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:631
+msgid "\"Edit dictionary\" command:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:632
+msgid "\"Add word\" command:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:633
+msgid "La&unch"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:634 ../setupui/anthyui.cpp:654
+#: ../setupui/anthyui.cpp:664 ../setupui/anthyui.cpp:668
+#: ../setupui/anthyui.cpp:684
+msgid "Alt+U"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:635
+msgid "L&aunch"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:636 ../setupui/anthyui.cpp:647
+#: ../setupui/anthyui.cpp:693
+msgid "Alt+A"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:637
+msgid "&Common"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:638
+msgid "Group:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:639
+msgid "Key bindings theme:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:640
+msgid "Choose &keys..."
+msgstr ""
+
+#: ../setupui/anthyui.cpp:641
+msgid "Alt+K"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:644
+msgid "Key &bindings"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:645
+msgid "Romaji table"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:646
+msgid "&Allow spliting romaji on editing preedit string"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:648
+msgid "Use half wi&dth character for symbols"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:649
+msgid "Alt+D"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:650
+msgid "Use half-width characters for &numbers"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:651
+msgid "Alt+N"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:652
+msgid "Romaji table:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:653 ../setupui/anthyui.cpp:663
+msgid "C&ustomize..."
+msgstr ""
+
+#: ../setupui/anthyui.cpp:655
+msgid "NICOLA Layout"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:656
+msgid "Customi&ze..."
+msgstr ""
+
+#: ../setupui/anthyui.cpp:657
+msgid "Alt+Z"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:658 ../setupui/anthyui.cpp:662
+msgid "Layout:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:659
+msgid "Right thumb shift keys:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:660
+msgid "Left thumb shift keys:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:661
+msgid "JIS Kana Layout"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:665
+msgid "T&yping"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:666
+msgid "Enable/Disable learning"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:667
+msgid "Learn on man&ual commit"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:669
+msgid "Learn on autocommit"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:671
+msgid "Key preferences to commit with reversing learning preference"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:672
+msgid "Commit:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:673
+msgid "Commit the first segment:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:674
+msgid "Commit the selected segment:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:675
+msgid "Learnin&g"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:676
+msgid "Candidates window"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:677
+msgid "Show \"Candidates\" label"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:678
+msgid "Close candidates window when select a candidate directly"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:679
+msgid "Number of candidates to show in a page:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:680
+msgid "[times]"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:681
+msgid "Number of triggers until show:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:682
+msgid "Toolbar"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:683
+msgid "Show inp&ut mode label"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:685
+msgid "Show typing method label"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:686
+msgid "Show con&version mode label"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:687
+msgid "Alt+V"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:688
+msgid "Show period style label"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:689
+msgid "Show &dictionary menu label"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:690
+msgid "Show \"Edit dictionary\" label"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:692
+msgid "Show \"&Add word\" label"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:694
+msgid "P&anel"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:695
+msgid "Preedit string:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:696
+msgid "Selected segment:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:697
+msgid "Conversion string:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:698 ../setupui/anthyui.cpp:699
+#: ../setupui/anthyui.cpp:700
+msgid "Color:"
+msgstr ""
+
+#: ../setupui/anthyui.cpp:701
+msgid "Appeara&nce"
+msgstr ""
