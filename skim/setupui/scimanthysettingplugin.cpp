@@ -41,20 +41,14 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin(QWidget *parent,
      parent, args, AnthyConfig::self() ),
    d(new ScimAnthySettingPluginPrivate)
 {
-    KGlobal::locale()->insertCatalogue("skim-scim-pinyin");
+    KGlobal::locale()->insertCatalogue("skim-scim-anthy");
     d->ui = new AnthySettingUI(this);
     setMainWidget(d->ui);
-    
-    //FIXME: emit toggle signals to update corresponding connected widgets
-    d->ui->advancedCBox->setChecked(true);
-    d->ui->advancedCBox->toggle();
-    d->ui->kcfg__IMEngine_Pinyin_Ambiguities->toggle();
-    d->ui->kcfg__IMEngine_Pinyin_Ambiguities->toggle();
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin() 
 {
-    KGlobal::locale()->removeCatalogue("skim-scim-pinyin");
+    KGlobal::locale()->removeCatalogue("skim-scim-anthy");
 }
 
 
