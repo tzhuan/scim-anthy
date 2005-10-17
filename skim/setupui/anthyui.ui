@@ -31,7 +31,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>&amp;Common</string>
+                    <string>&amp;General</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -39,7 +39,7 @@
                     </property>
                     <widget class="QGroupBox" row="0" column="0">
                         <property name="name">
-                            <cstring>groupBox8_2</cstring>
+                            <cstring>groupBox1</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -71,7 +71,7 @@
                             </widget>
                             <widget class="KComboBox" row="1" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox1_2</cstring>
+                                    <cstring>kComboBox2</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -84,7 +84,7 @@
                             </widget>
                             <widget class="KComboBox" row="2" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox1_2_2</cstring>
+                                    <cstring>kComboBox3</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -97,7 +97,7 @@
                             </widget>
                             <widget class="KComboBox" row="3" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox1_2_2_2</cstring>
+                                    <cstring>kComboBox4</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -110,7 +110,7 @@
                             </widget>
                             <widget class="KComboBox" row="4" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox1_2_2_3</cstring>
+                                    <cstring>kComboBox5</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -123,7 +123,7 @@
                             </widget>
                             <widget class="KComboBox" row="5" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox1_2_2_4</cstring>
+                                    <cstring>kComboBox6</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -136,7 +136,7 @@
                             </widget>
                             <widget class="KComboBox" row="6" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox1_2_2_5</cstring>
+                                    <cstring>kComboBox7</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -149,7 +149,7 @@
                             </widget>
                             <widget class="QLabel" row="2" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_5_2_2</cstring>
+                                    <cstring>textLabel3</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -160,12 +160,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Conversion mode:</string>
+                                    <string>Con&amp;version mode:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox3</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="3" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_5_2_2_2</cstring>
+                                    <cstring>textLabel4</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -176,12 +179,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Style of comma and period:</string>
+                                    <string>Style of &amp;comma and period:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox4</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="4" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_5_2_2_2_2</cstring>
+                                    <cstring>textLabel5</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -192,12 +198,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Space type:</string>
+                                    <string>S&amp;pace type:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox5</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="5" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_5_2_2_2_3</cstring>
+                                    <cstring>textLabel6</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -208,12 +217,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Input from ten key:</string>
+                                    <string>Input from ten &amp;key:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox6</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="6" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_5_2_2_2_4</cstring>
+                                    <cstring>textLabel7</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -224,12 +236,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Behavior on comma and period:</string>
+                                    <string>Beha&amp;vior on comma and period:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox7</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_5_2</cstring>
+                                    <cstring>textLabel2</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -240,12 +255,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Typing method:</string>
+                                    <string>&amp;Typing method:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox2</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="0" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_5</cstring>
+                                    <cstring>textLabel1</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -256,12 +274,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Input mode:</string>
+                                    <string>&amp;Input mode:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox1</cstring>
                                 </property>
                             </widget>
                             <spacer row="0" column="2">
                                 <property name="name">
-                                    <cstring>spacer26</cstring>
+                                    <cstring>spacer1</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -278,7 +299,7 @@
                             </spacer>
                             <spacer row="1" column="2">
                                 <property name="name">
-                                    <cstring>spacer26_2</cstring>
+                                    <cstring>spacer2</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -295,7 +316,7 @@
                             </spacer>
                             <spacer row="2" column="2">
                                 <property name="name">
-                                    <cstring>spacer26_2_2</cstring>
+                                    <cstring>spacer3</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -312,7 +333,7 @@
                             </spacer>
                             <spacer row="3" column="2">
                                 <property name="name">
-                                    <cstring>spacer26_2_3</cstring>
+                                    <cstring>spacer4</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -329,7 +350,7 @@
                             </spacer>
                             <spacer row="4" column="2">
                                 <property name="name">
-                                    <cstring>spacer26_2_4</cstring>
+                                    <cstring>spacer5</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -346,7 +367,7 @@
                             </spacer>
                             <spacer row="5" column="2">
                                 <property name="name">
-                                    <cstring>spacer26_2_5</cstring>
+                                    <cstring>spacer6</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -363,7 +384,7 @@
                             </spacer>
                             <spacer row="6" column="2">
                                 <property name="name">
-                                    <cstring>spacer26_2_6</cstring>
+                                    <cstring>spacer7</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -382,7 +403,7 @@
                     </widget>
                     <widget class="QGroupBox" row="2" column="0">
                         <property name="name">
-                            <cstring>groupBox9</cstring>
+                            <cstring>groupBox2</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -401,7 +422,7 @@
                             </property>
                             <widget class="QLabel" row="0" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1</cstring>
+                                    <cstring>textLabel8</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -412,12 +433,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>"Edit dictionary" command:</string>
+                                    <string>"Edit &amp;dictionary" command:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kLineEdit1</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0">
                                 <property name="name">
-                                    <cstring>textLabel2_3</cstring>
+                                    <cstring>textLabel9</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -428,12 +452,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>"Add word" command:</string>
+                                    <string>"Add &amp;word" command:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kLineEdit2</cstring>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="0" column="1">
                                 <property name="name">
-                                    <cstring>kLineEdit7</cstring>
+                                    <cstring>kLineEdit1</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -446,7 +473,7 @@
                             </widget>
                             <widget class="KLineEdit" row="1" column="1">
                                 <property name="name">
-                                    <cstring>kLineEdit8</cstring>
+                                    <cstring>kLineEdit2</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -459,7 +486,7 @@
                             </widget>
                             <widget class="QPushButton" row="0" column="2">
                                 <property name="name">
-                                    <cstring>pushButton6</cstring>
+                                    <cstring>pushButton1</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -478,7 +505,7 @@
                             </widget>
                             <widget class="QPushButton" row="1" column="2">
                                 <property name="name">
-                                    <cstring>pushButton7</cstring>
+                                    <cstring>pushButton2</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -489,17 +516,17 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>L&amp;aunch</string>
+                                    <string>Lau&amp;nch</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+A</string>
+                                    <string>Alt+N</string>
                                 </property>
                             </widget>
                         </grid>
                     </widget>
                     <spacer row="3" column="0">
                         <property name="name">
-                            <cstring>spacer35</cstring>
+                            <cstring>spacer9</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -516,7 +543,7 @@
                     </spacer>
                     <spacer row="1" column="0">
                         <property name="name">
-                            <cstring>spacer27</cstring>
+                            <cstring>spacer8</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -546,10 +573,13 @@
                     </property>
                     <widget class="QLabel" row="0" column="0">
                         <property name="name">
-                            <cstring>textLabel2</cstring>
+                            <cstring>textLabel10</cstring>
                         </property>
                         <property name="text">
-                            <string>Group:</string>
+                            <string>Gro&amp;up:</string>
+                        </property>
+                        <property name="buddy" stdset="0">
+                            <cstring>kComboBox8</cstring>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="0" column="1" rowspan="1" colspan="2">
@@ -559,36 +589,39 @@
                     </widget>
                     <widget class="KComboBox" row="2" column="2" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>kComboBox8_2</cstring>
+                            <cstring>kComboBox9</cstring>
                         </property>
                     </widget>
                     <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>textLabel2_2</cstring>
+                            <cstring>textLabel11</cstring>
                         </property>
                         <property name="text">
-                            <string>Key bindings theme:</string>
+                            <string>&amp;Key bindings theme:</string>
+                        </property>
+                        <property name="buddy" stdset="0">
+                            <cstring>kComboBox9</cstring>
                         </property>
                     </widget>
                     <widget class="QPushButton" row="2" column="5" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>pushButton1</cstring>
+                            <cstring>pushButton3</cstring>
                         </property>
                         <property name="text">
-                            <string>Choose &amp;keys...</string>
+                            <string>&amp;Choose keys...</string>
                         </property>
                         <property name="accel">
-                            <string>Alt+K</string>
+                            <string>Alt+C</string>
                         </property>
                     </widget>
                     <widget class="KLineEdit" row="0" column="3" rowspan="1" colspan="3">
                         <property name="name">
-                            <cstring>kLineEdit14</cstring>
+                            <cstring>kLineEdit3</cstring>
                         </property>
                     </widget>
                     <widget class="SkimEditShortcutButton" row="0" column="6">
                         <property name="name">
-                            <cstring>punctButton_2_2</cstring>
+                            <cstring>punctButton1</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -601,7 +634,7 @@
                     </widget>
                     <spacer row="2" column="4">
                         <property name="name">
-                            <cstring>spacer9</cstring>
+                            <cstring>spacer10</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Horizontal</enum>
@@ -650,7 +683,7 @@
                     <cstring>TabPage</cstring>
                 </property>
                 <attribute name="title">
-                    <string>T&amp;yping</string>
+                    <string>T&amp;yping methods</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -658,7 +691,7 @@
                     </property>
                     <widget class="QGroupBox" row="0" column="0">
                         <property name="name">
-                            <cstring>groupBox3_2</cstring>
+                            <cstring>groupBox3</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -677,48 +710,51 @@
                             </property>
                             <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="4">
                                 <property name="name">
-                                    <cstring>checkBox25_4</cstring>
+                                    <cstring>checkBox1</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>&amp;Allow spliting romaji on editing preedit string</string>
+                                    <string>Allow spliting roma&amp;ji on editing preedit string</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+A</string>
+                                    <string>Alt+J</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="4">
                                 <property name="name">
-                                    <cstring>checkBox25_2_2</cstring>
+                                    <cstring>checkBox2</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Use half wi&amp;dth character for symbols</string>
+                                    <string>&amp;Use half width character for symbols</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+U</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="4">
+                                <property name="name">
+                                    <cstring>checkBox3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Use half-wi&amp;dth characters for numbers</string>
                                 </property>
                                 <property name="accel">
                                     <string>Alt+D</string>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="4">
-                                <property name="name">
-                                    <cstring>checkBox25_3_2</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Use half-width characters for &amp;numbers</string>
-                                </property>
-                                <property name="accel">
-                                    <string>Alt+N</string>
-                                </property>
-                            </widget>
                             <widget class="QLabel" row="3" column="0">
                                 <property name="name">
-                                    <cstring>textLabel3_2</cstring>
+                                    <cstring>textLabel12</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Romaji table:</string>
+                                    <string>&amp;Romaji table:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox10</cstring>
                                 </property>
                             </widget>
                             <widget class="KComboBox" row="3" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox10_2</cstring>
+                                    <cstring>kComboBox10</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -731,7 +767,7 @@
                             </widget>
                             <widget class="QPushButton" row="3" column="2">
                                 <property name="name">
-                                    <cstring>pushButton2_2</cstring>
+                                    <cstring>pushButton4</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -742,10 +778,10 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>C&amp;ustomize...</string>
+                                    <string>&amp;Customize...</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+U</string>
+                                    <string>Alt+C</string>
                                 </property>
                             </widget>
                             <spacer row="3" column="3">
@@ -769,7 +805,7 @@
                     </widget>
                     <widget class="QGroupBox" row="4" column="0">
                         <property name="name">
-                            <cstring>groupBox3</cstring>
+                            <cstring>groupBox5</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -788,17 +824,17 @@
                             </property>
                             <widget class="KLineEdit" row="1" column="1" rowspan="1" colspan="3">
                                 <property name="name">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey_2_2</cstring>
+                                    <cstring>kLineEdit4</cstring>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="3">
                                 <property name="name">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey_2_2_2</cstring>
+                                    <cstring>kLineEdit5</cstring>
                                 </property>
                             </widget>
                             <widget class="SkimEditShortcutButton" row="2" column="4">
                                 <property name="name">
-                                    <cstring>punctButton_2_3_2</cstring>
+                                    <cstring>punctButton3</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -811,7 +847,7 @@
                             </widget>
                             <widget class="SkimEditShortcutButton" row="1" column="4">
                                 <property name="name">
-                                    <cstring>punctButton_2_3</cstring>
+                                    <cstring>punctButton2</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -824,7 +860,7 @@
                             </widget>
                             <widget class="QPushButton" row="0" column="2">
                                 <property name="name">
-                                    <cstring>pushButton3_2</cstring>
+                                    <cstring>pushButton6</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -843,7 +879,7 @@
                             </widget>
                             <spacer row="0" column="3" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>spacer7</cstring>
+                                    <cstring>spacer15</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -860,7 +896,7 @@
                             </spacer>
                             <widget class="KComboBox" row="0" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox11_2</cstring>
+                                    <cstring>kComboBox12</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -873,7 +909,7 @@
                             </widget>
                             <widget class="QLabel" row="0" column="0">
                                 <property name="name">
-                                    <cstring>textLabel4_2</cstring>
+                                    <cstring>textLabel14</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -886,10 +922,13 @@
                                 <property name="text">
                                     <string>Layout:</string>
                                 </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox12</cstring>
+                                </property>
                             </widget>
                             <widget class="QLabel" row="2" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_6_2_2</cstring>
+                                    <cstring>textLabel16</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -900,15 +939,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Right thumb shift keys:</string>
+                                    <string>R&amp;ight thumb shift keys:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey</cstring>
+                                    <cstring>kLineEdit5</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_6_2</cstring>
+                                    <cstring>textLabel15</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -919,17 +958,17 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Left thumb shift keys:</string>
+                                    <string>Left thumb shift &amp;keys:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey</cstring>
+                                    <cstring>kLineEdit4</cstring>
                                 </property>
                             </widget>
                         </grid>
                     </widget>
                     <widget class="QGroupBox" row="2" column="0">
                         <property name="name">
-                            <cstring>groupBox2</cstring>
+                            <cstring>groupBox4</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -948,7 +987,7 @@
                             </property>
                             <widget class="QLabel" row="0" column="0">
                                 <property name="name">
-                                    <cstring>textLabel4</cstring>
+                                    <cstring>textLabel13</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -959,7 +998,10 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Layout:</string>
+                                    <string>&amp;Layout:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kComboBox11</cstring>
                                 </property>
                             </widget>
                             <widget class="KComboBox" row="0" column="1">
@@ -977,7 +1019,7 @@
                             </widget>
                             <widget class="QPushButton" row="0" column="2">
                                 <property name="name">
-                                    <cstring>pushButton3</cstring>
+                                    <cstring>pushButton5</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -988,15 +1030,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>C&amp;ustomize...</string>
+                                    <string>Customize...</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+U</string>
+                                    <string></string>
                                 </property>
                             </widget>
                             <spacer row="0" column="3">
                                 <property name="name">
-                                    <cstring>spacer6_2</cstring>
+                                    <cstring>spacer13</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -1015,7 +1057,7 @@
                     </widget>
                     <spacer row="1" column="0">
                         <property name="name">
-                            <cstring>spacer27_2</cstring>
+                            <cstring>spacer12</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -1032,7 +1074,7 @@
                     </spacer>
                     <spacer row="3" column="0">
                         <property name="name">
-                            <cstring>spacer27_2_2</cstring>
+                            <cstring>spacer14</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -1049,7 +1091,7 @@
                     </spacer>
                     <spacer row="5" column="0">
                         <property name="name">
-                            <cstring>spacer11</cstring>
+                            <cstring>spacer16</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -1071,7 +1113,7 @@
                     <cstring>TabPage</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Learnin&amp;g</string>
+                    <string>Learn&amp;ing</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -1079,7 +1121,7 @@
                     </property>
                     <widget class="QGroupBox" row="0" column="0">
                         <property name="name">
-                            <cstring>groupBox4</cstring>
+                            <cstring>groupBox6</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -1098,7 +1140,7 @@
                             </property>
                             <widget class="QCheckBox" row="0" column="0">
                                 <property name="name">
-                                    <cstring>checkBox7</cstring>
+                                    <cstring>checkBox4</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Learn on man&amp;ual commit</string>
@@ -1109,20 +1151,20 @@
                             </widget>
                             <widget class="QCheckBox" row="1" column="0">
                                 <property name="name">
-                                    <cstring>checkBox8</cstring>
+                                    <cstring>checkBox5</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Learn on autocommit</string>
+                                    <string>&amp;Learn on autocommit</string>
                                 </property>
                                 <property name="accel">
-                                    <string></string>
+                                    <string>Alt+L</string>
                                 </property>
                             </widget>
                         </grid>
                     </widget>
                     <spacer row="3" column="0">
                         <property name="name">
-                            <cstring>spacer9_2</cstring>
+                            <cstring>spacer18</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -1139,7 +1181,7 @@
                     </spacer>
                     <widget class="QGroupBox" row="2" column="0">
                         <property name="name">
-                            <cstring>groupBox5</cstring>
+                            <cstring>groupBox7</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -1158,72 +1200,72 @@
                             </property>
                             <widget class="QLabel" row="0" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_6</cstring>
+                                    <cstring>textLabel17</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Commit:</string>
+                                    <string>Comm&amp;it:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey</cstring>
+                                    <cstring>kLineEdit6</cstring>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="0" column="1">
                                 <property name="name">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey_2</cstring>
+                                    <cstring>kLineEdit6</cstring>
                                 </property>
                             </widget>
                             <widget class="SkimEditShortcutButton" row="0" column="2">
                                 <property name="name">
-                                    <cstring>punctButton_2</cstring>
+                                    <cstring>punctButton4</cstring>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="1" column="1">
                                 <property name="name">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey_2_3</cstring>
+                                    <cstring>kLineEdit7</cstring>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="2" column="1">
                                 <property name="name">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey_2_3_2</cstring>
+                                    <cstring>kLineEdit8</cstring>
                                 </property>
                             </widget>
                             <widget class="SkimEditShortcutButton" row="1" column="2">
                                 <property name="name">
-                                    <cstring>punctButton_2_4</cstring>
+                                    <cstring>punctButton5</cstring>
                                 </property>
                             </widget>
                             <widget class="SkimEditShortcutButton" row="2" column="2">
                                 <property name="name">
-                                    <cstring>punctButton_2_4_2</cstring>
+                                    <cstring>punctButton6</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_6_3</cstring>
+                                    <cstring>textLabel18</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Commit the first segment:</string>
+                                    <string>&amp;Commit the first segment:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey</cstring>
+                                    <cstring>kLineEdit7</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="2" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_6_3_2</cstring>
+                                    <cstring>textLabel19</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Commit the selected segment:</string>
+                                    <string>Commit the &amp;selected segment:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Pinyin_FullWidthPunctKey</cstring>
+                                    <cstring>kLineEdit8</cstring>
                                 </property>
                             </widget>
                         </grid>
                     </widget>
                     <spacer row="1" column="0">
                         <property name="name">
-                            <cstring>spacer27_2_3</cstring>
+                            <cstring>spacer17</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -1245,7 +1287,7 @@
                     <cstring>TabPage</cstring>
                 </property>
                 <attribute name="title">
-                    <string>P&amp;anel</string>
+                    <string>Pa&amp;nel</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -1272,7 +1314,7 @@
                             </property>
                             <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox9</cstring>
+                                    <cstring>checkBox6</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1283,12 +1325,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Show "Candidates" label</string>
+                                    <string>&amp;Show "Candidates" label</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+S</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="4">
                                 <property name="name">
-                                    <cstring>checkBox10</cstring>
+                                    <cstring>checkBox7</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1299,12 +1344,15 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Close candidates window when select a candidate directly</string>
+                                    <string>&amp;Close candidates window when select a candidate directly</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+C</string>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="2" column="0">
                                 <property name="name">
-                                    <cstring>textLabel3_3</cstring>
+                                    <cstring>textLabel20</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1320,7 +1368,7 @@
                             </widget>
                             <widget class="QLabel" row="3" column="2">
                                 <property name="name">
-                                    <cstring>textLabel5</cstring>
+                                    <cstring>textLabel22</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1336,7 +1384,7 @@
                             </widget>
                             <widget class="QLabel" row="3" column="0">
                                 <property name="name">
-                                    <cstring>textLabel4_3</cstring>
+                                    <cstring>textLabel21</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1378,7 +1426,7 @@
                             </widget>
                             <spacer row="3" column="3">
                                 <property name="name">
-                                    <cstring>spacer24</cstring>
+                                    <cstring>spacer20</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -1395,7 +1443,7 @@
                             </spacer>
                             <spacer row="2" column="3">
                                 <property name="name">
-                                    <cstring>spacer25</cstring>
+                                    <cstring>spacer19</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -1414,7 +1462,7 @@
                     </widget>
                     <spacer row="3" column="0">
                         <property name="name">
-                            <cstring>spacer11_2</cstring>
+                            <cstring>spacer24</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -1431,7 +1479,7 @@
                     </spacer>
                     <widget class="QGroupBox" row="2" column="0">
                         <property name="name">
-                            <cstring>groupBox6</cstring>
+                            <cstring>groupBox9</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -1450,7 +1498,7 @@
                             </property>
                             <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox11</cstring>
+                                    <cstring>checkBox8</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show inp&amp;ut mode label</string>
@@ -1461,15 +1509,18 @@
                             </widget>
                             <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox12</cstring>
+                                    <cstring>checkBox9</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show typing method label</string>
+                                    <string>&amp;Show typing method label</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+S</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox13</cstring>
+                                    <cstring>checkBox10</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show con&amp;version mode label</string>
@@ -1480,7 +1531,7 @@
                             </widget>
                             <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox14</cstring>
+                                    <cstring>checkBox11</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show period style label</string>
@@ -1488,15 +1539,18 @@
                             </widget>
                             <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox15</cstring>
+                                    <cstring>checkBox12</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show &amp;dictionary menu label</string>
                                 </property>
+                                <property name="accel">
+                                    <string>Alt+D</string>
+                                </property>
                             </widget>
                             <spacer row="5" column="0">
                                 <property name="name">
-                                    <cstring>spacer12</cstring>
+                                    <cstring>spacer122</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -1513,7 +1567,7 @@
                             </spacer>
                             <spacer row="6" column="0">
                                 <property name="name">
-                                    <cstring>spacer12_2</cstring>
+                                    <cstring>spacer23</cstring>
                                 </property>
                                 <property name="orientation">
                                     <enum>Horizontal</enum>
@@ -1530,7 +1584,7 @@
                             </spacer>
                             <widget class="QCheckBox" row="5" column="1">
                                 <property name="name">
-                                    <cstring>checkBox16</cstring>
+                                    <cstring>checkBox13</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show "Edit dictionary" label</string>
@@ -1541,7 +1595,7 @@
                             </widget>
                             <widget class="QCheckBox" row="6" column="1">
                                 <property name="name">
-                                    <cstring>checkBox16_2</cstring>
+                                    <cstring>checkBox14</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show "&amp;Add word" label</string>
@@ -1554,7 +1608,7 @@
                     </widget>
                     <spacer row="1" column="0">
                         <property name="name">
-                            <cstring>spacer27_2_4</cstring>
+                            <cstring>spacer21</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -1576,7 +1630,7 @@
                     <cstring>TabPage</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Appeara&amp;nce</string>
+                    <string>&amp;Appearance</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -1584,7 +1638,7 @@
                     </property>
                     <widget class="QLabel" row="0" column="0">
                         <property name="name">
-                            <cstring>textLabel7</cstring>
+                            <cstring>textLabel23</cstring>
                         </property>
                         <property name="text">
                             <string>Preedit string:</string>
@@ -1592,7 +1646,7 @@
                     </widget>
                     <widget class="QLabel" row="2" column="0">
                         <property name="name">
-                            <cstring>textLabel9</cstring>
+                            <cstring>textLabel27</cstring>
                         </property>
                         <property name="text">
                             <string>Selected segment:</string>
@@ -1600,7 +1654,7 @@
                     </widget>
                     <widget class="QLabel" row="1" column="0">
                         <property name="name">
-                            <cstring>textLabel8</cstring>
+                            <cstring>textLabel25</cstring>
                         </property>
                         <property name="text">
                             <string>Conversion string:</string>
@@ -1608,22 +1662,22 @@
                     </widget>
                     <widget class="KComboBox" row="1" column="1">
                         <property name="name">
-                            <cstring>kComboBox15</cstring>
+                            <cstring>kComboBox14</cstring>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="2" column="1">
                         <property name="name">
-                            <cstring>kComboBox16</cstring>
+                            <cstring>kComboBox15</cstring>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="0" column="1">
                         <property name="name">
-                            <cstring>kComboBox14</cstring>
+                            <cstring>kComboBox13</cstring>
                         </property>
                     </widget>
                     <spacer row="3" column="3">
                         <property name="name">
-                            <cstring>spacer15</cstring>
+                            <cstring>spacer31</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -1640,7 +1694,7 @@
                     </spacer>
                     <widget class="KDualColorButton" row="2" column="4">
                         <property name="name">
-                            <cstring>kDualColorButton1_2_2</cstring>
+                            <cstring>kDualColorButton3</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -1653,7 +1707,7 @@
                     </widget>
                     <widget class="QLabel" row="2" column="3">
                         <property name="name">
-                            <cstring>textLabel10_3</cstring>
+                            <cstring>textLabel28</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -1669,7 +1723,7 @@
                     </widget>
                     <spacer row="2" column="5">
                         <property name="name">
-                            <cstring>spacer16_3</cstring>
+                            <cstring>spacer30</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Horizontal</enum>
@@ -1686,7 +1740,7 @@
                     </spacer>
                     <spacer row="1" column="5">
                         <property name="name">
-                            <cstring>spacer16_2</cstring>
+                            <cstring>spacer28</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Horizontal</enum>
@@ -1703,7 +1757,7 @@
                     </spacer>
                     <widget class="KDualColorButton" row="1" column="4">
                         <property name="name">
-                            <cstring>kDualColorButton1_2</cstring>
+                            <cstring>kDualColorButton2</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -1716,7 +1770,7 @@
                     </widget>
                     <widget class="QLabel" row="1" column="3">
                         <property name="name">
-                            <cstring>textLabel10_2</cstring>
+                            <cstring>textLabel26</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -1732,7 +1786,7 @@
                     </widget>
                     <spacer row="2" column="2">
                         <property name="name">
-                            <cstring>spacer16_3_2</cstring>
+                            <cstring>spacer29</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Horizontal</enum>
@@ -1749,7 +1803,7 @@
                     </spacer>
                     <spacer row="0" column="5">
                         <property name="name">
-                            <cstring>spacer16</cstring>
+                            <cstring>spacer26</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Horizontal</enum>
@@ -1779,7 +1833,7 @@
                     </widget>
                     <widget class="QLabel" row="0" column="3">
                         <property name="name">
-                            <cstring>textLabel10</cstring>
+                            <cstring>textLabel24</cstring>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -1795,7 +1849,7 @@
                     </widget>
                     <spacer row="1" column="2">
                         <property name="name">
-                            <cstring>spacer16_3_2_2</cstring>
+                            <cstring>spacer27</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Horizontal</enum>
@@ -1812,7 +1866,7 @@
                     </spacer>
                     <spacer row="0" column="2">
                         <property name="name">
-                            <cstring>spacer16_3_2_2_2</cstring>
+                            <cstring>spacer25</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Horizontal</enum>
