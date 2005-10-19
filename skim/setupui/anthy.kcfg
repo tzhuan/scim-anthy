@@ -57,8 +57,22 @@
       </choices>
       <default>MultiSeg</default>
     </entry>
-    <entry name="_IMEngine_Anthy_PeriodStyle" key="/IMEngine/Anthy/PeriodStyle" type="String">
+    <entry name="_IMEngine_Anthy_PeriodStyle" key="/IMEngine/Anthy/PeriodStyle" type="Enum">
       <label>Initial character type of period and comma style</label>
+      <choices>
+        <choice name="Japanese">
+          <label>、。</label>
+        </choice>
+        <choice name="WideLatin_Japanese">
+          <label>，。</label>
+        </choice>
+        <choice name="WideLatin">
+          <label>，．</label>
+        </choice>
+        <choice name="Latin">
+          <label>,.</label>
+        </choice>
+      </choices>
       <default>FollowMode</default>
     </entry>
     <entry name="_IMEngine_Anthy_SpaceType" key="/IMEngine/Anthy/SpaceType" type="Enum">
