@@ -378,7 +378,7 @@
       <default>F7</default>
     </entry>
     <entry name="_IMEngine_Anthy_ConvertToHalfKey" key="/IMEngine/Anthy/ConvertToHalfKey" type="String">
-      <label>The key events to convert the preedit string to half width</label>
+      <label>The key events to convert the preedit string to half width character</label>
       <default>F8</default>
     </entry>
     <entry name="_IMEngine_Anthy_ConvertToHalfKatakanaKey" key="/IMEngine/Anthy/ConvertToHalfKatakanaKey" type="String">
