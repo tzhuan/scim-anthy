@@ -57,6 +57,31 @@
                                 <cstring>unnamed</cstring>
                             </property>
                             <widget class="KComboBox" row="0" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Hiragana</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Katakana</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Half width katakana</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Latin</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Wide Latin</string>
+                                    </property>
+                                </item>
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_InputMode</cstring>
                                 </property>
@@ -70,6 +95,21 @@
                                 </property>
                             </widget>
                             <widget class="KComboBox" row="1" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Romaji typing method</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Kana typing method</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Thumb shift typing method</string>
+                                    </property>
+                                </item>
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_TypingMethod</cstring>
                                 </property>
@@ -83,6 +123,26 @@
                                 </property>
                             </widget>
                             <widget class="KComboBox" row="2" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Multi segment</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Single segment</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Convert as you type (Multi segment)</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Convert as you type (Single segment)</string>
+                                    </property>
+                                </item>
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_ConversionMode</cstring>
                                 </property>
@@ -96,6 +156,26 @@
                                 </property>
                             </widget>
                             <widget class="KComboBox" row="3" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>、。</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>，。</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>，．</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>, .</string>
+                                    </property>
+                                </item>
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_PeriodStyle</cstring>
                                 </property>
@@ -109,6 +189,21 @@
                                 </property>
                             </widget>
                             <widget class="KComboBox" row="4" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Wide</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Half</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Follow input mode</string>
+                                    </property>
+                                </item>
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_SpaceType</cstring>
                                 </property>
@@ -122,6 +217,21 @@
                                 </property>
                             </widget>
                             <widget class="KComboBox" row="5" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Wide</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Half</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Follow input mode</string>
+                                    </property>
+                                </item>
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_TenKeyType</cstring>
                                 </property>
@@ -135,6 +245,21 @@
                                 </property>
                             </widget>
                             <widget class="KComboBox" row="6" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Do nothing</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Start conversion</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Commit</string>
+                                    </property>
+                                </item>
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_BehaviorOnPeriod</cstring>
                                 </property>
@@ -163,7 +288,7 @@
                                     <string>Con&amp;version mode:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kComboBox3</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ConversionMode</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="3" column="0">
@@ -182,7 +307,7 @@
                                     <string>Style of &amp;comma and period:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kComboBox4</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_PeriodStyle</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="4" column="0">
@@ -201,7 +326,7 @@
                                     <string>S&amp;pace type:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kComboBox5</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_SpaceType</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="5" column="0">
@@ -220,7 +345,7 @@
                                     <string>Input from ten &amp;key:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kComboBox6</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_TenKeyType</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="6" column="0">
@@ -239,7 +364,7 @@
                                     <string>Beha&amp;vior on comma and period:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kComboBox7</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_BehaviorOnPeriod</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0">
@@ -258,7 +383,7 @@
                                     <string>&amp;Typing method:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kComboBox2</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_TypingMethod</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="0" column="0">
@@ -277,7 +402,7 @@
                                     <string>&amp;Input mode:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kComboBox1</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_InputMode</cstring>
                                 </property>
                             </widget>
                             <spacer row="0" column="2">
@@ -436,7 +561,7 @@
                                     <string>"Edit &amp;dictionary" command:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kLineEdit1</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_DictAdminCommand</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0">
@@ -455,7 +580,7 @@
                                     <string>"Add &amp;word" command:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kLineEdit2</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_AddWordCommand</cstring>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="0" column="1">
@@ -497,10 +622,10 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>La&amp;unch</string>
+                                    <string>Laun&amp;ch</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+U</string>
+                                    <string>Alt+C</string>
                                 </property>
                             </widget>
                             <widget class="QPushButton" row="1" column="2">
@@ -516,10 +641,10 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Lau&amp;nch</string>
+                                    <string>La&amp;unch</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+N</string>
+                                    <string>Alt+U</string>
                                 </property>
                             </widget>
                         </grid>
@@ -710,7 +835,7 @@
                             </property>
                             <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="4">
                                 <property name="name">
-                                    <cstring>checkBox1</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_RomajiAllowSplit</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Allow spliting roma&amp;ji on editing preedit string</string>
@@ -721,7 +846,7 @@
                             </widget>
                             <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="4">
                                 <property name="name">
-                                    <cstring>checkBox2</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_RomajiHalfSymbol</cstring>
                                 </property>
                                 <property name="text">
                                     <string>&amp;Use half width character for symbols</string>
@@ -732,7 +857,7 @@
                             </widget>
                             <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="4">
                                 <property name="name">
-                                    <cstring>checkBox3</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_RomajiHalfNumber</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Use half-wi&amp;dth characters for numbers</string>
@@ -824,17 +949,17 @@
                             </property>
                             <widget class="KLineEdit" row="1" column="1" rowspan="1" colspan="3">
                                 <property name="name">
-                                    <cstring>kLineEdit4</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_LeftThumbShiftKey</cstring>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="3">
                                 <property name="name">
-                                    <cstring>kLineEdit5</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_RightThumbShiftKey</cstring>
                                 </property>
                             </widget>
                             <widget class="SkimEditShortcutButton" row="2" column="4">
                                 <property name="name">
-                                    <cstring>punctButton3</cstring>
+                                    <cstring>RightThumbShiftKey_Button</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -847,7 +972,7 @@
                             </widget>
                             <widget class="SkimEditShortcutButton" row="1" column="4">
                                 <property name="name">
-                                    <cstring>punctButton2</cstring>
+                                    <cstring>LeftThumbShiftKey_Button</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -942,7 +1067,7 @@
                                     <string>R&amp;ight thumb shift keys:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kLineEdit5</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_RightThumbShiftKey</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0">
@@ -961,7 +1086,7 @@
                                     <string>Left thumb shift &amp;keys:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kLineEdit4</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_LeftThumbShiftKey</cstring>
                                 </property>
                             </widget>
                         </grid>
@@ -1140,7 +1265,7 @@
                             </property>
                             <widget class="QCheckBox" row="0" column="0">
                                 <property name="name">
-                                    <cstring>checkBox4</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_LearnOnManualCommit</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Learn on man&amp;ual commit</string>
@@ -1151,7 +1276,7 @@
                             </widget>
                             <widget class="QCheckBox" row="1" column="0">
                                 <property name="name">
-                                    <cstring>checkBox5</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_LearnOnAutoCommit</cstring>
                                 </property>
                                 <property name="text">
                                     <string>&amp;Learn on autocommit</string>
@@ -1206,12 +1331,12 @@
                                     <string>Comm&amp;it:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kLineEdit6</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_CommitReverseLearnKey</cstring>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="0" column="1">
                                 <property name="name">
-                                    <cstring>kLineEdit6</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_CommitReverseLearnKey</cstring>
                                 </property>
                             </widget>
                             <widget class="SkimEditShortcutButton" row="0" column="2">
@@ -1221,12 +1346,12 @@
                             </widget>
                             <widget class="KLineEdit" row="1" column="1">
                                 <property name="name">
-                                    <cstring>kLineEdit7</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_CommitFirstSegmentReverseLearnKey</cstring>
                                 </property>
                             </widget>
                             <widget class="KLineEdit" row="2" column="1">
                                 <property name="name">
-                                    <cstring>kLineEdit8</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey</cstring>
                                 </property>
                             </widget>
                             <widget class="SkimEditShortcutButton" row="1" column="2">
@@ -1247,7 +1372,7 @@
                                     <string>&amp;Commit the first segment:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kLineEdit7</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_CommitFirstSegmentReverseLearnKey</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="2" column="0">
@@ -1255,10 +1380,10 @@
                                     <cstring>textLabel19</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Commit the &amp;selected segment:</string>
+                                    <string>Commit the selecte&amp;d segment:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kLineEdit8</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey</cstring>
                                 </property>
                             </widget>
                         </grid>
@@ -1314,7 +1439,7 @@
                             </property>
                             <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox6</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ShowCandidatesLabel</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1333,7 +1458,7 @@
                             </widget>
                             <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="4">
                                 <property name="name">
-                                    <cstring>checkBox7</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_CloseCandWinOnSelect</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1364,6 +1489,9 @@
                                 </property>
                                 <property name="text">
                                     <string>Number of candidates to show in a page:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_CandWinPageSize</cstring>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="3" column="2">
@@ -1397,10 +1525,13 @@
                                 <property name="text">
                                     <string>Number of triggers until show:</string>
                                 </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_NTriggersToShowCandWin</cstring>
+                                </property>
                             </widget>
                             <widget class="QSpinBox" row="2" column="1">
                                 <property name="name">
-                                    <cstring>spinBox1</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_CandWinPageSize</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1413,7 +1544,7 @@
                             </widget>
                             <widget class="QSpinBox" row="3" column="1">
                                 <property name="name">
-                                    <cstring>spinBox2</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_NTriggersToShowCandWin</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1498,7 +1629,7 @@
                             </property>
                             <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox8</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ShowInputModeLabel</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show inp&amp;ut mode label</string>
@@ -1509,7 +1640,7 @@
                             </widget>
                             <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox9</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ShowTypingMethodLabel</cstring>
                                 </property>
                                 <property name="text">
                                     <string>&amp;Show typing method label</string>
@@ -1520,7 +1651,7 @@
                             </widget>
                             <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox10</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ShowConversionModeLabel</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show con&amp;version mode label</string>
@@ -1531,7 +1662,7 @@
                             </widget>
                             <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox11</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ShowPeriodStyleLabel</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show period style label</string>
@@ -1539,7 +1670,7 @@
                             </widget>
                             <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
                                 <property name="name">
-                                    <cstring>checkBox12</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ShowDictLabel</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show &amp;dictionary menu label</string>
@@ -1584,7 +1715,7 @@
                             </spacer>
                             <widget class="QCheckBox" row="5" column="1">
                                 <property name="name">
-                                    <cstring>checkBox13</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ShowDictAdminLabel</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show "Edit dictionary" label</string>
@@ -1595,7 +1726,7 @@
                             </widget>
                             <widget class="QCheckBox" row="6" column="1">
                                 <property name="name">
-                                    <cstring>checkBox14</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ShowAddWordLabel</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Show "&amp;Add word" label</string>
@@ -1641,7 +1772,10 @@
                             <cstring>textLabel23</cstring>
                         </property>
                         <property name="text">
-                            <string>Preedit string:</string>
+                            <string>Pree&amp;dit string:</string>
+                        </property>
+                        <property name="buddy" stdset="0">
+                            <cstring>kcfg__IMEngine_Anthy_PreeditStyle</cstring>
                         </property>
                     </widget>
                     <widget class="QLabel" row="2" column="0">
@@ -1651,28 +1785,139 @@
                         <property name="text">
                             <string>Selected segment:</string>
                         </property>
+                        <property name="buddy" stdset="0">
+                            <cstring>kcfg__IMEngine_Anthy_SelectedSegmentStyle</cstring>
+                        </property>
                     </widget>
                     <widget class="QLabel" row="1" column="0">
                         <property name="name">
                             <cstring>textLabel25</cstring>
                         </property>
                         <property name="text">
-                            <string>Conversion string:</string>
+                            <string>&amp;Conversion string:</string>
+                        </property>
+                        <property name="buddy" stdset="0">
+                            <cstring>kcfg__IMEngine_Anthy_ConversionStyle</cstring>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="1" column="1">
+                        <item>
+                            <property name="text">
+                                <string>No decoration</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Underline</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Reverse</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Highlight</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>String color</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>BG Color</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Both Color</string>
+                            </property>
+                        </item>
                         <property name="name">
-                            <cstring>kComboBox14</cstring>
+                            <cstring>kcfg__IMEngine_Anthy_ConversionStyle</cstring>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="2" column="1">
+                        <item>
+                            <property name="text">
+                                <string>No decoration</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Underline</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Reverse</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Highlight</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>String color</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>BG Color</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Both Color</string>
+                            </property>
+                        </item>
                         <property name="name">
-                            <cstring>kComboBox15</cstring>
+                            <cstring>kcfg__IMEngine_Anthy_SelectedSegmentStyle</cstring>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="0" column="1">
+                        <item>
+                            <property name="text">
+                                <string>No decoration</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Underline</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Reverse</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Highlight</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>String color</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>BG Color</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Both Color</string>
+                            </property>
+                        </item>
                         <property name="name">
-                            <cstring>kComboBox13</cstring>
+                            <cstring>kcfg__IMEngine_Anthy_PreeditStyle</cstring>
                         </property>
                     </widget>
                     <spacer row="3" column="3">

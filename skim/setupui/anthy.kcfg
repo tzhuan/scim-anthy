@@ -70,7 +70,7 @@
           <label>，．</label>
         </choice>
         <choice name="Latin">
-          <label>,.</label>
+          <label>, .</label>
         </choice>
       </choices>
       <default>Japanese</default>
