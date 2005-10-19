@@ -37,7 +37,6 @@
 
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE            "/IMEngine/Anthy/KanaLayoutFile"
 
-#define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT               "/IMEngine/Anthy/NICOLALayout"
 #define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE          "/IMEngine/Anthy/NICOLALayoutFile"
 #define SCIM_ANTHY_CONFIG_NICOLA_TIME                 "/IMEngine/Anthy/NICOLATime"
 #define SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY        "/IMEngine/Anthy/LeftThumbShiftKey"
@@ -160,7 +159,6 @@
 
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT            ""
 
-#define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_DEFAULT               "Default"
 #define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE_DEFAULT          ""
 #define SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT                 200
 #define SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY_DEFAULT        "Muhenkan"

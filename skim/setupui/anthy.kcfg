@@ -28,21 +28,26 @@
       <default>None</default>
     </entry>
 
-    <entry name="_IMEngine_Anthy_RomajiTheme" key="/IMEngine/Anthy/RomajiTheme" type="String">
-      <label>Romaji table name to use</label>
-      <default>Default</default>
+    <entry name="_IMEngine_Anthy_RomajiThemeFile" key="/IMEngine/Anthy/RomajiThemeFile" type="String">
+      <label>Romaji table file to use as default</label>
+      <default></default>
     </entry>
-    <entry name="_IMEngine_Anthy_HalfSymbol" key="/IMEngine/Anthy/HalfSymbol" type="Bool">
+    <entry name="_IMEngine_Anthy_RomajiHalfSymbol" key="/IMEngine/Anthy/RomajiHalfSymbol" type="Bool">
       <label>Whether input symbol as half width or not</label>
       <default>false</default>
     </entry>
-    <entry name="_IMEngine_Anthy_HalfNumber" key="/IMEngine/Anthy/HalfNumber" type="Bool">
+    <entry name="_IMEngine_Anthy_RomajiHalfNumber" key="/IMEngine/Anthy/RomajiHalfNumber" type="Bool">
       <label>Whether input number as half width or not</label>
       <default>false</default>
     </entry>
-    <entry name="_IMEngine_Anthy_AllowSplit" key="/IMEngine/Anthy/AllowSplit" type="Bool">
+    <entry name="_IMEngine_Anthy_RomajiAllowSplit" key="/IMEngine/Anthy/RomajiAllowSplit" type="Bool">
       <label>Allow split syllable or not</label>
       <default>true</default>
+    </entry>
+
+    <entry name="_IMEngine_Anthy_KanaLayoutFile" key="/IMEngine/Anthy/KanaLayoutFile" type="String">
+      <label>Kana key board layout file to use as default</label>
+      <default></default>
     </entry>
 
     <entry name="_IMEngine_Anthy_LearnOnManulCommit" key="/IMEngine/Anthy/LearnOnManualCommit" type="Bool">
