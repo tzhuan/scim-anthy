@@ -50,8 +50,8 @@
 
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE            "/IMEngine/Anthy/ColorThemeFile"
 
-#define SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE          "/IMEngine/Anthy/CandWinPageSize"
 #define SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL       "/IMEngine/Anthy/ShowCandidatesLabel"
+#define SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE          "/IMEngine/Anthy/CandWinPageSize"
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
 #define SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN "/IMEngine/Anthy/NTriggersToShowCandWin"
 
@@ -63,7 +63,6 @@
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL       "/IMEngine/Anthy/ShowDictAdminLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL         "/IMEngine/Anthy/ShowAddWordLabel"
 
-#define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme"
 #define SCIM_ANTHY_CONFIG_KEY_THEME_FILE              "/IMEngine/Anthy/KeyThemeFile"
 
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY              "/IMEngine/Anthy/LatinModeKey"
@@ -184,7 +183,6 @@
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT       true
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT         true
 
-#define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default"
 #define SCIM_ANTHY_CONFIG_KEY_THEME_FILE_DEFAULT              ""
 
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"
@@ -242,7 +240,6 @@
 
 #define SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_FORWARD_KEY_DEFAULT  ""
 #define SCIM_ANTHY_CONFIG_CONV_CHAR_TYPE_BACKWARD_KEY_DEFAULT ""
-#define SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT        "F7"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HIRAGANA_KEY_DEFAULT        "F6"
 #define SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT        "F7"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HALF_KEY_DEFAULT            "F8"
