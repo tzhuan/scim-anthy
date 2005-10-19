@@ -28,6 +28,7 @@
       <default>None</default>
     </entry>
 
+
     <entry name="_IMEngine_Anthy_RomajiThemeFile" key="/IMEngine/Anthy/RomajiThemeFile" type="String">
       <label>Romaji table file to use as default</label>
       <default></default>
@@ -45,19 +46,40 @@
       <default>true</default>
     </entry>
 
+
     <entry name="_IMEngine_Anthy_KanaLayoutFile" key="/IMEngine/Anthy/KanaLayoutFile" type="String">
-      <label>Kana key board layout file to use as default</label>
+      <label>Kana keyboard layout file to use as default</label>
       <default></default>
     </entry>
 
+
+    <entry name="_IMEngine_Anthy_NICOLALayoutFile" key="/IMEngine/Anthy/NICOLALayoutFile" type="String">
+      <label>NICOLA keyboard layout file to use as default</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_NICOLATime" key="/IMEngine/Anthy/NICOLATime" type="Int">
+      <label></label>
+      <default>200</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_LeftThumbShiftKey" key="/IMEngine/Anthy/LeftThumbShiftKey" type="String">
+      <label>Key events to treat as left thumb shift key of NICOLA layout</label>
+      <default>Muhenkan</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_RightThumbShiftKey" key="/IMEngine/Anthy/RightThumbShiftKey" type="String">
+      <label>Key events to treat as right thumb shift key of NICOLA layout</label>
+      <default>Henkan,space</default>
+    </entry>
+
+
     <entry name="_IMEngine_Anthy_LearnOnManulCommit" key="/IMEngine/Anthy/LearnOnManualCommit" type="Bool">
-      <label>Learn the frequency of the commited word on manul commit</label>
+      <label>Learn the frequency of the commited word on manul committing</label>
       <default>true</default>
     </entry>
     <entry name="_IMEngine_Anthy_LearnOnAutoCommit" key="/IMEngine/Anthy/LearnOnAutoCommit" type="Bool">
-      <label>Learn the frequency of the commited word on auto commit</label>
+      <label>Learn the frequency of the commited word on auto committing</label>
       <default>true</default>
     </entry>
+
 
     <entry name="_IMEngine_Anthy_DictAdminCommand" key="/IMEngine/Anthy/DictAdminCommand" type="String">
       <label>External command to administer the personal dictionary</label>
@@ -68,50 +90,66 @@
       <default>kasumi --add</default>
     </entry>
 
-    <entry name="_IMEngine_Anthy_ColorTheme" key="/IMEngine/Anthy/ColorTheme" type="String">
+
+    <entry name="_IMEngine_Anthy_ColorTheme" key="/IMEngine/Anthy/ColorThemeFile" type="String">
       <label>Name of preedit color theme to use</label>
       <default>Default</default>
     </entry>
 
+
+    <entry name="_IMEngine_Anthy_ShowCandidatesLabel" key="/IMEngine/Anthy/ShowCandidatesLabel" type="Bool">
+      <label>Whether show the title of the candidates window or not</label>
+      <default>true</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CandWinPageSize" key="/IMEngine/Anthy/CandWinPageSize" type="Int">
+      <label>Number of candidates to show in a page</label>
+      <default>10</default>
+    </entry>
     <entry name="_IMEngine_Anthy_CloseCandWinOnSelect" key="/IMEngine/Anthy/CloseCandWinOnSelect" type="Bool">
       <label>Whether close the lookup table when select a candidate directly or not</label>
       <default>true</default>
     </entry>
+    <entry name="_IMEngine_Anthy_NTriggersToShowCandWin" key="/IMEngine/Anthy/NTriggersToShowCandWin" type="Int">
+      <label>The number of time to press conversion key until show the candidates window</label>
+      <default>2</default>
+    </entry>
+
 
     <entry name="_IMEngine_Anthy_ShowInputModeLabel" key="/IMEngine/Anthy/ShowInputModeLabel" type="Bool">
-      <label>Show input mode label on toolbar or not</label>
+      <label>Whether show the input mode label on the toolbar or not</label>
       <default>true</default>
     </entry>
     <entry name="_IMEngine_Anthy_ShowTypingMethodLabel" key="/IMEngine/Anthy/ShowTypingMethodLabel" type="Bool">
-      <label>Show typing method label on toolbar or not</label>
+      <label>Whether show the typing method label on the toolbar or not</label>
       <default>false</default>
     </entry>
     <entry name="_IMEngine_Anthy_ShowConversionModeLabel" key="/IMEngine/Anthy/ShowConversionModeLabel" type="Bool">
-      <label>Show conversion mode label on toolbar or not</label>
+      <label>Whether show the conversion mode label on the toolbar or not</label>
       <default>true</default>
     </entry>
     <entry name="_IMEngine_Anthy_ShowPeriodStyleLabel" key="/IMEngine/Anthy/ShowPeriodStyleLabel" type="Bool">
-      <label>Show period style label on toolbar or not</label>
+      <label>Whether show the period style label on the toolbar or not</label>
       <default>false</default>
     </entry>
     <entry name="_IMEngine_Anthy_ShowDictLabel" key="/IMEngine/Anthy/ShowDictLabel" type="Bool">
-      <label>Show dictionary label on toolbar or not</label>
-      <default>false</default>
+      <label>Whether show the dictionary label on the toolbar or not</label>
+      <default>true</default>
     </entry>
     <entry name="_IMEngine_Anthy_ShowDictAdminLabel" key="/IMEngine/Anthy/ShowDictAdminLabel" type="Bool">
-      <label>Show dictionary administration label on toolbar or not</label>
+      <label>Whether show the dictionary administration label on the toolbar or not</label>
       <default>true</default>
     </entry>
     <entry name="_IMEngine_Anthy_ShowAddWordLabel" key="/IMEngine/Anthy/ShowAddWordLabel" type="Bool">
-      <label>Show adding a word label on toolbar or not</label>
+      <label>Whether show the adding a word label on the toolbar or not</label>
       <default>true</default>
     </entry>
 
 
-    <entry name="_IMEngine_Anthy_KeyTheme" key="/IMEngine/Anthy/KeyTheme" type="String">
-      <label>Name of key bindings theme to use</label>
-      <default>Default</default>
+    <entry name="_IMEngine_Anthy_KeyTheme" key="/IMEngine/Anthy/KeyThemeFile" type="String">
+      <label>Key bindings theme file to use as default</label>
+      <default></default>
     </entry>
+
 
     <entry name="_IMEngine_Anthy_LatinModeKey" key="/IMEngine/Anthy/LatinModeKey" type="String">
       <label>The key events to toggle latin mode</label>
@@ -138,6 +176,7 @@
       <default>Shift+Hiragana_Katakana</default>
     </entry>
 
+
     <entry name="_IMEngine_Anthy_InsertSpaceKey" key="/IMEngine/Anthy/InsertSpaceKey" type="String">
       <label>The key events to insert a space</label>
       <default>space</default>
@@ -155,28 +194,41 @@
       <default></default>
     </entry>
     <entry name="_IMEngine_Anthy_BackSpaceKey" key="/IMEngine/Anthy/BackSpaceKey" type="String">
-      <label>The key events to delete a character before caret</label>
+      <label>The key events to delete a character before the caret</label>
       <default>BackSpace,Control+h,Control+H</default>
     </entry>
     <entry name="_IMEngine_Anthy_DeleteKey" key="/IMEngine/Anthy/DeleteKey" type="String">
-      <label>The key events to delete a character after caret</label>
+      <label>The key events to delete a character after the caret</label>
       <default>Delete,Control+d,Control+D</default>
     </entry>
     <entry name="_IMEngine_Anthy_CommitKey" key="/IMEngine/Anthy/CommitKey" type="String">
       <label>The key events to commit the preedit string</label>
       <default>Return,KP_Enter,Control+j,Control+J,Control+m,Control+M</default>
     </entry>
+    <entry name="_IMEngine_Anthy_CommitReverseLearnKey" key="/IMEngine/Anthy/CommitReverseLearnKey" type="String">
+      <label>The key events to commit the preedit string with reversing the preference of learning</label>
+      <default>Shift+Return</default>
+    </entry>
     <entry name="_IMEngine_Anthy_ConvertKey" key="/IMEngine/Anthy/ConvertKey" type="String">
       <label>The key events to convert the preedit string to kanji</label>
-      <default>space</default>
+      <default>space,KP_Space,Henkan</default>
     </entry>
     <entry name="_IMEngine_Anthy_CancelKey" key="/IMEngine/Anthy/CancelKey" type="String">
       <label>The key events to cancel preediting or converting</label>
       <default>Escape,Control+g,Control+G</default>
     </entry>
+    <entry name="_IMEngine_Anthy_CancelAllKey" key="/IMEngine/Anthy/CancelAllKey" type="String">
+      <label>The key events to return to initial state</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_DoNothingKey" key="/IMEngine/Anthy/DoNothingKey" type="String">
+      <label>The key events to eat</label>
+      <default></default>
+    </entry>
+
 
     <entry name="_IMEngine_Anthy_MoveCaretFirstKey" key="/IMEngine/Anthy/MoveCaretFirstKey" type="String">
-      <label>The key events to move the caret to the first of preedit string</label>
+      <label>The key events to move the caret to the first of the preedit string</label>
       <default>Control+a,Control+A,Home</default>
     </entry>
     <entry name="_IMEngine_Anthy_MoveCaretLastKey" key="/IMEngine/Anthy/MoveCaretLastKey" type="String">
@@ -191,6 +243,7 @@
       <label>The key events to move the caret to backward</label>
       <default>Left,Control+b,Control+B</default>
     </entry>
+
 
     <entry name="_IMEngine_Anthy_SelectFirstSegmentKey" key="/IMEngine/Anthy/SelectFirstSegmentKey" type="String">
      <label>The key events to select the first segment</label>
@@ -224,13 +277,22 @@
       <label>The key events to commit the selected segment</label>
       <default>Control+Down</default>
     </entry>
+    <entry name="_IMEngine_Anthy_CommitFirstSegmentReverseLearnKey" key="/IMEngine/Anthy/CommitFirstSegmentReverseLearnKey" type="String">
+      <label>The key events to commit the first segment with reversing the preference of learning</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey" key="/IMEngine/Anthy/CommitSelectedSegmentReverseLearnKey" type="String">
+      <label>The key events to commit the selected segment with reversing the preference of learning</label>
+      <default></default>
+    </entry>
+
 
     <entry name="_IMEngine_Anthy_SelectFirstCandidateKey" key="/IMEngine/Anthy/SelectFirstCandidateKey" type="String">
       <label>The key events to select the first candidate</label>
       <default>Home</default>
     </entry>
     <entry name="_IMEngine_Anthy_SelectLastCandidateKey" key="/IMEngine/Anthy/SelectLastCandidateKey" type="String">
-      <label>The key events to the select last candidate</label>
+      <label>The key events to select the last candidate</label>
       <default>End</default>
     </entry>
     <entry name="_IMEngine_Anthy_SelectNextCandidateKey" key="/IMEngine/Anthy/SelectNextCandidateKey" type="String">
@@ -242,14 +304,13 @@
       <default>Up,KP_Subtract,Control+p,Control+P</default>
     </entry>
     <entry name="_IMEngine_Anthy_CandidatesPageUpKey" key="/IMEngine/Anthy/CandidatesPageUpKey" type="String">
-      <label>The key events to switch candidates page up</label>
+      <label>The key events to switch candidates to the precious page</label>
       <default>Page_Up</default>
     </entry>
     <entry name="_IMEngine_Anthy_CandidatesPageDownKey" key="/IMEngine/Anthy/CandidatesPageDownKey" type="String">
-      <label>The key events to switch candidates page down</label>
+      <label>The key events to switch candidates to the next page</label>
       <default>Page_Down,KP_Tab</default>
     </entry>
-
     <entry name="_IMEngine_Anthy_SelectCandidate1Key" key="/IMEngine/Anthy/SelectCandidate1Key" type="String">
       <label>The key events to select the 1st candidate</label>
       <default>1</default>
@@ -286,56 +347,91 @@
       <label>The key events to select the 9th candidate</label>
       <default>9</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate1oKey" key="/IMEngine/Anthy/SelectCandidate10Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidate10Key" key="/IMEngine/Anthy/SelectCandidate10Key" type="String">
       <label>The key events to select the 10th candidate</label>
       <default>0</default>
     </entry>
 
-    <entry name="_IMEngine_Anthy_ConvToHiraganaKey" key="/IMEngine/Anthy/ConvToHiraganaKey" type="String">
+
+    <entry name="_IMEngine_Anthy_ConvertCharTypeForwardKey" key="/IMEngine/Anthy/ConvertCharTypeForwardKey" type="String">
+      <label>The key events to convert char type of the preedit string to next type</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConvertCharTypeBackwardKey" key="/IMEngine/Anthy/ConvertCharTypeBackwardKey" type="String">
+      <label>The key events to convert char type of the preedit string to previous type</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConvertToHiraganaKey" key="/IMEngine/Anthy/ConvertToHiraganaKey" type="String">
       <label>The key events to convert the preedit string to hiragana</label>
       <default>F6</default>
     </entry>
-    <entry name="_IMEngine_Anthy_ConvToKatakanaKey" key="/IMEngine/Anthy/ConvToKatakanaKey" type="String">
+    <entry name="_IMEngine_Anthy_ConvertToKatakanaKey" key="/IMEngine/Anthy/ConvertToKatakanaKey" type="String">
       <label>The key events to convert the preedit string to katakana</label>
       <default>F7</default>
     </entry>
-    <entry name="_IMEngine_Anthy_ConvToHalfKey" key="/IMEngine/Anthy/ConvToHalfKey" type="String">
+    <entry name="_IMEngine_Anthy_ConvertToHalfKey" key="/IMEngine/Anthy/ConvertToHalfKey" type="String">
       <label>The key events to convert the preedit string to half width</label>
       <default>F8</default>
     </entry>
-    <entry name="_IMEngine_Anthy_ConvToHalfKatakanaKey" key="/IMEngine/Anthy/ConvToHalfKatakanaKey" type="String">
+    <entry name="_IMEngine_Anthy_ConvertToHalfKatakanaKey" key="/IMEngine/Anthy/ConvertToHalfKatakanaKey" type="String">
       <label>The key events to convert the preedit string to half width katakana</label>
       <default>Shift+F8</default>
     </entry>
-    <entry name="_IMEngine_Anthy_ConvToLatinKey" key="/IMEngine/Anthy/ConvToLatinKey" type="String">
+    <entry name="_IMEngine_Anthy_ConvertToLatinKey" key="/IMEngine/Anthy/ConvertToLatinKey" type="String">
       <label>The key events to convert the preedit string to latin</label>
-      <default>F9</default>
-    </entry>
-    <entry name="_IMEngine_Anthy_ConvToWideLatinKey" key="/IMEngine/Anthy/ConvToWideLatinKey" type="String">
-      <label>The key events to convert the preedit string to wide latin</label>
       <default>F10</default>
     </entry>
+    <entry name="_IMEngine_Anthy_ConvertToWideLatinKey" key="/IMEngine/Anthy/ConvertToWideLatinKey" type="String">
+      <label>The key events to convert the preedit string to wide latin</label>
+      <default>F9</default>
+    </entry>
+
 
     <entry name="_IMEngine_Anthy_DictAdminKey" key="/IMEngine/Anthy/DictAdminKey" type="String">
-      <label>The key events to launch dictionary administration tool</label>
+      <label>The key events to launch the tool for administrating the personal dictionary</label>
       <default>F11</default>
     </entry>
     <entry name="_IMEngine_Anthy_AddWordKey" key="/IMEngine/Anthy/AddWordKey" type="String">
-      <label>The key events to launch the tool to add a word</label>
+      <label>The key events to launch the tool for adding a word</label>
       <default>F12</default>
     </entry>
 
-    <entry name="_IMEngine_Anthy_CommitReverseLearnKey" key="/IMEngine/Anthy/CommitReverseLearnKey" type="String">
-      <label>The key events to commit the preedit string with reversing the preference of learning</label>
-      <default>Shift+Return</default>
+
+    <entry name="_IMEngine_Anthy_PreeditStyle" key="/IMEngine/Anthy/PreeditStyle" type="String">
+      <label>Style of the preedit string</label>
+      <default>Underline</default>
     </entry>
-    <entry name="_IMEngine_Anthy_CommitFirstSegmentReverseLearnKey" key="/IMEngine/Anthy/CommitFirstSegmentReverseLearnKey" type="String">
-      <label>The key events to commit the first segment with reversing the preference of learning</label>
-      <default></default>
+    <entry name="_IMEngine_Anthy_PreeditFGColor" key="/IMEngine/Anthy/PreeditFGColor" type="String">
+      <label>Foreground color of the preedit string</label>
+      <default>#006010</default>
     </entry>
-    <entry name="_IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey" key="/IMEngine/Anthy/CommitSelectedSegmentReverseLearnKey" type="String">
-      <label>The key events to commit the selected segment with reversing the preference of learning</label>
-      <default></default>
+    <entry name="_IMEngine_Anthy_PreeditBGColor" key="/IMEngine/Anthy/PreeditBGColor" type="String">
+      <label>Background color of the preedit string</label>
+      <default>#FFFFFF</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConversionStyle" key="/IMEngine/Anthy/ConversionStyle" type="String">
+      <label>Style of the conversion string</label>
+      <default>Underline</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConversionFGColor" key="/IMEngine/Anthy/ConversionFGColor" type="String">
+      <label>Foreground color of the conversion string</label>
+      <default>#006010</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ConversionBGColor" key="/IMEngine/Anthy/ConversionBGColor" type="String">
+      <label>Background color of the conversion string</label>
+      <default>#FFFFFF</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectedSegmentStyle" key="/IMEngine/Anthy/SelectedSegmentStyle" type="String">
+      <label>Style of selected segment string</label>
+      <default>Reverse</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectedSegmentFGColor" key="/IMEngine/Anthy/SelectedSegmentFGColor" type="String">
+      <label>Foreground color of the selected segment string</label>
+      <default>#FFFFFF</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_SelectedSegmentBGColor" key="/IMEngine/Anthy/SelectedSegmentBGColor" type="String">
+      <label>Background color of the selected segment string</label>
+      <default>#0900A5</default>
     </entry>
   </group>
 </kcfg>
