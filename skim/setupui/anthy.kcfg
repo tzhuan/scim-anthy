@@ -19,6 +19,10 @@
       <label>Initial character type of period and comma style</label>
       <default>FollowMode</default>
     </entry>
+    <entry name="_IMEngine_Anthy_SpaceType" key="/IMEngine/Anthy/SpaceType" type="String">
+      <label>Width of space</label>
+      <default>FollowMode</default>
+    </entry>
     <entry name="_IMEngine_Anthy_TenKeyType" key="/IMEngine/Anthy/TenKeyType" type="String">
       <label>Initial character width which is inputed by ten key</label>
       <default>FollowMode</default>
