@@ -312,50 +312,50 @@
       <default>Up,KP_Subtract,Control+p,Control+P</default>
     </entry>
     <entry name="_IMEngine_Anthy_CandidatesPageUpKey" key="/IMEngine/Anthy/CandidatesPageUpKey" type="String">
-      <label>The key events to switch candidates to the precious page</label>
+      <label>The key events to switch candidates group to the precious page</label>
       <default>Page_Up</default>
     </entry>
     <entry name="_IMEngine_Anthy_CandidatesPageDownKey" key="/IMEngine/Anthy/CandidatesPageDownKey" type="String">
-      <label>The key events to switch candidates to the next page</label>
+      <label>The key events to switch candidates group to the next page</label>
       <default>Page_Down,KP_Tab</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate1Key" key="/IMEngine/Anthy/SelectCandidate1Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates1Key" key="/IMEngine/Anthy/SelectCandidates1Key" type="String">
       <label>The key events to select the 1st candidate</label>
       <default>1</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate2Key" key="/IMEngine/Anthy/SelectCandidate2Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates2Key" key="/IMEngine/Anthy/SelectCandidates2Key" type="String">
       <label>The key events to select the 2nd candidate</label>
       <default>2</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate3Key" key="/IMEngine/Anthy/SelectCandidate3Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates3Key" key="/IMEngine/Anthy/SelectCandidates3Key" type="String">
       <label>The key events to select the 3rd candidate</label>
       <default>3</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate4Key" key="/IMEngine/Anthy/SelectCandidate4Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates4Key" key="/IMEngine/Anthy/SelectCandidates4Key" type="String">
       <label>The key events to select the 4th candidate</label>
       <default>4</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate5Key" key="/IMEngine/Anthy/SelectCandidate5Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates5Key" key="/IMEngine/Anthy/SelectCandidates5Key" type="String">
       <label>The key events to select the 5th candidate</label>
       <default>5</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate6Key" key="/IMEngine/Anthy/SelectCandidate6Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates6Key" key="/IMEngine/Anthy/SelectCandidates6Key" type="String">
       <label>The key events to select the 6th candidate</label>
       <default>6</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate7Key" key="/IMEngine/Anthy/SelectCandidate7Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates7Key" key="/IMEngine/Anthy/SelectCandidates7Key" type="String">
       <label>The key events to select the 7th candidate</label>
       <default>7</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate8Key" key="/IMEngine/Anthy/SelectCandidate8Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates8Key" key="/IMEngine/Anthy/SelectCandidates8Key" type="String">
       <label>The key events to select the 8th candidate</label>
       <default>8</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate9Key" key="/IMEngine/Anthy/SelectCandidate9Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates9Key" key="/IMEngine/Anthy/SelectCandidates9Key" type="String">
       <label>The key events to select the 9th candidate</label>
       <default>9</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectCandidate10Key" key="/IMEngine/Anthy/SelectCandidate10Key" type="String">
+    <entry name="_IMEngine_Anthy_SelectCandidates10Key" key="/IMEngine/Anthy/SelectCandidates10Key" type="String">
       <label>The key events to select the 10th candidate</label>
       <default>0</default>
     </entry>
