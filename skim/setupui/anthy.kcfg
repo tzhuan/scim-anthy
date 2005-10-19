@@ -3,32 +3,107 @@
 <kcfg>
   <kcfgfile name="skimrc"/>
   <group name="SCIM">
-    <entry name="_IMEngine_Anthy_InputMode" key="/IMEngine/Anthy/InputMode" type="String">
+    <entry name="_IMEngine_Anthy_InputMode" key="/IMEngine/Anthy/InputMode" type="Enum">
       <label>Initial input mode</label>
+      <choices>
+        <choice name="Hiragana">
+          <label>Hiragana</label>
+        </choice>
+        <choice name="Katakana">
+          <label>Katakana</label>
+        </choice>
+        <choice name="Half width katakana">
+          <label>HalfKatakana</label>
+        </choice>
+        <choice name="Latin">
+          <label>Latin</label>
+        </choice>
+        <choice name="Wide Latin">
+          <label>WideLatin</label>
+        </choice>
+      </choices>
       <default>Hiragana</default>
     </entry>
-    <entry name="_IMEngine_Anthy_TypingMethod" key="/IMEngine/Anthy/TypingMethod" type="String">
+    <entry name="_IMEngine_Anthy_TypingMethod" key="/IMEngine/Anthy/TypingMethod" type="Enum">
       <label>Initial typing method</label>
-      <default>Roma</default>
+      <choices>
+        <choice name="Romaji">
+          <label>Romaji typing method</label>
+        </choice>
+        <choice name="Kana">
+          <label>Kana typing method</label>
+        </choice>
+        <choice name="NICOLA">
+          <label>Thumb shift typing method</label>
+        </choice>
+      </choices>
+      <default>Romaji</default>
     </entry>
-    <entry name="_IMEngine_Anthy_ConversionMode" key="/IMEngine/Anthy/ConversionMode" type="String">
+    <entry name="_IMEngine_Anthy_ConversionMode" key="/IMEngine/Anthy/ConversionMode" type="Enum">
       <label>Initial conversion mode</label>
+      <choices>
+        <choice name="MultiSeg">
+          <label>Multi segment</label>
+        </choice>
+        <choice name="SingleSeg">
+          <label>Single segment</label>
+        </choice>
+        <choice name="CAYT_MultiSeg">
+          <label>Convert as you type (Multi segment)</label>
+        </choice>
+        <choice name="CAYT_SingleSeg">
+          <label>Convert as you type (Single segment)</label>
+        </choice>
+      </choices>
       <default>MultiSeg</default>
     </entry>
     <entry name="_IMEngine_Anthy_PeriodStyle" key="/IMEngine/Anthy/PeriodStyle" type="String">
       <label>Initial character type of period and comma style</label>
       <default>FollowMode</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SpaceType" key="/IMEngine/Anthy/SpaceType" type="String">
+    <entry name="_IMEngine_Anthy_SpaceType" key="/IMEngine/Anthy/SpaceType" type="Enum">
       <label>Width of space</label>
+      <choices>
+        <choice name="Wide">
+          <label>Wide</label>
+        </choice>
+        <choice name="Half">
+          <label>Half</label>
+        </choice>
+        <choice name="FollowMode">
+          <label>Follow input mode</label>
+        </choice>
+      </choices>
       <default>FollowMode</default>
     </entry>
-    <entry name="_IMEngine_Anthy_TenKeyType" key="/IMEngine/Anthy/TenKeyType" type="String">
+    <entry name="_IMEngine_Anthy_TenKeyType" key="/IMEngine/Anthy/TenKeyType" type="Enum">
       <label>Initial character width which is inputed by ten key</label>
+      <choices>
+        <choice name="Wide">
+          <label>Wide</label>
+        </choice>
+        <choice name="Half">
+          <label>Half</label>
+        </choice>
+        <choice name="FollowMode">
+          <label>Follow input mode</label>
+        </choice>
+      </choices>
       <default>FollowMode</default>
     </entry>
-    <entry name="_IMEngine_Anthy_BehaviorOnPeriod" key="/IMEngine/Anthy/BehaviorOnPeriod" type="String">
+    <entry name="_IMEngine_Anthy_BehaviorOnPeriod" key="/IMEngine/Anthy/BehaviorOnPeriod" type="Enum">
       <label>Specify behavior on inputting a period or comma</label>
+      <choices>
+        <choice name="None">
+          <label>Do nothing</label>
+        </choice>
+        <choice name="Convert">
+          <label>Start conversion</label>
+        </choice>
+        <choice name="Commit">
+          <label>Commit</label>
+        </choice>
+      </choices>
       <default>None</default>
     </entry>
 
@@ -405,8 +480,31 @@
     </entry>
 
 
-    <entry name="_IMEngine_Anthy_PreeditStyle" key="/IMEngine/Anthy/PreeditStyle" type="String">
+    <entry name="_IMEngine_Anthy_PreeditStyle" key="/IMEngine/Anthy/PreeditStyle" type="Enum">
       <label>Style of the preedit string</label>
+      <choices>
+        <choice name="None">
+          <label>No decoration</label>
+        </choice>
+        <choice name="Underline">
+          <label>Underline</label>
+        </choice>
+        <choice name="Reverse">
+          <label>Reverse</label>
+        </choice>
+        <choice name="Highlight">
+          <label>Highlight</label>
+        </choice>
+        <choice name="FGColor">
+          <label>String color</label>
+        </choice>
+        <choice name="BGColor">
+          <label>BG Color</label>
+        </choice>
+        <choice name="Color">
+          <label>Both Color</label>
+        </choice>
+      </choices>
       <default>Underline</default>
     </entry>
     <entry name="_IMEngine_Anthy_PreeditFGColor" key="/IMEngine/Anthy/PreeditFGColor" type="String">
@@ -417,8 +515,31 @@
       <label>Background color of the preedit string</label>
       <default>#FFFFFF</default>
     </entry>
-    <entry name="_IMEngine_Anthy_ConversionStyle" key="/IMEngine/Anthy/ConversionStyle" type="String">
+    <entry name="_IMEngine_Anthy_ConversionStyle" key="/IMEngine/Anthy/ConversionStyle" type="Enum">
       <label>Style of the conversion string</label>
+      <choices>
+        <choice name="None">
+          <label>No decoration</label>
+        </choice>
+        <choice name="Underline">
+          <label>Underline</label>
+        </choice>
+        <choice name="Reverse">
+          <label>Reverse</label>
+        </choice>
+        <choice name="Highlight">
+          <label>Highlight</label>
+        </choice>
+        <choice name="FGColor">
+          <label>String color</label>
+        </choice>
+        <choice name="BGColor">
+          <label>BG Color</label>
+        </choice>
+        <choice name="Color">
+          <label>Both Color</label>
+        </choice>
+      </choices>
       <default>Underline</default>
     </entry>
     <entry name="_IMEngine_Anthy_ConversionFGColor" key="/IMEngine/Anthy/ConversionFGColor" type="String">
@@ -429,8 +550,31 @@
       <label>Background color of the conversion string</label>
       <default>#FFFFFF</default>
     </entry>
-    <entry name="_IMEngine_Anthy_SelectedSegmentStyle" key="/IMEngine/Anthy/SelectedSegmentStyle" type="String">
+    <entry name="_IMEngine_Anthy_SelectedSegmentStyle" key="/IMEngine/Anthy/SelectedSegmentStyle" type="Enum">
       <label>Style of selected segment string</label>
+      <choices>
+        <choice name="None">
+          <label>No decoration</label>
+        </choice>
+        <choice name="Underline">
+          <label>Underline</label>
+        </choice>
+        <choice name="Reverse">
+          <label>Reverse</label>
+        </choice>
+        <choice name="Highlight">
+          <label>Highlight</label>
+        </choice>
+        <choice name="FGColor">
+          <label>String color</label>
+        </choice>
+        <choice name="BGColor">
+          <label>BG Color</label>
+        </choice>
+        <choice name="Color">
+          <label>Both Color</label>
+        </choice>
+      </choices>
       <default>Reverse</default>
     </entry>
     <entry name="_IMEngine_Anthy_SelectedSegmentFGColor" key="/IMEngine/Anthy/SelectedSegmentFGColor" type="String">
