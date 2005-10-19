@@ -58,7 +58,7 @@
                             </property>
                             <widget class="KComboBox" row="0" column="1">
                                 <property name="name">
-                                    <cstring>kcfg_IMEngine_Anthy_InputMode</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_InputMode</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -71,7 +71,7 @@
                             </widget>
                             <widget class="KComboBox" row="1" column="1">
                                 <property name="name">
-                                    <cstring>kcfg_IMEngine_Anthy_TypingMethod</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_TypingMethod</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -84,7 +84,7 @@
                             </widget>
                             <widget class="KComboBox" row="2" column="1">
                                 <property name="name">
-                                    <cstring>kcfg_IMEngine_Anthy_ConversionMode</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_ConversionMode</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -97,7 +97,7 @@
                             </widget>
                             <widget class="KComboBox" row="3" column="1">
                                 <property name="name">
-                                    <cstring>kcfg_IMEngine_Anthy_PeriodStyle</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_PeriodStyle</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -110,7 +110,7 @@
                             </widget>
                             <widget class="KComboBox" row="4" column="1">
                                 <property name="name">
-                                    <cstring>kcfg_IMEngine_Anthy_SpaceType</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_SpaceType</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -123,7 +123,7 @@
                             </widget>
                             <widget class="KComboBox" row="5" column="1">
                                 <property name="name">
-                                    <cstring>kcfg_IMEngine_Anthy_TenKeyType</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_TenKeyType</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -136,7 +136,7 @@
                             </widget>
                             <widget class="KComboBox" row="6" column="1">
                                 <property name="name">
-                                    <cstring>kcfg_IMEngine_Anthy_BehaviorOnPeriod</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_BehaviorOnPeriod</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -460,7 +460,7 @@
                             </widget>
                             <widget class="KLineEdit" row="0" column="1">
                                 <property name="name">
-                                    <cstring>kcfg_IMEngine_Anthy_DictAdminCommand</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_DictAdminCommand</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -473,7 +473,7 @@
                             </widget>
                             <widget class="KLineEdit" row="1" column="1">
                                 <property name="name">
-                                    <cstring>kcfg_IMEngine_Anthy_AddWordCommand</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_AddWordCommand</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>

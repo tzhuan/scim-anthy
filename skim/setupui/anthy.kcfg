@@ -73,7 +73,7 @@
           <label>,.</label>
         </choice>
       </choices>
-      <default>FollowMode</default>
+      <default>Japanese</default>
     </entry>
     <entry name="_IMEngine_Anthy_SpaceType" key="/IMEngine/Anthy/SpaceType" type="Enum">
       <label>Width of space</label>
