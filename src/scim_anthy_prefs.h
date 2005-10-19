@@ -48,7 +48,6 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND          "/IMEngine/Anthy/DictAdminCommand"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND            "/IMEngine/Anthy/AddWordCommand"
 
-#define SCIM_ANTHY_CONFIG_COLOR_THEME                 "/IMEngine/Anthy/ColorTheme"
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE            "/IMEngine/Anthy/ColorThemeFile"
 
 #define SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE          "/IMEngine/Anthy/CandWinPageSize"
@@ -170,7 +169,6 @@
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT          "kasumi"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT            "kasumi --add"
 
-#define SCIM_ANTHY_CONFIG_COLOR_THEME_DEFAULT                 "Default"
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE_DEFAULT            ""
 
 #define SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL_DEFAULT       true
