@@ -12,14 +12,14 @@
         <choice name="Katakana">
           <label>Katakana</label>
         </choice>
-        <choice name="Half width katakana">
-          <label>HalfKatakana</label>
+        <choice name="HalfKatakana">
+          <label>Half width katakana</label>
         </choice>
         <choice name="Latin">
           <label>Latin</label>
         </choice>
-        <choice name="Wide Latin">
-          <label>WideLatin</label>
+        <choice name="WideLatin">
+          <label>Wide Latin</label>
         </choice>
       </choices>
       <default>Hiragana</default>
