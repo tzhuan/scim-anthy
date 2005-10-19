@@ -63,6 +63,7 @@
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL       "/IMEngine/Anthy/ShowDictAdminLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL         "/IMEngine/Anthy/ShowAddWordLabel"
 
+#define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme"
 #define SCIM_ANTHY_CONFIG_KEY_THEME_FILE              "/IMEngine/Anthy/KeyThemeFile"
 
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY              "/IMEngine/Anthy/LatinModeKey"
@@ -183,6 +184,7 @@
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT       true
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT         true
 
+#define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default"
 #define SCIM_ANTHY_CONFIG_KEY_THEME_FILE_DEFAULT              ""
 
 #define SCIM_ANTHY_CONFIG_LATIN_MODE_KEY_DEFAULT              "Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan"

@@ -145,7 +145,11 @@
     </entry>
 
 
-    <entry name="_IMEngine_Anthy_KeyTheme" key="/IMEngine/Anthy/KeyThemeFile" type="String">
+    <entry name="_IMEngine_Anthy_KeyTheme" key="/IMEngine/Anthy/KeyTheme" type="String">
+      <label>Key bindings theme name to use as default</label>
+      <default>Default</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_KeyThemeFile" key="/IMEngine/Anthy/KeyThemeFile" type="String">
       <label>Key bindings theme file to use as default</label>
       <default></default>
     </entry>
