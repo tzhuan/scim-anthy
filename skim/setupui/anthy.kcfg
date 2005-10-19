@@ -75,8 +75,8 @@
     </entry>
 
 
-    <entry name="_IMEngine_Anthy_LearnOnManulCommit" key="/IMEngine/Anthy/LearnOnManualCommit" type="Bool">
-      <label>Learn the frequency of the commited word on manul committing</label>
+    <entry name="_IMEngine_Anthy_LearnOnManualCommit" key="/IMEngine/Anthy/LearnOnManualCommit" type="Bool">
+      <label>Learn the frequency of the commited word on manual committing</label>
       <default>true</default>
     </entry>
     <entry name="_IMEngine_Anthy_LearnOnAutoCommit" key="/IMEngine/Anthy/LearnOnAutoCommit" type="Bool">
@@ -95,9 +95,9 @@
     </entry>
 
 
-    <entry name="_IMEngine_Anthy_ColorTheme" key="/IMEngine/Anthy/ColorThemeFile" type="String">
-      <label>Name of preedit color theme to use</label>
-      <default>Default</default>
+    <entry name="_IMEngine_Anthy_ColorThemeFile" key="/IMEngine/Anthy/ColorThemeFile" type="String">
+      <label>Preedit color theme file to use</label>
+      <default></default>
     </entry>
 
 
