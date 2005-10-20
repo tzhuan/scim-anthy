@@ -61,16 +61,16 @@
       <label>Initial character type of period and comma style</label>
       <choices>
         <choice name="Japanese">
-          <label>、。</label>
+          <label>Japanese comma &amp; period</label>
         </choice>
         <choice name="WideLatin_Japanese">
-          <label>，。</label>
+          <label>Wide ASCII comma, Japanese period</label>
         </choice>
         <choice name="WideLatin">
-          <label>，．</label>
+          <label>Wide ASCII comma &amp; period</label>
         </choice>
         <choice name="Latin">
-          <label>, .</label>
+          <label>ASCII comma &amp; period</label>
         </choice>
       </choices>
       <default>Japanese</default>
