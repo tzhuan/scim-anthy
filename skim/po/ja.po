@@ -1,17 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# scim-anthy
+# Copyright (C) 2005 Takuro Ashie <ashie@homa.ne.jp>
+# This file is distributed under the same license as the scim-anthy package.
+# Takuro Ashie <ashie@homa.ne.jp>, 2005.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: scim-anthy\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-20 19:52+0900\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2005-10-20 22:05+900\n"
+"Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
+"Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,102 +33,91 @@ msgstr "モード"
 
 #: ../setupui/anthyui.cpp:650
 msgid "Hiragana"
-msgstr ""
+msgstr "ひらがな"
 
 #: ../setupui/anthyui.cpp:651
 msgid "Katakana"
-msgstr ""
+msgstr "かたかな"
 
 #: ../setupui/anthyui.cpp:652
 msgid "Half width katakana"
-msgstr ""
+msgstr "半角カタカナ"
 
 #: ../setupui/anthyui.cpp:653
 msgid "Latin"
-msgstr ""
+msgstr "英数"
 
 #: ../setupui/anthyui.cpp:654
 msgid "Wide Latin"
-msgstr ""
+msgstr "全角英数"
 
 #: ../setupui/anthyui.cpp:656
-#, fuzzy
 msgid "Romaji typing method"
-msgstr "入力方式(&T):"
+msgstr "ローマ字入力方式"
 
 #: ../setupui/anthyui.cpp:657
-#, fuzzy
 msgid "Kana typing method"
-msgstr "入力方式(&T):"
+msgstr "かな入力方式"
 
 #: ../setupui/anthyui.cpp:658
-#, fuzzy
 msgid "Thumb shift typing method"
-msgstr "入力方式(&T):"
+msgstr "親指シフト入力方式"
 
 #: ../setupui/anthyui.cpp:660
-#, fuzzy
 msgid "Multi segment"
-msgstr "選択文節:"
+msgstr "連文節"
 
 #: ../setupui/anthyui.cpp:661
-#, fuzzy
 msgid "Single segment"
-msgstr "選択文節:"
+msgstr "単文節"
 
 #: ../setupui/anthyui.cpp:662
 msgid "Convert as you type (Multi segment)"
-msgstr ""
+msgstr "逐次変換(連文節)"
 
 #: ../setupui/anthyui.cpp:663
 msgid "Convert as you type (Single segment)"
-msgstr ""
+msgstr "逐次変換(単文節)"
 
 #: ../setupui/anthyui.cpp:665
-#, fuzzy
 msgid "Japanese comma & period"
-msgstr "句読点入力時の挙動(&V)"
+msgstr "、。"
 
 #: ../setupui/anthyui.cpp:666
-#, fuzzy
 msgid "Wide ASCII comma, Japanese period"
-msgstr "句読点のスタイル(&C):"
+msgstr "，。"
 
 #: ../setupui/anthyui.cpp:667
-#, fuzzy
 msgid "Wide ASCII comma & period"
-msgstr "句読点のスタイル(&C):"
+msgstr "，．"
 
 #: ../setupui/anthyui.cpp:668
-#, fuzzy
 msgid "ASCII comma & period"
-msgstr "句読点のスタイル(&C):"
+msgstr ", ."
 
 #: ../setupui/anthyui.cpp:670 ../setupui/anthyui.cpp:674
 msgid "Wide"
-msgstr ""
+msgstr "全角"
 
 #: ../setupui/anthyui.cpp:671 ../setupui/anthyui.cpp:675
 msgid "Half"
-msgstr ""
+msgstr "半角"
 
 #: ../setupui/anthyui.cpp:672 ../setupui/anthyui.cpp:676
-#, fuzzy
 msgid "Follow input mode"
-msgstr "入力モードラベルを表示(&U)"
+msgstr "入力モードに従う"
 
 #: ../setupui/anthyui.cpp:678
 msgid "Do nothing"
-msgstr ""
+msgstr "何もしない"
 
 #: ../setupui/anthyui.cpp:679
 msgid "Start conversion"
-msgstr ""
+msgstr "変換を開始する"
 
 #: ../setupui/anthyui.cpp:680
-#, fuzzy
 msgid "Commit"
-msgstr "確定(&I):"
+msgstr "確定"
 
 #: ../setupui/anthyui.cpp:681
 msgid "Con&version mode:"
@@ -172,9 +160,8 @@ msgid "\"Add &word\" command:"
 msgstr "単語追加コマンド(&W):"
 
 #: ../setupui/anthyui.cpp:691
-#, fuzzy
 msgid "Laun&ch"
-msgstr "起動(&N)"
+msgstr "起動(&C)"
 
 #: ../setupui/anthyui.cpp:692 ../setupui/anthyui.cpp:699
 #: ../setupui/anthyui.cpp:712 ../setupui/anthyui.cpp:738
@@ -311,9 +298,8 @@ msgid "&Commit the first segment:"
 msgstr "最初の文節を確定(&C)"
 
 #: ../setupui/anthyui.cpp:732
-#, fuzzy
 msgid "Commit the selecte&d segment:"
-msgstr "選択文節を確定(&S)"
+msgstr "選択文節を確定(&D):"
 
 #: ../setupui/anthyui.cpp:733
 msgid "Learn&ing"
@@ -392,55 +378,51 @@ msgid "Pa&nel"
 msgstr "パネル(&N)"
 
 #: ../setupui/anthyui.cpp:757
-#, fuzzy
 msgid "Pree&dit string:"
-msgstr "編集文字列:"
+msgstr "編集文字列(&D):"
 
 #: ../setupui/anthyui.cpp:758
 msgid "Selected segment:"
 msgstr "選択文節:"
 
 #: ../setupui/anthyui.cpp:759
-#, fuzzy
 msgid "&Conversion string:"
-msgstr "変換文字列:"
+msgstr "変換文字列(&C):"
 
 #: ../setupui/anthyui.cpp:761 ../setupui/anthyui.cpp:769
 #: ../setupui/anthyui.cpp:777
 msgid "No decoration"
-msgstr ""
+msgstr "装飾無し"
 
 #: ../setupui/anthyui.cpp:762 ../setupui/anthyui.cpp:770
 #: ../setupui/anthyui.cpp:778
 msgid "Underline"
-msgstr ""
+msgstr "下線"
 
 #: ../setupui/anthyui.cpp:763 ../setupui/anthyui.cpp:771
 #: ../setupui/anthyui.cpp:779
 msgid "Reverse"
-msgstr ""
+msgstr "反転"
 
 #: ../setupui/anthyui.cpp:764 ../setupui/anthyui.cpp:772
 #: ../setupui/anthyui.cpp:780
 msgid "Highlight"
-msgstr ""
+msgstr "強調"
 
 #: ../setupui/anthyui.cpp:765 ../setupui/anthyui.cpp:773
 #: ../setupui/anthyui.cpp:781
 msgid "String color"
-msgstr ""
+msgstr "文字色"
 
 #: ../setupui/anthyui.cpp:766 ../setupui/anthyui.cpp:774
 #: ../setupui/anthyui.cpp:782
-#, fuzzy
 msgid "BG Color"
-msgstr "色:"
+msgstr "背景色"
 
 #: ../setupui/anthyui.cpp:767 ../setupui/anthyui.cpp:775
 #: ../setupui/anthyui.cpp:783
-#, fuzzy
 msgid "Both Color"
-msgstr "色:"
+msgstr "文字色/背景色"
 
 #: ../setupui/anthyui.cpp:784 ../setupui/anthyui.cpp:785
 #: ../setupui/anthyui.cpp:786
