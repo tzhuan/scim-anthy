@@ -732,6 +732,9 @@
                         <property name="name">
                             <cstring>pushButton3</cstring>
                         </property>
+                        <property name="enabled">
+                            <bool>false</bool>
+                        </property>
                         <property name="text">
                             <string>&amp;Choose keys...</string>
                         </property>
@@ -743,10 +746,16 @@
                         <property name="name">
                             <cstring>kLineEdit3</cstring>
                         </property>
+                        <property name="enabled">
+                            <bool>false</bool>
+                        </property>
                     </widget>
                     <widget class="SkimEditShortcutButton" row="0" column="6">
                         <property name="name">
                             <cstring>punctButton1</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>false</bool>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
@@ -2192,6 +2201,60 @@
         <sender>RightThumbShiftKey_Button</sender>
         <signal>setEditorText(const QString&amp;)</signal>
         <receiver>kcfg__IMEngine_Anthy_RightThumbShiftKey</receiver>
+        <slot>setFocus()</slot>
+    </connection>
+    <connection>
+        <sender>CommitReverseLearnKey_Button</sender>
+        <signal>setEditorText(const QString&amp;)</signal>
+        <receiver>kcfg__IMEngine_Anthy_CommitReverseLearnKey</receiver>
+        <slot>setText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>kcfg__IMEngine_Anthy_CommitReverseLearnKey</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>CommitReverseLearnKey_Button</receiver>
+        <slot>setShortcuts(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>CommitReverseLearnKey_Button</sender>
+        <signal>setEditorText(const QString&amp;)</signal>
+        <receiver>kcfg__IMEngine_Anthy_CommitReverseLearnKey</receiver>
+        <slot>setFocus()</slot>
+    </connection>
+    <connection>
+        <sender>CommitFirstSegmentReverseLearnKey_Button</sender>
+        <signal>setEditorText(const QString&amp;)</signal>
+        <receiver>kcfg__IMEngine_Anthy_CommitFirstSegmentReverseLearnKey</receiver>
+        <slot>setText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>kcfg__IMEngine_Anthy_CommitFirstSegmentReverseLearnKey</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>CommitFirstSegmentReverseLearnKey_Button</receiver>
+        <slot>setShortcuts(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>CommitFirstSegmentReverseLearnKey_Button</sender>
+        <signal>setEditorText(const QString&amp;)</signal>
+        <receiver>kcfg__IMEngine_Anthy_CommitFirstSegmentReverseLearnKey</receiver>
+        <slot>setFocus()</slot>
+    </connection>
+    <connection>
+        <sender>CommitSelectedSegmentReverseLearnKey_Button</sender>
+        <signal>setEditorText(const QString&amp;)</signal>
+        <receiver>kcfg__IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey</receiver>
+        <slot>setText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>kcfg__IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>CommitSelectedSegmentReverseLearnKey_Button</receiver>
+        <slot>setShortcuts(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>CommitSelectedSegmentReverseLearnKey_Button</sender>
+        <signal>setEditorText(const QString&amp;)</signal>
+        <receiver>kcfg__IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey</receiver>
         <slot>setFocus()</slot>
     </connection>
 </connections>
