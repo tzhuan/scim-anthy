@@ -88,7 +88,7 @@ extern "C" {
 
         try {
             factory = new AnthyFactory (String ("ja_JP"),
-                                        String ("fffb6633-7041-428e-9dfc-139117a71b6e"),
+                                        String ("065d7b20-dda2-47fb-8f94-3306d9a25e56"),
                                         _scim_config);
         } catch (...) {
             delete factory;
