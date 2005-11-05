@@ -248,29 +248,41 @@
     </entry>
 
 
-    <entry name="_IMEngine_Anthy_LatinModeKey" key="/IMEngine/Anthy/LatinModeKey" type="String">
+    <entry name="_IMEngine_Anthy_OnOffKey" key="/IMEngine/Anthy/OnOffKey" type="String">
       <label>The key events to toggle latin mode</label>
-      <default>Zenkaku_Hankaku,Control+j,Control+J,Control+comma,Control+less,Muhenkan,Henkan</default>
+      <default>Zenkaku_Hankaku,Control+j,Control+J</default>
     </entry>
-    <entry name="_IMEngine_Anthy_WideLatinModeKey" key="/IMEngine/Anthy/WideLatinModeKey" type="String">
-      <label>The key events to toggle wide latin mode</label>
-      <default></default>
+    <entry name="_IMEngine_Anthy_CircleInputModeKey" key="/IMEngine/Anthy/CircleInputModeKey" type="String">
+      <label>The key events to input kana mode</label>
+      <default>Control+comma,Control+less</default>
     </entry>
     <entry name="_IMEngine_Anthy_CircleKanaModeKey" key="/IMEngine/Anthy/CircleKanaModeKey" type="String">
       <label>The key events to circle kana mode</label>
       <default>Control+period,Control+greater,Hiragana_Katakana</default>
     </entry>
+    <entry name="_IMEngine_Anthy_LatinModeKey" key="/IMEngine/Anthy/LatinModeKey" type="String">
+      <label>The key events to switch input mode to Latin</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_WideLatinModeKey" key="/IMEngine/Anthy/WideLatinModeKey" type="String">
+      <label>The key events to switch input mode to wide Latin</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_HiraganaModeKey" key="/IMEngine/Anthy/HiraganaModeKey" type="String">
+      <label>The key events to switch input mode to hiragana</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_KatakanaModeKey" key="/IMEngine/Anthy/KatakanaModeKey" type="String">
+      <label>The key events to switch input mode to katakana</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_HalfKatakanaModeKey" key="/IMEngine/Anthy/HalfKatakanaModeKey" type="String">
+      <label>The key events to switch input mode to half katakana</label>
+      <default></default>
+    </entry>
     <entry name="_IMEngine_Anthy_CircleTypingMethodKey" key="/IMEngine/Anthy/CircleTypingMethodKey" type="String">
       <label>The key events to circle typing method</label>
       <default>Alt+Romaji</default>
-    </entry>
-    <entry name="_IMEngine_Anthy_HiraganaModeKey" key="/IMEngine/Anthy/HiraganaModeKey" type="String">
-      <label>The key events to switch to hiragana mode</label>
-      <default>Hiragana_Katakana</default>
-    </entry>
-    <entry name="_IMEngine_Anthy_KatakanaModeKey" key="/IMEngine/Anthy/KatakanaModeKey" type="String">
-      <label>The key events to switch to katakana mode</label>
-      <default>Shift+Hiragana_Katakana</default>
     </entry>
 
 
