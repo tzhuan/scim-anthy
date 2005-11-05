@@ -1,3 +1,13 @@
+2005-11-05 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_prefs.{cpp,h}, src/scim_anthy_imengine.{cpp,h},
+	  src/scim_anthy_factgory.cpp: Change & add some key bindings.
+	Now previous "LatinModeKey" is renamed to "OnOffKey". Please reset your
+	configuration if you use non-default key bindings.
+	* data/atok.sty, data/canna.sty, data/msime.sty, data/vje-delta.sty,
+	  data/wnn.sty:
+	Sync with new key bindings.
+
 2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
 
 	* data/nicola-a.sty, data/nicola-j.sty, data/oasys100j.sty:

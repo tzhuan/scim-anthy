@@ -335,12 +335,15 @@ ANTHY_DEFINE_ACTION (action_convert_to_half);
 ANTHY_DEFINE_ACTION (action_convert_to_half_katakana);
 ANTHY_DEFINE_ACTION (action_convert_to_latin);
 ANTHY_DEFINE_ACTION (action_convert_to_wide_latin);
-ANTHY_DEFINE_ACTION (action_toggle_latin_mode);
-ANTHY_DEFINE_ACTION (action_toggle_wide_latin_mode);
+ANTHY_DEFINE_ACTION (action_on_off);
+ANTHY_DEFINE_ACTION (action_circle_input_mode);
 ANTHY_DEFINE_ACTION (action_circle_kana_mode);
 ANTHY_DEFINE_ACTION (action_circle_typing_method);
+ANTHY_DEFINE_ACTION (action_latin_mode);
+ANTHY_DEFINE_ACTION (action_wide_latin_mode);
 ANTHY_DEFINE_ACTION (action_hiragana_mode);
 ANTHY_DEFINE_ACTION (action_katakana_mode);
+ANTHY_DEFINE_ACTION (action_half_katakana_mode);
 ANTHY_DEFINE_ACTION (action_launch_dict_admin_tool);
 ANTHY_DEFINE_ACTION (action_add_word);
 
@@ -585,12 +588,15 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     APPEND_ACTION (INSERT_WIDE_SPACE,       action_insert_wide_space);
 
     // mode keys
-    APPEND_ACTION (LATIN_MODE,              action_toggle_latin_mode);
-    APPEND_ACTION (WIDE_LATIN_MODE,         action_toggle_wide_latin_mode);
+    APPEND_ACTION (ON_OFF,                  action_on_off);
+    APPEND_ACTION (CIRCLE_INPUT_MODE,       action_circle_input_mode);
     APPEND_ACTION (CIRCLE_KANA_MODE,        action_circle_kana_mode);
     APPEND_ACTION (CIRCLE_TYPING_METHOD,    action_circle_typing_method);
+    APPEND_ACTION (LATIN_MODE,              action_latin_mode);
+    APPEND_ACTION (WIDE_LATIN_MODE,         action_wide_latin_mode);
     APPEND_ACTION (HIRAGANA_MODE,           action_hiragana_mode);
     APPEND_ACTION (KATAKANA_MODE,           action_katakana_mode);
+    APPEND_ACTION (HALF_KATAKANA_MODE,      action_half_katakana_mode);
 
     // dict keys
     APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);

@@ -41,6 +41,8 @@ SCIMの機能:
   単語登録                     Ctrl+F7
 
 追加予定の機能:
+  再変換                       Shift+Henkan
+
   部首変換                     Shift+F6
 
   1音確定                      Shift+Down
@@ -72,7 +74,6 @@ SCIMの機能:
 追加予定にない機能:
   省入力変換                   Tab
 
-  再変換                       Shift+Henkan
   連想変換                     Ctrl+Tab
 
   辞書セット2変換              F2

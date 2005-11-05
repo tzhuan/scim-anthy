@@ -1406,7 +1406,7 @@ AnthyInstance::action_select_candidate_10 (void)
 bool
 AnthyInstance::action_circle_input_mode (void)
 {
-    InputMode mode = SCIM_ANTHY_MODE_HIRAGANA;
+    InputMode mode = get_input_mode ();
 
     switch (mode) {
     case SCIM_ANTHY_MODE_HIRAGANA:
@@ -1482,7 +1482,7 @@ AnthyInstance::action_circle_kana_mode (void)
 }
 
 bool
-AnthyInstance::action_toggle_latin_mode (void)
+AnthyInstance::action_on_off (void)
 {
     if (get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
         get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
@@ -1499,17 +1499,16 @@ AnthyInstance::action_toggle_latin_mode (void)
 }
 
 bool
-AnthyInstance::action_toggle_wide_latin_mode (void)
+AnthyInstance::action_latin_mode (void)
 {
-    if (get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
-        get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
-    {
-        set_input_mode (m_prev_input_mode);
-    } else {
-        m_prev_input_mode = get_input_mode ();
-        set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
-    }
+    set_input_mode (SCIM_ANTHY_MODE_LATIN);
+    return true;
+}
 
+bool
+AnthyInstance::action_wide_latin_mode (void)
+{
+    set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
     return true;
 }
 
@@ -1524,6 +1523,13 @@ bool
 AnthyInstance::action_katakana_mode (void)
 {
     set_input_mode (SCIM_ANTHY_MODE_KATAKANA);
+    return true;
+}
+
+bool
+AnthyInstance::action_half_katakana_mode (void)
+{
+    set_input_mode (SCIM_ANTHY_MODE_HALF_KATAKANA);
     return true;
 }
 

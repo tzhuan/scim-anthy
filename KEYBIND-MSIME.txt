@@ -54,6 +54,8 @@ SCIMの機能:
   On/Off                       半角/全角
 
 追加予定の機能:
+  再変換                       変換, F13
+
   英数全角/半角モード切替え    Shift+無変換
 
   一文字確定                   Shift+下
@@ -70,7 +72,6 @@ SCIMの機能:
 
 追加予定にない機能:
   確定取り消し                 Ctrl+BackSpace
-  再変換                       変換, F13
   ポップアップメニュー         Ctrl+変換, Ctrl+F10
   読み候補                     Ctrl+変換, F13
   候補一覧のメニュー           AppsKey, Shift+F10

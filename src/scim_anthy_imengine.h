@@ -127,13 +127,17 @@ public:
     bool   action_convert_char_type_forward   (void);
     bool   action_convert_char_type_backward  (void);
 
+    bool   action_on_off               (void);
+
     bool   action_circle_input_mode           (void);
-    bool   action_circle_typing_method        (void);
     bool   action_circle_kana_mode            (void);
-    bool   action_toggle_latin_mode           (void);
-    bool   action_toggle_wide_latin_mode      (void);
+    bool   action_circle_typing_method        (void);
+
+    bool   action_latin_mode                  (void);
+    bool   action_wide_latin_mode             (void);
     bool   action_hiragana_mode               (void);
     bool   action_katakana_mode               (void);
+    bool   action_half_katakana_mode          (void);
 
     bool   action_add_word                    (void);
     bool   action_launch_dict_admin_tool      (void);
