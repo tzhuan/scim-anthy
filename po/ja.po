@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-10-16 23:42+0000\n"
+"POT-Creation-Date: 2005-11-06 13:25+0900\n"
 "PO-Revision-Date: 2005-10-14 22:48+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,101 +13,101 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:262 src/scim_anthy_imengine.cpp:417
+#: src/scim_anthy_imengine.cpp:303 src/scim_anthy_imengine.cpp:458
 #, c-format
 msgid "Candidates (%d/%d)"
 msgstr "候補一覧 (%d/%d)"
 
-#: src/scim_anthy_imengine.cpp:446
+#: src/scim_anthy_imengine.cpp:487
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:450 src/scim_anthy_setup.cpp:202
+#: src/scim_anthy_imengine.cpp:491 src/scim_anthy_setup.cpp:202
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:454 src/scim_anthy_setup.cpp:203
+#: src/scim_anthy_imengine.cpp:495 src/scim_anthy_setup.cpp:203
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:458 src/scim_anthy_imengine.cpp:459
+#: src/scim_anthy_imengine.cpp:499 src/scim_anthy_imengine.cpp:500
 #: src/scim_anthy_setup.cpp:204
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:463 src/scim_anthy_setup.cpp:205
+#: src/scim_anthy_imengine.cpp:504 src/scim_anthy_setup.cpp:205
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:463
+#: src/scim_anthy_imengine.cpp:504
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:467 src/scim_anthy_setup.cpp:206
+#: src/scim_anthy_imengine.cpp:508 src/scim_anthy_setup.cpp:206
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:473
+#: src/scim_anthy_imengine.cpp:514
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:477
+#: src/scim_anthy_imengine.cpp:518
 msgid "Romaji"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:481
+#: src/scim_anthy_imengine.cpp:522
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:485
+#: src/scim_anthy_imengine.cpp:526
 msgid "Thumb shift"
 msgstr "親指シフト"
 
-#: src/scim_anthy_imengine.cpp:492
+#: src/scim_anthy_imengine.cpp:533
 msgid "Conversion mode"
 msgstr "変換モード"
 
-#: src/scim_anthy_imengine.cpp:496 src/scim_anthy_imengine.cpp:497
+#: src/scim_anthy_imengine.cpp:537 src/scim_anthy_imengine.cpp:538
 #: src/scim_anthy_setup.cpp:220
 msgid "Multi segment"
 msgstr "連文節"
 
-#: src/scim_anthy_imengine.cpp:501 src/scim_anthy_imengine.cpp:502
+#: src/scim_anthy_imengine.cpp:542 src/scim_anthy_imengine.cpp:543
 #: src/scim_anthy_setup.cpp:221
 msgid "Single segment"
 msgstr "単文節"
 
-#: src/scim_anthy_imengine.cpp:506 src/scim_anthy_imengine.cpp:508
+#: src/scim_anthy_imengine.cpp:547 src/scim_anthy_imengine.cpp:549
 #: src/scim_anthy_setup.cpp:222
 msgid "Convert as you type (Multi segment)"
 msgstr "逐次変換(連文節)"
 
-#: src/scim_anthy_imengine.cpp:512 src/scim_anthy_imengine.cpp:514
+#: src/scim_anthy_imengine.cpp:553 src/scim_anthy_imengine.cpp:555
 #: src/scim_anthy_setup.cpp:223
 msgid "Convert as you type (Single segment)"
 msgstr "逐次変換(単文節)"
 
-#: src/scim_anthy_imengine.cpp:521
+#: src/scim_anthy_imengine.cpp:562
 msgid "Period style"
 msgstr "句読点スタイル"
 
-#: src/scim_anthy_imengine.cpp:548
+#: src/scim_anthy_imengine.cpp:589
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:553
+#: src/scim_anthy_imengine.cpp:594
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:555
+#: src/scim_anthy_imengine.cpp:596
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:561 src/scim_anthy_prefs.cpp:1065
+#: src/scim_anthy_imengine.cpp:602 src/scim_anthy_prefs.cpp:1095
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:563
+#: src/scim_anthy_imengine.cpp:604
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
@@ -1122,115 +1122,151 @@ msgid "The key events to convert the preedit string to latin. "
 msgstr "文字列を英数へ変換するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:981
+msgid "Toggle on/off"
+msgstr "ON/OFF切り替え"
+
+#: src/scim_anthy_prefs.cpp:982
+msgid "Select toggle on/off keys"
+msgstr "ON/OFFキーの設定"
+
+#: src/scim_anthy_prefs.cpp:983
+msgid "The key events to toggle on/off Japanese mode. "
+msgstr "日本語モードをオン/オフするキーイベント"
+
+#: src/scim_anthy_prefs.cpp:991
+msgid "Circle input mode"
+msgstr "入力モード循環"
+
+#: src/scim_anthy_prefs.cpp:992
+msgid "Select circle input mode keys"
+msgstr "入力モード循環キーの設定"
+
+#: src/scim_anthy_prefs.cpp:993
+msgid "The key events to circle input mode. "
+msgstr "次の入力モードを選択するキーイベント"
+
+#: src/scim_anthy_prefs.cpp:1001
 msgid "Circle kana mode"
 msgstr "かなモード循環"
 
-#: src/scim_anthy_prefs.cpp:982
+#: src/scim_anthy_prefs.cpp:1002
 msgid "Select circle kana mode keys"
 msgstr "かなモード循環キーの設定"
 
-#: src/scim_anthy_prefs.cpp:983
+#: src/scim_anthy_prefs.cpp:1003
 msgid "The key events to circle kana mode. "
 msgstr "次のかなモードを選択するキーイベント"
 
-#: src/scim_anthy_prefs.cpp:991
+#: src/scim_anthy_prefs.cpp:1011
 msgid "Latin mode"
 msgstr "英数モード"
 
-#: src/scim_anthy_prefs.cpp:992
-msgid "Select latin mode keys"
+#: src/scim_anthy_prefs.cpp:1012
+msgid "Select Latin mode keys"
 msgstr "英数モードキーの設定"
 
-#: src/scim_anthy_prefs.cpp:993
-msgid "The key events to toggle latin mode. "
-msgstr "英数モードをオン/オフするキーイベント"
+#: src/scim_anthy_prefs.cpp:1013
+msgid "The key events to switch input mode to Latin. "
+msgstr "英数モードへ切り替えるキーイベント"
 
-#: src/scim_anthy_prefs.cpp:1001
-msgid "Wide latin mode"
+#: src/scim_anthy_prefs.cpp:1021
+msgid "Wide Latin mode"
 msgstr "全角英数モード"
 
-#: src/scim_anthy_prefs.cpp:1002
-msgid "Select wide latin mode keys"
+#: src/scim_anthy_prefs.cpp:1022
+msgid "Select wide Latin mode keys"
 msgstr "全角英数モードキーの設定"
 
-#: src/scim_anthy_prefs.cpp:1003
-msgid "The key events to toggle wide latin mode. "
-msgstr "全角英数モードをオン/オフするキーイベント"
+#: src/scim_anthy_prefs.cpp:1023
+msgid "The key events to switch input mode to wide Latin. "
+msgstr "全角英数モードへ切り替えるキーイベント"
 
-#: src/scim_anthy_prefs.cpp:1011
+#: src/scim_anthy_prefs.cpp:1031
 msgid "Hiragana mode"
 msgstr "ひらがなモード"
 
-#: src/scim_anthy_prefs.cpp:1012
+#: src/scim_anthy_prefs.cpp:1032
 msgid "Select hiragana mode keys"
 msgstr "ひらがなモードキーの設定"
 
-#: src/scim_anthy_prefs.cpp:1013
-msgid "The key events to switch to hiragana mode. "
-msgstr "ひらがなモードへ切替えるキーイベント"
+#: src/scim_anthy_prefs.cpp:1033
+msgid "The key events to switch input mode to hiragana. "
+msgstr "ひらがなモードへ切り替えるキーイベント"
 
-#: src/scim_anthy_prefs.cpp:1021
+#: src/scim_anthy_prefs.cpp:1041
 msgid "Katakana mode"
 msgstr "カタカナモード"
 
-#: src/scim_anthy_prefs.cpp:1022
+#: src/scim_anthy_prefs.cpp:1042
 msgid "Select katakana mode keys"
 msgstr "カタカナモードキーの設定"
 
-#: src/scim_anthy_prefs.cpp:1023
-msgid "The key events to switch to katakana mode. "
-msgstr "カタカナモードキーへ切替えるキーイベント"
+#: src/scim_anthy_prefs.cpp:1043
+msgid "The key events to switch input mode to katakana. "
+msgstr "カタカナモードキーへ切り替えるキーイベント"
 
-#: src/scim_anthy_prefs.cpp:1031
+#: src/scim_anthy_prefs.cpp:1051
+msgid "Half katakana mode"
+msgstr "半角カタカナモード"
+
+#: src/scim_anthy_prefs.cpp:1052
+msgid "Select half katakana mode keys"
+msgstr "半角カタカナモードキーの設定"
+
+#: src/scim_anthy_prefs.cpp:1053
+msgid "The key events to switch input mode to half katakana. "
+msgstr "半角カタカナモードキーへ切り替えるキーイベント"
+
+#: src/scim_anthy_prefs.cpp:1061
 msgid "Circle typing method"
-msgstr "入力方式切替え"
+msgstr "入力方式切り替え"
 
-#: src/scim_anthy_prefs.cpp:1032
+#: src/scim_anthy_prefs.cpp:1062
 msgid "Select circle typing method keys"
-msgstr "入力方式切替えキーの設定"
+msgstr "入力方式切り替えキーの設定"
 
-#: src/scim_anthy_prefs.cpp:1033
+#: src/scim_anthy_prefs.cpp:1063
 msgid "The key events to circle typing method. "
-msgstr "入力方式を切替えるキーイベント"
+msgstr "入力方式を切り替えるキーイベント"
 
-#: src/scim_anthy_prefs.cpp:1055
+#: src/scim_anthy_prefs.cpp:1085
 msgid "Edit dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_prefs.cpp:1056
+#: src/scim_anthy_prefs.cpp:1086
 msgid "Select edit dictionary keys"
 msgstr "辞書編集キーの設定"
 
-#: src/scim_anthy_prefs.cpp:1057
+#: src/scim_anthy_prefs.cpp:1087
 msgid "The key events to launch dictionary administration tool. "
 msgstr "辞書管理ツールを起動するキーイベント"
 
-#: src/scim_anthy_prefs.cpp:1066
+#: src/scim_anthy_prefs.cpp:1096
 msgid "Select add a word keys"
 msgstr "単語追加キーの設定"
 
-#: src/scim_anthy_prefs.cpp:1067
+#: src/scim_anthy_prefs.cpp:1097
 msgid "The key events to launch the tool to add a word. "
 msgstr "単語追加ツールを起動するキーイベント"
 
-#: src/scim_anthy_prefs.cpp:1092 src/scim_anthy_prefs.cpp:1105
-#: src/scim_anthy_prefs.cpp:1118
+#: src/scim_anthy_prefs.cpp:1122 src/scim_anthy_prefs.cpp:1135
+#: src/scim_anthy_prefs.cpp:1148
 msgid "Color:"
 msgstr "色:"
 
-#: src/scim_anthy_prefs.cpp:1093 src/scim_anthy_prefs.cpp:1094
+#: src/scim_anthy_prefs.cpp:1123 src/scim_anthy_prefs.cpp:1124
 msgid "The color of preediting text"
 msgstr "編集文字列の色"
 
-#: src/scim_anthy_prefs.cpp:1106 src/scim_anthy_prefs.cpp:1107
+#: src/scim_anthy_prefs.cpp:1136 src/scim_anthy_prefs.cpp:1137
 msgid "The color of conversion text"
 msgstr "変換文字列の色"
 
-#: src/scim_anthy_prefs.cpp:1119
+#: src/scim_anthy_prefs.cpp:1149
 msgid "The color of selected segment text"
 msgstr "選択文節の色"
 
-#: src/scim_anthy_prefs.cpp:1120
+#: src/scim_anthy_prefs.cpp:1150
 msgid "The color of selected segment text in the conversion text"
 msgstr "変換文字列内の選択文節の色"
 
@@ -1241,6 +1277,9 @@ msgstr "前景色"
 #: src/scim_color_button.cpp:320
 msgid "Background color"
 msgstr "背景色"
+
+#~ msgid "The key events to toggle wide latin mode. "
+#~ msgstr "全角英数モードをオン/オフするキーイベント"
 
 #~ msgid "La_yout (Not implemented yet):"
 #~ msgstr "レイアウト(未実装)(_Y):"
