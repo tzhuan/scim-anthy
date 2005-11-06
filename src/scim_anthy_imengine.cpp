@@ -216,9 +216,50 @@ AnthyInstance::process_key_event (const KeyEvent& key)
         if (process_key_event_without_preedit(key))
             return true;
 
-    // for Multi/Dead key
-    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN)
+    // for Latin mode
+    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN) {
+        if (key.is_key_release ())
+            return false;
+
+        if (util_key_is_keypad (key)) {
+            String str;
+            WideString wide;
+            util_keypad_to_string (str, key);
+            if (m_factory->m_ten_key_type == "Wide")
+                util_convert_to_wide (wide, str);
+            else
+                wide = utf8_mbstowcs (str);
+            if (wide.length () > 0) {
+                commit_string (wide);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            // for Multi/Dead key
+            return false;
+        }
+    }
+
+    // for wide Latin mode
+    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN) {
+        if (key.is_key_release ())
+            return false;
+
+        String str;
+        WideString wide;
+        util_keypad_to_string (str, key);
+        if (util_key_is_keypad (key) && m_factory->m_ten_key_type == "Half")
+            wide = utf8_mbstowcs (str);
+        else
+            util_convert_to_wide (wide, str);
+        if (wide.length () > 0) {
+            commit_string (wide);
+            return true;
+        }
+
         return false;
+    }
 
     // for input key event
     if (get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA ||

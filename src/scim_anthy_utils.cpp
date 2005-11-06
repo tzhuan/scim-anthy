@@ -180,6 +180,92 @@ util_create_attributes (AttributeList &attrs,
     }
 }
 
+bool
+util_key_is_keypad (const KeyEvent &key)
+{
+    switch (key.code) {
+    case SCIM_KEY_KP_Equal:
+    case SCIM_KEY_KP_Multiply:
+    case SCIM_KEY_KP_Add:
+    case SCIM_KEY_KP_Separator:
+    case SCIM_KEY_KP_Subtract:
+    case SCIM_KEY_KP_Decimal:
+    case SCIM_KEY_KP_Divide:
+    case SCIM_KEY_KP_0:
+    case SCIM_KEY_KP_1:
+    case SCIM_KEY_KP_2:
+    case SCIM_KEY_KP_3:
+    case SCIM_KEY_KP_4:
+    case SCIM_KEY_KP_5:
+    case SCIM_KEY_KP_6:
+    case SCIM_KEY_KP_7:
+    case SCIM_KEY_KP_8:
+    case SCIM_KEY_KP_9:
+        return true;
+    default:
+        return false;
+    }
+}
+
+void
+util_keypad_to_string (String &str, const KeyEvent &key)
+{
+    char raw[2];
+
+    switch (key.code) {
+    case SCIM_KEY_KP_Equal:
+        raw[0] = '=';
+        break;
+
+    case SCIM_KEY_KP_Multiply:
+        raw[0] = '*';
+        break;
+
+    case SCIM_KEY_KP_Add:
+        raw[0] = '+';
+        break;
+
+    case SCIM_KEY_KP_Separator:
+        raw[0] = ',';
+        break;
+
+    case SCIM_KEY_KP_Subtract:
+        raw[0] = '-';
+        break;
+
+    case SCIM_KEY_KP_Decimal:
+        raw[0] = '.';
+        break;
+
+    case SCIM_KEY_KP_Divide:
+        raw[0] = '/';
+        break;
+
+    case SCIM_KEY_KP_0:
+    case SCIM_KEY_KP_1:
+    case SCIM_KEY_KP_2:
+    case SCIM_KEY_KP_3:
+    case SCIM_KEY_KP_4:
+    case SCIM_KEY_KP_5:
+    case SCIM_KEY_KP_6:
+    case SCIM_KEY_KP_7:
+    case SCIM_KEY_KP_8:
+    case SCIM_KEY_KP_9:
+        raw[0] = '0' + key.code - SCIM_KEY_KP_0;
+        break;
+
+    default:
+        if (isprint (key.get_ascii_code()))
+            raw[0] = key.get_ascii_code();
+        else
+            raw[0] = '\0';
+        break;
+    }
+
+    raw[1] = '\0';
+    str = raw;
+}
+
 void
 util_launch_program (const char *command)
 {

@@ -21,6 +21,7 @@
 #include "scim_anthy_key2kana.h"
 #include "scim_anthy_factory.h"
 #include "scim_anthy_imengine.h"
+#include "scim_anthy_utils.h"
 
 using namespace scim_anthy;
 
@@ -53,13 +54,7 @@ Key2KanaConvertor::can_append (const KeyEvent & key)
     if (isprint(key.get_ascii_code ()) && !isspace(key.get_ascii_code ()))
         return true;
 
-    if (key.code >= SCIM_KEY_KP_0 && key.code <= SCIM_KEY_KP_9)
-        return true;
-
-    if (key.code >= SCIM_KEY_KP_Multiply && key.code <= SCIM_KEY_KP_Divide)
-        return true;
-
-    if (key.code == SCIM_KEY_KP_Equal)
+    if (util_key_is_keypad (key))
         return true;
 
     return false;
@@ -71,63 +66,10 @@ Key2KanaConvertor::append (const KeyEvent & key,
                            WideString & pending,
                            String &raw)
 {
-    bool is_ten_key = true;
-
     if (!can_append (key))
         return false;
 
-    char str[2];
-
-    switch (key.code) {
-    case SCIM_KEY_KP_Equal:
-        str[0] = '=';
-        break;
-
-    case SCIM_KEY_KP_Multiply:
-        str[0] = '*';
-        break;
-
-    case SCIM_KEY_KP_Add:
-        str[0] = '+';
-        break;
-
-    case SCIM_KEY_KP_Separator:
-        str[0] = ',';
-        break;
-
-    case SCIM_KEY_KP_Subtract:
-        str[0] = '-';
-        break;
-
-    case SCIM_KEY_KP_Decimal:
-        str[0] = '.';
-        break;
-
-    case SCIM_KEY_KP_Divide:
-        str[0] = '/';
-        break;
-
-    case SCIM_KEY_KP_0:
-    case SCIM_KEY_KP_1:
-    case SCIM_KEY_KP_2:
-    case SCIM_KEY_KP_3:
-    case SCIM_KEY_KP_4:
-    case SCIM_KEY_KP_5:
-    case SCIM_KEY_KP_6:
-    case SCIM_KEY_KP_7:
-    case SCIM_KEY_KP_8:
-    case SCIM_KEY_KP_9:
-        str[0] = '0' + key.code - SCIM_KEY_KP_0;
-        break;
-
-    default:
-        is_ten_key = false;
-        str[0] = key.code;
-        break;
-    }
-
-    str[1] = '\0';
-    raw = str;
+    util_keypad_to_string (raw, key);
 
     bool half = true;
     bool prev_symbol = m_tables.symbol_is_half ();
@@ -135,19 +77,29 @@ Key2KanaConvertor::append (const KeyEvent & key,
 
     String ten_key_type = m_anthy.get_factory()->m_ten_key_type;
 
-    if (is_ten_key && ten_key_type != "FollowMode") {
-        if (ten_key_type == "Half")
-            half = true;
-        else if (ten_key_type == "Wide")
-            half = false;
+    if (util_key_is_keypad (key)) {
+        if (ten_key_type != "FollowMode") {
+            if (ten_key_type == "Half")
+                half = true;
+            else if (ten_key_type == "Wide")
+                half = false;
+        } else {
+            if (m_anthy.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
+                m_anthy.get_input_mode () == SCIM_ANTHY_MODE_HALF_KATAKANA)
+            {
+                half = true;
+            } else {
+                half = false;
+            }
+        }
 
         m_tables.set_symbol_width (half);
         m_tables.set_number_width (half);
     }
 
-    bool retval = append (String (str), result, pending);
+    bool retval = append (raw, result, pending);
 
-    if (is_ten_key && ten_key_type != "FollowMode") {
+    if (util_key_is_keypad (key)) {
         m_tables.set_symbol_width (prev_symbol);
         m_tables.set_number_width (prev_number);
     }

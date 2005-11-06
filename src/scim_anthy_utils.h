@@ -49,6 +49,9 @@ void util_create_attributes   (AttributeList       &attrs,
                                String               type,
                                unsigned int         fg_color,
                                unsigned int         bg_color);
+bool util_key_is_keypad       (const KeyEvent      &key);
+void util_keypad_to_string    (String              &str,
+                               const KeyEvent      &key);
 void util_launch_program      (const char          *command);
 
 }
