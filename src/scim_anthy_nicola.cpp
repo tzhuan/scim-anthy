@@ -405,6 +405,32 @@ NicolaConvertor::append (const KeyEvent & key,
                          WideString & pending,
                          String &raw)
 {
+    if (key.is_key_press () && util_key_is_keypad (key)) {
+        util_keypad_to_string (raw, key);
+
+        // convert key pad string to wide
+        WideString wide;
+        String ten_key_type = m_anthy.get_factory()->m_ten_key_type;
+        if ((ten_key_type == "FollowMode" &&
+             (m_anthy.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
+              m_anthy.get_input_mode () == SCIM_ANTHY_MODE_HALF_KATAKANA)) ||
+            ten_key_type == "Half")
+        {
+            wide = utf8_mbstowcs (raw);
+        } else {
+            util_convert_to_wide (wide, raw);
+        }
+
+        result = wide;
+
+        m_repeat_char_key  = KeyEvent ();
+        m_repeat_thumb_key = KeyEvent ();
+        m_prev_char_key    = KeyEvent ();
+        m_prev_thumb_key   = KeyEvent ();
+
+        return false;
+    }
+
     if (is_repeating ()) {
         on_key_repeat (key, result, raw);
 
