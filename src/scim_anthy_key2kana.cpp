@@ -71,40 +71,47 @@ Key2KanaConvertor::append (const KeyEvent & key,
 
     util_keypad_to_string (raw, key);
 
-    bool half = true;
-    bool prev_symbol = m_tables.symbol_is_half ();
-    bool prev_number = m_tables.number_is_half ();
-
-    String ten_key_type = m_anthy.get_factory()->m_ten_key_type;
-
     if (util_key_is_keypad (key)) {
-        if (ten_key_type != "FollowMode") {
-            if (ten_key_type == "Half")
-                half = true;
-            else if (ten_key_type == "Wide")
-                half = false;
+        bool retval = false;
+        WideString wide;
+        String ten_key_type = m_anthy.get_factory()->m_ten_key_type;
+
+        // convert key pad string to wide
+        if ((ten_key_type == "FollowMode" &&
+             (m_anthy.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
+              m_anthy.get_input_mode () == SCIM_ANTHY_MODE_HALF_KATAKANA)) ||
+            ten_key_type == "Half")
+        {
+            wide = utf8_mbstowcs (raw);
         } else {
-            if (m_anthy.get_input_mode () == SCIM_ANTHY_MODE_LATIN ||
-                m_anthy.get_input_mode () == SCIM_ANTHY_MODE_HALF_KATAKANA)
-            {
-                half = true;
-            } else {
-                half = false;
-            }
+            util_convert_to_wide (wide, raw);
         }
 
-        m_tables.set_symbol_width (half);
-        m_tables.set_number_width (half);
+        // join to previous string
+        if (!m_exact_match.is_empty()) {
+            if (!m_exact_match.get_result(0).empty() &&
+                m_exact_match.get_result(1).empty())
+            {
+                result = utf8_mbstowcs (m_exact_match.get_result(0));
+            } else {
+                retval = true; /* commit prev pending */
+            }
+            result += wide;
+        } else {
+            if (m_pending.length () > 0)
+                retval = true; /* commit prev pending */
+            result = wide;
+        }
+
+        m_pending.clear ();
+        m_exact_match.clear ();
+
+        return retval;
+
+    } else {
+        // the key isn't keypad
+        return append (raw, result, pending);
     }
-
-    bool retval = append (raw, result, pending);
-
-    if (util_key_is_keypad (key)) {
-        m_tables.set_symbol_width (prev_symbol);
-        m_tables.set_number_width (prev_number);
-    }
-
-    return retval;
 }
 
 bool

@@ -1,5 +1,10 @@
 2005-11-06 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_key2kana.cpp:
+	Handle keypad correctly on kana typing method.
+
+2005-11-06 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine.cpp, src/scim_anthy_key2kana.cpp,
 	  src/scim_anthy_utils.{cpp,h}:
 	Apply ten key setting exactly. But it's not enough yet for kana and
