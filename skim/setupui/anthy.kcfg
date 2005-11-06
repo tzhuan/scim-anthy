@@ -406,7 +406,7 @@
     </entry>
     <entry name="_IMEngine_Anthy_SelectNextCandidateKey" key="/IMEngine/Anthy/SelectNextCandidateKey" type="String">
       <label>The key events to select the next candidate</label>
-      <default>space,KP_Space,Down,KP_Add,Control+n,Control+N</default>
+      <default>space,KP_Space,Henkan,Down,KP_Add,Control+n,Control+N</default>
     </entry>
     <entry name="_IMEngine_Anthy_SelectPrevCandidateKey" key="/IMEngine/Anthy/SelectPrevCandidateKey" type="String">
       <label>The key events to select the previous candidate</label>
@@ -464,7 +464,7 @@
 
     <entry name="_IMEngine_Anthy_ConvertCharTypeForwardKey" key="/IMEngine/Anthy/ConvertCharTypeForwardKey" type="String">
       <label>The key events to convert char type of the preedit string to next type</label>
-      <default></default>
+      <default>Muhenkan</default>
     </entry>
     <entry name="_IMEngine_Anthy_ConvertCharTypeBackwardKey" key="/IMEngine/Anthy/ConvertCharTypeBackwardKey" type="String">
       <label>The key events to convert char type of the preedit string to previous type</label>
