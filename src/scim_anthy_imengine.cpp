@@ -261,7 +261,7 @@ AnthyInstance::process_key_event (const KeyEvent& key)
         return false;
     }
 
-    // for input key event
+    // for other mode
     if (get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA ||
         !is_nicola_thumb_shift_key (key))
     {
