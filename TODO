@@ -1,13 +1,9 @@
-Version-0.8.0 (Planning to release at Nov 29th, 2005)
-
-  * Inline word register.
-  * Add help.
-
 Version-0.9.0 (Planning to release at Mar 29th, 2006)
 
   * Reconversion
   * Prediction
   * Handle voiced consonant correctly on NICOLA.
+  * Inline word register.
   * SKIM plugin.
   * (Commit automatically when input upper letter on romaji typing.)
   * (Style file)
