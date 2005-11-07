@@ -179,20 +179,76 @@ WideString
 AnthyFactory::get_authors () const
 {
     return utf8_mbstowcs (
-        _("Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>\n"
-          "Copyright (C) 2004,2005 Hiroyuki Ikezoe <poincare@ikezoe.net>"));
+       _("Authors of scim-anthy:\n"
+         "  Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>\n"
+         "  Copyright (C) 2004,2005 Hiroyuki Ikezoe <poincare@ikezoe.net>\n"
+         "  \n"
+         "Authors of Anthy:\n"
+         "  Copyright (C) 2000-2005 Yusuke TABATA <yusuke@w5.dion.ne.jp>\n"
+         "  Copyright (C) 2004-2005 Yuichi YOSHIDA <oxy@kmc.gr.jp>\n"
+         "  You can find out all credits of Anthy from AUTHORS file in Anthy package.\n"));
 }
 
 WideString
 AnthyFactory::get_credits () const
 {
-    return WideString ();
+    return utf8_mbstowcs (
+        _("Special thanks:\n"
+          "  UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
+          "  Yukiko Bando <ybando@k6.dion.ne.jp>\n"
+          "  Mike Fabin <mfabin@suse.de>"
+          "  David Oftedal <david@start.no>\n"
+          "  Ryo Dairiki <ryo-dairiki@mbm.nifty.com>\n"
+          "  Seiichi SATO\n"
+          "  AWASHIRO Ikuya <ikuya@oooug.jp>\n"
+          "  Hatuka*nezumi <nezumi@jca.apc.org>"));
 }
 
 WideString
 AnthyFactory::get_help () const
 {
-    return WideString ();
+    const char *title = 
+        _("Basic operation:\n"
+          "  \n");
+
+    const char *text1 = 
+        _("1. Switch input mode:\n"
+          "  You can switch on/off Japanese input mode by pressing Zenkaku_Hankaku key\n"
+          "  or Control+J. Or you can rotate all input modes by pressing Control+,\n"
+          "  (comma).\n"
+          "  \n");
+
+    const char *text2 = 
+        _("2. Input Japanese hiragana and katakana:\n"
+          "  You can input Japanese hiragana and katakana by inputting romaji.\n"
+          "  Romaji table will be find out from \"Anthy\" section on a setup window of\n"
+          "  SCIM or SKIM.\n"
+          "  If you want to hiragana and katakana directly by using Japanese keyboard,\n"
+          "  please press Alt + Romaji key or Conrol+\\ key to switch typing method.\n"
+          "  \n");
+
+    const char *text3 = 
+        _("3. Convert hiragana or katakana to Japanese kanji\n"
+          "  After inputting hiragana or katakana, you can convert it to Japanese\n"
+          "  kanji by pressing Space key. Then it will show some candidates. You can\n"
+          "  select a next candidate by pressing Space key, and can commit it by\n"
+          "  pressing Enter key.\n"
+          "  If you input a sentense, Anthy will split it to some segments. You can\n"
+          "  select a next or previous segment by pressing left or right cursor key,\n"
+          "  and can extend or shrink the selected segment by pressing Shift + left or\n"
+          "  right cursor key.\n"
+          "  \n");
+
+    const char *text4 = 
+        _("4. Other key bindings:\n"
+          "  You can find out all key bindings definition of scim-anthy from \"Anthy\"\n"
+          "  section on setup window of SCIM or SKIM.\n");
+
+    return utf8_mbstowcs (title)
+        + utf8_mbstowcs (text1)
+        + utf8_mbstowcs (text2)
+        + utf8_mbstowcs (text3)
+        + utf8_mbstowcs (text4);
 }
 
 String
