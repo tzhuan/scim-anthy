@@ -178,15 +178,20 @@ AnthyFactory::get_name () const
 WideString
 AnthyFactory::get_authors () const
 {
-    return utf8_mbstowcs (
-       _("Authors of scim-anthy:\n"
-         "  Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>\n"
-         "  Copyright (C) 2004,2005 Hiroyuki Ikezoe <poincare@ikezoe.net>\n"
-         "  \n"
-         "Authors of Anthy:\n"
-         "  Copyright (C) 2000-2005 Yusuke TABATA <yusuke@w5.dion.ne.jp>\n"
-         "  Copyright (C) 2004-2005 Yuichi YOSHIDA <oxy@kmc.gr.jp>\n"
-         "  You can find out all credits of Anthy from AUTHORS file in Anthy package.\n"));
+    const char *package = 
+        PACKAGE "-" PACKAGE_VERSION "\n"
+        "\n";
+    const char *authors =
+        _("Authors of scim-anthy:\n"
+          "  Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>\n"
+          "  Copyright (C) 2004,2005 Hiroyuki Ikezoe <poincare@ikezoe.net>\n"
+          "  \n"
+          "Authors of Anthy:\n"
+          "  Copyright (C) 2000-2005 Yusuke TABATA <yusuke@w5.dion.ne.jp>\n"
+          "  Copyright (C) 2004-2005 Yuichi YOSHIDA <oxy@kmc.gr.jp>\n"
+          "  You can find out all credits of Anthy from AUTHORS file in Anthy package.\n");
+
+    return utf8_mbstowcs (package) + utf8_mbstowcs (authors);
 }
 
 WideString
