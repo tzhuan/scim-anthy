@@ -709,12 +709,12 @@
                     </widget>
                     <widget class="KComboBox" row="0" column="1" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>kComboBox8</cstring>
+                            <cstring>KeyBindingsGroupComboBox</cstring>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="2" column="2" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>kComboBox9</cstring>
+                            <cstring>KeyBindingsThemeComboBox</cstring>
                         </property>
                     </widget>
                     <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
@@ -730,7 +730,7 @@
                     </widget>
                     <widget class="QPushButton" row="2" column="5" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>pushButton3</cstring>
+                            <cstring>KeyBindingsSelectButton</cstring>
                         </property>
                         <property name="enabled">
                             <bool>false</bool>
@@ -744,7 +744,7 @@
                     </widget>
                     <widget class="KLineEdit" row="0" column="3" rowspan="1" colspan="3">
                         <property name="name">
-                            <cstring>kLineEdit3</cstring>
+                            <cstring>KeyBindingsFilterLineEdit</cstring>
                         </property>
                         <property name="enabled">
                             <bool>false</bool>
@@ -752,7 +752,7 @@
                     </widget>
                     <widget class="SkimEditShortcutButton" row="0" column="6">
                         <property name="name">
-                            <cstring>punctButton1</cstring>
+                            <cstring>KeyBindingsFilterSelectButton</cstring>
                         </property>
                         <property name="enabled">
                             <bool>false</bool>
@@ -807,7 +807,7 @@
                             </property>
                         </column>
                         <property name="name">
-                            <cstring>listView1</cstring>
+                            <cstring>KeyBindingsView</cstring>
                         </property>
                     </widget>
                 </grid>
@@ -888,7 +888,7 @@
                             </widget>
                             <widget class="KComboBox" row="3" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox10</cstring>
+                                    <cstring>RomajiComboBox</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -901,7 +901,7 @@
                             </widget>
                             <widget class="QPushButton" row="3" column="2">
                                 <property name="name">
-                                    <cstring>pushButton4</cstring>
+                                    <cstring>RomajiCustomizeButton</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -950,7 +950,7 @@
                             </sizepolicy>
                         </property>
                         <property name="title">
-                            <string>NICOLA Layout</string>
+                            <string>Thumb Shift Layout</string>
                         </property>
                         <grid>
                             <property name="name">
@@ -994,7 +994,7 @@
                             </widget>
                             <widget class="QPushButton" row="0" column="2">
                                 <property name="name">
-                                    <cstring>pushButton6</cstring>
+                                    <cstring>ThumbShiftCustomizeButton</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1030,7 +1030,7 @@
                             </spacer>
                             <widget class="KComboBox" row="0" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox12</cstring>
+                                    <cstring>ThumbShiftComboBox</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1140,7 +1140,7 @@
                             </widget>
                             <widget class="KComboBox" row="0" column="1">
                                 <property name="name">
-                                    <cstring>kComboBox11</cstring>
+                                    <cstring>KanaComboBox</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -1153,7 +1153,7 @@
                             </widget>
                             <widget class="QPushButton" row="0" column="2">
                                 <property name="name">
-                                    <cstring>pushButton5</cstring>
+                                    <cstring>KanaCustomizeButton</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -2163,7 +2163,7 @@
 </customwidgets>
 <images>
     <image name="image0">
-        <data format="PNG" length="888">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000033f49444154388dad943f681b6714c07f0a373c8186ef40813b6841820c164e077953d20e3174a8a807d1c9ee940e5d4a276f09a414e22974ee609a4c7520817a4850860cee226948b13c545cc185d360b8030bee410df706813b7cf11fb5c574f007df70df3d7edfefbd7bef2a93fd091820b0bcb27cca35acc97052a90c86039c38765eee9c76963a4c754a9997a427e9ff82a82ae961cae8b711cc2fce03278ee595e5d3d72f5e13d795b0251496b2125429ad20ac8514f3825042645e80846427feb998178481639c806c0b7bbfda05584d01986653c28690e43f53142960c4a19164427e2414335fafb00eed96910720014c0da29b508d1733099c38004a2d292c054b01250e85e13bc7f895323a50fc8700101a4bc217eb8e5607a29aa10691fb07f8cc389da5ac0446517a68ff0decfc987b544d682e392480ecc898fe61fcf05d4e77ddb1715fcee1ff691c4a4869197108c377f21e6adcfb3ca2db139a1f82620831fddd929ded9cfef39c56a341672dc4892e806f9c19175610d620fb4bd8dbd573e8975f0bcda6a2281c0bbf3c2fd858aff2d5b71120fcf44ce104747e857131cfb09990fcae38e7e8f6045753740e628ead274672a014c7b0f92064f4d6c78ec68ea8c615c602e991f98e68bc4fff0cfa48490e145717563f114c4a5a6d01209b1a6ab208be6c2c7308c50744e26b8a3ab61e19c981bf5004c20faac40e08ce6082bbca18016a3e707c640821fd377853274491233f521e3fcc188e42b243df0a71a37a7557642719ed96d1b8254cff34fabb251bf7638a63a3fba950ad5779fc10f2a9b2f54d8a99e1ea42bb5d52ce16c9ffaab105d0edf9cb76b673faaf32361f84343bd0ee146c7edfc4450e55c5e6c66a2fa2759bab8d0bcb9000eedc039b399e3ecb79fa2467f456e8b40505b2c30c9b19041eb0bfa78cd762e29a70319d97272f4fe90a4c677e4c57d7055c83fe4bdf0dc9c1858dab0bdd5e83e19ea2660890e68bcae7c6e961ca380177d3a7e56a46b727743f6b311a6794b93f6fdd8a697e94d1ba0da3b5188743e729c978115c190c07dcbd73f79400da1f0b710c22f87f6be0b704be53ced2f7cb90405085646c64b9a1f9a5d793fd09c0e975eff3aeb8ee75c38963329c54ae1daca62030180eae0d3ed99f54fe06322bb42bd7ba3a4d0000000049454e44ae426082</data>
+        <data format="PNG" length="913">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000035849444154388dad9431681b5718803f050dbf40c313dc70671ad083067ca68b429628eda04216910ea253ebc909148ae954920ea143833b858cc683211d4ae5212486166e09588544d25224438bae60c3d3604e0736e80d077e83c11dceb22d4a4d07ff70c3bdfbf9def7fffcff159251021650b0b0b470ca3544d24b0a856eaf8b569af59fd74f9b8b4d867688a4c2201bfc2f88b516b367e8ffd187938bf342324a58585a38edfeda25281b8e3dc1d83e415931b106ed694c66d04a53ca0c28cde8287f37994197033ac31d763687bcf9dd9d838bc61a008666886af8f4c7eb4ca78618471838a23f85f4407873e400a1e241a3e6e85bf0cbd04921bc0951305f49512b0d80b8dc546198620903217aa718ff6689762d30b3115e2f0a8f5614d420f41cc642e84374193c331e1c0c785476ec981cdade86f6469aa3ca825e54481126078ef1df8eefbf4b697ea1f87245083d4764ffc3582bcdc4c6840144efe40cea683cf069b684dbb7c038872f01edad63da9b29d156caddc52a72bf8256f3e41b3363630dda83f850e86cdb73e8f257c2edd0629c451d0a2f7f9ab2ba52e2e1373e20bcd8b0544ec06457189b2ca69409f15f16a514cd96a03d8bc9c047f1f8b923deb54c0f61ed5985fedb3c37ea2b428f2b8c150cf61de008aa67e5cfa04f2cf1ae4579c2e79f08138e096b02c064ec3056e6c1978d4b196895278492f75439c5e3278e7837bf5004f8a044e803c5194cd05719a3c016f3c49d03872f15dadbe4a64af07d457a60597b3a21ea5498ece52318544b98aba6627414d3a8395e7f288cf71dedad6356bf5e627ae858fe4c70e5126b4f211d5b7e5c3538e7509e50ab1d23999b03ffabc7e909345b0a80f666ca2faf46ac3daba06ad0684cf9f6078df215d65adc89e3d3964ffd0e571b1b1be397a1de8052a678b191f2f2794affadd0bc2bb41d4cf626b82307c51c30e85876de07849e70b19d97ff15e3214d059dfd7c4d69090fa54af42a9f8678f7c2467942b355a5d7b158e7f005a2f17c2bce8dcd9ea13384eacdbc2ced399a2d61b95527ea8f109b9fd73f5a42dd1a51bf03d1fb80aa68c6d98078380f2e747b5deed5ef9d5284dac74210908fd40979b94590b34999959f87438a82b5100f1d93d461d34b9f935102707addcff9545c77dcd04a93f492c2b583671bd7ed75af0d9e8c92c23f4ababa11e8da79190000000049454e44ae426082</data>
     </image>
 </images>
 <connections>
