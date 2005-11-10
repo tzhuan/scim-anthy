@@ -1734,8 +1734,10 @@ AnthyInstance::action_convert_char_type_backward (void)
 }
 
 bool
-action_reconvert (void)
+AnthyInstance::action_reconvert (void)
 {
+    //start_helper (String ("24a65e2b-10a8-4d4c-adc9-266678cb1a38"));
+
     return false;
 }
 
