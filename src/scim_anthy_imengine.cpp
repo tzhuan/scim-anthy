@@ -1734,6 +1734,12 @@ AnthyInstance::action_convert_char_type_backward (void)
 }
 
 bool
+action_reconvert (void)
+{
+    return false;
+}
+
+bool
 AnthyInstance::action_add_word (void)
 {
     util_launch_program (m_factory->m_add_word_command.c_str ());

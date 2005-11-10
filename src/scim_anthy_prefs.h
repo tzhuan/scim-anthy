@@ -131,6 +131,8 @@
 #define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY           "/IMEngine/Anthy/ConvertToLatinKey"
 #define SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY      "/IMEngine/Anthy/ConvertToWideLatinKey"
 
+#define SCIM_ANTHY_CONFIG_RECONVERT_KEY               "/IMEngine/Anthy/ReconvertKey"
+
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY              "/IMEngine/Anthy/DictAdminKey"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY                "/IMEngine/Anthy/AddWordKey"
 
@@ -254,6 +256,8 @@
 #define SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY_DEFAULT   "Shift+F8"
 #define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT           "F10"
 #define SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT      "F9"
+
+#define SCIM_ANTHY_CONFIG_RECONVERT_KEY_DEFAULT               "Shift+Henkan"
 
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_KEY_DEFAULT              "F11"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_KEY_DEFAULT                "F12"

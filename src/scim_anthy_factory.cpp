@@ -396,6 +396,7 @@ ANTHY_DEFINE_ACTION (action_convert_to_half);
 ANTHY_DEFINE_ACTION (action_convert_to_half_katakana);
 ANTHY_DEFINE_ACTION (action_convert_to_latin);
 ANTHY_DEFINE_ACTION (action_convert_to_wide_latin);
+ANTHY_DEFINE_ACTION (action_reconvert);
 ANTHY_DEFINE_ACTION (action_on_off);
 ANTHY_DEFINE_ACTION (action_circle_input_mode);
 ANTHY_DEFINE_ACTION (action_circle_kana_mode);
@@ -662,6 +663,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     // dict keys
     APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);
     APPEND_ACTION (ADD_WORD,                action_add_word);
+
+    // reconvert
+    APPEND_ACTION (RECONVERT,               action_reconvert);
 
     // disabled key
     APPEND_ACTION (DO_NOTHING,              action_do_nothing);

@@ -126,8 +126,9 @@ public:
     bool   action_convert_to_wide_latin       (void);
     bool   action_convert_char_type_forward   (void);
     bool   action_convert_char_type_backward  (void);
+    bool   action_reconvert                   (void);
 
-    bool   action_on_off               (void);
+    bool   action_on_off                      (void);
 
     bool   action_circle_input_mode           (void);
     bool   action_circle_kana_mode            (void);
