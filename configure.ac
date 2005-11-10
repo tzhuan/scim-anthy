@@ -84,6 +84,21 @@ ANTHY_CFLAGS=""
 AC_SUBST(ANTHY_LIBS)
 AC_SUBST(ANTHY_CFLAGS)
 
+# Check gtk2
+PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.4.0],
+                        [HAS_GTK=yes],
+                        [HAS_GTK=no])
+
+AM_CONDITIONAL(SCIM_BUILD_HELPER, [test "$HAS_GTK" = "yes"])
+
+if test "$HAS_GTK" = "yes"; then
+  SCIM_BUILD_HELPER=1
+else
+  SCIM_BUILD_HELPER=0
+fi
+
+AC_SUBST(SCIM_BUILD_HELPER)
+
 # libtool option to control which symbols are exported
 # right now, symbols starting with _ are not exported
 LIBTOOL_EXPORT_OPTIONS='-export-symbols-regex "^[[^_]].*"'

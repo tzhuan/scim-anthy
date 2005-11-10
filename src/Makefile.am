@@ -31,6 +31,10 @@ noinst_HEADERS = \
 	scim_anthy_utils.h \
 	scim_color_button.h
 
+
+#
+# IMEngine Module
+#
 moduledir = @SCIM_MODULEDIR@/IMEngine
 module_LTLIBRARIES = anthy.la
 
@@ -60,6 +64,10 @@ anthy_la_LDFLAGS = \
 	@SCIM_LIBS@ \
 	@ANTHY_LIBS@
 
+
+#
+# Setup Module
+#
 if SCIM_BUILD_SETUP
 SETUP_MODULE = anthy-imengine-setup.la
 endif
@@ -78,14 +86,41 @@ anthy_imengine_setup_la_SOURCES = \
 	scim_anthy_table_editor.cpp \
 	scim_color_button.cpp
 
-anthy_imengine_setup_la_CFLAGS  = @SCIM_GTKUTILS_CFLAGS@ @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@
-
-anthy_imengine_setup_la_CXXFLAGS= @SCIM_GTKUTILS_CFLAGS@ @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@
-
+anthy_imengine_setup_la_CFLAGS  = @SCIM_GTKUTILS_CFLAGS@ \
+				  @SCIM_CFLAGS@ \
+				  @SCIM_DEBUG_FLAGS@
+anthy_imengine_setup_la_CXXFLAGS= @SCIM_GTKUTILS_CFLAGS@ \
+				  @SCIM_CFLAGS@ \
+				  @SCIM_DEBUG_FLAGS@
 anthy_imengine_setup_la_LDFLAGS = -avoid-version \
-                                   -rpath $(setupmoduledir) \
-                                   -module \
-                                   @LIBTOOL_EXPORT_OPTIONS@ \
-                                   @SCIM_GTKUTILS_LIBS@ \
-                                   @INTLLIBS@ \
-                                   @SCIM_LIBS@
+                                  -rpath $(setupmoduledir) \
+                                  -module \
+                                  @LIBTOOL_EXPORT_OPTIONS@ \
+                                  @SCIM_GTKUTILS_LIBS@ \
+                                  @INTLLIBS@ \
+                                  @SCIM_LIBS@
+
+
+#
+# Helper Program
+#
+if SCIM_BUILD_HELPER
+HELPER_MODULE = anthy-imengine-helper.la
+endif
+helpermoduledir          = @SCIM_MODULEDIR@/`pkg-config --variable=scim_binary_version scim`/Helper
+helpermodule_LTLIBRARIES = $(HELPER_MODULE)
+
+anthy_imengine_helper_la_SOURCES  = scim_anthy_helper.cpp
+anthy_imengine_helper_la_CFLAGS   = @GTK2_CFLAGS@ \
+				    @SCIM_CFLAGS@ \
+				    @SCIM_DEBUG_FLAGS@
+anthy_imengine_helper_la_CXXFLAGS = @GTK2_CFLAGS@ \
+				    @SCIM_CFLAGS@ \
+				    @SCIM_DEBUG_FLAGS@
+anthy_imengine_helper_la_LDFLAGS  = -avoid-version \
+                                    -rpath $(setupmoduledir) \
+                                    -module \
+				    @LIBTOOL_EXPORT_OPTIONS@ \
+				    @GTK2_LIBS@ \
+				    @INTLLIBS@ \
+				    @SCIM_LIBS@
