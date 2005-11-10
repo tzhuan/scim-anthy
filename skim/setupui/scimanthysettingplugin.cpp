@@ -26,29 +26,29 @@
 
 typedef KGenericFactory<ScimAnthySettingPlugin> ScimAnthySettingLoaderFactory;
 
-K_EXPORT_COMPONENT_FACTORY( kcm_skimplugin_scim_anthy, 
-    ScimAnthySettingLoaderFactory( "kcm_skimplugin_scim_anthy" ) )
+K_EXPORT_COMPONENT_FACTORY (kcm_skimplugin_scim_anthy, 
+			    ScimAnthySettingLoaderFactory ("kcm_skimplugin_scim_anthy"))
 
 class ScimAnthySettingPlugin::ScimAnthySettingPluginPrivate {
 public:
     AnthySettingUI * ui;
 };
 
-ScimAnthySettingPlugin::ScimAnthySettingPlugin(QWidget *parent, 
-					       const char */*name*/,
-					       const QStringList &args)
- : KAutoCModule( ScimAnthySettingLoaderFactory::instance(), 
-     parent, args, AnthyConfig::self() ),
-   d(new ScimAnthySettingPluginPrivate)
+ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent, 
+						const char *name,
+						const QStringList &args)
+ : KAutoCModule (ScimAnthySettingLoaderFactory::instance (), 
+		 parent, args, AnthyConfig::self ()),
+   d (new ScimAnthySettingPluginPrivate)
 {
-    KGlobal::locale()->insertCatalogue("skim-scim-anthy");
-    d->ui = new AnthySettingUI(this);
-    setMainWidget(d->ui);
+    KGlobal::locale()->insertCatalogue ("skim-scim-anthy");
+    d->ui = new AnthySettingUI (this);
+    setMainWidget (d->ui);
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin() 
 {
-    KGlobal::locale()->removeCatalogue("skim-scim-anthy");
+    KGlobal::locale()->removeCatalogue ("skim-scim-anthy");
 }
 
 

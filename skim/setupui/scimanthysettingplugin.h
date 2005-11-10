@@ -23,11 +23,11 @@ class ScimAnthySettingPlugin : public KAutoCModule
 {
 Q_OBJECT
 public:
-    ScimAnthySettingPlugin(QWidget *parent, 
-			   const char */*name*/,
-			   const QStringList &args);
+    ScimAnthySettingPlugin  (QWidget           *parent, 
+			     const char        *name,
+			     const QStringList &args);
 
-    ~ScimAnthySettingPlugin();
+    ~ScimAnthySettingPlugin ();
 private:
     class ScimAnthySettingPluginPrivate;
     ScimAnthySettingPluginPrivate * d;
