@@ -836,6 +836,13 @@ AnthyInstance::action_convert (void)
 bool
 AnthyInstance::action_revert (void)
 {
+    if (m_preedit.is_reconverting ()) {
+        m_preedit.revert ();
+        commit_string (m_preedit.get_string ());
+        reset ();
+        return true;
+    }
+
     if (!m_preedit.is_preediting ())
         return false;
 
@@ -853,7 +860,6 @@ AnthyInstance::action_revert (void)
     }
 
     unset_lookup_table ();
-
     m_preedit.revert ();
     set_preedition ();
 
@@ -1596,6 +1602,9 @@ bool
 AnthyInstance::convert_kana (CandidateType type)
 {
     if (!m_preedit.is_preediting ())
+        return false;
+
+    if (m_preedit.is_reconverting ())
         return false;
 
     unset_lookup_table ();

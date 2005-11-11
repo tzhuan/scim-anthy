@@ -66,6 +66,8 @@ Preedit::get_string (void)
 {
     if (is_converting ()) {
         return m_conversion.get ();
+    } else if (!m_source.empty ()) {
+        return m_source;
     } else {
         WideString widestr;
         switch (m_input_mode) {
@@ -118,16 +120,26 @@ Preedit::get_reading (void)
 bool
 Preedit::is_preediting (void)
 {
-    if (m_reading.get_length () > 0 || m_conversion.is_converting ())
+    if (m_reading.get_length () > 0 ||
+        m_conversion.is_converting () ||
+        !m_source.empty ())
+    {
         return true;
-    else
+    } else {
         return false;
+    }
 }
 
 bool
 Preedit::is_converting (void)
 {
     return m_conversion.is_converting ();
+}
+
+bool
+Preedit::is_reconverting (void)
+{
+    return !m_source.empty ();
 }
 
 
@@ -209,13 +221,17 @@ Preedit::finish (void)
 void
 Preedit::convert (CandidateType type, bool single_segment)
 {
-    m_conversion.start (type, single_segment);
+    if (m_source.empty ())
+        m_conversion.start (type, single_segment);
+    else
+        m_conversion.start (m_source, single_segment);
 }
 
 void
 Preedit::convert (const WideString &source, bool single_segment)
 {
     m_conversion.start (source, single_segment);
+    m_source = source;
 }
 
 void
@@ -345,6 +361,7 @@ Preedit::clear (void)
 {
     m_reading.clear ();
     m_conversion.clear ();
+    m_source = WideString ();
 }
 
 

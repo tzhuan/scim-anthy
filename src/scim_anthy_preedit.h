@@ -57,6 +57,7 @@ public:
 
     virtual bool          is_preediting          (void);
     virtual bool          is_converting          (void);
+    virtual bool          is_reconverting        (void);
 
     // manipulating the preedit string
     virtual bool          can_process_key_event  (const KeyEvent & key);
@@ -129,6 +130,9 @@ private:
 
     // mode flags
     InputMode         m_input_mode;
+
+    // source string for reconversion
+    WideString        m_source;
 };
 
 }
