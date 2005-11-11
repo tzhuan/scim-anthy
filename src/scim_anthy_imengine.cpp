@@ -42,6 +42,7 @@
 #include "scim_anthy_prefs.h"
 #include "scim_anthy_intl.h"
 #include "scim_anthy_utils.h"
+#include "scim_anthy_helper.h"
 
 #define SCIM_PROP_PREFIX                     "/IMEngine/Anthy"
 #define SCIM_PROP_INPUT_MODE                 "/IMEngine/Anthy/InputMode"
@@ -84,7 +85,8 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
       m_lookup_table_visible   (false),
       m_n_conv_key_pressed     (0),
       m_prev_input_mode        (SCIM_ANTHY_MODE_HIRAGANA),
-      m_conv_mode              (SCIM_ANTHY_CONVERSION_MULTI_SEGMENT)
+      m_conv_mode              (SCIM_ANTHY_CONVERSION_MULTI_SEGMENT),
+      m_helper_started         (false)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Instance : ";
 
@@ -95,6 +97,9 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
 
 AnthyInstance::~AnthyInstance ()
 {
+    if (m_helper_started)
+        stop_helper (String (SCIM_ANTHY_HELPER_UUID));
+
     m_factory->remove_config_listener (this);
 }
 
@@ -398,12 +403,25 @@ AnthyInstance::focus_in ()
     }
 
     install_properties ();
+
+    if (!m_helper_started)
+        start_helper (String (SCIM_ANTHY_HELPER_UUID));
+
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_REQUEST);
+    send.put_command (SCIM_TRANS_CMD_FOCUS_IN);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
 
 void
 AnthyInstance::focus_out ()
 {
     SCIM_DEBUG_IMENGINE(2) << "focus_out.\n";
+
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_REQUEST);
+    send.put_command (SCIM_TRANS_CMD_FOCUS_OUT);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
 
 void
@@ -1736,7 +1754,9 @@ AnthyInstance::action_convert_char_type_backward (void)
 bool
 AnthyInstance::action_reconvert (void)
 {
-    //start_helper (String ("24a65e2b-10a8-4d4c-adc9-266678cb1a38"));
+    Transaction send;
+    send.put_command (SCIM_ANTHY_TRANS_CMD_GET_SELECTION);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 
     return false;
 }
@@ -1839,6 +1859,54 @@ AnthyInstance::trigger_property (const String &property)
         action_add_word ();
     } else if (property == SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL) {
         action_launch_dict_admin_tool ();
+    }
+}
+
+void
+AnthyInstance::process_helper_event (const String &helper_uuid,
+                                     const Transaction &recv)
+{
+    TransactionReader reader (recv);
+    int cmd;
+
+    if (helper_uuid != SCIM_ANTHY_HELPER_UUID)
+        return;
+
+    if (!reader.get_command (cmd))
+        return;
+
+    switch (cmd) {
+    case SCIM_ANTHY_TRANS_CMD_GET_SELECTION:
+    {
+        WideString selection, surround;
+        reader.get_data (selection);
+        if (selection.empty ())
+            break;
+
+        int cursor;
+        unsigned int len = selection.length ();
+        if (!get_surrounding_text (surround, cursor, len, len))
+            break;
+
+        if (surround.length () - cursor >= len &&
+            surround.substr (cursor, len) == selection)
+        {
+            delete_surrounding_text (0, len);
+            commit_string (utf8_mbstowcs ("hoge"));
+        }
+
+        if (cursor >= (int) len &&
+            surround.substr (cursor - len, len) == selection)
+        {
+            delete_surrounding_text (0 - len, len);
+            commit_string (utf8_mbstowcs ("hoge"));
+        }
+        break;
+    }
+    case SCIM_ANTHY_TRANS_CMD_TIMEOUT_NOTIFY:
+        break;
+    default:
+        break;
     }
 }
 

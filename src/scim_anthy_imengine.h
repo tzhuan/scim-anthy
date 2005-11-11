@@ -63,6 +63,8 @@ public:
     virtual void focus_in                     (void);
     virtual void focus_out                    (void);
     virtual void trigger_property             (const String &property);
+    virtual void process_helper_event         (const String &helper_uuid,
+                                               const Transaction &trans);
 
     virtual void reload_config                (const ConfigPointer &config);
 
@@ -207,6 +209,9 @@ private:
 
     /*  */
     ConversionMode        m_conv_mode;
+
+    /* Helper */
+    bool                  m_helper_started;
 };
 #endif /* __SCIM_ANTHY_IMENGINE_H__ */
 /*

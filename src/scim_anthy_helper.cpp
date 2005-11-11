@@ -22,6 +22,7 @@
 #include <scim.h>
 #include <gtk/gtk.h>
 #include "scim_anthy_intl.h"
+#include "scim_anthy_helper.h"
 
 using namespace scim;
 
@@ -30,8 +31,6 @@ using namespace scim;
 #define scim_helper_module_number_of_helpers anthy_imengine_helper_LTX_scim_helper_module_number_of_helpers
 #define scim_helper_module_get_helper_info anthy_imengine_helper_LTX_scim_helper_module_get_helper_info
 #define scim_helper_module_run_helper anthy_imengine_helper_LTX_scim_helper_module_run_helper
-
-#define SCIM_ANTHY_HELPER_UUID "24a65e2b-10a8-4d4c-adc9-266678cb1a38"
 
 static void       run                         (const String        &display,
                                                const ConfigPointer &config);
@@ -102,7 +101,7 @@ helper_agent_input_handler (GIOChannel *source,
                             gpointer user_data)
 {
     if (condition == G_IO_IN) {
-        HelperAgent *agent = static_cast<HelperAgent *> (user_data);
+        HelperAgent *agent = static_cast<HelperAgent*> (user_data);
         if (agent && agent->has_pending_event ())
             agent->filter_event ();
     } else if (condition == G_IO_ERR || condition == G_IO_HUP) {
@@ -112,9 +111,52 @@ helper_agent_input_handler (GIOChannel *source,
 }
 
 static void
-slot_imengine_event (const HelperAgent *agent, int ic,
-                     const String &uuid, const Transaction &trans)
+slot_exit (const HelperAgent *agent, int ic, const String &uuid)
 {
+    gtk_main_quit ();
+}
+
+static void
+slot_imengine_event (const HelperAgent *agent, int ic,
+                     const String &uuid, const Transaction &recv)
+{
+    std::cout << "helper hoge" << std::endl;
+
+    TransactionReader reader (recv);
+    int cmd;
+
+    if (!reader.get_command (cmd))
+        return;
+
+    switch (cmd) {
+    case SCIM_ANTHY_TRANS_CMD_GET_SELECTION:
+    {
+        GtkClipboard *primary_selection;
+        WideString selection;
+
+        primary_selection = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+        if (primary_selection) {
+            gchar *text = gtk_clipboard_wait_for_text (primary_selection);
+            if (text) {
+                selection = utf8_mbstowcs (text);
+                g_free (text);
+            }
+        }
+
+        Transaction send;
+        send.put_command (SCIM_ANTHY_TRANS_CMD_GET_SELECTION);
+        send.put_data (selection);
+        helper_agent.send_imengine_event (ic, uuid, send);
+
+        break;
+    }
+    case SCIM_ANTHY_TRANS_CMD_TIMEOUT_ADD:
+        break;
+    case SCIM_ANTHY_TRANS_CMD_TIMEOUT_REMOVE:
+        break;
+    default:
+        break;
+    }
 }
 
 static void
@@ -132,11 +174,12 @@ run (const String &display, const ConfigPointer &config)
 
     gtk_init (&argc, &argv);
 
+    helper_agent.signal_connect_exit (slot (slot_exit));
+    helper_agent.signal_connect_process_imengine_event (slot (slot_imengine_event));
+
     // open connection
     int fd = helper_agent.open_connection (helper_info, display);
     GIOChannel *ch = g_io_channel_unix_new (fd);
-
-    helper_agent.signal_connect_process_imengine_event (slot (slot_imengine_event));
 
     if (fd >= 0 && ch) {
         g_io_add_watch (ch, G_IO_IN,

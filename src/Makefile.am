@@ -29,7 +29,8 @@ noinst_HEADERS = \
 	scim_anthy_setup_kana.h \
 	scim_anthy_table_editor.h \
 	scim_anthy_utils.h \
-	scim_color_button.h
+	scim_color_button.h \
+	scim_anthy_helper.h
 
 
 #
