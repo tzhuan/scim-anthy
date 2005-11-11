@@ -75,12 +75,17 @@ public:
     virtual ~Conversion ();
 
     // starting and finishing
+    void          start                  (WideString    source,
+                                          CandidateType ctype,
+                                          bool          single_segment);
     void          start                  (CandidateType type
                                           = SCIM_ANTHY_CANDIDATE_NORMAL,
-                                          bool single_segment = false);
+                                          bool          single_segment = false);
+    void          start                  (const WideString &source,
+                                          bool          single_segment = false);
     void          clear                  (void);
-    void          commit                 (int  segment_id = -1,
-                                          bool lean       = true);
+    void          commit                 (int           segment_id = -1,
+                                          bool          lean       = true);
 
     // getting status
     bool          is_converting          (void);

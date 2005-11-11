@@ -107,7 +107,7 @@ Conversion::join_all_segments (void)
 }
 
 void
-Conversion::start (CandidateType ctype, bool single_segment)
+Conversion::start (WideString source, CandidateType ctype, bool single_segment)
 {
     if (is_converting ())
         return;
@@ -118,7 +118,7 @@ Conversion::start (CandidateType ctype, bool single_segment)
     struct anthy_conv_stat conv_stat;
     anthy_get_stat (m_anthy_context, &conv_stat);
     if (conv_stat.nr_segment <= 0) {
-        m_iconv.convert (dest, m_reading.get ());
+        m_iconv.convert (dest, source);
         anthy_set_string (m_anthy_context, dest.c_str ());
     }
 
@@ -142,6 +142,18 @@ Conversion::start (CandidateType ctype, bool single_segment)
             ConversionSegment (get_segment_string (i, ctype), ctype,
                                seg_stat.seg_len));
     }
+}
+
+void
+Conversion::start (CandidateType ctype, bool single_segment)
+{
+    start (m_reading.get (), ctype, single_segment);
+}
+
+void
+Conversion::start (const WideString &source, bool single_segment)
+{
+    start (source, SCIM_ANTHY_CANDIDATE_NORMAL, single_segment);
 }
 
 void

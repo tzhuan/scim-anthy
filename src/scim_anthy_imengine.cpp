@@ -1754,11 +1754,14 @@ AnthyInstance::action_convert_char_type_backward (void)
 bool
 AnthyInstance::action_reconvert (void)
 {
+    if (m_preedit.is_preediting ())
+        return false;
+
     Transaction send;
     send.put_command (SCIM_ANTHY_TRANS_CMD_GET_SELECTION);
     send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 
-    return false;
+    return true;
 }
 
 bool
@@ -1892,14 +1895,20 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
             surround.substr (cursor, len) == selection)
         {
             delete_surrounding_text (0, len);
-            commit_string (utf8_mbstowcs ("hoge"));
+            //commit_string (utf8_mbstowcs ("hoge"));
+            m_preedit.convert (selection);
+            set_preedition ();
+            set_lookup_table ();
         }
 
         if (cursor >= (int) len &&
             surround.substr (cursor - len, len) == selection)
         {
             delete_surrounding_text (0 - len, len);
-            commit_string (utf8_mbstowcs ("hoge"));
+            //commit_string (utf8_mbstowcs ("hoge"));
+            m_preedit.convert (selection);
+            set_preedition ();
+            set_lookup_table ();
         }
         break;
     }

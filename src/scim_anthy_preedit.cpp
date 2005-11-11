@@ -118,7 +118,7 @@ Preedit::get_reading (void)
 bool
 Preedit::is_preediting (void)
 {
-    if (m_reading.get_length () > 0)
+    if (m_reading.get_length () > 0 || m_conversion.is_converting ())
         return true;
     else
         return false;
@@ -210,6 +210,12 @@ void
 Preedit::convert (CandidateType type, bool single_segment)
 {
     m_conversion.start (type, single_segment);
+}
+
+void
+Preedit::convert (const WideString &source, bool single_segment)
+{
+    m_conversion.start (source, single_segment);
 }
 
 void

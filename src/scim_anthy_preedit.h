@@ -69,6 +69,8 @@ public:
     virtual void          convert                (CandidateType type
                                                   = SCIM_ANTHY_CANDIDATE_NORMAL,
                                                   bool single_segment = false);
+    virtual void          convert                (const WideString &source,
+                                                  bool single_segment = false);
     virtual void          revert                 (void);
     virtual void          commit                 (int  segment_id = -1,
                                                   bool lean       = true);
