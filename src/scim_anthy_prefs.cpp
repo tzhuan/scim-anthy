@@ -520,6 +520,16 @@ StringConfigData config_keyboards_edit [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_RECONVERT_KEY,
+        SCIM_ANTHY_CONFIG_RECONVERT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_RECONVERT_KEY_DEFAULT,
+        N_("Reconvert"),
+        N_("Select reconvert keys"),
+        N_("The key events to reconvert the commited string in selection. "),
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_DO_NOTHING_KEY,
         SCIM_ANTHY_CONFIG_DO_NOTHING_KEY_DEFAULT,
         SCIM_ANTHY_CONFIG_DO_NOTHING_KEY_DEFAULT,

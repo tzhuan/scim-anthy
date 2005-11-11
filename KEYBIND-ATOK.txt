@@ -40,9 +40,9 @@ SCIMの機能:
 
   単語登録                     Ctrl+F7
 
-追加予定の機能:
   再変換                       Shift+Henkan
 
+追加予定の機能:
   部首変換                     Shift+F6
 
   1音確定                      Shift+Down
