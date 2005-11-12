@@ -66,6 +66,9 @@ public:
     void       set_case_sensitive   (bool sens);
     bool       get_case_sensitive   (void);
 
+public:
+    void       process_timeout      (void);
+
 private:
     void       search               (const KeyEvent     key,
                                      NicolaShiftType    shift_type,
@@ -93,7 +96,8 @@ private:
     void       on_no_key_pressed    (const KeyEvent     key);
 
     bool       is_repeating         (void);
-    void       emmit_key_event      (const KeyEvent   & key);
+    void       emit_key_event       (const KeyEvent   & key);
+    void       set_alarm            (int                time_msec);
 
 private:
     Key2KanaTableSet &m_tables;
@@ -115,6 +119,9 @@ private:
     struct timeval    m_time_thumb;
 
     KeyEvent          m_through_key_event;
+
+    uint32            m_timer_id;
+    bool              m_processing_timeout;
 };
 
 }

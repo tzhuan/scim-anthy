@@ -31,17 +31,32 @@ NicolaConvertor::NicolaConvertor (AnthyInstance &anthy,
                                   Key2KanaTableSet &tables)
     : m_tables            (tables),
       m_anthy             (anthy),
-      m_case_sensitive    (false)
+      m_case_sensitive    (false),
+      m_timer_id          (0),
+      m_processing_timeout(false)
 {
 }
 
 NicolaConvertor::~NicolaConvertor ()
 {
+    if (m_timer_id > 0)
+        m_anthy.timeout_remove (m_timer_id);
 }
 
 bool
 NicolaConvertor::can_append (const KeyEvent & key)
 {
+    if (key == m_through_key_event) {
+        m_through_key_event = KeyEvent ();
+        return false;
+    }
+
+    if (m_processing_timeout && !m_prev_thumb_key.empty()) {
+        emit_key_event (m_prev_thumb_key);
+        m_prev_thumb_key = KeyEvent ();
+        return false;
+    }
+
     if (is_repeating ()) {
         if (key.is_key_press () &&
             (key == m_repeat_char_key || key == m_repeat_thumb_key) &&
@@ -49,11 +64,6 @@ NicolaConvertor::can_append (const KeyEvent & key)
         {
             return false;
         }
-    }
-
-    if (key == m_through_key_event) {
-        m_through_key_event = KeyEvent ();
-        return false;
     }
 
     // ignore short cut keys of apllication.
@@ -180,7 +190,7 @@ NicolaConvertor::on_key_repeat (const KeyEvent key,
 {
     if (key.is_key_release ()) {
         if (!m_repeat_char_key.empty ())
-            emmit_key_event (key);
+            emit_key_event (key);
         m_repeat_char_key  = KeyEvent ();
         m_repeat_thumb_key = KeyEvent ();
         m_prev_char_key    = KeyEvent ();
@@ -200,14 +210,14 @@ NicolaConvertor::on_key_repeat (const KeyEvent key,
         m_repeat_thumb_key = KeyEvent ();
         m_prev_char_key    = key;
         m_prev_thumb_key   = KeyEvent ();
-        // set_alarm (m_e_time_char);
+        set_alarm (150);
 
     } else if (key == m_prev_thumb_key) {
         m_repeat_char_key  = KeyEvent ();
         m_repeat_thumb_key = KeyEvent ();
         m_prev_char_key    = KeyEvent ();
         m_prev_thumb_key   = key;
-        // set_alarm (m_e_time_thumb);
+        set_alarm (150);
 
     } else {
         m_repeat_char_key  = KeyEvent ();
@@ -256,7 +266,7 @@ NicolaConvertor::on_both_key_pressed (const KeyEvent key,
                         result, raw);
                 m_prev_char_key  = key;
                 m_prev_thumb_key = KeyEvent ();
-                // set_alarm (m_e_char_time);
+                set_alarm (150);
             }
 
         } else {
@@ -282,7 +292,7 @@ NicolaConvertor::on_both_key_pressed (const KeyEvent key,
             m_prev_char_key  = KeyEvent ();
             m_prev_thumb_key = key;
             gettimeofday (&m_time_thumb, NULL);
-            // set_alarm (m_e_time_thumb);
+            set_alarm (150);
 
         } else {
             search (m_prev_char_key, get_thumb_key_type (m_prev_thumb_key),
@@ -308,12 +318,12 @@ NicolaConvertor::on_thumb_key_pressed (const KeyEvent key,
         m_repeat_thumb_key = key;
 
     } else if (is_thumb_key (key) && key.is_key_release ()) {
-        emmit_key_event (m_prev_thumb_key);
-        emmit_key_event (key);
+        emit_key_event (m_prev_thumb_key);
+        emit_key_event (key);
         m_prev_thumb_key = KeyEvent ();
 
     } else if (is_thumb_key (key) & key.is_key_press ()) {
-        emmit_key_event (m_prev_thumb_key);
+        emit_key_event (m_prev_thumb_key);
         m_prev_thumb_key = key;
         gettimeofday (&m_time_thumb, NULL);
 
@@ -376,11 +386,11 @@ NicolaConvertor::on_no_key_pressed (const KeyEvent key)
     if (is_char_key (key)) {
         m_prev_char_key = key;
         gettimeofday (&m_time_char, NULL);
-        // set_alarm (m_e_time_char);
+        set_alarm (150);
     } else if (is_thumb_key (key)) {
         m_prev_thumb_key = key;
         gettimeofday (&m_time_thumb, NULL);
-        // set_alarm (m_e_time_thumb);
+        set_alarm (150);
     }
 }
 
@@ -391,12 +401,38 @@ NicolaConvertor::is_repeating (void)
 }
 
 void
-NicolaConvertor::emmit_key_event (const KeyEvent & key)
+NicolaConvertor::emit_key_event (const KeyEvent & key)
 {
     m_through_key_event = key;
 
     //m_anthy.forward_key_event (key);
     m_anthy.process_key_event (key);
+}
+
+static void
+timeout_emit_key_event (void *data)
+{
+    NicolaConvertor *nicola = static_cast<NicolaConvertor*> (data);
+    nicola->process_timeout ();
+}
+
+void
+NicolaConvertor::process_timeout (void)
+{
+    m_processing_timeout = true;
+    if (!m_prev_char_key.empty ())
+        m_anthy.process_key_event (m_prev_char_key);
+    else if (!m_prev_thumb_key.empty ())
+        m_anthy.process_key_event (m_prev_thumb_key);
+    m_processing_timeout = false;
+}
+
+void
+NicolaConvertor::set_alarm (int time_msec)
+{
+    m_timer_id = m_anthy.timeout_add (time_msec,
+                                      timeout_emit_key_event,
+                                      (void *) this);
 }
 
 bool
@@ -405,6 +441,18 @@ NicolaConvertor::append (const KeyEvent & key,
                          WideString & pending,
                          String &raw)
 {
+    if (m_timer_id > 0) {
+        m_anthy.timeout_remove (m_timer_id);
+        m_timer_id = 0;
+    }
+
+    if (m_processing_timeout) {
+        search (m_prev_char_key, SCIM_ANTHY_NICOLA_SHIFT_NONE,
+                result, raw);
+        m_prev_char_key  = KeyEvent ();
+        return false;
+    }
+
     if (key.is_key_press () && util_key_is_keypad (key)) {
         util_keypad_to_string (raw, key);
 
