@@ -28,6 +28,7 @@
 
 #define Uses_SCIM_IMENGINE
 #define Uses_SCIM_CONFIG_BASE
+#include <map>
 #include <anthy/anthy.h>
 #include <scim.h>
 #include "scim_anthy_preedit.h"
@@ -38,12 +39,53 @@ using namespace scim_anthy;
 
 class AnthyFactory;
 
+namespace scim_anthy {
+
 typedef enum {
     SCIM_ANTHY_CONVERSION_MULTI_SEGMENT,
     SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT,
     SCIM_ANTHY_CONVERSION_MULTI_SEGMENT_IMMEDIATE,
     SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT_IMMEDIATE,
 } ConversionMode;
+
+typedef void (*timeout_func) (void *data);
+typedef void (*delete_func)  (void *data);
+
+class TimeoutClosure
+{
+public:
+    TimeoutClosure ()
+        : m_time_msec  (0),
+          m_timeout_fn (NULL),
+          m_data       (NULL),
+          m_delete_fn  (NULL)
+        {}
+    TimeoutClosure  (uint32        time_msec,
+                     timeout_func  timeout_fn,
+                     void         *data,
+                     delete_func   delete_fn)
+        : m_time_msec  (time_msec),
+          m_timeout_fn (timeout_fn),
+          m_data       (data),
+          m_delete_fn  (delete_fn)
+        {}
+    virtual ~TimeoutClosure ()
+        {
+            if (m_delete_fn && m_data)
+                m_delete_fn (m_data);
+        }
+
+    void close (void) { m_timeout_fn (m_data); }
+private:
+    uint32        m_time_msec;
+    timeout_func  m_timeout_fn;
+    void         *m_data;
+    delete_func   m_delete_fn;
+};
+
+typedef std::map<int, TimeoutClosure>  TimeoutClosures;
+
+}
 
 class AnthyInstance : public IMEngineInstanceBase
 {
@@ -155,6 +197,11 @@ public:
            get_typing_method                  (void);
     InputMode
            get_input_mode                     (void);
+    int    timeout_add                        (uint32        time_msec,
+                                               timeout_func  timeout_fn,
+                                               void         *data = NULL,
+                                               delete_func   delete_fn = NULL);
+    void   timeout_remove                     (uint32        id);
 
 private:
     /* processing key event */
@@ -212,6 +259,10 @@ private:
 
     /* Helper */
     bool                  m_helper_started;
+
+    /* timeout */
+    uint32                m_timeout_id_seq;
+    TimeoutClosures       m_closures;
 };
 #endif /* __SCIM_ANTHY_IMENGINE_H__ */
 /*

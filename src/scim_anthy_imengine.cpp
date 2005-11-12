@@ -86,7 +86,8 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
       m_n_conv_key_pressed     (0),
       m_prev_input_mode        (SCIM_ANTHY_MODE_HIRAGANA),
       m_conv_mode              (SCIM_ANTHY_CONVERSION_MULTI_SEGMENT),
-      m_helper_started         (false)
+      m_helper_started         (false),
+      m_timeout_id_seq         (0)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Instance : ";
 
@@ -1814,6 +1815,36 @@ AnthyInstance::get_input_mode (void)
     return m_preedit.get_input_mode ();
 }
 
+int
+AnthyInstance::timeout_add (uint32 time_msec, timeout_func timeout_fn,
+                            void *data, delete_func delete_fn)
+{
+    uint32 id = ++m_timeout_id_seq;
+    m_closures[id] = TimeoutClosure (time_msec, timeout_fn, data, delete_fn);
+
+    Transaction send;
+    send.put_command (SCIM_ANTHY_TRANS_CMD_TIMEOUT_ADD);
+    send.put_data (id);
+    send.put_data (time_msec);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+
+    return id;
+}
+
+void
+AnthyInstance::timeout_remove (uint32 id)
+{
+    if (m_closures.find (id) == m_closures.end ())
+        return;
+
+    m_closures.erase (id);
+
+    Transaction send;
+    send.put_command (SCIM_ANTHY_TRANS_CMD_TIMEOUT_REMOVE);
+    send.put_data (id);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
 void
 AnthyInstance::trigger_property (const String &property)
 {
@@ -1891,8 +1922,7 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
     case SCIM_ANTHY_TRANS_CMD_GET_SELECTION:
     {
         WideString selection, surround;
-        reader.get_data (selection);
-        if (selection.empty ())
+        if (!reader.get_data (selection) || selection.empty ())
             break;
 
         int cursor;
@@ -1922,7 +1952,16 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
         break;
     }
     case SCIM_ANTHY_TRANS_CMD_TIMEOUT_NOTIFY:
+    {
+        uint32 id;
+        if (!reader.get_data (id))
+            break;
+        if (m_closures.find (id) == m_closures.end ())
+            break;
+        m_closures[id].close ();
+        m_closures.erase (id);
         break;
+    }
     default:
         break;
     }

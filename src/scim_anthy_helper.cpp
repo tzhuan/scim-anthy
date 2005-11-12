@@ -19,6 +19,7 @@
 
 #define Uses_SCIM_HELPER
 #define Uses_SCIM_CONFIG_BASE
+#include <map>
 #include <scim.h>
 #include <gtk/gtk.h>
 #include "scim_anthy_intl.h"
@@ -32,8 +33,6 @@ using namespace scim;
 #define scim_helper_module_get_helper_info anthy_imengine_helper_LTX_scim_helper_module_get_helper_info
 #define scim_helper_module_run_helper anthy_imengine_helper_LTX_scim_helper_module_run_helper
 
-static void       run                         (const String        &display,
-                                               const ConfigPointer &config);
 static gboolean   helper_agent_input_handler  (GIOChannel          *source,
                                                GIOCondition         condition,
                                                gpointer             user_data);
@@ -41,6 +40,11 @@ static void       slot_imengine_event         (const HelperAgent   *agent,
                                                int                  ic,
                                                const String        &uuid,
                                                const Transaction   &trans);
+static gint       timeout_func                (gpointer             data);
+static void       timeout_ctx_destroy_func    (gpointer             data);
+
+static void       run                         (const String        &display,
+                                               const ConfigPointer &config);
 
 HelperAgent helper_agent;
 
@@ -49,6 +53,23 @@ HelperInfo helper_info (SCIM_ANTHY_HELPER_UUID,        // uuid
                         "",                            // icon
                         "",
                         SCIM_HELPER_NEED_SCREEN_INFO);
+
+class TimeoutContext {
+public:
+    TimeoutContext (int ic, const String &uuid, uint32 id)
+        : m_ic   (ic),
+          m_uuid (uuid),
+          m_id   (id)
+        {}
+    virtual ~TimeoutContext () {}
+public:
+    int    m_ic;
+    String m_uuid;
+    uint32 m_id;
+};
+typedef std::map <uint32, guint> TimeoutIDList;
+std::map <int, TimeoutIDList> timeout_ids;
+
 
 //Module Interface
 extern "C" {
@@ -151,12 +172,62 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         break;
     }
     case SCIM_ANTHY_TRANS_CMD_TIMEOUT_ADD:
+    {
+        uint32 id, time_msec;
+        if (!reader.get_data (id) || !reader.get_data (time_msec))
+            break;
+        TimeoutContext *ctx = new TimeoutContext (ic, uuid, id);
+        guint timeout_id = gtk_timeout_add_full (time_msec,
+                                                 timeout_func,
+                                                 NULL,
+                                                 (gpointer) ctx,
+                                                 timeout_ctx_destroy_func);
+        timeout_ids[ic][id] = timeout_id;
         break;
+    }
     case SCIM_ANTHY_TRANS_CMD_TIMEOUT_REMOVE:
+    {
+        uint32 id;
+        if (reader.get_data (id) &&
+            timeout_ids.find (ic) != timeout_ids.end () &&
+            timeout_ids[ic].find (id) != timeout_ids[ic].end ())
+        {
+            guint tid = timeout_ids[ic][id];
+            gtk_timeout_remove (tid);
+        }
         break;
+    }
     default:
         break;
     }
+}
+
+static gint
+timeout_func (gpointer data)
+{
+    TimeoutContext *ctx = static_cast<TimeoutContext*> (data);
+
+    Transaction send;
+    send.put_command (SCIM_ANTHY_TRANS_CMD_TIMEOUT_NOTIFY);
+    send.put_data (ctx->m_id);
+    helper_agent.send_imengine_event (ctx->m_ic, ctx->m_uuid, send);
+
+    return FALSE;
+}
+
+static void
+timeout_ctx_destroy_func (gpointer data)
+{
+    TimeoutContext *ctx = static_cast<TimeoutContext*> (data);
+    int ic = ctx->m_ic;
+    uint32 id = ctx->m_id;
+
+    if (timeout_ids.find (ic) != timeout_ids.end () &&
+        timeout_ids[ic].find (id) != timeout_ids[ic].end ())
+    {
+        timeout_ids[ic].erase (id);
+    }
+    delete ctx;
 }
 
 static void
