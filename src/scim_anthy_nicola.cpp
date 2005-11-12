@@ -430,6 +430,11 @@ NicolaConvertor::process_timeout (void)
 void
 NicolaConvertor::set_alarm (int time_msec)
 {
+    if (time_msec < 5)
+        time_msec = 5;
+    if (time_msec > 1000)
+        time_msec = 1000;
+
     m_timer_id = m_anthy.timeout_add (time_msec,
                                       timeout_emit_key_event,
                                       (void *) this);
