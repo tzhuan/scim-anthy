@@ -141,8 +141,6 @@ static void
 slot_imengine_event (const HelperAgent *agent, int ic,
                      const String &uuid, const Transaction &recv)
 {
-    std::cout << "helper hoge" << std::endl;
-
     TransactionReader reader (recv);
     int cmd;
 

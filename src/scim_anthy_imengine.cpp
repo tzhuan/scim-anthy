@@ -1954,12 +1954,12 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
     case SCIM_ANTHY_TRANS_CMD_TIMEOUT_NOTIFY:
     {
         uint32 id;
-        if (!reader.get_data (id))
-            break;
-        if (m_closures.find (id) == m_closures.end ())
-            break;
-        m_closures[id].close ();
-        m_closures.erase (id);
+        if (reader.get_data (id) &&
+            m_closures.find (id) != m_closures.end ())
+        {
+            m_closures[id].close ();
+            m_closures.erase (id);
+        }
         break;
     }
     default:
