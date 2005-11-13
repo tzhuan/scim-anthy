@@ -214,11 +214,9 @@ kana_page_create_ui (void)
     widget = create_key_select_button (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY,
                                        GTK_TABLE (table), 1);
 
-#if 0
     /* NICOLA time */
     create_spin_button (SCIM_ANTHY_CONFIG_NICOLA_TIME,
                         GTK_TABLE (table), 3);
-#endif
 
     // prepare
     setup_kana_page ();

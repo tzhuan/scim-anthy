@@ -210,14 +210,14 @@ NicolaConvertor::on_key_repeat (const KeyEvent key,
         m_repeat_thumb_key = KeyEvent ();
         m_prev_char_key    = key;
         m_prev_thumb_key   = KeyEvent ();
-        set_alarm (150);
+        set_alarm (m_anthy.get_factory()->m_nicola_time);
 
     } else if (key == m_prev_thumb_key) {
         m_repeat_char_key  = KeyEvent ();
         m_repeat_thumb_key = KeyEvent ();
         m_prev_char_key    = KeyEvent ();
         m_prev_thumb_key   = key;
-        set_alarm (150);
+        set_alarm (m_anthy.get_factory()->m_nicola_time);
 
     } else {
         m_repeat_char_key  = KeyEvent ();
@@ -266,7 +266,7 @@ NicolaConvertor::on_both_key_pressed (const KeyEvent key,
                         result, raw);
                 m_prev_char_key  = key;
                 m_prev_thumb_key = KeyEvent ();
-                set_alarm (150);
+                set_alarm (m_anthy.get_factory()->m_nicola_time);
             }
 
         } else {
@@ -292,7 +292,7 @@ NicolaConvertor::on_both_key_pressed (const KeyEvent key,
             m_prev_char_key  = KeyEvent ();
             m_prev_thumb_key = key;
             gettimeofday (&m_time_thumb, NULL);
-            set_alarm (150);
+            set_alarm (m_anthy.get_factory()->m_nicola_time);
 
         } else {
             search (m_prev_char_key, get_thumb_key_type (m_prev_thumb_key),
@@ -386,11 +386,11 @@ NicolaConvertor::on_no_key_pressed (const KeyEvent key)
     if (is_char_key (key)) {
         m_prev_char_key = key;
         gettimeofday (&m_time_char, NULL);
-        set_alarm (150);
+        set_alarm (m_anthy.get_factory()->m_nicola_time);
     } else if (is_thumb_key (key)) {
         m_prev_thumb_key = key;
         gettimeofday (&m_time_thumb, NULL);
-        set_alarm (150);
+        set_alarm (m_anthy.get_factory()->m_nicola_time);
     }
 }
 

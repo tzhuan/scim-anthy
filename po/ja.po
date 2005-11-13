@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-11-12 02:53+0900\n"
+"POT-Creation-Date: 2005-11-13 16:11+0900\n"
 "PO-Revision-Date: 2005-10-14 22:48+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,101 +13,101 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:308 src/scim_anthy_imengine.cpp:476
+#: src/scim_anthy_imengine.cpp:309 src/scim_anthy_imengine.cpp:477
 #, c-format
 msgid "Candidates (%d/%d)"
 msgstr "候補一覧 (%d/%d)"
 
-#: src/scim_anthy_imengine.cpp:505
+#: src/scim_anthy_imengine.cpp:506
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:509 src/scim_anthy_setup.cpp:202
+#: src/scim_anthy_imengine.cpp:510 src/scim_anthy_setup.cpp:202
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:513 src/scim_anthy_setup.cpp:203
+#: src/scim_anthy_imengine.cpp:514 src/scim_anthy_setup.cpp:203
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:517 src/scim_anthy_imengine.cpp:518
+#: src/scim_anthy_imengine.cpp:518 src/scim_anthy_imengine.cpp:519
 #: src/scim_anthy_setup.cpp:204
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:522 src/scim_anthy_setup.cpp:205
+#: src/scim_anthy_imengine.cpp:523 src/scim_anthy_setup.cpp:205
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:522
+#: src/scim_anthy_imengine.cpp:523
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:526 src/scim_anthy_setup.cpp:206
+#: src/scim_anthy_imengine.cpp:527 src/scim_anthy_setup.cpp:206
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:532
+#: src/scim_anthy_imengine.cpp:533
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:536
+#: src/scim_anthy_imengine.cpp:537
 msgid "Romaji"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:540
+#: src/scim_anthy_imengine.cpp:541
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:544
+#: src/scim_anthy_imengine.cpp:545
 msgid "Thumb shift"
 msgstr "親指シフト"
 
-#: src/scim_anthy_imengine.cpp:551
+#: src/scim_anthy_imengine.cpp:552
 msgid "Conversion mode"
 msgstr "変換モード"
 
-#: src/scim_anthy_imengine.cpp:555 src/scim_anthy_imengine.cpp:556
+#: src/scim_anthy_imengine.cpp:556 src/scim_anthy_imengine.cpp:557
 #: src/scim_anthy_setup.cpp:220
 msgid "Multi segment"
 msgstr "連文節"
 
-#: src/scim_anthy_imengine.cpp:560 src/scim_anthy_imengine.cpp:561
+#: src/scim_anthy_imengine.cpp:561 src/scim_anthy_imengine.cpp:562
 #: src/scim_anthy_setup.cpp:221
 msgid "Single segment"
 msgstr "単文節"
 
-#: src/scim_anthy_imengine.cpp:565 src/scim_anthy_imengine.cpp:567
+#: src/scim_anthy_imengine.cpp:566 src/scim_anthy_imengine.cpp:568
 #: src/scim_anthy_setup.cpp:222
 msgid "Convert as you type (Multi segment)"
 msgstr "逐次変換(連文節)"
 
-#: src/scim_anthy_imengine.cpp:571 src/scim_anthy_imengine.cpp:573
+#: src/scim_anthy_imengine.cpp:572 src/scim_anthy_imengine.cpp:574
 #: src/scim_anthy_setup.cpp:223
 msgid "Convert as you type (Single segment)"
 msgstr "逐次変換(単文節)"
 
-#: src/scim_anthy_imengine.cpp:580
+#: src/scim_anthy_imengine.cpp:581
 msgid "Period style"
 msgstr "句読点スタイル"
 
-#: src/scim_anthy_imengine.cpp:607
+#: src/scim_anthy_imengine.cpp:608
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:612
+#: src/scim_anthy_imengine.cpp:613
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:614
+#: src/scim_anthy_imengine.cpp:615
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:620 src/scim_anthy_prefs.cpp:1105
+#: src/scim_anthy_imengine.cpp:621 src/scim_anthy_prefs.cpp:1105
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:622
+#: src/scim_anthy_imengine.cpp:623
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
@@ -408,12 +408,12 @@ msgid "Appearance"
 msgstr "外観"
 
 #: src/scim_anthy_setup.cpp:1341 src/scim_anthy_setup_romaji.cpp:233
-#: src/scim_anthy_setup_kana.cpp:415 src/scim_anthy_setup_kana.cpp:482
+#: src/scim_anthy_setup_kana.cpp:413 src/scim_anthy_setup_kana.cpp:480
 msgid "User defined"
 msgstr "ユーザー定義"
 
 #: src/scim_anthy_setup.cpp:1344 src/scim_anthy_setup_romaji.cpp:236
-#: src/scim_anthy_setup_kana.cpp:418 src/scim_anthy_setup_kana.cpp:485
+#: src/scim_anthy_setup_kana.cpp:416 src/scim_anthy_setup_kana.cpp:483
 msgid "Default"
 msgstr "標準設定"
 
@@ -434,7 +434,7 @@ msgstr "カスタマイズ...(_C)"
 msgid "Sequence"
 msgstr "入力文字列"
 
-#: src/scim_anthy_setup_romaji.cpp:156 src/scim_anthy_setup_kana.cpp:265
+#: src/scim_anthy_setup_romaji.cpp:156 src/scim_anthy_setup_kana.cpp:263
 msgid "Result"
 msgstr "出力文字列"
 
@@ -454,35 +454,35 @@ msgstr "レイアウト(_Y):"
 msgid "<b>NICOLA Layout</b>"
 msgstr "<b>NICOLA配列</b>"
 
-#: src/scim_anthy_setup_kana.cpp:264 src/scim_anthy_setup_kana.cpp:334
+#: src/scim_anthy_setup_kana.cpp:262 src/scim_anthy_setup_kana.cpp:332
 msgid "Key"
 msgstr "キー"
 
-#: src/scim_anthy_setup_kana.cpp:272
+#: src/scim_anthy_setup_kana.cpp:270
 msgid "Customize kana table"
 msgstr "かなテーブルのカスタマイズ"
 
-#: src/scim_anthy_setup_kana.cpp:282
+#: src/scim_anthy_setup_kana.cpp:280
 msgid "Kana _table:"
 msgstr "かなテーブル(_T):"
 
-#: src/scim_anthy_setup_kana.cpp:335
+#: src/scim_anthy_setup_kana.cpp:333
 msgid "Single press"
 msgstr "単独打鍵"
 
-#: src/scim_anthy_setup_kana.cpp:336
+#: src/scim_anthy_setup_kana.cpp:334
 msgid "Left thumb shift"
 msgstr "左親指シフト"
 
-#: src/scim_anthy_setup_kana.cpp:337
+#: src/scim_anthy_setup_kana.cpp:335
 msgid "Right thumb shift"
 msgstr "右親指シフト"
 
-#: src/scim_anthy_setup_kana.cpp:344
+#: src/scim_anthy_setup_kana.cpp:342
 msgid "Customize NICOLA table"
 msgstr "NICOLAテーブルのカスタマイズ"
 
-#: src/scim_anthy_setup_kana.cpp:354
+#: src/scim_anthy_setup_kana.cpp:352
 msgid "NICOLA _table:"
 msgstr "NICOLAテーブル(_T):"
 
@@ -572,16 +572,16 @@ msgstr ""
 "ウィンドウを一切表示しません。"
 
 #: src/scim_anthy_prefs.cpp:213
-msgid "NICOLA time:"
-msgstr "NICOLAタイム:"
+msgid "_Simultaneous pressing time:"
+msgstr "同時打鍵時間(_S):"
 
 #: src/scim_anthy_prefs.cpp:214
 msgid "[msec]"
 msgstr "[ミリ秒]"
 
 #: src/scim_anthy_prefs.cpp:216
-msgid "NICOLA time"
-msgstr "NICOLAタイム"
+msgid "Time to regard as simultaneous key pressing."
+msgstr "同時打鍵とみなす時間"
 
 #: src/scim_anthy_prefs.cpp:239
 msgid "_Input mode: "
@@ -1398,6 +1398,12 @@ msgstr "前景色"
 msgid "Background color"
 msgstr "背景色"
 
+#~ msgid "NICOLA time:"
+#~ msgstr "NICOLAタイム:"
+
+#~ msgid "NICOLA time"
+#~ msgstr "NICOLAタイム"
+
 #~ msgid ""
 #~ "Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>\n"
 #~ "Copyright (C) 2004,2005 Hiroyuki Ikezoe <poincare@ikezoe.net>"
@@ -1419,12 +1425,6 @@ msgstr "背景色"
 
 #~ msgid "_Result:"
 #~ msgstr "出力文字列(_R):"
-
-#~ msgid "_Simultaneous key pressing time:"
-#~ msgstr "同時打鍵時間(_S):"
-
-#~ msgid "Simultaneous key pressing time."
-#~ msgstr "同時打鍵時間"
 
 #~ msgid "None"
 #~ msgstr "なし"
