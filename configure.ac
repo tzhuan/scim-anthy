@@ -47,7 +47,7 @@ AC_TYPE_SIZE_T
 
 # Checks for libraries.
 
-SCIM_VERSION=0.99.8
+SCIM_VERSION=1.2.0
 
 PKG_CHECK_MODULES(SCIM,[scim >= $SCIM_VERSION])
 
