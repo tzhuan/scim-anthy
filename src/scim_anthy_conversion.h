@@ -110,7 +110,7 @@ public:
                                           int           segment_id = -1);
     unsigned int  get_segment_position   (int           segment_id = -1);
 
-    // candidates for a segment
+    // candidates for a segment or prediction
     void          get_candidates         (CommonLookupTable &table,
                                           int           segment_id = -1);
     int           get_selected_candidate (int           segment_id = -1);

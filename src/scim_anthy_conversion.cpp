@@ -212,7 +212,7 @@ Conversion::clear (void)
 void
 Conversion::commit (int segment_id, bool learn)
 {
-    if (m_segments.size () <= 0) return;
+    if (is_converting ()) return;
 
     // learn
     for (unsigned int i = m_start_id;
@@ -543,7 +543,7 @@ Conversion::get_segment_position (int segment_id)
 
 
 //
-// candidates for a segment
+// candidates for a segment or prediction
 //
 void
 Conversion::get_candidates (CommonLookupTable &table, int segment_id)
