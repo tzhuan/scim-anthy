@@ -161,22 +161,13 @@ Conversion::convert (const WideString &source, bool single_segment)
 void
 Conversion::predict (CommonLookupTable &table)
 {
-    predict (table, m_reading.get ());
-}
-
-void
-Conversion::predict (CommonLookupTable &table, const WideString &source)
-{
     table.clear ();
-
-    if (source.length () <= 0)
-        return;
 
 #ifdef HAS_ANTHY_PREDICTION
     String str;
     struct anthy_prediction_stat ps;
 
-    m_iconv.convert (str, source);
+    m_iconv.convert (str, m_reading.get ());
     anthy_set_prediction_string (m_prediction_context, str.c_str ());
     anthy_get_prediction_stat (m_prediction_context, &ps);
 
@@ -263,7 +254,7 @@ Conversion::commit (int segment_id, bool learn)
 
 
 //
-// segments of the converted sentence
+// getting status
 //
 bool
 Conversion::is_converting (void)

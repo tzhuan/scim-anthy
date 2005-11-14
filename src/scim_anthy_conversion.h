@@ -84,8 +84,6 @@ public:
     void          convert                (const WideString &source,
                                           bool          single_segment = false);
     void          predict                (CommonLookupTable &table);
-    void          predict                (CommonLookupTable &table,
-                                          const WideString  &source);
     void          clear                  (void);
     void          commit                 (int           segment_id = -1,
                                           bool          learn      = true);

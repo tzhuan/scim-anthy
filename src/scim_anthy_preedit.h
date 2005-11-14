@@ -99,8 +99,6 @@ public:
 
     // prediction
     virtual void          predict                (CommonLookupTable &table);
-    virtual void          predict                (CommonLookupTable &table,
-                                                  const WideString  &source);
 
     // clear all string
     virtual void          clear                  (void);

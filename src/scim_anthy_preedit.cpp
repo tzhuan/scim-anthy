@@ -358,12 +358,6 @@ Preedit::predict (CommonLookupTable &table)
     m_conversion.predict (table);
 }
 
-void
-Preedit::predict (CommonLookupTable &table, const WideString  &source)
-{
-    m_conversion.predict (table, source);
-}
-
 
 /*
  * clear all string
