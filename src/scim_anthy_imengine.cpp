@@ -123,8 +123,17 @@ AnthyInstance::is_nicola_thumb_shift_key (const KeyEvent &key)
 bool
 AnthyInstance::process_key_event_input (const KeyEvent &key)
 {
-    if (!m_preedit.can_process_key_event (key))
+    if (m_preedit.is_preediting () && !m_preedit.is_converting ()
+        && key.is_key_release ())
+    {
+        m_preedit.predict (m_prediction_lookup_table);
+        update_lookup_table (m_prediction_lookup_table);
+        show_lookup_table ();
+    }
+
+    if (!m_preedit.can_process_key_event (key)) {
         return false;
+    }
 
     if (m_preedit.is_converting ()) {
         if (is_realtime_conversion ()) {
@@ -354,7 +363,7 @@ AnthyInstance::reset ()
 
     m_preedit.clear ();
     m_lookup_table.clear ();
-
+    m_prediction_lookup_table.clear ();
     unset_lookup_table ();
 
     hide_preedit_string ();
