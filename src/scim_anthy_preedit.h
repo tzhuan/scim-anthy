@@ -98,7 +98,7 @@ public:
     virtual void          move_caret             (int            len);
 
     // prediction
-    virtual void          predict                (CommonLookupTable &table);
+    virtual void          predict                (void);
 
     // clear all string
     virtual void          clear                  (void);

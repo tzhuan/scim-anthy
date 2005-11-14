@@ -83,7 +83,7 @@ public:
                                           bool          single_segment = false);
     void          convert                (const WideString &source,
                                           bool          single_segment = false);
-    void          predict                (CommonLookupTable &table);
+    void          predict                (void);
     void          clear                  (void);
     void          commit                 (int           segment_id = -1,
                                           bool          learn      = true);
@@ -130,12 +130,12 @@ private:
     IConvert            m_iconv;
     Reading            &m_reading;
     anthy_context_t     m_anthy_context;
-    anthy_context_t     m_prediction_context;
 
     // status variables
     ConversionSegments  m_segments;
     int                 m_start_id;    // number of commited segments
     int                 m_cur_segment; // relative position from m_start_id
+    bool                m_predicting;
 };
 
 }

@@ -353,9 +353,9 @@ Preedit::move_caret (int step)
 }
 
 void
-Preedit::predict (CommonLookupTable &table)
+Preedit::predict (void)
 {
-    m_conversion.predict (table);
+    m_conversion.predict ();
 }
 
 

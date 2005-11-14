@@ -247,8 +247,6 @@ private:
     bool                  m_lookup_table_visible;
     unsigned int          m_n_conv_key_pressed;
 
-    CommonLookupTable     m_prediction_lookup_table;
-
     /* for toggling latin and wide latin */
     InputMode             m_prev_input_mode;
 

@@ -1,5 +1,10 @@
 2005-11-14 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_conversion.{cpp,h}, src/scim_anthy_preedit.cpp:
+	Cleanup.
+
+2005-11-14 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine.{cpp,h}: Add test code for prediction.
 
 2005-11-14 Takuro Ashie <ashie@homa.ne.jp>
