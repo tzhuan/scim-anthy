@@ -123,41 +123,40 @@ AnthyInstance::is_nicola_thumb_shift_key (const KeyEvent &key)
 bool
 AnthyInstance::process_key_event_input (const KeyEvent &key)
 {
-    if (m_preedit.can_process_key_event (key)) {
-        if (m_preedit.is_converting ()) {
-            if (is_realtime_conversion ()) {
-                action_revert ();
-            } else if (!is_nicola_thumb_shift_key (key)) {
-                action_commit (m_factory->m_learn_on_auto_commit);
-            }
-        }
+    if (!m_preedit.can_process_key_event (key))
+        return false;
 
-        bool need_commit = m_preedit.process_key_event (key);
-
-        if (need_commit) {
-            if (is_realtime_conversion () &&
-                get_input_mode () != SCIM_ANTHY_MODE_LATIN &&
-                get_input_mode () != SCIM_ANTHY_MODE_WIDE_LATIN)
-            {
-                m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
-                                   is_single_segment ());
-            }
+    if (m_preedit.is_converting ()) {
+        if (is_realtime_conversion ()) {
+            action_revert ();
+        } else if (!is_nicola_thumb_shift_key (key)) {
             action_commit (m_factory->m_learn_on_auto_commit);
-        } else {
-            if (is_realtime_conversion ()) {
-                m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
-                                   is_single_segment ());
-                m_preedit.select_segment (-1);
-            }
-            show_preedit_string ();
-            m_preedit_string_visible = true;
-            set_preedition ();
         }
-
-        return true;
     }
 
-    return false;
+    bool need_commit = m_preedit.process_key_event (key);
+
+    if (need_commit) {
+        if (is_realtime_conversion () &&
+            get_input_mode () != SCIM_ANTHY_MODE_LATIN &&
+            get_input_mode () != SCIM_ANTHY_MODE_WIDE_LATIN)
+        {
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+                               is_single_segment ());
+        }
+        action_commit (m_factory->m_learn_on_auto_commit);
+    } else {
+        if (is_realtime_conversion ()) {
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+                               is_single_segment ());
+            m_preedit.select_segment (-1);
+        }
+        show_preedit_string ();
+        m_preedit_string_visible = true;
+        set_preedition ();
+    }
+
+    return true;
 }
 
 bool
@@ -176,20 +175,49 @@ AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
 }
 
 bool
-AnthyInstance::process_key_event_without_preedit (const KeyEvent& key)
+AnthyInstance::process_key_event_latin_mode (const KeyEvent &key)
 {
-    return false;
+    if (key.is_key_release ())
+        return false;
+
+    if (util_key_is_keypad (key)) {
+        String str;
+        WideString wide;
+        util_keypad_to_string (str, key);
+        if (m_factory->m_ten_key_type == "Wide")
+            util_convert_to_wide (wide, str);
+        else
+            wide = utf8_mbstowcs (str);
+        if (wide.length () > 0) {
+            commit_string (wide);
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        // for Multi/Dead key
+        return false;
+    }
 }
 
 bool
-AnthyInstance::process_key_event_with_preedit (const KeyEvent& key)
+AnthyInstance::process_key_event_wide_latin_mode (const KeyEvent &key)
 {
-    return false;
-}
+    if (key.is_key_release ())
+        return false;
 
-bool
-AnthyInstance::process_key_event_with_candidate (const KeyEvent &key)
-{
+    String str;
+    WideString wide;
+    util_keypad_to_string (str, key);
+    if (util_key_is_keypad (key) && m_factory->m_ten_key_type == "Half")
+        wide = utf8_mbstowcs (str);
+    else
+        util_convert_to_wide (wide, str);
+    if (wide.length () > 0) {
+        commit_string (wide);
+        return true;
+    }
+
     return false;
 }
 
@@ -211,61 +239,13 @@ AnthyInstance::process_key_event (const KeyEvent& key)
     if (process_key_event_lookup_keybind (key))
         return true;
 
-    // process hard coded keys
-    if (is_selecting_candidates () && m_lookup_table_visible)
-        if (process_key_event_with_candidate (key))
-            return true;
-    else if (m_preedit.is_preediting ())
-        if (process_key_event_with_preedit(key))
-            return true;
-    else
-        if (process_key_event_without_preedit(key))
-            return true;
-
     // for Latin mode
-    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN) {
-        if (key.is_key_release ())
-            return false;
-
-        if (util_key_is_keypad (key)) {
-            String str;
-            WideString wide;
-            util_keypad_to_string (str, key);
-            if (m_factory->m_ten_key_type == "Wide")
-                util_convert_to_wide (wide, str);
-            else
-                wide = utf8_mbstowcs (str);
-            if (wide.length () > 0) {
-                commit_string (wide);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            // for Multi/Dead key
-            return false;
-        }
-    }
+    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_LATIN)
+        return process_key_event_latin_mode (key);
 
     // for wide Latin mode
-    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN) {
-        if (key.is_key_release ())
-            return false;
-
-        String str;
-        WideString wide;
-        util_keypad_to_string (str, key);
-        if (util_key_is_keypad (key) && m_factory->m_ten_key_type == "Half")
-            wide = utf8_mbstowcs (str);
-        else
-            util_convert_to_wide (wide, str);
-        if (wide.length () > 0) {
-            commit_string (wide);
-            return true;
-        }
-
-        return false;
-    }
+    if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
+        process_key_event_wide_latin_mode (key);
 
     // for other mode
     if (get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA ||
