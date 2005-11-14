@@ -113,6 +113,10 @@ public:
     void          select_candidate       (int           candidate_id,
                                           int           segment_id = -1);
 
+    // prediction
+    void          predict                (CommonLookupTable &table);
+    void          predict                (CommonLookupTable &table,
+                                          const WideString  &source);
 private:
     void          get_reading_substr     (WideString   &string,
                                           int           segment_id,
@@ -128,6 +132,7 @@ private:
     IConvert            m_iconv;
     Reading            &m_reading;
     anthy_context_t     m_anthy_context;
+    anthy_context_t     m_prediction_context;
 
     // status variables
     ConversionSegments  m_segments;

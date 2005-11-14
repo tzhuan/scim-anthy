@@ -70,11 +70,12 @@ ConversionSegment::set_reading_length (unsigned int len)
 
 
 Conversion::Conversion (AnthyInstance &anthy, Reading &reading)
-    : m_anthy            (anthy),
-      m_reading          (reading),
-      m_anthy_context    (anthy_create_context()),
-      m_start_id         (0),
-      m_cur_segment      (-1)
+    : m_anthy              (anthy),
+      m_reading            (reading),
+      m_anthy_context      (anthy_create_context()),
+      m_prediction_context (anthy_create_context()),
+      m_start_id           (0),
+      m_cur_segment        (-1)
 {
 #ifdef HAS_ANTHY_CONTEXT_SET_ENCODING
     anthy_context_set_encoding (m_anthy_context, ANTHY_EUC_JP_ENCODING);
@@ -88,6 +89,7 @@ Conversion::Conversion (AnthyInstance &anthy, Reading &reading)
 Conversion::~Conversion ()
 {
     anthy_release_context (m_anthy_context);
+    anthy_release_context (m_prediction_context);
 }
 
 void
@@ -124,7 +126,7 @@ Conversion::start (WideString source, CandidateType ctype, bool single_segment)
     if (single_segment)
         join_all_segments ();
 
-    /* get information about conversion string */
+    // get information about conversion string
     anthy_get_stat (m_anthy_context, &conv_stat);
     if (conv_stat.nr_segment <= 0)
         return;
@@ -159,9 +161,10 @@ void
 Conversion::clear (void)
 {
     anthy_reset_context (m_anthy_context);
+    anthy_reset_context (m_prediction_context);
 
     m_segments.clear ();
-    
+
     m_start_id    = 0;
     m_cur_segment = -1;
 }
@@ -359,10 +362,12 @@ Conversion::get_segment_string (int segment_id, int candidate_id)
                             real_seg_start, seg_stat.seg_len);
     } else {
         int len = anthy_get_segment (m_anthy_context, real_seg, cand, NULL, 0);
-        char buf[len + 1];
-        anthy_get_segment (m_anthy_context, real_seg, cand, buf, len + 1);
-        buf[len] = '\0';
-        m_iconv.convert (segment_str, buf, len);
+        if (len > 0) {
+            char buf[len + 1];
+            anthy_get_segment (m_anthy_context, real_seg, cand, buf, len + 1);
+            buf[len] = '\0';
+            m_iconv.convert (segment_str, buf, len);
+        }
     }
 
     return segment_str;
@@ -560,9 +565,9 @@ Conversion::get_segment_position (int segment_id)
 
 
 
-/*
- * candidates for a segment
- */
+//
+// candidates for a segment
+//
 void
 Conversion::get_candidates (CommonLookupTable &table, int segment_id)
 {
@@ -591,15 +596,16 @@ Conversion::get_candidates (CommonLookupTable &table, int segment_id)
     for (int i = 0; i < seg_stat.nr_candidate; i++) {
         int len = anthy_get_segment (m_anthy_context, real_segment_id, i,
                                      NULL, 0);
-        char *buf = (char *) malloc (len + 1);
+        if (len <= 0)
+            continue;
+
+        char buf[len + 1];
         anthy_get_segment (m_anthy_context, real_segment_id, i, buf, len + 1);
 
         WideString cand_wide;
         m_iconv.convert (cand_wide, buf, len);
 
         table.append_candidate (cand_wide);
-
-        free (buf);
     }
 
     table.set_cursor_pos (get_selected_candidate ());
@@ -621,9 +627,9 @@ Conversion::get_selected_candidate (int segment_id)
             return -1;
         else
             segment_id = m_cur_segment;
-    }
-    else if (segment_id >= conv_stat.nr_segment)
+    } else if (segment_id >= conv_stat.nr_segment) {
         return -1;
+    }
 
     return m_segments[segment_id].get_candidate_id ();
 }
@@ -671,4 +677,43 @@ Conversion::select_candidate (int candidate_id, int segment_id)
         m_segments[segment_id].set (get_segment_string (segment_id,
                                                         candidate_id),
                                     candidate_id);
+}
+
+void
+Conversion::predict (CommonLookupTable &table)
+{
+    predict (table, m_reading.get ());
+}
+
+void
+Conversion::predict (CommonLookupTable &table, const WideString &source)
+{
+    table.clear ();
+
+    if (source.length () <= 0)
+        return;
+
+#ifdef HAS_ANTHY_PREDICTION
+    String str;
+    struct anthy_prediction_stat ps;
+
+    m_iconv.convert (str, source);
+    anthy_set_prediction_string (m_prediction_context, str.c_str ());
+    anthy_get_prediction_stat (m_prediction_context, &ps);
+
+    for (int i = 0; i < ps.nr_prediction; i++) {
+        int len = anthy_get_prediction (m_prediction_context, i, NULL, 0);
+        if (len <= 0)
+            continue;
+
+        char buf[len + 1];
+        anthy_get_prediction (m_prediction_context, i, buf, len + 1);
+        buf[len] = '\0';
+
+        WideString cand;
+        m_iconv.convert (cand, buf);
+
+        table.append_candidate (cand);
+    }
+#endif /* HAS_ANTHY_PREDICTION */
 }

@@ -97,6 +97,11 @@ public:
     virtual void          set_caret_pos          (unsigned int   pos);
     virtual void          move_caret             (int            len);
 
+    // prediction
+    virtual void          predict                (CommonLookupTable &table);
+    virtual void          predict                (CommonLookupTable &table,
+                                                  const WideString  &source);
+
     // clear all string
     virtual void          clear                  (void);
 
