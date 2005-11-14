@@ -114,6 +114,7 @@ public:
     int           get_selected_candidate (int           segment_id = -1);
     void          select_candidate       (int           candidate_id,
                                           int           segment_id = -1);
+
 private:
     void          get_reading_substr     (WideString   &string,
                                           int           segment_id,
