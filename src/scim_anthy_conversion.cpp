@@ -268,6 +268,7 @@ Conversion::get_reading_substr (WideString &string,
                            SCIM_ANTHY_STRING_LATIN);
         }
         break;
+
     case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
         if (prev_cand == SCIM_ANTHY_CANDIDATE_WIDE_LATIN) {
             String str;
@@ -279,19 +280,23 @@ Conversion::get_reading_substr (WideString &string,
                            SCIM_ANTHY_STRING_WIDE_LATIN);
         }
         break;
+
     case SCIM_ANTHY_CANDIDATE_KATAKANA:
         m_reading.get (string, seg_start, seg_len,
                        SCIM_ANTHY_STRING_KATAKANA);
         break;
+
     case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
         m_reading.get (string, seg_start, seg_len,
                        SCIM_ANTHY_STRING_HALF_KATAKANA);
         break;
+
     case SCIM_ANTHY_CANDIDATE_HALF:
         // shouldn't reach to this entry
         m_reading.get (string, seg_start, seg_len,
                        SCIM_ANTHY_STRING_HALF_KATAKANA);
         break;
+
     case SCIM_ANTHY_CANDIDATE_HIRAGANA:
     default:
         m_reading.get (string, seg_start, seg_len,
