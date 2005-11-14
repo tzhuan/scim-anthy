@@ -212,7 +212,7 @@ Conversion::clear (void)
 void
 Conversion::commit (int segment_id, bool learn)
 {
-    if (is_converting ()) return;
+    if (!is_converting ()) return;
 
     // learn
     for (unsigned int i = m_start_id;
