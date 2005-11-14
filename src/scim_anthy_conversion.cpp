@@ -24,8 +24,7 @@
 
 using namespace scim_anthy;
 
-ConversionSegment::ConversionSegment (WideString str,
-                                      int cand_id,
+ConversionSegment::ConversionSegment (WideString str, int cand_id,
                                       unsigned int reading_len)
     : m_string      (str),
       m_cand_id     (cand_id),

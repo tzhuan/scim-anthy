@@ -85,7 +85,7 @@ public:
                                           bool          single_segment = false);
     void          clear                  (void);
     void          commit                 (int           segment_id = -1,
-                                          bool          lean       = true);
+                                          bool          learn      = true);
 
     // getting status
     bool          is_converting          (void);
@@ -96,43 +96,43 @@ public:
 
     // segments of the converted sentence
     int           get_nr_segments        (void);
-    WideString    get_segment_string     (int segment_id = -1,
-                                          int candidate_id
+    WideString    get_segment_string     (int           segment_id = -1,
+                                          int           candidate_id
                                           = SCIM_ANTHY_LAST_SPECIAL_CANDIDATE);
     int           get_selected_segment   (void);
-    void          select_segment         (int segment_id);
-    int           get_segment_size       (int segment_id = -1);
-    void          resize_segment         (int relative_size,
-                                          int segment_id = -1);
-    unsigned int  get_segment_position   (int segment_id = -1);
+    void          select_segment         (int           segment_id);
+    int           get_segment_size       (int           segment_id = -1);
+    void          resize_segment         (int           relative_size,
+                                          int           segment_id = -1);
+    unsigned int  get_segment_position   (int           segment_id = -1);
 
     // candidates for a segment
     void          get_candidates         (CommonLookupTable &table,
-                                          int segment_id = -1);
-    int           get_selected_candidate (int segment_id = -1);
-    void          select_candidate       (int candidate_id,
-                                          int segment_id = -1);
+                                          int           segment_id = -1);
+    int           get_selected_candidate (int           segment_id = -1);
+    void          select_candidate       (int           candidate_id,
+                                          int           segment_id = -1);
 
 private:
-    void          get_reading_substr     (WideString &string,
-                                          int segment_id,
-                                          int candidate_id,
-                                          int seg_start,
-                                          int seg_len);
+    void          get_reading_substr     (WideString   &string,
+                                          int           segment_id,
+                                          int           candidate_id,
+                                          int           seg_start,
+                                          int           seg_len);
     void          join_all_segments      (void);
 
 private:
-    AnthyInstance     &m_anthy;
+    AnthyInstance      &m_anthy;
 
     // convertors
-    IConvert           m_iconv;
-    Reading           &m_reading;
-    anthy_context_t    m_anthy_context;
+    IConvert            m_iconv;
+    Reading            &m_reading;
+    anthy_context_t     m_anthy_context;
 
     // status variables
-    ConversionSegments m_segments;
-    int                m_start_id;    // number of commited segments
-    int                m_cur_segment; // relative position from m_start_id
+    ConversionSegments  m_segments;
+    int                 m_start_id;    // number of commited segments
+    int                 m_cur_segment; // relative position from m_start_id
 };
 
 }
