@@ -24,6 +24,12 @@
 
 using namespace scim_anthy;
 
+static void rotate_case (String &str);
+
+
+//
+// ConversionSegment Class
+//
 ConversionSegment::ConversionSegment (WideString str, int cand_id,
                                       unsigned int reading_len)
     : m_string      (str),
@@ -69,6 +75,10 @@ ConversionSegment::set_reading_length (unsigned int len)
 }
 
 
+
+//
+// Conversion Class
+//
 Conversion::Conversion (AnthyInstance &anthy, Reading &reading)
     : m_anthy              (anthy),
       m_reading            (reading),
@@ -92,23 +102,14 @@ Conversion::~Conversion ()
     anthy_release_context (m_prediction_context);
 }
 
-void
-Conversion::join_all_segments (void)
-{
-    do {
-        struct anthy_conv_stat conv_stat;
-        anthy_get_stat (m_anthy_context, &conv_stat);
-        int nr_seg = conv_stat.nr_segment - m_start_id;
 
-        if (nr_seg > 1)
-            anthy_resize_segment (m_anthy_context, m_start_id, 1);
-        else
-            break;
-    } while (true);
-}
 
+//
+// starting and finishing
+//
 void
-Conversion::start (WideString source, CandidateType ctype, bool single_segment)
+Conversion::convert (WideString source, CandidateType ctype,
+                     bool single_segment)
 {
     if (is_converting ())
         return;
@@ -146,15 +147,54 @@ Conversion::start (WideString source, CandidateType ctype, bool single_segment)
 }
 
 void
-Conversion::start (CandidateType ctype, bool single_segment)
+Conversion::convert (CandidateType ctype, bool single_segment)
 {
-    start (m_reading.get (), ctype, single_segment);
+    convert (m_reading.get (), ctype, single_segment);
 }
 
 void
-Conversion::start (const WideString &source, bool single_segment)
+Conversion::convert (const WideString &source, bool single_segment)
 {
-    start (source, SCIM_ANTHY_CANDIDATE_NORMAL, single_segment);
+    convert (source, SCIM_ANTHY_CANDIDATE_NORMAL, single_segment);
+}
+
+void
+Conversion::predict (CommonLookupTable &table)
+{
+    predict (table, m_reading.get ());
+}
+
+void
+Conversion::predict (CommonLookupTable &table, const WideString &source)
+{
+    table.clear ();
+
+    if (source.length () <= 0)
+        return;
+
+#ifdef HAS_ANTHY_PREDICTION
+    String str;
+    struct anthy_prediction_stat ps;
+
+    m_iconv.convert (str, source);
+    anthy_set_prediction_string (m_prediction_context, str.c_str ());
+    anthy_get_prediction_stat (m_prediction_context, &ps);
+
+    for (int i = 0; i < ps.nr_prediction; i++) {
+        int len = anthy_get_prediction (m_prediction_context, i, NULL, 0);
+        if (len <= 0)
+            continue;
+
+        char buf[len + 1];
+        anthy_get_prediction (m_prediction_context, i, buf, len + 1);
+        buf[len] = '\0';
+
+        WideString cand;
+        m_iconv.convert (cand, buf);
+
+        table.append_candidate (cand);
+    }
+#endif /* HAS_ANTHY_PREDICTION */
 }
 
 void
@@ -220,92 +260,105 @@ Conversion::commit (int segment_id, bool learn)
     }
 }
 
-static void
-rotate_case (String &str)
-{
-    bool is_mixed = false;
-    for (unsigned int i = 1; i < str.length (); i++) {
-        if ((isupper (str[0]) && islower (str[i])) ||
-            (islower (str[0]) && isupper (str[i])))
-        {
-            is_mixed = true;
-            break;
-        }
-    }
 
-    if (is_mixed) {
-        // Anthy -> anthy, anThy -> anthy
-        for (unsigned int i = 0; i < str.length (); i++)
-            str[i] = tolower (str[i]);
-    } else if (isupper (str[0])) {
-        // ANTHY -> Anthy
-        for (unsigned int i = 1; i < str.length (); i++)
-            str[i] = tolower (str[i]);
-    } else {
-        // anthy -> ANTHY
-        for (unsigned int i = 0; i < str.length (); i++)
-            str[i] = toupper (str[i]);
-    }
+
+//
+// segments of the converted sentence
+//
+bool
+Conversion::is_converting (void)
+{
+    if (m_segments.size () > 0)
+        return true;
+    else
+        return false;
 }
 
-void
-Conversion::get_reading_substr (WideString &string,
-                                int segment_id,
-                                int candidate_id,
-                                int seg_start,
-                                int seg_len)
+bool
+Conversion::is_predicting (void)
 {
-    int prev_cand = 0;
+#ifdef HAS_ANTHY_PREDICTION
+    struct anthy_prediction_stat ps;
+    anthy_get_prediction_stat (m_anthy_context, &ps);
+    if (ps.nr_prediction > 0)
+        return true;
+    else
+        return false;
+#else /* HAS_ANTHY_PREDICTION */
+    return false;
+#endif /* HAS_ANTHY_PREDICTION */
+}
 
-    if (segment_id < (int) m_segments.size ())
-        prev_cand = m_segments[segment_id].get_candidate_id ();
+WideString
+Conversion::get (void)
+{
+    WideString str;
+    ConversionSegments::iterator it;
+    for (it = m_segments.begin (); it != m_segments.end (); it++)
+        str += it->get_string ();
+    return str;
+}
 
-    switch ((CandidateType) candidate_id) {
-    case SCIM_ANTHY_CANDIDATE_LATIN:
-        if (prev_cand == SCIM_ANTHY_CANDIDATE_LATIN) {
-            String str = utf8_wcstombs (m_segments[segment_id].get_string ());
-            rotate_case (str);
-            string = utf8_mbstowcs (str);
-        } else {
-            m_reading.get (string, seg_start, seg_len,
-                           SCIM_ANTHY_STRING_LATIN);
+unsigned int
+Conversion::get_length (void)
+{
+    unsigned int len = 0;
+    ConversionSegments::iterator it;
+    for (it = m_segments.begin (); it != m_segments.end (); it++)
+        len += it->get_string().length ();
+    return len;
+}
+
+AttributeList
+Conversion::get_attribute_list (void)
+{
+    AttributeList attrs;
+    unsigned int pos = 0, seg_id;
+    ConversionSegments::iterator it;
+    for (it = m_segments.begin (), seg_id = 0;
+         it != m_segments.end ();
+         it++, seg_id++)
+    {
+        // create attribute for this segment
+        if (it->get_string().length () <= 0) {
+            pos += it->get_string().length ();
+            continue;
         }
-        break;
 
-    case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
-        if (prev_cand == SCIM_ANTHY_CANDIDATE_WIDE_LATIN) {
-            String str;
-            util_convert_to_half (str, m_segments[segment_id].get_string ());
-            rotate_case (str);
-            util_convert_to_wide (string, str);
+        if ((int) seg_id == m_cur_segment) {
+            util_create_attributes (
+                attrs, pos, it->get_string().length(),
+                m_anthy.get_factory()->m_selected_segment_style,
+                m_anthy.get_factory()->m_selected_segment_fg_color,
+                m_anthy.get_factory()->m_selected_segment_bg_color);
         } else {
-            m_reading.get (string, seg_start, seg_len,
-                           SCIM_ANTHY_STRING_WIDE_LATIN);
+            util_create_attributes (
+                attrs, pos, it->get_string().length(),
+                m_anthy.get_factory()->m_conversion_style,
+                m_anthy.get_factory()->m_conversion_fg_color,
+                m_anthy.get_factory()->m_conversion_bg_color);
         }
-        break;
 
-    case SCIM_ANTHY_CANDIDATE_KATAKANA:
-        m_reading.get (string, seg_start, seg_len,
-                       SCIM_ANTHY_STRING_KATAKANA);
-        break;
-
-    case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
-        m_reading.get (string, seg_start, seg_len,
-                       SCIM_ANTHY_STRING_HALF_KATAKANA);
-        break;
-
-    case SCIM_ANTHY_CANDIDATE_HALF:
-        // shouldn't reach to this entry
-        m_reading.get (string, seg_start, seg_len,
-                       SCIM_ANTHY_STRING_HALF_KATAKANA);
-        break;
-
-    case SCIM_ANTHY_CANDIDATE_HIRAGANA:
-    default:
-        m_reading.get (string, seg_start, seg_len,
-                       SCIM_ANTHY_STRING_HIRAGANA);
-        break;
+        pos += it->get_string().length ();
     }
+
+    return attrs;
+}
+
+
+
+//
+// segments of the converted sentence
+//
+int
+Conversion::get_nr_segments (void)
+{
+    if (!is_converting ()) return 0;
+
+    struct anthy_conv_stat conv_stat;
+    anthy_get_stat (m_anthy_context, &conv_stat);
+
+    return conv_stat.nr_segment - m_start_id;
 }
 
 WideString
@@ -371,82 +424,6 @@ Conversion::get_segment_string (int segment_id, int candidate_id)
     }
 
     return segment_str;
-}
-
-bool
-Conversion::is_converting (void)
-{
-    if (m_segments.size () > 0)
-        return true;
-    else
-        return false;
-}
-
-WideString
-Conversion::get (void)
-{
-    WideString str;
-    ConversionSegments::iterator it;
-    for (it = m_segments.begin (); it != m_segments.end (); it++)
-        str += it->get_string ();
-    return str;
-}
-
-unsigned int
-Conversion::get_length (void)
-{
-    unsigned int len = 0;
-    ConversionSegments::iterator it;
-    for (it = m_segments.begin (); it != m_segments.end (); it++)
-        len += it->get_string().length ();
-    return len;
-}
-
-AttributeList
-Conversion::get_attribute_list (void)
-{
-    AttributeList attrs;
-    unsigned int pos = 0, seg_id;
-    ConversionSegments::iterator it;
-    for (it = m_segments.begin (), seg_id = 0;
-         it != m_segments.end ();
-         it++, seg_id++)
-    {
-        // create attribute for this segment
-        if (it->get_string().length () <= 0) {
-            pos += it->get_string().length ();
-            continue;
-        }
-
-        if ((int) seg_id == m_cur_segment) {
-            util_create_attributes (
-                attrs, pos, it->get_string().length(),
-                m_anthy.get_factory()->m_selected_segment_style,
-                m_anthy.get_factory()->m_selected_segment_fg_color,
-                m_anthy.get_factory()->m_selected_segment_bg_color);
-        } else {
-            util_create_attributes (
-                attrs, pos, it->get_string().length(),
-                m_anthy.get_factory()->m_conversion_style,
-                m_anthy.get_factory()->m_conversion_fg_color,
-                m_anthy.get_factory()->m_conversion_bg_color);
-        }
-
-        pos += it->get_string().length ();
-    }
-
-    return attrs;
-}
-
-int
-Conversion::get_nr_segments (void)
-{
-    if (!is_converting ()) return 0;
-
-    struct anthy_conv_stat conv_stat;
-    anthy_get_stat (m_anthy_context, &conv_stat);
-
-    return conv_stat.nr_segment - m_start_id;
 }
 
 int
@@ -679,41 +656,110 @@ Conversion::select_candidate (int candidate_id, int segment_id)
                                     candidate_id);
 }
 
+
+
+//
+// Utilities
+//
 void
-Conversion::predict (CommonLookupTable &table)
+Conversion::get_reading_substr (WideString &string,
+                                int segment_id,
+                                int candidate_id,
+                                int seg_start,
+                                int seg_len)
 {
-    predict (table, m_reading.get ());
+    int prev_cand = 0;
+
+    if (segment_id < (int) m_segments.size ())
+        prev_cand = m_segments[segment_id].get_candidate_id ();
+
+    switch ((CandidateType) candidate_id) {
+    case SCIM_ANTHY_CANDIDATE_LATIN:
+        if (prev_cand == SCIM_ANTHY_CANDIDATE_LATIN) {
+            String str = utf8_wcstombs (m_segments[segment_id].get_string ());
+            rotate_case (str);
+            string = utf8_mbstowcs (str);
+        } else {
+            m_reading.get (string, seg_start, seg_len,
+                           SCIM_ANTHY_STRING_LATIN);
+        }
+        break;
+
+    case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
+        if (prev_cand == SCIM_ANTHY_CANDIDATE_WIDE_LATIN) {
+            String str;
+            util_convert_to_half (str, m_segments[segment_id].get_string ());
+            rotate_case (str);
+            util_convert_to_wide (string, str);
+        } else {
+            m_reading.get (string, seg_start, seg_len,
+                           SCIM_ANTHY_STRING_WIDE_LATIN);
+        }
+        break;
+
+    case SCIM_ANTHY_CANDIDATE_KATAKANA:
+        m_reading.get (string, seg_start, seg_len,
+                       SCIM_ANTHY_STRING_KATAKANA);
+        break;
+
+    case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
+        m_reading.get (string, seg_start, seg_len,
+                       SCIM_ANTHY_STRING_HALF_KATAKANA);
+        break;
+
+    case SCIM_ANTHY_CANDIDATE_HALF:
+        // shouldn't reach to this entry
+        m_reading.get (string, seg_start, seg_len,
+                       SCIM_ANTHY_STRING_HALF_KATAKANA);
+        break;
+
+    case SCIM_ANTHY_CANDIDATE_HIRAGANA:
+    default:
+        m_reading.get (string, seg_start, seg_len,
+                       SCIM_ANTHY_STRING_HIRAGANA);
+        break;
+    }
 }
 
 void
-Conversion::predict (CommonLookupTable &table, const WideString &source)
+Conversion::join_all_segments (void)
 {
-    table.clear ();
+    do {
+        struct anthy_conv_stat conv_stat;
+        anthy_get_stat (m_anthy_context, &conv_stat);
+        int nr_seg = conv_stat.nr_segment - m_start_id;
 
-    if (source.length () <= 0)
-        return;
+        if (nr_seg > 1)
+            anthy_resize_segment (m_anthy_context, m_start_id, 1);
+        else
+            break;
+    } while (true);
+}
 
-#ifdef HAS_ANTHY_PREDICTION
-    String str;
-    struct anthy_prediction_stat ps;
-
-    m_iconv.convert (str, source);
-    anthy_set_prediction_string (m_prediction_context, str.c_str ());
-    anthy_get_prediction_stat (m_prediction_context, &ps);
-
-    for (int i = 0; i < ps.nr_prediction; i++) {
-        int len = anthy_get_prediction (m_prediction_context, i, NULL, 0);
-        if (len <= 0)
-            continue;
-
-        char buf[len + 1];
-        anthy_get_prediction (m_prediction_context, i, buf, len + 1);
-        buf[len] = '\0';
-
-        WideString cand;
-        m_iconv.convert (cand, buf);
-
-        table.append_candidate (cand);
+static void
+rotate_case (String &str)
+{
+    bool is_mixed = false;
+    for (unsigned int i = 1; i < str.length (); i++) {
+        if ((isupper (str[0]) && islower (str[i])) ||
+            (islower (str[0]) && isupper (str[i])))
+        {
+            is_mixed = true;
+            break;
+        }
     }
-#endif /* HAS_ANTHY_PREDICTION */
+
+    if (is_mixed) {
+        // Anthy -> anthy, anThy -> anthy
+        for (unsigned int i = 0; i < str.length (); i++)
+            str[i] = tolower (str[i]);
+    } else if (isupper (str[0])) {
+        // ANTHY -> Anthy
+        for (unsigned int i = 1; i < str.length (); i++)
+            str[i] = tolower (str[i]);
+    } else {
+        // anthy -> ANTHY
+        for (unsigned int i = 0; i < str.length (); i++)
+            str[i] = toupper (str[i]);
+    }
 }

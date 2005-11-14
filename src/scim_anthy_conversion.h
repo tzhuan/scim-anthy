@@ -75,20 +75,24 @@ public:
     virtual ~Conversion ();
 
     // starting and finishing
-    void          start                  (WideString    source,
+    void          convert                (WideString    source,
                                           CandidateType ctype,
                                           bool          single_segment);
-    void          start                  (CandidateType type
+    void          convert                (CandidateType type
                                           = SCIM_ANTHY_CANDIDATE_NORMAL,
                                           bool          single_segment = false);
-    void          start                  (const WideString &source,
+    void          convert                (const WideString &source,
                                           bool          single_segment = false);
+    void          predict                (CommonLookupTable &table);
+    void          predict                (CommonLookupTable &table,
+                                          const WideString  &source);
     void          clear                  (void);
     void          commit                 (int           segment_id = -1,
                                           bool          learn      = true);
 
     // getting status
     bool          is_converting          (void);
+    bool          is_predicting          (void);
 
     WideString    get                    (void);
     unsigned int  get_length             (void);
@@ -112,11 +116,6 @@ public:
     int           get_selected_candidate (int           segment_id = -1);
     void          select_candidate       (int           candidate_id,
                                           int           segment_id = -1);
-
-    // prediction
-    void          predict                (CommonLookupTable &table);
-    void          predict                (CommonLookupTable &table,
-                                          const WideString  &source);
 private:
     void          get_reading_substr     (WideString   &string,
                                           int           segment_id,
