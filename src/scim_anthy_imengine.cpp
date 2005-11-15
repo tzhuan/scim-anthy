@@ -123,15 +123,21 @@ AnthyInstance::is_nicola_thumb_shift_key (const KeyEvent &key)
 bool
 AnthyInstance::process_key_event_input (const KeyEvent &key)
 {
+#if 0
     if (m_preedit.is_preediting () && !m_preedit.is_converting ()
         && key.is_key_release ())
     {
         CommonLookupTable table;
         m_preedit.predict ();
         m_preedit.get_candidates (table);
-        update_lookup_table (table);
-        show_lookup_table ();
+        if (table.number_of_candidates () > 0) {
+            update_lookup_table (table);
+            show_lookup_table ();
+        } else {
+            hide_lookup_table ();
+        }
     }
+#endif
 
     if (!m_preedit.can_process_key_event (key)) {
         return false;
@@ -454,9 +460,12 @@ AnthyInstance::set_lookup_table (void)
 
     }
 
-    if (!m_lookup_table_visible &&
+    bool beyond_threshold =
         m_factory->m_n_triggers_to_show_cand_win > 0 &&
-        (int) m_n_conv_key_pressed >= m_factory->m_n_triggers_to_show_cand_win)
+        (int) m_n_conv_key_pressed >= m_factory->m_n_triggers_to_show_cand_win;
+
+    if (!m_lookup_table_visible &&
+        (m_preedit.is_predicting () || beyond_threshold))
     {
         show_lookup_table ();
         m_lookup_table_visible = true;
@@ -823,6 +832,27 @@ AnthyInstance::action_convert (void)
 
     return false;
 }
+
+bool
+AnthyInstance::action_predict (void)
+{
+    if (!m_preedit.is_preediting ())
+        return false;
+
+    if (m_preedit.is_converting ())
+        return false;
+
+    if (!m_preedit.is_predicting ())
+        m_preedit.predict ();
+
+    m_preedit.select_candidate (0);
+    set_preedition ();
+    set_lookup_table ();
+    select_candidate_no_direct (0);
+
+    return true;
+}
+
 
 bool
 AnthyInstance::action_revert (void)

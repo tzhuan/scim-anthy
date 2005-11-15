@@ -57,6 +57,7 @@ public:
 
     virtual bool          is_preediting          (void);
     virtual bool          is_converting          (void);
+    virtual bool          is_predicting          (void);
     virtual bool          is_reconverting        (void);
 
     // manipulating the preedit string

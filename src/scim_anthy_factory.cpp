@@ -350,6 +350,7 @@ ANTHY_DEFINE_ACTION (action_do_nothing);
 ANTHY_DEFINE_ACTION (action_commit_follow_preference);
 ANTHY_DEFINE_ACTION (action_commit_reverse_preference);
 ANTHY_DEFINE_ACTION (action_convert);
+ANTHY_DEFINE_ACTION (action_predict);
 ANTHY_DEFINE_ACTION (action_revert);
 ANTHY_DEFINE_ACTION (action_cancel_all);
 ANTHY_DEFINE_ACTION (action_back);
@@ -588,6 +589,7 @@ AnthyFactory::reload_config (const ConfigPointer &config)
 
     // convert key
     APPEND_ACTION (CONVERT,                 action_convert);
+    APPEND_ACTION (PREDICT,                 action_predict);
 
     // candidates keys
     APPEND_ACTION (CANDIDATES_PAGE_UP,      action_candidates_page_up);

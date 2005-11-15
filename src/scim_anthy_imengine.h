@@ -115,6 +115,7 @@ public:
     bool   action_do_nothing                  (void);
 
     bool   action_convert                     (void);
+    bool   action_predict                     (void);
     bool   action_revert                      (void);
     bool   action_cancel_all                  (void);
     bool   action_commit_follow_preference    (void);

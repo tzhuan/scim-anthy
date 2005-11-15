@@ -169,7 +169,13 @@ Conversion::predict (void)
 
     m_iconv.convert (str, m_reading.get ());
     anthy_set_prediction_string (m_anthy_context, str.c_str ());
-    m_predicting = true;
+
+    struct anthy_prediction_stat ps;
+    anthy_get_prediction_stat (m_anthy_context, &ps);
+    if (ps.nr_prediction > 0)
+        m_predicting = true;
+    else
+        anthy_reset_context (m_anthy_context);
 #endif /* HAS_ANTHY_PREDICTION */
 }
 
@@ -446,6 +452,7 @@ Conversion::get_segment_size (int segment_id)
 void
 Conversion::resize_segment (int relative_size, int segment_id)
 {
+    if (is_predicting ()) return;
     if (!is_converting ()) return;
 
     struct anthy_conv_stat conv_stat;
@@ -522,8 +529,6 @@ Conversion::get_candidates (CommonLookupTable &table, int segment_id)
         String str;
         struct anthy_prediction_stat ps;
 
-        m_iconv.convert (str, m_reading.get ());
-        anthy_set_prediction_string (m_anthy_context, str.c_str ());
         anthy_get_prediction_stat (m_anthy_context, &ps);
 
         for (int i = 0; i < ps.nr_prediction; i++) {
@@ -585,69 +590,115 @@ Conversion::get_candidates (CommonLookupTable &table, int segment_id)
 int
 Conversion::get_selected_candidate (int segment_id)
 {
-    if (!is_converting ()) return -1;
+    if (is_predicting ()) {
+        struct anthy_prediction_stat ps;
 
-    struct anthy_conv_stat conv_stat;
-    anthy_get_stat (m_anthy_context, &conv_stat);
+        anthy_get_prediction_stat (m_anthy_context, &ps);
 
-    if (conv_stat.nr_segment <= 0)
-        return -1;
-
-    if (segment_id < 0) {
-        if (m_cur_segment < 0)
+        if (ps.nr_prediction <= 0)
             return -1;
-        else
-            segment_id = m_cur_segment;
-    } else if (segment_id >= conv_stat.nr_segment) {
-        return -1;
+
+        if (segment_id < 0) {
+            if (m_cur_segment < 0)
+                return -1;
+            else
+                segment_id = m_cur_segment;
+        } else if (segment_id >= ps.nr_prediction) {
+            return -1;
+        }
+
+        return m_segments[segment_id].get_candidate_id ();
+
+    } else if (is_converting ()) {
+        struct anthy_conv_stat cs;
+
+        anthy_get_stat (m_anthy_context, &cs);
+
+        if (cs.nr_segment <= 0)
+            return -1;
+
+        if (segment_id < 0) {
+            if (m_cur_segment < 0)
+                return -1;
+            else
+                segment_id = m_cur_segment;
+        } else if (segment_id >= cs.nr_segment) {
+            return -1;
+        }
+
+        return m_segments[segment_id].get_candidate_id ();
     }
 
-    return m_segments[segment_id].get_candidate_id ();
+    return -1;
 }
 
 void
 Conversion::select_candidate (int candidate_id, int segment_id)
 {
-    if (!is_converting ()) return;
-
-    if (candidate_id <= SCIM_ANTHY_LAST_SPECIAL_CANDIDATE) return;
-
-    struct anthy_conv_stat conv_stat;
-    anthy_get_stat (m_anthy_context, &conv_stat);
-
-    if (conv_stat.nr_segment <= 0)
-        return;
-
-    if (segment_id < 0) {
-        if (m_cur_segment < 0)
+    if (is_predicting ()) {
+        if (candidate_id < SCIM_ANTHY_CANDIDATE_NORMAL)
             return;
-        else
-            segment_id = m_cur_segment;
-    }
-    int real_segment_id = segment_id + m_start_id;
 
-    if (segment_id >= conv_stat.nr_segment)
-        return;
+        struct anthy_prediction_stat ps;
+        anthy_get_prediction_stat (m_anthy_context, &ps);
 
-    struct anthy_segment_stat seg_stat;
-    anthy_get_segment_stat (m_anthy_context, real_segment_id, &seg_stat);
+        if (ps.nr_prediction <= 0)
+            return;
 
-    if (candidate_id == SCIM_ANTHY_CANDIDATE_HALF) {
-        switch (m_segments[segment_id].get_candidate_id ()) {
-        case SCIM_ANTHY_CANDIDATE_LATIN:
-        case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
-            candidate_id = SCIM_ANTHY_CANDIDATE_LATIN;
-            break;
-        default:
-            candidate_id = SCIM_ANTHY_CANDIDATE_HALF_KATAKANA;
-            break;
+        if (!is_converting ()) {
+            m_cur_segment = 0;
+            m_segments.push_back (ConversionSegment (
+                                      get_prediction_string (0), 0,
+                                      m_reading.get_length ()));
+        }
+
+        if (candidate_id < ps.nr_prediction) {
+            m_segments[0].set (get_prediction_string (candidate_id),
+                               candidate_id);
+        }
+
+    } else if (is_converting ()) {
+        if (candidate_id <= SCIM_ANTHY_LAST_SPECIAL_CANDIDATE)
+            return;
+
+        struct anthy_conv_stat conv_stat;
+        anthy_get_stat (m_anthy_context, &conv_stat);
+
+        if (conv_stat.nr_segment <= 0)
+            return;
+
+        if (segment_id < 0) {
+            if (m_cur_segment < 0)
+                return;
+            else
+                segment_id = m_cur_segment;
+        }
+        int real_segment_id = segment_id + m_start_id;
+
+        if (segment_id >= conv_stat.nr_segment)
+            return;
+
+        struct anthy_segment_stat seg_stat;
+        anthy_get_segment_stat (m_anthy_context, real_segment_id, &seg_stat);
+
+        if (candidate_id == SCIM_ANTHY_CANDIDATE_HALF) {
+            switch (m_segments[segment_id].get_candidate_id ()) {
+            case SCIM_ANTHY_CANDIDATE_LATIN:
+            case SCIM_ANTHY_CANDIDATE_WIDE_LATIN:
+                candidate_id = SCIM_ANTHY_CANDIDATE_LATIN;
+                break;
+            default:
+                candidate_id = SCIM_ANTHY_CANDIDATE_HALF_KATAKANA;
+                break;
+            }
+        }
+
+        if (candidate_id < seg_stat.nr_candidate) {
+            m_segments[segment_id].set (get_segment_string (segment_id,
+                                                            candidate_id),
+                                        candidate_id);
         }
     }
-
-    if (candidate_id < seg_stat.nr_candidate)
-        m_segments[segment_id].set (get_segment_string (segment_id,
-                                                        candidate_id),
-                                    candidate_id);
 }
 
 
@@ -713,6 +764,32 @@ Conversion::get_reading_substr (WideString &string,
                        SCIM_ANTHY_STRING_HIRAGANA);
         break;
     }
+}
+
+WideString
+Conversion::get_prediction_string (int candidate_id)
+{
+    if (!is_predicting ())
+        return WideString ();
+
+    struct anthy_prediction_stat ps;
+    anthy_get_prediction_stat (m_anthy_context, &ps);
+
+    if (ps.nr_prediction <= 0)
+        return WideString ();
+
+    int len = anthy_get_prediction (m_anthy_context, candidate_id, NULL, 0);
+    if (len <= 0)
+        return WideString ();
+
+    char buf[len + 1];
+    anthy_get_prediction (m_anthy_context, candidate_id, buf, len + 1);
+    buf[len] = '\0';
+
+    WideString cand;
+    m_iconv.convert (cand, buf);
+
+    return cand;
 }
 
 void

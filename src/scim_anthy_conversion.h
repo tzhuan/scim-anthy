@@ -121,6 +121,7 @@ private:
                                           int           candidate_id,
                                           int           seg_start,
                                           int           seg_len);
+    WideString    get_prediction_string  (int           candidate_id);
     void          join_all_segments      (void);
 
 private:

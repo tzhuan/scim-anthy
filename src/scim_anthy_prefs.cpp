@@ -500,6 +500,16 @@ StringConfigData config_keyboards_edit [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_PREDICT_KEY,
+        SCIM_ANTHY_CONFIG_PREDICT_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_PREDICT_KEY_DEFAULT,
+        N_("Predict"),
+        N_("Select predict keys"),
+        N_("The key events to predict a word or sentence from already inserted text. "),
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_CANCEL_KEY,
         SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT,
         SCIM_ANTHY_CONFIG_CANCEL_KEY_DEFAULT,

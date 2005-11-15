@@ -137,6 +137,12 @@ Preedit::is_converting (void)
 }
 
 bool
+Preedit::is_predicting (void)
+{
+    return m_conversion.is_predicting ();
+}
+
+bool
 Preedit::is_reconverting (void)
 {
     return !m_source.empty ();
