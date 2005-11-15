@@ -591,6 +591,7 @@ int
 Conversion::get_selected_candidate (int segment_id)
 {
     if (is_predicting ()) {
+#ifdef HAS_ANTHY_PREDICTION
         struct anthy_prediction_stat ps;
 
         anthy_get_prediction_stat (m_anthy_context, &ps);
@@ -608,6 +609,7 @@ Conversion::get_selected_candidate (int segment_id)
         }
 
         return m_segments[segment_id].get_candidate_id ();
+#endif /* HAS_ANTHY_PREDICTION */
 
     } else if (is_converting ()) {
         struct anthy_conv_stat cs;
@@ -636,6 +638,7 @@ void
 Conversion::select_candidate (int candidate_id, int segment_id)
 {
     if (is_predicting ()) {
+#ifdef HAS_ANTHY_PREDICTION
         if (candidate_id < SCIM_ANTHY_CANDIDATE_NORMAL)
             return;
 
@@ -656,6 +659,7 @@ Conversion::select_candidate (int candidate_id, int segment_id)
             m_segments[0].set (get_prediction_string (candidate_id),
                                candidate_id);
         }
+#endif /* HAS_ANTHY_PREDICTION */
 
     } else if (is_converting ()) {
         if (candidate_id <= SCIM_ANTHY_LAST_SPECIAL_CANDIDATE)
@@ -769,6 +773,7 @@ Conversion::get_reading_substr (WideString &string,
 WideString
 Conversion::get_prediction_string (int candidate_id)
 {
+#ifdef HAS_ANTHY_PREDICTION
     if (!is_predicting ())
         return WideString ();
 
@@ -790,6 +795,9 @@ Conversion::get_prediction_string (int candidate_id)
     m_iconv.convert (cand, buf);
 
     return cand;
+#else /* HAS_ANTHY_PREDICTION */
+    return WideString ();
+#endif /* HAS_ANTHY_PREDICTION */
 }
 
 void
