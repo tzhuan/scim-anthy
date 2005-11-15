@@ -1424,12 +1424,19 @@ AnthyInstance::action_candidates_page_down (void)
 bool
 AnthyInstance::action_select_candidate (unsigned int i)
 {
-    if (!m_preedit.is_converting ()) return false;
-    if (!is_selecting_candidates ()) return false;
+    if (m_preedit.is_predicting () && !m_preedit.is_converting ()) {
+        CommonLookupTable table;
+        m_preedit.get_candidates (table);
+        if (i < table.number_of_candidates ()) {
+            select_candidate (i);
+            return true;
+        }
+    } else if (m_preedit.is_converting () && is_selecting_candidates ()) {
+        select_candidate (i);
+        return true;
+    }
 
-    select_candidate (i);
-
-    return true;
+    return false;
 }
 
 bool
