@@ -123,21 +123,20 @@ AnthyInstance::is_nicola_thumb_shift_key (const KeyEvent &key)
 bool
 AnthyInstance::process_key_event_input (const KeyEvent &key)
 {
-#if 0
-    if (m_preedit.is_preediting () && !m_preedit.is_converting ()
-        && key.is_key_release ())
+    if (m_factory->m_predict_on_input && key.is_key_release () &&
+        m_preedit.is_preediting () && !m_preedit.is_converting ())
     {
         CommonLookupTable table;
         m_preedit.predict ();
-        m_preedit.get_candidates (table);
-        if (table.number_of_candidates () > 0) {
-            update_lookup_table (table);
+        m_preedit.get_candidates (m_lookup_table);
+        if (m_lookup_table.number_of_candidates () > 0) {
+            m_lookup_table.show_cursor (false);
+            update_lookup_table (m_lookup_table);
             show_lookup_table ();
         } else {
             hide_lookup_table ();
         }
     }
-#endif
 
     if (!m_preedit.can_process_key_event (key)) {
         return false;
@@ -479,6 +478,8 @@ AnthyInstance::set_lookup_table (void)
             update_aux_string (utf8_mbstowcs (buf));
             show_aux_string ();
         }
+    } else if (!m_lookup_table_visible) {
+        hide_lookup_table ();
     }
 }
 
