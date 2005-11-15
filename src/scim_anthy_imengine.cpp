@@ -287,9 +287,12 @@ AnthyInstance::move_preedit_caret (unsigned int pos)
 void
 AnthyInstance::select_candidate_no_direct (unsigned int item)
 {
-    if (!is_selecting_candidates ()) return;
-
     SCIM_DEBUG_IMENGINE(2) << "select_candidate_no_direct.\n";
+
+    if (m_preedit.is_predicting () && !m_preedit.is_converting ())
+        action_predict ();
+
+    if (!is_selecting_candidates ()) return;
 
     // update lookup table
     m_lookup_table.set_cursor_pos_in_current_page (item);
