@@ -2,21 +2,18 @@ Version-0.9.0 (Planning to release at Jan 29th, 2006)
 
   * Handle voiced consonant correctly on NICOLA.
   * Inline word register
+  * (Style file)
+    - (Add "Load..." "Save as..." feature)
 
 Version-0.10.0 (Planning to release at Mar 29th, 2006)
 
   * SKIM plugin
-  * (Style file)
-    - Add "Load..." "Save as..." feature
-
-Version-0.11.0 (Planning to release at May 29th, 2006)
-
   * Search a character by Bushu (inline)
   * Search a character by code (inline)
   * Search a symbol (inline)
   * (Implement formal Kana typing method)
 
-Version-1.0.0 (Planning to release at Jul 29th, 2006)
+Version-1.0.0 (Planning to release at May 29th, 2006)
 
   * Refactoring
   * Squash all major bugs!
