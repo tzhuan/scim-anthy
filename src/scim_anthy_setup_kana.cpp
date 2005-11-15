@@ -147,12 +147,12 @@ kana_page_create_ui (void)
     gtk_widget_show (button);
 
 
-    // NICOLA Layout
+    // Thumb Shift Layout
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
     gtk_widget_show (hbox);
 
-    label = gtk_label_new (_("<b>NICOLA Layout</b>"));
+    label = gtk_label_new (_("<b>Thumb Shift Layout</b>"));
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
     gtk_widget_show (label);
@@ -267,7 +267,7 @@ create_kana_window (GtkWindow *parent)
     gtk_window_set_transient_for (GTK_WINDOW (dialog),
                                   GTK_WINDOW (parent));
     gtk_window_set_title (GTK_WINDOW (dialog),
-                          _("Customize kana table"));
+                          _("Customize kana layout table"));
 
     // option menu area
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
@@ -277,7 +277,7 @@ create_kana_window (GtkWindow *parent)
     gtk_box_reorder_child (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, 0);
     gtk_widget_show(hbox);
 
-    GtkWidget *label = gtk_label_new_with_mnemonic (_("Kana _table:"));
+    GtkWidget *label = gtk_label_new_with_mnemonic (_("Layout _table:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
     gtk_widget_show (label);
 
@@ -339,7 +339,7 @@ create_nicola_window (GtkWindow *parent)
     gtk_window_set_transient_for (GTK_WINDOW (dialog),
                                   GTK_WINDOW (parent));
     gtk_window_set_title (GTK_WINDOW (dialog),
-                          _("Customize NICOLA table"));
+                          _("Customize thumb shift layout table"));
 
     // option menu area
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
@@ -349,7 +349,7 @@ create_nicola_window (GtkWindow *parent)
     gtk_box_reorder_child (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, 0);
     gtk_widget_show(hbox);
 
-    GtkWidget *label = gtk_label_new_with_mnemonic (_("NICOLA _table:"));
+    GtkWidget *label = gtk_label_new_with_mnemonic (_("Layout _table:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
     gtk_widget_show (label);
 
