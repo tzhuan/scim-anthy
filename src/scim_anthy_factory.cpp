@@ -124,6 +124,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_dict_admin_command          (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
       m_add_word_command            (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
       m_predict_on_input            (SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT_DEFAULT),
+      m_use_direct_key_on_predict   (SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT_DEFAULT),
       m_show_input_mode_label       (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
       m_show_conv_mode_label        (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL_DEFAULT),
       m_show_typing_method_label    (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL_DEFAULT),
@@ -504,6 +505,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_predict_on_input
             = config->read (String (SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT),
                             SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT_DEFAULT);
+
+        m_use_direct_key_on_predict
+            = config->read (String (SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT),
+                            SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT_DEFAULT);
 
         m_show_input_mode_label
             = config->read (String (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL),

@@ -1424,7 +1424,9 @@ AnthyInstance::action_candidates_page_down (void)
 bool
 AnthyInstance::action_select_candidate (unsigned int i)
 {
-    if (m_preedit.is_predicting () && !m_preedit.is_converting ()) {
+    if (m_preedit.is_predicting () && !m_preedit.is_converting () &&
+        m_factory->m_use_direct_key_on_predict)
+    {
         CommonLookupTable table;
         m_preedit.get_candidates (table);
         if (i < table.number_of_candidates ()) {

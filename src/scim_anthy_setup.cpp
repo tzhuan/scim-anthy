@@ -1026,6 +1026,25 @@ create_learning_page ()
 }
 
 static GtkWidget *
+create_prediction_page ()
+{
+    GtkWidget *vbox, *widget;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    /* predict while inputting */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+
+    /* use direct select keys */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+
+    return vbox;
+}
+
+static GtkWidget *
 create_dict_page (void)
 {
     GtkWidget *table, *button;
@@ -1247,6 +1266,12 @@ create_setup_window (void)
         // Create the kana page.
         page = kana_page_create_ui ();
         label = gtk_label_new (_("Kana typing"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the learning page.
+        page = create_prediction_page ();
+        label = gtk_label_new (_("Prediction"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 

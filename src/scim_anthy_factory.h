@@ -98,6 +98,7 @@ public:
     String         m_add_word_command;
 
     bool           m_predict_on_input;
+    bool           m_use_direct_key_on_predict;
 
     bool           m_show_input_mode_label;
     bool           m_show_conv_mode_label;

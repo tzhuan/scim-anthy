@@ -1,5 +1,18 @@
 2005-11-15 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_factory.{cpp,h}, src/scim_anthy_imengine.cpp,
+	  src/scim_anthy_prefs.{cpp,h}, src/scim_anthy_setup.cpp:
+	Add UI for preferences of prediction.
+	* po/ja.po: Update.
+
+2005-11-15 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_factory.{cpp,h}, src/scim_anthy_imengine.cpp,
+	  src/scim_anthy_prefs.h: Enable to choose whether use direct select key
+	while predicting or not.
+
+2005-11-15 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_helper.h: Fix typo.
 
 2005-11-15 Takuro Ashie <ashie@homa.ne.jp>

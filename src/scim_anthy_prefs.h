@@ -49,6 +49,7 @@
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND            "/IMEngine/Anthy/AddWordCommand"
 
 #define SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT            "/IMEngine/Anthy/PredictOnInput"
+#define SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT   "/IMEngine/Anthy/UseDirectKeyOnPredict"
 
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE            "/IMEngine/Anthy/ColorThemeFile"
 
@@ -178,6 +179,7 @@
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT            "kasumi --add"
 
 #define SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT_DEFAULT            false
+#define SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT_DEFAULT   true
 
 #define SCIM_ANTHY_CONFIG_COLOR_THEME_FILE_DEFAULT            ""
 

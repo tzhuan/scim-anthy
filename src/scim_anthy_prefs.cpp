@@ -10,7 +10,7 @@
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  MERCHANTABILITY or FITNESS FOR A PARTICUoLAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
@@ -94,6 +94,24 @@ BoolConfigData config_bool_common [] =
         N_("A_llow spliting romaji on editing preedit string"),
         NULL,
         N_("If this check is enabled, you can delete each letter."),
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT,
+        SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT_DEFAULT,
+        SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT_DEFAULT,
+        N_("Show predicted candidates while inputting letters"),
+        NULL,
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT,
+        SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT_DEFAULT,
+        SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT_DEFAULT,
+        N_("Use direct select keys while predicting"),
+        NULL,
+        NULL,
         false,
     },
     {
