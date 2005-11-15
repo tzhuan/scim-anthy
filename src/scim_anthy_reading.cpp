@@ -567,20 +567,18 @@ Reading::set_typing_method (TypingMethod method)
         fundamental_table = m_anthy.get_factory()->m_custom_nicola_table;
         m_key2kana = &m_nicola;
         m_nicola_tables.set_typing_method (method, fundamental_table);
+        m_nicola.set_case_sensitive (true);
     } else if (method == SCIM_ANTHY_TYPING_METHOD_KANA) {
         fundamental_table = m_anthy.get_factory()->m_custom_kana_table;
         m_key2kana = &m_key2kana_normal;
         m_key2kana_tables.set_typing_method (method, fundamental_table);
+        m_key2kana_normal.set_case_sensitive (true);
     } else {
         fundamental_table = m_anthy.get_factory()->m_custom_romaji_table;
         m_key2kana = &m_key2kana_normal;
         m_key2kana_tables.set_typing_method (method, fundamental_table);
-    }
-
-    if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
-        m_key2kana_normal.set_case_sensitive (true);
-    else
         m_key2kana_normal.set_case_sensitive (false);
+    }
 }
 
 TypingMethod
