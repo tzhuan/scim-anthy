@@ -1,5 +1,10 @@
 2005-11-15 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_imengine.cpp: Don't to use m_lookup_table for
+	prediction to avoid conflict.
+
+2005-11-15 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_factory.{cpp,h}, src/scim_anthy_imengine.cpp,
 	  src/scim_anthy_prefs.h: Add a preference to select whether predict
 	while inputting or not.

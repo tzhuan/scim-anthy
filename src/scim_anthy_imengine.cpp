@@ -128,10 +128,10 @@ AnthyInstance::process_key_event_input (const KeyEvent &key)
     {
         CommonLookupTable table;
         m_preedit.predict ();
-        m_preedit.get_candidates (m_lookup_table);
-        if (m_lookup_table.number_of_candidates () > 0) {
-            m_lookup_table.show_cursor (false);
-            update_lookup_table (m_lookup_table);
+        m_preedit.get_candidates (table);
+        if (table.number_of_candidates () > 0) {
+            table.show_cursor (false);
+            update_lookup_table (table);
             show_lookup_table ();
         } else {
             hide_lookup_table ();
