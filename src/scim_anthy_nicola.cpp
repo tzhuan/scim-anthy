@@ -358,12 +358,12 @@ NicolaConvertor::on_char_key_pressed (const KeyEvent key,
                 result, raw);
         m_prev_char_key = key;
         gettimeofday (&m_time_char, NULL);
-        // set_alram (m_e_time_char);
+        set_alarm (m_anthy.get_factory()->m_nicola_time);
 
     } else if (is_thumb_key (key) && key.is_key_press ()) {
         m_prev_thumb_key = key;
         gettimeofday (&m_time_thumb, NULL);
-        // set_alram (m_e_time_thumb);
+        set_alarm (m_anthy.get_factory()->m_nicola_time);
 
     } else if (key.is_key_release () && key == m_prev_char_key) {
         search (m_prev_char_key, SCIM_ANTHY_NICOLA_SHIFT_NONE,
