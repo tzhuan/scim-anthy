@@ -1972,7 +1972,6 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
             surround.substr (cursor, len) == selection)
         {
             delete_surrounding_text (0, len);
-            //commit_string (utf8_mbstowcs ("hoge"));
             m_preedit.convert (selection);
             set_preedition ();
             set_lookup_table ();
@@ -1982,7 +1981,6 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
             surround.substr (cursor - len, len) == selection)
         {
             delete_surrounding_text (0 - len, len);
-            //commit_string (utf8_mbstowcs ("hoge"));
             m_preedit.convert (selection);
             set_preedition ();
             set_lookup_table ();
