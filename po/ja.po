@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2005-11-15 18:27+0900\n"
+"POT-Creation-Date: 2005-11-19 19:00+0900\n"
 "PO-Revision-Date: 2005-10-14 22:48+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,101 +13,101 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:308 src/scim_anthy_imengine.cpp:478
+#: src/scim_anthy_imengine.cpp:309 src/scim_anthy_imengine.cpp:479
 #, c-format
 msgid "Candidates (%d/%d)"
 msgstr "候補一覧 (%d/%d)"
 
-#: src/scim_anthy_imengine.cpp:509
+#: src/scim_anthy_imengine.cpp:510
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:513 src/scim_anthy_setup.cpp:202
+#: src/scim_anthy_imengine.cpp:514 src/scim_anthy_setup.cpp:202
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:517 src/scim_anthy_setup.cpp:203
+#: src/scim_anthy_imengine.cpp:518 src/scim_anthy_setup.cpp:203
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:521 src/scim_anthy_imengine.cpp:522
+#: src/scim_anthy_imengine.cpp:522 src/scim_anthy_imengine.cpp:523
 #: src/scim_anthy_setup.cpp:204
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:526 src/scim_anthy_setup.cpp:205
+#: src/scim_anthy_imengine.cpp:527 src/scim_anthy_setup.cpp:205
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:526
+#: src/scim_anthy_imengine.cpp:527
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:530 src/scim_anthy_setup.cpp:206
+#: src/scim_anthy_imengine.cpp:531 src/scim_anthy_setup.cpp:206
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:536
+#: src/scim_anthy_imengine.cpp:537
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:540
+#: src/scim_anthy_imengine.cpp:541
 msgid "Romaji"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:544
+#: src/scim_anthy_imengine.cpp:545
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:548
+#: src/scim_anthy_imengine.cpp:549
 msgid "Thumb shift"
 msgstr "親指シフト"
 
-#: src/scim_anthy_imengine.cpp:555
+#: src/scim_anthy_imengine.cpp:556
 msgid "Conversion mode"
 msgstr "変換モード"
 
-#: src/scim_anthy_imengine.cpp:559 src/scim_anthy_imengine.cpp:560
+#: src/scim_anthy_imengine.cpp:560 src/scim_anthy_imengine.cpp:561
 #: src/scim_anthy_setup.cpp:220
 msgid "Multi segment"
 msgstr "連文節"
 
-#: src/scim_anthy_imengine.cpp:564 src/scim_anthy_imengine.cpp:565
+#: src/scim_anthy_imengine.cpp:565 src/scim_anthy_imengine.cpp:566
 #: src/scim_anthy_setup.cpp:221
 msgid "Single segment"
 msgstr "単文節"
 
-#: src/scim_anthy_imengine.cpp:569 src/scim_anthy_imengine.cpp:571
+#: src/scim_anthy_imengine.cpp:570 src/scim_anthy_imengine.cpp:572
 #: src/scim_anthy_setup.cpp:222
 msgid "Convert as you type (Multi segment)"
 msgstr "逐次変換(連文節)"
 
-#: src/scim_anthy_imengine.cpp:575 src/scim_anthy_imengine.cpp:577
+#: src/scim_anthy_imengine.cpp:576 src/scim_anthy_imengine.cpp:578
 #: src/scim_anthy_setup.cpp:223
 msgid "Convert as you type (Single segment)"
 msgstr "逐次変換(単文節)"
 
-#: src/scim_anthy_imengine.cpp:584
+#: src/scim_anthy_imengine.cpp:585
 msgid "Period style"
 msgstr "句読点スタイル"
 
-#: src/scim_anthy_imengine.cpp:611
+#: src/scim_anthy_imengine.cpp:612
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:616
+#: src/scim_anthy_imengine.cpp:617
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:618
+#: src/scim_anthy_imengine.cpp:619
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:624 src/scim_anthy_prefs.cpp:1133
+#: src/scim_anthy_imengine.cpp:625 src/scim_anthy_prefs.cpp:1133
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:626
+#: src/scim_anthy_imengine.cpp:627
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
@@ -519,12 +519,12 @@ msgid "If this check is enabled, you can delete each letter."
 msgstr "このチェックが入っている場合，各文字単位で文字を削除することができます"
 
 #: src/scim_anthy_prefs.cpp:103
-msgid "Show predicted candidates while inputting letters"
-msgstr "文字入力中に予測候補を表示する"
+msgid "_Show predicted candidates while inputting letters"
+msgstr "文字入力中に予測候補を表示する(_S)"
 
 #: src/scim_anthy_prefs.cpp:112
-msgid "Use direct select keys while predicting"
-msgstr "予測中に直接選択キーを使用する"
+msgid "Use _direct select keys while predicting"
+msgstr "予測中に直接選択キーを使用する(_D)"
 
 #: src/scim_anthy_prefs.cpp:121
 msgid "Show _input mode label"
