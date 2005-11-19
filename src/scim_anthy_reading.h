@@ -33,8 +33,6 @@ class AnthyInstance;
 
 namespace scim_anthy {
 
-typedef std::vector<KeyEvent> KeyEvents;
-
 typedef enum {
     SCIM_ANTHY_STRING_LATIN,
     SCIM_ANTHY_STRING_WIDE_LATIN,
@@ -61,7 +59,6 @@ public:
     void split (ReadingSegments &segments);
 
 private:
-//    KeyEvents  keys;
     String     raw;
     WideString kana;
 };
