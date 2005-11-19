@@ -41,7 +41,6 @@ public:
     virtual   ~KanaConvertor      ();
 
     bool       can_append         (const KeyEvent   & key);
-
     bool       append             (const KeyEvent   & key,
                                    WideString       & result,
                                    WideString       & pending,
@@ -53,9 +52,6 @@ public:
     WideString flush_pending      (void);
     void       reset_pending      (const WideString & result,
                                    const String     & raw);
-
-    void       set_case_sensitive (bool               sens);
-    bool       get_case_sensitive (void);
 
 private:
     AnthyInstance &m_anthy;

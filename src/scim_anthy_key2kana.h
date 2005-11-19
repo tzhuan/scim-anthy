@@ -42,7 +42,6 @@ public:
     virtual ~Key2KanaConvertor    ();
 
     bool       can_append         (const KeyEvent   & key);
-
     bool       append             (const KeyEvent   & key,
                                    WideString       & result,
                                    WideString       & pending,
@@ -55,9 +54,6 @@ public:
     void       reset_pending      (const WideString & result,
                                    const String     & raw);
 
-    void       set_case_sensitive (bool sens) { m_case_sensitive = sens; }
-    bool       get_case_sensitive (void)      { return m_case_sensitive; }
-
 private:
     bool       append             (const String     & str,
                                    WideString       & result,
@@ -66,9 +62,6 @@ private:
 private:
     AnthyInstance     &m_anthy;
     Key2KanaTableSet  &m_tables;
-
-    // mode
-    bool               m_case_sensitive;
 
     // state
     WideString         m_pending;

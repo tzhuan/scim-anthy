@@ -31,11 +31,12 @@ namespace scim_anthy {
 class Key2KanaConvertorBase
 {
 public:
-    Key2KanaConvertorBase                 () {};
+    Key2KanaConvertorBase                 ()
+        : m_case_sensitive (true)
+        {};
     virtual ~Key2KanaConvertorBase        () {};
 
     virtual bool       can_append         (const KeyEvent   & key)       = 0;
-
     virtual bool       append             (const KeyEvent   & key,
                                            WideString       & result,
                                            WideString       & pending,
@@ -48,8 +49,13 @@ public:
     virtual void       reset_pending      (const WideString & result,
                                            const String     & raw)       = 0;
 
-    virtual void       set_case_sensitive (bool               sensitive) = 0;
-    virtual bool       get_case_sensitive (void)                         = 0;
+    virtual void       set_case_sensitive (bool               sensitive)
+        { m_case_sensitive = sensitive; }
+    virtual bool       get_case_sensitive (void)
+        { return m_case_sensitive; }
+
+protected:
+    bool m_case_sensitive;
 };
 
 }

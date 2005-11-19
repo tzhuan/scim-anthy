@@ -234,17 +234,6 @@ KanaConvertor::reset_pending (const WideString &result, const String &raw)
     if (has_voiced_consonant (utf8_wcstombs (result)))
         m_pending = utf8_wcstombs (result);
 }
-
-void
-KanaConvertor::set_case_sensitive (bool sens)
-{
-}
-
-bool
-KanaConvertor::get_case_sensitive (void)
-{
-    return false;
-}
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

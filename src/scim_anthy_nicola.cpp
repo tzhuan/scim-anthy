@@ -31,7 +31,6 @@ NicolaConvertor::NicolaConvertor (AnthyInstance &anthy,
                                   Key2KanaTableSet &tables)
     : m_tables            (tables),
       m_anthy             (anthy),
-      m_case_sensitive    (false),
       m_timer_id          (0),
       m_processing_timeout(false)
 {
@@ -94,7 +93,7 @@ NicolaConvertor::search (const KeyEvent key,
     raw = key.get_ascii_code ();
 
     String str1;
-    if (m_case_sensitive)
+    if (get_case_sensitive ())
         str1 = raw;
     else
         str1 = tolower (key.get_ascii_code ());
@@ -110,7 +109,7 @@ NicolaConvertor::search (const KeyEvent key,
             String str2 = rules[i].get_sequence ();
 
             for (unsigned int k = 0;
-                 !m_case_sensitive && k < str2.length ();
+                 !get_case_sensitive () && k < str2.length ();
                  k++)
             {
                 str2[k] = tolower (str2[k]);
@@ -595,18 +594,6 @@ NicolaConvertor::reset_pending (const WideString & result, const String & raw)
             return;
         }
     }
-}
-
-void
-NicolaConvertor::set_case_sensitive (bool sens)
-{
-    m_case_sensitive = sens;
-}
-
-bool
-NicolaConvertor::get_case_sensitive (void)
-{
-    return m_case_sensitive;
 }
 /*
 vi:ts=4:nowrap:ai:expandtab

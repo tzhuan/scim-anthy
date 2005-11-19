@@ -28,9 +28,9 @@ using namespace scim_anthy;
 Key2KanaConvertor::Key2KanaConvertor (AnthyInstance    & anthy,
                                       Key2KanaTableSet & tables)
     : m_anthy          (anthy),
-      m_tables         (tables),
-      m_case_sensitive (false)
+      m_tables         (tables)
 {
+    set_case_sensitive (false);
 }
 
 Key2KanaConvertor::~Key2KanaConvertor ()
