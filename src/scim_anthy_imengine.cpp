@@ -123,6 +123,7 @@ AnthyInstance::is_nicola_thumb_shift_key (const KeyEvent &key)
 bool
 AnthyInstance::process_key_event_input (const KeyEvent &key)
 {
+    // prediction while typing
     if (m_factory->m_predict_on_input && key.is_key_release () &&
         m_preedit.is_preediting () && !m_preedit.is_converting ())
     {

@@ -56,6 +56,15 @@ NicolaConvertor::can_append (const KeyEvent & key)
         return false;
     }
 
+    if (key.is_key_release () &&
+        (key.code != m_prev_char_key.code &&
+         key.code != m_prev_thumb_key.code &&
+         key.code != m_repeat_char_key.code &&
+         key.code != m_repeat_thumb_key.code))
+    {
+        return false;
+    }
+
     if (is_repeating ()) {
         if (key.is_key_press () &&
             (key == m_repeat_char_key || key == m_repeat_thumb_key) &&
