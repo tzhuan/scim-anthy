@@ -187,7 +187,6 @@ void
 Key2KanaTable::append_rule (String sequence,
                             const std::vector<String> &result)
 {
-    // FIXME! check duplicates
     m_rules.push_back (Key2KanaRule (sequence, result));
 }
 
@@ -196,7 +195,6 @@ Key2KanaTable::append_rule (String sequence,
                             String result,
                             String cont)
 {
-    // FIXME! check duplicates
     std::vector<String> list;
     list.push_back (result);
     list.push_back (cont);
@@ -209,7 +207,6 @@ Key2KanaTable::append_rule (String sequence,
                             String left_shift,
                             String right_shift)
 {
-    // FIXME! check duplicates
     std::vector<String> list;
     list.push_back (normal);
     list.push_back (left_shift);
