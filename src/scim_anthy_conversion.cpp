@@ -156,7 +156,7 @@ Conversion::convert (CandidateType ctype, bool single_segment)
 void
 Conversion::convert (const WideString &source, bool single_segment)
 {
-    convert (source, SCIM_ANTHY_CANDIDATE_NORMAL, single_segment);
+    convert (source, SCIM_ANTHY_CANDIDATE_DEFAULT, single_segment);
 }
 
 void
@@ -639,7 +639,7 @@ Conversion::select_candidate (int candidate_id, int segment_id)
 {
     if (is_predicting ()) {
 #ifdef HAS_ANTHY_PREDICTION
-        if (candidate_id < SCIM_ANTHY_CANDIDATE_NORMAL)
+        if (candidate_id < SCIM_ANTHY_CANDIDATE_DEFAULT)
             return;
 
         struct anthy_prediction_stat ps;

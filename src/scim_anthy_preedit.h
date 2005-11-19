@@ -69,7 +69,7 @@ public:
 
     // manipulating the conversion string
     virtual void          convert                (CandidateType type
-                                                  = SCIM_ANTHY_CANDIDATE_NORMAL,
+                                                  = SCIM_ANTHY_CANDIDATE_DEFAULT,
                                                   bool single_segment = false);
     virtual void          convert                (const WideString &source,
                                                   bool single_segment = false);

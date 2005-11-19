@@ -35,7 +35,7 @@ class AnthyInstance;
 namespace scim_anthy {
 
 typedef enum {
-    SCIM_ANTHY_CANDIDATE_NORMAL        = 0,
+    SCIM_ANTHY_CANDIDATE_DEFAULT       = 0,
     SCIM_ANTHY_CANDIDATE_LATIN         = -1,
     SCIM_ANTHY_CANDIDATE_WIDE_LATIN    = -2,
     SCIM_ANTHY_CANDIDATE_HIRAGANA      = -3,
@@ -79,7 +79,7 @@ public:
                                           CandidateType ctype,
                                           bool          single_segment);
     void          convert                (CandidateType type
-                                          = SCIM_ANTHY_CANDIDATE_NORMAL,
+                                          = SCIM_ANTHY_CANDIDATE_DEFAULT,
                                           bool          single_segment = false);
     void          convert                (const WideString &source,
                                           bool          single_segment = false);

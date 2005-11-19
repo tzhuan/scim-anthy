@@ -158,13 +158,13 @@ AnthyInstance::process_key_event_input (const KeyEvent &key)
             get_input_mode () != SCIM_ANTHY_MODE_LATIN &&
             get_input_mode () != SCIM_ANTHY_MODE_WIDE_LATIN)
         {
-            m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_DEFAULT,
                                is_single_segment ());
         }
         action_commit (m_factory->m_learn_on_auto_commit);
     } else {
         if (is_realtime_conversion ()) {
-            m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_DEFAULT,
                                is_single_segment ());
             m_preedit.select_segment (-1);
         }
@@ -828,7 +828,7 @@ AnthyInstance::action_convert (void)
     if (!m_preedit.is_converting ()) {
         // show conversion string
         m_preedit.finish ();
-        m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+        m_preedit.convert (SCIM_ANTHY_CANDIDATE_DEFAULT,
                            is_single_segment ());
         set_preedition ();
         set_lookup_table ();
@@ -950,7 +950,7 @@ AnthyInstance::action_back (void)
 
     if (m_preedit.get_length () > 0) {
         if (is_realtime_conversion ()) {
-            m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_DEFAULT,
                                is_single_segment ());
             m_preedit.select_segment (-1);
         }
@@ -978,7 +978,7 @@ AnthyInstance::action_delete (void)
 
     if (m_preedit.get_length () > 0) {
         if (is_realtime_conversion ()) {
-            m_preedit.convert (SCIM_ANTHY_CANDIDATE_NORMAL,
+            m_preedit.convert (SCIM_ANTHY_CANDIDATE_DEFAULT,
                                is_single_segment ());
             m_preedit.select_segment (-1);
         }
