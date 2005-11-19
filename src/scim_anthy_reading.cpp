@@ -145,12 +145,6 @@ Reading::process_key_event (const KeyEvent & key)
     else
         need_commiting = m_key2kana->append (key, result, pending, raw);
 
-    std::cout << "\"" << utf8_wcstombs(result)
-              << ","  << utf8_wcstombs(pending)
-              << ","  << raw
-              << "\" ";
-    std::cout << std::endl;
-
     ReadingSegments::iterator begin = m_segments.begin ();
 
     // fix previous segment and prepare next segment if needed
