@@ -81,15 +81,7 @@ public:
                                         int              length = -1,
                                         StringType       type
                                         = SCIM_ANTHY_STRING_HIRAGANA);
-    void         get                   (WideString     & string,
-                                        unsigned int     start  = 0,
-                                        int              length = -1,
-                                        StringType       type
-                                        = SCIM_ANTHY_STRING_HIRAGANA);
     String       get_raw               (unsigned int     start  = 0,
-                                        int              length = -1);
-    void         get_raw               (String         & string,
-                                        unsigned int     start  = 0,
                                         int              length = -1);
     void         erase                 (unsigned int     start  = 0,
                                         int              length = -1,

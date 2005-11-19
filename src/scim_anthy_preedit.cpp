@@ -176,7 +176,7 @@ Preedit::process_key_event (const KeyEvent & key)
     unsigned int len = m_reading.get_length ();
     if (len > 0) {
         String str;
-        m_reading.get_raw (str, len - 1, 1);
+        str = m_reading.get_raw (len - 1, 1);
         if (is_comma_or_period (str)) {
             if (m_anthy.get_factory()->m_behavior_on_period == "Convert" &&
                 get_length () > 1)
@@ -326,8 +326,8 @@ Preedit::get_caret_pos (void)
         if (get_input_mode () == SCIM_ANTHY_MODE_HALF_KATAKANA) {
             // FIXME! It's ad-hoc
             WideString substr;
-            m_reading.get (substr, 0, m_reading.get_caret_pos (),
-                           SCIM_ANTHY_STRING_HALF_KATAKANA);
+            substr = m_reading.get (0, m_reading.get_caret_pos (),
+                                    SCIM_ANTHY_STRING_HALF_KATAKANA);
             return substr.length ();
         } else {
             return m_reading.get_caret_pos ();

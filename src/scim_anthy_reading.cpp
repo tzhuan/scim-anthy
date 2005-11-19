@@ -206,33 +206,28 @@ Reading::clear (void)
 }
 
 WideString
-Reading::get (unsigned int start, int end, StringType type)
+Reading::get (unsigned int start, int len, StringType type)
 {
     WideString str;
-    get (str, start, end, type);
-    return str;
-}
-
-void
-Reading::get (WideString & str, unsigned int start, int len, StringType type)
-{
     unsigned int pos = 0, end = len > 0 ? start + len : get_length () - start;
     WideString kana;
     String raw;
 
-    if (start >= end) return;
-    if (start >= get_length ()) return;
+    if (start >= end)
+        return str;
+    if (start >= get_length ())
+        return str;
 
     switch (type) {
     case SCIM_ANTHY_STRING_LATIN:
-        get_raw (raw, start, len);
+        raw = get_raw (start, len);
         str = utf8_mbstowcs (raw);
-        return;
+        return str;
 
     case SCIM_ANTHY_STRING_WIDE_LATIN:
-        get_raw (raw, start, len);
+        raw = get_raw (start, len);
         util_convert_to_wide (str, raw);
-        return;
+        return str;
 
     default:
         break;
@@ -276,22 +271,18 @@ Reading::get (WideString & str, unsigned int start, int len, StringType type)
     default:
         break;
     }
-}
 
-String
-Reading::get_raw (unsigned int start, int end)
-{
-    String str;
-    get_raw (str, start, end);
     return str;
 }
 
-void
-Reading::get_raw (String & str, unsigned int start, int len)
+String
+Reading::get_raw (unsigned int start, int len)
 {
+    String str;
     unsigned int pos = 0, end = len > 0 ? start + len : get_length () - start;
 
-    if (start >= end) return;
+    if (start >= end)
+        return str;
 
     for (unsigned int i = 0; i < m_segments.size (); i++) {
         if (pos >= start || pos + m_segments[i].kana.length () > start) {
@@ -304,6 +295,8 @@ Reading::get_raw (String & str, unsigned int start, int len)
         if (pos >= end)
             break;
     }
+
+    return str;
 }
 
 void

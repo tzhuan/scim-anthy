@@ -729,8 +729,8 @@ Conversion::get_reading_substr (WideString &string,
             rotate_case (str);
             string = utf8_mbstowcs (str);
         } else {
-            m_reading.get (string, seg_start, seg_len,
-                           SCIM_ANTHY_STRING_LATIN);
+            string = m_reading.get (seg_start, seg_len,
+                                    SCIM_ANTHY_STRING_LATIN);
         }
         break;
 
@@ -741,31 +741,31 @@ Conversion::get_reading_substr (WideString &string,
             rotate_case (str);
             util_convert_to_wide (string, str);
         } else {
-            m_reading.get (string, seg_start, seg_len,
-                           SCIM_ANTHY_STRING_WIDE_LATIN);
+            string = m_reading.get (seg_start, seg_len,
+                                    SCIM_ANTHY_STRING_WIDE_LATIN);
         }
         break;
 
     case SCIM_ANTHY_CANDIDATE_KATAKANA:
-        m_reading.get (string, seg_start, seg_len,
-                       SCIM_ANTHY_STRING_KATAKANA);
+        string = m_reading.get (seg_start, seg_len,
+                                SCIM_ANTHY_STRING_KATAKANA);
         break;
 
     case SCIM_ANTHY_CANDIDATE_HALF_KATAKANA:
-        m_reading.get (string, seg_start, seg_len,
-                       SCIM_ANTHY_STRING_HALF_KATAKANA);
+        string = m_reading.get (seg_start, seg_len,
+                                SCIM_ANTHY_STRING_HALF_KATAKANA);
         break;
 
     case SCIM_ANTHY_CANDIDATE_HALF:
         // shouldn't reach to this entry
-        m_reading.get (string, seg_start, seg_len,
-                       SCIM_ANTHY_STRING_HALF_KATAKANA);
+        string = m_reading.get (seg_start, seg_len,
+                                SCIM_ANTHY_STRING_HALF_KATAKANA);
         break;
 
     case SCIM_ANTHY_CANDIDATE_HIRAGANA:
     default:
-        m_reading.get (string, seg_start, seg_len,
-                       SCIM_ANTHY_STRING_HIRAGANA);
+        string = m_reading.get (seg_start, seg_len,
+                                SCIM_ANTHY_STRING_HIRAGANA);
         break;
     }
 }
