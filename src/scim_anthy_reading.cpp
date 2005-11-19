@@ -145,6 +145,12 @@ Reading::process_key_event (const KeyEvent & key)
     else
         need_commiting = m_key2kana->append (key, result, pending, raw);
 
+    std::cout << "\"" << utf8_wcstombs(result)
+              << ","  << utf8_wcstombs(pending)
+              << ","  << raw
+              << "\" ";
+    std::cout << std::endl;
+
     ReadingSegments::iterator begin = m_segments.begin ();
 
     // fix previous segment and prepare next segment if needed
@@ -428,20 +434,16 @@ Reading::reset_pending (void)
 {
     if (m_key2kana->is_pending ())
         m_key2kana->clear ();
+    if (m_kana.is_pending ())
+        m_kana.clear ();
 
     if (m_segment_pos <= 0)
         return;
 
-    for (unsigned int i = 0;
-         i < m_segments[m_segment_pos - 1].raw.length ();
-         i++)
-    {
-        WideString result, pending;
-        m_key2kana->append (m_segments[m_segment_pos - 1].raw.substr(i, 1),
-                            result, pending);
-    }
-
-    m_kana.set_pending (utf8_wcstombs (m_segments[m_segment_pos - 1].kana));
+    m_key2kana->reset_pending (m_segments[m_segment_pos - 1].kana,
+                               m_segments[m_segment_pos - 1].raw);
+    m_kana.reset_pending (m_segments[m_segment_pos - 1].kana,
+                          m_segments[m_segment_pos - 1].raw);
 }
 
 unsigned int

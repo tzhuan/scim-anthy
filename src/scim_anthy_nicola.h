@@ -44,60 +44,61 @@ typedef enum {
 class NicolaConvertor : public Key2KanaConvertorBase
 {
 public:
-    NicolaConvertor                 (AnthyInstance    & anthy,
-                                     Key2KanaTableSet & tables);
-    virtual ~NicolaConvertor        ();
+    NicolaConvertor                     (AnthyInstance    & anthy,
+                                         Key2KanaTableSet & tables);
+    virtual ~NicolaConvertor            ();
 
-    bool       can_append           (const KeyEvent   & key);
+    bool       can_append               (const KeyEvent   & key);
 
-    bool       append               (const KeyEvent   & key,
-                                     WideString       & result,
-                                     WideString       & pending,
-                                     String           & raw);
-    bool       append               (const String     & str,
-                                     WideString       & result,
-                                     WideString       & pending);
-    void       clear                (void);
+    bool       append                   (const KeyEvent   & key,
+                                         WideString       & result,
+                                         WideString       & pending,
+                                         String           & raw);
+    void       clear                    (void);
 
-    bool       is_pending           (void);
-    WideString get_pending          (void);
-    WideString flush_pending        (void);
+    bool       is_pending               (void);
+    WideString get_pending              (void);
+    WideString flush_pending            (void);
+    void       reset_pending            (const WideString & result,
+                                         const String     & raw);
 
-    void       set_case_sensitive   (bool sens);
-    bool       get_case_sensitive   (void);
+    void       set_case_sensitive       (bool               sens);
+    bool       get_case_sensitive       (void);
 
 public:
-    void       process_timeout      (void);
+    void       process_timeout          (void);
 
 private:
-    void       search               (const KeyEvent     key,
-                                     NicolaShiftType    shift_type,
-                                     WideString       & result,
-                                     String           & raw);
-    bool       is_char_key          (const KeyEvent     key);
-    bool       is_thumb_key         (const KeyEvent     key);
-    bool       is_left_thumb_key    (const KeyEvent     key);
-    bool       is_right_thumb_key   (const KeyEvent     key);
+    void       search                   (const KeyEvent     key,
+                                         NicolaShiftType    shift_type,
+                                         WideString       & result,
+                                         String           & raw);
+    bool       handle_voiced_consonant  (WideString       & result,
+                                         WideString       & pending);
+    bool       is_char_key              (const KeyEvent     key);
+    bool       is_thumb_key             (const KeyEvent     key);
+    bool       is_left_thumb_key        (const KeyEvent     key);
+    bool       is_right_thumb_key       (const KeyEvent     key);
     NicolaShiftType
-               get_thumb_key_type   (const KeyEvent     key);
+               get_thumb_key_type       (const KeyEvent     key);
 
-    void       on_key_repeat        (const KeyEvent     key,
-                                     WideString       & result,
-                                     String           & raw);
-    void       on_both_key_pressed  (const KeyEvent     key,
-                                     WideString       & result,
-                                     String           & raw);
-    void       on_thumb_key_pressed (const KeyEvent     key,
-                                     WideString       & result,
-                                     String           & raw);
-    void       on_char_key_pressed  (const KeyEvent     key,
-                                     WideString       & result,
-                                     String           & raw);
-    void       on_no_key_pressed    (const KeyEvent     key);
+    void       on_key_repeat            (const KeyEvent     key,
+                                         WideString       & result,
+                                         String           & raw);
+    void       on_both_key_pressed      (const KeyEvent     key,
+                                         WideString       & result,
+                                         String           & raw);
+    void       on_thumb_key_pressed     (const KeyEvent     key,
+                                         WideString       & result,
+                                         String           & raw);
+    void       on_char_key_pressed      (const KeyEvent     key,
+                                         WideString       & result,
+                                         String           & raw);
+    void       on_no_key_pressed        (const KeyEvent     key);
 
-    bool       is_repeating         (void);
-    void       emit_key_event       (const KeyEvent   & key);
-    void       set_alarm            (int                time_msec);
+    bool       is_repeating             (void);
+    void       emit_key_event           (const KeyEvent   & key);
+    void       set_alarm                (int                time_msec);
 
 private:
     Key2KanaTableSet &m_tables;
@@ -122,6 +123,8 @@ private:
 
     uint32            m_timer_id;
     bool              m_processing_timeout;
+
+    WideString        m_pending;
 };
 
 }

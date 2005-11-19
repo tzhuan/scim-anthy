@@ -139,6 +139,61 @@ NicolaConvertor::search (const KeyEvent key,
 }
 
 bool
+NicolaConvertor::handle_voiced_consonant  (WideString & result,
+                                           WideString & pending)
+{
+    VoicedConsonantRule *table = scim_anthy_voiced_consonant_table;
+
+    if (result.empty ())
+        return false;
+
+    if (m_pending.empty ()) {
+        for (unsigned int i = 0; table[i].string; i++) {
+            if (result == utf8_mbstowcs (table[i].string)) {
+                pending = m_pending = result;
+                result = WideString ();
+                return false;
+            }
+        }
+
+    } else if (result == utf8_mbstowcs ("\xE3\x82\x9B")) {
+        // voiced consonant
+        for (unsigned int i = 0; table[i].string; i++) {
+            if (m_pending == utf8_mbstowcs (table[i].string)) {
+                result = utf8_mbstowcs (table[i].voiced);
+                m_pending = WideString ();
+                return false;
+            }
+        }
+        return true;
+
+    } else if (result == utf8_mbstowcs ("\xE3\x82\x9C")) {
+        // half voiced consonant
+        for (unsigned int i = 0; table[i].string; i++) {
+            if (m_pending == utf8_mbstowcs (table[i].string)) {
+                result = utf8_mbstowcs (table[i].half_voiced);
+                m_pending = WideString ();
+                return false;
+            }
+        }
+        return true;
+
+    } else {
+        m_pending = WideString ();
+        for (unsigned int i = 0; table[i].string; i++) {
+            if (result == utf8_mbstowcs (table[i].string)) {
+                pending = m_pending = result;
+                result = WideString ();
+                return true;
+            }
+        }
+        return true;
+    }
+
+    return false;
+}
+
+bool
 NicolaConvertor::is_char_key (const KeyEvent key)
 {
     if (!is_thumb_key (key) && isprint (key.get_ascii_code ()))
@@ -454,8 +509,8 @@ NicolaConvertor::append (const KeyEvent & key,
     if (m_processing_timeout) {
         search (m_prev_char_key, SCIM_ANTHY_NICOLA_SHIFT_NONE,
                 result, raw);
-        m_prev_char_key  = KeyEvent ();
-        return false;
+        m_prev_char_key = KeyEvent ();
+        return handle_voiced_consonant (result, pending);
     }
 
     if (key.is_key_press () && util_key_is_keypad (key)) {
@@ -481,7 +536,7 @@ NicolaConvertor::append (const KeyEvent & key,
         m_prev_char_key    = KeyEvent ();
         m_prev_thumb_key   = KeyEvent ();
 
-        return false;
+        return handle_voiced_consonant (result, pending);
     }
 
     if (is_repeating ()) {
@@ -500,38 +555,46 @@ NicolaConvertor::append (const KeyEvent & key,
         on_no_key_pressed (key);
     }
 
-    return false;
-}
-
-bool
-NicolaConvertor::append (const String   & str,
-                         WideString     & result,
-                         WideString     & pending)
-{
-    return false;
+    return handle_voiced_consonant (result, pending);
 }
 
 void
 NicolaConvertor::clear (void)
 {
+    m_pending = WideString ();
 }
 
 bool
 NicolaConvertor::is_pending (void)
 {
-    return false;
+    return !m_pending.empty ();
 }
 
 WideString
 NicolaConvertor::get_pending (void)
 {
-    return WideString ();
+    return m_pending;
 }
 
 WideString
 NicolaConvertor::flush_pending (void)
 {
     return WideString ();
+}
+
+void
+NicolaConvertor::reset_pending (const WideString & result, const String & raw)
+{
+    VoicedConsonantRule *table = scim_anthy_voiced_consonant_table;
+
+    m_pending = WideString ();
+
+    for (unsigned int i = 0; table[i].string; i++) {
+        if (result == utf8_mbstowcs (table[i].string)) {
+            m_pending = result;
+            return;
+        }
+    }
 }
 
 void

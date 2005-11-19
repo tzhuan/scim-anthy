@@ -37,29 +37,25 @@ namespace scim_anthy {
 class KanaConvertor : public Key2KanaConvertorBase
 {
 public:
-               KanaConvertor      (AnthyInstance  & anthy);
+               KanaConvertor      (AnthyInstance    & anthy);
     virtual   ~KanaConvertor      ();
 
-    bool       can_append         (const KeyEvent & key);
+    bool       can_append         (const KeyEvent   & key);
 
-    bool       append             (const KeyEvent & key,
-                                   WideString     & result,
-                                   WideString     & pending,
-                                   String         & raw);
-    bool       append             (const String   & str,
-                                   WideString     & result,
-                                   WideString     & pending);
+    bool       append             (const KeyEvent   & key,
+                                   WideString       & result,
+                                   WideString       & pending,
+                                   String           & raw);
     void       clear              (void);
 
     bool       is_pending         (void);
     WideString get_pending        (void);
     WideString flush_pending      (void);
+    void       reset_pending      (const WideString & result,
+                                   const String     & raw);
 
-    void       set_case_sensitive (bool sens);
+    void       set_case_sensitive (bool               sens);
     bool       get_case_sensitive (void);
-
-public:
-    void       set_pending        (String str);
 
 private:
     AnthyInstance &m_anthy;

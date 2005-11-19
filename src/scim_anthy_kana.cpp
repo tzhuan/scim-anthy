@@ -203,14 +203,6 @@ KanaConvertor::append (const KeyEvent & key,
     return false;
 }
 
-bool
-KanaConvertor::append (const String   & str,
-                       WideString     & result,
-                       WideString     & pending)
-{
-    return false;
-}
-
 void
 KanaConvertor::clear (void)
 {
@@ -236,6 +228,14 @@ KanaConvertor::flush_pending (void)
 }
 
 void
+KanaConvertor::reset_pending (const WideString &result, const String &raw)
+{
+    m_pending = String ();
+    if (has_voiced_consonant (utf8_wcstombs (result)))
+        m_pending = utf8_wcstombs (result);
+}
+
+void
 KanaConvertor::set_case_sensitive (bool sens)
 {
 }
@@ -245,15 +245,6 @@ KanaConvertor::get_case_sensitive (void)
 {
     return false;
 }
-
-void
-KanaConvertor::set_pending (String str)
-{
-    m_pending = String ();
-    if (has_voiced_consonant (str))
-        m_pending = str;
-}
-
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

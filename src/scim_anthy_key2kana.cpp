@@ -248,6 +248,15 @@ Key2KanaConvertor::flush_pending (void)
     clear ();
     return result;
 }
+
+void
+Key2KanaConvertor::reset_pending (const WideString &result, const String &raw)
+{
+    for (unsigned int i = 0; i < raw.length (); i++) {
+        WideString res, pend;
+        append (raw.substr(i, 1), res, pend);
+    }
+}
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

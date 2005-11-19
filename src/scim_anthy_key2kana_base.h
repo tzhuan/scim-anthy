@@ -34,23 +34,22 @@ public:
     Key2KanaConvertorBase                 () {};
     virtual ~Key2KanaConvertorBase        () {};
 
-    virtual bool       can_append         (const KeyEvent & key)     = 0;
+    virtual bool       can_append         (const KeyEvent   & key)       = 0;
 
-    virtual bool       append             (const KeyEvent & key,
-                                           WideString     & result,
-                                           WideString     & pending,
-                                           String         & raw)     = 0;
-    virtual bool       append             (const String   & str,
-                                           WideString     & result,
-                                           WideString     & pending) = 0;
-    virtual void       clear              (void)                     = 0;
+    virtual bool       append             (const KeyEvent   & key,
+                                           WideString       & result,
+                                           WideString       & pending,
+                                           String           & raw)       = 0;
+    virtual void       clear              (void)                         = 0;
 
-    virtual bool       is_pending         (void)                     = 0;
-    virtual WideString get_pending        (void)                     = 0;
-    virtual WideString flush_pending      (void)                     = 0;
+    virtual bool       is_pending         (void)                         = 0;
+    virtual WideString get_pending        (void)                         = 0;
+    virtual WideString flush_pending      (void)                         = 0;
+    virtual void       reset_pending      (const WideString & result,
+                                           const String     & raw)       = 0;
 
-    virtual void       set_case_sensitive (bool sensitive)           = 0;
-    virtual bool       get_case_sensitive (void)                     = 0;
+    virtual void       set_case_sensitive (bool               sensitive) = 0;
+    virtual bool       get_case_sensitive (void)                         = 0;
 };
 
 }
