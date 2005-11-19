@@ -1,6 +1,5 @@
 Version-0.9.0 (Planning to release at Jan 29th, 2006)
 
-  * Handle voiced consonant correctly on NICOLA.
   * Inline word register
   * (Style file)
     - (Add "Load..." "Save as..." feature)
