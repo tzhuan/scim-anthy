@@ -1,3 +1,8 @@
+2005-11-22 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/tron-dvorak.sty, src/tron-qwerty-jp.sty:
+	Add TRON layout. Thanks Okano, Shinchi <shinchan.okano@nifty.com>.
+
 2005-11-19 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_prefs.cpp: Add mnemonic.
