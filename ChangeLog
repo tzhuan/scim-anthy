@@ -1,3 +1,8 @@
+2005-11-25 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_reading.cpp: Don't set NICOLA engine as case
+	sensitive by default.
+
 2005-11-22 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/tron-dvorak.sty, src/tron-qwerty-jp.sty:
