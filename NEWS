@@ -3,7 +3,7 @@ Overview of Changes from scim-anthy-0.7.1 to scim-anthy-0.8.0
 * Now scim-anthy requires scim-1.2.0 or later from this version.
 * Add prediction feature.
 * Add reconversion feature. It can reconvert already commited string.
-  Currently this feature is enabled only on Gtk+2.
+  Currently this feature will be enabled only on Gtk+2.
 * Default thumb shift layout has been improved.
 * Add timer for thumb shift layout.
 * Some key bindings are modified. Please select "Default" key bindings theme
