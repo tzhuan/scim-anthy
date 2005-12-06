@@ -50,7 +50,9 @@ NicolaConvertor::can_append (const KeyEvent & key)
         return false;
     }
 
-    if (m_processing_timeout && !m_prev_thumb_key.empty()) {
+    if (m_processing_timeout &&
+        m_prev_char_key.empty () && !m_prev_thumb_key.empty())
+    {
         emit_key_event (m_prev_thumb_key);
         m_prev_thumb_key = KeyEvent ();
         return false;
@@ -523,9 +525,16 @@ NicolaConvertor::append (const KeyEvent & key,
     }
 
     if (m_processing_timeout) {
-        search (m_prev_char_key, SCIM_ANTHY_NICOLA_SHIFT_NONE,
+        search (m_prev_char_key,
+                get_thumb_key_type (m_prev_thumb_key),
                 result, raw);
-        m_prev_char_key = KeyEvent ();
+        if (m_prev_thumb_key.empty ()) {
+            m_prev_char_key  = KeyEvent ();
+            m_prev_thumb_key = KeyEvent ();
+        } else {
+            m_repeat_char_key  = m_prev_char_key;
+            m_repeat_thumb_key = m_prev_thumb_key;
+        }
         return handle_voiced_consonant (result, pending);
     }
 

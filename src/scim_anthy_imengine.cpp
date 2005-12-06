@@ -1011,12 +1011,15 @@ AnthyInstance::action_insert_space (void)
         is_wide = true;
     }
 
-    if (is_wide)
+    if (is_wide) {
         commit_string (utf8_mbstowcs ("\xE3\x80\x80"));
-    else
+        return true;
+    } else /*if (key.code != SCIM_KEY_space && key.code = != SCIM_KEY_KP_Space)*/ {
         commit_string (utf8_mbstowcs (" "));
+        return true;
+    }
 
-    return true;
+    return false;
 }
 
 bool 
