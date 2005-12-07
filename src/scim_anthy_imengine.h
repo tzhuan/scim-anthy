@@ -257,6 +257,9 @@ private:
     /*  */
     ConversionMode        m_conv_mode;
 
+    /* for action */
+    KeyEvent              m_last_key;
+
     /* Helper */
     bool                  m_helper_started;
 

@@ -179,14 +179,20 @@ AnthyInstance::process_key_event_input (const KeyEvent &key)
 bool
 AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
 {
+    m_last_key = key;
+
     std::vector<Action>::iterator it;
-    for (it = m_factory->m_actions.begin();
+    for (it  = m_factory->m_actions.begin();
          it != m_factory->m_actions.end();
          it++)
     {
-        if (it->perform (this, key))
+        if (it->perform (this, key)) {
+            m_last_key = KeyEvent ();
             return true;
+        }
     }
+
+    m_last_key = KeyEvent ();
 
     return false;
 }
@@ -1014,7 +1020,9 @@ AnthyInstance::action_insert_space (void)
     if (is_wide) {
         commit_string (utf8_mbstowcs ("\xE3\x80\x80"));
         return true;
-    } else /*if (key.code != SCIM_KEY_space && key.code = != SCIM_KEY_KP_Space)*/ {
+    } else if (m_last_key.code != SCIM_KEY_space &&
+               m_last_key.code != SCIM_KEY_KP_Space)
+    {
         commit_string (utf8_mbstowcs (" "));
         return true;
     }
@@ -1043,12 +1051,17 @@ AnthyInstance::action_insert_alternative_space (void)
         is_wide = true;
     }
 
-    if (is_wide)
+    if (is_wide) {
         commit_string (utf8_mbstowcs ("\xE3\x80\x80"));
-    else
+        return true;
+    } else if (m_last_key.code != SCIM_KEY_space &&
+               m_last_key.code != SCIM_KEY_KP_Space)
+    {
         commit_string (utf8_mbstowcs (" "));
+        return true;
+    }
 
-    return true;
+    return false;
 }
 
 bool
@@ -1057,9 +1070,14 @@ AnthyInstance::action_insert_half_space (void)
     if (m_preedit.is_preediting ())
         return false;
 
-    commit_string (utf8_mbstowcs (" "));
+    if (m_last_key.code != SCIM_KEY_space &&
+        m_last_key.code != SCIM_KEY_KP_Space)
+    {
+        commit_string (utf8_mbstowcs (" "));
+        return true;
+    }
 
-    return true;
+    return false;
 }
 
 bool
