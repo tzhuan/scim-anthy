@@ -1,3 +1,7 @@
+2005-12-08 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_factory.cpp, po/ja.po: Fix typo.
+
 2005-12-07 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.cpp: Through space key event on

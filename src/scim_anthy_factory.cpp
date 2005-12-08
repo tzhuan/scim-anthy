@@ -203,7 +203,7 @@ AnthyFactory::get_credits () const
         _("Special thanks:\n"
           "  UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
           "  Yukiko Bando <ybando@k6.dion.ne.jp>\n"
-          "  Mike Fabin <mfabin@suse.de>"
+          "  Mike Fabian <mfabian@suse.de>\n"
           "  David Oftedal <david@start.no>\n"
           "  Ryo Dairiki <ryo-dairiki@mbm.nifty.com>\n"
           "  Seiichi SATO\n"
