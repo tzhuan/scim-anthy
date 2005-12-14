@@ -1020,8 +1020,9 @@ AnthyInstance::action_insert_space (void)
     if (is_wide) {
         commit_string (utf8_mbstowcs ("\xE3\x80\x80"));
         return true;
-    } else if (m_last_key.code != SCIM_KEY_space &&
-               m_last_key.code != SCIM_KEY_KP_Space)
+    } else if (get_typing_method () == SCIM_ANTHY_TYPING_METHOD_NICOLA || // FIXME! it's a ad-hoc solution.
+               (m_last_key.code != SCIM_KEY_space &&
+                m_last_key.code != SCIM_KEY_KP_Space))
     {
         commit_string (utf8_mbstowcs (" "));
         return true;
@@ -1054,8 +1055,9 @@ AnthyInstance::action_insert_alternative_space (void)
     if (is_wide) {
         commit_string (utf8_mbstowcs ("\xE3\x80\x80"));
         return true;
-    } else if (m_last_key.code != SCIM_KEY_space &&
-               m_last_key.code != SCIM_KEY_KP_Space)
+    } else if (get_typing_method () == SCIM_ANTHY_TYPING_METHOD_NICOLA || // FIXME! it's a ad-hoc solution.
+               (m_last_key.code != SCIM_KEY_space &&
+                m_last_key.code != SCIM_KEY_KP_Space))
     {
         commit_string (utf8_mbstowcs (" "));
         return true;
