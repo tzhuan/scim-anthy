@@ -1,7 +1,7 @@
 2005-12-14 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.cpp: Half space character was never outputed
-	on NICOLA typing method.
+	by space key when the typing method is NICOLA mode.
 
 2005-12-08 Takuro Ashie <ashie@homa.ne.jp>
 
