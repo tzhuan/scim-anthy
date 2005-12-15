@@ -1,3 +1,8 @@
+2005-12-15 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_default_tables.cpp: NULL terminate for voiced
+	contonant table.
+
 2005-12-14 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.cpp: Half space character was never outputed

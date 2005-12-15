@@ -529,6 +529,7 @@ ConvRule scim_anthy_kana_voiced_consonant_rule[] = {
 {"ふ[",	"ぷ",	""},
 {"へ[",	"ぺ",	""},
 {"ほ[",	"ぽ",	""},
+{NULL,	NULL,	NULL},
 };
 
 ConvRule scim_anthy_romaji_ja_period_rule[] = {
