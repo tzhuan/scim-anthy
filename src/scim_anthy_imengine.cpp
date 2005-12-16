@@ -1999,10 +1999,8 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
             m_preedit.convert (selection);
             set_preedition ();
             set_lookup_table ();
-        }
-
-        if (cursor >= (int) len &&
-            surround.substr (cursor - len, len) == selection)
+        } else if (cursor >= (int) len &&
+                   surround.substr (cursor - len, len) == selection)
         {
             delete_surrounding_text (0 - len, len);
             m_preedit.convert (selection);
