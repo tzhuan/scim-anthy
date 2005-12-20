@@ -18,7 +18,6 @@
  */
 
 #include "scim_anthy_style_file.h"
-#include "scim_anthy_utils.h"
 
 using namespace scim_anthy;
 
