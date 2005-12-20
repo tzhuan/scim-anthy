@@ -3,6 +3,11 @@ INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/src $(all_includes) @SCIM_KDEUTILS_CF
 METASOURCES = AUTO
 kde_module_LTLIBRARIES =  kcm_skimplugin_scim_anthy.la
 
+noinst_HEADERS = \
+	scim_anthy_default_tables.h \
+	scim_anthy_key2kana_table.h \
+	scim_anthy_style_file.h
+
 kcm_skimplugin_scim_anthy_la_LDFLAGS = \
 	-module -no-undefined $(KDE_PLUGIN) $(all_libraries)
 
@@ -11,11 +16,8 @@ kcm_skimplugin_scim_anthy_la_SOURCES = \
 	anthyui.ui \
 	scimanthysettingplugin.cpp \
 	scim_anthy_default_tables.cpp \
-	scim_anthy_default_tables.h \
 	scim_anthy_key2kana_table.cpp \
-	scim_anthy_key2kana_table.h \
-	scim_anthy_style_file.cpp \
-	scim_anthy_style_file.h
+	scim_anthy_style_file.cpp
 
 kcm_skimplugin_scim_anthy_la_LIBADD = \
 	$(LIB_QT) $(LIB_KDEUI) $(LIB_KDECORE) @SCIM_KDEUTILS_LIBS@
