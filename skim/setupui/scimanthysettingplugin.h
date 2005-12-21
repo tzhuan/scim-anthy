@@ -25,9 +25,8 @@ class ScimAnthySettingPlugin : public KAutoCModule
 Q_OBJECT
 public:
     ScimAnthySettingPlugin  (QWidget           *parent, 
-			     const char        *name,
-			     const QStringList &args);
-
+                             const char        *name,
+                             const QStringList &args);
     ~ScimAnthySettingPlugin ();
 
     // override KCModule's functions to load & save scim-anthy's style file.

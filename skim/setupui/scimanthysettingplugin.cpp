@@ -28,6 +28,7 @@
 
 #include <kgenericfactory.h>
 #include <klocale.h>
+#include <kcombobox.h>
 
 using namespace scim_anthy;
 
@@ -87,12 +88,15 @@ public:
 private:
     void load_style_dir (const char *dirname)
     {
-        QDir dir (dirname);
+        QDir dir (dirname, "*.sty");
         for (unsigned int i = 0; i < dir.count (); i++)
         {
+            QString path = dirname;
+            path += SCIM_PATH_DELIM_STRING;
+            path += dir[i];
             m_style_list.push_back (StyleFile ());
             StyleFile &style = m_style_list.back ();
-            bool success = style.load (dir[i]);
+            bool success = style.load (path.ascii ());
             if (!success)
                 m_style_list.pop_back ();
         }
@@ -109,6 +113,8 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     KGlobal::locale()->insertCatalogue ("skim-scim-anthy");
     d->ui = new AnthySettingUI (this);
     setMainWidget (d->ui);
+
+    load ();
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
@@ -116,10 +122,57 @@ ScimAnthySettingPlugin::~ScimAnthySettingPlugin ()
     KGlobal::locale()->removeCatalogue ("skim-scim-anthy");
 }
 
+static const char * const __romaji_fund_table = "RomajiTable/FundamentalTable";
+static const char * const __kana_fund_table   = "KanaTable/FundamentalTable";
+static const char * const __nicola_fund_table = "NICOLATable/FundamentalTable";
 void ScimAnthySettingPlugin::load ()
 {
     KCModule::load ();
     d->load_style_files ();
+
+    StyleFiles::iterator it;
+
+    // set romaji table list
+    QStringList romaji_table_list;
+    romaji_table_list.append ("Default");
+    romaji_table_list.append ("User defined");
+
+    for (it = d->m_style_list.begin(); it != d->m_style_list.end (); it++) {
+        StyleLines section;
+        if (!it->get_entry_list (section, __romaji_fund_table))
+            continue;
+        romaji_table_list.append (QString::fromUtf8 (it->get_title().c_str()));
+    }
+
+    d->ui->RomajiComboBox->insertStringList (romaji_table_list);
+
+    // set kana layout list
+    QStringList kana_table_list;
+    kana_table_list.append ("Default");
+    kana_table_list.append ("User defined");
+
+    for (it = d->m_style_list.begin(); it != d->m_style_list.end (); it++) {
+        StyleLines section;
+        if (!it->get_entry_list (section, __kana_fund_table))
+            continue;
+        kana_table_list.append (QString::fromUtf8 (it->get_title().c_str()));
+    }
+
+    d->ui->KanaComboBox->insertStringList (kana_table_list);
+
+    // set NICOLA layout list
+    QStringList nicola_table_list;
+    nicola_table_list.append ("Default");
+    nicola_table_list.append ("User defined");
+
+    for (it = d->m_style_list.begin(); it != d->m_style_list.end (); it++) {
+        StyleLines section;
+        if (!it->get_entry_list (section, __nicola_fund_table))
+            continue;
+        nicola_table_list.append (QString::fromUtf8 (it->get_title().c_str()));
+    }
+
+    d->ui->ThumbShiftComboBox->insertStringList (nicola_table_list);
 }
 
 void ScimAnthySettingPlugin::save ()
