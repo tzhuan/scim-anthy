@@ -76,7 +76,10 @@ public:
 
     void save_style_files ()
     {
-        m_user_style.save (__user_style_file_name.c_str ());
+        if (m_style_changed) {
+            m_user_style.save (__user_style_file_name.c_str ());
+            m_style_changed = false;
+        }
     }
 
 private:
