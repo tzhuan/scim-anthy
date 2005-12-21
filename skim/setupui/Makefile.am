@@ -1,4 +1,7 @@
 #prefix = @skim_prefix@
+AM_CPPFLAGS = \
+	-DSCIM_ANTHY_DATADIR=\"@SCIM_ANTHY_DATADIR@\" \
+	-DSCIM_ANTHY_STYLEDIR=\"@SCIM_ANTHY_DATADIR@/style\"
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/src $(all_includes) @SCIM_KDEUTILS_CFLAGS@ 
 METASOURCES = AUTO
 kde_module_LTLIBRARIES =  kcm_skimplugin_scim_anthy.la

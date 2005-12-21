@@ -1,3 +1,4 @@
+// -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-
 /***************************************************************************
  *   Copyright (C) 2003-2005 by liuspider                                  *
  *   liuspider@users.sourceforge.net                                       *
@@ -28,6 +29,11 @@ public:
 			     const QStringList &args);
 
     ~ScimAnthySettingPlugin ();
+
+    // override KCModule's functions to load & save scim-anthy's style file.
+    virtual void load();
+    virtual void save();
+    virtual void defaults();
 private:
     class ScimAnthySettingPluginPrivate;
     ScimAnthySettingPluginPrivate * d;

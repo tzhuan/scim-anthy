@@ -21,6 +21,13 @@ fi
 ##AM_INIT_AUTOMAKE(gettext, 0.12.1)
 AM_GNU_GETTEXT([external])
 
+SCIM_DATADIR=`$PKG_CONFIG --variable=scimdatadir scim`
+if test "x$SCIM_MODULEDIR" = "x"; then
+  SCIM_MODULEDIR=${libdir}/scim-1.0
+fi
+SCIM_ANTHY_DATADIR=${SCIM_DATADIR}/Anthy
+AC_SUBST(SCIM_ANTHY_DATADIR)
+
 ###########################################################
 ##             Definiation of compile args.              ##
 ###########################################################

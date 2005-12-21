@@ -22,7 +22,6 @@
 
 #define Uses_SCIM_ICONV
 #include <scim.h>
-#include <scim_event.h>
 
 #include "scim_anthy_key2kana_table.h"
 
