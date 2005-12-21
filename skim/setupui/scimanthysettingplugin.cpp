@@ -34,8 +34,10 @@ using namespace scim_anthy;
 
 typedef KGenericFactory<ScimAnthySettingPlugin> ScimAnthySettingLoaderFactory;
 
-K_EXPORT_COMPONENT_FACTORY (kcm_skimplugin_scim_anthy, 
-                            ScimAnthySettingLoaderFactory ("kcm_skimplugin_scim_anthy"))
+static const char * const __key_bindings_theme = "KeyBindings";
+static const char * const __romaji_fund_table  = "RomajiTable/FundamentalTable";
+static const char * const __kana_fund_table    = "KanaTable/FundamentalTable";
+static const char * const __nicola_fund_table  = "NICOLATable/FundamentalTable";
 
 const String __user_config_dir_name =
     scim_get_home_dir () +
@@ -51,6 +53,11 @@ const String __user_style_file_name =
     __user_config_dir_name +
     String (SCIM_PATH_DELIM_STRING
             "config.sty");
+
+
+K_EXPORT_COMPONENT_FACTORY (kcm_skimplugin_scim_anthy, 
+                            ScimAnthySettingLoaderFactory ("kcm_skimplugin_scim_anthy"))
+
 
 class ScimAnthySettingPlugin::ScimAnthySettingPluginPrivate {
 public:
@@ -72,6 +79,7 @@ public:
 public:
     void load_style_files ()
     {
+        m_style_list.clear ();
         load_style_dir (SCIM_ANTHY_STYLEDIR);
         load_style_dir (__user_style_dir_name.c_str ());
         m_user_style.load (__user_style_file_name.c_str ());
@@ -83,6 +91,23 @@ public:
             m_user_style.save (__user_style_file_name.c_str ());
             m_style_changed = false;
         }
+    }
+
+    void setup_combo_box (KComboBox *combo, const char *section_name)
+    {
+        QStringList theme_list;
+        theme_list.append ("Default");
+        theme_list.append ("User defined");
+
+        StyleFiles::iterator it;
+        for (it = m_style_list.begin(); it != m_style_list.end (); it++) {
+            StyleLines section;
+            if (!it->get_entry_list (section, section_name))
+                continue;
+            theme_list.append (QString::fromUtf8 (it->get_title().c_str()));
+        }
+
+        combo->insertStringList (theme_list);
     }
 
 private:
@@ -122,9 +147,6 @@ ScimAnthySettingPlugin::~ScimAnthySettingPlugin ()
     KGlobal::locale()->removeCatalogue ("skim-scim-anthy");
 }
 
-static const char * const __romaji_fund_table = "RomajiTable/FundamentalTable";
-static const char * const __kana_fund_table   = "KanaTable/FundamentalTable";
-static const char * const __nicola_fund_table = "NICOLATable/FundamentalTable";
 void ScimAnthySettingPlugin::load ()
 {
     KCModule::load ();
@@ -132,47 +154,14 @@ void ScimAnthySettingPlugin::load ()
 
     StyleFiles::iterator it;
 
+    // set key bindings theme list
+    d->setup_combo_box (d->ui->KeyBindingsThemeComboBox, __key_bindings_theme);
     // set romaji table list
-    QStringList romaji_table_list;
-    romaji_table_list.append ("Default");
-    romaji_table_list.append ("User defined");
-
-    for (it = d->m_style_list.begin(); it != d->m_style_list.end (); it++) {
-        StyleLines section;
-        if (!it->get_entry_list (section, __romaji_fund_table))
-            continue;
-        romaji_table_list.append (QString::fromUtf8 (it->get_title().c_str()));
-    }
-
-    d->ui->RomajiComboBox->insertStringList (romaji_table_list);
-
+    d->setup_combo_box (d->ui->RomajiComboBox, __romaji_fund_table);
     // set kana layout list
-    QStringList kana_table_list;
-    kana_table_list.append ("Default");
-    kana_table_list.append ("User defined");
-
-    for (it = d->m_style_list.begin(); it != d->m_style_list.end (); it++) {
-        StyleLines section;
-        if (!it->get_entry_list (section, __kana_fund_table))
-            continue;
-        kana_table_list.append (QString::fromUtf8 (it->get_title().c_str()));
-    }
-
-    d->ui->KanaComboBox->insertStringList (kana_table_list);
-
+    d->setup_combo_box (d->ui->KanaComboBox, __kana_fund_table);
     // set NICOLA layout list
-    QStringList nicola_table_list;
-    nicola_table_list.append ("Default");
-    nicola_table_list.append ("User defined");
-
-    for (it = d->m_style_list.begin(); it != d->m_style_list.end (); it++) {
-        StyleLines section;
-        if (!it->get_entry_list (section, __nicola_fund_table))
-            continue;
-        nicola_table_list.append (QString::fromUtf8 (it->get_title().c_str()));
-    }
-
-    d->ui->ThumbShiftComboBox->insertStringList (nicola_table_list);
+    d->setup_combo_box (d->ui->ThumbShiftComboBox, __nicola_fund_table);
 }
 
 void ScimAnthySettingPlugin::save ()
