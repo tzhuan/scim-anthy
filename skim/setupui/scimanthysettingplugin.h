@@ -31,9 +31,9 @@ public:
     ~ScimAnthySettingPlugin ();
 
     // override KCModule's functions to load & save scim-anthy's style file.
-    virtual void load();
-    virtual void save();
-    virtual void defaults();
+    virtual void load ();
+    virtual void save ();
+    virtual void defaults ();
 private:
     class ScimAnthySettingPluginPrivate;
     ScimAnthySettingPluginPrivate * d;
