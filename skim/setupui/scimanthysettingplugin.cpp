@@ -64,7 +64,9 @@ public:
         : m_style_changed (false)
     {
     }
-    ~ScimAnthySettingPluginPrivate ();
+    ~ScimAnthySettingPluginPrivate ()
+    {
+    }
 
 public:
     void load_style_files ()
