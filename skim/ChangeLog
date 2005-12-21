@@ -1,0 +1,27 @@
+2005-12-21 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/scimanthysettingplugin.cpp: Add test code for setting
+	Romaji/kana/NICOLA tables list.
+
+2005-12-21 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/scimanthysettingplugin.{cpp,h}: Load and save style files.
+
+2005-12-21 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/scimanthysettingplugin.{cpp,h}: Override KAutoCModule's
+	functions to load & save scim-anthy's style file.
+
+2005-12-20 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/Makefile.am: Add noinst_HEADERS.
+
+2005-12-20 Takuro Ashie <ashie@homa.ne.jp>
+
+	* bootstrap: Disable copying project files from parent directory.
+	* configure.in.in: Bump version number.
+	* setupui/Makefile.am: Add following source files.
+	* setupui/scim_anthy_default_tables.{cpp,h},
+	  setupui/scim_anthy_key2kana_table.{cpp,h},
+	  setupui/scim_anthy_style_file.{cpp,h}:
+	  Copy from scim-anthy.
