@@ -708,6 +708,56 @@
                         </property>
                     </widget>
                     <widget class="KComboBox" row="0" column="1" rowspan="1" colspan="2">
+                        <item>
+                            <property name="text">
+                                <string>All</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Mode keys</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Edit keys</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Caret keys</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Segments keys</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Candidates keys</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Direct select keys</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Convert keys</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Dictionary keys</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Search by key</string>
+                            </property>
+                        </item>
                         <property name="name">
                             <cstring>KeyBindingsGroupComboBox</cstring>
                         </property>
@@ -2163,7 +2213,7 @@
 </customwidgets>
 <images>
     <image name="image0">
-        <data format="PNG" length="939">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000037249444154388dad9431681b5718c77f2a1a3e83872773c31338a0831272a2869e68c038cd604316d10e327428d912d225c912d32953699c25f114da0ec6c9105006237528dc62b00c41a7218daca1e88c6d380f061d58486f30f80d067738dbb1689376f08337dcbb8fdffdbe8fffbdcc607b007dc08189ab13275cc21a84834ca61936f11c8fa5574b27f3d7e66999162a518487e1ff8218638877625a7fb6e0f8c37966b03d60e2eac4c9fbe03d7989b05ad1ed37709526ee4714b547d744141d0f3111381eed247dee9a88a27209de0584cb9b5437ec39381bf523005a3b2dcab70aacef2e311cc644584a572cb54d21d917eafd001072ce3ae5eb96f5dd005741b005be0b417eb493ace77800a8e3d454676386184a57845a4391fc61a8770c706623d4ae09f7ef2998025f5ba23ef893105c007f76661cee85b86a487490425756e1d79f13ea1d8b8c0bde571a7f5aa32785bd2dcb8f0b09f55796d808be86a8ff11e3a25324eeb7295d815a43a8fe960096d96f34e58a30e341746871c7f3acbc3ea2ba9c10bc4998fda280cce6f01c33023e37eef6bb1435b47b42e377730ebdfd83303365880e0dfa40f86579c8c2bd31ee3cd480b0f8c29007a251eea871d7b4c95921facba094a25c113c6d880cb859c5836796a863181ec0f3a7395a6b696dfdadc2d750ffa8b103e196052cf9c269fb67d04786a863508e70fba6101f1fe1f902406fcf12f5657414178dc580e7a405bea433d5c78a078f2c5127fda008d8c9314a9340f60c26787a741423c638909c1606fb16773cc7cb5552532568ad48f60d4f1ef7a8ade5e8eda411cc17c63e9d8a76d2a67cdd52fb5cd8dbb5acbc3e62e16189e141c8dd8a60648c278f21d9332cde8fb1d6a21cc1f78f50d68e80ff31e3d842b9a200a82e27acbc69f3fc690e9982f2ad210b3fb928ad30c6608f2d7315cddcf47fe4b8db6fe32a9059c859c5e28b8497cf125a6bc2fc4da17a08bd9d1eb66f219b02da0d43b091c7d742957fb92bc2dd90f2f7a7ffbeb6f0ad70275b20584dd3b0d8f960a31ca15c2910360cc65adc7108764747716e1cefc404efc073d3b63c6d295784bbdfcd517fdb461da6e7735f9610b7cddc34d437f278e31e9109893647c19966d8e4c6cc8d13b2e07f2de4f320427ab766d32dd9342967eda7cb2259c11888362dbdc462920baf07db038093cbdee7a9b8f435d81e30082fdf3a3576a019363397289bf91b7a63d5955eb4ffa10000000049454e44ae426082</data>
+        <data format="PNG" length="954">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000038149444154388dad9431685b4718c77f2a6f388b0e27d0700215a4d04054e8f0441729e96043078b2e3674703a350d05e336a5349beba1adbd240da110d78321a5b49687627528bc421da42e7e1a52def360e7191c2c43053ab0403718f906813a3c14c7a1361dfcc10deff8f8dfeffbdfff5da27fd0070d28485e490eb984eafbfd8413ea1057b92cad2e0d777fdaa5611a28ada81fd7ff97883186d67e8be6df4d18c47bc9727298e81ff4495e490e77ffdc25e384d86c86407bbc95cef34c0714b345826e40511511dd005411bf1d7f07dd8062ba40ad5923580d79fc977d71a013ea108046d4607ab280b7b748afd7226a59ca79cbda530fdd16d4ba1e2048a5eb4c972cde9e47210db51d8fd255f0326727715ce502a05004da232f5af43094f382b54d89f9dd50dd36c08846b0714d707756123950ca5a420da51c782f0b8f88ebcfebdc7dcfb2f134165d5e87ea8a8ea55e17e4af4984039db6e570cff2e9e79aca8c447c2428652d0bfa2cf16b23e2a22af24c43390f6b9b82ea4a4c39febee4dbef25bffc2098fb06366a196ece2a70c05bd79810a2e314ae7a4578441ce8806216fc7f048ddf46a28a0f3f114cb886d018f24782072b3de667c7b8f59902045f3d34e41d08bbe7781cdfb24f662088760c524a2a5302376b08bb501092dbf72dd1b6a177048feea5686ec6bdd586a49485dab9c40aea3b16b064728289b73915bd6388b60d322df8f85d41644f28b80280cea125d4e27c8f45178a2a6e2809088d258fe4f61d4bb41d1f280498ec18e51ce08cc4046ef6028f51d01ac48db5b6a520532caf13934a815212dd362cce7758fb2345673f8e60263746f84a2ace78ecb77da64b968d370587cf2dcb3f9e30ff4599de519db90f04da1963711ef4a16169ae85b5169916b8ee096a60a95ee471740c952909407555b3fcb3cfa37b2928c0f4648f2fbfce2395c418831d5826a614951b5c4c1c689f421ac43864069285879ac7f735cd4dc1cd7141d54067bf83ed5a706281a061a83dc950ce0aaafcc75b51dfabf3dd0cd476e2df9449c12d7278bfc66958d83ea5916941652a87df30186b294878b0772a7a86b8b5dfa2d604f76a3c969bb58829c1dc4c856ac347d978bff24e19def0a9dc80ea930cae7409bb75a2f0ac7062cbdfe27af9fa1007dc1b824c0684207e5b9d7809274eca68fcb82cc21118035168e9688b79d9e7fe411f6078d9eb452a2ebdfa077dfafee553c7c40ab6fcadc425c226fe05c537d6c65bdc9b440000000049454e44ae426082</data>
     </image>
 </images>
 <connections>
