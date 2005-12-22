@@ -114,10 +114,11 @@ private:
     void load_style_dir (const char *dirname)
     {
         QDir dir (dirname, "*.sty");
+        dir.setFilter (QDir::Files | QDir::Readable);
         for (unsigned int i = 0; i < dir.count (); i++)
         {
             QString path = dirname;
-            path += SCIM_PATH_DELIM_STRING;
+            path += QDir::separator ();
             path += dir[i];
             m_style_list.push_back (StyleFile ());
             StyleFile &style = m_style_list.back ();
