@@ -177,10 +177,10 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     load ();
 
     // Connect to signals
+#if 0
     connect (d->ui->LaunchDictAdminCommandButton,
              SIGNAL (clicked ()),
              this, SLOT (launch_dict_admin_command ()));
-#if 0
     connect (d->ui->LaunchAddWordCommandButton,
              SIGNAL (clicked ()),
              this, SLOT (launch_add_word_command ()));
