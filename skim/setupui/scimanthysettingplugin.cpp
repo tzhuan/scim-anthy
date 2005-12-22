@@ -93,21 +93,27 @@ public:
         }
     }
 
-    void setup_combo_box (KComboBox *combo, const char *section_name)
+    void setup_combo_box (KComboBox *combo, const char *section_name, QString default_file)
     {
         QStringList theme_list;
         theme_list.append ("Default");
         theme_list.append ("User defined");
 
+        std::cout << default_file << std::endl;
+
         StyleFiles::iterator it;
+        QString cur_item = "Default";
         for (it = m_style_list.begin(); it != m_style_list.end (); it++) {
             StyleLines section;
             if (!it->get_entry_list (section, section_name))
                 continue;
             theme_list.append (QString::fromUtf8 (it->get_title().c_str()));
+            if (default_file == QString::fromUtf8 (it->get_file_name().c_str()))
+                cur_item = theme_list.back ();
         }
 
         combo->insertStringList (theme_list);
+        combo->setCurrentText (cur_item);
     }
 
 private:
@@ -156,13 +162,21 @@ void ScimAnthySettingPlugin::load ()
     StyleFiles::iterator it;
 
     // set key bindings theme list
-    d->setup_combo_box (d->ui->KeyBindingsThemeComboBox, __key_bindings_theme);
+    d->setup_combo_box (d->ui->KeyBindingsThemeComboBox,
+                        __key_bindings_theme,
+                        QString());
     // set romaji table list
-    d->setup_combo_box (d->ui->RomajiComboBox, __romaji_fund_table);
+    d->setup_combo_box (d->ui->RomajiComboBox,
+                        __romaji_fund_table,
+                        AnthyConfig::_IMEngine_Anthy_RomajiThemeFile());
     // set kana layout list
-    d->setup_combo_box (d->ui->KanaComboBox, __kana_fund_table);
+    d->setup_combo_box (d->ui->KanaComboBox,
+                        __kana_fund_table,
+                        AnthyConfig::_IMEngine_Anthy_KanaLayoutFile());
     // set NICOLA layout list
-    d->setup_combo_box (d->ui->ThumbShiftComboBox, __nicola_fund_table);
+    d->setup_combo_box (d->ui->ThumbShiftComboBox,
+                        __nicola_fund_table,
+                        AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
 }
 
 void ScimAnthySettingPlugin::save ()
