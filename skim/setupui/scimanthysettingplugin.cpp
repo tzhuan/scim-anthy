@@ -27,6 +27,7 @@
 #include <qdir.h>
 #include <qfile.h>
 #include <qcheckbox.h>
+#include <qpushbutton.h>
 
 #include <kgenericfactory.h>
 #include <klocale.h>
@@ -177,14 +178,13 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     load ();
 
     // Connect to signals
-#if 0
     connect (d->ui->LaunchDictAdminCommandButton,
              SIGNAL (clicked ()),
              this, SLOT (launch_dict_admin_command ()));
     connect (d->ui->LaunchAddWordCommandButton,
              SIGNAL (clicked ()),
              this, SLOT (launch_add_word_command ()));
-#endif
+
     connect (d->ui->KeyBindingsThemeComboBox,
              SIGNAL (activated (const QString &)),
              this, SLOT (set_key_bindings_theme (const QString &)));
@@ -197,6 +197,16 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     connect (d->ui->ThumbShiftComboBox,
              SIGNAL (activated (const QString &)),
              this, SLOT (set_nicola_theme (const QString &)));
+
+    connect (d->ui->RomajiCustomizeButton,
+             SIGNAL (clicked ()),
+             this, SLOT (customize_romaji_table ()));
+    connect (d->ui->KanaCustomizeButton,
+             SIGNAL (clicked ()),
+             this, SLOT (customize_kana_table ()));
+    connect (d->ui->ThumbShiftCustomizeButton,
+             SIGNAL (clicked ()),
+             this, SLOT (customize_nicola_table ()));
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
@@ -283,6 +293,18 @@ void ScimAnthySettingPlugin::set_kana_theme (const QString & value)
 void ScimAnthySettingPlugin::set_nicola_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", value, __nicola_fund_table);
+}
+
+void ScimAnthySettingPlugin::customize_romaji_table ()
+{
+}
+
+void ScimAnthySettingPlugin::customize_kana_table ()
+{
+}
+
+void ScimAnthySettingPlugin::customize_nicola_table ()
+{
 }
 
 

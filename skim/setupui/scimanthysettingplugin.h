@@ -44,6 +44,9 @@ protected slots:
     void set_romaji_theme          (const QString & value);
     void set_kana_theme            (const QString & value);
     void set_nicola_theme          (const QString & value);
+    void customize_romaji_table    ();
+    void customize_kana_table      ();
+    void customize_nicola_table    ();
 };
 
 #endif
