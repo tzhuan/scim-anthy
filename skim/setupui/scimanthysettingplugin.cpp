@@ -99,8 +99,6 @@ public:
         theme_list.append ("Default");
         theme_list.append ("User defined");
 
-        std::cout << default_file << std::endl;
-
         StyleFiles::iterator it;
         QString cur_item = "Default";
         for (it = m_style_list.begin(); it != m_style_list.end (); it++) {
@@ -114,6 +112,37 @@ public:
 
         combo->insertStringList (theme_list);
         combo->setCurrentText (cur_item);
+    }
+
+    void set_theme (const QString & item_key,
+                    const QString & item_value,
+                    const QString & section_name)
+    {
+        KConfigSkeletonItem *tmp_item;
+        tmp_item = AnthyConfig::self()->findItem(item_key);
+        if (!tmp_item) return;
+
+        KConfigSkeletonGenericItem<QString> *item;
+        item = dynamic_cast< KConfigSkeletonGenericItem<QString>* > (tmp_item);
+        if (!item) return;
+
+        if (item_value == "Default") {
+            item->setValue (QString (""));
+        } else if (item_value == "User defined") {
+            item->setValue (QString::fromUtf8 (__user_style_file_name.c_str ()));
+        } else {
+            StyleFiles::iterator it;
+            for (it = m_style_list.begin (); it != m_style_list.end (); it++) {
+                StyleLines section;
+                if (!it->get_entry_list (section, section_name))
+                    continue;
+                if (item_value == QString::fromUtf8 (it->get_title().c_str())) {
+                    item->setValue (QString::fromUtf8 (it->get_file_name().c_str()));
+                    break;
+                }
+            }
+        }
+        item->writeConfig (AnthyConfig::self()->config());
     }
 
 private:
@@ -165,18 +194,30 @@ void ScimAnthySettingPlugin::load ()
     d->setup_combo_box (d->ui->KeyBindingsThemeComboBox,
                         __key_bindings_theme,
                         QString());
+    connect (d->ui->KeyBindingsThemeComboBox,
+             SIGNAL (activated (const QString &)),
+             this, SLOT (set_key_bindings_theme (const QString &)));
     // set romaji table list
     d->setup_combo_box (d->ui->RomajiComboBox,
                         __romaji_fund_table,
                         AnthyConfig::_IMEngine_Anthy_RomajiThemeFile());
+    connect (d->ui->RomajiComboBox,
+             SIGNAL (activated (const QString &)),
+             this, SLOT (set_romaji_theme (const QString &)));
     // set kana layout list
     d->setup_combo_box (d->ui->KanaComboBox,
                         __kana_fund_table,
                         AnthyConfig::_IMEngine_Anthy_KanaLayoutFile());
+    connect (d->ui->KanaComboBox,
+             SIGNAL (activated (const QString &)),
+             this, SLOT (set_kana_theme (const QString &)));
     // set NICOLA layout list
     d->setup_combo_box (d->ui->ThumbShiftComboBox,
                         __nicola_fund_table,
                         AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
+    connect (d->ui->ThumbShiftComboBox,
+             SIGNAL (activated (const QString &)),
+             this, SLOT (set_nicola_theme (const QString &)));
 }
 
 void ScimAnthySettingPlugin::save ()
@@ -189,5 +230,26 @@ void ScimAnthySettingPlugin::defaults ()
 {
     KCModule::defaults ();
 }
+
+void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
+{
+    std::cout << value << std::endl;
+}
+
+void ScimAnthySettingPlugin::set_romaji_theme (const QString & value)
+{
+    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile", value, __romaji_fund_table);
+}
+
+void ScimAnthySettingPlugin::set_kana_theme (const QString & value)
+{
+    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile", value, __kana_fund_table);
+}
+
+void ScimAnthySettingPlugin::set_nicola_theme (const QString & value)
+{
+    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", value, __nicola_fund_table);
+}
+
 
 #include "scimanthysettingplugin.moc"
