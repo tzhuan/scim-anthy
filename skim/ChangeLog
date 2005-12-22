@@ -1,6 +1,12 @@
 2005-12-22 Takuro Ashie <ashie@homa.ne.jp>
 
-	* setupui/scimanthysettingplugin.cpp: Connect to signals of Romaji/Kana/NICOLA ComboBox.
+	* setupui/scimanthysettingplugin.{cpp,h}, setupui/anthyui.ui:
+	Add slots for launch buttons.
+
+2005-12-22 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/scimanthysettingplugin.{cpp,h}: Connect to signals of
+	Romaji/Kana/NICOLA ComboBox.
 
 2005-12-22 Takuro Ashie <ashie@homa.ne.jp>
 

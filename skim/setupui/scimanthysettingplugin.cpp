@@ -22,6 +22,8 @@
 #include "anthy.h"
 #include "anthyui.h"
 
+#include <stdlib.h>
+
 #include <qdir.h>
 #include <qfile.h>
 #include <qcheckbox.h>
@@ -29,6 +31,7 @@
 #include <kgenericfactory.h>
 #include <klocale.h>
 #include <kcombobox.h>
+#include <klineedit.h>
 
 using namespace scim_anthy;
 
@@ -41,18 +44,13 @@ static const char * const __nicola_fund_table  = "NICOLATable/FundamentalTable";
 
 const String __user_config_dir_name =
     scim_get_home_dir () +
-    String (SCIM_PATH_DELIM_STRING
-            ".scim"
-            SCIM_PATH_DELIM_STRING
-            "Anthy");
+    String (SCIM_PATH_DELIM_STRING ".scim" SCIM_PATH_DELIM_STRING "Anthy");
 const String __user_style_dir_name =
     __user_config_dir_name +
-    String (SCIM_PATH_DELIM_STRING
-            "style");
+    String (SCIM_PATH_DELIM_STRING "style");
 const String __user_style_file_name =
     __user_config_dir_name +
-    String (SCIM_PATH_DELIM_STRING
-            "config.sty");
+    String (SCIM_PATH_DELIM_STRING "config.sty");
 
 
 K_EXPORT_COMPONENT_FACTORY (kcm_skimplugin_scim_anthy, 
@@ -175,7 +173,30 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     d->ui = new AnthySettingUI (this);
     setMainWidget (d->ui);
 
+    // FIXME?
     load ();
+
+    // Connect to signals
+    connect (d->ui->LaunchDictAdminCommandButton,
+             SIGNAL (clicked ()),
+             this, SLOT (launch_dict_admin_command ()));
+#if 0
+    connect (d->ui->LaunchAddWordCommandButton,
+             SIGNAL (clicked ()),
+             this, SLOT (launch_add_word_command ()));
+#endif
+    connect (d->ui->KeyBindingsThemeComboBox,
+             SIGNAL (activated (const QString &)),
+             this, SLOT (set_key_bindings_theme (const QString &)));
+    connect (d->ui->RomajiComboBox,
+             SIGNAL (activated (const QString &)),
+             this, SLOT (set_romaji_theme (const QString &)));
+    connect (d->ui->KanaComboBox,
+             SIGNAL (activated (const QString &)),
+             this, SLOT (set_kana_theme (const QString &)));
+    connect (d->ui->ThumbShiftComboBox,
+             SIGNAL (activated (const QString &)),
+             this, SLOT (set_nicola_theme (const QString &)));
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
@@ -194,30 +215,21 @@ void ScimAnthySettingPlugin::load ()
     d->setup_combo_box (d->ui->KeyBindingsThemeComboBox,
                         __key_bindings_theme,
                         QString());
-    connect (d->ui->KeyBindingsThemeComboBox,
-             SIGNAL (activated (const QString &)),
-             this, SLOT (set_key_bindings_theme (const QString &)));
+
     // set romaji table list
     d->setup_combo_box (d->ui->RomajiComboBox,
                         __romaji_fund_table,
                         AnthyConfig::_IMEngine_Anthy_RomajiThemeFile());
-    connect (d->ui->RomajiComboBox,
-             SIGNAL (activated (const QString &)),
-             this, SLOT (set_romaji_theme (const QString &)));
+
     // set kana layout list
     d->setup_combo_box (d->ui->KanaComboBox,
                         __kana_fund_table,
                         AnthyConfig::_IMEngine_Anthy_KanaLayoutFile());
-    connect (d->ui->KanaComboBox,
-             SIGNAL (activated (const QString &)),
-             this, SLOT (set_kana_theme (const QString &)));
+
     // set NICOLA layout list
     d->setup_combo_box (d->ui->ThumbShiftComboBox,
                         __nicola_fund_table,
                         AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
-    connect (d->ui->ThumbShiftComboBox,
-             SIGNAL (activated (const QString &)),
-             this, SLOT (set_nicola_theme (const QString &)));
 }
 
 void ScimAnthySettingPlugin::save ()
@@ -228,7 +240,29 @@ void ScimAnthySettingPlugin::save ()
 
 void ScimAnthySettingPlugin::defaults ()
 {
+    d->ui->KeyBindingsThemeComboBox->setCurrentText (QString ("Default"));
+    d->ui->RomajiComboBox->setCurrentText (QString ("Default"));
+    d->ui->KanaComboBox->setCurrentText (QString ("Default"));
+    d->ui->ThumbShiftComboBox->setCurrentText (QString ("Default"));
+
+    //d->set_theme ("_IMEngine_Anthy_KeyThemeFile",     "Default", __key_bindings_theme);
+    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile",  "Default", __romaji_fund_table);
+    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile",   "Default", __kana_fund_table);
+    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", "Default", __nicola_fund_table);
+
     KCModule::defaults ();
+}
+
+void ScimAnthySettingPlugin::launch_dict_admin_command ()
+{
+    QString command = d->ui->kcfg__IMEngine_Anthy_DictAdminCommand->text().ascii() + QString (" &");
+    system (command.ascii ());
+}
+
+void ScimAnthySettingPlugin::launch_add_word_command ()
+{
+    QString command = d->ui->kcfg__IMEngine_Anthy_AddWordCommand->text().ascii() + QString (" &");
+    system (command.ascii ());
 }
 
 void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
