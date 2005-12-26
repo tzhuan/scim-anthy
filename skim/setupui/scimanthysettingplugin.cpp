@@ -28,6 +28,7 @@
 #include <qfile.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
+#include <qlistview.h>
 
 #include <kgenericfactory.h>
 #include <klocale.h>
@@ -92,7 +93,9 @@ public:
         }
     }
 
-    void setup_combo_box (KComboBox *combo, const char *section_name, QString default_file)
+    void setup_combo_box (KComboBox  *combo,
+                          const char *section_name,
+                          QString     default_file)
     {
         QStringList theme_list;
         theme_list.append ("Default");
@@ -142,6 +145,17 @@ public:
             }
         }
         item->writeConfig (AnthyConfig::self()->config());
+    }
+
+    void setup_key_bindings () {
+        QListViewItem *item;
+        ui->KeyBindingsView->setSorting (-1);
+        item = new QListViewItem (ui->KeyBindingsView,
+                                  QString ("goge"),  QString ("guga"));
+        item = new QListViewItem (ui->KeyBindingsView, item,
+                                  QString ("foge"),  QString ("fuga"));
+        item = new QListViewItem (ui->KeyBindingsView, item,
+                                  QString ("hoge"),  QString ("huga"));
     }
 
 private:
@@ -198,6 +212,9 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              SIGNAL (activated (const QString &)),
              this, SLOT (set_nicola_theme (const QString &)));
 
+    connect (d->ui->KeyBindingsSelectButton,
+             SIGNAL (clicked ()),
+             this, SLOT (choose_keys ()));
     connect (d->ui->RomajiCustomizeButton,
              SIGNAL (clicked ()),
              this, SLOT (customize_romaji_table ()));
@@ -218,6 +235,7 @@ void ScimAnthySettingPlugin::load ()
 {
     KCModule::load ();
     d->load_style_files ();
+    d->setup_key_bindings ();
 
     StyleFiles::iterator it;
 
@@ -244,8 +262,8 @@ void ScimAnthySettingPlugin::load ()
 
 void ScimAnthySettingPlugin::save ()
 {
-    KCModule::save ();
     d->save_style_files ();
+    KCModule::save ();
 }
 
 void ScimAnthySettingPlugin::defaults ()
@@ -255,10 +273,14 @@ void ScimAnthySettingPlugin::defaults ()
     d->ui->KanaComboBox->setCurrentText (QString ("Default"));
     d->ui->ThumbShiftComboBox->setCurrentText (QString ("Default"));
 
-    //d->set_theme ("_IMEngine_Anthy_KeyThemeFile",     "Default", __key_bindings_theme);
-    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile",  "Default", __romaji_fund_table);
-    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile",   "Default", __kana_fund_table);
-    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", "Default", __nicola_fund_table);
+    d->set_theme ("_IMEngine_Anthy_KeyThemeFile",     "Default",
+                  __key_bindings_theme);
+    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile",  "Default",
+                  __romaji_fund_table);
+    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile",   "Default",
+                  __kana_fund_table);
+    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", "Default",
+                  __nicola_fund_table);
 
     KCModule::defaults ();
 }
@@ -283,28 +305,39 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
 void ScimAnthySettingPlugin::set_romaji_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_RomajiThemeFile", value, __romaji_fund_table);
+    changed (true);
 }
 
 void ScimAnthySettingPlugin::set_kana_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_KanaLayoutFile", value, __kana_fund_table);
+    changed (true);
 }
 
 void ScimAnthySettingPlugin::set_nicola_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", value, __nicola_fund_table);
+    changed (true);
+}
+
+void ScimAnthySettingPlugin::choose_keys ()
+{
+    std::cout << "choose_keys" << std::endl;
 }
 
 void ScimAnthySettingPlugin::customize_romaji_table ()
 {
+    std::cout << "customize_romaji_table" << std::endl;
 }
 
 void ScimAnthySettingPlugin::customize_kana_table ()
 {
+    std::cout << "customize_kana_table" << std::endl;
 }
 
 void ScimAnthySettingPlugin::customize_nicola_table ()
 {
+    std::cout << "customize_nicola_table" << std::endl;
 }
 
 
