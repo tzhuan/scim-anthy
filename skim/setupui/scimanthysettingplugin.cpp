@@ -138,6 +138,7 @@ public:
                 cur_item = theme_list.back ();
         }
 
+        combo->clear ();
         combo->insertStringList (theme_list);
         combo->setCurrentText (cur_item);
     }
@@ -289,10 +290,7 @@ void ScimAnthySettingPlugin::save ()
 
 void ScimAnthySettingPlugin::defaults ()
 {
-    d->ui->KeyBindingsThemeComboBox->setCurrentText (QString ("Default"));
-    d->ui->RomajiComboBox->setCurrentText (QString ("Default"));
-    d->ui->KanaComboBox->setCurrentText (QString ("Default"));
-    d->ui->ThumbShiftComboBox->setCurrentText (QString ("Default"));
+    KAutoCModule::defaults ();
 
     d->set_theme ("_IMEngine_Anthy_KeyThemeFile",     "Default",
                   __key_bindings_theme);
@@ -303,7 +301,7 @@ void ScimAnthySettingPlugin::defaults ()
     d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", "Default",
                   __nicola_fund_table);
 
-    KAutoCModule::defaults ();
+    d->reset_custom_widgets ();
 }
 
 void ScimAnthySettingPlugin::launch_dict_admin_command ()

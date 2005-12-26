@@ -1,5 +1,11 @@
 2005-12-28 Takuro Ashie <ashie@homa.ne.jp>
 
+	* setupui/scimanthysettingplugin.cpp:
+	Fix ScimAnthySettingPlugin::defaults () to follow other overrided
+	method's scheme.
+
+2005-12-28 Takuro Ashie <ashie@homa.ne.jp>
+
 	* setupui/scimanthysettingplugin.cpp: Call KAutoCModule's method from
 	overrided method, not KCModule.
 
