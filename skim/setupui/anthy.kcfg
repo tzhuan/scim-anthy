@@ -249,8 +249,9 @@
 
 
     <entry name="_IMEngine_Anthy_OnOffKey" key="/IMEngine/Anthy/OnOffKey" type="String">
-      <label>The key events to toggle latin mode</label>
+      <label>Latin mode</label>
       <default>Zenkaku_Hankaku,Control+j,Control+J</default>
+      <whatsthis>The key events to toggle latin mode</whatsthis>
     </entry>
     <entry name="_IMEngine_Anthy_CircleInputModeKey" key="/IMEngine/Anthy/CircleInputModeKey" type="String">
       <label>The key events to input kana mode</label>

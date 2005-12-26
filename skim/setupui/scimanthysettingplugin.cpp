@@ -125,7 +125,7 @@ public:
         if (!tmp_item) return;
 
         KConfigSkeletonGenericItem<QString> *item;
-        item = dynamic_cast< KConfigSkeletonGenericItem<QString>* > (tmp_item);
+        item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
         if (!item) return;
 
         if (item_value == "Default") {
@@ -148,14 +148,21 @@ public:
     }
 
     void setup_key_bindings () {
-        QListViewItem *item;
+        QListViewItem *list_item;
         ui->KeyBindingsView->setSorting (-1);
-        item = new QListViewItem (ui->KeyBindingsView,
-                                  "goge",  "guga", "gige");
-        item = new QListViewItem (ui->KeyBindingsView, item,
-                                  "foge",  "fuga", "fige");
-        item = new QListViewItem (ui->KeyBindingsView, item,
-                                  "hoge",  "huga", "hige");
+
+        KConfigSkeletonItem *tmp_item;
+        tmp_item = AnthyConfig::self()->findItem("_IMEngine_Anthy_OnOffKey");
+        if (!tmp_item) return;
+
+        KConfigSkeletonGenericItem<QString> *item;
+        item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
+        if (!item) return;
+
+        list_item = new QListViewItem (ui->KeyBindingsView,
+                                       item->label (),
+                                       item->value (),
+                                       item->whatsThis ());
     }
 
 private:
