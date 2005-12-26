@@ -1,6 +1,6 @@
 2005-12-28 Takuro Ashie <ashie@homa.ne.jp>
 
-	* setupui/scimanthysettingplugin.cpp: Fix indent.
+	* setupui/scimanthysettingplugin.{cpp,h}: Fix indent.
 	Add test code for QListView.
 
 2005-12-28 Takuro Ashie <ashie@homa.ne.jp>
