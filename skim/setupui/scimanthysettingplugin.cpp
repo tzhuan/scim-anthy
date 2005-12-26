@@ -151,11 +151,11 @@ public:
         QListViewItem *item;
         ui->KeyBindingsView->setSorting (-1);
         item = new QListViewItem (ui->KeyBindingsView,
-                                  QString ("goge"),  QString ("guga"));
+                                  "goge",  "guga", "gige");
         item = new QListViewItem (ui->KeyBindingsView, item,
-                                  QString ("foge"),  QString ("fuga"));
+                                  "foge",  "fuga", "fige");
         item = new QListViewItem (ui->KeyBindingsView, item,
-                                  QString ("hoge"),  QString ("huga"));
+                                  "hoge",  "huga", "hige");
     }
 
 private:
@@ -192,6 +192,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     load ();
 
     // Connect to signals
+    // Launch buttons
     connect (d->ui->LaunchDictAdminCommandButton,
              SIGNAL (clicked ()),
              this, SLOT (launch_dict_admin_command ()));
@@ -199,6 +200,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              SIGNAL (clicked ()),
              this, SLOT (launch_add_word_command ()));
 
+    // combo boxes
     connect (d->ui->KeyBindingsThemeComboBox,
              SIGNAL (activated (const QString &)),
              this, SLOT (set_key_bindings_theme (const QString &)));
@@ -212,6 +214,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              SIGNAL (activated (const QString &)),
              this, SLOT (set_nicola_theme (const QString &)));
 
+    // push buttons
     connect (d->ui->KeyBindingsSelectButton,
              SIGNAL (clicked ()),
              this, SLOT (choose_keys ()));
