@@ -93,6 +93,32 @@ public:
         }
     }
 
+    void reset_custom_widgets ()
+    {
+        // set key bindings theme list
+        setup_combo_box (ui->KeyBindingsThemeComboBox,
+                         __key_bindings_theme,
+                         QString());
+
+        // set key bindings
+        setup_key_bindings ();
+
+        // set romaji table list
+        setup_combo_box (ui->RomajiComboBox,
+                         __romaji_fund_table,
+                         AnthyConfig::_IMEngine_Anthy_RomajiThemeFile());
+
+        // set kana layout list
+        setup_combo_box (ui->KanaComboBox,
+                         __kana_fund_table,
+                         AnthyConfig::_IMEngine_Anthy_KanaLayoutFile());
+
+        // set NICOLA layout list
+        setup_combo_box (ui->ThumbShiftComboBox,
+                         __nicola_fund_table,
+                         AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
+    }
+
     void setup_combo_box (KComboBox  *combo,
                           const char *section_name,
                           QString     default_file)
@@ -192,11 +218,16 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
       d (new ScimAnthySettingPluginPrivate)
 {
     KGlobal::locale()->insertCatalogue ("skim-scim-anthy");
+
+    // Load scim-anthy style files.
+    d->load_style_files ();
+
+    // Setup user interface.
     d->ui = new AnthySettingUI (this);
     setMainWidget (d->ui);
 
-    // FIXME?
-    load ();
+    // Set default values to our custom widgets
+    d->reset_custom_widgets ();
 
     // Connect to signals
     // Launch buttons
@@ -243,37 +274,17 @@ ScimAnthySettingPlugin::~ScimAnthySettingPlugin ()
 
 void ScimAnthySettingPlugin::load ()
 {
-    KCModule::load ();
+    KAutoCModule::load ();
+
     d->load_style_files ();
-    d->setup_key_bindings ();
-
-    StyleFiles::iterator it;
-
-    // set key bindings theme list
-    d->setup_combo_box (d->ui->KeyBindingsThemeComboBox,
-                        __key_bindings_theme,
-                        QString());
-
-    // set romaji table list
-    d->setup_combo_box (d->ui->RomajiComboBox,
-                        __romaji_fund_table,
-                        AnthyConfig::_IMEngine_Anthy_RomajiThemeFile());
-
-    // set kana layout list
-    d->setup_combo_box (d->ui->KanaComboBox,
-                        __kana_fund_table,
-                        AnthyConfig::_IMEngine_Anthy_KanaLayoutFile());
-
-    // set NICOLA layout list
-    d->setup_combo_box (d->ui->ThumbShiftComboBox,
-                        __nicola_fund_table,
-                        AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
+    d->reset_custom_widgets ();
 }
 
 void ScimAnthySettingPlugin::save ()
 {
+    KAutoCModule::save ();
+
     d->save_style_files ();
-    KCModule::save ();
 }
 
 void ScimAnthySettingPlugin::defaults ()
@@ -292,7 +303,7 @@ void ScimAnthySettingPlugin::defaults ()
     d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", "Default",
                   __nicola_fund_table);
 
-    KCModule::defaults ();
+    KAutoCModule::defaults ();
 }
 
 void ScimAnthySettingPlugin::launch_dict_admin_command ()
