@@ -1,3 +1,8 @@
+2005-12-28 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/scimanthysettingplugin.cpp: Emit changed signal of KCModule
+	when Romaji/Kana/NICOLA combobox is changed.
+
 2005-12-22 Takuro Ashie <ashie@homa.ne.jp>
 
 	* setupui/scimanthysettingplugin.{cpp,h}, setupui/anthyui.ui:
