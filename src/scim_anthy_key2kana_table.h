@@ -20,7 +20,7 @@
 #ifndef __SCIM_ANTHY_KEY2KANA_TABLE_H__
 #define __SCIM_ANTHY_KEY2KANA_TABLE_H__
 
-#define Uses_SCIM_ICONV
+#define Uses_SCIM_TYPES
 #include <scim.h>
 #include "scim_anthy_default_tables.h"
 
