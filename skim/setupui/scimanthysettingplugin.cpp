@@ -404,7 +404,7 @@ void ScimAnthySettingPlugin::defaults ()
 void ScimAnthySettingPlugin::launch_dict_admin_command ()
 {
     QString command;
-    command = d->ui->kcfg__IMEngine_Anthy_DictAdminCommand->text().ascii()
+    command = d->ui->kcfg__IMEngine_Anthy_DictAdminCommand->text().ascii ()
         + QString (" &");
     system (command.ascii ());
 }
@@ -412,14 +412,24 @@ void ScimAnthySettingPlugin::launch_dict_admin_command ()
 void ScimAnthySettingPlugin::launch_add_word_command ()
 {
     QString command;
-    command = d->ui->kcfg__IMEngine_Anthy_AddWordCommand->text().ascii()
+    command = d->ui->kcfg__IMEngine_Anthy_AddWordCommand->text().ascii ()
         + QString (" &");
     system (command.ascii ());
 }
 
 void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
 {
-    std::cout << value << std::endl;
+    StyleFiles::iterator it;
+    for (it = d->m_style_list.begin (); it != d->m_style_list.end (); it++) {
+        StyleLines section;
+        if (!it->get_entry_list (section, __key_bindings_theme))
+            continue;
+        if (value == QString::fromUtf8 (it->get_title().c_str ()))
+            break;
+    }
+
+    if (it == d->m_style_list.end ())
+        return;
 }
 
 void ScimAnthySettingPlugin::set_romaji_theme (const QString & value)
