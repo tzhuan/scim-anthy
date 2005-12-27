@@ -48,11 +48,93 @@ const String __user_config_dir_name =
     scim_get_home_dir () +
     String (SCIM_PATH_DELIM_STRING ".scim" SCIM_PATH_DELIM_STRING "Anthy");
 const String __user_style_dir_name =
-    __user_config_dir_name +
-    String (SCIM_PATH_DELIM_STRING "style");
+    __user_config_dir_name + String (SCIM_PATH_DELIM_STRING "style");
 const String __user_style_file_name =
-    __user_config_dir_name +
-    String (SCIM_PATH_DELIM_STRING "config.sty");
+    __user_config_dir_name + String (SCIM_PATH_DELIM_STRING "config.sty");
+
+typedef struct _KeyList
+{
+    const char *label;
+    const char *key;
+    const char *category;
+} KeyList;
+
+KeyList key_list[] =
+{
+    {"Toggle on/off",               "_IMEngine_Anthy_OnOffKey",                   "ModeKeys"},
+    {"Circle input mode",           "_IMEngine_Anthy_CircleInputModeKey",         "ModeKeys"},
+    {"Circle kana mode",            "_IMEngine_Anthy_CircleKanaModeKey",          "ModeKeys"},
+    {"Latin mode",                  "_IMEngine_Anthy_LatinModeKey",               "ModeKeys"},
+    {"Wide Latin mode",             "_IMEngine_Anthy_WideLatinModeKey",           "ModeKeys"},
+    {"Hiragana mode",               "_IMEngine_Anthy_HiraganaModeKey",            "ModeKeys"},
+    {"Katakana mode",               "_IMEngine_Anthy_KatakanaModeKey",            "ModeKeys"},
+    {"Half katakana mode",          "_IMEngine_Anthy_HalfKatakanaModeKey",        "ModeKeys"},
+    {"Circle typing method",        "_IMEngine_Anthy_CircleTypingMethodKey",      "ModeKeys"},
+
+    {"Insert space",                "_IMEngine_Anthy_InsertSpaceKey",             "EditKeys"},
+    {"Insert alternative space",    "_IMEngine_Anthy_InsertAltSpaceKey",          "EditKeys"},
+    {"Insert half space",           "_IMEngine_Anthy_InsertHalfSpaceKey",         "EditKeys"},
+    {"Insert wide space",           "_IMEngine_Anthy_InsertWideSpaceKey",         "EditKeys"},
+    {"Backspace",                   "_IMEngine_Anthy_BackSpaceKey",               "EditKeys"},
+    {"Delete",                      "_IMEngine_Anthy_DeleteKey",                  "EditKeys"},
+    {"Commit",                      "_IMEngine_Anthy_CommitKey",                  "EditKeys"},
+    {"Convert",                     "_IMEngine_Anthy_ConvertKey",                 "EditKeys"},
+    //{"Predict"},
+    {"Cancel",                      "_IMEngine_Anthy_CancelKey",                  "EditKeys"},
+    {"Cancel all",                  "_IMEngine_Anthy_CancelAllKey",               "EditKeys"},
+    //{"Reconvert"}
+    {"Do nothing",                  "_IMEngine_Anthy_DoNothingKey",               "EditKeys"},
+
+    {"Move to first",               "_IMEngine_Anthy_MoveCaretFirstKey",          "CaretKeys"},
+    {"Move to last",                "_IMEngine_Anthy_MoveCaretLastKey",           "CaretKeys"},
+    {"Move to forward",             "_IMEngine_Anthy_MoveCaretForwardKey",        "CaretKeys"},
+    {"Move to backward",            "_IMEngine_Anthy_MoveCaretBackwardKey",       "CaretKeys"},
+
+    {"Select the first segment",    "_IMEngine_Anthy_SelectFirstSegmentKey",      "SegmentKeys"},
+    {"Select the last segment",     "_IMEngine_Anthy_SelectLastSegmentKey",       "SegmentKeys"},
+    {"Select the next segment",     "_IMEngine_Anthy_SelectNextSegmentKey",       "SegmentKeys"},
+    {"Select the previous segment", "_IMEngine_Anthy_SelectPrevSegmentKey",       "SegmentKeys"},
+    {"Shrink the segment",          "_IMEngine_Anthy_ShrinkSegmentKey",           "SegmentKeys"},
+    {"Expand the segment",          "_IMEngine_Anthy_ExpandSegmentKey",           "SegmentKeys"},
+    {"Commit the first segment",    "_IMEngine_Anthy_CommitFirstSegmentKey",      "SegmentKeys"},
+    {"Commit the selected segment", "_IMEngine_Anthy_CommitSelectedSegmentKey",   "SegmentKeys"},
+
+    {"First candidate",             "_IMEngine_Anthy_SelectFirstCandidateKey",    "CandidateKeys"},
+    {"Last candidate",              "_IMEngine_Anthy_SelectLastCandidateKey",     "CandidateKeys"},
+    {"Next candidate",              "_IMEngine_Anthy_SelectNextCandidateKey",     "CandidateKeys"},
+    {"Previous candidate",          "_IMEngine_Anthy_SelectPrevCandidateKey",     "CandidateKeys"},
+    {"Page up",                     "_IMEngine_Anthy_CandidatesPageUpKey",        "CandidateKeys"},
+    {"Page down",                   "_IMEngine_Anthy_CandidatesPageDownKey",      "CandidateKeys"},
+
+    {"1st candidate",               "_IMEngine_Anthy_SelectCandidates1Key",       "DirectSelectKeys"},
+    {"2nd candidate",               "_IMEngine_Anthy_SelectCandidates2Key",       "DirectSelectKeys"},
+    {"3rd candidate",               "_IMEngine_Anthy_SelectCandidates3Key",       "DirectSelectKeys"},
+    {"4th candidate",               "_IMEngine_Anthy_SelectCandidates4Key",       "DirectSelectKeys"},
+    {"5th candidate",               "_IMEngine_Anthy_SelectCandidates5Key",       "DirectSelectKeys"},
+    {"6th candidate",               "_IMEngine_Anthy_SelectCandidates6Key",       "DirectSelectKeys"},
+    {"7th candidate",               "_IMEngine_Anthy_SelectCandidates7Key",       "DirectSelectKeys"},
+    {"8th candidate",               "_IMEngine_Anthy_SelectCandidates8Key",       "DirectSelectKeys"},
+    {"9th candidate",               "_IMEngine_Anthy_SelectCandidates9Key",       "DirectSelectKeys"},
+    {"10th candidate",              "_IMEngine_Anthy_SelectCandidates10Key",      "DirectSelectKeys"},
+
+    {"Convert character type to forward",  "_IMEngine_Anthy_ConvertCharTypeForwardKey",  "ConvertKeys"},
+    {"Convert character type to backward", "_IMEngine_Anthy_ConvertCharTypeBackwardKey", "ConvertKeys"},
+    {"Convert to hiragana",         "_IMEngine_Anthy_ConvertToHiraganaKey",       "ConvertKeys"},
+    {"Convert to katakana",         "_IMEngine_Anthy_ConvertToKatakanaKey",       "ConvertKeys"},
+    {"Convert to half width",       "_IMEngine_Anthy_ConvertToHalfKey",           "ConvertKeys"},
+    {"Convert to half katakana",    "_IMEngine_Anthy_ConvertToHalfKatakanaKey",   "ConvertKeys"},
+    {"Convert to wide latin",       "_IMEngine_Anthy_ConvertToWideLatinKey",      "ConvertKeys"},
+    {"Convert to latin",            "_IMEngine_Anthy_ConvertToLatinKey",          "ConvertKeys"},
+
+    {"Edit dictionary",             "_IMEngine_Anthy_DictAdminKey",               "DictionaryKeys"},
+    {"Add a word",                  "_IMEngine_Anthy_AddWordKey",                 "DictionaryKeys"},
+
+    //{"_IMEngine_Anthy_CommitReverseLearnKey",                "EditKeys"},
+    //{"_IMEngine_Anthy_CommitFirstSegmentReverseLearnKey",    "SegmentKeys"},
+    //{"_IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey", "SegmentKeys"},
+
+    {NULL, NULL, NULL},
+};
 
 
 K_EXPORT_COMPONENT_FACTORY (kcm_skimplugin_scim_anthy, 
@@ -91,6 +173,37 @@ public:
             m_user_style.save (__user_style_file_name.c_str ());
             m_style_changed = false;
         }
+    }
+
+    void set_theme (const QString & item_key,
+                    const QString & item_value,
+                    const QString & section_name)
+    {
+        KConfigSkeletonItem *tmp_item;
+        tmp_item = AnthyConfig::self()->findItem(item_key);
+        if (!tmp_item) return;
+
+        KConfigSkeletonGenericItem<QString> *item;
+        item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
+        if (!item) return;
+
+        if (item_value == "Default") {
+            item->setValue (QString (""));
+        } else if (item_value == "User defined") {
+            item->setValue (QString::fromUtf8 (__user_style_file_name.c_str ()));
+        } else {
+            StyleFiles::iterator it;
+            for (it = m_style_list.begin (); it != m_style_list.end (); it++) {
+                StyleLines section;
+                if (!it->get_entry_list (section, section_name))
+                    continue;
+                if (item_value == QString::fromUtf8 (it->get_title().c_str())) {
+                    item->setValue (QString::fromUtf8 (it->get_file_name().c_str()));
+                    break;
+                }
+            }
+        }
+        item->writeConfig (AnthyConfig::self()->config());
     }
 
     void reset_custom_widgets ()
@@ -143,53 +256,37 @@ public:
         combo->setCurrentText (cur_item);
     }
 
-    void set_theme (const QString & item_key,
-                    const QString & item_value,
-                    const QString & section_name)
-    {
-        KConfigSkeletonItem *tmp_item;
-        tmp_item = AnthyConfig::self()->findItem(item_key);
-        if (!tmp_item) return;
-
-        KConfigSkeletonGenericItem<QString> *item;
-        item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
-        if (!item) return;
-
-        if (item_value == "Default") {
-            item->setValue (QString (""));
-        } else if (item_value == "User defined") {
-            item->setValue (QString::fromUtf8 (__user_style_file_name.c_str ()));
-        } else {
-            StyleFiles::iterator it;
-            for (it = m_style_list.begin (); it != m_style_list.end (); it++) {
-                StyleLines section;
-                if (!it->get_entry_list (section, section_name))
-                    continue;
-                if (item_value == QString::fromUtf8 (it->get_title().c_str())) {
-                    item->setValue (QString::fromUtf8 (it->get_file_name().c_str()));
-                    break;
-                }
-            }
-        }
-        item->writeConfig (AnthyConfig::self()->config());
-    }
-
     void setup_key_bindings () {
-        QListViewItem *list_item;
+        ui->KeyBindingsView->clear ();
         ui->KeyBindingsView->setSorting (-1);
 
-        KConfigSkeletonItem *tmp_item;
-        tmp_item = AnthyConfig::self()->findItem("_IMEngine_Anthy_OnOffKey");
-        if (!tmp_item) return;
+        QListViewItem *prev_item = NULL;
 
-        KConfigSkeletonGenericItem<QString> *item;
-        item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
-        if (!item) return;
+        for (unsigned int i = 0; key_list[i].key; i++) {
+            KConfigSkeletonItem *tmp_item;
+            tmp_item = AnthyConfig::self()->findItem(key_list[i].key);
+            if (!tmp_item) return;
 
-        list_item = new QListViewItem (ui->KeyBindingsView,
-                                       item->label (),
-                                       item->value (),
-                                       item->whatsThis ());
+            KConfigSkeletonGenericItem<QString> *item;
+            item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
+            if (!item) return;
+
+            QListViewItem *list_item;
+            if (prev_item) {
+                list_item = new QListViewItem (ui->KeyBindingsView,
+                                               prev_item,
+                                               key_list[i].label,
+                                               item->value (),
+                                               item->whatsThis ());
+            } else {
+                list_item = new QListViewItem (ui->KeyBindingsView,
+                                               prev_item,
+                                               key_list[i].label,
+                                               item->value (),
+                                               item->whatsThis ());
+            }
+            prev_item = list_item;
+        }
     }
 
 private:
@@ -306,13 +403,17 @@ void ScimAnthySettingPlugin::defaults ()
 
 void ScimAnthySettingPlugin::launch_dict_admin_command ()
 {
-    QString command = d->ui->kcfg__IMEngine_Anthy_DictAdminCommand->text().ascii() + QString (" &");
+    QString command;
+    command = d->ui->kcfg__IMEngine_Anthy_DictAdminCommand->text().ascii()
+        + QString (" &");
     system (command.ascii ());
 }
 
 void ScimAnthySettingPlugin::launch_add_word_command ()
 {
-    QString command = d->ui->kcfg__IMEngine_Anthy_AddWordCommand->text().ascii() + QString (" &");
+    QString command;
+    command = d->ui->kcfg__IMEngine_Anthy_AddWordCommand->text().ascii()
+        + QString (" &");
     system (command.ascii ());
 }
 
