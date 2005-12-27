@@ -1,6 +1,6 @@
 2005-12-27 Takuro Ashie <ashie@homa.ne.jp>
 
-	* setupui/scimanthysettingplugin.cpp: Show SkimShortcutListEditor.
+	* setupui/scimanthysettingplugin.{cpp,h}: Show SkimShortcutListEditor.
 
 2005-12-27 Takuro Ashie <ashie@homa.ne.jp>
 
