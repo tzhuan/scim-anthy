@@ -35,6 +35,8 @@
 #include <kcombobox.h>
 #include <klineedit.h>
 
+#include <skimkeygrabber.h>
+
 using namespace scim_anthy;
 
 typedef KGenericFactory<ScimAnthySettingPlugin> ScimAnthySettingLoaderFactory;
@@ -188,6 +190,7 @@ public:
         } else if (item_value == "User defined") {
             item->setValue (QString::fromUtf8 (__user_style_file_name.c_str ()));
         } else {
+            // FIXME! shoudn't match by title name.
             StyleFiles::iterator it;
             for (it = m_style_list.begin (); it != m_style_list.end (); it++) {
                 StyleLines section;
@@ -252,7 +255,8 @@ public:
         combo->setCurrentText (cur_item);
     }
 
-    void setup_key_bindings () {
+    void setup_key_bindings ()
+    {
         ui->KeyBindingsView->clear ();
         ui->KeyBindingsView->setSorting (-1);
 
@@ -358,7 +362,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              this, SLOT (key_bindings_view_selection_changed (QListViewItem*)));
     connect (d->ui->KeyBindingsView,
              SIGNAL (doubleClicked (QListViewItem*)),
-             this, SLOT (key_bindings_view_double_clicked ()));
+             this, SLOT (choose_keys ()));
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
@@ -438,7 +442,16 @@ void ScimAnthySettingPlugin::set_nicola_theme (const QString & value)
 
 void ScimAnthySettingPlugin::choose_keys ()
 {
-    std::cout << "choose_keys" << std::endl;
+    QListViewItem *item = d->ui->KeyBindingsView->currentItem ();
+    if (!item) return;
+
+    QStringList keys = QStringList::split (",", item->text (1));
+    SkimShortcutListEditor editor;
+    editor.setStringList (keys);
+    if (editor.exec () == QDialog::Accepted) {
+        item->setText (1, editor.getCombinedString ());
+        // FIXME! set this value to kconfig
+    }
 }
 
 void ScimAnthySettingPlugin::customize_romaji_table ()
@@ -458,12 +471,7 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
 
 void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem *item)
 {
-    std::cout << "key_bindings_view_selection_changed()" << std::endl;
-}
-
-void ScimAnthySettingPlugin::key_bindings_view_double_clicked ()
-{
-    std::cout << "key_bindings_view_double_clicked()" << std::endl;
+    d->ui->KeyBindingsSelectButton->setEnabled (item ? true : false);
 }
 
 #include "scimanthysettingplugin.moc"

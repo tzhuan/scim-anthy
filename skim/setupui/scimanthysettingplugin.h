@@ -51,7 +51,6 @@ protected slots:
     void customize_kana_table      ();
     void customize_nicola_table    ();
     void key_bindings_view_selection_changed (QListViewItem *item);
-    void key_bindings_view_double_clicked    ();
 };
 
 #endif
