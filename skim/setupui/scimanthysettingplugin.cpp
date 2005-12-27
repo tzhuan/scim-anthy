@@ -79,10 +79,10 @@ KeyList key_list[] =
     {"Delete",                      "_IMEngine_Anthy_DeleteKey",                  "EditKeys"},
     {"Commit",                      "_IMEngine_Anthy_CommitKey",                  "EditKeys"},
     {"Convert",                     "_IMEngine_Anthy_ConvertKey",                 "EditKeys"},
-    //{"Predict"},
+    {"Predict",                     "_IMEngine_Anthy_PredictKey",                 "EditKeys"},
     {"Cancel",                      "_IMEngine_Anthy_CancelKey",                  "EditKeys"},
     {"Cancel all",                  "_IMEngine_Anthy_CancelAllKey",               "EditKeys"},
-    //{"Reconvert"}
+    {"Reconvert",                   "_IMEngine_Anthy_ReconvertKey",               "EditKeys"},
     {"Do nothing",                  "_IMEngine_Anthy_DoNothingKey",               "EditKeys"},
 
     {"Move to first",               "_IMEngine_Anthy_MoveCaretFirstKey",          "CaretKeys"},

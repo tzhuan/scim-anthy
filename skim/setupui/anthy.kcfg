@@ -323,6 +323,10 @@
       <label>The key events to convert the preedit string to kanji</label>
       <default>space,KP_Space,Henkan</default>
     </entry>
+    <entry name="_IMEngine_Anthy_PredictKey" key="/IMEngine/Anthy/PredictKey" type="String">
+      <label>The key events to predict a word or sentence from already inserted text</label>
+      <default>Tab,ISO_Left_Tab</default>
+    </entry>
     <entry name="_IMEngine_Anthy_CancelKey" key="/IMEngine/Anthy/CancelKey" type="String">
       <label>The key events to cancel preediting or converting</label>
       <default>Escape,Control+g,Control+G</default>
@@ -330,6 +334,10 @@
     <entry name="_IMEngine_Anthy_CancelAllKey" key="/IMEngine/Anthy/CancelAllKey" type="String">
       <label>The key events to return to initial state</label>
       <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_ReconvertKey" key="/IMEngine/Anthy/ReconvertKey" type="String">
+      <label>The key events to reconvert the commited string in selection</label>
+      <default>Shift+Henkan</default>
     </entry>
     <entry name="_IMEngine_Anthy_DoNothingKey" key="/IMEngine/Anthy/DoNothingKey" type="String">
       <label>The key events to eat</label>
