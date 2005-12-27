@@ -354,10 +354,10 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
 
     // key bindings view
     connect (d->ui->KeyBindingsView,
-             SIGNAL (selectionChanged (QListViewItem *)),
-             this, SLOT (key_bindings_view_selection_changed ()));
+             SIGNAL (selectionChanged (QListViewItem*)),
+             this, SLOT (key_bindings_view_selection_changed (QListViewItem*)));
     connect (d->ui->KeyBindingsView,
-             SIGNAL (doubleClicked ()),
+             SIGNAL (doubleClicked (QListViewItem*)),
              this, SLOT (key_bindings_view_double_clicked ()));
 }
 
