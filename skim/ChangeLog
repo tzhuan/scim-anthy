@@ -1,5 +1,10 @@
 2005-12-27 Takuro Ashie <ashie@homa.ne.jp>
 
+	* setupui/scimanthysettingplugin.cpp: Add some callbacks for
+	KeyBindingsView, but it doesn't seem work yet.
+
+2005-12-27 Takuro Ashie <ashie@homa.ne.jp>
+
 	* setupui/scimanthysettingplugin.cpp: Set key bindings to key list view.
 	But it's still a temporary solution.
 

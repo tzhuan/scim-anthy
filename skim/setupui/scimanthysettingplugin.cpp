@@ -268,19 +268,11 @@ public:
             if (!item) return;
 
             QListViewItem *list_item;
-            if (prev_item) {
-                list_item = new QListViewItem (ui->KeyBindingsView,
-                                               prev_item,
-                                               key_list[i].label,
-                                               item->value (),
-                                               item->whatsThis ());
-            } else {
-                list_item = new QListViewItem (ui->KeyBindingsView,
-                                               prev_item,
-                                               key_list[i].label,
-                                               item->value (),
-                                               item->whatsThis ());
-            }
+            list_item = new QListViewItem (ui->KeyBindingsView,
+                                           prev_item,
+                                           key_list[i].label,
+                                           item->value (),
+                                           item->whatsThis ());
             prev_item = list_item;
         }
     }
@@ -359,6 +351,14 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     connect (d->ui->ThumbShiftCustomizeButton,
              SIGNAL (clicked ()),
              this, SLOT (customize_nicola_table ()));
+
+    // key bindings view
+    connect (d->ui->KeyBindingsView,
+             SIGNAL (selectionChanged (QListViewItem *)),
+             this, SLOT (key_bindings_view_selection_changed ()));
+    connect (d->ui->KeyBindingsView,
+             SIGNAL (doubleClicked ()),
+             this, SLOT (key_bindings_view_double_clicked ()));
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
@@ -456,5 +456,14 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
     std::cout << "customize_nicola_table" << std::endl;
 }
 
+void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem *item)
+{
+    std::cout << "key_bindings_view_selection_changed()" << std::endl;
+}
+
+void ScimAnthySettingPlugin::key_bindings_view_double_clicked ()
+{
+    std::cout << "key_bindings_view_double_clicked()" << std::endl;
+}
 
 #include "scimanthysettingplugin.moc"

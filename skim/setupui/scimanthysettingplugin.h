@@ -20,6 +20,8 @@
 
 #include "utils/kautocmodule.h"
 
+class QListViewItem *item;
+
 class ScimAnthySettingPlugin : public KAutoCModule
 {
 Q_OBJECT
@@ -48,6 +50,8 @@ protected slots:
     void customize_romaji_table    ();
     void customize_kana_table      ();
     void customize_nicola_table    ();
+    void key_bindings_view_selection_changed (QListViewItem *item);
+    void key_bindings_view_double_clicked    ();
 };
 
 #endif
