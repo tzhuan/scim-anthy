@@ -132,8 +132,8 @@
 #define SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY        "/IMEngine/Anthy/ConvertToKatakanaKey"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HALF_KEY            "/IMEngine/Anthy/ConvertToHalfKey"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY   "/IMEngine/Anthy/ConvertToHalfKatakanaKey"
-#define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY           "/IMEngine/Anthy/ConvertToLatinKey"
 #define SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY      "/IMEngine/Anthy/ConvertToWideLatinKey"
+#define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY           "/IMEngine/Anthy/ConvertToLatinKey"
 
 #define SCIM_ANTHY_CONFIG_RECONVERT_KEY               "/IMEngine/Anthy/ReconvertKey"
 
@@ -262,8 +262,8 @@
 #define SCIM_ANTHY_CONFIG_CONV_TO_KATAKANA_KEY_DEFAULT        "F7"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HALF_KEY_DEFAULT            "F8"
 #define SCIM_ANTHY_CONFIG_CONV_TO_HALF_KATAKANA_KEY_DEFAULT   "Shift+F8"
-#define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT           "F10"
 #define SCIM_ANTHY_CONFIG_CONV_TO_WIDE_LATIN_KEY_DEFAULT      "F9"
+#define SCIM_ANTHY_CONFIG_CONV_TO_LATIN_KEY_DEFAULT           "F10"
 
 #define SCIM_ANTHY_CONFIG_RECONVERT_KEY_DEFAULT               "Shift+Henkan"
 
@@ -348,13 +348,13 @@ struct ColorConfigData
 extern BoolConfigData   config_bool_common [];
 extern IntConfigData    config_int_common [];
 extern StringConfigData config_string_common [];
+extern StringConfigData config_keyboards_mode [];
 extern StringConfigData config_keyboards_edit [];
 extern StringConfigData config_keyboards_caret [];
 extern StringConfigData config_keyboards_segments [];
 extern StringConfigData config_keyboards_candidates [];
 extern StringConfigData config_keyboards_direct_select [];
 extern StringConfigData config_keyboards_converting [];
-extern StringConfigData config_keyboards_mode [];
 extern StringConfigData config_keyboards_dict [];
 extern ColorConfigData  config_color_common [];
 
