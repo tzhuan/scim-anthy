@@ -34,6 +34,7 @@
 #include <klocale.h>
 #include <kcombobox.h>
 #include <klineedit.h>
+#include <kdualcolorbutton.h>
 
 #include <skimkeygrabber.h>
 
@@ -205,6 +206,19 @@ public:
         item->writeConfig (AnthyConfig::self()->config());
     }
 
+    void set_color (const QString key, const QColor & c)
+    {
+        KConfigSkeletonItem *tmp_item;
+        tmp_item = AnthyConfig::self()->findItem(key);
+        if (!tmp_item) return;
+
+        KConfigSkeletonGenericItem<QString> *item;
+        item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
+        if (!item) return;
+
+        item->setValue (c.name ());
+    }
+
     void reset_custom_widgets ()
     {
         // set key bindings theme list
@@ -229,6 +243,24 @@ public:
         setup_combo_box (ui->ThumbShiftComboBox,
                          __nicola_fund_table,
                          AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
+
+        // set preedit string color
+        ui->PreeditStringDualColorButton->setForeground (
+            QColor (AnthyConfig::_IMEngine_Anthy_PreeditFGColor()));
+        ui->PreeditStringDualColorButton->setBackground (
+            QColor (AnthyConfig::_IMEngine_Anthy_PreeditBGColor()));
+
+        // set conversion string color
+        ui->ConversionStringDualColorButton->setForeground (
+            QColor (AnthyConfig::_IMEngine_Anthy_ConversionFGColor()));
+        ui->ConversionStringDualColorButton->setBackground (
+            QColor (AnthyConfig::_IMEngine_Anthy_ConversionBGColor()));
+
+        // set selected segment color
+        ui->SelectedSegmentDualColorButton->setForeground (
+            QColor (AnthyConfig::_IMEngine_Anthy_SelectedSegmentFGColor()));
+        ui->SelectedSegmentDualColorButton->setBackground (
+            QColor (AnthyConfig::_IMEngine_Anthy_SelectedSegmentBGColor()));
     }
 
     void setup_combo_box (KComboBox  *combo,
@@ -482,6 +514,42 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
 void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem *item)
 {
     d->ui->KeyBindingsSelectButton->setEnabled (item ? true : false);
+}
+
+void ScimAnthySettingPlugin::set_preedit_string_fg_color (const QColor & c)
+{
+    d->set_color ("_IMEngine_Anthy_PreeditFGColor", c);
+    changed (true);
+}
+
+void ScimAnthySettingPlugin::set_preedit_string_bg_color (const QColor & c)
+{
+    d->set_color ("_IMEngine_Anthy_PreeditBGColor", c);
+    changed (true);
+}
+
+void ScimAnthySettingPlugin::set_conversion_string_fg_color (const QColor & c)
+{
+    d->set_color ("_IMEngine_Anthy_ConversionFGColor", c);
+    changed (true);
+}
+
+void ScimAnthySettingPlugin::set_conversion_string_bg_color (const QColor & c)
+{
+    d->set_color ("_IMEngine_Anthy_ConversionBGColor", c);
+    changed (true);
+}
+
+void ScimAnthySettingPlugin::set_selected_segment_fg_color (const QColor & c)
+{
+    d->set_color ("_IMEngine_Anthy_SelectedSegmentFGColor", c);
+    changed (true);
+}
+
+void ScimAnthySettingPlugin::set_selected_segment_bg_color (const QColor & c)
+{
+    d->set_color ("_IMEngine_Anthy_SelectedSegmentBGColor", c);
+    changed (true);
 }
 
 #include "scimanthysettingplugin.moc"

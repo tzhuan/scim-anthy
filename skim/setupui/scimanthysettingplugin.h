@@ -51,6 +51,12 @@ protected slots:
     void customize_kana_table      ();
     void customize_nicola_table    ();
     void key_bindings_view_selection_changed (QListViewItem *item);
+    void set_preedit_string_fg_color    (const QColor & c);
+    void set_preedit_string_bg_color    (const QColor & c);
+    void set_conversion_string_fg_color (const QColor & c);
+    void set_conversion_string_bg_color (const QColor & c);
+    void set_selected_segment_fg_color  (const QColor & c);
+    void set_selected_segment_bg_color  (const QColor & c);
 };
 
 #endif
