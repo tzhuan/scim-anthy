@@ -418,7 +418,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              this, SLOT (set_selected_segment_fg_color(const QColor &)));
     connect (d->ui->SelectedSegmentDualColorButton,
              SIGNAL (bgChanged(const QColor &)),
-             this, SLOT (set_selected_segmentg_bg_color(const QColor &)));
+             this, SLOT (set_selected_segment_bg_color(const QColor &)));
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
