@@ -395,6 +395,30 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     connect (d->ui->KeyBindingsView,
              SIGNAL (doubleClicked (QListViewItem*)),
              this, SLOT (choose_keys ()));
+
+    // preedit string color
+    connect (d->ui->PreeditStringDualColorButton,
+             SIGNAL (fgChanged(const QColor &)),
+             this, SLOT (set_preedit_string_fg_color(const QColor &)));
+    connect (d->ui->PreeditStringDualColorButton,
+             SIGNAL (bgChanged(const QColor &)),
+             this, SLOT (set_preedit_string_bg_color(const QColor &)));
+
+    // conversion string color
+    connect (d->ui->ConversionStringDualColorButton,
+             SIGNAL (fgChanged(const QColor &)),
+             this, SLOT (set_conversion_string_fg_color(const QColor &)));
+    connect (d->ui->ConversionStringDualColorButton,
+             SIGNAL (bgChanged(const QColor &)),
+             this, SLOT (set_conversion_string_bg_color(const QColor &)));
+
+    // selected segment color
+    connect (d->ui->SelectedSegmentDualColorButton,
+             SIGNAL (fgChanged(const QColor &)),
+             this, SLOT (set_selected_segment_fg_color(const QColor &)));
+    connect (d->ui->SelectedSegmentDualColorButton,
+             SIGNAL (bgChanged(const QColor &)),
+             this, SLOT (set_selected_segmentg_bg_color(const QColor &)));
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
