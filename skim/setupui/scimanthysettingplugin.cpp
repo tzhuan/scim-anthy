@@ -55,84 +55,97 @@ const String __user_style_dir_name =
 const String __user_style_file_name =
     __user_config_dir_name + String (SCIM_PATH_DELIM_STRING "config.sty");
 
+typedef enum {
+    AllKeys          = 0,
+    ModeKeys         = 1,
+    EditKeys         = 2,
+    CaretKeys        = 3,
+    SegmentKeys      = 4,
+    CandidateKeys    = 5,
+    DirectSelectKeys = 6,
+    ConvertKeys      = 7,
+    DictionaryKeys   = 8,
+    SearchByKey      = 9,
+} KeyCategory;
+
 typedef struct _KeyList
 {
-    const char *label;
-    const char *key;
-    const char *category;
+    const char  *label;
+    const char  *key;
+    KeyCategory  category;
 } KeyList;
 
 KeyList key_list[] =
 {
-    {I18N_NOOP("Toggle on/off"),               "_IMEngine_Anthy_OnOffKey",                   "ModeKeys"},
-    {I18N_NOOP("Circle input mode"),           "_IMEngine_Anthy_CircleInputModeKey",         "ModeKeys"},
-    {I18N_NOOP("Circle kana mode"),            "_IMEngine_Anthy_CircleKanaModeKey",          "ModeKeys"},
-    {I18N_NOOP("Latin mode"),                  "_IMEngine_Anthy_LatinModeKey",               "ModeKeys"},
-    {I18N_NOOP("Wide Latin mode"),             "_IMEngine_Anthy_WideLatinModeKey",           "ModeKeys"},
-    {I18N_NOOP("Hiragana mode"),               "_IMEngine_Anthy_HiraganaModeKey",            "ModeKeys"},
-    {I18N_NOOP("Katakana mode"),               "_IMEngine_Anthy_KatakanaModeKey",            "ModeKeys"},
-    {I18N_NOOP("Half katakana mode"),          "_IMEngine_Anthy_HalfKatakanaModeKey",        "ModeKeys"},
-    {I18N_NOOP("Circle typing method"),        "_IMEngine_Anthy_CircleTypingMethodKey",      "ModeKeys"},
+    {I18N_NOOP("Toggle on/off"),               "_IMEngine_Anthy_OnOffKey",                   ModeKeys},
+    {I18N_NOOP("Circle input mode"),           "_IMEngine_Anthy_CircleInputModeKey",         ModeKeys},
+    {I18N_NOOP("Circle kana mode"),            "_IMEngine_Anthy_CircleKanaModeKey",          ModeKeys},
+    {I18N_NOOP("Latin mode"),                  "_IMEngine_Anthy_LatinModeKey",               ModeKeys},
+    {I18N_NOOP("Wide Latin mode"),             "_IMEngine_Anthy_WideLatinModeKey",           ModeKeys},
+    {I18N_NOOP("Hiragana mode"),               "_IMEngine_Anthy_HiraganaModeKey",            ModeKeys},
+    {I18N_NOOP("Katakana mode"),               "_IMEngine_Anthy_KatakanaModeKey",            ModeKeys},
+    {I18N_NOOP("Half katakana mode"),          "_IMEngine_Anthy_HalfKatakanaModeKey",        ModeKeys},
+    {I18N_NOOP("Circle typing method"),        "_IMEngine_Anthy_CircleTypingMethodKey",      ModeKeys},
 
-    {I18N_NOOP("Insert space"),                "_IMEngine_Anthy_InsertSpaceKey",             "EditKeys"},
-    {I18N_NOOP("Insert alternative space"),    "_IMEngine_Anthy_InsertAltSpaceKey",          "EditKeys"},
-    {I18N_NOOP("Insert half space"),           "_IMEngine_Anthy_InsertHalfSpaceKey",         "EditKeys"},
-    {I18N_NOOP("Insert wide space"),           "_IMEngine_Anthy_InsertWideSpaceKey",         "EditKeys"},
-    {I18N_NOOP("Backspace"),                   "_IMEngine_Anthy_BackSpaceKey",               "EditKeys"},
-    {I18N_NOOP("Delete"),                      "_IMEngine_Anthy_DeleteKey",                  "EditKeys"},
-    {I18N_NOOP("Commit"),                      "_IMEngine_Anthy_CommitKey",                  "EditKeys"},
-    {I18N_NOOP("Convert"),                     "_IMEngine_Anthy_ConvertKey",                 "EditKeys"},
-    {I18N_NOOP("Predict"),                     "_IMEngine_Anthy_PredictKey",                 "EditKeys"},
-    {I18N_NOOP("Cancel"),                      "_IMEngine_Anthy_CancelKey",                  "EditKeys"},
-    {I18N_NOOP("Cancel all"),                  "_IMEngine_Anthy_CancelAllKey",               "EditKeys"},
-    {I18N_NOOP("Reconvert"),                   "_IMEngine_Anthy_ReconvertKey",               "EditKeys"},
-    {I18N_NOOP("Do nothing"),                  "_IMEngine_Anthy_DoNothingKey",               "EditKeys"},
+    {I18N_NOOP("Insert space"),                "_IMEngine_Anthy_InsertSpaceKey",             EditKeys},
+    {I18N_NOOP("Insert alternative space"),    "_IMEngine_Anthy_InsertAltSpaceKey",          EditKeys},
+    {I18N_NOOP("Insert half space"),           "_IMEngine_Anthy_InsertHalfSpaceKey",         EditKeys},
+    {I18N_NOOP("Insert wide space"),           "_IMEngine_Anthy_InsertWideSpaceKey",         EditKeys},
+    {I18N_NOOP("Backspace"),                   "_IMEngine_Anthy_BackSpaceKey",               EditKeys},
+    {I18N_NOOP("Delete"),                      "_IMEngine_Anthy_DeleteKey",                  EditKeys},
+    {I18N_NOOP("Commit"),                      "_IMEngine_Anthy_CommitKey",                  EditKeys},
+    {I18N_NOOP("Convert"),                     "_IMEngine_Anthy_ConvertKey",                 EditKeys},
+    {I18N_NOOP("Predict"),                     "_IMEngine_Anthy_PredictKey",                 EditKeys},
+    {I18N_NOOP("Cancel"),                      "_IMEngine_Anthy_CancelKey",                  EditKeys},
+    {I18N_NOOP("Cancel all"),                  "_IMEngine_Anthy_CancelAllKey",               EditKeys},
+    {I18N_NOOP("Reconvert"),                   "_IMEngine_Anthy_ReconvertKey",               EditKeys},
+    {I18N_NOOP("Do nothing"),                  "_IMEngine_Anthy_DoNothingKey",               EditKeys},
 
-    {I18N_NOOP("Move to first"),               "_IMEngine_Anthy_MoveCaretFirstKey",          "CaretKeys"},
-    {I18N_NOOP("Move to last"),                "_IMEngine_Anthy_MoveCaretLastKey",           "CaretKeys"},
-    {I18N_NOOP("Move to forward"),             "_IMEngine_Anthy_MoveCaretForwardKey",        "CaretKeys"},
-    {I18N_NOOP("Move to backward"),            "_IMEngine_Anthy_MoveCaretBackwardKey",       "CaretKeys"},
+    {I18N_NOOP("Move to first"),               "_IMEngine_Anthy_MoveCaretFirstKey",          CaretKeys},
+    {I18N_NOOP("Move to last"),                "_IMEngine_Anthy_MoveCaretLastKey",           CaretKeys},
+    {I18N_NOOP("Move to forward"),             "_IMEngine_Anthy_MoveCaretForwardKey",        CaretKeys},
+    {I18N_NOOP("Move to backward"),            "_IMEngine_Anthy_MoveCaretBackwardKey",       CaretKeys},
 
-    {I18N_NOOP("Select the first segment"),    "_IMEngine_Anthy_SelectFirstSegmentKey",      "SegmentKeys"},
-    {I18N_NOOP("Select the last segment"),     "_IMEngine_Anthy_SelectLastSegmentKey",       "SegmentKeys"},
-    {I18N_NOOP("Select the next segment"),     "_IMEngine_Anthy_SelectNextSegmentKey",       "SegmentKeys"},
-    {I18N_NOOP("Select the previous segment"), "_IMEngine_Anthy_SelectPrevSegmentKey",       "SegmentKeys"},
-    {I18N_NOOP("Shrink the segment"),          "_IMEngine_Anthy_ShrinkSegmentKey",           "SegmentKeys"},
-    {I18N_NOOP("Expand the segment"),          "_IMEngine_Anthy_ExpandSegmentKey",           "SegmentKeys"},
-    {I18N_NOOP("Commit the first segment"),    "_IMEngine_Anthy_CommitFirstSegmentKey",      "SegmentKeys"},
-    {I18N_NOOP("Commit the selected segment"), "_IMEngine_Anthy_CommitSelectedSegmentKey",   "SegmentKeys"},
+    {I18N_NOOP("Select the first segment"),    "_IMEngine_Anthy_SelectFirstSegmentKey",      SegmentKeys},
+    {I18N_NOOP("Select the last segment"),     "_IMEngine_Anthy_SelectLastSegmentKey",       SegmentKeys},
+    {I18N_NOOP("Select the next segment"),     "_IMEngine_Anthy_SelectNextSegmentKey",       SegmentKeys},
+    {I18N_NOOP("Select the previous segment"), "_IMEngine_Anthy_SelectPrevSegmentKey",       SegmentKeys},
+    {I18N_NOOP("Shrink the segment"),          "_IMEngine_Anthy_ShrinkSegmentKey",           SegmentKeys},
+    {I18N_NOOP("Expand the segment"),          "_IMEngine_Anthy_ExpandSegmentKey",           SegmentKeys},
+    {I18N_NOOP("Commit the first segment"),    "_IMEngine_Anthy_CommitFirstSegmentKey",      SegmentKeys},
+    {I18N_NOOP("Commit the selected segment"), "_IMEngine_Anthy_CommitSelectedSegmentKey",   SegmentKeys},
 
-    {I18N_NOOP("First candidate"),             "_IMEngine_Anthy_SelectFirstCandidateKey",    "CandidateKeys"},
-    {I18N_NOOP("Last candidate"),              "_IMEngine_Anthy_SelectLastCandidateKey",     "CandidateKeys"},
-    {I18N_NOOP("Next candidate"),              "_IMEngine_Anthy_SelectNextCandidateKey",     "CandidateKeys"},
-    {I18N_NOOP("Previous candidate"),          "_IMEngine_Anthy_SelectPrevCandidateKey",     "CandidateKeys"},
-    {I18N_NOOP("Page up"),                     "_IMEngine_Anthy_CandidatesPageUpKey",        "CandidateKeys"},
-    {I18N_NOOP("Page down"),                   "_IMEngine_Anthy_CandidatesPageDownKey",      "CandidateKeys"},
+    {I18N_NOOP("First candidate"),             "_IMEngine_Anthy_SelectFirstCandidateKey",    CandidateKeys},
+    {I18N_NOOP("Last candidate"),              "_IMEngine_Anthy_SelectLastCandidateKey",     CandidateKeys},
+    {I18N_NOOP("Next candidate"),              "_IMEngine_Anthy_SelectNextCandidateKey",     CandidateKeys},
+    {I18N_NOOP("Previous candidate"),          "_IMEngine_Anthy_SelectPrevCandidateKey",     CandidateKeys},
+    {I18N_NOOP("Page up"),                     "_IMEngine_Anthy_CandidatesPageUpKey",        CandidateKeys},
+    {I18N_NOOP("Page down"),                   "_IMEngine_Anthy_CandidatesPageDownKey",      CandidateKeys},
 
-    {I18N_NOOP("1st candidate"),               "_IMEngine_Anthy_SelectCandidates1Key",       "DirectSelectKeys"},
-    {I18N_NOOP("2nd candidate"),               "_IMEngine_Anthy_SelectCandidates2Key",       "DirectSelectKeys"},
-    {I18N_NOOP("3rd candidate"),               "_IMEngine_Anthy_SelectCandidates3Key",       "DirectSelectKeys"},
-    {I18N_NOOP("4th candidate"),               "_IMEngine_Anthy_SelectCandidates4Key",       "DirectSelectKeys"},
-    {I18N_NOOP("5th candidate"),               "_IMEngine_Anthy_SelectCandidates5Key",       "DirectSelectKeys"},
-    {I18N_NOOP("6th candidate"),               "_IMEngine_Anthy_SelectCandidates6Key",       "DirectSelectKeys"},
-    {I18N_NOOP("7th candidate"),               "_IMEngine_Anthy_SelectCandidates7Key",       "DirectSelectKeys"},
-    {I18N_NOOP("8th candidate"),               "_IMEngine_Anthy_SelectCandidates8Key",       "DirectSelectKeys"},
-    {I18N_NOOP("9th candidate"),               "_IMEngine_Anthy_SelectCandidates9Key",       "DirectSelectKeys"},
-    {I18N_NOOP("10th candidate"),              "_IMEngine_Anthy_SelectCandidates10Key",      "DirectSelectKeys"},
+    {I18N_NOOP("1st candidate"),               "_IMEngine_Anthy_SelectCandidates1Key",       DirectSelectKeys},
+    {I18N_NOOP("2nd candidate"),               "_IMEngine_Anthy_SelectCandidates2Key",       DirectSelectKeys},
+    {I18N_NOOP("3rd candidate"),               "_IMEngine_Anthy_SelectCandidates3Key",       DirectSelectKeys},
+    {I18N_NOOP("4th candidate"),               "_IMEngine_Anthy_SelectCandidates4Key",       DirectSelectKeys},
+    {I18N_NOOP("5th candidate"),               "_IMEngine_Anthy_SelectCandidates5Key",       DirectSelectKeys},
+    {I18N_NOOP("6th candidate"),               "_IMEngine_Anthy_SelectCandidates6Key",       DirectSelectKeys},
+    {I18N_NOOP("7th candidate"),               "_IMEngine_Anthy_SelectCandidates7Key",       DirectSelectKeys},
+    {I18N_NOOP("8th candidate"),               "_IMEngine_Anthy_SelectCandidates8Key",       DirectSelectKeys},
+    {I18N_NOOP("9th candidate"),               "_IMEngine_Anthy_SelectCandidates9Key",       DirectSelectKeys},
+    {I18N_NOOP("10th candidate"),              "_IMEngine_Anthy_SelectCandidates10Key",      DirectSelectKeys},
 
-    {I18N_NOOP("Convert character type to forward"),  "_IMEngine_Anthy_ConvertCharTypeForwardKey",  "ConvertKeys"},
-    {I18N_NOOP("Convert character type to backward"), "_IMEngine_Anthy_ConvertCharTypeBackwardKey", "ConvertKeys"},
-    {I18N_NOOP("Convert to hiragana"),         "_IMEngine_Anthy_ConvertToHiraganaKey",       "ConvertKeys"},
-    {I18N_NOOP("Convert to katakana"),         "_IMEngine_Anthy_ConvertToKatakanaKey",       "ConvertKeys"},
-    {I18N_NOOP("Convert to half width"),       "_IMEngine_Anthy_ConvertToHalfKey",           "ConvertKeys"},
-    {I18N_NOOP("Convert to half katakana"),    "_IMEngine_Anthy_ConvertToHalfKatakanaKey",   "ConvertKeys"},
-    {I18N_NOOP("Convert to wide latin"),       "_IMEngine_Anthy_ConvertToWideLatinKey",      "ConvertKeys"},
-    {I18N_NOOP("Convert to latin"),            "_IMEngine_Anthy_ConvertToLatinKey",          "ConvertKeys"},
+    {I18N_NOOP("Convert character type to forward"),  "_IMEngine_Anthy_ConvertCharTypeForwardKey",  ConvertKeys},
+    {I18N_NOOP("Convert character type to backward"), "_IMEngine_Anthy_ConvertCharTypeBackwardKey", ConvertKeys},
+    {I18N_NOOP("Convert to hiragana"),         "_IMEngine_Anthy_ConvertToHiraganaKey",       ConvertKeys},
+    {I18N_NOOP("Convert to katakana"),         "_IMEngine_Anthy_ConvertToKatakanaKey",       ConvertKeys},
+    {I18N_NOOP("Convert to half width"),       "_IMEngine_Anthy_ConvertToHalfKey",           ConvertKeys},
+    {I18N_NOOP("Convert to half katakana"),    "_IMEngine_Anthy_ConvertToHalfKatakanaKey",   ConvertKeys},
+    {I18N_NOOP("Convert to wide latin"),       "_IMEngine_Anthy_ConvertToWideLatinKey",      ConvertKeys},
+    {I18N_NOOP("Convert to latin"),            "_IMEngine_Anthy_ConvertToLatinKey",          ConvertKeys},
 
-    {I18N_NOOP("Edit dictionary"),             "_IMEngine_Anthy_DictAdminKey",               "DictionaryKeys"},
-    {I18N_NOOP("Add a word"),                  "_IMEngine_Anthy_AddWordKey",                 "DictionaryKeys"},
+    {I18N_NOOP("Edit dictionary"),             "_IMEngine_Anthy_DictAdminKey",               DictionaryKeys},
+    {I18N_NOOP("Add a word"),                  "_IMEngine_Anthy_AddWordKey",                 DictionaryKeys},
 
-    {NULL, NULL, NULL},
+    {NULL, NULL, AllKeys},
 };
 
 
@@ -184,13 +197,16 @@ class ScimAnthySettingPlugin::ScimAnthySettingPluginPrivate {
 public:
     AnthySettingUI * ui;
 
+    bool       m_our_value_changed;
+
     StyleFiles m_style_list;
     StyleFile  m_user_style;
     bool       m_style_changed;
 
 public:
     ScimAnthySettingPluginPrivate ()
-        : m_style_changed (false)
+        : m_our_value_changed (false),
+          m_style_changed (false)
     {
     }
     ~ScimAnthySettingPluginPrivate ()
@@ -341,12 +357,21 @@ public:
 
     void setup_key_bindings ()
     {
+        int category = ui->KeyBindingsGroupComboBox->currentItem ();
+
         ui->KeyBindingsView->clear ();
         ui->KeyBindingsView->setSorting (-1);
 
         QListViewItem *prev_item = NULL;
 
         for (unsigned int i = 0; key_list[i].key; i++) {
+            if (category != (int) AllKeys &&
+                category != (int) SearchByKey &&
+                category != (int) key_list[i].category)
+            {
+                continue;
+            }
+
             KConfigSkeletonItem *tmp_item;
             tmp_item = AnthyConfig::self()->findItem(key_list[i].key);
             if (!tmp_item) return;
@@ -416,6 +441,9 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              this, SLOT (launch_add_word_command ()));
 
     // combo boxes
+    connect (d->ui->KeyBindingsGroupComboBox,
+             SIGNAL (activated (int)),
+             this, SLOT (set_key_bindings_group ()));
     connect (d->ui->KeyBindingsThemeComboBox,
              SIGNAL (activated (const QString &)),
              this, SLOT (set_key_bindings_theme (const QString &)));
@@ -428,7 +456,6 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     connect (d->ui->ThumbShiftComboBox,
              SIGNAL (activated (const QString &)),
              this, SLOT (set_nicola_theme (const QString &)));
-
     connect (d->ui->kcfg__IMEngine_Anthy_PreeditStyle,
              SIGNAL (activated (int)),
              this, SLOT (preedit_string_style_changed (int)));
@@ -538,6 +565,11 @@ void ScimAnthySettingPlugin::launch_add_word_command ()
     system (command.ascii ());
 }
 
+void ScimAnthySettingPlugin::set_key_bindings_group ()
+{
+    d->setup_key_bindings ();
+}
+
 void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
 {
     StyleFiles::iterator it;
@@ -556,18 +588,21 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
 void ScimAnthySettingPlugin::set_romaji_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_RomajiThemeFile", value, __romaji_fund_table);
+    d->m_our_value_changed = true;
     changed (true);
 }
 
 void ScimAnthySettingPlugin::set_kana_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_KanaLayoutFile", value, __kana_fund_table);
+    d->m_our_value_changed = true;
     changed (true);
 }
 
 void ScimAnthySettingPlugin::set_nicola_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", value, __nicola_fund_table);
+    d->m_our_value_changed = true;
     changed (true);
 }
 
@@ -581,6 +616,7 @@ void ScimAnthySettingPlugin::choose_keys ()
     editor.setStringList (keys);
     if (editor.exec () == QDialog::Accepted) {
         item->setText (1, editor.getCombinedString ());
+        d->m_our_value_changed = true;
         changed (true);
     }
 }
@@ -623,36 +659,42 @@ void ScimAnthySettingPlugin::selected_segment_style_changed (int n)
 void ScimAnthySettingPlugin::set_preedit_string_fg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_PreeditFGColor", c);
+    d->m_our_value_changed = true;
     changed (true);
 }
 
 void ScimAnthySettingPlugin::set_preedit_string_bg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_PreeditBGColor", c);
+    d->m_our_value_changed = true;
     changed (true);
 }
 
 void ScimAnthySettingPlugin::set_conversion_string_fg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_ConversionFGColor", c);
+    d->m_our_value_changed = true;
     changed (true);
 }
 
 void ScimAnthySettingPlugin::set_conversion_string_bg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_ConversionBGColor", c);
+    d->m_our_value_changed = true;
     changed (true);
 }
 
 void ScimAnthySettingPlugin::set_selected_segment_fg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_SelectedSegmentFGColor", c);
+    d->m_our_value_changed = true;
     changed (true);
 }
 
 void ScimAnthySettingPlugin::set_selected_segment_bg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_SelectedSegmentBGColor", c);
+    d->m_our_value_changed = true;
     changed (true);
 }
 

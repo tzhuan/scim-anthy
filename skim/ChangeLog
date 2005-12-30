@@ -1,6 +1,12 @@
+2005-12-31 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/scimanthysettingplugin.cpp: Implement key category menu except
+	"Search by key".
+
 2005-12-30 Takuro Ashie <ashie@homa.ne.jp>
 
-	* setupui/scimanthysettingplugin.cpp: Apply changed key bindings to KConfig.
+	* setupui/scimanthysettingplugin.cpp: Apply changed key bindings to
+	KConfig.
 
 2005-12-30 Takuro Ashie <ashie@homa.ne.jp>
 
