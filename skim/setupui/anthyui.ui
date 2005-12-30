@@ -2238,6 +2238,18 @@
 </images>
 <connections>
     <connection>
+        <sender>KeyBindingsFilterSelectButton</sender>
+        <signal>setEditorText(const QString&amp;)</signal>
+        <receiver>KeyBindingsFilterLineEdit</receiver>
+        <slot>setText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>KeyBindingsFilterLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>KeyBindingsFilterSelectButton</receiver>
+        <slot>setShortcuts(const QString&amp;)</slot>
+    </connection>
+    <connection>
         <sender>LeftThumbShiftKey_Button</sender>
         <signal>setEditorText(const QString&amp;)</signal>
         <receiver>kcfg__IMEngine_Anthy_LeftThumbShiftKey</receiver>

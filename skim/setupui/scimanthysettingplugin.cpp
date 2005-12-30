@@ -380,6 +380,13 @@ public:
             item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
             if (!item) return;
 
+            if (category == (int) SearchByKey &&
+                key_filter (item->value (),
+                            ui->KeyBindingsFilterLineEdit->text ()))
+            {
+                    continue;
+            }
+
             ScimAnthyKeyListViewItem *list_item;
             list_item = new ScimAnthyKeyListViewItem (ui->KeyBindingsView,
                                                       prev_item,
@@ -389,6 +396,23 @@ public:
                                                       item);
             prev_item = list_item;
         }
+    }
+
+    bool key_filter (const QString & keys, const QString & filter)
+    {
+        if (filter == QString::null)
+            return false;
+
+        QStringList filter_list = QStringList::split (",", filter);
+        QStringList key_list = QStringList::split (",", keys);
+        QStringList::iterator it;
+
+        for (it = filter_list.begin (); it != filter_list.end (); it++) {
+            if (key_list.find (*it) == key_list.end ())
+                return true;
+        }
+
+        return false;
     }
 
 private:
@@ -439,6 +463,11 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     connect (d->ui->LaunchAddWordCommandButton,
              SIGNAL (clicked ()),
              this, SLOT (launch_add_word_command ()));
+
+    // line edit
+    connect (d->ui->KeyBindingsFilterLineEdit,
+             SIGNAL (textChanged (const QString &)),
+             this, SLOT (set_key_bindings_group ()));
 
     // combo boxes
     connect (d->ui->KeyBindingsGroupComboBox,
@@ -567,6 +596,10 @@ void ScimAnthySettingPlugin::launch_add_word_command ()
 
 void ScimAnthySettingPlugin::set_key_bindings_group ()
 {
+    int n = d->ui->KeyBindingsGroupComboBox->currentItem ();
+    bool enabled = n == (int) SearchByKey ? true : false;
+    d->ui->KeyBindingsFilterLineEdit->setEnabled (enabled);
+    d->ui->KeyBindingsFilterSelectButton->setEnabled (enabled);
     d->setup_key_bindings ();
 }
 

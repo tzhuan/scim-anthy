@@ -32,14 +32,9 @@ public:
     ~ScimAnthySettingPlugin ();
 
     // override KCModule's functions to load & save scim-anthy's style file.
-    virtual void load ();
-    virtual void save ();
-    virtual void defaults ();
-
-private:
-    class ScimAnthySettingPluginPrivate;
-    ScimAnthySettingPluginPrivate * d;
-    QString m_name;
+    virtual void load       ();
+    virtual void save       ();
+    virtual void defaults   ();
 
 protected slots:
     void launch_dict_admin_command           ();
@@ -58,12 +53,17 @@ protected slots:
     void conversion_string_style_changed     (int n);
     void selected_segment_style_changed      (int n);
 
-    void set_preedit_string_fg_color    (const QColor & c);
-    void set_preedit_string_bg_color    (const QColor & c);
-    void set_conversion_string_fg_color (const QColor & c);
-    void set_conversion_string_bg_color (const QColor & c);
-    void set_selected_segment_fg_color  (const QColor & c);
-    void set_selected_segment_bg_color  (const QColor & c);
+    void set_preedit_string_fg_color         (const QColor & c);
+    void set_preedit_string_bg_color         (const QColor & c);
+    void set_conversion_string_fg_color      (const QColor & c);
+    void set_conversion_string_bg_color      (const QColor & c);
+    void set_selected_segment_fg_color       (const QColor & c);
+    void set_selected_segment_bg_color       (const QColor & c);
+
+private:
+    class ScimAnthySettingPluginPrivate;
+    ScimAnthySettingPluginPrivate * d;
+    QString m_name;
 };
 
 #endif
