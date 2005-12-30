@@ -368,6 +368,7 @@ public:
 
         ui->KeyBindingsView->clear ();
         ui->KeyBindingsView->setSorting (-1);
+        ui->KeyBindingsSelectButton->setEnabled (false);
 
         QListViewItem *prev_item = NULL;
 
