@@ -1,3 +1,9 @@
+2005-12-30 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/anthyui.ui: Diable dual color buttons by default.
+	* setupui/scimanthysettingplugin.{cpp,h}: Toggle sensitivity of dual
+	color button according to combo box's value.
+
 2005-12-28 Takuro Ashie <ashie@homa.ne.jp>
 
 	* setupui/scimanthysettingplugin.{cpp,h}: Handle KDualColorButton.

@@ -140,6 +140,12 @@ K_EXPORT_COMPONENT_FACTORY (kcm_skimplugin_scim_anthy,
                             ScimAnthySettingLoaderFactory ("kcm_skimplugin_scim_anthy"))
 
 
+inline bool string_color_button_enabled (int n)
+{
+    return n > 3 && n < 7 ? true : false;
+}
+
+
 class ScimAnthySettingPlugin::ScimAnthySettingPluginPrivate {
 public:
     AnthySettingUI * ui;
@@ -261,6 +267,14 @@ public:
             QColor (AnthyConfig::_IMEngine_Anthy_SelectedSegmentFGColor()));
         ui->SelectedSegmentDualColorButton->setBackground (
             QColor (AnthyConfig::_IMEngine_Anthy_SelectedSegmentBGColor()));
+
+        // set sensitivity of dual color buttons
+        int n = ui->kcfg__IMEngine_Anthy_PreeditStyle->currentItem ();
+        ui->PreeditStringDualColorButton->setEnabled (string_color_button_enabled (n));
+        n = ui->kcfg__IMEngine_Anthy_ConversionStyle->currentItem ();
+        ui->ConversionStringDualColorButton->setEnabled (string_color_button_enabled (n));
+        n = ui->kcfg__IMEngine_Anthy_SelectedSegmentStyle->currentItem ();
+        ui->SelectedSegmentDualColorButton->setEnabled (string_color_button_enabled (n));
     }
 
     void setup_combo_box (KComboBox  *combo,
@@ -306,7 +320,7 @@ public:
             QListViewItem *list_item;
             list_item = new QListViewItem (ui->KeyBindingsView,
                                            prev_item,
-                                           key_list[i].label,
+                                           i18n (key_list[i].label),
                                            item->value (),
                                            item->whatsThis ());
             prev_item = list_item;
@@ -373,6 +387,16 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     connect (d->ui->ThumbShiftComboBox,
              SIGNAL (activated (const QString &)),
              this, SLOT (set_nicola_theme (const QString &)));
+
+    connect (d->ui->kcfg__IMEngine_Anthy_PreeditStyle,
+             SIGNAL (activated (int)),
+             this, SLOT (preedit_string_style_changed (int)));
+    connect (d->ui->kcfg__IMEngine_Anthy_ConversionStyle,
+             SIGNAL (activated (int)),
+             this, SLOT (conversion_string_style_changed (int)));
+    connect (d->ui->kcfg__IMEngine_Anthy_SelectedSegmentStyle,
+             SIGNAL (activated (int)),
+             this, SLOT (selected_segment_style_changed (int)));
 
     // push buttons
     connect (d->ui->KeyBindingsSelectButton,
@@ -538,6 +562,21 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
 void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem *item)
 {
     d->ui->KeyBindingsSelectButton->setEnabled (item ? true : false);
+}
+
+void ScimAnthySettingPlugin::preedit_string_style_changed (int n)
+{
+    d->ui->PreeditStringDualColorButton->setEnabled (string_color_button_enabled (n));
+}
+
+void ScimAnthySettingPlugin::conversion_string_style_changed (int n)
+{
+    d->ui->ConversionStringDualColorButton->setEnabled (string_color_button_enabled (n));
+}
+
+void ScimAnthySettingPlugin::selected_segment_style_changed (int n)
+{
+    d->ui->SelectedSegmentDualColorButton->setEnabled (string_color_button_enabled (n));
 }
 
 void ScimAnthySettingPlugin::set_preedit_string_fg_color (const QColor & c)

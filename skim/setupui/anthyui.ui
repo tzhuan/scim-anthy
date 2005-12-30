@@ -2011,6 +2011,9 @@
                         <property name="name">
                             <cstring>SelectedSegmentDualColorButton</cstring>
                         </property>
+                        <property name="enabled">
+                            <bool>false</bool>
+                        </property>
                         <property name="sizePolicy">
                             <sizepolicy>
                                 <hsizetype>0</hsizetype>
@@ -2074,6 +2077,9 @@
                         <property name="name">
                             <cstring>ConversionStringDualColorButton</cstring>
                         </property>
+                        <property name="enabled">
+                            <bool>false</bool>
+                        </property>
                         <property name="sizePolicy">
                             <sizepolicy>
                                 <hsizetype>0</hsizetype>
@@ -2136,6 +2142,9 @@
                     <widget class="KDualColorButton" row="0" column="4">
                         <property name="name">
                             <cstring>PreeditStringDualColorButton</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>false</bool>
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
