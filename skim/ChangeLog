@@ -1,5 +1,10 @@
 2005-12-31 Takuro Ashie <ashie@homa.ne.jp>
 
+	* setupui/scimanthysettingplugin.cpp: Switch key bindings when the key
+	bindings theme has been changed.
+
+2005-12-31 Takuro Ashie <ashie@homa.ne.jp>
+
 	* setupui/scimanthysettingplugin.cpp: Implement key filter.
 
 2005-12-31 Takuro Ashie <ashie@homa.ne.jp>
