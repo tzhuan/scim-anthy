@@ -234,7 +234,7 @@ public:
     {
     }
 
-    KConfigSkeletonGenericItem<QString> *key_config_item (const QString &item_key)
+    KConfigSkeletonGenericItem<QString> *string_config_item (const QString &item_key)
     {
         KConfigSkeletonItem *tmp_item;
         tmp_item = AnthyConfig::self()->findItem(item_key);
@@ -250,7 +250,7 @@ public:
                     const QString & item_value,
                     const QString & section_name)
     {
-        KConfigSkeletonGenericItem<QString> *item = key_config_item (item_key);
+        KConfigSkeletonGenericItem<QString> *item = string_config_item (item_key);
         if (!item) return;
 
         if (item_value == "Default") {
@@ -291,7 +291,7 @@ public:
         // set key bindings theme list
         setup_combo_box (ui->KeyBindingsThemeComboBox,
                          __key_bindings_theme,
-                         QString());
+                          AnthyConfig::_IMEngine_Anthy_KeyThemeFile());
 
         // set key bindings
         setup_key_bindings ();
@@ -380,12 +380,8 @@ public:
                 continue;
             }
 
-            KConfigSkeletonItem *tmp_item;
-            tmp_item = AnthyConfig::self()->findItem(key_list[i].key);
-            if (!tmp_item) return;
-
             KConfigSkeletonGenericItem<QString> *item;
-            item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
+            item = string_config_item (key_list[i].key);
             if (!item) return;
 
             if (category == (int) SearchByKey &&
@@ -613,6 +609,12 @@ void ScimAnthySettingPlugin::set_key_bindings_group ()
 
 void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
 {
+    d->set_theme ("_IMEngine_Anthy_KeyThemeFile", value, __key_bindings_theme);
+
+    KConfigSkeletonGenericItem<QString> *theme_item;
+    theme_item = d->string_config_item ("_IMEngine_Anthy_KeyTheme");
+    theme_item->setValue (value);
+
     StyleFiles::iterator it;
     std::vector<String> keys;
     std::vector<String>::iterator kit;
@@ -620,7 +622,7 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
     // Set all key bindings as empty
     for (unsigned int i = 0; key_list[i].key; i++) {
         KConfigSkeletonGenericItem<QString> *item;
-        item = d->key_config_item (key_list[i].key);
+        item = d->string_config_item (key_list[i].key);
         if (!item) continue;
         item->setValue ("");
     }
@@ -629,7 +631,7 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
     if (d->ui->KeyBindingsThemeComboBox->currentItem () == 0) {
         for (unsigned int i = 0; key_list[i].key; i++) {
             KConfigSkeletonGenericItem<QString> *item;
-            item = d->key_config_item (key_list[i].key);
+            item = d->string_config_item (key_list[i].key);
             if (!item) continue;
             item->setDefault ();
         }
@@ -659,7 +661,7 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (const QString & value)
         // find from known key bindings list
         for (unsigned int i = 0; key_list[i].key; i++) {
             KConfigSkeletonGenericItem<QString> *item;
-            item = d->key_config_item (key_list[i].key);
+            item = d->string_config_item (key_list[i].key);
             if (!item) continue;
 
             if (item->key () == entry) {
