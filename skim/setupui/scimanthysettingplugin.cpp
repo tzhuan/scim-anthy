@@ -169,7 +169,7 @@ public:
 
         // FIXME!
         // Although it should be set when the "OK" or "Apply" button has been
-        // pressed, it can't easyly by some reasons especialy "Category" combo
+        // pressed, it can't easyly for some reasons especialy "Category" combo
         // box related problems.
         if (m_item)
             m_item->setValue (text);
