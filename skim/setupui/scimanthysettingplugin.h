@@ -38,6 +38,7 @@ public:
 private:
     class ScimAnthySettingPluginPrivate;
     ScimAnthySettingPluginPrivate * d;
+    QString m_name;
 
 protected slots:
     void launch_dict_admin_command ();

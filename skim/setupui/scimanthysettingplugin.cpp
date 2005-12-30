@@ -146,6 +146,40 @@ inline bool string_color_button_enabled (int n)
 }
 
 
+class ScimAnthyKeyListViewItem : public QListViewItem
+{
+public:
+    ScimAnthyKeyListViewItem (QListView     *view,
+                              QListViewItem *sibling,
+                              const QString &feature,
+                              const QString &defval,
+                              const QString &description,
+                              KConfigSkeletonGenericItem<QString> *item)
+        : QListViewItem (view, sibling, feature, defval, description),
+          m_item (item)
+    {
+    }
+    ~ScimAnthyKeyListViewItem ()
+    {
+    }
+
+    virtual void setText (int column, const QString &text)
+    {
+        QListViewItem::setText (column, text);
+
+        // FIXME!
+        // Although it should be set when the "OK" or "Apply" button has been
+        // pressed, it can't easyly by some reasons especialy "Category" combo
+        // box related problems.
+        if (m_item)
+            m_item->setValue (text);
+    }
+
+public:
+    ScimAnthySettingPlugin              *m_plugin;
+    KConfigSkeletonGenericItem<QString> *m_item;
+};
+
 class ScimAnthySettingPlugin::ScimAnthySettingPluginPrivate {
 public:
     AnthySettingUI * ui;
@@ -178,6 +212,10 @@ public:
             m_user_style.save (__user_style_file_name.c_str ());
             m_style_changed = false;
         }
+    }
+
+    void set_keys (const QString & feature, const QString & keys)
+    {
     }
 
     void set_theme (const QString & item_key,
@@ -317,12 +355,13 @@ public:
             item = dynamic_cast<KConfigSkeletonGenericItem<QString>*> (tmp_item);
             if (!item) return;
 
-            QListViewItem *list_item;
-            list_item = new QListViewItem (ui->KeyBindingsView,
-                                           prev_item,
-                                           i18n (key_list[i].label),
-                                           item->value (),
-                                           item->whatsThis ());
+            ScimAnthyKeyListViewItem *list_item;
+            list_item = new ScimAnthyKeyListViewItem (ui->KeyBindingsView,
+                                                      prev_item,
+                                                      i18n (key_list[i].label),
+                                                      item->value (),
+                                                      item->whatsThis (),
+                                                      item);
             prev_item = list_item;
         }
     }
@@ -351,7 +390,9 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
                                                 const QStringList &args)
     : KAutoCModule (ScimAnthySettingLoaderFactory::instance (), 
                     parent, args, AnthyConfig::self ()),
-      d (new ScimAnthySettingPluginPrivate)
+      d (new ScimAnthySettingPluginPrivate),
+      m_name (name ? name : "")
+
 {
     KGlobal::locale()->insertCatalogue ("skim-scim-anthy");
 
@@ -540,7 +581,7 @@ void ScimAnthySettingPlugin::choose_keys ()
     editor.setStringList (keys);
     if (editor.exec () == QDialog::Accepted) {
         item->setText (1, editor.getCombinedString ());
-        // FIXME! set this value to kconfig
+        changed (true);
     }
 }
 
