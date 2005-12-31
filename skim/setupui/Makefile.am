@@ -9,6 +9,7 @@ kde_module_LTLIBRARIES =  kcm_skimplugin_scim_anthy.la
 noinst_HEADERS = \
 	scim_anthy_default_tables.h \
 	scim_anthy_key2kana_table.h \
+	scim_anthy_table_editor.h \
 	scim_anthy_style_file.h
 
 kcm_skimplugin_scim_anthy_la_LDFLAGS = \
@@ -20,7 +21,8 @@ kcm_skimplugin_scim_anthy_la_SOURCES = \
 	scimanthysettingplugin.cpp \
 	scim_anthy_default_tables.cpp \
 	scim_anthy_key2kana_table.cpp \
-	scim_anthy_style_file.cpp
+	scim_anthy_style_file.cpp \
+	scim_anthy_table_editor.cpp
 
 kcm_skimplugin_scim_anthy_la_LIBADD = \
 	$(LIB_QT) $(LIB_KDEUI) $(LIB_KDECORE) @SCIM_KDEUTILS_LIBS@

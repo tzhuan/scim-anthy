@@ -17,6 +17,7 @@
 
 #include "config.h"
 #include "scim_anthy_style_file.h"
+#include "scim_anthy_table_editor.h"
 #include "scimanthysettingplugin.h"
 
 #include "anthy.h"
@@ -728,7 +729,7 @@ void ScimAnthySettingPlugin::choose_keys ()
     if (!item) return;
 
     QStringList keys = QStringList::split (",", item->text (1));
-    SkimShortcutListEditor editor;
+    SkimShortcutListEditor editor (d->ui);
     editor.setStringList (keys);
     if (editor.exec () == QDialog::Accepted) {
         item->setText (1, editor.getCombinedString ());
@@ -741,6 +742,10 @@ void ScimAnthySettingPlugin::choose_keys ()
 void ScimAnthySettingPlugin::customize_romaji_table ()
 {
     std::cout << "customize_romaji_table" << std::endl;
+
+    ScimAnthyTableEditor editor (d->ui);
+    if (editor.exec () == QDialog::Accepted) {
+    }
 }
 
 void ScimAnthySettingPlugin::customize_kana_table ()
