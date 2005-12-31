@@ -741,8 +741,6 @@ void ScimAnthySettingPlugin::choose_keys ()
 
 void ScimAnthySettingPlugin::customize_romaji_table ()
 {
-    std::cout << "customize_romaji_table" << std::endl;
-
     ScimAnthyTableEditor editor (d->ui);
     if (editor.exec () == QDialog::Accepted) {
     }
@@ -750,12 +748,16 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
 
 void ScimAnthySettingPlugin::customize_kana_table ()
 {
-    std::cout << "customize_kana_table" << std::endl;
+    ScimAnthyTableEditor editor (d->ui);
+    if (editor.exec () == QDialog::Accepted) {
+    }
 }
 
 void ScimAnthySettingPlugin::customize_nicola_table ()
 {
-    std::cout << "customize_nicola_table" << std::endl;
+    ScimAnthyTableEditor editor (d->ui);
+    if (editor.exec () == QDialog::Accepted) {
+    }
 }
 
 void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem *item)
