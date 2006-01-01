@@ -1,4 +1,4 @@
-2005-12-31 Takuro Ashie <ashie@homa.ne.jp>
+2006-01-01 Takuro Ashie <ashie@homa.ne.jp>
 
 	* setupui/scim_anthy_table_editor.{cpp,h}, scimanthysettingplugin.cpp:
 	Add entries into ScimAnthyTableEditor.
