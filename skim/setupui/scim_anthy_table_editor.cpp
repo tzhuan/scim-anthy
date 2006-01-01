@@ -20,7 +20,7 @@
 
 ScimAnthyTableEditor::ScimAnthyTableEditor (QWidget *parent, const char *name)
     : KDialogBase (KDialogBase::Plain, 0, parent, name, true,
-                   i18n ("Edit key table", KDialogBase::Ok | KDialogBase::Cancel)
+                   i18n ("Edit key table"), KDialogBase::Ok | KDialogBase::Cancel)
 {
     setMinimumWidth (300);
     setMinimumHeight (250);
