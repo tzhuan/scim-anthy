@@ -204,10 +204,13 @@ public:
     StyleFile  m_user_style;
     bool       m_style_changed;
 
+    ScimAnthyTableEditor *m_table_editor;
+
 public:
     ScimAnthySettingPluginPrivate ()
         : m_our_value_changed (false),
-          m_style_changed (false)
+          m_style_changed (false),
+          m_table_editor (NULL)
     {
     }
     ~ScimAnthySettingPluginPrivate ()
@@ -353,6 +356,10 @@ public:
 
         StyleFiles::iterator it;
         QString cur_item = i18n ("Default");
+
+        if (default_file == __user_style_file_name)
+            cur_item = i18n ("User defined");
+
         for (it = m_style_list.begin(); it != m_style_list.end (); it++) {
             StyleLines section;
             if (!it->get_entry_list (section, section_name))
@@ -404,6 +411,73 @@ public:
                                                       item->whatsThis (),
                                                       item);
             prev_item = list_item;
+        }
+    }
+
+    void setup_table_view (QListView *view,
+                           ConvRule *table, NicolaRule *nicola_table,
+                           const QString & default_file,
+                           const QString & section_name)
+    {
+        view->clear ();
+        view->setSorting (-1);
+
+        StyleFile *style = NULL;
+        if (default_file == __user_style_file_name) {
+            style = &m_user_style;
+        } else {
+            StyleFiles::iterator it;
+            for (it = m_style_list.begin (); it != m_style_list.end (); it++) {
+                StyleLines section;
+                if (!it->get_entry_list (section, section_name))
+                    continue;
+                if (default_file == it->get_file_name ()) {
+                    style = &(*it);
+                    break;
+                }
+            }
+        }
+
+        QListViewItem *item = NULL;
+
+        if (style) {
+            std::vector<String> keys;
+            style->get_key_list (keys, section_name);
+            std::vector<String>::iterator kit;
+            for (kit = keys.begin (); kit != keys.end (); kit++) {
+                std::vector<String> value;
+                style->get_string_array (value, section_name, *kit);
+                QString v[3];
+                if (value.size() > 0)
+                    v[0] = QString::fromUtf8 (value[0].c_str ());
+                if (value.size() > 1)
+                    v[1] = QString::fromUtf8 (value[1].c_str ());
+                if (value.size() > 2)
+                    v[2] = QString::fromUtf8 (value[2].c_str ());
+                if (nicola_table)
+                    item = new QListViewItem (view, item, kit->c_str (),
+                                              v[0], v[1], v[2]);
+                else if (table)
+                    item = new QListViewItem (view, item, kit->c_str (), v[0]);
+            }
+
+        } else if (nicola_table) {
+            for (unsigned int i = 0; nicola_table[i].key; i++) {
+                item = new QListViewItem (
+                    view, item,
+                    QString::fromUtf8 (nicola_table[i].key),
+                    QString::fromUtf8 (nicola_table[i].single),
+                    QString::fromUtf8 (nicola_table[i].left_shift),
+                    QString::fromUtf8 (nicola_table[i].right_shift));
+            }
+
+        } else if (table) {
+            for (unsigned int i = 0; table[i].string; i++) {
+                item = new QListViewItem (
+                    view, item,
+                    QString::fromUtf8 (table[i].string),
+                    QString::fromUtf8 (table[i].result));
+            }
         }
     }
 
@@ -746,17 +820,38 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
     d->setup_combo_box (editor.m_table_chooser_combo,
                         __romaji_fund_table,
                         AnthyConfig::_IMEngine_Anthy_RomajiThemeFile ());
+    d->setup_table_view (editor.m_table_view,
+                         scim_anthy_romaji_typing_rule, NULL,
+                         AnthyConfig::_IMEngine_Anthy_RomajiThemeFile (),
+                         __romaji_fund_table);
+
+    d->m_table_editor = &editor;
+
+#if 1
+    connect (editor.m_table_chooser_combo,
+             SIGNAL (activated (int)),
+             this, SLOT (set_romaji_table_view (int)));
+#endif
+
     if (editor.exec () == QDialog::Accepted) {
     }
+
+    d->m_table_editor = NULL;
 }
 
 void ScimAnthySettingPlugin::customize_kana_table ()
 {
     ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"), i18n ("Key"), i18n ("Result"));
     editor.setCaption (i18n ("Edit kana layout table")); 
+
     d->setup_combo_box (editor.m_table_chooser_combo,
                         __kana_fund_table,
                         AnthyConfig::_IMEngine_Anthy_KanaLayoutFile());
+    d->setup_table_view (editor.m_table_view,
+                         scim_anthy_kana_typing_rule, NULL,
+                         AnthyConfig::_IMEngine_Anthy_KanaLayoutFile (),
+                         __kana_fund_table);
+
     if (editor.exec () == QDialog::Accepted) {
     }
 }
@@ -770,6 +865,11 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
     d->setup_combo_box (editor.m_table_chooser_combo,
                         __nicola_fund_table,
                         AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
+    d->setup_table_view (editor.m_table_view,
+                         NULL, scim_anthy_nicola_table,
+                         AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile (),
+                         __nicola_fund_table);
+
     if (editor.exec () == QDialog::Accepted) {
     }
 }
