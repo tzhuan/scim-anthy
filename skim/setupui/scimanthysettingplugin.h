@@ -58,6 +58,9 @@ protected slots:
     void set_conversion_string_bg_color      (const QColor & c);
     void set_selected_segment_fg_color       (const QColor & c);
     void set_selected_segment_bg_color       (const QColor & c);
+    void set_romaji_table_view               ();
+    void set_kana_table_view                 ();
+    void set_thumb_shift_table_view          ();
 
 private:
     class ScimAnthySettingPluginPrivate;

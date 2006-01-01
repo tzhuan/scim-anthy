@@ -416,14 +416,14 @@ public:
 
     void setup_table_view (QListView *view,
                            ConvRule *table, NicolaRule *nicola_table,
-                           const QString & default_file,
+                           const QString & default_theme,
                            const QString & section_name)
     {
         view->clear ();
         view->setSorting (-1);
 
         StyleFile *style = NULL;
-        if (default_file == __user_style_file_name) {
+        if (default_theme == i18n ("User defined")) {
             style = &m_user_style;
         } else {
             StyleFiles::iterator it;
@@ -431,7 +431,7 @@ public:
                 StyleLines section;
                 if (!it->get_entry_list (section, section_name))
                     continue;
-                if (default_file == it->get_file_name ()) {
+                if (default_theme == QString::fromUtf8 (it->get_title().c_str())) {
                     style = &(*it);
                     break;
                 }
@@ -817,21 +817,15 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
 {
     ScimAnthyTableEditor editor (d->ui, i18n ("Romaji Table:"), i18n ("Sequence"), i18n ("Result"));
     editor.setCaption (i18n ("Edit romajit table"));
+    d->m_table_editor = &editor;
     d->setup_combo_box (editor.m_table_chooser_combo,
                         __romaji_fund_table,
                         AnthyConfig::_IMEngine_Anthy_RomajiThemeFile ());
-    d->setup_table_view (editor.m_table_view,
-                         scim_anthy_romaji_typing_rule, NULL,
-                         AnthyConfig::_IMEngine_Anthy_RomajiThemeFile (),
-                         __romaji_fund_table);
-
-    d->m_table_editor = &editor;
-
-#if 1
+    set_romaji_table_view ();
     connect (editor.m_table_chooser_combo,
              SIGNAL (activated (int)),
-             this, SLOT (set_romaji_table_view (int)));
-#endif
+             this, SLOT (set_romaji_table_view ()));
+
 
     if (editor.exec () == QDialog::Accepted) {
     }
@@ -843,17 +837,20 @@ void ScimAnthySettingPlugin::customize_kana_table ()
 {
     ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"), i18n ("Key"), i18n ("Result"));
     editor.setCaption (i18n ("Edit kana layout table")); 
+    d->m_table_editor = &editor;
 
     d->setup_combo_box (editor.m_table_chooser_combo,
                         __kana_fund_table,
                         AnthyConfig::_IMEngine_Anthy_KanaLayoutFile());
-    d->setup_table_view (editor.m_table_view,
-                         scim_anthy_kana_typing_rule, NULL,
-                         AnthyConfig::_IMEngine_Anthy_KanaLayoutFile (),
-                         __kana_fund_table);
+    set_kana_table_view ();
+    connect (editor.m_table_chooser_combo,
+             SIGNAL (activated (int)),
+             this, SLOT (set_kana_table_view ()));
 
     if (editor.exec () == QDialog::Accepted) {
     }
+
+    d->m_table_editor = NULL;
 }
 
 void ScimAnthySettingPlugin::customize_nicola_table ()
@@ -862,16 +859,19 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
                                  i18n ("Key"), i18n ("Single press"),
                                  i18n ("Left thumb shift"), i18n ("Right thumb shift"));
     editor.setCaption (i18n ("Edit thumb shift layout table"));
+    d->m_table_editor = &editor;
     d->setup_combo_box (editor.m_table_chooser_combo,
                         __nicola_fund_table,
                         AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
-    d->setup_table_view (editor.m_table_view,
-                         NULL, scim_anthy_nicola_table,
-                         AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile (),
-                         __nicola_fund_table);
+    set_thumb_shift_table_view ();
+    connect (editor.m_table_chooser_combo,
+             SIGNAL (activated (int)),
+             this, SLOT (set_thumb_shift_table_view ()));
 
     if (editor.exec () == QDialog::Accepted) {
     }
+
+    d->m_table_editor = NULL;
 }
 
 void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem *item)
@@ -934,6 +934,30 @@ void ScimAnthySettingPlugin::set_selected_segment_bg_color (const QColor & c)
     d->set_color ("_IMEngine_Anthy_SelectedSegmentBGColor", c);
     d->m_our_value_changed = true;
     changed (true);
+}
+
+void ScimAnthySettingPlugin::set_romaji_table_view ()
+{
+    d->setup_table_view (d->m_table_editor->m_table_view,
+                         scim_anthy_romaji_typing_rule, NULL,
+                         d->m_table_editor->m_table_chooser_combo->currentText (),
+                         __romaji_fund_table);
+}
+
+void ScimAnthySettingPlugin::set_kana_table_view ()
+{
+    d->setup_table_view (d->m_table_editor->m_table_view,
+                         scim_anthy_kana_typing_rule, NULL,
+                         d->m_table_editor->m_table_chooser_combo->currentText (),
+                         __kana_fund_table);
+}
+
+void ScimAnthySettingPlugin::set_thumb_shift_table_view ()
+{
+    d->setup_table_view (d->m_table_editor->m_table_view,
+                         NULL, scim_anthy_nicola_table,
+                         d->m_table_editor->m_table_chooser_combo->currentText (),
+                         __nicola_fund_table);
 }
 
 #include "scimanthysettingplugin.moc"

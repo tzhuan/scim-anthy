@@ -1,5 +1,10 @@
 2006-01-02 Takuro Ashie <ashie@homa.ne.jp>
 
+	* scimanthysettingplugin.cpp: Reset table view when the table chooser
+	combo box has been switched.
+
+2006-01-02 Takuro Ashie <ashie@homa.ne.jp>
+
 	* scimanthysettingplugin.cpp: Set values to table view.
 
 2006-01-01 Takuro Ashie <ashie@homa.ne.jp>
