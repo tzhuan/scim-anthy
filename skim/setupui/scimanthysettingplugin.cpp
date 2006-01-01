@@ -741,21 +741,26 @@ void ScimAnthySettingPlugin::choose_keys ()
 
 void ScimAnthySettingPlugin::customize_romaji_table ()
 {
-    ScimAnthyTableEditor editor (d->ui);
+    ScimAnthyTableEditor editor (d->ui, i18n ("Romaji Table:"), i18n ("Sequence"), i18n ("Result"));
+    editor.setCaption (i18n ("Edit romajit table"));
     if (editor.exec () == QDialog::Accepted) {
     }
 }
 
 void ScimAnthySettingPlugin::customize_kana_table ()
 {
-    ScimAnthyTableEditor editor (d->ui);
+    ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"), i18n ("Key"), i18n ("Result"));
+    editor.setCaption (i18n ("Edit kana layout table"));
     if (editor.exec () == QDialog::Accepted) {
     }
 }
 
 void ScimAnthySettingPlugin::customize_nicola_table ()
 {
-    ScimAnthyTableEditor editor (d->ui);
+    ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"),
+                                 i18n ("Key"), i18n ("Single press"),
+                                 i18n ("Left thumb shift"), i18n ("Right thumb shift"));
+    editor.setCaption (i18n ("Edit thumb shift layout table"));
     if (editor.exec () == QDialog::Accepted) {
     }
 }

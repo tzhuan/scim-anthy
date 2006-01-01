@@ -18,7 +18,13 @@
 #include <kcombobox.h>
 #include "scim_anthy_table_editor.h"
 
-ScimAnthyTableEditor::ScimAnthyTableEditor (QWidget *parent, const char *name)
+ScimAnthyTableEditor::ScimAnthyTableEditor (QWidget *parent,
+                                            const QString & chooser_label,
+                                            const QString & label1,
+                                            const QString & label2,
+                                            const QString & label3,
+                                            const QString & label4,
+                                            const char *name)
     : KDialogBase (KDialogBase::Plain, 0, parent, name, true,
                    i18n ("Edit key table"), KDialogBase::Ok | KDialogBase::Cancel)
 {
@@ -29,42 +35,74 @@ ScimAnthyTableEditor::ScimAnthyTableEditor (QWidget *parent, const char *name)
     QHBoxLayout *theme_hbox = new QHBoxLayout (main_vbox, 6);
     QHBoxLayout *editor_hbox = new QHBoxLayout (main_vbox, 6);
 
-    KComboBox *combo = new KComboBox (plainPage ());
-    QLabel *label = new QLabel (i18n ("Romaji table:"), plainPage ());
-    theme_hbox->addWidget (label);
-    theme_hbox->addWidget (combo);
+    m_table_chooser_combo = new KComboBox (plainPage ());
+    m_table_chooser_label = new QLabel (chooser_label, plainPage ());
+    theme_hbox->addWidget (m_table_chooser_label);
+    theme_hbox->addWidget (m_table_chooser_combo);
     theme_hbox->addStretch (20);
 
-    QListView *view = new QListView (plainPage ());
-    editor_hbox->addWidget (view);
+    m_table_view = new QListView (plainPage ());
+    editor_hbox->addWidget (m_table_view);
 
     QVBoxLayout *editor_vbox = new QVBoxLayout (editor_hbox, 6);
 
-    //
-    label = new QLabel (i18n ("Sequence:"), plainPage ());
-    editor_vbox->addWidget (label);
+    // entry1
+    m_table_view->addColumn (label1);
 
-    KLineEdit *entry = new KLineEdit (plainPage ());
-    entry->setMaximumWidth (80);
-    entry->setSizePolicy (QSizePolicy::Minimum, QSizePolicy::Minimum);
-    editor_vbox->addWidget (entry);
+    m_label[0] = new QLabel (label1, plainPage ());
+    editor_vbox->addWidget (m_label[0]);
 
-    //
-    label = new QLabel (i18n ("Result:"), plainPage ());
-    editor_vbox->addWidget (label);
+    m_line_edit[0] = new KLineEdit (plainPage ());
+    m_line_edit[0]->setMaximumWidth (80);
+    m_line_edit[0]->setSizePolicy (QSizePolicy::Minimum, QSizePolicy::Minimum);
+    editor_vbox->addWidget (m_line_edit[0]);
 
-    entry = new KLineEdit (plainPage ());
-    entry->setMaximumWidth (80);
-    entry->setSizePolicy (QSizePolicy::Minimum, QSizePolicy::Minimum);
-    editor_vbox->addWidget (entry);
+    // entry2
+    m_table_view->addColumn (label2);
 
-    //
-    QPushButton *add_button = new QPushButton (i18n ("Add"), plainPage ());
-    editor_vbox->addWidget (add_button);
+    m_label[1] = new QLabel (label2, plainPage ());
+    editor_vbox->addWidget (m_label[1]);
 
-    //
-    QPushButton *remove_button = new QPushButton (i18n ("Remove"), plainPage ());
-    editor_vbox->addWidget (remove_button);
+    m_line_edit[1] = new KLineEdit (plainPage ());
+    m_line_edit[1]->setMaximumWidth (80);
+    m_line_edit[1]->setSizePolicy (QSizePolicy::Minimum, QSizePolicy::Minimum);
+    editor_vbox->addWidget (m_line_edit[1]);
+
+    // entry3
+    if (label3 != QString::null) {
+        m_table_view->addColumn (label3);
+
+        m_label[2] = new QLabel (label3, plainPage ());
+        editor_vbox->addWidget (m_label[2]);
+
+        m_line_edit[2] = new KLineEdit (plainPage ());
+        m_line_edit[2]->setMaximumWidth (80);
+        m_line_edit[2]->setSizePolicy (QSizePolicy::Minimum, QSizePolicy::Minimum);
+        editor_vbox->addWidget (m_line_edit[2]);
+    }
+
+    // entry4
+    if (label4 != QString::null) {
+        m_table_view->addColumn (label4);
+
+        m_label[3] = new QLabel (label4, plainPage ());
+        editor_vbox->addWidget (m_label[3]);
+
+        m_line_edit[3] = new KLineEdit (plainPage ());
+        m_line_edit[3]->setMaximumWidth (80);
+        m_line_edit[3]->setSizePolicy (QSizePolicy::Minimum, QSizePolicy::Minimum);
+        editor_vbox->addWidget (m_line_edit[3]);
+    }
+
+    // "Add" button
+    m_add_button = new QPushButton (i18n ("Add"), plainPage ());
+    m_add_button->setEnabled (false);
+    editor_vbox->addWidget (m_add_button);
+
+    // "Remove" button
+    m_remove_button = new QPushButton (i18n ("Remove"), plainPage ());
+    m_remove_button->setEnabled (false);
+    editor_vbox->addWidget (m_remove_button);
 
     editor_vbox->addStretch (20);
 }

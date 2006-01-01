@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scim-anthy\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-31 12:12+0900\n"
+"POT-Creation-Date: 2006-01-01 21:57+0900\n"
 "PO-Revision-Date: 2005-10-20 22:05+900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -111,7 +111,7 @@ msgstr "半角"
 msgid "Follow input mode"
 msgstr "入力モードに従う"
 
-#: ../setupui/anthyui.cpp:704 ../setupui/scimanthysettingplugin.cpp:102
+#: ../setupui/anthyui.cpp:704 ../setupui/scimanthysettingplugin.cpp:103
 msgid "Do nothing"
 msgstr "何もしない"
 
@@ -119,7 +119,7 @@ msgstr "何もしない"
 msgid "Start conversion"
 msgstr "変換を開始する"
 
-#: ../setupui/anthyui.cpp:706 ../setupui/scimanthysettingplugin.cpp:96
+#: ../setupui/anthyui.cpp:706 ../setupui/scimanthysettingplugin.cpp:97
 msgid "Commit"
 msgstr "確定"
 
@@ -285,7 +285,8 @@ msgstr "カスタマイズ(&Z)..."
 msgid "Alt+Z"
 msgstr "Alt+Z"
 
-#: ../setupui/anthyui.cpp:754
+#: ../setupui/anthyui.cpp:754 ../setupui/scimanthysettingplugin.cpp:752
+#: ../setupui/scimanthysettingplugin.cpp:760
 msgid "Layout:"
 msgstr "レイアウト:"
 
@@ -477,251 +478,311 @@ msgstr "色:"
 msgid "&Appearance"
 msgstr "外観(&A)"
 
-#: ../setupui/scimanthysettingplugin.cpp:80
+#: ../setupui/scim_anthy_table_editor.cpp:29
+msgid "Edit key table"
+msgstr "キーテーブルの編集"
+
+#: ../setupui/scim_anthy_table_editor.cpp:98
+msgid "Add"
+msgstr "追加"
+
+#: ../setupui/scim_anthy_table_editor.cpp:103
+msgid "Remove"
+msgstr "削除"
+
+#: ../setupui/scimanthysettingplugin.cpp:81
 msgid "Toggle on/off"
 msgstr "ON/OFF切り替え"
 
-#: ../setupui/scimanthysettingplugin.cpp:81
+#: ../setupui/scimanthysettingplugin.cpp:82
 msgid "Circle input mode"
 msgstr "入力モード循環"
 
-#: ../setupui/scimanthysettingplugin.cpp:82
+#: ../setupui/scimanthysettingplugin.cpp:83
 msgid "Circle kana mode"
 msgstr "かなモード循環"
 
-#: ../setupui/scimanthysettingplugin.cpp:83
+#: ../setupui/scimanthysettingplugin.cpp:84
 msgid "Latin mode"
 msgstr "英数モード"
 
-#: ../setupui/scimanthysettingplugin.cpp:84
+#: ../setupui/scimanthysettingplugin.cpp:85
 msgid "Wide Latin mode"
 msgstr "全角英数モード"
 
-#: ../setupui/scimanthysettingplugin.cpp:85
+#: ../setupui/scimanthysettingplugin.cpp:86
 msgid "Hiragana mode"
 msgstr "ひらがなモード"
 
-#: ../setupui/scimanthysettingplugin.cpp:86
+#: ../setupui/scimanthysettingplugin.cpp:87
 msgid "Katakana mode"
 msgstr "かたかなモード"
 
-#: ../setupui/scimanthysettingplugin.cpp:87
+#: ../setupui/scimanthysettingplugin.cpp:88
 msgid "Half katakana mode"
 msgstr "半角カタカナモード"
 
-#: ../setupui/scimanthysettingplugin.cpp:88
+#: ../setupui/scimanthysettingplugin.cpp:89
 msgid "Circle typing method"
 msgstr "入力方式切り替え"
 
-#: ../setupui/scimanthysettingplugin.cpp:90
+#: ../setupui/scimanthysettingplugin.cpp:91
 msgid "Insert space"
 msgstr "空白を挿入"
 
-#: ../setupui/scimanthysettingplugin.cpp:91
+#: ../setupui/scimanthysettingplugin.cpp:92
 msgid "Insert alternative space"
 msgstr "別幅空白を挿入"
 
-#: ../setupui/scimanthysettingplugin.cpp:92
+#: ../setupui/scimanthysettingplugin.cpp:93
 msgid "Insert half space"
 msgstr "半角空白を挿入"
 
-#: ../setupui/scimanthysettingplugin.cpp:93
+#: ../setupui/scimanthysettingplugin.cpp:94
 msgid "Insert wide space"
 msgstr "全角空白を挿入"
 
-#: ../setupui/scimanthysettingplugin.cpp:94
+#: ../setupui/scimanthysettingplugin.cpp:95
 msgid "Backspace"
 msgstr "バックスペース"
 
-#: ../setupui/scimanthysettingplugin.cpp:95
+#: ../setupui/scimanthysettingplugin.cpp:96
 msgid "Delete"
 msgstr "削除"
 
-#: ../setupui/scimanthysettingplugin.cpp:97
+#: ../setupui/scimanthysettingplugin.cpp:98
 msgid "Convert"
 msgstr "変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:98
+#: ../setupui/scimanthysettingplugin.cpp:99
 msgid "Predict"
 msgstr "予測"
 
-#: ../setupui/scimanthysettingplugin.cpp:99
+#: ../setupui/scimanthysettingplugin.cpp:100
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: ../setupui/scimanthysettingplugin.cpp:100
+#: ../setupui/scimanthysettingplugin.cpp:101
 msgid "Cancel all"
 msgstr "全てキャンセル"
 
-#: ../setupui/scimanthysettingplugin.cpp:101
+#: ../setupui/scimanthysettingplugin.cpp:102
 msgid "Reconvert"
 msgstr "再変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:104
+#: ../setupui/scimanthysettingplugin.cpp:105
 msgid "Move to first"
 msgstr "最初へ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:105
+#: ../setupui/scimanthysettingplugin.cpp:106
 msgid "Move to last"
 msgstr "最後へ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:106
+#: ../setupui/scimanthysettingplugin.cpp:107
 msgid "Move to forward"
 msgstr "前方へ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:107
+#: ../setupui/scimanthysettingplugin.cpp:108
 msgid "Move to backward"
 msgstr "後方へ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:109
+#: ../setupui/scimanthysettingplugin.cpp:110
 msgid "Select the first segment"
 msgstr "最初の文節を選択"
 
-#: ../setupui/scimanthysettingplugin.cpp:110
+#: ../setupui/scimanthysettingplugin.cpp:111
 msgid "Select the last segment"
 msgstr "最後の文節を選択"
 
-#: ../setupui/scimanthysettingplugin.cpp:111
+#: ../setupui/scimanthysettingplugin.cpp:112
 msgid "Select the next segment"
 msgstr "次の文節を選択"
 
-#: ../setupui/scimanthysettingplugin.cpp:112
+#: ../setupui/scimanthysettingplugin.cpp:113
 msgid "Select the previous segment"
 msgstr "前の文節を選択"
 
-#: ../setupui/scimanthysettingplugin.cpp:113
+#: ../setupui/scimanthysettingplugin.cpp:114
 msgid "Shrink the segment"
 msgstr "文節を縮める"
 
-#: ../setupui/scimanthysettingplugin.cpp:114
+#: ../setupui/scimanthysettingplugin.cpp:115
 msgid "Expand the segment"
 msgstr "文節を広げる"
 
-#: ../setupui/scimanthysettingplugin.cpp:115
+#: ../setupui/scimanthysettingplugin.cpp:116
 msgid "Commit the first segment"
 msgstr "最初の文節を確定"
 
-#: ../setupui/scimanthysettingplugin.cpp:116
+#: ../setupui/scimanthysettingplugin.cpp:117
 msgid "Commit the selected segment"
 msgstr "選択文節を確定"
 
-#: ../setupui/scimanthysettingplugin.cpp:118
+#: ../setupui/scimanthysettingplugin.cpp:119
 msgid "First candidate"
 msgstr "最初の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:119
+#: ../setupui/scimanthysettingplugin.cpp:120
 msgid "Last candidate"
 msgstr "最後の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:120
+#: ../setupui/scimanthysettingplugin.cpp:121
 msgid "Next candidate"
 msgstr "次の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:121
+#: ../setupui/scimanthysettingplugin.cpp:122
 msgid "Previous candidate"
 msgstr "前の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:122
+#: ../setupui/scimanthysettingplugin.cpp:123
 msgid "Page up"
 msgstr "前のページへ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:123
+#: ../setupui/scimanthysettingplugin.cpp:124
 msgid "Page down"
 msgstr "次のページへ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:125
+#: ../setupui/scimanthysettingplugin.cpp:126
 msgid "1st candidate"
 msgstr "1番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:126
+#: ../setupui/scimanthysettingplugin.cpp:127
 msgid "2nd candidate"
 msgstr "2番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:127
+#: ../setupui/scimanthysettingplugin.cpp:128
 msgid "3rd candidate"
 msgstr "3番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:128
+#: ../setupui/scimanthysettingplugin.cpp:129
 msgid "4th candidate"
 msgstr "4番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:129
+#: ../setupui/scimanthysettingplugin.cpp:130
 msgid "5th candidate"
 msgstr "5番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:130
+#: ../setupui/scimanthysettingplugin.cpp:131
 msgid "6th candidate"
 msgstr "6番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:131
+#: ../setupui/scimanthysettingplugin.cpp:132
 msgid "7th candidate"
 msgstr "7番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:132
+#: ../setupui/scimanthysettingplugin.cpp:133
 msgid "8th candidate"
 msgstr "8番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:133
+#: ../setupui/scimanthysettingplugin.cpp:134
 msgid "9th candidate"
 msgstr "9番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:134
+#: ../setupui/scimanthysettingplugin.cpp:135
 msgid "10th candidate"
 msgstr "10番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:136
+#: ../setupui/scimanthysettingplugin.cpp:137
 msgid "Convert character type to forward"
 msgstr "次の文字種に変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:137
+#: ../setupui/scimanthysettingplugin.cpp:138
 msgid "Convert character type to backward"
 msgstr "前の文字種に変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:138
+#: ../setupui/scimanthysettingplugin.cpp:139
 msgid "Convert to hiragana"
 msgstr "ひらがな変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:139
+#: ../setupui/scimanthysettingplugin.cpp:140
 msgid "Convert to katakana"
 msgstr "カタカナ変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:140
+#: ../setupui/scimanthysettingplugin.cpp:141
 msgid "Convert to half width"
 msgstr "半角変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:141
+#: ../setupui/scimanthysettingplugin.cpp:142
 msgid "Convert to half katakana"
 msgstr "半角カタカナ変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:142
+#: ../setupui/scimanthysettingplugin.cpp:143
 msgid "Convert to wide latin"
 msgstr "全角英数変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:143
+#: ../setupui/scimanthysettingplugin.cpp:144
 msgid "Convert to latin"
 msgstr "英数変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:145
+#: ../setupui/scimanthysettingplugin.cpp:146
 msgid "Edit dictionary"
 msgstr "辞書を編集"
 
-#: ../setupui/scimanthysettingplugin.cpp:146
+#: ../setupui/scimanthysettingplugin.cpp:147
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: ../setupui/scimanthysettingplugin.cpp:256
-#: ../setupui/scimanthysettingplugin.cpp:346
-#: ../setupui/scimanthysettingplugin.cpp:350
-#: ../setupui/scimanthysettingplugin.cpp:575
-#: ../setupui/scimanthysettingplugin.cpp:577
+#: ../setupui/scimanthysettingplugin.cpp:257
+#: ../setupui/scimanthysettingplugin.cpp:351
+#: ../setupui/scimanthysettingplugin.cpp:355
 #: ../setupui/scimanthysettingplugin.cpp:579
+#: ../setupui/scimanthysettingplugin.cpp:581
+#: ../setupui/scimanthysettingplugin.cpp:583
 msgid "Default"
 msgstr "標準設定"
 
-#: ../setupui/scimanthysettingplugin.cpp:258
-#: ../setupui/scimanthysettingplugin.cpp:347
+#: ../setupui/scimanthysettingplugin.cpp:259
+#: ../setupui/scimanthysettingplugin.cpp:352
 msgid "User defined"
 msgstr "ユーザー定義"
+
+#: ../setupui/scimanthysettingplugin.cpp:744
+msgid "Romaji Table:"
+msgstr "ローマ字テーブル:"
+
+#: ../setupui/scimanthysettingplugin.cpp:744
+#: ../setupui/scim_anthy_table_editor.h:29
+msgid "Sequence"
+msgstr "入力文字列"
+
+#: ../setupui/scimanthysettingplugin.cpp:744
+#: ../setupui/scimanthysettingplugin.cpp:752
+#: ../setupui/scim_anthy_table_editor.h:30
+msgid "Result"
+msgstr "出力文字列"
+
+#: ../setupui/scimanthysettingplugin.cpp:745
+msgid "Edit romajit table"
+msgstr "ローマ字テーブルを編集"
+
+#: ../setupui/scimanthysettingplugin.cpp:752
+#: ../setupui/scimanthysettingplugin.cpp:761
+msgid "Key"
+msgstr "キー"
+
+#: ../setupui/scimanthysettingplugin.cpp:753
+msgid "Edit kana layout table"
+msgstr "かな配列テーブルを編集"
+
+#: ../setupui/scimanthysettingplugin.cpp:761
+msgid "Single press"
+msgstr "単独打鍵"
+
+#: ../setupui/scimanthysettingplugin.cpp:762
+msgid "Left thumb shift"
+msgstr "左親指シフト"
+
+#: ../setupui/scimanthysettingplugin.cpp:762
+msgid "Right thumb shift"
+msgstr "右親指シフト"
+
+#: ../setupui/scimanthysettingplugin.cpp:763
+msgid "Edit thumb shift layout table"
+msgstr "親指シフト配列テーブルを編集"
+
+#: ../setupui/scim_anthy_table_editor.h:28
+msgid "Table:"
+msgstr "テーブル:"
 
 #~ msgid "NICOLA Layout"
 #~ msgstr "NICOLA配列"

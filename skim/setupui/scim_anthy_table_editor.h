@@ -12,13 +12,38 @@
 #define SCIM_ANTHY_TABLE_EDITOR_H
 
 #include <kdialogbase.h>
+#include <klocale.h>
+
+class QLabel;
+class QPushButton;
+class QListView;
+class KComboBox;
+class KLineEdit;
 
 class ScimAnthyTableEditor : public KDialogBase
 {
 Q_OBJECT
 public:
-    ScimAnthyTableEditor  (QWidget *parent = 0, const char *name = 0);
+    ScimAnthyTableEditor  (QWidget *parent = 0,
+                           const QString & chooser_label = i18n ("Table:"),
+                           const QString & label1 = i18n ("Sequence"),
+                           const QString & label2 = i18n ("Result"),
+                           const QString & label3 = QString::null,
+                           const QString & label4 = QString::null,
+                           const char *name = 0);
     ~ScimAnthyTableEditor ();
+
+public:
+    QLabel      *m_table_chooser_label;
+    KComboBox   *m_table_chooser_combo;
+
+    QListView   *m_table_view;
+
+    QLabel      *m_label[4];
+    KLineEdit   *m_line_edit[4];
+
+    QPushButton *m_add_button;
+    QPushButton *m_remove_button;
 };
 
 #endif // SCIM_ANTHY_TABLE_EDITOR
