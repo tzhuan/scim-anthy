@@ -743,6 +743,9 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
 {
     ScimAnthyTableEditor editor (d->ui, i18n ("Romaji Table:"), i18n ("Sequence"), i18n ("Result"));
     editor.setCaption (i18n ("Edit romajit table"));
+    d->setup_combo_box (editor.m_table_chooser_combo,
+                        __romaji_fund_table,
+                        AnthyConfig::_IMEngine_Anthy_RomajiThemeFile ());
     if (editor.exec () == QDialog::Accepted) {
     }
 }
@@ -750,7 +753,10 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
 void ScimAnthySettingPlugin::customize_kana_table ()
 {
     ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"), i18n ("Key"), i18n ("Result"));
-    editor.setCaption (i18n ("Edit kana layout table"));
+    editor.setCaption (i18n ("Edit kana layout table")); 
+    d->setup_combo_box (editor.m_table_chooser_combo,
+                        __kana_fund_table,
+                        AnthyConfig::_IMEngine_Anthy_KanaLayoutFile());
     if (editor.exec () == QDialog::Accepted) {
     }
 }
@@ -761,6 +767,9 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
                                  i18n ("Key"), i18n ("Single press"),
                                  i18n ("Left thumb shift"), i18n ("Right thumb shift"));
     editor.setCaption (i18n ("Edit thumb shift layout table"));
+    d->setup_combo_box (editor.m_table_chooser_combo,
+                        __nicola_fund_table,
+                        AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
     if (editor.exec () == QDialog::Accepted) {
     }
 }
