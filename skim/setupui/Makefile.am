@@ -7,6 +7,7 @@ METASOURCES = AUTO
 kde_module_LTLIBRARIES =  kcm_skimplugin_scim_anthy.la
 
 noinst_HEADERS = \
+	scimanthysettingplugin.h \
 	scim_anthy_default_tables.h \
 	scim_anthy_key2kana_table.h \
 	scim_anthy_table_editor.h \
