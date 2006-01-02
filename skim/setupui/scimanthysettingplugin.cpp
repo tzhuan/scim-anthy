@@ -668,6 +668,15 @@ void ScimAnthySettingPlugin::defaults ()
     d->reset_custom_widgets ();
 }
 
+void ScimAnthySettingPlugin::slotWidgetModified ()
+{
+    if (d->m_our_value_changed) {
+        emit changed (true);
+    } else {
+        KAutoCModule::slotWidgetModified();
+    }
+}
+
 void ScimAnthySettingPlugin::launch_dict_admin_command ()
 {
     QString command;
@@ -781,28 +790,29 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (int n)
 
 SET_WIDGET:
     d->setup_key_bindings ();
-    changed (true);
+    d->m_our_value_changed = true;
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::set_romaji_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_RomajiThemeFile", value, __romaji_fund_table);
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::set_kana_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_KanaLayoutFile", value, __kana_fund_table);
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::set_nicola_theme (const QString & value)
 {
     d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", value, __nicola_fund_table);
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::choose_keys ()
@@ -817,7 +827,7 @@ void ScimAnthySettingPlugin::choose_keys ()
         item->setText (1, editor.getCombinedString ());
         set_key_bindings_theme (1);
         d->m_our_value_changed = true;
-        changed (true);
+        slotWidgetModified ();
     }
 }
 
@@ -859,7 +869,7 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
     }
 
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 
     d->m_table_editor = NULL;
 }
@@ -925,7 +935,7 @@ void ScimAnthySettingPlugin::customize_kana_table ()
     }
 
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 
     d->m_table_editor = NULL;
 }
@@ -974,7 +984,7 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
     }
 
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 
     d->m_table_editor = NULL;
 }
@@ -1003,42 +1013,42 @@ void ScimAnthySettingPlugin::set_preedit_string_fg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_PreeditFGColor", c);
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::set_preedit_string_bg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_PreeditBGColor", c);
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::set_conversion_string_fg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_ConversionFGColor", c);
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::set_conversion_string_bg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_ConversionBGColor", c);
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::set_selected_segment_fg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_SelectedSegmentFGColor", c);
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::set_selected_segment_bg_color (const QColor & c)
 {
     d->set_color ("_IMEngine_Anthy_SelectedSegmentBGColor", c);
     d->m_our_value_changed = true;
-    changed (true);
+    slotWidgetModified ();
 }
 
 void ScimAnthySettingPlugin::set_romaji_table_view ()

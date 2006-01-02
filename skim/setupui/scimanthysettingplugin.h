@@ -37,6 +37,8 @@ public:
     virtual void defaults   ();
 
 protected slots:
+    void slotWidgetModified                  ();
+
     void launch_dict_admin_command           ();
     void launch_add_word_command             ();
     void set_key_bindings_group              ();
