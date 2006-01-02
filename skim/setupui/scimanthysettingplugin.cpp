@@ -454,11 +454,16 @@ public:
                     v[1] = QString::fromUtf8 (value[1].c_str ());
                 if (value.size() > 2)
                     v[2] = QString::fromUtf8 (value[2].c_str ());
-                if (nicola_table)
-                    item = new QListViewItem (view, item, kit->c_str (),
+                if (nicola_table) {
+                    item = new QListViewItem (view, item,
+                                              QString::fromUtf8 (kit->c_str ()),
                                               v[0], v[1], v[2]);
-                else if (table)
-                    item = new QListViewItem (view, item, kit->c_str (), v[0]);
+                } else if (table) {
+                    QString result = !v[0].isEmpty () ? v[0] : v[1];
+                    item = new QListViewItem (view, item,
+                                              QString::fromUtf8 (kit->c_str ()),
+                                              result);
+                }
             }
 
         } else if (nicola_table) {
@@ -473,17 +478,19 @@ public:
 
         } else if (table) {
             for (unsigned int i = 0; table[i].string; i++) {
+                QString result = table[i].result && *table[i].result ?
+                    table[i].result : table[i].cont;
                 item = new QListViewItem (
                     view, item,
                     QString::fromUtf8 (table[i].string),
-                    QString::fromUtf8 (table[i].result));
+                    QString::fromUtf8 (result));
             }
         }
     }
 
     bool key_filter (const QString & keys, const QString & filter)
     {
-        if (filter == QString::null)
+        if (filter.isEmpty ())
             return false;
 
         QStringList filter_list = QStringList::split (",", filter);
@@ -594,7 +601,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
 
     // key bindings view
     connect (d->ui->KeyBindingsView,
-             SIGNAL (selectionChanged (QListViewItem*)),
+             SIGNAL (currentChanged (QListViewItem*)),
              this, SLOT (key_bindings_view_selection_changed (QListViewItem*)));
     connect (d->ui->KeyBindingsView,
              SIGNAL (doubleClicked (QListViewItem*)),
@@ -643,6 +650,7 @@ void ScimAnthySettingPlugin::save ()
     KAutoCModule::save ();
 
     d->save_style_files ();
+    d->m_our_value_changed = false;
 }
 
 void ScimAnthySettingPlugin::defaults ()
@@ -827,10 +835,53 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
              this, SLOT (set_romaji_table_view ()));
 
 
-    if (editor.exec () == QDialog::Accepted) {
+    if (editor.exec () != QDialog::Accepted || !editor.changed ())
+        return;
+
+    int n = editor.m_table_chooser_combo->currentItem ();
+    d->ui->RomajiComboBox->setCurrentItem (n);
+    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile",
+                  editor.m_table_chooser_combo->currentText (),
+                  __romaji_fund_table);
+    if (n == 1) {
+        d->m_user_style.delete_section (__romaji_fund_table);
+
+        QListViewItem *i;
+        for (i = editor.m_table_view->firstChild (); i; i = i->nextSibling ()) {
+            String seq = i->text(0).isNull () ?
+                String ("") : String (i->text(0).utf8 ());
+            String res = i->text(1).isNull () ?
+                String ("") : String (i->text(1).utf8 ());
+            d->m_user_style.set_string (__romaji_fund_table, seq, res);
+        }
+
+        d->m_style_changed = true;
     }
 
+    d->m_our_value_changed = true;
+    changed (true);
+
     d->m_table_editor = NULL;
+}
+
+static bool
+has_voiced_consonant (String str)
+{
+    ConvRule *table = scim_anthy_kana_voiced_consonant_rule;
+
+    WideString str1_wide = utf8_mbstowcs (str);
+    if (str1_wide.length () <= 0)
+        return false;
+
+    for (unsigned int i = 0; table[i].string; i++) {
+        WideString str2_wide = utf8_mbstowcs (table[i].string);
+        if (str2_wide.length () <= 0)
+            continue;
+        if (str1_wide[0] == str2_wide[0])
+            return true;
+    }
+
+    return false;
 }
 
 void ScimAnthySettingPlugin::customize_kana_table ()
@@ -847,8 +898,34 @@ void ScimAnthySettingPlugin::customize_kana_table ()
              SIGNAL (activated (int)),
              this, SLOT (set_kana_table_view ()));
 
-    if (editor.exec () == QDialog::Accepted) {
+    if (editor.exec () != QDialog::Accepted || !editor.changed ())
+        return;
+
+    int n = editor.m_table_chooser_combo->currentItem ();
+    d->ui->KanaComboBox->setCurrentItem (n);
+    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile",
+                  editor.m_table_chooser_combo->currentText (),
+                  __kana_fund_table);
+    if (n == 1) {
+        d->m_user_style.delete_section (__kana_fund_table);
+
+        QListViewItem *i;
+        for (i = editor.m_table_view->firstChild (); i; i = i->nextSibling ()) {
+            String seq = i->text(0).isNull () ?
+                String ("") : String (i->text(0).utf8 ());
+            std::vector<String> value;
+            if (has_voiced_consonant (String (i->text(1).utf8 ())))
+                value.push_back (String (""));
+            value.push_back (i->text(1).isNull () ?
+                             String ("") : String (i->text(1).utf8 ()));
+            d->m_user_style.set_string_array (__kana_fund_table, seq, value);
+        }
+
+        d->m_style_changed = true;
     }
+
+    d->m_our_value_changed = true;
+    changed (true);
 
     d->m_table_editor = NULL;
 }
@@ -868,8 +945,36 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
              SIGNAL (activated (int)),
              this, SLOT (set_thumb_shift_table_view ()));
 
-    if (editor.exec () == QDialog::Accepted) {
+    if (editor.exec () != QDialog::Accepted || !editor.changed ())
+        return;
+
+    int n = editor.m_table_chooser_combo->currentItem ();
+    d->ui->ThumbShiftComboBox->setCurrentItem (n);
+    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile",
+                  editor.m_table_chooser_combo->currentText (),
+                  __nicola_fund_table);
+    if (n == 1) {
+        d->m_user_style.delete_section (__nicola_fund_table);
+
+        QListViewItem *i;
+        for (i = editor.m_table_view->firstChild (); i; i = i->nextSibling ()) {
+            String seq = i->text(0).isNull () ?
+                String ("") : String (i->text(0).utf8 ());
+            std::vector<String> value;
+            value.push_back (i->text(1).isNull () ?
+                             String ("") : String (i->text(1).utf8 ()));
+            value.push_back (i->text(2).isNull () ?
+                             String ("") : String (i->text(2).utf8 ()));
+            value.push_back (i->text(3).isNull () ?
+                             String ("") : String (i->text(3).utf8 ()));
+            d->m_user_style.set_string_array (__nicola_fund_table, seq, value);
+        }
+
+        d->m_style_changed = true;
     }
+
+    d->m_our_value_changed = true;
+    changed (true);
 
     d->m_table_editor = NULL;
 }

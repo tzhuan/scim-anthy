@@ -16,9 +16,9 @@
 
 class QLabel;
 class QPushButton;
+class QLineEdit;
 class QListView;
 class KComboBox;
-class KLineEdit;
 
 class ScimAnthyTableEditor : public KDialogBase
 {
@@ -33,6 +33,15 @@ public:
                            const char *name = 0);
     ~ScimAnthyTableEditor ();
 
+    bool changed () { return m_changed; }
+
+public slots:
+    void table_chooser_combo_changed ();
+    void set_button_enabled          ();
+    void set_current_item            ();
+    void add_item                    ();
+    void remove_item                 ();
+
 public:
     QLabel      *m_table_chooser_label;
     KComboBox   *m_table_chooser_combo;
@@ -40,10 +49,12 @@ public:
     QListView   *m_table_view;
 
     QLabel      *m_label[4];
-    KLineEdit   *m_line_edit[4];
+    QLineEdit   *m_line_edit[4];
 
     QPushButton *m_add_button;
     QPushButton *m_remove_button;
+
+    bool         m_changed;
 };
 
 #endif // SCIM_ANTHY_TABLE_EDITOR
