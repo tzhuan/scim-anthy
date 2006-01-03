@@ -635,6 +635,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
 {
     KGlobal::locale()->removeCatalogue ("skim-scim-anthy");
+    delete d;
 }
 
 void ScimAnthySettingPlugin::load ()

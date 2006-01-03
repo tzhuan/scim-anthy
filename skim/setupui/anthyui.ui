@@ -998,169 +998,23 @@
                             </spacer>
                         </grid>
                     </widget>
-                    <widget class="QGroupBox" row="4" column="0">
+                    <spacer row="1" column="0">
                         <property name="name">
-                            <cstring>groupBox5</cstring>
+                            <cstring>spacer12</cstring>
                         </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>7</hsizetype>
-                                <vsizetype>5</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
                         </property>
-                        <property name="title">
-                            <string>Thumb Shift Layout</string>
+                        <property name="sizeType">
+                            <enum>Fixed</enum>
                         </property>
-                        <grid>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="KLineEdit" row="1" column="1" rowspan="1" colspan="3">
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_LeftThumbShiftKey</cstring>
-                                </property>
-                            </widget>
-                            <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="3">
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_RightThumbShiftKey</cstring>
-                                </property>
-                            </widget>
-                            <widget class="SkimEditShortcutButton" row="2" column="4">
-                                <property name="name">
-                                    <cstring>RightThumbShiftKey_Button</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>0</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="SkimEditShortcutButton" row="1" column="4">
-                                <property name="name">
-                                    <cstring>LeftThumbShiftKey_Button</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>0</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="QPushButton" row="0" column="2">
-                                <property name="name">
-                                    <cstring>ThumbShiftCustomizeButton</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>Customi&amp;ze...</string>
-                                </property>
-                                <property name="accel">
-                                    <string>Alt+Z</string>
-                                </property>
-                            </widget>
-                            <spacer row="0" column="3" rowspan="1" colspan="2">
-                                <property name="name">
-                                    <cstring>spacer15</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <widget class="KComboBox" row="0" column="1">
-                                <property name="name">
-                                    <cstring>ThumbShiftComboBox</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="0" column="0">
-                                <property name="name">
-                                    <cstring>textLabel14</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>Layout:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>ThumbShiftComboBox</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="2" column="0">
-                                <property name="name">
-                                    <cstring>textLabel16</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>R&amp;ight thumb shift keys:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_RightThumbShiftKey</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="1" column="0">
-                                <property name="name">
-                                    <cstring>textLabel15</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>Left thumb shift &amp;keys:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_LeftThumbShiftKey</cstring>
-                                </property>
-                            </widget>
-                        </grid>
-                    </widget>
+                        <property name="sizeHint">
+                            <size>
+                                <width>16</width>
+                                <height>16</height>
+                            </size>
+                        </property>
+                    </spacer>
                     <widget class="QGroupBox" row="2" column="0">
                         <property name="name">
                             <cstring>groupBox4</cstring>
@@ -1250,23 +1104,199 @@
                             </spacer>
                         </grid>
                     </widget>
-                    <spacer row="1" column="0">
+                    <widget class="QGroupBox" row="4" column="0">
                         <property name="name">
-                            <cstring>spacer12</cstring>
+                            <cstring>groupBox5</cstring>
                         </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
                         </property>
-                        <property name="sizeType">
-                            <enum>Fixed</enum>
+                        <property name="title">
+                            <string>Thumb Shift Layout</string>
                         </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>8</width>
-                                <height>8</height>
-                            </size>
-                        </property>
-                    </spacer>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel14</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>1</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Layout:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>ThumbShiftComboBox</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="0">
+                                <property name="name">
+                                    <cstring>textLabel16</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>1</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>R&amp;ight thumb shift keys:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_RightThumbShiftKey</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="1" column="0">
+                                <property name="name">
+                                    <cstring>textLabel15</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>1</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Left thumb shift &amp;keys:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_LeftThumbShiftKey</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="3" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Simultaneous pressing time:</string>
+                                </property>
+                            </widget>
+                            <widget class="QSpinBox" row="3" column="1">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_NICOLATime</cstring>
+                                </property>
+                                <property name="maxValue">
+                                    <number>1000</number>
+                                </property>
+                                <property name="minValue">
+                                    <number>5</number>
+                                </property>
+                                <property name="value">
+                                    <number>200</number>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="3" column="2" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>textLabel2_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>[msec]</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="0" column="3">
+                                <property name="name">
+                                    <cstring>ThumbShiftCustomizeButton</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>1</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Customi&amp;ze...</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+Z</string>
+                                </property>
+                            </widget>
+                            <widget class="KComboBox" row="0" column="1" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>ThumbShiftComboBox</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <spacer row="0" column="4" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>spacer15</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="SkimEditShortcutButton" row="1" column="5">
+                                <property name="name">
+                                    <cstring>LeftThumbShiftKey_Button</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>0</hsizetype>
+                                        <vsizetype>1</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="SkimEditShortcutButton" row="2" column="5">
+                                <property name="name">
+                                    <cstring>RightThumbShiftKey_Button</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>0</hsizetype>
+                                        <vsizetype>1</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="KLineEdit" row="1" column="1" rowspan="1" colspan="4">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_LeftThumbShiftKey</cstring>
+                                </property>
+                            </widget>
+                            <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="4">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_RightThumbShiftKey</cstring>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
                     <spacer row="3" column="0">
                         <property name="name">
                             <cstring>spacer14</cstring>
@@ -1279,8 +1309,8 @@
                         </property>
                         <property name="sizeHint">
                             <size>
-                                <width>8</width>
-                                <height>8</height>
+                                <width>16</width>
+                                <height>16</height>
                             </size>
                         </property>
                     </spacer>
@@ -2359,12 +2389,12 @@
     <includehint>klineedit.h</includehint>
     <includehint>skimeditshortcutbutton.h</includehint>
     <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>skimeditshortcutbutton.h</includehint>
-    <includehint>skimeditshortcutbutton.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>skimeditshortcutbutton.h</includehint>
     <includehint>klineedit.h</includehint>
