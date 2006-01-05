@@ -18,7 +18,7 @@ scim-anthy provides some usefull user interfaces for Anthy using SCIM.
 
 2.1 Necessary
 
-  * scim-1.0.0 or later.
+  * scim-1.2.0 or later.
     - http://www.scim-im.org/
 
   * Anthy-5100 or later.
