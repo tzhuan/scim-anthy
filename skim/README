@@ -1,0 +1,29 @@
+1. What's this?
+===============
+ skim-scim-anthy is the setting plugin for scim-anthy works on SKIM.
+
+2. Requirements
+===============
+
+ * scim-1.4 or later
+ * skim-1.4 or later
+ * Corresponding version of scim-anthy
+
+3. Install
+==========
+ You can build & install SCIM, SKIM, scim-anthy and skim-scim-anthy by
+following command:
+
+    $ ./configure
+    $ make
+    # make install
+
+ If you installed the SCIM into /usr/local or any other non-standard diretories,
+you should specify the PKG_CONFIG_PATH environment variable like this:
+
+    $ PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./configure
+
+4. Usage
+========
+ After run the skim, you can open the settings window from skim's toolbar.
+You'll find out the "Anthy" page in it.
