@@ -1,3 +1,11 @@
+Overview of Changes from scim-anthy-0.8.0 to scim-anthy-0.9.0
+=============================================================
+* Add SKIM support (Provide as external package).
+* Add prediction key bindings to ATOK like key bindings theme.
+* Ensure to through space key event to enable application's specific feature
+  like Mozilla's scrolling feature (Thanks reporting > Yukiko Bando).
+* Other minor fixes.
+
 Overview of Changes from scim-anthy-0.7.1 to scim-anthy-0.8.0
 =============================================================
 * Now scim-anthy requires scim-1.2.0 or later.
