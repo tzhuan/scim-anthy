@@ -1,8 +1,6 @@
 Version-0.10.0 (Planning to release at Mar 29th, 2006)
 
-  * Search a character by Bushu (inline)
-  * Search a character by code (inline)
-  * Search a symbol (inline)
+  * Inline character searching.
 
 Version-1.0.0 (Planning to release at May 29th, 2006)
 
