@@ -52,11 +52,11 @@
 #define SCIM_PROP_INPUT_MODE_LATIN           "/IMEngine/Anthy/InputMode/Latin"
 #define SCIM_PROP_INPUT_MODE_WIDE_LATIN      "/IMEngine/Anthy/InputMode/WideLatin"
 
-#define SCIM_PROP_CONV_MODE                  "/IMEngine/ANthy/ConvMode"
-#define SCIM_PROP_CONV_MODE_MULTI_SEG        "/IMEngine/ANthy/ConvMode/MultiSegment"
-#define SCIM_PROP_CONV_MODE_SINGLE_SEG       "/IMEngine/ANthy/ConvMode/SingleSegment"
-#define SCIM_PROP_CONV_MODE_MULTI_REAL_TIME  "/IMEngine/ANthy/ConvMode/MultiRealTime"
-#define SCIM_PROP_CONV_MODE_SINGLE_REAL_TIME "/IMEngine/ANthy/ConvMode/SingleRealTime"
+#define SCIM_PROP_CONV_MODE                  "/IMEngine/Anthy/ConvMode"
+#define SCIM_PROP_CONV_MODE_MULTI_SEG        "/IMEngine/Anthy/ConvMode/MultiSegment"
+#define SCIM_PROP_CONV_MODE_SINGLE_SEG       "/IMEngine/Anthy/ConvMode/SingleSegment"
+#define SCIM_PROP_CONV_MODE_MULTI_REAL_TIME  "/IMEngine/Anthy/ConvMode/MultiRealTime"
+#define SCIM_PROP_CONV_MODE_SINGLE_REAL_TIME "/IMEngine/Anthy/ConvMode/SingleRealTime"
 
 #define SCIM_PROP_TYPING_METHOD              "/IMEngine/Anthy/TypingMethod"
 #define SCIM_PROP_TYPING_METHOD_ROMAJI       "/IMEngine/Anthy/TypingMethod/RomaKana"
