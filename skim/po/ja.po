@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: scim-anthy\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-03 17:51+0900\n"
-"PO-Revision-Date: 2005-10-20 22:05+900\n"
+"PO-Revision-Date: 2006-01-06 18:59+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -271,7 +271,7 @@ msgstr "ローマ字テーブル(&R):"
 
 #: ../setupui/anthyui.cpp:764
 msgid "&Customize..."
-msgstr "カスタマイズ(&C)..."
+msgstr "カスタム(&C)..."
 
 #: ../setupui/anthyui.cpp:766
 msgid "JIS Kana Layout"
@@ -283,7 +283,7 @@ msgstr "レイアウト(&L):"
 
 #: ../setupui/anthyui.cpp:768
 msgid "Customize..."
-msgstr "カスタマイズ..."
+msgstr "カスタム..."
 
 #: ../setupui/anthyui.cpp:770
 msgid "Thumb Shift Layout"
@@ -312,7 +312,7 @@ msgstr "[ミリ秒]"
 
 #: ../setupui/anthyui.cpp:776
 msgid "Customi&ze..."
-msgstr "カスタマイズ(&Z)..."
+msgstr "カスタム(&Z)..."
 
 #: ../setupui/anthyui.cpp:777
 msgid "Alt+Z"
