@@ -268,7 +268,7 @@ AnthyInstance::process_key_event (const KeyEvent& key)
 
     // for wide Latin mode
     if (m_preedit.get_input_mode () == SCIM_ANTHY_MODE_WIDE_LATIN)
-        process_key_event_wide_latin_mode (key);
+        return process_key_event_wide_latin_mode (key);
 
     // for other mode
     if (get_typing_method () != SCIM_ANTHY_TYPING_METHOD_NICOLA ||
