@@ -30,8 +30,8 @@
 
 2005-12-16 Takuro Ashie <ashie@homa.ne.jp>
 
-	* src/scim_anthy_imengine.cpp: Avoid delete both former and later
-	mathced text when start reconversion.
+	* src/scim_anthy_imengine.cpp: Avoid double deleting both former and
+	later mathced text when start reconversion.
 
 2005-12-15 Takuro Ashie <ashie@homa.ne.jp>
 
