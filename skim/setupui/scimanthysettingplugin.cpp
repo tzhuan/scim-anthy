@@ -234,10 +234,6 @@ public:
         }
     }
 
-    void set_keys (const QString & feature, const QString & keys)
-    {
-    }
-
     KConfigSkeletonGenericItem<QString> *string_config_item (const QString &item_key)
     {
         KConfigSkeletonItem *tmp_item;
@@ -649,6 +645,13 @@ void ScimAnthySettingPlugin::load ()
 void ScimAnthySettingPlugin::save ()
 {
     KAutoCModule::save ();
+
+    for (unsigned int i = 0; key_list[i].key; i++) {
+        KConfigSkeletonGenericItem<QString> *item;
+        item = d->string_config_item (key_list[i].key);
+        if (!item) continue;
+        item->writeConfig (AnthyConfig::self()->config());
+    }
 
     d->save_style_files ();
     d->m_our_value_changed = false;
