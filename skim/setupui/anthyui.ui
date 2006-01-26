@@ -1338,6 +1338,58 @@
                     <cstring>TabPage</cstring>
                 </property>
                 <attribute name="title">
+                    <string>Pre&amp;diction</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <spacer row="2" column="0">
+                        <property name="name">
+                            <cstring>spacer32</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>31</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QCheckBox" row="0" column="0">
+                        <property name="name">
+                            <cstring>kcfg__IMEngine_Anthy_PredictOnInput</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Show predicted &amp;candidates while inputting letters</string>
+                        </property>
+                        <property name="accel">
+                            <string>Alt+C</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="1" column="0">
+                        <property name="name">
+                            <cstring>kcfg__IMEngine_Anthy_UseDirectKeyOnPredict</cstring>
+                        </property>
+                        <property name="text">
+                            <string>&amp;Use direct select keys while predicting</string>
+                        </property>
+                        <property name="accel">
+                            <string>Alt+U</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>TabPage</cstring>
+                </property>
+                <attribute name="title">
                     <string>Learn&amp;ing</string>
                 </attribute>
                 <grid>
@@ -2263,7 +2315,7 @@
 </customwidgets>
 <images>
     <image name="image0">
-        <data format="PNG" length="996">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000003ab49444154388dad944f685c551487bf29239c40173710e14dc9e2166691b7101c5130d3bac8832e7c7493b61ba7bae88085a62d522a6e8c0bb5d28546694d74111b293429489a82b153a8f44594bc4815928575a091cc5b0c938106e72e8a7d8bc271f19a7fad8a8b5c388b77b8f777bf7bdeef9c9cb61412c0426e4f4ed981a5b1e6f2711253b665863f1fd6d6e516336e06bfed73edc1b5ff25e29ca3b1dc60e1d7057894e572e59ce6b4a5e4f6e4b4f5638bc2a38887459f2899a2dc5b224e22826240d48c086c405733021b70e38fec3b6a4604bd6526e62ed1185f64e48774e3c2dc7c3ccfbef23e1dbd304a75b09fa9a5b7e9741a404ae8a7d496857653e8aca580d0dd03d581948535e8ef85b904420ba7ce3b6a573785f3655b06c0978cb4641a441d47e80b63b306661d5f2c3960fd9070ad4f3877c6b09087b098122510f6416d6b8de6e379001d3a3da47fae54f5e3cb46efdef1b472c253100551d96dd47fd1d3d2cb9e7abd66231fbee6e9955b565bf73c3d744c14d8885debc4810d8813087d189b15a6becc28070e1a3ebc60b831219cfc006ed70a544e789087dad536d4215eeb26b0db7feaae388901889288a008b56561eefabaa8c7d1e3c2e17e47d47694ee0bef7dd6e193335d544f7b8070eabce385dd1035b70be7b71247cd1afe3342fd378731867050088a8ea809fdc670e49d94fa92a3731f262f76b3f07db677eca6212cc2ccbf125b98f92505520a5638fc129ba2c71df52587e911cebe22c4ee217e4900584d52a244b697622b715713029b6d0805a2764a490c478ea7d497b20b4520e9ed22ec03f2eb624250fc8f1a6361f141b6f15233a5dfebe6a3afc9488de0798676d371eedd55c6ae77b3ba9c59b060bb8892edc2684b01747a645abf8bab7af78ea7b69859aa72c2eacabd211d38e8e9ed6fac8e4efaea59a3801a635444d4f4885eb965f5ab9127ecf6648d17d6201c34004c8db739375e63f262371d0bd5c10e67dfdf8bf10cce39d24729c1a0c7d1033c45bc312ba647a691fe1a7b77d7586c0aeea79453e7db80e03f2f9c7c5588dab0ba0c8b3f3bd2c79d68ad61f8d302d258e5f5b7dca6f27ae755dea8e85fad8a8e7eebe9caef594755cfd8c79dc6b6303da287deb4ea158d9a5ed1bb77fca73a6fc3c78de506137330f05cf6aca0982283c2f0b10a63376bf864f9cafe10f76c8da307606cb6c08037c05c7386fae2e600822dd38d3c94f60b85028890cdd67c1692cf9c427eebd114c90bce417d3165b59de2daffe08a9d8e0d57ecf8d296a2f1ce5367c416e6e3f9dc0ec2e6fe06fa06fe64b77ab21c0000000049454e44ae426082</data>
+        <data format="PNG" length="1000">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000003af49444154388dad9441481c571cc67f1be6f0841c5e41c22c5898c016dc9240165aa89b066a20978d3d54db435772e8c414629a43319eb4a7a48762d222e8cd1c029a5ed440b3ccc15203851d4b089a4bb3109755acb8cb26ac7328c9500a5f0fa346d3127af0c1ff306fdefbf39b6fbeef9f5253500532903a961287b0142ae584d5907c26cfe80fa36add697137ba4bae9163e6cf99ffd5248a22d656d7587ab4047f277ba97c4aa82900b5c296b4382d6dfdaed2af437ab131abd2a22f6dcdaa14fa5273567ae84bad57cfa587bed49cd6c44c97463e3202f62a550ecb9cce9fd6c4f804573eebe6f6a3afd8de5e0362fa4ec6cc550c8d4dc3f6f31830bcd50e57cec52c36e0ac0741157a3330703d22f831defb92949a22752ca5f2ed32dbefcc73dc9923588de83b69b879cfd0763fe2d6e318d8bd64f03a0d37872dd1db50f062822ab0123130f2aa31e5b00ca0c1ab837ab1e16bec8e556dd955f1b22b30022373d42afb9eabdc07aedc0ebbb75ff8dcd5f482a756cd55ef1707a5d8d3b8345e5269d1576dd96af01b6fe732eaee713576dbd3d6134f530bae6a4fb22a5ef68493bc9f9df4341b6635f5edc1c647c26a0840500d38df097315c3837b1110d3dde3d2ffa5a1ff4c44b019d1f5cc706d6c9b89e136fcab2e6018b81e91b710acbfeeb9fdc4a1af5fe6135a6b6d42fad46a6ac1aab6ec297b2a91a7bbc7556b23abec092b4043df799abef526e20ccc2c253f2aed19fabb1292b3ed96f37e44e571846d378c9e312c3e7f49366700a8afc704557300f8483e9307a09029c03a1432c9815e03c1664cd751cb793fa6b2e30c63a0d2d146df09c0d96d6628741e54c239407c01961e2407273763963bd25c1b7b99905a833186c666c48d1178c971eaab7500d25e1b41357ab3c6b565575e26b154f1b2a7adda90ba7b5c95e73d4dcc64e57a89aed65a196364db8da6173c4d8fbf66b7fd3e56d3d754e06a7078c76e8e913feca9b591d5ec434ffacbd5d89d9cac9b34c741bd973c499e8a575f8bf46ef24ae325787f9e776d40b86e88976206ae370043f69461e86343b009f55558f92d22de49a2e75946bf4f63ffa8f3e9957d72ec12172f14a56651133fb9da7a9a24caffdadb491a07cab61bf55ef2e466ac6c87516d39fbafe439bbae585b5d63f26728e492c152e88c319f186e5cbac8adfb73e49c64ff62771f753b47ff3998bc9fa6d05120589fa1b2b26f4e007bd30d07721f1ad269308664b63a491927710acefeab31c6314411545662ea8d98a8f11fae38ecda4bdea12f3585c2c3a74e8833500ecba943844dfd03023b59ef6c9bb39d0000000049454e44ae426082</data>
     </image>
 </images>
 <connections>

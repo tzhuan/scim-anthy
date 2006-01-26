@@ -184,6 +184,16 @@
     </entry>
 
 
+    <entry name="_IMEngine_Anthy_PredictOnInput" key="/IMEngine/Anthy/PredictOnInput" type="String">
+      <label>Show predicted candidates while inputting letters</label>
+      <default>false</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_UseDirectKeyOnPredict" key="/IMEngine/Anthy/UseDirectKeyOnPredict" type="String">
+      <label>Use direct select keys while predicting</label>
+      <default>true</default>
+    </entry>
+
+
     <entry name="_IMEngine_Anthy_ColorThemeFile" key="/IMEngine/Anthy/ColorThemeFile" type="String">
       <label>Preedit color theme file to use</label>
       <default></default>
