@@ -374,6 +374,7 @@ public:
     {
         int category = ui->KeyBindingsGroupComboBox->currentItem ();
 
+        // FIXME! Use QListViewItem::setVisible() instead of clearing the view.
         ui->KeyBindingsView->clear ();
         ui->KeyBindingsView->setSorting (-1);
         ui->KeyBindingsSelectButton->setEnabled (false);
@@ -652,6 +653,21 @@ void ScimAnthySettingPlugin::save ()
     for (unsigned int i = 0; key_list[i].key; i++) {
         KConfigSkeletonGenericItem<QString> *item;
         item = d->string_config_item (key_list[i].key);
+        if (!item) continue;
+        item->writeConfig (AnthyConfig::self()->config());
+    }
+
+    QString colors[] = {
+        "_IMEngine_Anthy_PreeditFGColor",
+        "_IMEngine_Anthy_PreeditBGColor",
+        "_IMEngine_Anthy_ConversionFGColor",
+        "_IMEngine_Anthy_ConversionBGColor",
+        "_IMEngine_Anthy_SelectedSegmentFGColor",
+        "_IMEngine_Anthy_SelectedSegmentBGColor",
+    };
+    for (unsigned int i = 0; sizeof (colors) / sizeof (QString); i++) {
+        KConfigSkeletonGenericItem<QString> *item;
+        item = d->string_config_item (colors[i]);
         if (!item) continue;
         item->writeConfig (AnthyConfig::self()->config());
     }
