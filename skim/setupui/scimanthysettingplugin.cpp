@@ -171,7 +171,8 @@ public:
                               KConfigSkeletonGenericItem<QString> *item,
                               KeyCategory category)
         : QListViewItem (view, sibling, feature, defval, description),
-          m_item (item)
+          m_item (item),
+          m_category (category)
     {
     }
     ~ScimAnthyKeyListViewItem ()
@@ -188,6 +189,11 @@ public:
         // box related problems.
         if (m_item)
             m_item->setValue (text);
+    }
+
+    virtual void setVisibleByCategory (KeyCategory category)
+    {
+        setVisible (category == m_category);
     }
 
 public:
