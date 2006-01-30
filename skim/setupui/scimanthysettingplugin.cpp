@@ -168,7 +168,8 @@ public:
                               const QString &feature,
                               const QString &defval,
                               const QString &description,
-                              KConfigSkeletonGenericItem<QString> *item)
+                              KConfigSkeletonGenericItem<QString> *item,
+                              KeyCategory category)
         : QListViewItem (view, sibling, feature, defval, description),
           m_item (item)
     {
@@ -192,6 +193,7 @@ public:
 public:
     ScimAnthySettingPlugin              *m_plugin;
     KConfigSkeletonGenericItem<QString> *m_item;
+    KeyCategory                          m_category;
 };
 
 class ScimAnthySettingPlugin::ScimAnthySettingPluginPrivate {
@@ -406,7 +408,8 @@ public:
                                                       i18n (key_list[i].label),
                                                       item->value (),
                                                       item->whatsThis (),
-                                                      item);
+                                                      item,
+                                                      key_list[i].category);
             prev_item = list_item;
         }
     }
@@ -419,6 +422,7 @@ public:
         view->clear ();
         view->setSorting (-1);
 
+        // Find current style file
         StyleFile *style = NULL;
         if (default_theme == i18n ("User defined")) {
             style = &m_user_style;
@@ -438,12 +442,14 @@ public:
         QListViewItem *item = NULL;
 
         if (style) {
+            // set table which is defined in current style file
             std::vector<String> keys;
             style->get_key_list (keys, section_name);
             std::vector<String>::iterator kit;
             for (kit = keys.begin (); kit != keys.end (); kit++) {
                 std::vector<String> value;
                 style->get_string_array (value, section_name, *kit);
+
                 QString v[3];
                 if (value.size() > 0)
                     v[0] = QString::fromUtf8 (value[0].c_str ());
@@ -451,6 +457,7 @@ public:
                     v[1] = QString::fromUtf8 (value[1].c_str ());
                 if (value.size() > 2)
                     v[2] = QString::fromUtf8 (value[2].c_str ());
+
                 if (nicola_table) {
                     item = new QListViewItem (view, item,
                                               QString::fromUtf8 (kit->c_str ()),
@@ -464,6 +471,7 @@ public:
             }
 
         } else if (nicola_table) {
+            // default NICOLA table
             for (unsigned int i = 0; nicola_table[i].key; i++) {
                 item = new QListViewItem (
                     view, item,
@@ -474,6 +482,7 @@ public:
             }
 
         } else if (table) {
+            // default Kana table
             for (unsigned int i = 0; table[i].string; i++) {
                 QString result = table[i].result && *table[i].result ?
                     table[i].result : table[i].cont;
