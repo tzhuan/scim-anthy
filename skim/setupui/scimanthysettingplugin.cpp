@@ -658,14 +658,14 @@ void ScimAnthySettingPlugin::save ()
     }
 
     QString colors[] = {
-        "_IMEngine_Anthy_PreeditFGColor",
-        "_IMEngine_Anthy_PreeditBGColor",
-        "_IMEngine_Anthy_ConversionFGColor",
-        "_IMEngine_Anthy_ConversionBGColor",
-        "_IMEngine_Anthy_SelectedSegmentFGColor",
-        "_IMEngine_Anthy_SelectedSegmentBGColor",
+        QString ("_IMEngine_Anthy_PreeditFGColor"),
+        QString ("_IMEngine_Anthy_PreeditBGColor"),
+        QString ("_IMEngine_Anthy_ConversionFGColor"),
+        QString ("_IMEngine_Anthy_ConversionBGColor"),
+        QString ("_IMEngine_Anthy_SelectedSegmentFGColor"),
+        QString ("_IMEngine_Anthy_SelectedSegmentBGColor"),
     };
-    for (unsigned int i = 0; sizeof (colors) / sizeof (QString); i++) {
+    for (unsigned int i = 0; i < sizeof (colors) / sizeof (QString); i++) {
         KConfigSkeletonGenericItem<QString> *item;
         item = d->string_config_item (colors[i]);
         if (!item) continue;
