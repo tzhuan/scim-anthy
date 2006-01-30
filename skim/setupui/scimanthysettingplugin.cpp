@@ -191,9 +191,41 @@ public:
             m_item->setValue (text);
     }
 
-    virtual void setVisibleByCategory (KeyCategory category)
+    virtual void setVisibleByCategory (int category, const QString &filter = QString::null)
     {
-        setVisible (category == m_category);
+        bool visible = true;
+
+        if (category != (int) AllKeys &&
+            category != (int) SearchByKey &&
+            category != (int) m_category)
+        {
+            visible = false;
+        }
+
+        if (category == (int) SearchByKey &&
+            key_filter (m_item->value (), filter))
+        {
+            visible = false;
+        }
+
+        setVisible (visible);
+    }
+
+    bool key_filter (const QString & keys, const QString & filter)
+    {
+        if (filter.isEmpty ())
+            return false;
+
+        QStringList filter_list = QStringList::split (",", filter);
+        QStringList key_list = QStringList::split (",", keys);
+        QStringList::iterator it;
+
+        for (it = filter_list.begin (); it != filter_list.end (); it++) {
+            if (key_list.find (*it) == key_list.end ())
+                return true;
+        }
+
+        return false;
     }
 
 public:
@@ -390,23 +422,9 @@ public:
         QListViewItem *prev_item = NULL;
 
         for (unsigned int i = 0; key_list[i].key; i++) {
-            if (category != (int) AllKeys &&
-                category != (int) SearchByKey &&
-                category != (int) key_list[i].category)
-            {
-                continue;
-            }
-
             KConfigSkeletonGenericItem<QString> *item;
             item = string_config_item (key_list[i].key);
             if (!item) return;
-
-            if (category == (int) SearchByKey &&
-                key_filter (item->value (),
-                            ui->KeyBindingsFilterLineEdit->text ()))
-            {
-                    continue;
-            }
 
             ScimAnthyKeyListViewItem *list_item;
             list_item = new ScimAnthyKeyListViewItem (ui->KeyBindingsView,
@@ -497,6 +515,19 @@ public:
                     QString::fromUtf8 (table[i].string),
                     QString::fromUtf8 (result));
             }
+        }
+    }
+
+    void set_key_category (int category)
+    {
+        QListViewItemIterator it (ui->KeyBindingsView);
+        while (it.current ()) {
+            ScimAnthyKeyListViewItem *item;
+            item = dynamic_cast <ScimAnthyKeyListViewItem *> (it.current ());
+            if (!item) continue;
+            item->setVisibleByCategory (category,
+                                        ui->KeyBindingsFilterLineEdit->text ());
+            it++;
         }
     }
 
@@ -737,7 +768,7 @@ void ScimAnthySettingPlugin::set_key_bindings_group ()
     bool enabled = n == (int) SearchByKey ? true : false;
     d->ui->KeyBindingsFilterLineEdit->setEnabled (enabled);
     d->ui->KeyBindingsFilterSelectButton->setEnabled (enabled);
-    d->setup_key_bindings ();
+    d->set_key_category (n);
 }
 
 void ScimAnthySettingPlugin::set_key_bindings_theme (int n)
