@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-26 10:51+0900\n"
+"POT-Creation-Date: 2006-01-31 16:31+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -292,8 +292,8 @@ msgstr ""
 msgid "Thumb Shift Layout"
 msgstr ""
 
-#: ../setupui/anthyui.cpp:785 ../setupui/scimanthysettingplugin.cpp:900
-#: ../setupui/scimanthysettingplugin.cpp:946
+#: ../setupui/anthyui.cpp:785 ../setupui/scimanthysettingplugin.cpp:968
+#: ../setupui/scimanthysettingplugin.cpp:1014
 msgid "Layout:"
 msgstr ""
 
@@ -745,63 +745,63 @@ msgstr ""
 msgid "Add a word"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:260
-#: ../setupui/scimanthysettingplugin.cpp:354
-#: ../setupui/scimanthysettingplugin.cpp:358
-#: ../setupui/scimanthysettingplugin.cpp:662
-#: ../setupui/scimanthysettingplugin.cpp:664
-#: ../setupui/scimanthysettingplugin.cpp:666
+#: ../setupui/scimanthysettingplugin.cpp:296
+#: ../setupui/scimanthysettingplugin.cpp:390
+#: ../setupui/scimanthysettingplugin.cpp:394
+#: ../setupui/scimanthysettingplugin.cpp:730
+#: ../setupui/scimanthysettingplugin.cpp:732
+#: ../setupui/scimanthysettingplugin.cpp:734
 msgid "Default"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:262
-#: ../setupui/scimanthysettingplugin.cpp:355
-#: ../setupui/scimanthysettingplugin.cpp:361
-#: ../setupui/scimanthysettingplugin.cpp:426
+#: ../setupui/scimanthysettingplugin.cpp:298
+#: ../setupui/scimanthysettingplugin.cpp:391
+#: ../setupui/scimanthysettingplugin.cpp:397
+#: ../setupui/scimanthysettingplugin.cpp:451
 msgid "User defined"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:837
+#: ../setupui/scimanthysettingplugin.cpp:905
 msgid "Romaji Table:"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:837
+#: ../setupui/scimanthysettingplugin.cpp:905
 #: ../setupui/scim_anthy_table_editor.h:29
 msgid "Sequence"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:837
-#: ../setupui/scimanthysettingplugin.cpp:900
+#: ../setupui/scimanthysettingplugin.cpp:905
+#: ../setupui/scimanthysettingplugin.cpp:968
 #: ../setupui/scim_anthy_table_editor.h:30
 msgid "Result"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:838
+#: ../setupui/scimanthysettingplugin.cpp:906
 msgid "Edit romajit table"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:900
-#: ../setupui/scimanthysettingplugin.cpp:947
+#: ../setupui/scimanthysettingplugin.cpp:968
+#: ../setupui/scimanthysettingplugin.cpp:1015
 msgid "Key"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:901
+#: ../setupui/scimanthysettingplugin.cpp:969
 msgid "Edit kana layout table"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:947
+#: ../setupui/scimanthysettingplugin.cpp:1015
 msgid "Single press"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:948
+#: ../setupui/scimanthysettingplugin.cpp:1016
 msgid "Left thumb shift"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:948
+#: ../setupui/scimanthysettingplugin.cpp:1016
 msgid "Right thumb shift"
 msgstr ""
 
-#: ../setupui/scimanthysettingplugin.cpp:949
+#: ../setupui/scimanthysettingplugin.cpp:1017
 msgid "Edit thumb shift layout table"
 msgstr ""
 

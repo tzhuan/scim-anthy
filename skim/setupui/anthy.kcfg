@@ -75,6 +75,24 @@
       </choices>
       <default>Japanese</default>
     </entry>
+    <entry name="_IMEngine_Anthy_SymbolStyle" key="/IMEngine/Anthy/SymbolStyle" type="Enum">
+      <label>Initial character type of symbol style</label>
+      <choices>
+        <choice name="Japanese">
+          <label>Corner bracket &amp; Middle dot</label>
+        </choice>
+        <choice name="WideBracket_WideSlash">
+          <label>Wide bracket &amp; Wide slash</label>
+        </choice>
+        <choice name="CornerBracket_WideSlash">
+          <label>Corner bracket &amp; Wide slash</label>
+        </choice>
+        <choice name="WideBracket_MiddleDot">
+          <label>Wide bracket &amp; Middle dot</label>
+        </choice>
+      </choices>
+      <default>Japanese</default>
+    </entry>
     <entry name="_IMEngine_Anthy_SpaceType" key="/IMEngine/Anthy/SpaceType" type="Enum">
       <label>Width of space</label>
       <choices>

@@ -37,495 +37,23 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QGroupBox" row="0" column="0">
+                    <spacer row="3" column="0">
                         <property name="name">
-                            <cstring>groupBox1</cstring>
+                            <cstring>spacer9</cstring>
                         </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>7</hsizetype>
-                                <vsizetype>5</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
                         </property>
-                        <property name="title">
-                            <string>Modes</string>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
                         </property>
-                        <grid>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="KComboBox" row="0" column="1">
-                                <item>
-                                    <property name="text">
-                                        <string>Hiragana</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Katakana</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Half width katakana</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Latin</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Wide Latin</string>
-                                    </property>
-                                </item>
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_InputMode</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="KComboBox" row="1" column="1">
-                                <item>
-                                    <property name="text">
-                                        <string>Romaji typing method</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Kana typing method</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Thumb shift typing method</string>
-                                    </property>
-                                </item>
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_TypingMethod</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="KComboBox" row="2" column="1">
-                                <item>
-                                    <property name="text">
-                                        <string>Multi segment</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Single segment</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Convert as you type (Multi segment)</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Convert as you type (Single segment)</string>
-                                    </property>
-                                </item>
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_ConversionMode</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="KComboBox" row="3" column="1">
-                                <item>
-                                    <property name="text">
-                                        <string>Japanese comma &amp; period</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Wide ASCII comma, Japanese period</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Wide ASCII comma &amp; period</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>ASCII comma &amp; period</string>
-                                    </property>
-                                </item>
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_PeriodStyle</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="KComboBox" row="4" column="1">
-                                <item>
-                                    <property name="text">
-                                        <string>Wide</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Half</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Follow input mode</string>
-                                    </property>
-                                </item>
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_SpaceType</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="KComboBox" row="5" column="1">
-                                <item>
-                                    <property name="text">
-                                        <string>Wide</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Half</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Follow input mode</string>
-                                    </property>
-                                </item>
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_TenKeyType</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="KComboBox" row="6" column="1">
-                                <item>
-                                    <property name="text">
-                                        <string>Do nothing</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Start conversion</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Commit</string>
-                                    </property>
-                                </item>
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_BehaviorOnPeriod</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="2" column="0">
-                                <property name="name">
-                                    <cstring>textLabel3</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>Con&amp;version mode:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_ConversionMode</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="3" column="0">
-                                <property name="name">
-                                    <cstring>textLabel4</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>Style of &amp;comma and period:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_PeriodStyle</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="4" column="0">
-                                <property name="name">
-                                    <cstring>textLabel5</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>S&amp;pace type:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_SpaceType</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="5" column="0">
-                                <property name="name">
-                                    <cstring>textLabel6</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>Input from ten &amp;key:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_TenKeyType</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="6" column="0">
-                                <property name="name">
-                                    <cstring>textLabel7</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>Beha&amp;vior on comma and period:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_BehaviorOnPeriod</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="1" column="0">
-                                <property name="name">
-                                    <cstring>textLabel2</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>&amp;Typing method:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_TypingMethod</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="0" column="0">
-                                <property name="name">
-                                    <cstring>textLabel1</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>&amp;Input mode:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_InputMode</cstring>
-                                </property>
-                            </widget>
-                            <spacer row="0" column="2">
-                                <property name="name">
-                                    <cstring>spacer1</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <spacer row="1" column="2">
-                                <property name="name">
-                                    <cstring>spacer2</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <spacer row="2" column="2">
-                                <property name="name">
-                                    <cstring>spacer3</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <spacer row="3" column="2">
-                                <property name="name">
-                                    <cstring>spacer4</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <spacer row="4" column="2">
-                                <property name="name">
-                                    <cstring>spacer5</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <spacer row="5" column="2">
-                                <property name="name">
-                                    <cstring>spacer6</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <spacer row="6" column="2">
-                                <property name="name">
-                                    <cstring>spacer7</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>20</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                        </grid>
-                    </widget>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>30</height>
+                            </size>
+                        </property>
+                    </spacer>
                     <widget class="QGroupBox" row="2" column="0">
                         <property name="name">
                             <cstring>groupBox2</cstring>
@@ -649,23 +177,6 @@
                             </widget>
                         </grid>
                     </widget>
-                    <spacer row="3" column="0">
-                        <property name="name">
-                            <cstring>spacer9</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
                     <spacer row="1" column="0">
                         <property name="name">
                             <cstring>spacer8</cstring>
@@ -678,11 +189,569 @@
                         </property>
                         <property name="sizeHint">
                             <size>
-                                <width>8</width>
-                                <height>8</height>
+                                <width>16</width>
+                                <height>16</height>
                             </size>
                         </property>
                     </spacer>
+                    <widget class="QGroupBox" row="0" column="0">
+                        <property name="name">
+                            <cstring>groupBox1</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="title">
+                            <string>Modes</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="KComboBox" row="0" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Hiragana</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Katakana</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Half width katakana</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Latin</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Wide Latin</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_InputMode</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="KComboBox" row="1" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Romaji typing method</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Kana typing method</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Thumb shift typing method</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_TypingMethod</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="KComboBox" row="2" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Multi segment</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Single segment</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Convert as you type (Multi segment)</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Convert as you type (Single segment)</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_ConversionMode</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="0">
+                                <property name="name">
+                                    <cstring>textLabel3</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Con&amp;version mode:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_ConversionMode</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="1" column="0">
+                                <property name="name">
+                                    <cstring>textLabel2</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;Typing method:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_TypingMethod</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;Input mode:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_InputMode</cstring>
+                                </property>
+                            </widget>
+                            <spacer row="0" column="2">
+                                <property name="name">
+                                    <cstring>spacer1</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <spacer row="1" column="2">
+                                <property name="name">
+                                    <cstring>spacer2</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <spacer row="2" column="2">
+                                <property name="name">
+                                    <cstring>spacer3</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QLabel" row="7" column="0">
+                                <property name="name">
+                                    <cstring>textLabel7</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Beha&amp;vior on comma and period:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_BehaviorOnPeriod</cstring>
+                                </property>
+                            </widget>
+                            <widget class="KComboBox" row="7" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Do nothing</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Start conversion</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Commit</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_BehaviorOnPeriod</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <spacer row="7" column="2">
+                                <property name="name">
+                                    <cstring>spacer7</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QLabel" row="6" column="0">
+                                <property name="name">
+                                    <cstring>textLabel6</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Input from ten &amp;key:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_TenKeyType</cstring>
+                                </property>
+                            </widget>
+                            <widget class="KComboBox" row="6" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Wide</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Half</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Follow input mode</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_TenKeyType</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <spacer row="6" column="2">
+                                <property name="name">
+                                    <cstring>spacer6</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="KComboBox" row="5" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Wide</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Half</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Follow input mode</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_SpaceType</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <spacer row="5" column="2">
+                                <property name="name">
+                                    <cstring>spacer5</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QLabel" row="3" column="0">
+                                <property name="name">
+                                    <cstring>textLabel4</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Style of &amp;comma and period:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_PeriodStyle</cstring>
+                                </property>
+                            </widget>
+                            <widget class="KComboBox" row="3" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Japanese comma &amp; period</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Wide ASCII comma, Japanese period</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Wide ASCII comma &amp; period</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>ASCII comma &amp; period</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_PeriodStyle</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="KComboBox" row="4" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>Corner bracket &amp; Middle dot</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Wide bracket &amp; Wide slash</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Corner bracket &amp; Wide slash</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Wide bracket &amp; Middle dot</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_SymbolStyle</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>5</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <spacer row="3" column="2">
+                                <property name="name">
+                                    <cstring>spacer4</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <spacer row="4" column="2">
+                                <property name="name">
+                                    <cstring>spacer4_2</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>18</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QLabel" row="5" column="0">
+                                <property name="name">
+                                    <cstring>textLabel5</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>S&amp;pace type:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_SpaceType</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="4" column="0">
+                                <property name="name">
+                                    <cstring>textLabel4_2</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>5</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>Symbol input style:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_PeriodStyle</cstring>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
                 </grid>
             </widget>
             <widget class="QWidget">
@@ -2315,7 +2384,7 @@
 </customwidgets>
 <images>
     <image name="image0">
-        <data format="PNG" length="1000">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000003af49444154388dad9441481c571cc67f1be6f0841c5e41c22c5898c016dc9240165aa89b066a20978d3d54db435772e8c414629a43319eb4a7a48762d222e8cd1c029a5ed440b3ccc15203851d4b089a4bb3109755acb8cb26ac7328c9500a5f0fa346d3127af0c1ff306fdefbf39b6fbeef9f5253500532903a961287b0142ae584d5907c26cfe80fa36add697137ba4bae9163e6cf99ffd5248a22d656d7587ab4047f277ba97c4aa82900b5c296b4382d6dfdaed2af437ab131abd2a22f6dcdaa14fa5273567ae84bad57cfa587bed49cd6c44c97463e3202f62a550ecb9cce9fd6c4f804573eebe6f6a3afd8de5e0362fa4ec6cc550c8d4dc3f6f31830bcd50e57cec52c36e0ac0741157a3330703d22f831defb92949a22752ca5f2ed32dbefcc73dc9923588de83b69b879cfd0763fe2d6e318d8bd64f03a0d37872dd1db50f062822ab0123130f2aa31e5b00ca0c1ab837ab1e16bec8e556dd955f1b22b30022373d42afb9eabdc07aedc0ebbb75ff8dcd5f482a756cd55ef1707a5d8d3b8345e5269d1576dd96af01b6fe732eaee713576dbd3d6134f530bae6a4fb22a5ef68493bc9f9df4341b6635f5edc1c647c26a0840500d38df097315c3837b1110d3dde3d2ffa5a1ff4c44b019d1f5cc706d6c9b89e136fcab2e6018b81e91b710acbfeeb9fdc4a1af5fe6135a6b6d42fad46a6ac1aab6ec297b2a91a7bbc7556b23abec092b4043df799abef526e20ccc2c253f2aed19fabb1292b3ed96f37e44e571846d378c9e312c3e7f49366700a8afc704557300f8483e9307a09029c03a1432c9815e03c1664cd751cb793fa6b2e30c63a0d2d146df09c0d96d6628741e54c239407c01961e2407273763963bd25c1b7b99905a833186c666c48d1178c971eaab7500d25e1b41357ab3c6b565575e26b154f1b2a7adda90ba7b5c95e73d4dcc64e57a89aed65a196364db8da6173c4d8fbf66b7fd3e56d3d754e06a7078c76e8e913feca9b591d5ec434ffacbd5d89d9cac9b34c741bd973c499e8a575f8bf46ef24ae325787f9e776d40b86e88976206ae370043f69461e86343b009f55558f92d22de49a2e75946bf4f63ffa8f3e9957d72ec12172f14a56651133fb9da7a9a24caffdadb491a07cab61bf55ef2e466ac6c87516d39fbafe439bbae585b5d63f26728e492c152e88c319f186e5cbac8adfb73e49c64ff62771f753b47ff3998bc9fa6d05120589fa1b2b26f4e007bd30d07721f1ad269308664b63a491927710acefeab31c6314411545662ea8d98a8f11fae38ecda4bdea12f3585c2c3a74e8833500ecba943844dfd03023b59ef6c9bb39d0000000049454e44ae426082</data>
+        <data format="PNG" length="993">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000003a849444154388db595416814571cc67f2b7b78828767c961163c3c21879de2c12d2d34b142553c34cda5ebc98d0aae4849ac071191a2c5439522690b427228244220db1e9a6c212e290412a16557492b9108cd62422221ec2e52d6a194cd1c0a5f0fb359b3b6480fe9837798ffbcff37df7cf37dff4175a192505d00da89ad928897ca25ba93dd5c1fbcaec65883bbc15dba6a5d8cfe39ca7f594110b0b6bcc6835f1fc05f512dd61d7bc9b431df90e6c6a5e7ab2afc7459aa145498cb4acf0b2a94b252bd20cd67a53f5e5e17e6b3527d4243b92e7dfebe69631d2b968a1cea3ea4a13b435c38d9c3e8c373bc78b10684f4a542724f0cb50dc38bdf43c0b0b7032e7f1032bd013d9d902f432609a76e044c7f17b6de24a6ba88bd11d3a3b14754f77fcb9b6692c9a580be94e1e6f786bdf7026e3d0e81ad26834b1a863eb5d41290ee0cc997c13c093875f52530c5521140031707a44a5683635695454f997e4f600446668f95ffb6a7d4bb9ebc7db655ef39e9697cc6a9b1ee297db65d8a96c6b3c3b32acc655559b41af8cc359bd1915e4f83a34ef5a74e23339e2a4f7d65fa9d8847f70bdf384d947c8ddf7e05b88df1f3ac06739efc03b6053a32e5545fb51a99b15acd39a5cf7a6aacfbca5e8a1e6e3dabfa535fe9f3af635ccaaa38d56cb03662da04ad2c3af90723798ef47a6a54fc1681cbb79d26eeb403ef2a954b004c9627f93009a33f471f2ae10ce70e437e057a3ccbb133014b8f036c87e1e661c3746d133f6500a83e0bc9974d9bbf777527bb0138913c012b904e46073206f2cf428e5acbb133214b4d6718030bfb76732205c4b7c00ce903edc1896f677cf434dcbf1f1dfc6a23e43797e0932f3623a6d6608ca1b61170f31a6cb29fea72158084db4dbe1cb423bfaa7165d193eb8c2c95e977aaaf5fd3915e4f8fa69c8672be3c17e96aad953146b6c3687cc66962f875aea8673532ed69e04ad36e71a3ec15a746c5d7c4bc93e469702c25eb45e0c451fabc93e494b9f84aa4b792373b3ccb662ac75b1dd3ccad18f825e4d48d1a60f00f1aae7d64c83f83ea322c3c0c089b4974ce72fdeb045eb54aefc7dbe4d8629c399d91ea190d4d79aaaf4689ca5e72cda4b58f45db61943eefe4755ad97d469545ff1fc98b6fb9626d798de11f21fd4e3458d207428c317cd97f815b3fe4e83251fdc2f13ed6f6e4e83b0ec3f712a45d9afcca284b0bdbe604d09a6ec421f59e2191006388666b3cda261e3985f8f6d610133704012c2d84546b2141ed5f5cb1d3bb95bc1d5f5bffbcff8771128aa5626c07c9c6fe06d931828a982dac520000000049454e44ae426082</data>
     </image>
 </images>
 <connections>
@@ -2427,8 +2496,38 @@
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kdualcolorbutton.h</includehint>
+    <includehint>kdualcolorbutton.h</includehint>
     <includehint>kdualcolorbutton.h</includehint>
 </includehints>
 </UI>
