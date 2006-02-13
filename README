@@ -47,6 +47,10 @@ scim-anthy provides some usefull user interfaces for Anthy using SCIM.
 
     $ PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./configure
 
+  You'll find distribution-specific installation method from following site:
+
+    http://home.nyc.rr.com/computertaijutsu/jpninpt.html
+
 
 4. Usage
 ========
