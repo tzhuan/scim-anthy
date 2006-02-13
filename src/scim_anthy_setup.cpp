@@ -244,17 +244,17 @@ static ComboConfigCandidate symbol_styles[] =
 
 static ComboConfigCandidate space_types[] =
 {
+    {N_("Follow input mode"), "FollowMode"},
     {N_("Wide"),              "Wide"},
     {N_("Half"),              "Half"},
-    {N_("Follow input mode"), "FollowMode"},
     {NULL, NULL},
 };
 
 static ComboConfigCandidate ten_key_types[] =
 {
+    {N_("Follow input mode"), "FollowMode"},
     {N_("Wide"),              "Wide"},
     {N_("Half"),              "Half"},
-    {N_("Follow input mode"), "FollowMode"},
     {NULL, NULL},
 };
 
@@ -784,6 +784,48 @@ create_common_page (void)
                            (gpointer) &conversion_modes,
                            GTK_TABLE (table), 2);
 
+#if 0
+    /* period style */
+    widget = create_combo (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
+                           (gpointer) &period_styles,
+                           GTK_TABLE (table), 3);
+
+    /* symbol style */
+    widget = create_combo (SCIM_ANTHY_CONFIG_SYMBOL_STYLE,
+                           (gpointer) &symbol_styles,
+                           GTK_TABLE (table), 4);
+
+    /* space_style */
+    widget = create_combo (SCIM_ANTHY_CONFIG_SPACE_TYPE,
+                           (gpointer) &space_types,
+                           GTK_TABLE (table), 5);
+
+    /* ten key_style */
+    widget = create_combo (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
+                           (gpointer) &ten_key_types,
+                           GTK_TABLE (table), 6);
+
+    /* behavior on period */
+    widget = create_combo (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
+                           (gpointer) &behavior_on_period,
+                           GTK_TABLE (table), 7);
+#endif
+
+    return vbox;
+}
+
+static GtkWidget *
+create_symbols_page (void)
+{
+    GtkWidget *vbox, *table, *widget;
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    table = gtk_table_new (7, 2, FALSE);
+    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
+    gtk_widget_show (table);
+
     /* period style */
     widget = create_combo (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
                            (gpointer) &period_styles,
@@ -1295,6 +1337,12 @@ create_setup_window (void)
         // Create the common page.
         GtkWidget *page = create_common_page ();
         GtkWidget *label = gtk_label_new (_("Common"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the symbols page.
+        page = create_symbols_page ();
+        label = gtk_label_new (_("Symbols"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
