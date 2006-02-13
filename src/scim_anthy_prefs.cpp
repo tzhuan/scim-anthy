@@ -291,6 +291,16 @@ StringConfigData config_string_common [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_SYMBOL_STYLE,
+        SCIM_ANTHY_CONFIG_SYMBOL_STYLE_DEFAULT,
+        SCIM_ANTHY_CONFIG_SYMBOL_STYLE_DEFAULT,
+        N_("Symb_ol input style: "),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_SPACE_TYPE,
         SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT,
         SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT,

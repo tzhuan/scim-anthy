@@ -96,6 +96,36 @@ static Key2KanaTable kana_half_comma_table (
     utf8_mbstowcs ("DefaultKanaHalfCommaTable"),
     scim_anthy_kana_half_comma_rule);
 
+// bracket
+static Key2KanaTable romaji_ja_bracket_table (
+    utf8_mbstowcs ("DefaultRomajiJaBracketTable"),
+    scim_anthy_romaji_ja_bracket_rule);
+static Key2KanaTable romaji_wide_bracket_table (
+    utf8_mbstowcs ("DefaultRomajiWideBracketTable"),
+    scim_anthy_romaji_wide_bracket_rule);
+
+static Key2KanaTable kana_ja_bracket_table (
+    utf8_mbstowcs ("DefaultKanaJaBracketTable"),
+    scim_anthy_kana_ja_bracket_rule);
+static Key2KanaTable kana_wide_bracket_table (
+    utf8_mbstowcs ("DefaultRomajiWideBracketTable"),
+    scim_anthy_kana_wide_bracket_rule);
+
+// slash
+static Key2KanaTable romaji_ja_slash_table (
+    utf8_mbstowcs ("DefaultRomajiJaSlashTable"),
+    scim_anthy_romaji_ja_slash_rule);
+static Key2KanaTable romaji_wide_slash_table (
+    utf8_mbstowcs ("DefaultRomajiWideSlashTable"),
+    scim_anthy_romaji_wide_slash_rule);
+
+static Key2KanaTable kana_ja_slash_table (
+    utf8_mbstowcs ("DefaultKanaJaSlashTable"),
+    scim_anthy_kana_ja_slash_rule);
+static Key2KanaTable kana_wide_slash_table (
+    utf8_mbstowcs ("DefaultRomajiWideSlashTable"),
+    scim_anthy_kana_wide_slash_rule);
+
 
 Key2KanaRule::Key2KanaRule ()
 {
@@ -229,6 +259,8 @@ Key2KanaTableSet::Key2KanaTableSet ()
       m_typing_method          (SCIM_ANTHY_TYPING_METHOD_ROMAJI),
       m_period_style           (SCIM_ANTHY_PERIOD_JAPANESE),
       m_comma_style            (SCIM_ANTHY_COMMA_JAPANESE),
+      m_bracket_style          (SCIM_ANTHY_BRACKET_JAPANESE),
+      m_slash_style            (SCIM_ANTHY_SLASH_JAPANESE),
       m_use_half_symbol        (false),
       m_use_half_number        (false)
 {
@@ -273,6 +305,20 @@ void
 Key2KanaTableSet::set_comma_style (CommaStyle  style)
 {
     m_comma_style = style;
+    reset_tables ();
+}
+
+void
+Key2KanaTableSet::set_bracket_style (BracketStyle style)
+{
+    m_bracket_style = style;
+    reset_tables ();
+}
+
+void
+Key2KanaTableSet::set_slash_style (SlashStyle style)
+{
+    m_slash_style = style;
     reset_tables ();
 }
 
@@ -391,6 +437,46 @@ Key2KanaTableSet::reset_tables (void)
                 m_all_tables.push_back (&romaji_half_comma_table);
             else
                 m_all_tables.push_back (&kana_half_comma_table);
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (is_romaji || is_kana)
+    {
+        switch (m_bracket_style) {
+        case SCIM_ANTHY_BRACKET_JAPANESE:
+            if (is_romaji)
+                m_all_tables.push_back (&romaji_ja_bracket_table);
+            else
+                m_all_tables.push_back (&kana_ja_bracket_table);
+            break;
+        case SCIM_ANTHY_BRACKET_WIDE:
+            if (is_romaji)
+                m_all_tables.push_back (&romaji_wide_bracket_table);
+            else
+                m_all_tables.push_back (&kana_wide_bracket_table);
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (is_romaji || is_kana)
+    {
+        switch (m_slash_style) {
+        case SCIM_ANTHY_SLASH_JAPANESE:
+            if (is_romaji)
+                m_all_tables.push_back (&romaji_ja_slash_table);
+            else
+                m_all_tables.push_back (&kana_ja_slash_table);
+            break;
+        case SCIM_ANTHY_SLASH_WIDE:
+            if (is_romaji)
+                m_all_tables.push_back (&romaji_wide_slash_table);
+            else
+                m_all_tables.push_back (&kana_wide_slash_table);
             break;
         default:
             break;

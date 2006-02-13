@@ -1,9 +1,9 @@
-Version-0.10.0 (Planning to release at Mar 29th, 2006)
-
-  * Inline character searching.
-
-Version-1.0.0 (Planning to release at May 29th, 2006)
+Version-1.0.0 (Planning to release at Mar 29th, 2006)
 
   * Refactoring
   * Squash all major bugs!
   * (Implement formal Kana typing method)
+
+Version-1.2.0
+
+  * Inline character searching.

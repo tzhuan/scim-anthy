@@ -429,6 +429,30 @@ Preedit::get_comma_style (void)
 }
 
 void
+Preedit::set_bracket_style (BracketStyle style)
+{
+    m_reading.set_bracket_style (style);
+}
+
+BracketStyle
+Preedit::get_bracket_style (void)
+{
+    return m_reading.get_bracket_style ();
+}
+
+void
+Preedit::set_slash_style (SlashStyle style)
+{
+    m_reading.set_slash_style (style);
+}
+
+SlashStyle
+Preedit::get_slash_style (void)
+{
+    return m_reading.get_slash_style ();
+}
+
+void
 Preedit::set_symbol_width (bool half)
 {
     m_reading.set_symbol_width (half);

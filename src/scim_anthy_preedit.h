@@ -113,6 +113,10 @@ public:
     virtual PeriodStyle   get_period_style       (void);
     virtual void          set_comma_style        (CommaStyle     style);
     virtual CommaStyle    get_comma_style        (void);
+    virtual void          set_bracket_style      (BracketStyle   style);
+    virtual BracketStyle  get_bracket_style      (void);
+    virtual void          set_slash_style        (SlashStyle     style);
+    virtual SlashStyle    get_slash_style        (void);
     virtual void          set_symbol_width       (bool           half);
     virtual bool          get_symbol_width       (void);
     virtual void          set_number_width       (bool           half);

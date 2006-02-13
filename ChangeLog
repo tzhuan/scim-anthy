@@ -3,6 +3,23 @@
 	* src/scim_anthy_factory.cpp: Fix credit.
 	* po/ja.po: Update.
 
+2006-02-08 Takuro Ashie <ashie@homa.ne.jp>
+
+	* po/ja.po: Update.
+
+2006-02-08 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_setup.cpp: Add version information.
+
+2006-02-08 Akira TAGOH <at@gclab.org>
+
+	* src/scim_anthy_default_tables.{cpp,h},
+	  src/scim_anthy_factory.{cpp,h}, src/scim_anthy_imengine.{cpp,h},
+	  src/scim_anthy_key2kana_table.{cpp,h},
+	  src/scim_anthy_preedit.{cpp,h}, src/scim_anthy_prefs.{cpp,h},
+	  src/scim_anthy_reading.{cpp,h}, src/scim_anthy_setup.cpp:
+	Add symbol style preference.
+
 2006-01-29 Takuro Ashie <ashie@homa.ne.jp>
 
 	* configure.ac: Version-0.9.0.

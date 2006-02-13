@@ -604,6 +604,30 @@ Reading::get_comma_style (void)
 }
 
 void
+Reading::set_bracket_style (BracketStyle style)
+{
+    m_key2kana_tables.set_bracket_style (style);
+}
+
+BracketStyle
+Reading::get_bracket_style (void)
+{
+    return m_key2kana_tables.get_bracket_style ();
+}
+
+void
+Reading::set_slash_style (SlashStyle style)
+{
+    m_key2kana_tables.set_slash_style (style);
+}
+
+SlashStyle
+Reading::get_slash_style (void)
+{
+    return m_key2kana_tables.get_slash_style ();
+}
+
+void
 Reading::set_symbol_width (bool half)
 {
     m_key2kana_tables.set_symbol_width (half);

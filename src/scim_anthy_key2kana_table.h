@@ -41,6 +41,16 @@ typedef enum {
 } CommaStyle;
 
 typedef enum {
+    SCIM_ANTHY_BRACKET_JAPANESE,
+    SCIM_ANTHY_BRACKET_WIDE,
+} BracketStyle;
+
+typedef enum {
+    SCIM_ANTHY_SLASH_JAPANESE,
+    SCIM_ANTHY_SLASH_WIDE,
+} SlashStyle;
+
+typedef enum {
     SCIM_ANTHY_TYPING_METHOD_ROMAJI,
     SCIM_ANTHY_TYPING_METHOD_KANA,
     SCIM_ANTHY_TYPING_METHOD_NICOLA,
@@ -120,6 +130,8 @@ public:
     void set_number_width        (bool           half);
     void set_period_style        (PeriodStyle    style);
     void set_comma_style         (CommaStyle     style);
+    void set_bracket_style       (BracketStyle   style);
+    void set_slash_style         (SlashStyle     style);
 
     TypingMethod
          get_typing_method       (void) { return m_typing_method; }
@@ -129,6 +141,10 @@ public:
          get_period_style        (void) { return m_period_style; }
     CommaStyle
          get_comma_style         (void) { return m_comma_style; }
+    BracketStyle
+         get_bracket_style       (void) { return m_bracket_style; }
+    SlashStyle
+         get_slash_style         (void) { return m_slash_style; }
 
 #if 0
     void set_use_consonant_table (bool use);
@@ -160,6 +176,8 @@ private:
     TypingMethod m_typing_method;
     PeriodStyle  m_period_style;
     CommaStyle   m_comma_style;
+    BracketStyle m_bracket_style;
+    SlashStyle   m_slash_style;
     bool         m_use_half_symbol;
     bool         m_use_half_number;
 };

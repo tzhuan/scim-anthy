@@ -221,6 +221,8 @@ private:
     void   set_typing_method                  (TypingMethod   method);
     void   set_period_style                   (PeriodStyle    period,
                                                CommaStyle     comma);
+    void   set_symbol_style                   (BracketStyle   bracket,
+                                               SlashStyle     slash);
     bool   is_selecting_candidates            (void);
     void   select_candidate_no_direct         (unsigned int   item);
     bool   convert_kana                       (CandidateType  type);

@@ -233,6 +233,15 @@ static ComboConfigCandidate period_styles[] =
     {NULL, NULL},
 };
 
+static ComboConfigCandidate symbol_styles[] =
+{
+    {"\xE3\x80\x8C\xE3\x80\x8D\xE3\x83\xBB", "Japanese"},
+    {"\xEF\xBC\xBB\xEF\xBC\xBD\xEF\xBC\x8F", "WideBracket_WideSlash"},
+    {"\xE3\x80\x8C\xE3\x80\x8D\xEF\xBC\x8F", "CornerBracket_WideSlash"},
+    {"\xEF\xBC\xBB\xEF\xBC\xBD\xE3\x83\xBB", "WideBracket_MiddleDot"},
+    {NULL, NULL},
+};
+
 static ComboConfigCandidate space_types[] =
 {
     {N_("Wide"),              "Wide"},
@@ -756,7 +765,7 @@ create_common_page (void)
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
-    table = gtk_table_new (6, 2, FALSE);
+    table = gtk_table_new (7, 2, FALSE);
     gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
     gtk_widget_show (table);
 
@@ -780,20 +789,25 @@ create_common_page (void)
                            (gpointer) &period_styles,
                            GTK_TABLE (table), 3);
 
+    /* symbol style */
+    widget = create_combo (SCIM_ANTHY_CONFIG_SYMBOL_STYLE,
+                           (gpointer) &symbol_styles,
+                           GTK_TABLE (table), 4);
+
     /* space_style */
     widget = create_combo (SCIM_ANTHY_CONFIG_SPACE_TYPE,
                            (gpointer) &space_types,
-                           GTK_TABLE (table), 4);
+                           GTK_TABLE (table), 5);
 
     /* ten key_style */
     widget = create_combo (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
                            (gpointer) &ten_key_types,
-                           GTK_TABLE (table), 5);
+                           GTK_TABLE (table), 6);
 
     /* behavior on period */
     widget = create_combo (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
                            (gpointer) &behavior_on_period,
-                           GTK_TABLE (table), 6);
+                           GTK_TABLE (table), 7);
 
     return vbox;
 }
@@ -1234,6 +1248,39 @@ create_appearance_page (void)
 }
 
 static GtkWidget *
+create_about_page ()
+{
+    GtkWidget *vbox, *label;
+    gchar str[256];
+
+    vbox = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox);
+
+    g_snprintf (
+        str, 256,
+        _("<span size=\"20000\">"
+          "%s-%s"
+          "</span>\n\n"
+
+          "<span size=\"16000\" style=\"italic\">"
+          "A Japanese input method module\nfor SCIM using Anthy"
+          "</span>\n\n\n\n"
+
+          "<span size=\"12000\">"
+          "Copyright 2005-2006, Takuro Ashie &lt;ashie@homa.ne.jp&gt;"
+          "</span>"),
+        PACKAGE, PACKAGE_VERSION);
+
+    label = gtk_label_new (NULL);
+    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_CENTER);
+    gtk_label_set_markup (GTK_LABEL (label), str);
+    gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
+    gtk_widget_show (label);
+
+    return vbox;
+}
+
+static GtkWidget *
 create_setup_window (void)
 {
     static GtkWidget *window = NULL;
@@ -1302,6 +1349,12 @@ create_setup_window (void)
         // Create the appearance  page.
         page = create_appearance_page ();
         label = gtk_label_new (_("Appearance"));
+        gtk_widget_show (label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+
+        // Create the appearance  page.
+        page = create_about_page ();
+        label = gtk_label_new (_("About"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 

@@ -96,6 +96,10 @@ public:
     PeriodStyle  get_period_style      (void);
     void         set_comma_style       (CommaStyle       style);
     CommaStyle   get_comma_style       (void);
+    void         set_bracket_style     (BracketStyle     style);
+    BracketStyle get_bracket_style     (void);
+    void         set_slash_style       (SlashStyle       style);
+    SlashStyle   get_slash_style       (void);
     void         set_symbol_width      (bool             half);
     bool         get_symbol_width      (void);
     void         set_number_width      (bool             half);

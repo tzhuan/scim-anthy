@@ -108,6 +108,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_typing_method               (SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT),
       m_conversion_mode             (SCIM_ANTHY_CONFIG_CONVERSION_MODE_DEFAULT),
       m_period_style                (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT),
+      m_symbol_style                (SCIM_ANTHY_CONFIG_SYMBOL_STYLE_DEFAULT),
       m_space_type                  (SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT),
       m_ten_key_type                (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
       m_behavior_on_period          (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT),
@@ -435,6 +436,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_period_style
             = config->read (String (SCIM_ANTHY_CONFIG_PERIOD_STYLE),
                             String (SCIM_ANTHY_CONFIG_PERIOD_STYLE_DEFAULT));
+
+        m_symbol_style
+            = config->read (String (SCIM_ANTHY_CONFIG_SYMBOL_STYLE),
+                            String (SCIM_ANTHY_CONFIG_SYMBOL_STYLE_DEFAULT));
 
         m_space_type
             = config->read (String (SCIM_ANTHY_CONFIG_SPACE_TYPE),

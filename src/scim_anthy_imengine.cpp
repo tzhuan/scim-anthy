@@ -70,6 +70,14 @@
 #define SCIM_PROP_PERIOD_STYLE_WIDE_LATIN_JAPANESE \
                                              "/IMEngine/Anthy/PeriodType/WideRatin_Japanese"
 
+#define SCIM_PROP_SYMBOL_STYLE               "/IMEngine/Anthy/SymbolType"
+#define SCIM_PROP_SYMBOL_STYLE_JAPANESE      "/IMEngine/Anthy/SymbolType/Japanese"
+#define SCIM_PROP_SYMBOL_STYLE_BRACKET_SLASH "/IMEngine/Anthy/SymbolType/WideBracket_WideSlash"
+#define SCIM_PROP_SYMBOL_STYLE_CORNER_BRACKET_SLASH \
+                                             "/IMEngine/Anthy/SymbolType/CornerBracket_WideSlash"
+#define SCIM_PROP_SYMBOL_STYLE_BRACKET_MIDDLE_DOT \
+                                             "/IMEngine/Anthy/SymbolType/WideBracket_MiddleDot"
+
 #define SCIM_PROP_DICT                       "/IMEngine/Anthy/Dictionary"
 #define SCIM_PROP_DICT_ADD_WORD              "/IMEngine/Anthy/Dictionary/AddWord"
 #define SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL     "/IMEngine/Anthy/Dictionary/LaunchAdminTool"
@@ -641,6 +649,8 @@ AnthyInstance::install_properties (void)
     set_typing_method (get_typing_method ());
     set_period_style (m_preedit.get_period_style (),
                       m_preedit.get_comma_style ());
+    set_symbol_style (m_preedit.get_bracket_style (),
+                      m_preedit.get_slash_style ());
 
     register_properties (m_properties);
 }
@@ -808,6 +818,50 @@ AnthyInstance::set_period_style (PeriodStyle period,
         m_preedit.set_period_style (period);
     if (comma != m_preedit.get_comma_style ())
         m_preedit.set_comma_style (comma);
+}
+
+void
+AnthyInstance::set_symbol_style (BracketStyle bracket,
+                                 SlashStyle   slash)
+{
+    String label;
+
+    switch (bracket) {
+    case SCIM_ANTHY_BRACKET_JAPANESE:
+        label = "\xE3\x80\x8C\xE3\x80\x8D";
+        break;
+    case SCIM_ANTHY_BRACKET_WIDE:
+        label = "\xEF\xBC\xBB\xEF\xBC\xBD";
+        break;
+    default:
+        break;
+    }
+
+    switch (slash) {
+    case SCIM_ANTHY_SLASH_JAPANESE:
+        label += "\xE3\x83\xBB";
+        break;
+    case SCIM_ANTHY_SLASH_WIDE:
+        label += "\xEF\xBC\x8F";
+        break;
+    default:
+        break;
+    }
+
+    if (label.length () > 0) {
+        PropertyList::iterator it = std::find (m_properties.begin (),
+                                               m_properties.end (),
+                                               SCIM_PROP_SYMBOL_STYLE);
+        if (it != m_properties.end ()) {
+            it->set_label (label.c_str ());
+            update_property (*it);
+        }
+    }
+
+    if (bracket != m_preedit.get_bracket_style ())
+        m_preedit.set_bracket_style (bracket);
+    if (slash != m_preedit.get_slash_style ())
+        m_preedit.set_slash_style (slash);
 }
 
 bool
@@ -1959,6 +2013,20 @@ AnthyInstance::trigger_property (const String &property)
         set_period_style (SCIM_ANTHY_PERIOD_HALF,
                           SCIM_ANTHY_COMMA_HALF);
 
+    // symbol type
+    } else if (property == SCIM_PROP_SYMBOL_STYLE_JAPANESE) {
+        set_symbol_style (SCIM_ANTHY_BRACKET_JAPANESE,
+                          SCIM_ANTHY_SLASH_JAPANESE);
+    } else if (property == SCIM_PROP_SYMBOL_STYLE_CORNER_BRACKET_SLASH) {
+        set_symbol_style (SCIM_ANTHY_BRACKET_JAPANESE,
+                          SCIM_ANTHY_SLASH_WIDE);
+    } else if (property == SCIM_PROP_SYMBOL_STYLE_BRACKET_MIDDLE_DOT) {
+        set_symbol_style (SCIM_ANTHY_BRACKET_WIDE,
+                          SCIM_ANTHY_SLASH_JAPANESE);
+    } else if (property == SCIM_PROP_SYMBOL_STYLE_BRACKET_SLASH) {
+        set_symbol_style (SCIM_ANTHY_BRACKET_WIDE,
+                          SCIM_ANTHY_SLASH_WIDE);
+
     // dictionary
     } else if (property == SCIM_PROP_DICT_ADD_WORD) {
         action_add_word ();
@@ -2087,6 +2155,26 @@ AnthyInstance::reload_config (const ConfigPointer &config)
         } else {
             m_preedit.set_comma_style  (SCIM_ANTHY_COMMA_JAPANESE);
             m_preedit.set_period_style (SCIM_ANTHY_PERIOD_JAPANESE);
+        }
+    }
+
+    // set symbol style
+    if (m_on_init) {
+        if (m_factory->m_symbol_style == "Japanese") {
+            m_preedit.set_bracket_style (SCIM_ANTHY_BRACKET_JAPANESE);
+            m_preedit.set_slash_style   (SCIM_ANTHY_SLASH_JAPANESE);
+        } else if (m_factory->m_symbol_style == "WideBracket_WideSlash") {
+            m_preedit.set_bracket_style (SCIM_ANTHY_BRACKET_WIDE);
+            m_preedit.set_slash_style   (SCIM_ANTHY_SLASH_WIDE);
+        } else if (m_factory->m_symbol_style == "CornerBracket_WideSlash") {
+            m_preedit.set_bracket_style (SCIM_ANTHY_BRACKET_JAPANESE);
+            m_preedit.set_slash_style   (SCIM_ANTHY_SLASH_WIDE);
+        } else if (m_factory->m_symbol_style == "WideBracket_MiddleDot") {
+            m_preedit.set_bracket_style (SCIM_ANTHY_BRACKET_WIDE);
+            m_preedit.set_slash_style   (SCIM_ANTHY_SLASH_JAPANESE);
+        } else {
+            m_preedit.set_bracket_style (SCIM_ANTHY_BRACKET_JAPANESE);
+            m_preedit.set_slash_style   (SCIM_ANTHY_SLASH_JAPANESE);
         }
     }
 

@@ -75,6 +75,7 @@ public:
     String         m_typing_method;
     String         m_conversion_mode;
     String         m_period_style;
+    String         m_symbol_style;
     String         m_space_type;
     String         m_ten_key_type;
     String         m_behavior_on_period;

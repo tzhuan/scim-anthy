@@ -91,6 +91,20 @@ extern ConvRule scim_anthy_kana_ja_comma_rule[];
 extern ConvRule scim_anthy_kana_wide_comma_rule[];
 extern ConvRule scim_anthy_kana_half_comma_rule[];
 
+// bracket table
+extern ConvRule scim_anthy_romaji_ja_bracket_rule[];
+extern ConvRule scim_anthy_romaji_wide_bracket_rule[];
+
+extern ConvRule scim_anthy_kana_ja_bracket_rule[];
+extern ConvRule scim_anthy_kana_wide_bracket_rule[];
+
+// slash table
+extern ConvRule scim_anthy_romaji_ja_slash_rule[];
+extern ConvRule scim_anthy_romaji_wide_slash_rule[];
+
+extern ConvRule scim_anthy_kana_ja_slash_rule[];
+extern ConvRule scim_anthy_kana_wide_slash_rule[];
+
 // misc
 extern HiraganaKatakanaRule scim_anthy_hiragana_katakana_table[];
 extern WideRule             scim_anthy_wide_table[];
