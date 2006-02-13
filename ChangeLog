@@ -1,5 +1,12 @@
 2006-02-13 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_factory.{cpp,h}, src/scim_anthy_imengine.cpp,
+	  src/scim_anthy_prefs.{cpp,h}, src/scim_anthy_setup.cpp:
+	Add a preference to show or hide symbol style label on toolbar.
+	But label itself is not added yet.
+
+2006-02-13 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_setup.cpp: Split symbol related preferences from
 	"Common" page. Change order of candidates in some combos.
 

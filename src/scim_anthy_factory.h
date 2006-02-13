@@ -105,6 +105,7 @@ public:
     bool           m_show_conv_mode_label;
     bool           m_show_typing_method_label;
     bool           m_show_period_style_label;
+    bool           m_show_symbol_style_label;
     bool           m_show_dict_label;
     bool           m_show_dict_admin_label;
     bool           m_show_add_word_label;

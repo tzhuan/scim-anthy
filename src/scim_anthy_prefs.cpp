@@ -155,6 +155,16 @@ BoolConfigData config_bool_common [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_SHOW_SYMBOL_STYLE_LABEL,
+        SCIM_ANTHY_CONFIG_SHOW_SYMBOL_STYLE_LABEL_DEFAULT,
+        SCIM_ANTHY_CONFIG_SHOW_SYMBOL_STYLE_LABEL_DEFAULT,
+        N_("Show _symbol style label"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL,
         SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT,
         SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT,

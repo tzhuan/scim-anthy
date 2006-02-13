@@ -784,33 +784,6 @@ create_common_page (void)
                            (gpointer) &conversion_modes,
                            GTK_TABLE (table), 2);
 
-#if 0
-    /* period style */
-    widget = create_combo (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
-                           (gpointer) &period_styles,
-                           GTK_TABLE (table), 3);
-
-    /* symbol style */
-    widget = create_combo (SCIM_ANTHY_CONFIG_SYMBOL_STYLE,
-                           (gpointer) &symbol_styles,
-                           GTK_TABLE (table), 4);
-
-    /* space_style */
-    widget = create_combo (SCIM_ANTHY_CONFIG_SPACE_TYPE,
-                           (gpointer) &space_types,
-                           GTK_TABLE (table), 5);
-
-    /* ten key_style */
-    widget = create_combo (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
-                           (gpointer) &ten_key_types,
-                           GTK_TABLE (table), 6);
-
-    /* behavior on period */
-    widget = create_combo (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
-                           (gpointer) &behavior_on_period,
-                           GTK_TABLE (table), 7);
-#endif
-
     return vbox;
 }
 
@@ -1192,6 +1165,11 @@ create_toolbar_page (void)
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
+#if 0
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_SYMBOL_STYLE_LABEL);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+#endif
+
     /* dictionary menu */
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL);
     g_signal_connect ((gpointer) widget, "toggled",
@@ -1204,15 +1182,11 @@ create_toolbar_page (void)
     gtk_widget_show (hbox);
     label = gtk_label_new ("    ");
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
     gtk_widget_show (label);
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL);
     gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
 
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 2);
-    gtk_widget_show (hbox);
-    label = gtk_label_new ("    ");
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
     gtk_widget_show (label);
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL);
     gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
