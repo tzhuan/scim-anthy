@@ -2159,7 +2159,7 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     }
 
     // set symbol style
-    if (m_on_init || !m_factory->m_show_period_style_label) {
+    if (m_on_init || !m_factory->m_show_symbol_style_label) {
         if (m_factory->m_symbol_style == "Japanese") {
             m_preedit.set_bracket_style (SCIM_ANTHY_BRACKET_JAPANESE);
             m_preedit.set_slash_style   (SCIM_ANTHY_SLASH_JAPANESE);
