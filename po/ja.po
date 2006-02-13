@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2006-01-29 12:33+0900\n"
+"POT-Creation-Date: 2006-02-13 12:14+0900\n"
 "PO-Revision-Date: 2005-10-14 22:48+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -133,8 +133,9 @@ msgstr ""
 "い。\n"
 
 #: src/scim_anthy_factory.cpp:203
-#, fuzzy
 msgid ""
+"Art work:\n"
+"  SHIMODA Hiroshi <piro@p.club.ne.jp>\n"
 "Special thanks:\n"
 "  UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "  Yukiko Bando <ybando@k6.dion.ne.jp>\n"
@@ -145,6 +146,8 @@ msgid ""
 "  AWASHIRO Ikuya <ikuya@oooug.jp>\n"
 "  Hatuka*nezumi <nezumi@jca.apc.org>"
 msgstr ""
+"Art work:\n"
+"  SHIMODA Hiroshi <piro@p.club.ne.jp>\n"
 "Special thanks:\n"
 "  UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "  Yukiko Bando <ybando@k6.dion.ne.jp>\n"
@@ -155,7 +158,7 @@ msgstr ""
 "  AWASHIRO Ikuya <ikuya@oooug.jp>\n"
 "  Hatuka*nezumi <nezumi@jca.apc.org>"
 
-#: src/scim_anthy_factory.cpp:218
+#: src/scim_anthy_factory.cpp:220
 msgid ""
 "Basic operation:\n"
 "  \n"
@@ -163,7 +166,7 @@ msgstr ""
 "基本操作:\n"
 "  \n"
 
-#: src/scim_anthy_factory.cpp:222
+#: src/scim_anthy_factory.cpp:224
 msgid ""
 "1. Switch input mode:\n"
 "  You can switch on/off Japanese input mode by pressing Zenkaku_Hankaku key\n"
@@ -178,7 +181,7 @@ msgstr ""
 "  順次切り替えることができます。\n"
 "  \n"
 
-#: src/scim_anthy_factory.cpp:229
+#: src/scim_anthy_factory.cpp:231
 msgid ""
 "2. Input Japanese hiragana and katakana:\n"
 "  You can input Japanese hiragana and katakana by inputting romaji.\n"
@@ -197,7 +200,7 @@ msgstr ""
 "  下さい。\n"
 "  \n"
 
-#: src/scim_anthy_factory.cpp:238
+#: src/scim_anthy_factory.cpp:240
 msgid ""
 "3. Convert hiragana or katakana to Japanese kanji\n"
 "  After inputting hiragana or katakana, you can convert it to Japanese\n"
@@ -220,7 +223,7 @@ msgstr ""
 "  ことができます。\n"
 "  \n"
 
-#: src/scim_anthy_factory.cpp:250
+#: src/scim_anthy_factory.cpp:252
 msgid ""
 "4. Other key bindings:\n"
 "  You can find out all key bindings definition of scim-anthy from \"Anthy\"\n"

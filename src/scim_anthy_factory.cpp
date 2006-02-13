@@ -200,7 +200,9 @@ WideString
 AnthyFactory::get_credits () const
 {
     return utf8_mbstowcs (
-        _("Special thanks:\n"
+        _("Art work:\n"
+          "  SHIMODA Hiroshi <piro@p.club.ne.jp>\n"
+          "Special thanks:\n"
           "  UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
           "  Yukiko Bando <ybando@k6.dion.ne.jp>\n"
           "  Mike Fabian <mfabian@suse.de>\n"
