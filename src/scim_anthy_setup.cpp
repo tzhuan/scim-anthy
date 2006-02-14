@@ -236,9 +236,9 @@ static ComboConfigCandidate period_styles[] =
 static ComboConfigCandidate symbol_styles[] =
 {
     {"\xE3\x80\x8C\xE3\x80\x8D\xE3\x83\xBB", "Japanese"},
-    {"\xEF\xBC\xBB\xEF\xBC\xBD\xEF\xBC\x8F", "WideBracket_WideSlash"},
     {"\xE3\x80\x8C\xE3\x80\x8D\xEF\xBC\x8F", "CornerBracket_WideSlash"},
     {"\xEF\xBC\xBB\xEF\xBC\xBD\xE3\x83\xBB", "WideBracket_MiddleDot"},
+    {"\xEF\xBC\xBB\xEF\xBC\xBD\xEF\xBC\x8F", "WideBracket_WideSlash"},
     {NULL, NULL},
 };
 
