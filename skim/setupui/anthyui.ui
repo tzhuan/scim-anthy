@@ -1812,20 +1812,20 @@
                             </spacer>
                         </grid>
                     </widget>
-                    <spacer row="3" column="0">
+                    <spacer row="1" column="0">
                         <property name="name">
-                            <cstring>spacer24</cstring>
+                            <cstring>spacer21</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
                         </property>
                         <property name="sizeType">
-                            <enum>Expanding</enum>
+                            <enum>Fixed</enum>
                         </property>
                         <property name="sizeHint">
                             <size>
-                                <width>20</width>
-                                <height>20</height>
+                                <width>16</width>
+                                <height>16</height>
                             </size>
                         </property>
                     </spacer>
@@ -1881,43 +1881,7 @@
                                     <string>Alt+V</string>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_ShowPeriodStyleLabel</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Show period style label</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_ShowDictLabel</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Show &amp;dictionary menu label</string>
-                                </property>
-                                <property name="accel">
-                                    <string>Alt+D</string>
-                                </property>
-                            </widget>
-                            <spacer row="5" column="0">
-                                <property name="name">
-                                    <cstring>spacer122</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Fixed</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>16</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <spacer row="6" column="0">
+                            <spacer row="7" column="0">
                                 <property name="name">
                                     <cstring>spacer23</cstring>
                                 </property>
@@ -1934,18 +1898,51 @@
                                     </size>
                                 </property>
                             </spacer>
-                            <widget class="QCheckBox" row="5" column="1">
+                            <spacer row="6" column="0">
                                 <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_ShowDictAdminLabel</cstring>
+                                    <cstring>spacer122</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Fixed</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>16</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QCheckBox" row="5" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_ShowDictLabel</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show "Edit dictionary" label</string>
+                                    <string>Show &amp;dictionary menu label</string>
                                 </property>
                                 <property name="accel">
-                                    <string></string>
+                                    <string>Alt+D</string>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="6" column="1">
+                            <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_ShowPeriodStyleLabel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show period style label</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_ShowSymbolStyleLabel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show symbol style label</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="7" column="1">
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_ShowAddWordLabel</cstring>
                                 </property>
@@ -1956,22 +1953,33 @@
                                     <string>Alt+A</string>
                                 </property>
                             </widget>
+                            <widget class="QCheckBox" row="6" column="1">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_ShowDictAdminLabel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show "Edit dictionary" label</string>
+                                </property>
+                                <property name="accel">
+                                    <string></string>
+                                </property>
+                            </widget>
                         </grid>
                     </widget>
-                    <spacer row="1" column="0">
+                    <spacer row="3" column="0">
                         <property name="name">
-                            <cstring>spacer21</cstring>
+                            <cstring>spacer24</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
                         </property>
                         <property name="sizeType">
-                            <enum>Fixed</enum>
+                            <enum>Expanding</enum>
                         </property>
                         <property name="sizeHint">
                             <size>
-                                <width>8</width>
-                                <height>8</height>
+                                <width>20</width>
+                                <height>70</height>
                             </size>
                         </property>
                     </spacer>
@@ -2384,7 +2392,7 @@
 </customwidgets>
 <images>
     <image name="image0">
-        <data format="PNG" length="993">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b000003a849444154388db595416814571cc67f2b7b78828767c961163c3c21879de2c12d2d34b142553c34cda5ebc98d0aae4849ac071191a2c5439522690b427228244220db1e9a6c212e290412a16557492b9108cd62422221ec2e52d6a194cd1c0a5f0fb359b3b6480fe9837798ffbcff37df7cf37dff4175a192505d00da89ad928897ca25ba93dd5c1fbcaec65883bbc15dba6a5d8cfe39ca7f594110b0b6bcc6835f1fc05f512dd61d7bc9b431df90e6c6a5e7ab2afc7459aa145498cb4acf0b2a94b252bd20cd67a53f5e5e17e6b3527d4243b92e7dfebe69631d2b968a1cea3ea4a13b435c38d9c3e8c373bc78b10684f4a542724f0cb50dc38bdf43c0b0b7032e7f1032bd013d9d902f432609a76e044c7f17b6de24a6ba88bd11d3a3b14754f77fcb9b6692c9a580be94e1e6f786bdf7026e3d0e81ad26834b1a863eb5d41290ee0cc997c13c093875f52530c5521140031707a44a5683635695454f997e4f600446668f95ffb6a7d4bb9ebc7db655ef39e9697cc6a9b1ee297db65d8a96c6b3c3b32acc655559b41af8cc359bd1915e4f83a34ef5a74e23339e2a4f7d65fa9d8847f70bdf384d947c8ddf7e05b88df1f3ac06739efc03b6053a32e5545fb51a99b15acd39a5cf7a6aacfbca5e8a1e6e3dabfa535fe9f3af635ccaaa38d56cb03662da04ad2c3af90723798ef47a6a54fc1681cbb79d26eeb403ef2a954b004c9627f93009a33f471f2ae10ce70e437e057a3ccbb133014b8f036c87e1e661c3746d133f6500a83e0bc9974d9bbf777527bb0138913c012b904e46073206f2cf428e5acbb133214b4d6718030bfb76732205c4b7c00ce903edc1896f677cf434dcbf1f1dfc6a23e43797e0932f3623a6d6608ca1b61170f31a6cb29fea72158084db4dbe1cb423bfaa7165d193eb8c2c95e977aaaf5fd3915e4f8fa69c8672be3c17e96aad953146b6c3687cc66962f875aea8673532ed69e04ad36e71a3ec15a746c5d7c4bc93e469702c25eb45e0c451fabc93e494b9f84aa4b792373b3ccb662ac75b1dd3ccad18f825e4d48d1a60f00f1aae7d64c83f83ea322c3c0c089b4974ce72fdeb045eb54aefc7dbe4d8629c399d91ea190d4d79aaaf4689ca5e72cda4b58f45db61943eefe4755ad97d469545ff1fc98b6fb9626d798de11f21fd4e3458d207428c317cd97f815b3fe4e83251fdc2f13ed6f6e4e83b0ec3f712a45d9afcca284b0bdbe604d09a6ec421f59e2191006388666b3cda261e3985f8f6d610133704012c2d84546b2141ed5f5cb1d3bb95bc1d5f5bffbcff8771128aa5626c07c9c6fe06d931828a982dac520000000049454e44ae426082</data>
+        <data format="PNG" length="966">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000038d49444154388dad5541681b47147d0a7b984028535061040e4cc1072fe8609506223985ea9aba173597aef1c19bfa60871c82c9c9f64935a5283d14a443402a182ce5a2e4a00a1d0c7220546b304d13a82c0752e4108c2c4c592fa2c87b08bc1e5696a3d0a63df8c33fecccff6fdefe79ff0fd823e810ec1100781e4e87309ca68344348195ef56c87522e7e590ec2691fb2b87ff639ee761ffe53eb67fdd06de046ba144e88c297f23b9b541ba1d569f2c91477556b76cd2adb3ead864af4eeed864ffecbbba6393bd2ab3c538339f8b11d6a186d3c054628ad91fb3b8359b42e197191c1fef03f071f38a8fc23381ee81c0f19f3e00810fc3c0f2973e1ebd02521340a909d851e0c6b287da037ff82721f688d00721ee1677b17ff9277c72e9218abf7bb8794560e58140e4670fabcf7d00a749027a42a0b02ab1ff11604df8283501b9e7e1c6d219301a4e0300b8787b913cb2995997745b8ad682222008088a4b92e6a78ab1ab8a6a4c0ed7af7fadb8b1a9c98e626a6eb414c31a37ee3758ddb2e9b6241757f520194c4e2b660a9afdb6667e53d16d9bb416346104fbf58266d93159fee11de011c6aecd4c51d18cca2168bea2d97f2d99df94ec143553738aec98b4ef04874b25d96f9b4ccdbf8fb163f3696d902065c07400eab634cdc9a03cc969451e9943024bdf6b5673a3c0179ca6030028368bf8220ae41e071715d102b79240e905901a9398b23cec3df720c302f73e13787870023326000087af7c949a6244df1712d1040060263a03bc0066a241802d80d21f3eae8725a62c1f7b036508016c8f5dc4573100c62998803539da38c6db8c13b340ed7110b876e0a33d1ec137e99380a9141042a07be0e1db65e0041fe3f0e5210020a22fa2d4f44691dfadb1db52d4e381a4ac05cd7e27cde4b4e26e4d335b34a9745057292585109461c18d4dcdeafdf7a9a267335f535cbc3b909b2168dfd5e491c9f28e26a998598f51aa001c06989ad72435addbffa10ab7adb851d32cafa94190a03929595e534ccd29c6af290a43104600acc725f31593f582fc67c6d6ac45f62c662b8afdd74147d977f4a0d346c7a20c0ba6e635d5b8a41c13745be6bf775efc6a9cd9629c6e5b315f53ec7714cb4f34fbedf440a79ad682e6d34a3a68636a662b26dd569ad9478ae6e4e8e1c3e90603885d138844002110cc56237061044a81f1f6b5fb108680e7017bcf7c1c767d78ddb3dde174c339dbb0f3cedd4edf3c9cd37b77ea01e328d0701aa173241bfa1bc59c958a2ce887330000000049454e44ae426082</data>
     </image>
 </images>
 <connections>

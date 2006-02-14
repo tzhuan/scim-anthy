@@ -82,6 +82,13 @@
 #define SCIM_PROP_DICT_ADD_WORD              "/IMEngine/Anthy/Dictionary/AddWord"
 #define SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL     "/IMEngine/Anthy/Dictionary/LaunchAdminTool"
 
+#define UTF8_BRACKET_CORNER_BEGIN "\xE3\x80\x8C"
+#define UTF8_BRACKET_CORNER_END   "\xE3\x80\x8D"
+#define UTF8_BRACKET_WIDE_BEGIN   "\xEF\xBC\xBB"
+#define UTF8_BRACKET_WIDE_END     "\xEF\xBC\xBD"
+#define UTF8_MIDDLE_DOT           "\xE3\x83\xBB"
+#define UTF8_SLASH_WIDE           "\xEF\xBC\x8F"
+
 AnthyInstance::AnthyInstance (AnthyFactory   *factory,
                               const String   &encoding,
                               int             id)
@@ -619,6 +626,56 @@ AnthyInstance::install_properties (void)
             m_properties.push_back (prop);
         }
 
+        if (m_factory->m_show_symbol_style_label) {
+            prop = Property (SCIM_PROP_SYMBOL_STYLE,
+                             UTF8_BRACKET_CORNER_BEGIN
+                             UTF8_BRACKET_CORNER_END
+                             UTF8_MIDDLE_DOT,
+                             String (""),
+                             _("Symbol style"));
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_SYMBOL_STYLE_JAPANESE,
+                             UTF8_BRACKET_CORNER_BEGIN
+                             UTF8_BRACKET_CORNER_END
+                             UTF8_MIDDLE_DOT,
+                             String (""),
+                             UTF8_BRACKET_CORNER_BEGIN
+                             UTF8_BRACKET_CORNER_END
+                             UTF8_MIDDLE_DOT);
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_SYMBOL_STYLE_CORNER_BRACKET_SLASH,
+                             UTF8_BRACKET_CORNER_BEGIN
+                             UTF8_BRACKET_CORNER_END
+                             UTF8_SLASH_WIDE,
+                             String (""),
+                             UTF8_BRACKET_CORNER_BEGIN
+                             UTF8_BRACKET_CORNER_END
+                             UTF8_SLASH_WIDE);
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_SYMBOL_STYLE_BRACKET_MIDDLE_DOT,
+                             UTF8_BRACKET_WIDE_BEGIN
+                             UTF8_BRACKET_WIDE_END
+                             UTF8_MIDDLE_DOT,
+                             String (""),
+                             UTF8_BRACKET_WIDE_BEGIN
+                             UTF8_BRACKET_WIDE_END
+                             UTF8_MIDDLE_DOT);
+            m_properties.push_back (prop);
+
+            prop = Property (SCIM_PROP_SYMBOL_STYLE_BRACKET_SLASH,
+                             UTF8_BRACKET_WIDE_BEGIN
+                             UTF8_BRACKET_WIDE_END
+                             UTF8_SLASH_WIDE,
+                             String (""),
+                             UTF8_BRACKET_WIDE_BEGIN
+                             UTF8_BRACKET_WIDE_END
+                             UTF8_SLASH_WIDE);
+            m_properties.push_back (prop);
+        }
+
         if (m_factory->m_show_dict_label) {
             prop = Property (SCIM_PROP_DICT,
                              String(""), //_("Dictionary"),
@@ -828,10 +885,10 @@ AnthyInstance::set_symbol_style (BracketStyle bracket,
 
     switch (bracket) {
     case SCIM_ANTHY_BRACKET_JAPANESE:
-        label = "\xE3\x80\x8C\xE3\x80\x8D";
+        label = UTF8_BRACKET_CORNER_BEGIN UTF8_BRACKET_CORNER_END;
         break;
     case SCIM_ANTHY_BRACKET_WIDE:
-        label = "\xEF\xBC\xBB\xEF\xBC\xBD";
+        label = UTF8_BRACKET_WIDE_BEGIN UTF8_BRACKET_WIDE_END;
         break;
     default:
         break;
@@ -839,10 +896,10 @@ AnthyInstance::set_symbol_style (BracketStyle bracket,
 
     switch (slash) {
     case SCIM_ANTHY_SLASH_JAPANESE:
-        label += "\xE3\x83\xBB";
+        label += UTF8_MIDDLE_DOT;
         break;
     case SCIM_ANTHY_SLASH_WIDE:
-        label += "\xEF\xBC\x8F";
+        label += UTF8_SLASH_WIDE;
         break;
     default:
         break;

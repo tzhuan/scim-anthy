@@ -252,6 +252,10 @@
       <label>Whether show the period style label on the toolbar or not</label>
       <default>false</default>
     </entry>
+    <entry name="_IMEngine_Anthy_ShowSymbolStyleLabel" key="/IMEngine/Anthy/ShowSymbolStyleLabel" type="Bool">
+      <label>Whether show the symbol style label on the toolbar or not</label>
+      <default>false</default>
+    </entry>
     <entry name="_IMEngine_Anthy_ShowDictLabel" key="/IMEngine/Anthy/ShowDictLabel" type="Bool">
       <label>Whether show the dictionary label on the toolbar or not</label>
       <default>true</default>

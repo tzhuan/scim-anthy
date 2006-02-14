@@ -1165,10 +1165,8 @@ create_toolbar_page (void)
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
-#if 0
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_SYMBOL_STYLE_LABEL);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
-#endif
 
     /* dictionary menu */
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL);
