@@ -487,7 +487,7 @@ Conversion::resize_segment (int relative_size, int segment_id)
         struct anthy_segment_stat seg_stat;
         anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
         m_segments.push_back (
-            ConversionSegment (get_segment_string (i, 0), 0,
+            ConversionSegment (get_segment_string (i - m_start_id, 0), 0,
                                seg_stat.seg_len));
     }
 }
