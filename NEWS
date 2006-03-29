@@ -1,6 +1,8 @@
 Overview of Changes from scim-anthy-0.9.0 to scim-anthy-1.0.0
 ==============================================================
 * Add symbol style preference (Thanks Akira TAGOH).
+* Don't activate direct select key when the lookup window isn't shown
+  (Thanks Akira TAGOH).
 * Fix credit.
 
 Overview of Changes from scim-anthy-0.8.0 to scim-anthy-0.9.0

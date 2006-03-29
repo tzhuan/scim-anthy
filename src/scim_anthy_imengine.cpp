@@ -1559,6 +1559,8 @@ AnthyInstance::action_candidates_page_down (void)
 bool
 AnthyInstance::action_select_candidate (unsigned int i)
 {
+    if (!m_lookup_table_visible) return false;
+
     if (m_preedit.is_predicting () && !m_preedit.is_converting () &&
         m_factory->m_use_direct_key_on_predict)
     {
