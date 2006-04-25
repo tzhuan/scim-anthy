@@ -819,11 +819,16 @@ AnthyInstance::set_typing_method (TypingMethod method)
 
     if (method != get_typing_method ()) {
         Key2KanaTable *fundamental_table = NULL;
-        if (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI)
+        bool pseudo_ascii = false;
+
+        if (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI) {
             fundamental_table = m_factory->m_custom_romaji_table;
-        else if (method == SCIM_ANTHY_TYPING_METHOD_KANA)
+            pseudo_ascii = m_factory->m_romaji_pseudo_ascii_mode;
+        } else if (method == SCIM_ANTHY_TYPING_METHOD_KANA) {
             fundamental_table = m_factory->m_custom_kana_table;
+        }
         m_preedit.set_typing_method (method);
+        m_preedit.use_pseudo_ascii_mode (pseudo_ascii);
     }
 }
 
@@ -2173,16 +2178,26 @@ AnthyInstance::reload_config (const ConfigPointer &config)
             m_preedit.set_input_mode (SCIM_ANTHY_MODE_WIDE_LATIN);
     }
 
-    // set typing method
+    // set typing method and pseudo ASCII mode
     if (m_on_init || !m_factory->m_show_typing_method_label) {
-        if (m_factory->m_typing_method == "NICOLA")
+        if (m_factory->m_typing_method == "NICOLA") {
             m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_NICOLA);
-        else if (m_factory->m_typing_method == "Kana")
+            m_preedit.use_pseudo_ascii_mode(false);
+        } else if (m_factory->m_typing_method == "Kana") {
             m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA);
-        else
+            m_preedit.use_pseudo_ascii_mode(false);
+        } else {
             m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);
+            m_preedit.use_pseudo_ascii_mode(m_factory->m_romaji_pseudo_ascii_mode);
+        }
     } else {
-        m_preedit.set_typing_method (m_preedit.get_typing_method ());
+        TypingMethod m = m_preedit.get_typing_method ();
+
+        m_preedit.set_typing_method (m);
+        if (m == SCIM_ANTHY_TYPING_METHOD_ROMAJI)
+            m_preedit.use_pseudo_ascii_mode(m_factory->m_romaji_pseudo_ascii_mode);
+        else
+            m_preedit.use_pseudo_ascii_mode(false);
     }
 
     // set conversion mode

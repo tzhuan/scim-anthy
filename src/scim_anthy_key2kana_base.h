@@ -49,6 +49,11 @@ public:
     virtual void       reset_pending      (const WideString & result,
                                            const String     & raw)       = 0;
 
+    virtual void       reset_pseudo_ascii_mode       (void)
+        {}
+    virtual void       compute_for_pseudo_ascii_mode (const WideString & wstr)
+        {}
+
     virtual void       set_case_sensitive (bool               sensitive)
         { m_case_sensitive = sensitive; }
     virtual bool       get_case_sensitive (void)

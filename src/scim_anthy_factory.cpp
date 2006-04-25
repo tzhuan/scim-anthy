@@ -121,6 +121,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_romaji_half_symbol          (SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT),
       m_romaji_half_number          (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT),
       m_romaji_allow_split          (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT),
+      m_romaji_pseudo_ascii_mode    (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT),
       m_nicola_time                 (SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT),
       m_dict_admin_command          (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
       m_add_word_command            (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
@@ -489,6 +490,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_romaji_allow_split
             = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT),
                             SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT);
+
+        m_romaji_pseudo_ascii_mode
+            = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE),
+                            SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT);
 
         m_nicola_time
             = config->read (String (SCIM_ANTHY_CONFIG_NICOLA_TIME),

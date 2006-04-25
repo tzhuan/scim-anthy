@@ -91,6 +91,7 @@ public:
     bool           m_romaji_half_symbol;
     bool           m_romaji_half_number;
     bool           m_romaji_allow_split;
+    bool           m_romaji_pseudo_ascii_mode;
     int            m_nicola_time;
     KeyEventList   m_left_thumb_keys;
     KeyEventList   m_right_thumb_keys;

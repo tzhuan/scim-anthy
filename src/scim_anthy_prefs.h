@@ -35,6 +35,7 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL          "/IMEngine/Anthy/RomajiHalfSymbol"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER          "/IMEngine/Anthy/RomajiHalfNumber"
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT          "/IMEngine/Anthy/RomajiAllowSplit"
+#define SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE    "/IMEngine/Anthy/RomajiPseudoAsciiMode"
 
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE            "/IMEngine/Anthy/KanaLayoutFile"
 
@@ -167,6 +168,7 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT          true
+#define SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT    true
 
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT            ""
 

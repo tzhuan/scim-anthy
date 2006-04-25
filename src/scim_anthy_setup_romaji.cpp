@@ -93,6 +93,10 @@ romaji_page_create_ui (void)
     widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
+    /* pseudo ascii mode */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
+
     /* romaji table */
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);

@@ -27,10 +27,12 @@ using namespace scim_anthy;
 
 Key2KanaConvertor::Key2KanaConvertor (AnthyInstance    & anthy,
                                       Key2KanaTableSet & tables)
-    : m_anthy          (anthy),
-      m_tables         (tables)
+    : m_anthy                   (anthy),
+      m_tables                  (tables),
+      m_is_in_pseudo_ascii_mode (false)
 {
     set_case_sensitive (false);
+    use_pseudo_ascii_mode (false);
 }
 
 Key2KanaConvertor::~Key2KanaConvertor ()
@@ -124,6 +126,13 @@ Key2KanaConvertor::append (const String & str,
     bool has_partial_match = false;
     bool retval = false;
 
+    if (m_pseudo_ascii_mode)
+        compute_for_pseudo_ascii_mode(widestr);
+    if (m_is_in_pseudo_ascii_mode) {
+        m_pending += widestr;
+        pending = m_pending;
+        return false;
+    }
     if (!m_case_sensitive) {
         String half = utf8_wcstombs (matching_str);
         for (unsigned int i = 0; i < half.length (); i++)
@@ -213,6 +222,7 @@ Key2KanaConvertor::clear (void)
 {
     m_pending.clear ();
     m_exact_match.clear ();
+    reset_pseudo_ascii_mode();
 }
 
 bool
@@ -257,6 +267,22 @@ Key2KanaConvertor::reset_pending (const WideString &result, const String &raw)
         append (raw.substr(i, 1), res, pend);
     }
 }
+
+void
+Key2KanaConvertor::compute_for_pseudo_ascii_mode(const WideString & wstr)
+{
+    for (unsigned int i = 0; !m_is_in_pseudo_ascii_mode && i < wstr.length (); i++) {
+        if (wstr[i] >= 'A' && wstr[i] <= 'Z')
+            m_is_in_pseudo_ascii_mode = true;
+    }
+}
+
+void
+Key2KanaConvertor::reset_pseudo_ascii_mode (void)
+{
+    m_is_in_pseudo_ascii_mode = false;
+}
+
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

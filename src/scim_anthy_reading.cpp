@@ -431,6 +431,9 @@ Reading::reset_pending (void)
                                m_segments[m_segment_pos - 1].raw);
     m_kana.reset_pending (m_segments[m_segment_pos - 1].kana,
                           m_segments[m_segment_pos - 1].raw);
+    m_key2kana->reset_pseudo_ascii_mode();
+    for (unsigned int i = 0; i < m_segment_pos; i++)
+        m_key2kana->compute_for_pseudo_ascii_mode(m_segments[i].kana);
 }
 
 unsigned int
@@ -649,4 +652,10 @@ bool
 Reading::get_number_width (void)
 {
     return m_key2kana_tables.number_is_half ();
+}
+
+void
+Reading::use_pseudo_ascii_mode (bool flag)
+{
+    m_key2kana_normal.use_pseudo_ascii_mode (flag);
 }

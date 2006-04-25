@@ -121,6 +121,7 @@ public:
     virtual bool          get_symbol_width       (void);
     virtual void          set_number_width       (bool           half);
     virtual bool          get_number_width       (void);
+    virtual void          use_pseudo_ascii_mode  (bool           flag);
 
 private:
     void                  get_reading_substr     (WideString   & substr,

@@ -104,6 +104,7 @@ public:
     bool         get_symbol_width      (void);
     void         set_number_width      (bool             half);
     bool         get_number_width      (void);
+    void         use_pseudo_ascii_mode (bool             flag);
 
 private:
     void         reset_pending         (void);

@@ -476,6 +476,12 @@ Preedit::get_number_width (void)
     return m_reading.get_number_width ();
 }
 
+void
+Preedit::use_pseudo_ascii_mode (bool flag)
+{
+    m_reading.use_pseudo_ascii_mode (flag);
+}
+
 bool
 Preedit::is_comma_or_period (const String & str)
 {
