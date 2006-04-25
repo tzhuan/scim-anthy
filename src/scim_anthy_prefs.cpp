@@ -102,7 +102,7 @@ BoolConfigData config_bool_common [] =
         SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT,
         N_("_Entering the pseudo ASCII input mode with capital letters."),
         NULL,
-        N_("If this check is enabled, capital letters will becomes a trigger to enter the pseudo ASCII input mode till capital letters are in preedit."),
+        N_("If this check is enabled, capital letters will becomes a trigger to enter the pseudo ASCII input mode during capital letters are in preedit."),
         false,
     },
     {
