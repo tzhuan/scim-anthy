@@ -39,7 +39,6 @@ messages:
 	cat files;\
 	$(XGETTEXT)  rc.cpp `cat files` -ktr2i18n -ki18n -kI18N_NOOP -o $(top_srcdir)/po/$(PACKAGE).pot ;\
 	rm -f rc.cpp dirs files ;\
-#	echo "Generating/Updating Desktop File Messages" ;\
 	cd .. && ./po/createdesktop ./po/desktop_file_list ./po/desktop.pot && cd po
 update-all: messages merge
 #	$(EXTRACTRC) `find $$dirs -maxdepth 1 -name "*.rc" -o -name "*.ui"` > rc.cpp
