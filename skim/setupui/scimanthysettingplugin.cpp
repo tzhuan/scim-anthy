@@ -324,6 +324,7 @@ public:
         if (!item) return;
 
         item->setValue (c.name ());
+        item->writeConfig (AnthyConfig::self()->config());
     }
 
     void reset_custom_widgets ()
@@ -548,6 +549,30 @@ public:
         return false;
     }
 
+    bool is_changed ()
+    {
+        if (ui->PreeditStringDualColorButton->foreground () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_PreeditFGColor ()))
+            return true;
+        if (ui->PreeditStringDualColorButton->background () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_PreeditBGColor ()))
+            return true;
+        if (ui->ConversionStringDualColorButton->foreground () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_ConversionFGColor ()))
+            return true;
+        if (ui->ConversionStringDualColorButton->background () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_ConversionBGColor ()))
+            return true;
+        if (ui->SelectedSegmentDualColorButton->foreground () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_SelectedSegmentFGColor ()))
+            return true;
+        if (ui->SelectedSegmentDualColorButton->background () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_SelectedSegmentBGColor ()))
+            return true;
+
+        return m_our_value_changed;
+    }
+
 private:
     void load_style_dir (const char *dirname)
     {
@@ -656,26 +681,26 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     // preedit string color
     connect (d->ui->PreeditStringDualColorButton,
              SIGNAL (fgChanged(const QColor &)),
-             this, SLOT (set_preedit_string_fg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
     connect (d->ui->PreeditStringDualColorButton,
              SIGNAL (bgChanged(const QColor &)),
-             this, SLOT (set_preedit_string_bg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
 
     // conversion string color
     connect (d->ui->ConversionStringDualColorButton,
              SIGNAL (fgChanged(const QColor &)),
-             this, SLOT (set_conversion_string_fg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
     connect (d->ui->ConversionStringDualColorButton,
              SIGNAL (bgChanged(const QColor &)),
-             this, SLOT (set_conversion_string_bg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
 
     // selected segment color
     connect (d->ui->SelectedSegmentDualColorButton,
              SIGNAL (fgChanged(const QColor &)),
-             this, SLOT (set_selected_segment_fg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
     connect (d->ui->SelectedSegmentDualColorButton,
              SIGNAL (bgChanged(const QColor &)),
-             this, SLOT (set_selected_segment_bg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
@@ -703,20 +728,18 @@ void ScimAnthySettingPlugin::save ()
         item->writeConfig (AnthyConfig::self()->config());
     }
 
-    QString colors[] = {
-        QString ("_IMEngine_Anthy_PreeditFGColor"),
-        QString ("_IMEngine_Anthy_PreeditBGColor"),
-        QString ("_IMEngine_Anthy_ConversionFGColor"),
-        QString ("_IMEngine_Anthy_ConversionBGColor"),
-        QString ("_IMEngine_Anthy_SelectedSegmentFGColor"),
-        QString ("_IMEngine_Anthy_SelectedSegmentBGColor"),
-    };
-    for (unsigned int i = 0; i < sizeof (colors) / sizeof (QString); i++) {
-        KConfigSkeletonGenericItem<QString> *item;
-        item = d->string_config_item (colors[i]);
-        if (!item) continue;
-        item->writeConfig (AnthyConfig::self()->config());
-    }
+    d->set_color ("_IMEngine_Anthy_PreeditFGColor",
+                  d->ui->PreeditStringDualColorButton->foreground ());
+    d->set_color ("_IMEngine_Anthy_PreeditBGColor",
+                  d->ui->PreeditStringDualColorButton->background ());
+    d->set_color ("_IMEngine_Anthy_ConversionFGColor",
+                  d->ui->ConversionStringDualColorButton->foreground ());
+    d->set_color ("_IMEngine_Anthy_ConversionBGColor",
+                  d->ui->ConversionStringDualColorButton->background ());
+    d->set_color ("_IMEngine_Anthy_SelectedSegmentFGColor",
+                  d->ui->SelectedSegmentDualColorButton->foreground ());
+    d->set_color ("_IMEngine_Anthy_SelectedSegmentBGColor",
+                  d->ui->SelectedSegmentDualColorButton->background ());
 
     d->save_style_files ();
     d->m_our_value_changed = false;
@@ -739,7 +762,7 @@ void ScimAnthySettingPlugin::defaults ()
 
 void ScimAnthySettingPlugin::slotWidgetModified ()
 {
-    if (d->m_our_value_changed) {
+    if (d->is_changed ()) {
         emit changed (true);
     } else {
         KAutoCModule::slotWidgetModified();
@@ -1077,49 +1100,6 @@ void ScimAnthySettingPlugin::selected_segment_style_changed (int n)
 {
     d->ui->SelectedSegmentDualColorButton->setEnabled (string_color_button_enabled (n));
 }
-
-void ScimAnthySettingPlugin::set_preedit_string_fg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_PreeditFGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_preedit_string_bg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_PreeditBGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_conversion_string_fg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_ConversionFGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_conversion_string_bg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_ConversionBGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_selected_segment_fg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_SelectedSegmentFGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_selected_segment_bg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_SelectedSegmentBGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
 void ScimAnthySettingPlugin::set_romaji_table_view ()
 {
     d->setup_table_view (d->m_table_editor->m_table_view,

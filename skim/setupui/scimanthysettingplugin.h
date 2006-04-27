@@ -54,12 +54,6 @@ protected slots:
     void preedit_string_style_changed        (int n);
     void conversion_string_style_changed     (int n);
     void selected_segment_style_changed      (int n);
-    void set_preedit_string_fg_color         (const QColor & c);
-    void set_preedit_string_bg_color         (const QColor & c);
-    void set_conversion_string_fg_color      (const QColor & c);
-    void set_conversion_string_bg_color      (const QColor & c);
-    void set_selected_segment_fg_color       (const QColor & c);
-    void set_selected_segment_bg_color       (const QColor & c);
     void set_romaji_table_view               ();
     void set_kana_table_view                 ();
     void set_thumb_shift_table_view          ();
