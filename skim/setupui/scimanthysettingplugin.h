@@ -43,9 +43,6 @@ protected slots:
     void launch_add_word_command             ();
     void set_key_bindings_group              ();
     void set_key_bindings_theme              (int n);
-    void set_romaji_theme                    (const QString & value);
-    void set_kana_theme                      (const QString & value);
-    void set_nicola_theme                    (const QString & value);
     void choose_keys                         ();
     void customize_romaji_table              ();
     void customize_kana_table                ();
