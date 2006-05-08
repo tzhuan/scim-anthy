@@ -26,8 +26,10 @@ using namespace scim;
 /* from Suikyo */
 ConvRule scim_anthy_romaji_typing_rule[] = {
 {"-",	"ー",	""},
+#if 0
 {"[",   "「",	""},
 {"]",   "」",	""},
+#endif
 {"a",	"あ",	""},
 {"i",	"い",	""},
 {"u",	"う",	""},
@@ -456,7 +458,9 @@ ConvRule scim_anthy_kana_typing_rule[] = {
 {"O",	"ら",	""},
 {"P",	"",	"せ"},
 {"`",	"゛",	""},
+#if 0
 {"{",	"「",	""},
+#endif
 
 {"A",	"",	"ち"},
 {"S",	"",	"と"},
@@ -469,7 +473,9 @@ ConvRule scim_anthy_kana_typing_rule[] = {
 {"L",	"り",	""},
 {"+",	"れ",	""},
 {"*",	"ヶ",	""},
+#if 0
 {"}",	"」",	""},
+#endif
 
 {"Z",	"っ",	""},
 {"X",	"",	"さ"},
@@ -478,7 +484,9 @@ ConvRule scim_anthy_kana_typing_rule[] = {
 {"B",	"",	"こ"},
 {"M",	"も",	""},
 {"N",	"み",	""},
+#if 0
 {"?",	"・",	""},
+#endif
 {"_",	"ろ",	""},
 {NULL,	NULL,	NULL},
 };
@@ -589,6 +597,50 @@ ConvRule scim_anthy_kana_half_period_rule[] = {
 
 ConvRule scim_anthy_kana_half_comma_rule[] = {
 {"<",	",",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_romaji_ja_bracket_rule[] = {
+{"[",	"「",	""},
+{"]",	"」",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_romaji_wide_bracket_rule[] = {
+{"[",	"［",	""},
+{"]",	"］",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_kana_ja_bracket_rule[] = {
+{"{",	"「",	""},
+{"}",	"」",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_kana_wide_bracket_rule[] = {
+{"{",	"［",	""},
+{"}",	"］",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_romaji_ja_slash_rule[] = {
+{"/",	"・",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_romaji_wide_slash_rule[] = {
+{"/",	"／",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_kana_ja_slash_rule[] = {
+{"?",	"・",	""},
+{NULL,	NULL,	NULL},
+};
+
+ConvRule scim_anthy_kana_wide_slash_rule[] = {
+{"?",	"／",	""},
 {NULL,	NULL,	NULL},
 };
 

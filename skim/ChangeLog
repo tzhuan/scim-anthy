@@ -1,3 +1,9 @@
+2006-05-02 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/scim_anthy_default_tables.{cpp,h},
+	  setupui/scim_anthy_key2kana_table.{cpp,h}:
+	Update to 1.0.0.
+
 2006-04-27 Takuro Ashie <ashie@homa.ne.jp>
 
 	* setupui/scimanthysettingplugin.{cpp,h}: Write color config value on
