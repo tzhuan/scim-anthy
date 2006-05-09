@@ -1,3 +1,8 @@
+2006-05-09 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/scimanthysettingplugin.{cpp,h}: Also we key bindings config
+	value should be write on saving time.
+
 2006-05-02 Takuro Ashie <ashie@homa.ne.jp>
 
 	* setupui/scimanthysettingplugin.{cpp,h}: Write theme config value on

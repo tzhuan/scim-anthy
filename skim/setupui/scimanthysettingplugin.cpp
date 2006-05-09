@@ -69,14 +69,14 @@ typedef enum {
     SearchByKey      = 9,
 } KeyCategory;
 
-typedef struct _KeyList
+typedef struct _KeyEntry
 {
     const char  *label;
     const char  *key;
     KeyCategory  category;
-} KeyList;
+} KeyEntry;
 
-KeyList key_list[] =
+KeyEntry key_list[] =
 {
     {I18N_NOOP("Toggle on/off"),               "_IMEngine_Anthy_OnOffKey",                   ModeKeys},
     {I18N_NOOP("Circle input mode"),           "_IMEngine_Anthy_CircleInputModeKey",         ModeKeys},
@@ -168,10 +168,12 @@ public:
                               const QString &feature,
                               const QString &defval,
                               const QString &description,
-                              KConfigSkeletonGenericItem<QString> *item,
+                              KeyEntry *key_entry,
+                              KConfigSkeletonGenericItem<QString> *kconf,
                               KeyCategory category)
         : QListViewItem (view, sibling, feature, defval, description),
-          m_item (item),
+          m_key_entry (key_entry),
+          m_kconf (kconf),
           m_category (category)
     {
     }
@@ -191,7 +193,7 @@ public:
         }
 
         if (category == (int) SearchByKey &&
-            keyFilter (m_item->value (), filter))
+            keyFilter (m_kconf->value (), filter))
         {
             visible = false;
         }
@@ -199,19 +201,31 @@ public:
         setVisible (visible);
     }
 
+    void setDefault ()
+    {
+        m_kconf->swapDefault ();
+        setText (1, m_kconf->value ());
+        m_kconf->swapDefault ();
+    }
+
     bool isChanged ()
     {
-        if (text (1) != m_item->value ())
+        if (text (1) != m_kconf->value ())
             return true;
         return false;
     }
 
     void save ()
     {
-        if (m_item) {
-            m_item->setValue (text (1));
-            m_item->writeConfig (AnthyConfig::self()->config());
+        if (m_kconf) {
+            m_kconf->setValue (text (1));
+            m_kconf->writeConfig (AnthyConfig::self()->config());
         }
+    }
+
+    QString kconfKey ()
+    {
+        return m_kconf->key ();
     }
 
 private:
@@ -234,15 +248,14 @@ private:
 
 public:
     ScimAnthySettingPlugin              *m_plugin;
-    KConfigSkeletonGenericItem<QString> *m_item;
+    KeyEntry                            *m_key_entry;
+    KConfigSkeletonGenericItem<QString> *m_kconf;
     KeyCategory                          m_category;
 };
 
 class ScimAnthySettingPlugin::ScimAnthySettingPluginPrivate {
 public:
     AnthySettingUI * ui;
-
-    bool       m_our_value_changed;
 
     StyleFiles m_style_list;
     StyleFile  m_user_style;
@@ -252,8 +265,7 @@ public:
 
 public:
     ScimAnthySettingPluginPrivate ()
-        : m_our_value_changed (false),
-          m_style_changed (false),
+        : m_style_changed (false),
           m_table_editor (NULL)
     {
     }
@@ -422,7 +434,6 @@ public:
 
     void setup_key_bindings ()
     {
-        // FIXME! Use QListViewItem::setVisible() instead of clearing the view.
         ui->KeyBindingsView->clear ();
         ui->KeyBindingsView->setSorting (-1);
         ui->KeyBindingsSelectButton->setEnabled (false);
@@ -440,6 +451,7 @@ public:
                                                       i18n (key_list[i].label),
                                                       item->value (),
                                                       item->whatsThis (),
+                                                      &key_list[i],
                                                       item,
                                                       key_list[i].category);
             prev_item = list_item;
@@ -593,8 +605,41 @@ public:
         }
     }
 
+    bool key_theme_is_changed ()
+    {
+        KConfigSkeletonGenericItem<QString> *key_theme_item, *key_theme_file_item;
+        key_theme_item      = string_config_item ("_IMEngine_Anthy_KeyTheme");
+        key_theme_file_item = string_config_item ("_IMEngine_Anthy_KeyThemeFile");
+        int current = ui->KeyBindingsThemeComboBox->currentItem ();
+        QString theme_name = ui->KeyBindingsThemeComboBox->currentText ();
+
+        if (current == 0) {
+            if (key_theme_item->value () == "Default")
+                return false;
+            else
+                return true;
+        } else if (current == 1) {
+            if (key_theme_item->value () == "User defined")
+                return false;
+            else
+                return true;
+        } else {
+            if (key_theme_item->value () == theme_name &&
+                key_theme_file_item->value () == theme2file (theme_name, __key_bindings_theme))
+                return false;
+            else
+                return true;
+        }
+
+        return false;
+    }
+
     bool is_changed ()
     {
+        // key theme
+        if (key_theme_is_changed ())
+            return true;
+
         // key bindings
         QListViewItemIterator it (ui->KeyBindingsView);
         while (it.current ()) {
@@ -640,7 +685,7 @@ public:
             QColor (AnthyConfig::_IMEngine_Anthy_SelectedSegmentBGColor ()))
             return true;
 
-        return m_our_value_changed || m_style_changed;
+        return m_style_changed;
     }
 
 private:
@@ -791,13 +836,33 @@ void ScimAnthySettingPlugin::save ()
 {
     KAutoCModule::save ();
 
-    for (unsigned int i = 0; key_list[i].key; i++) {
-        KConfigSkeletonGenericItem<QString> *item;
-        item = d->string_config_item (key_list[i].key);
-        if (!item) continue;
-        item->writeConfig (AnthyConfig::self()->config());
+    // key theme name and key theme file
+    KConfigSkeletonGenericItem<QString> *key_theme_item, *key_theme_file_item;
+    key_theme_item = d->string_config_item ("_IMEngine_Anthy_KeyTheme");
+    key_theme_file_item = d->string_config_item ("_IMEngine_Anthy_KeyThemeFile");
+    int current_key_theme = d->ui->KeyBindingsThemeComboBox->currentItem ();
+    if (current_key_theme == 0) {
+        if (key_theme_item)
+            key_theme_item->setValue ("Default");
+        if (key_theme_file_item)
+            key_theme_file_item->setValue ("");
+    } else if (current_key_theme == 1) {
+        if (key_theme_item)
+            key_theme_item->setValue ("User defined");
+        if (key_theme_file_item)
+            key_theme_file_item->setValue ("");
+    } else {
+        QString theme_name = d->ui->KeyBindingsThemeComboBox->currentText ();
+        if (key_theme_item)
+            key_theme_item->setValue (theme_name);
+        if (key_theme_file_item)
+            key_theme_file_item->setValue
+                (d->theme2file (theme_name, __key_bindings_theme));
     }
+    key_theme_item->writeConfig (AnthyConfig::self()->config());
+    key_theme_file_item->writeConfig (AnthyConfig::self()->config());
 
+    // key bindings
     QListViewItemIterator it (d->ui->KeyBindingsView);
     while (it.current ()) {
         ScimAnthyKeyListViewItem *item;
@@ -807,6 +872,7 @@ void ScimAnthySettingPlugin::save ()
         it++;
     }
 
+    // layout table file
     d->set_theme ("_IMEngine_Anthy_RomajiThemeFile",
                   d->ui->RomajiComboBox->currentText (),
                   __romaji_fund_table);
@@ -817,6 +883,7 @@ void ScimAnthySettingPlugin::save ()
                   d->ui->ThumbShiftComboBox->currentText (),
                   __nicola_fund_table);
 
+    // color
     d->set_color ("_IMEngine_Anthy_PreeditFGColor",
                   d->ui->PreeditStringDualColorButton->foreground ());
     d->set_color ("_IMEngine_Anthy_PreeditBGColor",
@@ -830,8 +897,8 @@ void ScimAnthySettingPlugin::save ()
     d->set_color ("_IMEngine_Anthy_SelectedSegmentBGColor",
                   d->ui->SelectedSegmentDualColorButton->background ());
 
+    // style file
     d->save_style_files ();
-    d->m_our_value_changed = false;
 }
 
 void ScimAnthySettingPlugin::defaults ()
@@ -891,86 +958,62 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (int n)
     std::vector<String> keys;
     std::vector<String>::iterator kit;
 
-    KConfigSkeletonGenericItem<QString> *theme_item, *theme_file_item;
-    theme_item = d->string_config_item ("_IMEngine_Anthy_KeyTheme");
-    if (theme_item)
-        theme_item->setValue (theme_name);
-
-    d->set_theme ("_IMEngine_Anthy_KeyThemeFile",
-                  theme_name, __key_bindings_theme);
-
-    // Set all key bindings as empty
-    for (unsigned int i = 0; current != 1 && key_list[i].key; i++) {
-        KConfigSkeletonGenericItem<QString> *item;
-        item = d->string_config_item (key_list[i].key);
-        if (!item) continue;
-        item->setValue ("");
-    }
-
-    // Handle "Default" or "User defined" and return
     if (current == 0) {
-        for (unsigned int i = 0; key_list[i].key; i++) {
-            KConfigSkeletonGenericItem<QString> *item;
-            item = d->string_config_item (key_list[i].key);
+        // Handle "Default" theme.
+        QListViewItemIterator it (d->ui->KeyBindingsView);
+        while (it.current ()) {
+            ScimAnthyKeyListViewItem *item;
+            item = dynamic_cast <ScimAnthyKeyListViewItem *> (it.current ());
             if (!item) continue;
             item->setDefault ();
+            it++;
         }
 
-        if (theme_item)
-            theme_item->setValue ("Default");
-
-        goto SET_WIDGET;
-
     } else if (current == 1) {
-        if (theme_item)
-            theme_item->setValue ("User defined");
+        // Handle "User defined" theme.
+        // Nothing to do.
 
-        theme_file_item = d->string_config_item ("_IMEngine_Anthy_KeyThemeFile");
-        if (theme_file_item)
-            theme_file_item->setValue ("");
+    } else {
+        // Handle other themes
 
-        goto SET_WIDGET;
-    }
+        // Find theme file
+        for (it = d->m_style_list.begin (); it != d->m_style_list.end (); it++) {
+            StyleLines section;
+            if (!it->get_entry_list (section, __key_bindings_theme))
+                continue;
+            if (theme_name == QString::fromUtf8 (it->get_title().c_str ()))
+                break;
+        }
+        if (it == d->m_style_list.end ())
+            goto SET_WIDGET;
 
-    // Handle other themes
+        // Set new bindings to QListViewItem
+        it->get_key_list (keys, __key_bindings_theme);
 
-    // Find theme file
-    for (it = d->m_style_list.begin (); it != d->m_style_list.end (); it++) {
-        StyleLines section;
-        if (!it->get_entry_list (section, __key_bindings_theme))
-            continue;
-        if (theme_name == QString::fromUtf8 (it->get_title().c_str ()))
-            break;
-    }
+        QListViewItemIterator lit (d->ui->KeyBindingsView);
+        while (lit.current ()) {
+            ScimAnthyKeyListViewItem *view_item;
+            view_item = dynamic_cast <ScimAnthyKeyListViewItem *> (lit.current ());
+            if (!view_item) continue;
 
-    if (it == d->m_style_list.end ())
-        goto SET_WIDGET;
+            view_item->setText (1, "");
 
-    // Set found key bindings to KConfig
-    it->get_key_list (keys, __key_bindings_theme);
-
-    for (kit = keys.begin (); kit != keys.end (); kit++) {
-        if (kit->empty ()) continue;
-
-        QString entry = QString ("/IMEngine/Anthy/") + QString (kit->c_str ());
-
-        // find from known key bindings list
-        for (unsigned int i = 0; key_list[i].key; i++) {
-            KConfigSkeletonGenericItem<QString> *item;
-            item = d->string_config_item (key_list[i].key);
-            if (!item) continue;
-
-            if (item->key () == entry) {
-                String v;
-                it->get_string (v, __key_bindings_theme, *kit);
-                item->setValue (v);
+            for (kit = keys.begin (); kit != keys.end (); kit++) {
+                QString key = QString ("/IMEngine/Anthy/")
+                    + QString (kit->c_str ());
+                if (view_item->kconfKey () == key) {
+                    String v;
+                    it->get_string (v, __key_bindings_theme, *kit);
+                    view_item->setText (1, v);
+                    break;
+                }
             }
+
+            lit++;
         }
     }
 
 SET_WIDGET:
-    d->setup_key_bindings ();
-    d->m_our_value_changed = true;
     slotWidgetModified ();
 }
 
@@ -984,7 +1027,7 @@ void ScimAnthySettingPlugin::choose_keys ()
     editor.setStringList (keys);
     if (editor.exec () == QDialog::Accepted) {
         item->setText (1, editor.getCombinedString ());
-        set_key_bindings_theme (1);
+        d->ui->KeyBindingsThemeComboBox->setCurrentItem (1);
         slotWidgetModified ();
     }
 }
