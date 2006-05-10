@@ -302,9 +302,9 @@ public:
         return item;
     }
 
-    void set_theme (const QString & item_key,
-                    const QString & item_value,
-                    const QString & section_name)
+    void save_theme (const QString & item_key,
+                     const QString & item_value,
+                     const QString & section_name)
     {
         KConfigSkeletonGenericItem<QString> *item = string_config_item (item_key);
         if (!item) return;
@@ -313,7 +313,7 @@ public:
         item->writeConfig (AnthyConfig::self()->config());
     }
 
-    void set_color (const QString key, const QColor & c)
+    void save_color (const QString key, const QColor & c)
     {
         KConfigSkeletonItem *tmp_item;
         tmp_item = AnthyConfig::self()->findItem(key);
@@ -873,29 +873,29 @@ void ScimAnthySettingPlugin::save ()
     }
 
     // layout table file
-    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile",
-                  d->ui->RomajiComboBox->currentText (),
-                  __romaji_fund_table);
-    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile",
-                  d->ui->KanaComboBox->currentText (),
-                  __kana_fund_table);
-    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile",
-                  d->ui->ThumbShiftComboBox->currentText (),
-                  __nicola_fund_table);
+    d->save_theme ("_IMEngine_Anthy_RomajiThemeFile",
+                   d->ui->RomajiComboBox->currentText (),
+                   __romaji_fund_table);
+    d->save_theme ("_IMEngine_Anthy_KanaLayoutFile",
+                   d->ui->KanaComboBox->currentText (),
+                   __kana_fund_table);
+    d->save_theme ("_IMEngine_Anthy_NICOLALayoutFile",
+                   d->ui->ThumbShiftComboBox->currentText (),
+                   __nicola_fund_table);
 
     // color
-    d->set_color ("_IMEngine_Anthy_PreeditFGColor",
-                  d->ui->PreeditStringDualColorButton->foreground ());
-    d->set_color ("_IMEngine_Anthy_PreeditBGColor",
-                  d->ui->PreeditStringDualColorButton->background ());
-    d->set_color ("_IMEngine_Anthy_ConversionFGColor",
-                  d->ui->ConversionStringDualColorButton->foreground ());
-    d->set_color ("_IMEngine_Anthy_ConversionBGColor",
-                  d->ui->ConversionStringDualColorButton->background ());
-    d->set_color ("_IMEngine_Anthy_SelectedSegmentFGColor",
-                  d->ui->SelectedSegmentDualColorButton->foreground ());
-    d->set_color ("_IMEngine_Anthy_SelectedSegmentBGColor",
-                  d->ui->SelectedSegmentDualColorButton->background ());
+    d->save_color ("_IMEngine_Anthy_PreeditFGColor",
+                   d->ui->PreeditStringDualColorButton->foreground ());
+    d->save_color ("_IMEngine_Anthy_PreeditBGColor",
+                   d->ui->PreeditStringDualColorButton->background ());
+    d->save_color ("_IMEngine_Anthy_ConversionFGColor",
+                   d->ui->ConversionStringDualColorButton->foreground ());
+    d->save_color ("_IMEngine_Anthy_ConversionBGColor",
+                   d->ui->ConversionStringDualColorButton->background ());
+    d->save_color ("_IMEngine_Anthy_SelectedSegmentFGColor",
+                   d->ui->SelectedSegmentDualColorButton->foreground ());
+    d->save_color ("_IMEngine_Anthy_SelectedSegmentBGColor",
+                   d->ui->SelectedSegmentDualColorButton->background ());
 
     // style file
     d->save_style_files ();
@@ -1142,9 +1142,12 @@ void ScimAnthySettingPlugin::customize_kana_table ()
 
 void ScimAnthySettingPlugin::customize_nicola_table ()
 {
-    ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"),
-                                 i18n ("Key"), i18n ("Single press"),
-                                 i18n ("Left thumb shift"), i18n ("Right thumb shift"));
+    ScimAnthyTableEditor editor (d->ui,
+                                 i18n ("Layout:"),
+                                 i18n ("Key"),
+                                 i18n ("Single press"),
+                                 i18n ("Left thumb shift"),
+                                 i18n ("Right thumb shift"));
     editor.setCaption (i18n ("Edit thumb shift layout table"));
     editor.setModal (true);
     d->m_table_editor = &editor;
