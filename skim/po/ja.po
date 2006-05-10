@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scim-anthy\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-17 11:10+0900\n"
+"POT-Creation-Date: 2006-05-10 16:53+0900\n"
 "PO-Revision-Date: 2006-02-17 11:11+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -131,7 +131,7 @@ msgstr "入力モード(&I):"
 msgid "Beha&vior on comma and period:"
 msgstr "句読点入力時の挙動(&V)"
 
-#: ../setupui/anthyui.cpp:748 ../setupui/scimanthysettingplugin.cpp:103
+#: ../setupui/anthyui.cpp:748 ../setupui/scimanthysettingplugin.cpp:146
 msgid "Do nothing"
 msgstr "何もしない"
 
@@ -139,7 +139,7 @@ msgstr "何もしない"
 msgid "Start conversion"
 msgstr "変換を開始する"
 
-#: ../setupui/anthyui.cpp:750 ../setupui/scimanthysettingplugin.cpp:97
+#: ../setupui/anthyui.cpp:750 ../setupui/scimanthysettingplugin.cpp:128
 msgid "Commit"
 msgstr "確定"
 
@@ -311,8 +311,8 @@ msgstr "カスタム..."
 msgid "Thumb Shift Layout"
 msgstr "親指シフト配列"
 
-#: ../setupui/anthyui.cpp:808 ../setupui/scimanthysettingplugin.cpp:968
-#: ../setupui/scimanthysettingplugin.cpp:1014
+#: ../setupui/anthyui.cpp:808 ../setupui/scimanthysettingplugin.cpp:1232
+#: ../setupui/scimanthysettingplugin.cpp:1277
 msgid "Layout:"
 msgstr "レイアウト:"
 
@@ -536,295 +536,539 @@ msgstr "追加"
 msgid "Remove"
 msgstr "削除"
 
-#: ../setupui/scimanthysettingplugin.cpp:81
+#: ../setupui/scimanthysettingplugin.cpp:82
 msgid "Toggle on/off"
 msgstr "ON/OFF切り替え"
 
-#: ../setupui/scimanthysettingplugin.cpp:82
+#: ../setupui/scimanthysettingplugin.cpp:83
+msgid "The key events to toggle on/off Japanese mode. "
+msgstr "日本語モードをオン/オフするキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:85
 msgid "Circle input mode"
 msgstr "入力モード循環"
 
-#: ../setupui/scimanthysettingplugin.cpp:83
+#: ../setupui/scimanthysettingplugin.cpp:86
+msgid "The key events to circle input mode. "
+msgstr "次の入力モードを選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:88
 msgid "Circle kana mode"
 msgstr "かなモード循環"
 
-#: ../setupui/scimanthysettingplugin.cpp:84
+#: ../setupui/scimanthysettingplugin.cpp:89
+msgid "The key events to circle kana mode. "
+msgstr "次のかなモードを選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:91
 msgid "Latin mode"
 msgstr "英数モード"
 
-#: ../setupui/scimanthysettingplugin.cpp:85
+#: ../setupui/scimanthysettingplugin.cpp:92
+msgid "The key events to switch input mode to Latin. "
+msgstr "英数モードへ切り替えるキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:94
 msgid "Wide Latin mode"
 msgstr "全角英数モード"
 
-#: ../setupui/scimanthysettingplugin.cpp:86
+#: ../setupui/scimanthysettingplugin.cpp:95
+msgid "The key events to switch input mode to wide Latin. "
+msgstr "全角英数モードへ切り替えるキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:97
 msgid "Hiragana mode"
 msgstr "ひらがなモード"
 
-#: ../setupui/scimanthysettingplugin.cpp:87
+#: ../setupui/scimanthysettingplugin.cpp:98
+msgid "The key events to switch input mode to hiragana. "
+msgstr "ひらがなモードへ切り替えるキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:100
 msgid "Katakana mode"
 msgstr "かたかなモード"
 
-#: ../setupui/scimanthysettingplugin.cpp:88
+#: ../setupui/scimanthysettingplugin.cpp:101
+msgid "The key events to switch input mode to katakana. "
+msgstr "カタカナモードキーへ切り替えるキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:103
 msgid "Half katakana mode"
 msgstr "半角カタカナモード"
 
-#: ../setupui/scimanthysettingplugin.cpp:89
+#: ../setupui/scimanthysettingplugin.cpp:104
+msgid "The key events to switch input mode to half katakana. "
+msgstr "半角カタカナモードキーへ切り替えるキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:106
 msgid "Circle typing method"
 msgstr "入力方式切り替え"
 
-#: ../setupui/scimanthysettingplugin.cpp:91
+#: ../setupui/scimanthysettingplugin.cpp:107
+msgid "The key events to circle typing method. "
+msgstr "入力方式を切り替えるキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:110
 msgid "Insert space"
 msgstr "空白を挿入"
 
-#: ../setupui/scimanthysettingplugin.cpp:92
+#: ../setupui/scimanthysettingplugin.cpp:111
+msgid "The key events to insert a space. "
+msgstr "空白を挿入するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:113
 msgid "Insert alternative space"
 msgstr "別幅空白を挿入"
 
-#: ../setupui/scimanthysettingplugin.cpp:93
+#: ../setupui/scimanthysettingplugin.cpp:114
+msgid "The key events to insert a alternative space. "
+msgstr "別幅空白を挿入するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:116
 msgid "Insert half space"
 msgstr "半角空白を挿入"
 
-#: ../setupui/scimanthysettingplugin.cpp:94
+#: ../setupui/scimanthysettingplugin.cpp:117
+msgid "The key events to insert a half width space. "
+msgstr "半角空白を挿入するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:119
 msgid "Insert wide space"
 msgstr "全角空白を挿入"
 
-#: ../setupui/scimanthysettingplugin.cpp:95
+#: ../setupui/scimanthysettingplugin.cpp:120
+msgid "The key events to insert a wide space. "
+msgstr "全角空白を挿入するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:122
 msgid "Backspace"
 msgstr "バックスペース"
 
-#: ../setupui/scimanthysettingplugin.cpp:96
+#: ../setupui/scimanthysettingplugin.cpp:123
+msgid "The key events to delete a character before caret. "
+msgstr "キャレットの前の文字を削除するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:125
 msgid "Delete"
 msgstr "削除"
 
-#: ../setupui/scimanthysettingplugin.cpp:98
+#: ../setupui/scimanthysettingplugin.cpp:126
+msgid "The key events to delete a character after caret. "
+msgstr "キャレットの後の文字を削除するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:129
+msgid "The key events to commit the preedit string. "
+msgstr "文字列を確定するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:131
 msgid "Convert"
 msgstr "変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:99
+#: ../setupui/scimanthysettingplugin.cpp:132
+msgid "The key events to convert the preedit string to kanji. "
+msgstr "文字列を漢字に変換するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:134
 msgid "Predict"
 msgstr "予測"
 
-#: ../setupui/scimanthysettingplugin.cpp:100
+#: ../setupui/scimanthysettingplugin.cpp:135
+msgid ""
+"The key events to predict a word or sentence from already inserted text. "
+msgstr "入力された文字列から単語や文を予測するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:137
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: ../setupui/scimanthysettingplugin.cpp:101
+#: ../setupui/scimanthysettingplugin.cpp:138
+msgid "The key events to cancel preediting or converting. "
+msgstr "文字変換や文字入力をキャンセルするキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:140
 msgid "Cancel all"
 msgstr "全てキャンセル"
 
-#: ../setupui/scimanthysettingplugin.cpp:102
+#: ../setupui/scimanthysettingplugin.cpp:141
+msgid "The key events to return to initial state. "
+msgstr "初期状態へ戻るキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:143
 msgid "Reconvert"
 msgstr "再変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:105
+#: ../setupui/scimanthysettingplugin.cpp:144
+msgid "The key events to reconvert the commited string in selection. "
+msgstr "セレクション内の確定済み文字列を再変換するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:147
+msgid ""
+"The key events to eat and do nothing anymore. For example, it can be used to "
+"disable space key completely."
+msgstr ""
+"アプリケーションに渡さず、それ以上何もしないキーイベント。例えば、スペース"
+"キーを完全に無効にしたいときに指定します。"
+
+#: ../setupui/scimanthysettingplugin.cpp:151
 msgid "Move to first"
 msgstr "最初へ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:106
+#: ../setupui/scimanthysettingplugin.cpp:152
+msgid "The key events to move the caret to the first of preedit string. "
+msgstr "キャレットを文字列の先頭に移動するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:154
 msgid "Move to last"
 msgstr "最後へ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:107
+#: ../setupui/scimanthysettingplugin.cpp:155
+msgid "The key events to move the caret to the last of the preedit string. "
+msgstr "キャレットを文字列の最後に移動するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:157
 msgid "Move to forward"
 msgstr "前方へ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:108
+#: ../setupui/scimanthysettingplugin.cpp:158
+msgid "The key events to move the caret to forward. "
+msgstr "キャレットを前方に移動するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:160
 msgid "Move to backward"
 msgstr "後方へ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:110
+#: ../setupui/scimanthysettingplugin.cpp:161
+msgid "The key events to move the caret to backward. "
+msgstr "キャレットを後方へ移動するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:164
 msgid "Select the first segment"
 msgstr "最初の文節を選択"
 
-#: ../setupui/scimanthysettingplugin.cpp:111
+#: ../setupui/scimanthysettingplugin.cpp:165
+msgid "The key events to select the first segment. "
+msgstr "最初の文節を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:167
 msgid "Select the last segment"
 msgstr "最後の文節を選択"
 
-#: ../setupui/scimanthysettingplugin.cpp:112
+#: ../setupui/scimanthysettingplugin.cpp:168
+msgid "The key events to select the the last segment. "
+msgstr "最後の文節を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:170
 msgid "Select the next segment"
 msgstr "次の文節を選択"
 
-#: ../setupui/scimanthysettingplugin.cpp:113
+#: ../setupui/scimanthysettingplugin.cpp:171
+msgid "The key events to select the next segment. "
+msgstr "次の文節を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:173
 msgid "Select the previous segment"
 msgstr "前の文節を選択"
 
-#: ../setupui/scimanthysettingplugin.cpp:114
+#: ../setupui/scimanthysettingplugin.cpp:174
+msgid "The key events to select the previous segment. "
+msgstr "前の文節を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:176
 msgid "Shrink the segment"
 msgstr "文節を縮める"
 
-#: ../setupui/scimanthysettingplugin.cpp:115
+#: ../setupui/scimanthysettingplugin.cpp:177
+msgid "The key events to shrink the selected segment. "
+msgstr "文節を縮めるキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:179
 msgid "Expand the segment"
 msgstr "文節を広げる"
 
-#: ../setupui/scimanthysettingplugin.cpp:116
+#: ../setupui/scimanthysettingplugin.cpp:180
+msgid "The key events to expand the selected segment. "
+msgstr "文節を広げるキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:182
 msgid "Commit the first segment"
 msgstr "最初の文節を確定"
 
-#: ../setupui/scimanthysettingplugin.cpp:117
+#: ../setupui/scimanthysettingplugin.cpp:183
+msgid "The key events to commit the first segment. "
+msgstr "最初の文節を確定するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:185
 msgid "Commit the selected segment"
 msgstr "選択文節を確定"
 
-#: ../setupui/scimanthysettingplugin.cpp:119
+#: ../setupui/scimanthysettingplugin.cpp:186
+msgid "The key events to commit the selected segment. "
+msgstr "選択文節を確定するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:189
 msgid "First candidate"
 msgstr "最初の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:120
+#: ../setupui/scimanthysettingplugin.cpp:190
+msgid "The key events to select the first candidate. "
+msgstr "最初の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:192
 msgid "Last candidate"
 msgstr "最後の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:121
+#: ../setupui/scimanthysettingplugin.cpp:193
+msgid "The key events to the select last candidate. "
+msgstr "最後の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:195
 msgid "Next candidate"
 msgstr "次の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:122
+#: ../setupui/scimanthysettingplugin.cpp:196
+msgid "The key events to select the next candidate. "
+msgstr "次の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:198
 msgid "Previous candidate"
 msgstr "前の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:123
+#: ../setupui/scimanthysettingplugin.cpp:199
+msgid "The key events to select the previous candidate. "
+msgstr "前の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:201
 msgid "Page up"
 msgstr "前のページへ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:124
+#: ../setupui/scimanthysettingplugin.cpp:202
+msgid "The key events to switch candidates page up. "
+msgstr "前の候補ページへ移動するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:204
 msgid "Page down"
 msgstr "次のページへ移動"
 
-#: ../setupui/scimanthysettingplugin.cpp:126
+#: ../setupui/scimanthysettingplugin.cpp:205
+msgid "The key events to switch candidates page down. "
+msgstr "次の候補ページへ移動するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:208
 msgid "1st candidate"
 msgstr "1番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:127
+#: ../setupui/scimanthysettingplugin.cpp:209
+msgid "The key events to select the 1st candidate. "
+msgstr "1番目の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:211
 msgid "2nd candidate"
 msgstr "2番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:128
+#: ../setupui/scimanthysettingplugin.cpp:212
+msgid "The key events to select the 2nd candidate. "
+msgstr "2番得目の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:214
 msgid "3rd candidate"
 msgstr "3番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:129
+#: ../setupui/scimanthysettingplugin.cpp:215
+msgid "The key events to select the 3rd candidate. "
+msgstr "3番得目の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:217
 msgid "4th candidate"
 msgstr "4番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:130
+#: ../setupui/scimanthysettingplugin.cpp:218
+msgid "The key events to select the 4th candidate. "
+msgstr "4番目の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:220
 msgid "5th candidate"
 msgstr "5番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:131
+#: ../setupui/scimanthysettingplugin.cpp:221
+msgid "The key events to select the 5th candidate. "
+msgstr "5番目の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:223
 msgid "6th candidate"
 msgstr "6番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:132
+#: ../setupui/scimanthysettingplugin.cpp:224
+msgid "The key events to select the 6th candidate. "
+msgstr "6番目の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:226
 msgid "7th candidate"
 msgstr "7番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:133
+#: ../setupui/scimanthysettingplugin.cpp:227
+msgid "The key events to select the 7th candidate. "
+msgstr "7番目の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:229
 msgid "8th candidate"
 msgstr "8番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:134
+#: ../setupui/scimanthysettingplugin.cpp:230
+msgid "The key events to select the 8th candidate. "
+msgstr "8番目の候補を選択するキーの設定"
+
+#: ../setupui/scimanthysettingplugin.cpp:232
 msgid "9th candidate"
 msgstr "9番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:135
+#: ../setupui/scimanthysettingplugin.cpp:233
+msgid "The key events to select the 9th candidate. "
+msgstr "9番目の候補を選択するキーの設定"
+
+#: ../setupui/scimanthysettingplugin.cpp:235
 msgid "10th candidate"
 msgstr "10番目の候補"
 
-#: ../setupui/scimanthysettingplugin.cpp:137
+#: ../setupui/scimanthysettingplugin.cpp:236
+msgid "The key events to select the 10th candidate. "
+msgstr "10番目の候補を選択するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:239
 msgid "Convert character type to forward"
 msgstr "次の文字種に変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:138
+#: ../setupui/scimanthysettingplugin.cpp:240
+msgid "Rotate character type forward."
+msgstr "文字種を次に変換"
+
+#: ../setupui/scimanthysettingplugin.cpp:243
 msgid "Convert character type to backward"
 msgstr "前の文字種に変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:139
+#: ../setupui/scimanthysettingplugin.cpp:244
+msgid "Rotate character type backward."
+msgstr "前の文字種に変換"
+
+#: ../setupui/scimanthysettingplugin.cpp:247
 msgid "Convert to hiragana"
 msgstr "ひらがな変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:140
+#: ../setupui/scimanthysettingplugin.cpp:248
+msgid "The key events to convert the preedit string to hiragana. "
+msgstr "文字列をひらがなへ変換するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:251
 msgid "Convert to katakana"
 msgstr "カタカナ変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:141
+#: ../setupui/scimanthysettingplugin.cpp:252
+msgid "The key events to convert the preedit string to katakana. "
+msgstr "文字列をカタカナへ変換するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:255
 msgid "Convert to half width"
 msgstr "半角変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:142
+#: ../setupui/scimanthysettingplugin.cpp:256
+msgid "The key events to convert the preedit string to half width. "
+msgstr "文字列を半角へ変換するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:259
 msgid "Convert to half katakana"
 msgstr "半角カタカナ変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:143
+#: ../setupui/scimanthysettingplugin.cpp:260
+msgid "The key events to convert the preedit string to half width katakana. "
+msgstr "文字列を半角カタカナへ変換するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:263
 msgid "Convert to wide latin"
 msgstr "全角英数変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:144
+#: ../setupui/scimanthysettingplugin.cpp:264
+msgid "The key events to convert the preedit string to wide latin. "
+msgstr "文字列を全角英数へ変換するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:267
 msgid "Convert to latin"
 msgstr "英数変換"
 
-#: ../setupui/scimanthysettingplugin.cpp:146
+#: ../setupui/scimanthysettingplugin.cpp:268
+msgid "The key events to convert the preedit string to latin. "
+msgstr "文字列を英数へ変換するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:271
 msgid "Edit dictionary"
 msgstr "辞書を編集"
 
-#: ../setupui/scimanthysettingplugin.cpp:147
+#: ../setupui/scimanthysettingplugin.cpp:272
+msgid "The key events to launch dictionary administration tool. "
+msgstr "辞書管理ツールを起動するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:275
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: ../setupui/scimanthysettingplugin.cpp:296
-#: ../setupui/scimanthysettingplugin.cpp:390
-#: ../setupui/scimanthysettingplugin.cpp:394
-#: ../setupui/scimanthysettingplugin.cpp:730
-#: ../setupui/scimanthysettingplugin.cpp:732
-#: ../setupui/scimanthysettingplugin.cpp:734
+#: ../setupui/scimanthysettingplugin.cpp:276
+msgid "The key events to launch the tool to add a word. "
+msgstr "単語追加ツールを起動するキーイベント"
+
+#: ../setupui/scimanthysettingplugin.cpp:519
+#: ../setupui/scimanthysettingplugin.cpp:542
+#: ../setupui/scimanthysettingplugin.cpp:546
+#: ../setupui/scimanthysettingplugin.cpp:712
 msgid "Default"
 msgstr "標準設定"
 
-#: ../setupui/scimanthysettingplugin.cpp:298
-#: ../setupui/scimanthysettingplugin.cpp:391
-#: ../setupui/scimanthysettingplugin.cpp:397
-#: ../setupui/scimanthysettingplugin.cpp:451
+#: ../setupui/scimanthysettingplugin.cpp:521
+#: ../setupui/scimanthysettingplugin.cpp:543
+#: ../setupui/scimanthysettingplugin.cpp:549
+#: ../setupui/scimanthysettingplugin.cpp:602
+#: ../setupui/scimanthysettingplugin.cpp:718
 msgid "User defined"
 msgstr "ユーザー定義"
 
-#: ../setupui/scimanthysettingplugin.cpp:905
+#: ../setupui/scimanthysettingplugin.cpp:1169
 msgid "Romaji Table:"
 msgstr "ローマ字テーブル:"
 
-#: ../setupui/scimanthysettingplugin.cpp:905
+#: ../setupui/scimanthysettingplugin.cpp:1170
 #: ../setupui/scim_anthy_table_editor.h:29
 msgid "Sequence"
 msgstr "入力文字列"
 
-#: ../setupui/scimanthysettingplugin.cpp:905
-#: ../setupui/scimanthysettingplugin.cpp:968
+#: ../setupui/scimanthysettingplugin.cpp:1170
+#: ../setupui/scimanthysettingplugin.cpp:1232
 #: ../setupui/scim_anthy_table_editor.h:30
 msgid "Result"
 msgstr "出力文字列"
 
-#: ../setupui/scimanthysettingplugin.cpp:906
+#: ../setupui/scimanthysettingplugin.cpp:1171
 msgid "Edit romajit table"
 msgstr "ローマ字テーブルを編集"
 
-#: ../setupui/scimanthysettingplugin.cpp:968
-#: ../setupui/scimanthysettingplugin.cpp:1015
+#: ../setupui/scimanthysettingplugin.cpp:1232
+#: ../setupui/scimanthysettingplugin.cpp:1278
 msgid "Key"
 msgstr "キー"
 
-#: ../setupui/scimanthysettingplugin.cpp:969
+#: ../setupui/scimanthysettingplugin.cpp:1233
 msgid "Edit kana layout table"
 msgstr "かな配列テーブルを編集"
 
-#: ../setupui/scimanthysettingplugin.cpp:1015
+#: ../setupui/scimanthysettingplugin.cpp:1279
 msgid "Single press"
 msgstr "単独打鍵"
 
-#: ../setupui/scimanthysettingplugin.cpp:1016
+#: ../setupui/scimanthysettingplugin.cpp:1280
 msgid "Left thumb shift"
 msgstr "左親指シフト"
 
-#: ../setupui/scimanthysettingplugin.cpp:1016
+#: ../setupui/scimanthysettingplugin.cpp:1281
 msgid "Right thumb shift"
 msgstr "右親指シフト"
 
-#: ../setupui/scimanthysettingplugin.cpp:1017
+#: ../setupui/scimanthysettingplugin.cpp:1282
 msgid "Edit thumb shift layout table"
 msgstr "親指シフト配列テーブルを編集"
 
