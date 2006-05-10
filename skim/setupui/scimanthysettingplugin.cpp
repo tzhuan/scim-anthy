@@ -486,7 +486,7 @@ public:
         QListViewItem *item = NULL;
 
         if (style) {
-            // set table which is defined in current style file
+            // set the table which is defined in the current style file
             std::vector<String> keys;
             style->get_key_list (keys, section_name);
             std::vector<String>::iterator kit;
@@ -919,7 +919,7 @@ void ScimAnthySettingPlugin::slotWidgetModified ()
     if (d->is_changed ()) {
         emit changed (true);
     } else {
-        KAutoCModule::slotWidgetModified();
+        KAutoCModule::slotWidgetModified ();
     }
 }
 
@@ -971,6 +971,7 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (int n)
 
     } else if (current == 1) {
         // Handle "User defined" theme.
+
         // Nothing to do.
 
     } else {
@@ -1037,7 +1038,9 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
     ScimAnthyTableEditor editor (d->ui, i18n ("Romaji Table:"),
                                  i18n ("Sequence"), i18n ("Result"));
     editor.setCaption (i18n ("Edit romajit table"));
+    editor.setModal (true);
     d->m_table_editor = &editor;
+
     d->setup_combo_box (editor.m_table_chooser_combo,
                         __romaji_fund_table,
                         d->theme2file (d->ui->RomajiComboBox->currentText(),
@@ -1053,9 +1056,6 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
 
     int n = editor.m_table_chooser_combo->currentItem ();
     d->ui->RomajiComboBox->setCurrentItem (n);
-    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile",
-                  editor.m_table_chooser_combo->currentText (),
-                  __romaji_fund_table);
     if (n == 1) {
         d->m_user_style.delete_section (__romaji_fund_table);
 
@@ -1100,6 +1100,7 @@ void ScimAnthySettingPlugin::customize_kana_table ()
 {
     ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"), i18n ("Key"), i18n ("Result"));
     editor.setCaption (i18n ("Edit kana layout table")); 
+    editor.setModal (true);
     d->m_table_editor = &editor;
 
     d->setup_combo_box (editor.m_table_chooser_combo,
@@ -1116,9 +1117,6 @@ void ScimAnthySettingPlugin::customize_kana_table ()
 
     int n = editor.m_table_chooser_combo->currentItem ();
     d->ui->KanaComboBox->setCurrentItem (n);
-    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile",
-                  editor.m_table_chooser_combo->currentText (),
-                  __kana_fund_table);
     if (n == 1) {
         d->m_user_style.delete_section (__kana_fund_table);
 
@@ -1148,7 +1146,9 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
                                  i18n ("Key"), i18n ("Single press"),
                                  i18n ("Left thumb shift"), i18n ("Right thumb shift"));
     editor.setCaption (i18n ("Edit thumb shift layout table"));
+    editor.setModal (true);
     d->m_table_editor = &editor;
+
     d->setup_combo_box (editor.m_table_chooser_combo,
                         __nicola_fund_table,
                         d->theme2file (d->ui->ThumbShiftComboBox->currentText(),
@@ -1157,15 +1157,13 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
     connect (editor.m_table_chooser_combo,
              SIGNAL (activated (int)),
              this, SLOT (set_thumb_shift_table_view ()));
+    editor.show ();
 
     if (editor.exec () != QDialog::Accepted || !editor.changed ())
         return;
 
     int n = editor.m_table_chooser_combo->currentItem ();
     d->ui->ThumbShiftComboBox->setCurrentItem (n);
-    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile",
-                  editor.m_table_chooser_combo->currentText (),
-                  __nicola_fund_table);
     if (n == 1) {
         d->m_user_style.delete_section (__nicola_fund_table);
 
