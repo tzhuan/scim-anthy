@@ -154,7 +154,7 @@ K_EXPORT_COMPONENT_FACTORY (kcm_skimplugin_scim_anthy,
                             ScimAnthySettingLoaderFactory ("kcm_skimplugin_scim_anthy"))
 
 
-inline bool string_color_button_enabled (int n)
+inline bool color_enabled (int n)
 {
     return n > 3 && n < 7 ? true : false;
 }
@@ -376,11 +376,11 @@ public:
 
         // set sensitivity of dual color buttons
         int n = ui->kcfg__IMEngine_Anthy_PreeditStyle->currentItem ();
-        ui->PreeditStringDualColorButton->setEnabled (string_color_button_enabled (n));
+        ui->PreeditStringDualColorButton->setEnabled (color_enabled (n));
         n = ui->kcfg__IMEngine_Anthy_ConversionStyle->currentItem ();
-        ui->ConversionStringDualColorButton->setEnabled (string_color_button_enabled (n));
+        ui->ConversionStringDualColorButton->setEnabled (color_enabled (n));
         n = ui->kcfg__IMEngine_Anthy_SelectedSegmentStyle->currentItem ();
-        ui->SelectedSegmentDualColorButton->setEnabled (string_color_button_enabled (n));
+        ui->SelectedSegmentDualColorButton->setEnabled (color_enabled (n));
     }
 
     QString theme2file (const QString theme,
@@ -1199,17 +1199,17 @@ void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem 
 
 void ScimAnthySettingPlugin::preedit_string_style_changed (int n)
 {
-    d->ui->PreeditStringDualColorButton->setEnabled (string_color_button_enabled (n));
+    d->ui->PreeditStringDualColorButton->setEnabled (color_enabled (n));
 }
 
 void ScimAnthySettingPlugin::conversion_string_style_changed (int n)
 {
-    d->ui->ConversionStringDualColorButton->setEnabled (string_color_button_enabled (n));
+    d->ui->ConversionStringDualColorButton->setEnabled (color_enabled (n));
 }
 
 void ScimAnthySettingPlugin::selected_segment_style_changed (int n)
 {
-    d->ui->SelectedSegmentDualColorButton->setEnabled (string_color_button_enabled (n));
+    d->ui->SelectedSegmentDualColorButton->setEnabled (color_enabled (n));
 }
 void ScimAnthySettingPlugin::set_romaji_table_view ()
 {
