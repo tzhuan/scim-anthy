@@ -1178,7 +1178,11 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
                         __romaji_fund_table,
                         d->theme2file (d->ui->RomajiComboBox->currentText(),
                                        __romaji_fund_table));
-    set_romaji_table_view ();
+    //set_romaji_table_view ();
+    d->setup_table_view (d->m_table_editor->m_table_view,
+                         scim_anthy_romaji_typing_rule, NULL,
+                         d->m_table_editor->m_table_chooser_combo->currentText (),
+                         __romaji_fund_table);
     connect (editor.m_table_chooser_combo,
              SIGNAL (activated (int)),
              this, SLOT (set_romaji_table_view ()));
@@ -1240,7 +1244,10 @@ void ScimAnthySettingPlugin::customize_kana_table ()
                         __kana_fund_table,
                         d->theme2file (d->ui->KanaComboBox->currentText(),
                                        __kana_fund_table));
-    set_kana_table_view ();
+    d->setup_table_view (d->m_table_editor->m_table_view,
+                         scim_anthy_kana_typing_rule, NULL,
+                         d->m_table_editor->m_table_chooser_combo->currentText (),
+                         __kana_fund_table);
     connect (editor.m_table_chooser_combo,
              SIGNAL (activated (int)),
              this, SLOT (set_kana_table_view ()));
@@ -1289,7 +1296,10 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
                         __nicola_fund_table,
                         d->theme2file (d->ui->ThumbShiftComboBox->currentText(),
                                        __nicola_fund_table));
-    set_thumb_shift_table_view ();
+    d->setup_table_view (d->m_table_editor->m_table_view,
+                         NULL, scim_anthy_nicola_table,
+                         d->m_table_editor->m_table_chooser_combo->currentText (),
+                         __nicola_fund_table);
     connect (editor.m_table_chooser_combo,
              SIGNAL (activated (int)),
              this, SLOT (set_thumb_shift_table_view ()));
@@ -1346,6 +1356,9 @@ void ScimAnthySettingPlugin::selected_segment_style_changed (int n)
 }
 void ScimAnthySettingPlugin::set_romaji_table_view ()
 {
+    if (d->m_table_editor->m_table_chooser_combo->currentItem () == 1)
+        return;
+
     d->setup_table_view (d->m_table_editor->m_table_view,
                          scim_anthy_romaji_typing_rule, NULL,
                          d->m_table_editor->m_table_chooser_combo->currentText (),
@@ -1354,6 +1367,9 @@ void ScimAnthySettingPlugin::set_romaji_table_view ()
 
 void ScimAnthySettingPlugin::set_kana_table_view ()
 {
+    if (d->m_table_editor->m_table_chooser_combo->currentItem () == 1)
+        return;
+
     d->setup_table_view (d->m_table_editor->m_table_view,
                          scim_anthy_kana_typing_rule, NULL,
                          d->m_table_editor->m_table_chooser_combo->currentText (),
@@ -1362,6 +1378,9 @@ void ScimAnthySettingPlugin::set_kana_table_view ()
 
 void ScimAnthySettingPlugin::set_thumb_shift_table_view ()
 {
+    if (d->m_table_editor->m_table_chooser_combo->currentItem () == 1)
+        return;
+
     d->setup_table_view (d->m_table_editor->m_table_view,
                          NULL, scim_anthy_nicola_table,
                          d->m_table_editor->m_table_chooser_combo->currentText (),

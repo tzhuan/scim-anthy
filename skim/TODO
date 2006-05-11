@@ -1,4 +1,0 @@
-* Set "Description" field of key bindings view.
-* setValue() of KCOnfigGenericItem should be used on saving time, not changing
-  time.
-* Theme item should be found by absolute ID, not by theme name.
