@@ -1158,8 +1158,9 @@ void ScimAnthySettingPlugin::choose_keys ()
     SkimShortcutListEditor editor (d->ui);
     editor.setStringList (keys);
     if (editor.exec () == QDialog::Accepted) {
+        if (editor.getCombinedString () != item->text (1))
+            d->ui->KeyBindingsThemeComboBox->setCurrentItem (1);
         item->setText (1, editor.getCombinedString ());
-        d->ui->KeyBindingsThemeComboBox->setCurrentItem (1);
         slotWidgetModified ();
     }
 }
