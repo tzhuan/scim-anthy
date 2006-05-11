@@ -129,7 +129,7 @@ msgstr "入力モード(&I):"
 
 #: ../setupui/anthyui.cpp:746
 msgid "Beha&vior on comma and period:"
-msgstr "句読点入力時の挙動(&V)"
+msgstr "句読点入力時の挙動(&V):"
 
 #: ../setupui/anthyui.cpp:748 ../setupui/scimanthysettingplugin.cpp:146
 msgid "Do nothing"

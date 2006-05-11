@@ -1,5 +1,11 @@
 2006-05-11 Takuro Ashie <ashie@homa.ne.jp>
 
+	* setupui/scimanthysettingplugin.cpp: Make the parent directory before
+	saving the config file.
+	* po/ja.po: Fix typo.
+
+2006-05-11 Takuro Ashie <ashie@homa.ne.jp>
+
 	* setupui/scimanthysettingplugin.cpp: Don't switch to "User defined"
 	on key bindnings view when no changes are made in key editor dialog.
 

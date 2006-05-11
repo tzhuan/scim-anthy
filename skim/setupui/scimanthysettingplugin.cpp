@@ -415,6 +415,7 @@ public:
     void save_style_files ()
     {
         if (m_style_changed) {
+            scim_make_dir (__user_config_dir_name);
             m_user_style.save (__user_style_file_name.c_str ());
             m_style_changed = false;
         }
