@@ -1282,7 +1282,7 @@ has_voiced_consonant (String str)
 
 void ScimAnthySettingPlugin::kana_customize_ok ()
 {
-    if (d->m_table_editor->isChanged ())
+    if (!d->m_table_editor->isChanged ())
         return;
 
     int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
