@@ -1222,7 +1222,7 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
     connect (editor, SIGNAL (okClicked ()),
              this, SLOT (romaji_customize_ok ()));
     connect (editor, SIGNAL (cancelClicked ()),
-             this, SLOT (romaji_customize_cancel ()));
+             this, SLOT (table_dialog_cancel ()));
     connect (editor->m_table_chooser_combo, SIGNAL (activated (int)),
              this, SLOT (set_romaji_table_view ()));
 
