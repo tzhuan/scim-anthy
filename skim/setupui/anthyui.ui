@@ -86,7 +86,7 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>"Edit &amp;dictionary" command:</string>
+                                    <string>"&amp;Edit dictionary" command:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>kcfg__IMEngine_Anthy_DictAdminCommand</cstring>
@@ -150,10 +150,10 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Laun&amp;ch</string>
+                                    <string>La&amp;unch</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+C</string>
+                                    <string>Alt+U</string>
                                 </property>
                             </widget>
                             <widget class="QPushButton" row="1" column="2">
@@ -744,10 +744,10 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Symbol input style:</string>
+                                    <string>&amp;Symbol input style:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_PeriodStyle</cstring>
+                                    <cstring>kcfg__IMEngine_Anthy_SymbolStyle</cstring>
                                 </property>
                             </widget>
                         </grid>
@@ -999,10 +999,10 @@
                                     <cstring>kcfg__IMEngine_Anthy_RomajiHalfNumber</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Use half-wi&amp;dth characters for numbers</string>
+                                    <string>Use half-&amp;width characters for numbers</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+D</string>
+                                    <string>Alt+W</string>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="3" column="0">
@@ -1116,7 +1116,7 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>&amp;Layout:</string>
+                                    <string>La&amp;yout:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>KanaComboBox</cstring>
@@ -1148,10 +1148,10 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Customize...</string>
+                                    <string>Customi&amp;ze...</string>
                                 </property>
                                 <property name="accel">
-                                    <string></string>
+                                    <string>Alt+Z</string>
                                 </property>
                             </widget>
                             <spacer row="0" column="3">
@@ -1205,7 +1205,7 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Layout:</string>
+                                    <string>La&amp;yout:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>ThumbShiftComboBox</cstring>
@@ -1254,7 +1254,10 @@
                                     <cstring>textLabel1_2</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Simultaneous pressing time:</string>
+                                    <string>&amp;Simultaneous pressing time:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_NICOLATime</cstring>
                                 </property>
                             </widget>
                             <widget class="QSpinBox" row="3" column="1">
@@ -1459,7 +1462,7 @@
                     <cstring>TabPage</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Learn&amp;ing</string>
+                    <string>&amp;Learning</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -1489,10 +1492,10 @@
                                     <cstring>kcfg__IMEngine_Anthy_LearnOnManualCommit</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Learn on man&amp;ual commit</string>
+                                    <string>Learn on &amp;manual commit</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+U</string>
+                                    <string>Alt+M</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="1" column="0">
@@ -1500,10 +1503,10 @@
                                     <cstring>kcfg__IMEngine_Anthy_LearnOnAutoCommit</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>&amp;Learn on autocommit</string>
+                                    <string>Learn on a&amp;utocommit</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+L</string>
+                                    <string>Alt+U</string>
                                 </property>
                             </widget>
                         </grid>
@@ -1601,7 +1604,7 @@
                                     <cstring>textLabel19</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Commit the selecte&amp;d segment:</string>
+                                    <string>Commit the &amp;selected segment:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>kcfg__IMEngine_Anthy_CommitSelectedSegmentReverseLearnKey</cstring>
@@ -1709,7 +1712,7 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Number of candidates to show in a page:</string>
+                                    <string>Number of candidates to show &amp;in a page:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>kcfg__IMEngine_Anthy_CandWinPageSize</cstring>
@@ -1744,7 +1747,7 @@
                                     </sizepolicy>
                                 </property>
                                 <property name="text">
-                                    <string>Number of triggers until show:</string>
+                                    <string>Number of &amp;triggers until show:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>kcfg__IMEngine_Anthy_NTriggersToShowCandWin</cstring>
@@ -1920,10 +1923,10 @@
                                     <cstring>kcfg__IMEngine_Anthy_ShowDictLabel</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show &amp;dictionary menu label</string>
+                                    <string>Show dictionary &amp;menu label</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+D</string>
+                                    <string>Alt+M</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
@@ -1931,7 +1934,10 @@
                                     <cstring>kcfg__IMEngine_Anthy_ShowPeriodStyleLabel</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show period style label</string>
+                                    <string>Show &amp;period style label</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+P</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
@@ -1939,7 +1945,10 @@
                                     <cstring>kcfg__IMEngine_Anthy_ShowSymbolStyleLabel</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show symbol style label</string>
+                                    <string>Show &amp;symbol style label</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+S</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="7" column="1">
@@ -1947,10 +1956,10 @@
                                     <cstring>kcfg__IMEngine_Anthy_ShowAddWordLabel</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show "&amp;Add word" label</string>
+                                    <string>Show "Add &amp;word" label</string>
                                 </property>
                                 <property name="accel">
-                                    <string>Alt+A</string>
+                                    <string>Alt+W</string>
                                 </property>
                             </widget>
                             <widget class="QCheckBox" row="6" column="1">
@@ -1958,10 +1967,10 @@
                                     <cstring>kcfg__IMEngine_Anthy_ShowDictAdminLabel</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Show "Edit dictionary" label</string>
+                                    <string>Show "&amp;Edit dictionary" label</string>
                                 </property>
                                 <property name="accel">
-                                    <string></string>
+                                    <string>Alt+E</string>
                                 </property>
                             </widget>
                         </grid>
@@ -2001,7 +2010,7 @@
                             <cstring>textLabel23</cstring>
                         </property>
                         <property name="text">
-                            <string>Pree&amp;dit string:</string>
+                            <string>&amp;Preedit string:</string>
                         </property>
                         <property name="buddy" stdset="0">
                             <cstring>kcfg__IMEngine_Anthy_PreeditStyle</cstring>
@@ -2012,7 +2021,7 @@
                             <cstring>textLabel27</cstring>
                         </property>
                         <property name="text">
-                            <string>Selected segment:</string>
+                            <string>&amp;Selected segment:</string>
                         </property>
                         <property name="buddy" stdset="0">
                             <cstring>kcfg__IMEngine_Anthy_SelectedSegmentStyle</cstring>
@@ -2042,7 +2051,7 @@
                         </item>
                         <item>
                             <property name="text">
-                                <string>Reverse</string>
+                                <string>Reversed color</string>
                             </property>
                         </item>
                         <item>
@@ -2082,7 +2091,7 @@
                         </item>
                         <item>
                             <property name="text">
-                                <string>Reverse</string>
+                                <string>Reversed color</string>
                             </property>
                         </item>
                         <item>
@@ -2122,7 +2131,7 @@
                         </item>
                         <item>
                             <property name="text">
-                                <string>Reverse</string>
+                                <string>Reversed color</string>
                             </property>
                         </item>
                         <item>
@@ -2505,7 +2514,37 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>skimeditshortcutbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kdualcolorbutton.h</includehint>
+    <includehint>kdualcolorbutton.h</includehint>
     <includehint>kdualcolorbutton.h</includehint>
 </includehints>
 </UI>
