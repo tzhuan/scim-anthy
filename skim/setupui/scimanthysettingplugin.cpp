@@ -1169,7 +1169,7 @@ void ScimAnthySettingPlugin::choose_keys ()
 
 void ScimAnthySettingPlugin::romaji_customize_ok ()
 {
-    if (!d->m_table_editor->is_changed ())
+    if (!d->m_table_editor->isChanged ())
         return;
 
     int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
@@ -1253,7 +1253,7 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
 
     d->m_table_editor = NULL;
 #else
-    editor->set_destructive (true);
+    editor->setDestructive (true);
     editor->show ();
 #endif
 }
@@ -1297,7 +1297,7 @@ void ScimAnthySettingPlugin::customize_kana_table ()
              SIGNAL (activated (int)),
              this, SLOT (set_kana_table_view ()));
 
-    if (editor.exec () != QDialog::Accepted || !editor.is_changed ())
+    if (editor.exec () != QDialog::Accepted || !editor.isChanged ())
         return;
 
     int n = editor.m_table_chooser_combo->currentItem ();
@@ -1350,7 +1350,7 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
              this, SLOT (set_thumb_shift_table_view ()));
     editor.show ();
 
-    if (editor.exec () != QDialog::Accepted || !editor.is_changed ())
+    if (editor.exec () != QDialog::Accepted || !editor.isChanged ())
         return;
 
     int n = editor.m_table_chooser_combo->currentItem ();

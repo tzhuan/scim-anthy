@@ -139,7 +139,7 @@ ScimAnthyTableEditor::~ScimAnthyTableEditor ()
 {
 }
 
-void ScimAnthyTableEditor::set_destructive (bool destructive)
+void ScimAnthyTableEditor::setDestructive (bool destructive)
 {
     if (destructive)
         setWFlags (getWFlags () | Qt::WDestructiveClose);
@@ -147,12 +147,12 @@ void ScimAnthyTableEditor::set_destructive (bool destructive)
         setWFlags (getWFlags () & ~Qt::WDestructiveClose);
 }
 
-void ScimAnthyTableEditor::table_chooser_combo_changed ()
+void ScimAnthyTableEditor::tableChooserComboChanged ()
 {
     m_changed = true;
 }
 
-void ScimAnthyTableEditor::set_button_enabled ()
+void ScimAnthyTableEditor::setButtonEnabled ()
 {
     QString str = m_line_edit[0]->text ();
     QListViewItem *item = m_table_view->currentItem ();
@@ -161,7 +161,7 @@ void ScimAnthyTableEditor::set_button_enabled ()
     m_remove_button->setEnabled (item ? true : false);
 }
 
-void ScimAnthyTableEditor::set_current_item ()
+void ScimAnthyTableEditor::setCurrentItem ()
 {
     QListViewItem *item = m_table_view->currentItem ();
 
@@ -175,7 +175,7 @@ void ScimAnthyTableEditor::set_current_item ()
         m_line_edit[3]->setText (item ? item->text (3) : "");
 }
 
-void ScimAnthyTableEditor::add_item ()
+void ScimAnthyTableEditor::addItem ()
 {
     QListViewItem *item = m_table_view->currentItem ();
 
@@ -210,7 +210,7 @@ void ScimAnthyTableEditor::add_item ()
     }
 }
 
-void ScimAnthyTableEditor::remove_item ()
+void ScimAnthyTableEditor::removeItem ()
 {
     QListViewItem *item = m_table_view->currentItem ();
     if (item) {

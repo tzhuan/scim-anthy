@@ -33,15 +33,15 @@ public:
                            const char *name = 0);
     ~ScimAnthyTableEditor ();
 
-    bool is_changed       () { return m_changed; }
-    void set_destructive  (bool destructive);
+    bool isChanged        () { return m_changed; }
+    void setDestructive   (bool destructive);
 
 public slots:
-    void table_chooser_combo_changed ();
-    void set_button_enabled          ();
-    void set_current_item            ();
-    void add_item                    ();
-    void remove_item                 ();
+    void tableChooserComboChanged ();
+    void setButtonEnabled         ();
+    void setCurrentItem           ();
+    void addItem                  ();
+    void removeItem               ();
 
 public:
     QLabel      *m_table_chooser_label;
