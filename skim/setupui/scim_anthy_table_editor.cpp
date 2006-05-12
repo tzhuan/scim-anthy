@@ -122,17 +122,17 @@ ScimAnthyTableEditor::ScimAnthyTableEditor (QWidget *parent,
     // connect to signals
     connect (m_table_chooser_combo,
              SIGNAL (activated (int)),
-             this, SLOT (table_chooser_combo_changed ()));
-    connect (m_table_view, SIGNAL (currentChanged (QListViewItem*)),
-             this, SLOT (set_button_enabled ()));
-    connect (m_table_view, SIGNAL (currentChanged (QListViewItem*)),
-             this, SLOT (set_current_item ()));
+             this, SLOT (tableChooserComboChanged ()));
+    connect (m_table_view, SIGNAL (selectionChanged (QListViewItem*)),
+             this, SLOT (setButtonEnabled ()));
+    connect (m_table_view, SIGNAL (selectionChanged (QListViewItem*)),
+             this, SLOT (setCurrentItem ()));
     connect (m_line_edit[0], SIGNAL (textChanged (const QString &)),
-             this, SLOT (set_button_enabled ()));
+             this, SLOT (setButtonEnabled ()));
     connect (m_add_button, SIGNAL (clicked ()),
-             this, SLOT (add_item ()));
+             this, SLOT (addItem ()));
     connect (m_remove_button, SIGNAL (clicked ()),
-             this, SLOT (remove_item ()));
+             this, SLOT (removeItem ()));
 }
 
 ScimAnthyTableEditor::~ScimAnthyTableEditor ()
@@ -216,6 +216,15 @@ void ScimAnthyTableEditor::removeItem ()
     if (item) {
         m_table_view->takeItem (item);
         delete item;
+
+        if (m_line_edit[0])
+            m_line_edit[0]->clear ();
+        if (m_line_edit[1])
+            m_line_edit[1]->clear ();
+        if (m_line_edit[2])
+            m_line_edit[2]->clear ();
+        if (m_line_edit[3])
+            m_line_edit[3]->clear ();
 
         m_table_chooser_combo->setCurrentItem (1);
         m_changed = true;
