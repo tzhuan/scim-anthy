@@ -54,6 +54,8 @@ protected slots:
     void set_romaji_table_view               ();
     void set_kana_table_view                 ();
     void set_thumb_shift_table_view          ();
+    void romaji_customize_ok                 ();
+    void table_dialog_cancel                 ();
 
 private:
     class ScimAnthySettingPluginPrivate;

@@ -139,6 +139,14 @@ ScimAnthyTableEditor::~ScimAnthyTableEditor ()
 {
 }
 
+void ScimAnthyTableEditor::set_destructive (bool destructive)
+{
+    if (destructive)
+        setWFlags (getWFlags () | Qt::WDestructiveClose);
+    else
+        setWFlags (getWFlags () & ~Qt::WDestructiveClose);
+}
+
 void ScimAnthyTableEditor::table_chooser_combo_changed ()
 {
     m_changed = true;

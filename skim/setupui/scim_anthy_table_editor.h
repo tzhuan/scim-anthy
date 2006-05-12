@@ -33,7 +33,8 @@ public:
                            const char *name = 0);
     ~ScimAnthyTableEditor ();
 
-    bool changed () { return m_changed; }
+    bool is_changed       () { return m_changed; }
+    void set_destructive  (bool destructive);
 
 public slots:
     void table_chooser_combo_changed ();
