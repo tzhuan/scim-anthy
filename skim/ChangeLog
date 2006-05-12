@@ -4,6 +4,11 @@
 
 2006-05-12 Takuro Ashie <ashie@homa.ne.jp>
 
+	* setupui/scimanthysettingplugin.{cpp,h}: Don't use QDialog::exec() for
+	table editor dialog because toolbar of SKIM is freezed when use it.
+
+2006-05-12 Takuro Ashie <ashie@homa.ne.jp>
+
 	* setupui/scimanthysettingplugin.{cpp,h},
 	  setupui/scim_anthy_table_edior.{cpp,h}:
 	Some minor improvements.

@@ -1205,8 +1205,10 @@ void ScimAnthySettingPlugin::table_dialog_cancel ()
 void ScimAnthySettingPlugin::customize_romaji_table ()
 {
     ScimAnthyTableEditor *editor
-        = new ScimAnthyTableEditor (d->ui, i18n ("Romaji Table:"),
-                                    i18n ("Sequence"), i18n ("Result"));
+        = new ScimAnthyTableEditor (d->ui,
+                                    i18n ("Romaji Table:"),
+                                    i18n ("Sequence"),
+                                    i18n ("Result"));
     editor->setCaption (i18n ("Edit romajit table"));
     editor->setModal (true);
     d->m_table_editor = editor;
@@ -1215,9 +1217,9 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
                         __romaji_fund_table,
                         d->theme2file (d->ui->RomajiComboBox->currentText(),
                                        __romaji_fund_table));
-    d->setup_table_view (d->m_table_editor->m_table_view,
+    d->setup_table_view (editor->m_table_view,
                          scim_anthy_romaji_typing_rule, NULL,
-                         d->m_table_editor->m_table_chooser_combo->currentText (),
+                         editor->m_table_chooser_combo->currentText (),
                          __romaji_fund_table);
     connect (editor, SIGNAL (okClicked ()),
              this, SLOT (romaji_customize_ok ()));
@@ -1278,25 +1280,65 @@ has_voiced_consonant (String str)
     return false;
 }
 
+void ScimAnthySettingPlugin::kana_customize_ok ()
+{
+    if (d->m_table_editor->isChanged ())
+        return;
+
+    int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
+    d->ui->KanaComboBox->setCurrentItem (n);
+    if (n == 1) {
+        d->m_user_style.delete_section (__kana_fund_table);
+
+        QListViewItem *i;
+        for (i = d->m_table_editor->m_table_view->firstChild (); i; i = i->nextSibling ()) {
+            String seq = i->text(0).isNull () ?
+                String ("") : String (i->text(0).utf8 ());
+            std::vector<String> value;
+            if (has_voiced_consonant (String (i->text(1).utf8 ())))
+                value.push_back (String (""));
+            value.push_back (i->text(1).isNull () ?
+                             String ("") : String (i->text(1).utf8 ()));
+            d->m_user_style.set_string_array (__kana_fund_table, seq, value);
+        }
+
+        d->m_style_changed = true;
+    }
+
+    slotWidgetModified ();
+
+    d->m_table_editor = NULL;
+}
+
 void ScimAnthySettingPlugin::customize_kana_table ()
 {
-    ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"), i18n ("Key"), i18n ("Result"));
-    editor.setCaption (i18n ("Edit kana layout table")); 
-    editor.setModal (true);
-    d->m_table_editor = &editor;
+    ScimAnthyTableEditor *editor
+        = new ScimAnthyTableEditor (d->ui,
+                                    i18n ("Layout:"),
+                                    i18n ("Key"),
+                                    i18n ("Result"));
+    editor->setCaption (i18n ("Edit kana layout table")); 
+    editor->setModal (true);
+    d->m_table_editor = editor;
 
-    d->setup_combo_box (editor.m_table_chooser_combo,
+    d->setup_combo_box (editor->m_table_chooser_combo,
                         __kana_fund_table,
                         d->theme2file (d->ui->KanaComboBox->currentText(),
                                        __kana_fund_table));
-    d->setup_table_view (d->m_table_editor->m_table_view,
+    d->setup_table_view (editor->m_table_view,
                          scim_anthy_kana_typing_rule, NULL,
-                         d->m_table_editor->m_table_chooser_combo->currentText (),
+                         editor->m_table_chooser_combo->currentText (),
                          __kana_fund_table);
-    connect (editor.m_table_chooser_combo,
+    connect (editor, SIGNAL (okClicked ()),
+             this, SLOT (kana_customize_ok ()));
+    connect (editor, SIGNAL (cancelClicked ()),
+             this, SLOT (table_dialog_cancel ()));
+    connect (editor->m_table_chooser_combo,
              SIGNAL (activated (int)),
              this, SLOT (set_kana_table_view ()));
 
+#if 0
+    // Don't use QDialog::exec() because toolbar of SKIM is freezed when use it.
     if (editor.exec () != QDialog::Accepted || !editor.isChanged ())
         return;
 
@@ -1323,33 +1365,77 @@ void ScimAnthySettingPlugin::customize_kana_table ()
     slotWidgetModified ();
 
     d->m_table_editor = NULL;
+#else
+    editor->setDestructive (true);
+    editor->show ();
+#endif
+}
+
+
+void ScimAnthySettingPlugin::nicola_customize_ok ()
+{
+    if (!d->m_table_editor->isChanged ())
+        return;
+
+    int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
+    d->ui->ThumbShiftComboBox->setCurrentItem (n);
+    if (n == 1) {
+        d->m_user_style.delete_section (__nicola_fund_table);
+
+        QListViewItem *i;
+        for (i = d->m_table_editor->m_table_view->firstChild (); i; i = i->nextSibling ()) {
+            String seq = i->text(0).isNull () ?
+                String ("") : String (i->text(0).utf8 ());
+            std::vector<String> value;
+            value.push_back (i->text(1).isNull () ?
+                             String ("") : String (i->text(1).utf8 ()));
+            value.push_back (i->text(2).isNull () ?
+                             String ("") : String (i->text(2).utf8 ()));
+            value.push_back (i->text(3).isNull () ?
+                             String ("") : String (i->text(3).utf8 ()));
+            d->m_user_style.set_string_array (__nicola_fund_table, seq, value);
+        }
+
+        d->m_style_changed = true;
+    }
+
+    slotWidgetModified ();
+
+    d->m_table_editor = NULL;
 }
 
 void ScimAnthySettingPlugin::customize_nicola_table ()
 {
-    ScimAnthyTableEditor editor (d->ui,
-                                 i18n ("Layout:"),
-                                 i18n ("Key"),
-                                 i18n ("Single press"),
-                                 i18n ("Left thumb shift"),
-                                 i18n ("Right thumb shift"));
-    editor.setCaption (i18n ("Edit thumb shift layout table"));
-    editor.setModal (true);
-    d->m_table_editor = &editor;
+    ScimAnthyTableEditor *editor
+        = new ScimAnthyTableEditor (d->ui,
+                                    i18n ("Layout:"),
+                                    i18n ("Key"),
+                                    i18n ("Single press"),
+                                    i18n ("Left thumb shift"),
+                                    i18n ("Right thumb shift"));
+    editor->setCaption (i18n ("Edit thumb shift layout table"));
+    editor->setModal (true);
+    d->m_table_editor = editor;
 
-    d->setup_combo_box (editor.m_table_chooser_combo,
+    d->setup_combo_box (editor->m_table_chooser_combo,
                         __nicola_fund_table,
                         d->theme2file (d->ui->ThumbShiftComboBox->currentText(),
                                        __nicola_fund_table));
-    d->setup_table_view (d->m_table_editor->m_table_view,
+    d->setup_table_view (editor->m_table_view,
                          NULL, scim_anthy_nicola_table,
-                         d->m_table_editor->m_table_chooser_combo->currentText (),
+                         editor->m_table_chooser_combo->currentText (),
                          __nicola_fund_table);
-    connect (editor.m_table_chooser_combo,
+    connect (editor, SIGNAL (okClicked ()),
+             this, SLOT (nicola_customize_ok ()));
+    connect (editor, SIGNAL (cancelClicked ()),
+             this, SLOT (table_dialog_cancel ()));
+    connect (editor->m_table_chooser_combo,
              SIGNAL (activated (int)),
              this, SLOT (set_thumb_shift_table_view ()));
-    editor.show ();
+    editor->show ();
 
+#if 0
+    // Don't use QDialog::exec() because toolbar of SKIM is freezed when use it.
     if (editor.exec () != QDialog::Accepted || !editor.isChanged ())
         return;
 
@@ -1378,6 +1464,7 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
     slotWidgetModified ();
 
     d->m_table_editor = NULL;
+#endif
 }
 
 void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem *item)
