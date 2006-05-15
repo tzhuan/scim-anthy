@@ -296,7 +296,7 @@ msgstr "JISかな配列"
 
 #: ../setupui/anthyui.cpp:805 ../setupui/anthyui.cpp:809
 msgid "La&yout:"
-msgstr "レイアウト(Y):"
+msgstr "レイアウト(&Y):"
 
 #: ../setupui/anthyui.cpp:806 ../setupui/anthyui.cpp:814
 msgid "Customi&ze..."
