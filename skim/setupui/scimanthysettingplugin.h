@@ -43,9 +43,6 @@ protected slots:
     void launch_add_word_command             ();
     void set_key_bindings_group              ();
     void set_key_bindings_theme              (int n);
-    void set_romaji_theme                    (const QString & value);
-    void set_kana_theme                      (const QString & value);
-    void set_nicola_theme                    (const QString & value);
     void choose_keys                         ();
     void customize_romaji_table              ();
     void customize_kana_table                ();
@@ -54,15 +51,13 @@ protected slots:
     void preedit_string_style_changed        (int n);
     void conversion_string_style_changed     (int n);
     void selected_segment_style_changed      (int n);
-    void set_preedit_string_fg_color         (const QColor & c);
-    void set_preedit_string_bg_color         (const QColor & c);
-    void set_conversion_string_fg_color      (const QColor & c);
-    void set_conversion_string_bg_color      (const QColor & c);
-    void set_selected_segment_fg_color       (const QColor & c);
-    void set_selected_segment_bg_color       (const QColor & c);
     void set_romaji_table_view               ();
     void set_kana_table_view                 ();
     void set_thumb_shift_table_view          ();
+    void romaji_customize_ok                 ();
+    void kana_customize_ok                   ();
+    void nicola_customize_ok                 ();
+    void table_dialog_cancel                 ();
 
 private:
     class ScimAnthySettingPluginPrivate;

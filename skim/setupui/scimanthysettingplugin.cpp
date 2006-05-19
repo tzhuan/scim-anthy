@@ -48,13 +48,16 @@ static const char * const __romaji_fund_table  = "RomajiTable/FundamentalTable";
 static const char * const __kana_fund_table    = "KanaTable/FundamentalTable";
 static const char * const __nicola_fund_table  = "NICOLATable/FundamentalTable";
 
-const String __user_config_dir_name =
+static const String __user_config_dir_name =
     scim_get_home_dir () +
     String (SCIM_PATH_DELIM_STRING ".scim" SCIM_PATH_DELIM_STRING "Anthy");
-const String __user_style_dir_name =
+static const String __user_style_dir_name =
     __user_config_dir_name + String (SCIM_PATH_DELIM_STRING "style");
-const String __user_style_file_name =
+static const String __user_style_file_name =
     __user_config_dir_name + String (SCIM_PATH_DELIM_STRING "config.sty");
+
+static const int __THEME_ID_DEFAULT      = 0;
+static const int __THEME_ID_USER_DEFINED = 1;
 
 typedef enum {
     AllKeys          = 0,
@@ -69,84 +72,214 @@ typedef enum {
     SearchByKey      = 9,
 } KeyCategory;
 
-typedef struct _KeyList
+typedef struct _KeyEntry
 {
     const char  *label;
     const char  *key;
+    const char  *desc;
     KeyCategory  category;
-} KeyList;
+} KeyEntry;
 
-KeyList key_list[] =
+KeyEntry key_list[] =
 {
-    {I18N_NOOP("Toggle on/off"),               "_IMEngine_Anthy_OnOffKey",                   ModeKeys},
-    {I18N_NOOP("Circle input mode"),           "_IMEngine_Anthy_CircleInputModeKey",         ModeKeys},
-    {I18N_NOOP("Circle kana mode"),            "_IMEngine_Anthy_CircleKanaModeKey",          ModeKeys},
-    {I18N_NOOP("Latin mode"),                  "_IMEngine_Anthy_LatinModeKey",               ModeKeys},
-    {I18N_NOOP("Wide Latin mode"),             "_IMEngine_Anthy_WideLatinModeKey",           ModeKeys},
-    {I18N_NOOP("Hiragana mode"),               "_IMEngine_Anthy_HiraganaModeKey",            ModeKeys},
-    {I18N_NOOP("Katakana mode"),               "_IMEngine_Anthy_KatakanaModeKey",            ModeKeys},
-    {I18N_NOOP("Half katakana mode"),          "_IMEngine_Anthy_HalfKatakanaModeKey",        ModeKeys},
-    {I18N_NOOP("Circle typing method"),        "_IMEngine_Anthy_CircleTypingMethodKey",      ModeKeys},
+    {I18N_NOOP("Toggle on/off"),                "_IMEngine_Anthy_OnOffKey",
+     I18N_NOOP("The key events to toggle on/off Japanese mode. "),
+     ModeKeys},
+    {I18N_NOOP("Circle input mode"),            "_IMEngine_Anthy_CircleInputModeKey",
+     I18N_NOOP("The key events to circle input mode. "),
+     ModeKeys},
+    {I18N_NOOP("Circle kana mode"),             "_IMEngine_Anthy_CircleKanaModeKey",
+     I18N_NOOP("The key events to circle kana mode. "),
+     ModeKeys},
+    {I18N_NOOP("Latin mode"),                   "_IMEngine_Anthy_LatinModeKey",
+     I18N_NOOP("The key events to switch input mode to Latin. "),
+     ModeKeys},
+    {I18N_NOOP("Wide Latin mode"),              "_IMEngine_Anthy_WideLatinModeKey",
+     I18N_NOOP("The key events to switch input mode to wide Latin. "),
+     ModeKeys},
+    {I18N_NOOP("Hiragana mode"),                "_IMEngine_Anthy_HiraganaModeKey",
+     I18N_NOOP("The key events to switch input mode to hiragana. "),
+     ModeKeys},
+    {I18N_NOOP("Katakana mode"),                "_IMEngine_Anthy_KatakanaModeKey",
+     I18N_NOOP("The key events to switch input mode to katakana. "),
+     ModeKeys},
+    {I18N_NOOP("Half katakana mode"),           "_IMEngine_Anthy_HalfKatakanaModeKey",
+     I18N_NOOP("The key events to switch input mode to half katakana. "),
+     ModeKeys},
+    {I18N_NOOP("Circle typing method"),         "_IMEngine_Anthy_CircleTypingMethodKey",
+     I18N_NOOP("The key events to circle typing method. "),
+     ModeKeys},
 
-    {I18N_NOOP("Insert space"),                "_IMEngine_Anthy_InsertSpaceKey",             EditKeys},
-    {I18N_NOOP("Insert alternative space"),    "_IMEngine_Anthy_InsertAltSpaceKey",          EditKeys},
-    {I18N_NOOP("Insert half space"),           "_IMEngine_Anthy_InsertHalfSpaceKey",         EditKeys},
-    {I18N_NOOP("Insert wide space"),           "_IMEngine_Anthy_InsertWideSpaceKey",         EditKeys},
-    {I18N_NOOP("Backspace"),                   "_IMEngine_Anthy_BackSpaceKey",               EditKeys},
-    {I18N_NOOP("Delete"),                      "_IMEngine_Anthy_DeleteKey",                  EditKeys},
-    {I18N_NOOP("Commit"),                      "_IMEngine_Anthy_CommitKey",                  EditKeys},
-    {I18N_NOOP("Convert"),                     "_IMEngine_Anthy_ConvertKey",                 EditKeys},
-    {I18N_NOOP("Predict"),                     "_IMEngine_Anthy_PredictKey",                 EditKeys},
-    {I18N_NOOP("Cancel"),                      "_IMEngine_Anthy_CancelKey",                  EditKeys},
-    {I18N_NOOP("Cancel all"),                  "_IMEngine_Anthy_CancelAllKey",               EditKeys},
-    {I18N_NOOP("Reconvert"),                   "_IMEngine_Anthy_ReconvertKey",               EditKeys},
-    {I18N_NOOP("Do nothing"),                  "_IMEngine_Anthy_DoNothingKey",               EditKeys},
+    {I18N_NOOP("Insert space"),                 "_IMEngine_Anthy_InsertSpaceKey",
+     I18N_NOOP("The key events to insert a space. "),
+     EditKeys},
+    {I18N_NOOP("Insert alternative space"),     "_IMEngine_Anthy_InsertAltSpaceKey",
+     I18N_NOOP("The key events to insert a alternative space. "),
+     EditKeys},
+    {I18N_NOOP("Insert half space"),            "_IMEngine_Anthy_InsertHalfSpaceKey",
+     I18N_NOOP("The key events to insert a half width space. "),
+     EditKeys},
+    {I18N_NOOP("Insert wide space"),            "_IMEngine_Anthy_InsertWideSpaceKey",
+     I18N_NOOP("The key events to insert a wide space. "),
+     EditKeys},
+    {I18N_NOOP("Backspace"),                    "_IMEngine_Anthy_BackSpaceKey",
+     I18N_NOOP("The key events to delete a character before caret. "),
+     EditKeys},
+    {I18N_NOOP("Delete"),                       "_IMEngine_Anthy_DeleteKey",
+     I18N_NOOP("The key events to delete a character after caret. "),
+     EditKeys},
+    {I18N_NOOP("Commit"),                       "_IMEngine_Anthy_CommitKey",
+     I18N_NOOP("The key events to commit the preedit string. "),
+     EditKeys},
+    {I18N_NOOP("Convert"),                      "_IMEngine_Anthy_ConvertKey",
+     I18N_NOOP("The key events to convert the preedit string to kanji. "),
+     EditKeys},
+    {I18N_NOOP("Predict"),                      "_IMEngine_Anthy_PredictKey",
+     I18N_NOOP("The key events to predict a word or sentence from already inserted text. "),
+     EditKeys},
+    {I18N_NOOP("Cancel"),                       "_IMEngine_Anthy_CancelKey",
+     I18N_NOOP("The key events to cancel preediting or converting. "),
+     EditKeys},
+    {I18N_NOOP("Cancel all"),                   "_IMEngine_Anthy_CancelAllKey",
+     I18N_NOOP("The key events to return to initial state. "),
+     EditKeys},
+    {I18N_NOOP("Reconvert"),                    "_IMEngine_Anthy_ReconvertKey",
+     I18N_NOOP("The key events to reconvert the commited string in selection. "),
+     EditKeys},
+    {I18N_NOOP("Do nothing"),                   "_IMEngine_Anthy_DoNothingKey",
+     I18N_NOOP("The key events to eat and do nothing anymore. "
+               "For example, it can be used to disable space key completely."),
+     EditKeys},
 
-    {I18N_NOOP("Move to first"),               "_IMEngine_Anthy_MoveCaretFirstKey",          CaretKeys},
-    {I18N_NOOP("Move to last"),                "_IMEngine_Anthy_MoveCaretLastKey",           CaretKeys},
-    {I18N_NOOP("Move to forward"),             "_IMEngine_Anthy_MoveCaretForwardKey",        CaretKeys},
-    {I18N_NOOP("Move to backward"),            "_IMEngine_Anthy_MoveCaretBackwardKey",       CaretKeys},
+    {I18N_NOOP("Move to first"),                "_IMEngine_Anthy_MoveCaretFirstKey",
+     I18N_NOOP("The key events to move the caret to the first of preedit string. "),
+     CaretKeys},
+    {I18N_NOOP("Move to last"),                 "_IMEngine_Anthy_MoveCaretLastKey",
+     I18N_NOOP("The key events to move the caret to the last of the preedit string. "),
+     CaretKeys},
+    {I18N_NOOP("Move to forward"),              "_IMEngine_Anthy_MoveCaretForwardKey",
+     I18N_NOOP("The key events to move the caret to forward. "),
+     CaretKeys},
+    {I18N_NOOP("Move to backward"),             "_IMEngine_Anthy_MoveCaretBackwardKey",
+     I18N_NOOP("The key events to move the caret to backward. "),
+     CaretKeys},
 
-    {I18N_NOOP("Select the first segment"),    "_IMEngine_Anthy_SelectFirstSegmentKey",      SegmentKeys},
-    {I18N_NOOP("Select the last segment"),     "_IMEngine_Anthy_SelectLastSegmentKey",       SegmentKeys},
-    {I18N_NOOP("Select the next segment"),     "_IMEngine_Anthy_SelectNextSegmentKey",       SegmentKeys},
-    {I18N_NOOP("Select the previous segment"), "_IMEngine_Anthy_SelectPrevSegmentKey",       SegmentKeys},
-    {I18N_NOOP("Shrink the segment"),          "_IMEngine_Anthy_ShrinkSegmentKey",           SegmentKeys},
-    {I18N_NOOP("Expand the segment"),          "_IMEngine_Anthy_ExpandSegmentKey",           SegmentKeys},
-    {I18N_NOOP("Commit the first segment"),    "_IMEngine_Anthy_CommitFirstSegmentKey",      SegmentKeys},
-    {I18N_NOOP("Commit the selected segment"), "_IMEngine_Anthy_CommitSelectedSegmentKey",   SegmentKeys},
+    {I18N_NOOP("Select the first segment"),     "_IMEngine_Anthy_SelectFirstSegmentKey",
+     I18N_NOOP("The key events to select the first segment. "),
+     SegmentKeys},
+    {I18N_NOOP("Select the last segment"),      "_IMEngine_Anthy_SelectLastSegmentKey",
+     I18N_NOOP("The key events to select the the last segment. "),
+     SegmentKeys},
+    {I18N_NOOP("Select the next segment"),      "_IMEngine_Anthy_SelectNextSegmentKey",
+     I18N_NOOP("The key events to select the next segment. "),
+     SegmentKeys},
+    {I18N_NOOP("Select the previous segment"),  "_IMEngine_Anthy_SelectPrevSegmentKey",
+     I18N_NOOP("The key events to select the previous segment. "),
+     SegmentKeys},
+    {I18N_NOOP("Shrink the segment"),           "_IMEngine_Anthy_ShrinkSegmentKey",
+     I18N_NOOP("The key events to shrink the selected segment. "),
+     SegmentKeys},
+    {I18N_NOOP("Expand the segment"),           "_IMEngine_Anthy_ExpandSegmentKey",
+     I18N_NOOP("The key events to expand the selected segment. "),
+     SegmentKeys},
+    {I18N_NOOP("Commit the first segment"),     "_IMEngine_Anthy_CommitFirstSegmentKey",
+     I18N_NOOP("The key events to commit the first segment. "),
+     SegmentKeys},
+    {I18N_NOOP("Commit the selected segment"),  "_IMEngine_Anthy_CommitSelectedSegmentKey",
+     I18N_NOOP("The key events to commit the selected segment. "),
+     SegmentKeys},
 
-    {I18N_NOOP("First candidate"),             "_IMEngine_Anthy_SelectFirstCandidateKey",    CandidateKeys},
-    {I18N_NOOP("Last candidate"),              "_IMEngine_Anthy_SelectLastCandidateKey",     CandidateKeys},
-    {I18N_NOOP("Next candidate"),              "_IMEngine_Anthy_SelectNextCandidateKey",     CandidateKeys},
-    {I18N_NOOP("Previous candidate"),          "_IMEngine_Anthy_SelectPrevCandidateKey",     CandidateKeys},
-    {I18N_NOOP("Page up"),                     "_IMEngine_Anthy_CandidatesPageUpKey",        CandidateKeys},
-    {I18N_NOOP("Page down"),                   "_IMEngine_Anthy_CandidatesPageDownKey",      CandidateKeys},
+    {I18N_NOOP("First candidate"),              "_IMEngine_Anthy_SelectFirstCandidateKey",
+     I18N_NOOP("The key events to select the first candidate. "),
+     CandidateKeys},
+    {I18N_NOOP("Last candidate"),               "_IMEngine_Anthy_SelectLastCandidateKey",
+     I18N_NOOP("The key events to the select last candidate. "),
+     CandidateKeys},
+    {I18N_NOOP("Next candidate"),               "_IMEngine_Anthy_SelectNextCandidateKey",
+     I18N_NOOP("The key events to select the next candidate. "),
+     CandidateKeys},
+    {I18N_NOOP("Previous candidate"),           "_IMEngine_Anthy_SelectPrevCandidateKey",
+     I18N_NOOP("The key events to select the previous candidate. "),
+     CandidateKeys},
+    {I18N_NOOP("Page up"),                      "_IMEngine_Anthy_CandidatesPageUpKey",
+     I18N_NOOP("The key events to switch candidates page up. "),
+     CandidateKeys},
+    {I18N_NOOP("Page down"),                    "_IMEngine_Anthy_CandidatesPageDownKey",
+     I18N_NOOP("The key events to switch candidates page down. "),
+     CandidateKeys},
 
-    {I18N_NOOP("1st candidate"),               "_IMEngine_Anthy_SelectCandidates1Key",       DirectSelectKeys},
-    {I18N_NOOP("2nd candidate"),               "_IMEngine_Anthy_SelectCandidates2Key",       DirectSelectKeys},
-    {I18N_NOOP("3rd candidate"),               "_IMEngine_Anthy_SelectCandidates3Key",       DirectSelectKeys},
-    {I18N_NOOP("4th candidate"),               "_IMEngine_Anthy_SelectCandidates4Key",       DirectSelectKeys},
-    {I18N_NOOP("5th candidate"),               "_IMEngine_Anthy_SelectCandidates5Key",       DirectSelectKeys},
-    {I18N_NOOP("6th candidate"),               "_IMEngine_Anthy_SelectCandidates6Key",       DirectSelectKeys},
-    {I18N_NOOP("7th candidate"),               "_IMEngine_Anthy_SelectCandidates7Key",       DirectSelectKeys},
-    {I18N_NOOP("8th candidate"),               "_IMEngine_Anthy_SelectCandidates8Key",       DirectSelectKeys},
-    {I18N_NOOP("9th candidate"),               "_IMEngine_Anthy_SelectCandidates9Key",       DirectSelectKeys},
-    {I18N_NOOP("10th candidate"),              "_IMEngine_Anthy_SelectCandidates10Key",      DirectSelectKeys},
+    {I18N_NOOP("1st candidate"),                "_IMEngine_Anthy_SelectCandidates1Key",
+     I18N_NOOP("The key events to select the 1st candidate. "),
+     DirectSelectKeys},
+    {I18N_NOOP("2nd candidate"),                "_IMEngine_Anthy_SelectCandidates2Key",
+     I18N_NOOP("The key events to select the 2nd candidate. "),
+     DirectSelectKeys},
+    {I18N_NOOP("3rd candidate"),                "_IMEngine_Anthy_SelectCandidates3Key",
+     I18N_NOOP("The key events to select the 3rd candidate. "),
+     DirectSelectKeys},
+    {I18N_NOOP("4th candidate"),                "_IMEngine_Anthy_SelectCandidates4Key",
+     I18N_NOOP("The key events to select the 4th candidate. "),
+     DirectSelectKeys},
+    {I18N_NOOP("5th candidate"),                "_IMEngine_Anthy_SelectCandidates5Key",
+     I18N_NOOP("The key events to select the 5th candidate. "),
+     DirectSelectKeys},
+    {I18N_NOOP("6th candidate"),                "_IMEngine_Anthy_SelectCandidates6Key",
+     I18N_NOOP("The key events to select the 6th candidate. "),
+     DirectSelectKeys},
+    {I18N_NOOP("7th candidate"),                "_IMEngine_Anthy_SelectCandidates7Key",
+     I18N_NOOP("The key events to select the 7th candidate. "),
+     DirectSelectKeys},
+    {I18N_NOOP("8th candidate"),                "_IMEngine_Anthy_SelectCandidates8Key",
+     I18N_NOOP("The key events to select the 8th candidate. "),
+     DirectSelectKeys},
+    {I18N_NOOP("9th candidate"),                "_IMEngine_Anthy_SelectCandidates9Key",
+     I18N_NOOP("The key events to select the 9th candidate. "),
+     DirectSelectKeys},
+    {I18N_NOOP("10th candidate"),               "_IMEngine_Anthy_SelectCandidates10Key",
+     I18N_NOOP("The key events to select the 10th candidate. "),
+     DirectSelectKeys},
 
-    {I18N_NOOP("Convert character type to forward"),  "_IMEngine_Anthy_ConvertCharTypeForwardKey",  ConvertKeys},
-    {I18N_NOOP("Convert character type to backward"), "_IMEngine_Anthy_ConvertCharTypeBackwardKey", ConvertKeys},
-    {I18N_NOOP("Convert to hiragana"),         "_IMEngine_Anthy_ConvertToHiraganaKey",       ConvertKeys},
-    {I18N_NOOP("Convert to katakana"),         "_IMEngine_Anthy_ConvertToKatakanaKey",       ConvertKeys},
-    {I18N_NOOP("Convert to half width"),       "_IMEngine_Anthy_ConvertToHalfKey",           ConvertKeys},
-    {I18N_NOOP("Convert to half katakana"),    "_IMEngine_Anthy_ConvertToHalfKatakanaKey",   ConvertKeys},
-    {I18N_NOOP("Convert to wide latin"),       "_IMEngine_Anthy_ConvertToWideLatinKey",      ConvertKeys},
-    {I18N_NOOP("Convert to latin"),            "_IMEngine_Anthy_ConvertToLatinKey",          ConvertKeys},
+    {I18N_NOOP("Convert character type to forward"),  "_IMEngine_Anthy_ConvertCharTypeForwardKey",
+     I18N_NOOP("Rotate character type forward."),
+     ConvertKeys},
 
-    {I18N_NOOP("Edit dictionary"),             "_IMEngine_Anthy_DictAdminKey",               DictionaryKeys},
-    {I18N_NOOP("Add a word"),                  "_IMEngine_Anthy_AddWordKey",                 DictionaryKeys},
+    {I18N_NOOP("Convert character type to backward"), "_IMEngine_Anthy_ConvertCharTypeBackwardKey",
+     I18N_NOOP("Rotate character type backward."),
+     ConvertKeys},
 
-    {NULL, NULL, AllKeys},
+    {I18N_NOOP("Convert to hiragana"),          "_IMEngine_Anthy_ConvertToHiraganaKey",
+     I18N_NOOP("The key events to convert the preedit string to hiragana. "),
+     ConvertKeys},
+
+    {I18N_NOOP("Convert to katakana"),          "_IMEngine_Anthy_ConvertToKatakanaKey",
+     I18N_NOOP("The key events to convert the preedit string to katakana. "),
+     ConvertKeys},
+
+    {I18N_NOOP("Convert to half width"),        "_IMEngine_Anthy_ConvertToHalfKey",
+     I18N_NOOP("The key events to convert the preedit string to half width. "),
+     ConvertKeys},
+
+    {I18N_NOOP("Convert to half katakana"),     "_IMEngine_Anthy_ConvertToHalfKatakanaKey",
+     I18N_NOOP("The key events to convert the preedit string to half width katakana. "),
+     ConvertKeys},
+
+    {I18N_NOOP("Convert to wide latin"),        "_IMEngine_Anthy_ConvertToWideLatinKey",
+     I18N_NOOP("The key events to convert the preedit string to wide latin. "),
+     ConvertKeys},
+
+    {I18N_NOOP("Convert to latin"),             "_IMEngine_Anthy_ConvertToLatinKey",
+     I18N_NOOP("The key events to convert the preedit string to latin. "),
+     ConvertKeys},
+
+    {I18N_NOOP("Edit dictionary"),              "_IMEngine_Anthy_DictAdminKey",
+     I18N_NOOP("The key events to launch dictionary administration tool. "),
+     DictionaryKeys},
+
+    {I18N_NOOP("Add a word"),                   "_IMEngine_Anthy_AddWordKey",
+     I18N_NOOP("The key events to launch the tool to add a word. "),
+     DictionaryKeys},
+
+    {NULL, NULL, NULL, AllKeys},
 };
 
 
@@ -154,7 +287,7 @@ K_EXPORT_COMPONENT_FACTORY (kcm_skimplugin_scim_anthy,
                             ScimAnthySettingLoaderFactory ("kcm_skimplugin_scim_anthy"))
 
 
-inline bool string_color_button_enabled (int n)
+inline bool color_enabled (int n)
 {
     return n > 3 && n < 7 ? true : false;
 }
@@ -168,10 +301,12 @@ public:
                               const QString &feature,
                               const QString &defval,
                               const QString &description,
-                              KConfigSkeletonGenericItem<QString> *item,
+                              KeyEntry *key_entry,
+                              KConfigSkeletonGenericItem<QString> *kconf,
                               KeyCategory category)
         : QListViewItem (view, sibling, feature, defval, description),
-          m_item (item),
+          m_key_entry (key_entry),
+          m_kconf (kconf),
           m_category (category)
     {
     }
@@ -179,19 +314,8 @@ public:
     {
     }
 
-    virtual void setText (int column, const QString &text)
-    {
-        QListViewItem::setText (column, text);
-
-        // FIXME!
-        // Although it should be set when the "OK" or "Apply" button has been
-        // pressed, it can't easyly for some reasons especialy "Category" combo
-        // box related problems.
-        if (m_item)
-            m_item->setValue (text);
-    }
-
-    virtual void setVisibleByCategory (int category, const QString &filter = QString::null)
+    virtual void setVisibleByCategory (int category,
+                                       const QString &filter = QString::null)
     {
         bool visible = true;
 
@@ -203,7 +327,7 @@ public:
         }
 
         if (category == (int) SearchByKey &&
-            key_filter (m_item->value (), filter))
+            keyFilter (m_kconf->value (), filter))
         {
             visible = false;
         }
@@ -211,7 +335,35 @@ public:
         setVisible (visible);
     }
 
-    bool key_filter (const QString & keys, const QString & filter)
+    void setDefault ()
+    {
+        m_kconf->swapDefault ();
+        setText (1, m_kconf->value ());
+        m_kconf->swapDefault ();
+    }
+
+    bool isChanged ()
+    {
+        if (text (1) != m_kconf->value ())
+            return true;
+        return false;
+    }
+
+    void save ()
+    {
+        if (m_kconf) {
+            m_kconf->setValue (text (1));
+            m_kconf->writeConfig (AnthyConfig::self()->config());
+        }
+    }
+
+    QString kconfKey ()
+    {
+        return m_kconf->key ();
+    }
+
+private:
+    bool keyFilter (const QString & keys, const QString & filter)
     {
         if (filter.isEmpty ())
             return false;
@@ -230,15 +382,14 @@ public:
 
 public:
     ScimAnthySettingPlugin              *m_plugin;
-    KConfigSkeletonGenericItem<QString> *m_item;
+    KeyEntry                            *m_key_entry;
+    KConfigSkeletonGenericItem<QString> *m_kconf;
     KeyCategory                          m_category;
 };
 
 class ScimAnthySettingPlugin::ScimAnthySettingPluginPrivate {
 public:
     AnthySettingUI * ui;
-
-    bool       m_our_value_changed;
 
     StyleFiles m_style_list;
     StyleFile  m_user_style;
@@ -248,8 +399,7 @@ public:
 
 public:
     ScimAnthySettingPluginPrivate ()
-        : m_our_value_changed (false),
-          m_style_changed (false),
+        : m_style_changed (false),
           m_table_editor (NULL)
     {
     }
@@ -269,6 +419,7 @@ public:
     void save_style_files ()
     {
         if (m_style_changed) {
+            scim_make_dir (__user_config_dir_name);
             m_user_style.save (__user_style_file_name.c_str ());
             m_style_changed = false;
         }
@@ -286,34 +437,19 @@ public:
         return item;
     }
 
-    void set_theme (const QString & item_key,
-                    const QString & item_value,
-                    const QString & section_name)
+    void save_theme (const QString & item_key,
+                     const QString & item_value,
+                     const QString & section_name)
     {
-        KConfigSkeletonGenericItem<QString> *item = string_config_item (item_key);
+        KConfigSkeletonGenericItem<QString> *item;
+        item = string_config_item (item_key);
         if (!item) return;
 
-        if (item_value == i18n ("Default")) {
-            item->setValue (QString (""));
-        } else if (item_value == i18n ("User defined")) {
-            item->setValue (QString::fromUtf8 (__user_style_file_name.c_str ()));
-        } else {
-            // FIXME! shoudn't match by title name.
-            StyleFiles::iterator it;
-            for (it = m_style_list.begin (); it != m_style_list.end (); it++) {
-                StyleLines section;
-                if (!it->get_entry_list (section, section_name))
-                    continue;
-                if (item_value == QString::fromUtf8 (it->get_title().c_str())) {
-                    item->setValue (QString::fromUtf8 (it->get_file_name().c_str()));
-                    break;
-                }
-            }
-        }
+        item->setValue (theme2file (item_value, section_name));
         item->writeConfig (AnthyConfig::self()->config());
     }
 
-    void set_color (const QString key, const QColor & c)
+    void save_color (const QString key, const QColor & c)
     {
         KConfigSkeletonItem *tmp_item;
         tmp_item = AnthyConfig::self()->findItem(key);
@@ -324,6 +460,7 @@ public:
         if (!item) return;
 
         item->setValue (c.name ());
+        item->writeConfig (AnthyConfig::self()->config());
     }
 
     void reset_custom_widgets ()
@@ -375,11 +512,32 @@ public:
 
         // set sensitivity of dual color buttons
         int n = ui->kcfg__IMEngine_Anthy_PreeditStyle->currentItem ();
-        ui->PreeditStringDualColorButton->setEnabled (string_color_button_enabled (n));
+        ui->PreeditStringDualColorButton->setEnabled (color_enabled (n));
         n = ui->kcfg__IMEngine_Anthy_ConversionStyle->currentItem ();
-        ui->ConversionStringDualColorButton->setEnabled (string_color_button_enabled (n));
+        ui->ConversionStringDualColorButton->setEnabled (color_enabled (n));
         n = ui->kcfg__IMEngine_Anthy_SelectedSegmentStyle->currentItem ();
-        ui->SelectedSegmentDualColorButton->setEnabled (string_color_button_enabled (n));
+        ui->SelectedSegmentDualColorButton->setEnabled (color_enabled (n));
+    }
+
+    QString theme2file (const QString theme,
+                        const char *section_name)
+    {
+        if (theme == i18n ("Default"))
+            return QString ("");
+        if (theme == i18n ("User defined"))
+            return QString::fromUtf8 (__user_style_file_name.c_str ());
+
+        StyleFiles::iterator it;
+
+        for (it = m_style_list.begin(); it != m_style_list.end (); it++) {
+            StyleLines section;
+            if (!it->get_entry_list (section, section_name))
+                continue;
+            if (QString::fromUtf8 (it->get_title().c_str()) == theme)
+                return QString::fromUtf8 (it->get_file_name().c_str ());
+        }
+
+        return QString ("");
     }
 
     void setup_combo_box (KComboBox  *combo,
@@ -412,9 +570,6 @@ public:
 
     void setup_key_bindings ()
     {
-        int category = ui->KeyBindingsGroupComboBox->currentItem ();
-
-        // FIXME! Use QListViewItem::setVisible() instead of clearing the view.
         ui->KeyBindingsView->clear ();
         ui->KeyBindingsView->setSorting (-1);
         ui->KeyBindingsSelectButton->setEnabled (false);
@@ -431,7 +586,9 @@ public:
                                                       prev_item,
                                                       i18n (key_list[i].label),
                                                       item->value (),
-                                                      item->whatsThis (),
+                                                      //item->whatsThis (),
+                                                      i18n (key_list[i].desc),
+                                                      &key_list[i],
                                                       item,
                                                       key_list[i].category);
             prev_item = list_item;
@@ -466,7 +623,7 @@ public:
         QListViewItem *item = NULL;
 
         if (style) {
-            // set table which is defined in current style file
+            // set the table which is defined in the current style file
             std::vector<String> keys;
             style->get_key_list (keys, section_name);
             std::vector<String>::iterator kit;
@@ -548,6 +705,126 @@ public:
         return false;
     }
 
+    bool theme_is_changed (KComboBox *combo,
+                           const QString &item_key,
+                           const QString &section_name)
+    {
+        QString cur_item;
+        KConfigSkeletonGenericItem<QString> *item;
+
+        cur_item = combo->currentText ();
+        item = string_config_item (item_key);
+
+        if ((cur_item == i18n ("Default"))) {
+            if (item->value () != "")
+                return true;
+            else
+                return false;
+        }
+        else if ((cur_item == i18n ("User defined")))
+        {
+            if (item->value () != __user_style_file_name)
+                return true;
+            else
+                return false;
+        } else {
+            // FIXME! shoudn't match by title name.
+            StyleFiles::iterator it;
+            for (it = m_style_list.begin (); it != m_style_list.end (); it++) {
+                StyleLines section;
+                if (!it->get_entry_list (section, section_name))
+                    continue;
+                if (combo->currentText () == QString::fromUtf8 (it->get_title().c_str()) &&
+                    item->value () == QString::fromUtf8 (it->get_file_name().c_str()))
+                    return false;
+            }
+            return true;
+        }
+    }
+
+    bool key_theme_is_changed ()
+    {
+        KConfigSkeletonGenericItem<QString> *key_theme_item, *key_theme_file_item;
+        key_theme_item      = string_config_item ("_IMEngine_Anthy_KeyTheme");
+        key_theme_file_item = string_config_item ("_IMEngine_Anthy_KeyThemeFile");
+        int current = ui->KeyBindingsThemeComboBox->currentItem ();
+        QString theme_name = ui->KeyBindingsThemeComboBox->currentText ();
+
+        if (current == __THEME_ID_DEFAULT) {
+            if (key_theme_item->value () == "Default")
+                return false;
+            else
+                return true;
+        } else if (current == __THEME_ID_USER_DEFINED) {
+            if (key_theme_item->value () == "User defined")
+                return false;
+            else
+                return true;
+        } else {
+            if (key_theme_item->value () == theme_name &&
+                key_theme_file_item->value () == theme2file (theme_name, __key_bindings_theme))
+                return false;
+            else
+                return true;
+        }
+
+        return false;
+    }
+
+    bool is_changed ()
+    {
+        // key theme
+        if (key_theme_is_changed ())
+            return true;
+
+        // key bindings
+        QListViewItemIterator it (ui->KeyBindingsView);
+        while (it.current ()) {
+            ScimAnthyKeyListViewItem *item;
+            item = dynamic_cast <ScimAnthyKeyListViewItem *> (it.current ());
+            if (!item) continue;
+            if (item->isChanged ())
+                return true;
+            it++;
+        }
+
+        // layout table
+        if (theme_is_changed (ui->RomajiComboBox,
+                              "_IMEngine_Anthy_RomajiThemeFile",
+                              __romaji_fund_table))
+            return true;
+        if (theme_is_changed (ui->KanaComboBox,
+                              "_IMEngine_Anthy_KanaLayoutFile",
+                              __kana_fund_table))
+            return true;
+        if (theme_is_changed (ui->ThumbShiftComboBox,
+                              "_IMEngine_Anthy_NICOLALayoutFile",
+                              __nicola_fund_table))
+            return true;
+
+        // double color
+        if (ui->PreeditStringDualColorButton->foreground () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_PreeditFGColor ()))
+            return true;
+        if (ui->PreeditStringDualColorButton->background () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_PreeditBGColor ()))
+            return true;
+        if (ui->ConversionStringDualColorButton->foreground () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_ConversionFGColor ()))
+            return true;
+        if (ui->ConversionStringDualColorButton->background () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_ConversionBGColor ()))
+            return true;
+        if (ui->SelectedSegmentDualColorButton->foreground () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_SelectedSegmentFGColor ()))
+            return true;
+        if (ui->SelectedSegmentDualColorButton->background () !=
+            QColor (AnthyConfig::_IMEngine_Anthy_SelectedSegmentBGColor ()))
+            return true;
+
+        return m_style_changed;
+    }
+
 private:
     void load_style_dir (const char *dirname)
     {
@@ -589,7 +866,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
     d->reset_custom_widgets ();
 
     // Connect to signals
-    // Launch buttons
+    // Launch Buttons
     connect (d->ui->LaunchDictAdminCommandButton,
              SIGNAL (clicked ()),
              this, SLOT (launch_dict_admin_command ()));
@@ -597,12 +874,12 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              SIGNAL (clicked ()),
              this, SLOT (launch_add_word_command ()));
 
-    // line edit
+    // Line Edit
     connect (d->ui->KeyBindingsFilterLineEdit,
              SIGNAL (textChanged (const QString &)),
              this, SLOT (set_key_bindings_group ()));
 
-    // combo boxes
+    // Combo Boxes
     connect (d->ui->KeyBindingsGroupComboBox,
              SIGNAL (activated (int)),
              this, SLOT (set_key_bindings_group ()));
@@ -611,13 +888,13 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              this, SLOT (set_key_bindings_theme (int)));
     connect (d->ui->RomajiComboBox,
              SIGNAL (activated (const QString &)),
-             this, SLOT (set_romaji_theme (const QString &)));
+             this, SLOT (slotWidgetModified ()));
     connect (d->ui->KanaComboBox,
              SIGNAL (activated (const QString &)),
-             this, SLOT (set_kana_theme (const QString &)));
+             this, SLOT (slotWidgetModified ()));
     connect (d->ui->ThumbShiftComboBox,
              SIGNAL (activated (const QString &)),
-             this, SLOT (set_nicola_theme (const QString &)));
+             this, SLOT (slotWidgetModified ()));
     connect (d->ui->kcfg__IMEngine_Anthy_PreeditStyle,
              SIGNAL (activated (int)),
              this, SLOT (preedit_string_style_changed (int)));
@@ -628,7 +905,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              SIGNAL (activated (int)),
              this, SLOT (selected_segment_style_changed (int)));
 
-    // push buttons
+    // Push Buttons
     connect (d->ui->KeyBindingsSelectButton,
              SIGNAL (clicked ()),
              this, SLOT (choose_keys ()));
@@ -642,7 +919,7 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              SIGNAL (clicked ()),
              this, SLOT (customize_nicola_table ()));
 
-    // key bindings view
+    // Key Bindings View
     connect (d->ui->KeyBindingsView,
              SIGNAL (currentChanged (QListViewItem*)),
              this, SLOT (key_bindings_view_selection_changed (QListViewItem*)));
@@ -653,29 +930,29 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
              SIGNAL (doubleClicked (QListViewItem*)),
              this, SLOT (choose_keys ()));
 
-    // preedit string color
+    // Preedit String Color
     connect (d->ui->PreeditStringDualColorButton,
              SIGNAL (fgChanged(const QColor &)),
-             this, SLOT (set_preedit_string_fg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
     connect (d->ui->PreeditStringDualColorButton,
              SIGNAL (bgChanged(const QColor &)),
-             this, SLOT (set_preedit_string_bg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
 
-    // conversion string color
+    // Conversion String Color
     connect (d->ui->ConversionStringDualColorButton,
              SIGNAL (fgChanged(const QColor &)),
-             this, SLOT (set_conversion_string_fg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
     connect (d->ui->ConversionStringDualColorButton,
              SIGNAL (bgChanged(const QColor &)),
-             this, SLOT (set_conversion_string_bg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
 
-    // selected segment color
+    // Selected Segment Color
     connect (d->ui->SelectedSegmentDualColorButton,
              SIGNAL (fgChanged(const QColor &)),
-             this, SLOT (set_selected_segment_fg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
     connect (d->ui->SelectedSegmentDualColorButton,
              SIGNAL (bgChanged(const QColor &)),
-             this, SLOT (set_selected_segment_bg_color(const QColor &)));
+             this, SLOT (slotWidgetModified()));
 }
 
 ScimAnthySettingPlugin::~ScimAnthySettingPlugin () 
@@ -696,30 +973,69 @@ void ScimAnthySettingPlugin::save ()
 {
     KAutoCModule::save ();
 
-    for (unsigned int i = 0; key_list[i].key; i++) {
-        KConfigSkeletonGenericItem<QString> *item;
-        item = d->string_config_item (key_list[i].key);
+    // key theme name and key theme file
+    KConfigSkeletonGenericItem<QString> *key_theme_item, *key_theme_file_item;
+    key_theme_item = d->string_config_item ("_IMEngine_Anthy_KeyTheme");
+    key_theme_file_item = d->string_config_item ("_IMEngine_Anthy_KeyThemeFile");
+    int current_key_theme = d->ui->KeyBindingsThemeComboBox->currentItem ();
+    if (current_key_theme == __THEME_ID_DEFAULT) {
+        if (key_theme_item)
+            key_theme_item->setValue ("Default");
+        if (key_theme_file_item)
+            key_theme_file_item->setValue ("");
+    } else if (current_key_theme == __THEME_ID_USER_DEFINED) {
+        if (key_theme_item)
+            key_theme_item->setValue ("User defined");
+        if (key_theme_file_item)
+            key_theme_file_item->setValue ("");
+    } else {
+        QString theme_name = d->ui->KeyBindingsThemeComboBox->currentText ();
+        if (key_theme_item)
+            key_theme_item->setValue (theme_name);
+        if (key_theme_file_item)
+            key_theme_file_item->setValue
+                (d->theme2file (theme_name, __key_bindings_theme));
+    }
+    key_theme_item->writeConfig (AnthyConfig::self()->config());
+    key_theme_file_item->writeConfig (AnthyConfig::self()->config());
+
+    // key bindings
+    QListViewItemIterator it (d->ui->KeyBindingsView);
+    while (it.current ()) {
+        ScimAnthyKeyListViewItem *item;
+        item = dynamic_cast <ScimAnthyKeyListViewItem *> (it.current ());
         if (!item) continue;
-        item->writeConfig (AnthyConfig::self()->config());
+        item->save ();
+        it++;
     }
 
-    QString colors[] = {
-        QString ("_IMEngine_Anthy_PreeditFGColor"),
-        QString ("_IMEngine_Anthy_PreeditBGColor"),
-        QString ("_IMEngine_Anthy_ConversionFGColor"),
-        QString ("_IMEngine_Anthy_ConversionBGColor"),
-        QString ("_IMEngine_Anthy_SelectedSegmentFGColor"),
-        QString ("_IMEngine_Anthy_SelectedSegmentBGColor"),
-    };
-    for (unsigned int i = 0; i < sizeof (colors) / sizeof (QString); i++) {
-        KConfigSkeletonGenericItem<QString> *item;
-        item = d->string_config_item (colors[i]);
-        if (!item) continue;
-        item->writeConfig (AnthyConfig::self()->config());
-    }
+    // layout table file
+    d->save_theme ("_IMEngine_Anthy_RomajiThemeFile",
+                   d->ui->RomajiComboBox->currentText (),
+                   __romaji_fund_table);
+    d->save_theme ("_IMEngine_Anthy_KanaLayoutFile",
+                   d->ui->KanaComboBox->currentText (),
+                   __kana_fund_table);
+    d->save_theme ("_IMEngine_Anthy_NICOLALayoutFile",
+                   d->ui->ThumbShiftComboBox->currentText (),
+                   __nicola_fund_table);
 
+    // color
+    d->save_color ("_IMEngine_Anthy_PreeditFGColor",
+                   d->ui->PreeditStringDualColorButton->foreground ());
+    d->save_color ("_IMEngine_Anthy_PreeditBGColor",
+                   d->ui->PreeditStringDualColorButton->background ());
+    d->save_color ("_IMEngine_Anthy_ConversionFGColor",
+                   d->ui->ConversionStringDualColorButton->foreground ());
+    d->save_color ("_IMEngine_Anthy_ConversionBGColor",
+                   d->ui->ConversionStringDualColorButton->background ());
+    d->save_color ("_IMEngine_Anthy_SelectedSegmentFGColor",
+                   d->ui->SelectedSegmentDualColorButton->foreground ());
+    d->save_color ("_IMEngine_Anthy_SelectedSegmentBGColor",
+                   d->ui->SelectedSegmentDualColorButton->background ());
+
+    // style file
     d->save_style_files ();
-    d->m_our_value_changed = false;
 }
 
 void ScimAnthySettingPlugin::defaults ()
@@ -727,22 +1043,20 @@ void ScimAnthySettingPlugin::defaults ()
     KAutoCModule::defaults ();
 
     set_key_bindings_theme (0);
-    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile",  i18n ("Default"),
-                  __romaji_fund_table);
-    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile",   i18n ("Default"),
-                  __kana_fund_table);
-    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", i18n ("Default"),
-                  __nicola_fund_table);
+
+    d->ui->RomajiComboBox->setCurrentItem (0);
+    d->ui->KanaComboBox->setCurrentItem (0);
+    d->ui->ThumbShiftComboBox->setCurrentItem (0);
 
     d->reset_custom_widgets ();
 }
 
 void ScimAnthySettingPlugin::slotWidgetModified ()
 {
-    if (d->m_our_value_changed) {
+    if (d->is_changed ()) {
         emit changed (true);
     } else {
-        KAutoCModule::slotWidgetModified();
+        KAutoCModule::slotWidgetModified ();
     }
 }
 
@@ -781,106 +1095,63 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (int n)
     std::vector<String> keys;
     std::vector<String>::iterator kit;
 
-    KConfigSkeletonGenericItem<QString> *theme_item, *theme_file_item;
-    theme_item = d->string_config_item ("_IMEngine_Anthy_KeyTheme");
-    if (theme_item)
-        theme_item->setValue (theme_name);
-
-    d->set_theme ("_IMEngine_Anthy_KeyThemeFile", theme_name, __key_bindings_theme);
-
-    // Set all key bindings as empty
-    for (unsigned int i = 0; current != 1 && key_list[i].key; i++) {
-        KConfigSkeletonGenericItem<QString> *item;
-        item = d->string_config_item (key_list[i].key);
-        if (!item) continue;
-        item->setValue ("");
-    }
-
-    // Handle "Default" or "User defined" and return
-    if (current == 0) {
-        for (unsigned int i = 0; key_list[i].key; i++) {
-            KConfigSkeletonGenericItem<QString> *item;
-            item = d->string_config_item (key_list[i].key);
+    if (current == __THEME_ID_DEFAULT) {
+        // Handle "Default" theme.
+        QListViewItemIterator it (d->ui->KeyBindingsView);
+        while (it.current ()) {
+            ScimAnthyKeyListViewItem *item;
+            item = dynamic_cast <ScimAnthyKeyListViewItem *> (it.current ());
             if (!item) continue;
             item->setDefault ();
+            it++;
         }
 
-        if (theme_item)
-            theme_item->setValue ("Default");
+    } else if (current == __THEME_ID_USER_DEFINED) {
+        // Handle "User defined" theme.
 
-        goto SET_WIDGET;
+        // Nothing to do.
 
-    } else if (current == 1) {
-        if (theme_item)
-            theme_item->setValue ("User defined");
+    } else {
+        // Handle other themes
 
-        theme_file_item = d->string_config_item ("_IMEngine_Anthy_KeyThemeFile");
-        if (theme_file_item)
-            theme_file_item->setValue ("");
+        // Find theme file
+        for (it = d->m_style_list.begin (); it != d->m_style_list.end (); it++) {
+            StyleLines section;
+            if (!it->get_entry_list (section, __key_bindings_theme))
+                continue;
+            if (theme_name == QString::fromUtf8 (it->get_title().c_str ()))
+                break;
+        }
+        if (it == d->m_style_list.end ())
+            goto SET_WIDGET;
 
-        goto SET_WIDGET;
-    }
+        // Set new bindings to QListViewItem
+        it->get_key_list (keys, __key_bindings_theme);
 
-    // Handle other themes
+        QListViewItemIterator lit (d->ui->KeyBindingsView);
+        while (lit.current ()) {
+            ScimAnthyKeyListViewItem *view_item;
+            view_item = dynamic_cast <ScimAnthyKeyListViewItem *> (lit.current ());
+            if (!view_item) continue;
 
-    // Find theme file
-    for (it = d->m_style_list.begin (); it != d->m_style_list.end (); it++) {
-        StyleLines section;
-        if (!it->get_entry_list (section, __key_bindings_theme))
-            continue;
-        if (theme_name == QString::fromUtf8 (it->get_title().c_str ()))
-            break;
-    }
+            view_item->setText (1, "");
 
-    if (it == d->m_style_list.end ())
-        goto SET_WIDGET;
-
-    // Set found key bindings to KConfig
-    it->get_key_list (keys, __key_bindings_theme);
-
-    for (kit = keys.begin (); kit != keys.end (); kit++) {
-        if (kit->empty ()) continue;
-
-        QString entry = QString ("/IMEngine/Anthy/") + QString (kit->c_str ());
-
-        // find from known key bindings list
-        for (unsigned int i = 0; key_list[i].key; i++) {
-            KConfigSkeletonGenericItem<QString> *item;
-            item = d->string_config_item (key_list[i].key);
-            if (!item) continue;
-
-            if (item->key () == entry) {
-                String v;
-                it->get_string (v, __key_bindings_theme, *kit);
-                item->setValue (v);
+            for (kit = keys.begin (); kit != keys.end (); kit++) {
+                QString key = QString ("/IMEngine/Anthy/")
+                    + QString (kit->c_str ());
+                if (view_item->kconfKey () == key) {
+                    String v;
+                    it->get_string (v, __key_bindings_theme, *kit);
+                    view_item->setText (1, v);
+                    break;
+                }
             }
+
+            lit++;
         }
     }
 
 SET_WIDGET:
-    d->setup_key_bindings ();
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_romaji_theme (const QString & value)
-{
-    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile", value, __romaji_fund_table);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_kana_theme (const QString & value)
-{
-    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile", value, __kana_fund_table);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_nicola_theme (const QString & value)
-{
-    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile", value, __nicola_fund_table);
-    d->m_our_value_changed = true;
     slotWidgetModified ();
 }
 
@@ -893,36 +1164,83 @@ void ScimAnthySettingPlugin::choose_keys ()
     SkimShortcutListEditor editor (d->ui);
     editor.setStringList (keys);
     if (editor.exec () == QDialog::Accepted) {
+        if (editor.getCombinedString () != item->text (1))
+            d->ui->KeyBindingsThemeComboBox->setCurrentItem (1);
         item->setText (1, editor.getCombinedString ());
-        set_key_bindings_theme (1);
-        d->m_our_value_changed = true;
         slotWidgetModified ();
     }
 }
 
+void ScimAnthySettingPlugin::romaji_customize_ok ()
+{
+    if (!d->m_table_editor->isChanged ())
+        return;
+
+    int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
+    d->ui->RomajiComboBox->setCurrentItem (n);
+    if (n == __THEME_ID_USER_DEFINED) {
+        d->m_user_style.delete_section (__romaji_fund_table);
+
+        QListViewItem *i;
+        for (i = d->m_table_editor->m_table_view->firstChild ();
+             i;
+             i = i->nextSibling ())
+        {
+            String seq = i->text(0).isNull () ?
+                String ("") : String (i->text(0).utf8 ());
+            String res = i->text(1).isNull () ?
+                String ("") : String (i->text(1).utf8 ());
+            d->m_user_style.set_string (__romaji_fund_table, seq, res);
+        }
+
+        d->m_style_changed = true;
+    }
+
+    slotWidgetModified ();
+
+    d->m_table_editor = NULL;
+}
+
+void ScimAnthySettingPlugin::table_dialog_cancel ()
+{
+    d->m_table_editor = NULL;
+}
+
 void ScimAnthySettingPlugin::customize_romaji_table ()
 {
-    ScimAnthyTableEditor editor (d->ui, i18n ("Romaji Table:"), i18n ("Sequence"), i18n ("Result"));
-    editor.setCaption (i18n ("Edit romajit table"));
-    d->m_table_editor = &editor;
-    d->setup_combo_box (editor.m_table_chooser_combo,
+    ScimAnthyTableEditor *editor
+        = new ScimAnthyTableEditor (d->ui,
+                                    i18n ("Romaji Table:"),
+                                    i18n ("Sequence"),
+                                    i18n ("Result"));
+    editor->setCaption (i18n ("Edit romajit table"));
+    editor->setModal (true);
+    d->m_table_editor = editor;
+
+    d->setup_combo_box (editor->m_table_chooser_combo,
                         __romaji_fund_table,
-                        AnthyConfig::_IMEngine_Anthy_RomajiThemeFile ());
-    set_romaji_table_view ();
-    connect (editor.m_table_chooser_combo,
-             SIGNAL (activated (int)),
+                        d->theme2file (d->ui->RomajiComboBox->currentText(),
+                                       __romaji_fund_table));
+    d->setup_table_view (editor->m_table_view,
+                         scim_anthy_romaji_typing_rule, NULL,
+                         editor->m_table_chooser_combo->currentText (),
+                         __romaji_fund_table);
+    connect (editor, SIGNAL (okClicked ()),
+             this, SLOT (romaji_customize_ok ()));
+    connect (editor, SIGNAL (cancelClicked ()),
+             this, SLOT (table_dialog_cancel ()));
+    connect (editor->m_table_chooser_combo, SIGNAL (activated (int)),
              this, SLOT (set_romaji_table_view ()));
 
 
+#if 0
+    // Don't use QDialog::exec() because toolbar of SKIM is freezed when use it.
     if (editor.exec () != QDialog::Accepted || !editor.changed ())
         return;
 
     int n = editor.m_table_chooser_combo->currentItem ();
     d->ui->RomajiComboBox->setCurrentItem (n);
-    d->set_theme ("_IMEngine_Anthy_RomajiThemeFile",
-                  editor.m_table_chooser_combo->currentText (),
-                  __romaji_fund_table);
-    if (n == 1) {
+    if (n == __THEME_ID_USER_DEFINED) {
         d->m_user_style.delete_section (__romaji_fund_table);
 
         QListViewItem *i;
@@ -937,10 +1255,13 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
         d->m_style_changed = true;
     }
 
-    d->m_our_value_changed = true;
     slotWidgetModified ();
 
     d->m_table_editor = NULL;
+#else
+    editor->setDestructive (true);
+    editor->show ();
+#endif
 }
 
 static bool
@@ -963,29 +1284,74 @@ has_voiced_consonant (String str)
     return false;
 }
 
+void ScimAnthySettingPlugin::kana_customize_ok ()
+{
+    if (!d->m_table_editor->isChanged ())
+        return;
+
+    int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
+    d->ui->KanaComboBox->setCurrentItem (n);
+    if (n == __THEME_ID_USER_DEFINED) {
+        d->m_user_style.delete_section (__kana_fund_table);
+
+        QListViewItem *i;
+        for (i = d->m_table_editor->m_table_view->firstChild ();
+             i;
+             i = i->nextSibling ())
+        {
+            String seq = i->text(0).isNull () ?
+                String ("") : String (i->text(0).utf8 ());
+            std::vector<String> value;
+            if (has_voiced_consonant (String (i->text(1).utf8 ())))
+                value.push_back (String (""));
+            value.push_back (i->text(1).isNull () ?
+                             String ("") : String (i->text(1).utf8 ()));
+            d->m_user_style.set_string_array (__kana_fund_table, seq, value);
+        }
+
+        d->m_style_changed = true;
+    }
+
+    slotWidgetModified ();
+
+    d->m_table_editor = NULL;
+}
+
 void ScimAnthySettingPlugin::customize_kana_table ()
 {
-    ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"), i18n ("Key"), i18n ("Result"));
-    editor.setCaption (i18n ("Edit kana layout table")); 
-    d->m_table_editor = &editor;
+    ScimAnthyTableEditor *editor
+        = new ScimAnthyTableEditor (d->ui,
+                                    i18n ("Layout:"),
+                                    i18n ("Key"),
+                                    i18n ("Result"));
+    editor->setCaption (i18n ("Edit kana layout table")); 
+    editor->setModal (true);
+    d->m_table_editor = editor;
 
-    d->setup_combo_box (editor.m_table_chooser_combo,
+    d->setup_combo_box (editor->m_table_chooser_combo,
                         __kana_fund_table,
-                        AnthyConfig::_IMEngine_Anthy_KanaLayoutFile());
-    set_kana_table_view ();
-    connect (editor.m_table_chooser_combo,
+                        d->theme2file (d->ui->KanaComboBox->currentText(),
+                                       __kana_fund_table));
+    d->setup_table_view (editor->m_table_view,
+                         scim_anthy_kana_typing_rule, NULL,
+                         editor->m_table_chooser_combo->currentText (),
+                         __kana_fund_table);
+    connect (editor, SIGNAL (okClicked ()),
+             this, SLOT (kana_customize_ok ()));
+    connect (editor, SIGNAL (cancelClicked ()),
+             this, SLOT (table_dialog_cancel ()));
+    connect (editor->m_table_chooser_combo,
              SIGNAL (activated (int)),
              this, SLOT (set_kana_table_view ()));
 
-    if (editor.exec () != QDialog::Accepted || !editor.changed ())
+#if 0
+    // Don't use QDialog::exec() because toolbar of SKIM is freezed when use it.
+    if (editor.exec () != QDialog::Accepted || !editor.isChanged ())
         return;
 
     int n = editor.m_table_chooser_combo->currentItem ();
     d->ui->KanaComboBox->setCurrentItem (n);
-    d->set_theme ("_IMEngine_Anthy_KanaLayoutFile",
-                  editor.m_table_chooser_combo->currentText (),
-                  __kana_fund_table);
-    if (n == 1) {
+    if (n == __THEME_ID_USER_DEFINED) {
         d->m_user_style.delete_section (__kana_fund_table);
 
         QListViewItem *i;
@@ -1003,7 +1369,46 @@ void ScimAnthySettingPlugin::customize_kana_table ()
         d->m_style_changed = true;
     }
 
-    d->m_our_value_changed = true;
+    slotWidgetModified ();
+
+    d->m_table_editor = NULL;
+#else
+    editor->setDestructive (true);
+    editor->show ();
+#endif
+}
+
+
+void ScimAnthySettingPlugin::nicola_customize_ok ()
+{
+    if (!d->m_table_editor->isChanged ())
+        return;
+
+    int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
+    d->ui->ThumbShiftComboBox->setCurrentItem (n);
+    if (n == __THEME_ID_USER_DEFINED) {
+        d->m_user_style.delete_section (__nicola_fund_table);
+
+        QListViewItem *i;
+        for (i = d->m_table_editor->m_table_view->firstChild ();
+             i;
+             i = i->nextSibling ())
+        {
+            String seq = i->text(0).isNull () ?
+                String ("") : String (i->text(0).utf8 ());
+            std::vector<String> value;
+            value.push_back (i->text(1).isNull () ?
+                             String ("") : String (i->text(1).utf8 ()));
+            value.push_back (i->text(2).isNull () ?
+                             String ("") : String (i->text(2).utf8 ()));
+            value.push_back (i->text(3).isNull () ?
+                             String ("") : String (i->text(3).utf8 ()));
+            d->m_user_style.set_string_array (__nicola_fund_table, seq, value);
+        }
+
+        d->m_style_changed = true;
+    }
+
     slotWidgetModified ();
 
     d->m_table_editor = NULL;
@@ -1011,28 +1416,42 @@ void ScimAnthySettingPlugin::customize_kana_table ()
 
 void ScimAnthySettingPlugin::customize_nicola_table ()
 {
-    ScimAnthyTableEditor editor (d->ui, i18n ("Layout:"),
-                                 i18n ("Key"), i18n ("Single press"),
-                                 i18n ("Left thumb shift"), i18n ("Right thumb shift"));
-    editor.setCaption (i18n ("Edit thumb shift layout table"));
-    d->m_table_editor = &editor;
-    d->setup_combo_box (editor.m_table_chooser_combo,
+    ScimAnthyTableEditor *editor
+        = new ScimAnthyTableEditor (d->ui,
+                                    i18n ("Layout:"),
+                                    i18n ("Key"),
+                                    i18n ("Single press"),
+                                    i18n ("Left thumb shift"),
+                                    i18n ("Right thumb shift"));
+    editor->setCaption (i18n ("Edit thumb shift layout table"));
+    editor->setModal (true);
+    d->m_table_editor = editor;
+
+    d->setup_combo_box (editor->m_table_chooser_combo,
                         __nicola_fund_table,
-                        AnthyConfig::_IMEngine_Anthy_NICOLALayoutFile());
-    set_thumb_shift_table_view ();
-    connect (editor.m_table_chooser_combo,
+                        d->theme2file (d->ui->ThumbShiftComboBox->currentText(),
+                                       __nicola_fund_table));
+    d->setup_table_view (editor->m_table_view,
+                         NULL, scim_anthy_nicola_table,
+                         editor->m_table_chooser_combo->currentText (),
+                         __nicola_fund_table);
+    connect (editor, SIGNAL (okClicked ()),
+             this, SLOT (nicola_customize_ok ()));
+    connect (editor, SIGNAL (cancelClicked ()),
+             this, SLOT (table_dialog_cancel ()));
+    connect (editor->m_table_chooser_combo,
              SIGNAL (activated (int)),
              this, SLOT (set_thumb_shift_table_view ()));
+    editor->show ();
 
-    if (editor.exec () != QDialog::Accepted || !editor.changed ())
+#if 0
+    // Don't use QDialog::exec() because toolbar of SKIM is freezed when use it.
+    if (editor.exec () != QDialog::Accepted || !editor.isChanged ())
         return;
 
     int n = editor.m_table_chooser_combo->currentItem ();
     d->ui->ThumbShiftComboBox->setCurrentItem (n);
-    d->set_theme ("_IMEngine_Anthy_NICOLALayoutFile",
-                  editor.m_table_chooser_combo->currentText (),
-                  __nicola_fund_table);
-    if (n == 1) {
+    if (n == __THEME_ID_USER_DEFINED) {
         d->m_user_style.delete_section (__nicola_fund_table);
 
         QListViewItem *i;
@@ -1052,10 +1471,10 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
         d->m_style_changed = true;
     }
 
-    d->m_our_value_changed = true;
     slotWidgetModified ();
 
     d->m_table_editor = NULL;
+#endif
 }
 
 void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem *item)
@@ -1065,83 +1484,55 @@ void ScimAnthySettingPlugin::key_bindings_view_selection_changed (QListViewItem 
 
 void ScimAnthySettingPlugin::preedit_string_style_changed (int n)
 {
-    d->ui->PreeditStringDualColorButton->setEnabled (string_color_button_enabled (n));
+    d->ui->PreeditStringDualColorButton->setEnabled (color_enabled (n));
 }
 
 void ScimAnthySettingPlugin::conversion_string_style_changed (int n)
 {
-    d->ui->ConversionStringDualColorButton->setEnabled (string_color_button_enabled (n));
+    d->ui->ConversionStringDualColorButton->setEnabled (color_enabled (n));
 }
 
 void ScimAnthySettingPlugin::selected_segment_style_changed (int n)
 {
-    d->ui->SelectedSegmentDualColorButton->setEnabled (string_color_button_enabled (n));
+    d->ui->SelectedSegmentDualColorButton->setEnabled (color_enabled (n));
 }
-
-void ScimAnthySettingPlugin::set_preedit_string_fg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_PreeditFGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_preedit_string_bg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_PreeditBGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_conversion_string_fg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_ConversionFGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_conversion_string_bg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_ConversionBGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_selected_segment_fg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_SelectedSegmentFGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
-void ScimAnthySettingPlugin::set_selected_segment_bg_color (const QColor & c)
-{
-    d->set_color ("_IMEngine_Anthy_SelectedSegmentBGColor", c);
-    d->m_our_value_changed = true;
-    slotWidgetModified ();
-}
-
 void ScimAnthySettingPlugin::set_romaji_table_view ()
 {
-    d->setup_table_view (d->m_table_editor->m_table_view,
-                         scim_anthy_romaji_typing_rule, NULL,
-                         d->m_table_editor->m_table_chooser_combo->currentText (),
-                         __romaji_fund_table);
+    if (d->m_table_editor->m_table_chooser_combo->currentItem ()
+        == __THEME_ID_USER_DEFINED)
+        return;
+
+    d->setup_table_view (
+        d->m_table_editor->m_table_view,
+        scim_anthy_romaji_typing_rule, NULL,
+        d->m_table_editor->m_table_chooser_combo->currentText (),
+        __romaji_fund_table);
 }
 
 void ScimAnthySettingPlugin::set_kana_table_view ()
 {
-    d->setup_table_view (d->m_table_editor->m_table_view,
-                         scim_anthy_kana_typing_rule, NULL,
-                         d->m_table_editor->m_table_chooser_combo->currentText (),
-                         __kana_fund_table);
+    if (d->m_table_editor->m_table_chooser_combo->currentItem ()
+        == __THEME_ID_USER_DEFINED)
+        return;
+
+    d->setup_table_view (
+        d->m_table_editor->m_table_view,
+        scim_anthy_kana_typing_rule, NULL,
+        d->m_table_editor->m_table_chooser_combo->currentText (),
+        __kana_fund_table);
 }
 
 void ScimAnthySettingPlugin::set_thumb_shift_table_view ()
 {
-    d->setup_table_view (d->m_table_editor->m_table_view,
-                         NULL, scim_anthy_nicola_table,
-                         d->m_table_editor->m_table_chooser_combo->currentText (),
-                         __nicola_fund_table);
+    if (d->m_table_editor->m_table_chooser_combo->currentItem ()
+        == __THEME_ID_USER_DEFINED)
+        return;
+
+    d->setup_table_view (
+        d->m_table_editor->m_table_view,
+        NULL, scim_anthy_nicola_table,
+        d->m_table_editor->m_table_chooser_combo->currentText (),
+        __nicola_fund_table);
 }
 
 #include "scimanthysettingplugin.moc"
