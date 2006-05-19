@@ -441,7 +441,8 @@ public:
                      const QString & item_value,
                      const QString & section_name)
     {
-        KConfigSkeletonGenericItem<QString> *item = string_config_item (item_key);
+        KConfigSkeletonGenericItem<QString> *item;
+        item = string_config_item (item_key);
         if (!item) return;
 
         item->setValue (theme2file (item_value, section_name));
@@ -1294,7 +1295,10 @@ void ScimAnthySettingPlugin::kana_customize_ok ()
         d->m_user_style.delete_section (__kana_fund_table);
 
         QListViewItem *i;
-        for (i = d->m_table_editor->m_table_view->firstChild (); i; i = i->nextSibling ()) {
+        for (i = d->m_table_editor->m_table_view->firstChild ();
+             i;
+             i = i->nextSibling ())
+        {
             String seq = i->text(0).isNull () ?
                 String ("") : String (i->text(0).utf8 ());
             std::vector<String> value;
@@ -1386,7 +1390,10 @@ void ScimAnthySettingPlugin::nicola_customize_ok ()
         d->m_user_style.delete_section (__nicola_fund_table);
 
         QListViewItem *i;
-        for (i = d->m_table_editor->m_table_view->firstChild (); i; i = i->nextSibling ()) {
+        for (i = d->m_table_editor->m_table_view->firstChild ();
+             i;
+             i = i->nextSibling ())
+        {
             String seq = i->text(0).isNull () ?
                 String ("") : String (i->text(0).utf8 ());
             std::vector<String> value;
@@ -1495,10 +1502,11 @@ void ScimAnthySettingPlugin::set_romaji_table_view ()
         == __THEME_ID_USER_DEFINED)
         return;
 
-    d->setup_table_view (d->m_table_editor->m_table_view,
-                         scim_anthy_romaji_typing_rule, NULL,
-                         d->m_table_editor->m_table_chooser_combo->currentText (),
-                         __romaji_fund_table);
+    d->setup_table_view (
+        d->m_table_editor->m_table_view,
+        scim_anthy_romaji_typing_rule, NULL,
+        d->m_table_editor->m_table_chooser_combo->currentText (),
+        __romaji_fund_table);
 }
 
 void ScimAnthySettingPlugin::set_kana_table_view ()
@@ -1507,10 +1515,11 @@ void ScimAnthySettingPlugin::set_kana_table_view ()
         == __THEME_ID_USER_DEFINED)
         return;
 
-    d->setup_table_view (d->m_table_editor->m_table_view,
-                         scim_anthy_kana_typing_rule, NULL,
-                         d->m_table_editor->m_table_chooser_combo->currentText (),
-                         __kana_fund_table);
+    d->setup_table_view (
+        d->m_table_editor->m_table_view,
+        scim_anthy_kana_typing_rule, NULL,
+        d->m_table_editor->m_table_chooser_combo->currentText (),
+        __kana_fund_table);
 }
 
 void ScimAnthySettingPlugin::set_thumb_shift_table_view ()
@@ -1519,10 +1528,11 @@ void ScimAnthySettingPlugin::set_thumb_shift_table_view ()
         == __THEME_ID_USER_DEFINED)
         return;
 
-    d->setup_table_view (d->m_table_editor->m_table_view,
-                         NULL, scim_anthy_nicola_table,
-                         d->m_table_editor->m_table_chooser_combo->currentText (),
-                         __nicola_fund_table);
+    d->setup_table_view (
+        d->m_table_editor->m_table_view,
+        NULL, scim_anthy_nicola_table,
+        d->m_table_editor->m_table_chooser_combo->currentText (),
+        __nicola_fund_table);
 }
 
 #include "scimanthysettingplugin.moc"
