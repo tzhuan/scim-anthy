@@ -48,13 +48,16 @@ static const char * const __romaji_fund_table  = "RomajiTable/FundamentalTable";
 static const char * const __kana_fund_table    = "KanaTable/FundamentalTable";
 static const char * const __nicola_fund_table  = "NICOLATable/FundamentalTable";
 
-const String __user_config_dir_name =
+static const String __user_config_dir_name =
     scim_get_home_dir () +
     String (SCIM_PATH_DELIM_STRING ".scim" SCIM_PATH_DELIM_STRING "Anthy");
-const String __user_style_dir_name =
+static const String __user_style_dir_name =
     __user_config_dir_name + String (SCIM_PATH_DELIM_STRING "style");
-const String __user_style_file_name =
+static const String __user_style_file_name =
     __user_config_dir_name + String (SCIM_PATH_DELIM_STRING "config.sty");
+
+static const int __THEME_ID_DEFAULT      = 0;
+static const int __THEME_ID_USER_DEFINED = 1;
 
 typedef enum {
     AllKeys          = 0,
@@ -746,12 +749,12 @@ public:
         int current = ui->KeyBindingsThemeComboBox->currentItem ();
         QString theme_name = ui->KeyBindingsThemeComboBox->currentText ();
 
-        if (current == 0) {
+        if (current == __THEME_ID_DEFAULT) {
             if (key_theme_item->value () == "Default")
                 return false;
             else
                 return true;
-        } else if (current == 1) {
+        } else if (current == __THEME_ID_USER_DEFINED) {
             if (key_theme_item->value () == "User defined")
                 return false;
             else
@@ -974,12 +977,12 @@ void ScimAnthySettingPlugin::save ()
     key_theme_item = d->string_config_item ("_IMEngine_Anthy_KeyTheme");
     key_theme_file_item = d->string_config_item ("_IMEngine_Anthy_KeyThemeFile");
     int current_key_theme = d->ui->KeyBindingsThemeComboBox->currentItem ();
-    if (current_key_theme == 0) {
+    if (current_key_theme == __THEME_ID_DEFAULT) {
         if (key_theme_item)
             key_theme_item->setValue ("Default");
         if (key_theme_file_item)
             key_theme_file_item->setValue ("");
-    } else if (current_key_theme == 1) {
+    } else if (current_key_theme == __THEME_ID_USER_DEFINED) {
         if (key_theme_item)
             key_theme_item->setValue ("User defined");
         if (key_theme_file_item)
@@ -1091,7 +1094,7 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (int n)
     std::vector<String> keys;
     std::vector<String>::iterator kit;
 
-    if (current == 0) {
+    if (current == __THEME_ID_DEFAULT) {
         // Handle "Default" theme.
         QListViewItemIterator it (d->ui->KeyBindingsView);
         while (it.current ()) {
@@ -1102,7 +1105,7 @@ void ScimAnthySettingPlugin::set_key_bindings_theme (int n)
             it++;
         }
 
-    } else if (current == 1) {
+    } else if (current == __THEME_ID_USER_DEFINED) {
         // Handle "User defined" theme.
 
         // Nothing to do.
@@ -1174,7 +1177,7 @@ void ScimAnthySettingPlugin::romaji_customize_ok ()
 
     int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
     d->ui->RomajiComboBox->setCurrentItem (n);
-    if (n == 1) {
+    if (n == __THEME_ID_USER_DEFINED) {
         d->m_user_style.delete_section (__romaji_fund_table);
 
         QListViewItem *i;
@@ -1236,7 +1239,7 @@ void ScimAnthySettingPlugin::customize_romaji_table ()
 
     int n = editor.m_table_chooser_combo->currentItem ();
     d->ui->RomajiComboBox->setCurrentItem (n);
-    if (n == 1) {
+    if (n == __THEME_ID_USER_DEFINED) {
         d->m_user_style.delete_section (__romaji_fund_table);
 
         QListViewItem *i;
@@ -1287,7 +1290,7 @@ void ScimAnthySettingPlugin::kana_customize_ok ()
 
     int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
     d->ui->KanaComboBox->setCurrentItem (n);
-    if (n == 1) {
+    if (n == __THEME_ID_USER_DEFINED) {
         d->m_user_style.delete_section (__kana_fund_table);
 
         QListViewItem *i;
@@ -1344,7 +1347,7 @@ void ScimAnthySettingPlugin::customize_kana_table ()
 
     int n = editor.m_table_chooser_combo->currentItem ();
     d->ui->KanaComboBox->setCurrentItem (n);
-    if (n == 1) {
+    if (n == __THEME_ID_USER_DEFINED) {
         d->m_user_style.delete_section (__kana_fund_table);
 
         QListViewItem *i;
@@ -1379,7 +1382,7 @@ void ScimAnthySettingPlugin::nicola_customize_ok ()
 
     int n = d->m_table_editor->m_table_chooser_combo->currentItem ();
     d->ui->ThumbShiftComboBox->setCurrentItem (n);
-    if (n == 1) {
+    if (n == __THEME_ID_USER_DEFINED) {
         d->m_user_style.delete_section (__nicola_fund_table);
 
         QListViewItem *i;
@@ -1441,7 +1444,7 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
 
     int n = editor.m_table_chooser_combo->currentItem ();
     d->ui->ThumbShiftComboBox->setCurrentItem (n);
-    if (n == 1) {
+    if (n == __THEME_ID_USER_DEFINED) {
         d->m_user_style.delete_section (__nicola_fund_table);
 
         QListViewItem *i;
@@ -1488,7 +1491,8 @@ void ScimAnthySettingPlugin::selected_segment_style_changed (int n)
 }
 void ScimAnthySettingPlugin::set_romaji_table_view ()
 {
-    if (d->m_table_editor->m_table_chooser_combo->currentItem () == 1)
+    if (d->m_table_editor->m_table_chooser_combo->currentItem ()
+        == __THEME_ID_USER_DEFINED)
         return;
 
     d->setup_table_view (d->m_table_editor->m_table_view,
@@ -1499,7 +1503,8 @@ void ScimAnthySettingPlugin::set_romaji_table_view ()
 
 void ScimAnthySettingPlugin::set_kana_table_view ()
 {
-    if (d->m_table_editor->m_table_chooser_combo->currentItem () == 1)
+    if (d->m_table_editor->m_table_chooser_combo->currentItem ()
+        == __THEME_ID_USER_DEFINED)
         return;
 
     d->setup_table_view (d->m_table_editor->m_table_view,
@@ -1510,7 +1515,8 @@ void ScimAnthySettingPlugin::set_kana_table_view ()
 
 void ScimAnthySettingPlugin::set_thumb_shift_table_view ()
 {
-    if (d->m_table_editor->m_table_chooser_combo->currentItem () == 1)
+    if (d->m_table_editor->m_table_chooser_combo->currentItem ()
+        == __THEME_ID_USER_DEFINED)
         return;
 
     d->setup_table_view (d->m_table_editor->m_table_view,
