@@ -183,7 +183,7 @@ AnthyInstance::process_key_event_input (const KeyEvent &key)
                                is_single_segment ());
             m_preedit.select_segment (-1);
         }
-        show_preedit_string ();
+       show_preedit_string ();
         m_preedit_string_visible = true;
         set_preedition ();
     }
@@ -314,7 +314,8 @@ AnthyInstance::select_candidate_no_direct (unsigned int item)
     if (m_preedit.is_predicting () && !m_preedit.is_converting ())
         action_predict ();
 
-    if (!is_selecting_candidates ()) return;
+    if (!is_selecting_candidates ())
+        return;
 
     // update lookup table
     m_lookup_table.set_cursor_pos_in_current_page (item);
@@ -1564,7 +1565,9 @@ AnthyInstance::action_candidates_page_down (void)
 bool
 AnthyInstance::action_select_candidate (unsigned int i)
 {
-    if (!m_lookup_table_visible) return false;
+    // FIXME! m_lookup_table_visible should be set as true also on predicting
+    if (!m_lookup_table_visible && !m_preedit.is_predicting ())
+        return false;
 
     if (m_preedit.is_predicting () && !m_preedit.is_converting () &&
         m_factory->m_use_direct_key_on_predict)

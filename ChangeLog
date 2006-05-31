@@ -1,3 +1,9 @@
+2006-05-31 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine.cpp: The bug that direct select keys didn't
+	work while predicting has been fixed. Thank you for reporting >
+	TAGOH-san, UTUMI-san, Bando-san.
+
 2006-04-10 Akira TAGOH <at@gclab.org>
 
 	* src/scim_anthy_factory.{cpp,h}, src/scim_anthy_imengine.cpp,
