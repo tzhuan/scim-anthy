@@ -2002,7 +2002,7 @@ AnthyInstance::timeout_add (uint32 time_msec, timeout_func timeout_fn,
     /*
      * FIXME! Obsoleted closures should be removed at somewhere.
      * Currenly only NICOLA related timer uses this feature and it will be
-     * removed each time on key press event so memory leaks doesn't exit.
+     * removed each time on key press event so memory leaks doesn't exist.
      */
 
     Transaction send;

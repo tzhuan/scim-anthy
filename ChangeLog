@@ -1,3 +1,7 @@
+2006-06-17 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine.cpp: Fix a typo in a comment.
+
 2006-06-02 Ikuya Awashiro <ikuya@oooug.jp>
 
 	* data/msime.sty: Add predict keys.
