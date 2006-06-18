@@ -102,7 +102,7 @@ public:
     virtual void          predict                (void);
 
     // clear all string
-    virtual void          clear                  (void);
+    virtual void          clear                  (int segment_id = -1);
 
     // preference
     virtual void          set_input_mode         (InputMode      mode);

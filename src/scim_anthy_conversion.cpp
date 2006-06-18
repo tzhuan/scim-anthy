@@ -180,15 +180,47 @@ Conversion::predict (void)
 }
 
 void
-Conversion::clear (void)
+Conversion::clear (int segment_id)
 {
-    anthy_reset_context (m_anthy_context);
+    if (m_segments.size () <= 0)
+        return;
 
-    m_segments.clear ();
+    if (segment_id < 0 || segment_id >= (int) m_segments.size () - 1) {
+        // complete clear
 
-    m_start_id    = 0;
-    m_cur_segment = -1;
-    m_predicting  = false;
+        anthy_reset_context (m_anthy_context);
+
+        m_segments.clear ();
+
+        m_start_id    = 0;
+        m_cur_segment = -1;
+        m_predicting  = false;
+
+    } else {
+        // partial clear
+
+        // remove stored segments
+        ConversionSegments::iterator it = m_segments.begin ();
+        m_segments.erase (it, it + segment_id + 1);
+
+        // adjust selected segment
+        int new_start_segment_id = m_start_id + segment_id + 1;
+        if (m_cur_segment >= 0) {
+            m_cur_segment -= new_start_segment_id - m_start_id;
+            if (m_cur_segment < 0)
+                m_cur_segment = 0;
+        }
+
+        // adjust offset
+        unsigned int clear_len = 0;
+        for (int i = m_start_id; i < new_start_segment_id; i++) {
+            struct anthy_segment_stat seg_stat;
+            anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
+            clear_len += seg_stat.seg_len;
+        }
+        m_reading.erase (0, clear_len, true);
+        m_start_id = new_start_segment_id;
+    }
 }
 
 void
@@ -208,38 +240,7 @@ Conversion::commit (int segment_id, bool learn)
                                   m_segments[i].get_candidate_id ());
     }
 
-
-    if (segment_id >= 0 &&
-        segment_id + 1 < (int) m_segments.size ())
-    {
-        // partial commit
-
-        // remove commited segments
-        ConversionSegments::iterator it = m_segments.begin ();
-        m_segments.erase (it, it + segment_id + 1);
-
-        // adjust selected segment
-        int new_start_segment_id = m_start_id + segment_id + 1;
-        if (m_cur_segment >= 0) {
-            m_cur_segment -= new_start_segment_id - m_start_id;
-            if (m_cur_segment < 0)
-                m_cur_segment = 0;
-        }
-
-        // adjust offset
-        unsigned int commited_len = 0;
-        for (int i = m_start_id; i < new_start_segment_id; i++) {
-            struct anthy_segment_stat seg_stat;
-            anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
-            commited_len += seg_stat.seg_len;
-        }
-        m_reading.erase (0, commited_len, true);
-        m_start_id = new_start_segment_id;
-
-    } else {
-        // commit all
-        clear ();
-    }
+    clear (segment_id);
 }
 
 

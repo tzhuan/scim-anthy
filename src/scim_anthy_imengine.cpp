@@ -1387,6 +1387,8 @@ AnthyInstance::action_commit_first_segment (void)
     commit_string (m_preedit.get_segment_string (0));
     if (m_factory->m_learn_on_manual_commit)
         m_preedit.commit (0);
+    else
+        m_preedit.clear (0);
 
     set_preedition ();
 
@@ -1410,6 +1412,8 @@ AnthyInstance::action_commit_selected_segment (void)
         commit_string (m_preedit.get_segment_string (i));
     if (m_factory->m_learn_on_manual_commit)
         m_preedit.commit (m_preedit.get_selected_segment ());
+    else
+        m_preedit.clear (m_preedit.get_selected_segment ());
 
     set_preedition ();
 
@@ -1432,6 +1436,8 @@ AnthyInstance::action_commit_first_segment_reverse_preference (void)
     commit_string (m_preedit.get_segment_string (0));
     if (!m_factory->m_learn_on_manual_commit)
         m_preedit.commit (0);
+    else
+        m_preedit.clear (0);
 
     set_preedition ();
 
@@ -1455,6 +1461,8 @@ AnthyInstance::action_commit_selected_segment_reverse_preference (void)
         commit_string (m_preedit.get_segment_string (i));
     if (!m_factory->m_learn_on_manual_commit)
         m_preedit.commit (m_preedit.get_selected_segment ());
+    else
+        m_preedit.clear (m_preedit.get_selected_segment ());
 
     set_preedition ();
 

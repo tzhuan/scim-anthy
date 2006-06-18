@@ -369,11 +369,23 @@ Preedit::predict (void)
  * clear all string
  */
 void
-Preedit::clear (void)
+Preedit::clear (int segment_id)
 {
-    m_reading.clear ();
-    m_conversion.clear ();
-    m_source = WideString ();
+    // FIXME! We should add implementation not only for conversion string but
+    // also for reading string.
+
+    if (!is_converting ()) {
+        m_reading.clear ();
+        m_conversion.clear ();
+        m_source = WideString ();
+        return;
+    }
+
+    m_conversion.clear (segment_id);
+    if (m_conversion.get_nr_segments () <= 0) {
+        m_reading.clear ();
+        m_source = WideString ();
+    }
 }
 
 
