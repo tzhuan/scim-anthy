@@ -60,14 +60,14 @@ public:
     virtual bool          is_predicting          (void);
     virtual bool          is_reconverting        (void);
 
-    // manipulating the preedit string
+    // for handling the preedit string
     virtual bool          can_process_key_event  (const KeyEvent & key);
     // return true if commiting is needed.
     virtual bool          process_key_event      (const KeyEvent & key);
     virtual void          erase                  (bool backward = true);
     virtual void          finish                 (void);
 
-    // manipulating the conversion string
+    // for handling the conversion string
     virtual void          convert                (CandidateType type
                                                   = SCIM_ANTHY_CANDIDATE_DEFAULT,
                                                   bool single_segment = false);
@@ -76,6 +76,9 @@ public:
     virtual void          revert                 (void);
     virtual void          commit                 (int  segment_id = -1,
                                                   bool lean       = true);
+
+    // for prediction
+    virtual void          predict                (void);
 
     // segments of the converted sentence
     virtual int           get_nr_segments        (void);
@@ -93,18 +96,15 @@ public:
     virtual void          select_candidate       (int candidate_id,
                                                   int segment_id = -1);
 
-    // manipulating the caret
+    // for handling the caret
     virtual unsigned int  get_caret_pos          (void);
     virtual void          set_caret_pos          (unsigned int   pos);
     virtual void          move_caret             (int            len);
 
-    // prediction
-    virtual void          predict                (void);
-
-    // clear all string
+    // clear all or part of the string.
     virtual void          clear                  (int segment_id = -1);
 
-    // preference
+    // preferences
     virtual void          set_input_mode         (InputMode      mode);
     virtual InputMode     get_input_mode         (void);
     virtual void          set_typing_method      (TypingMethod   method);
