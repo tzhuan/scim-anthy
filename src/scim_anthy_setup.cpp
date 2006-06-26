@@ -912,24 +912,24 @@ create_keyboard_page (void)
     column = gtk_tree_view_column_new_with_attributes (_("Feature"), cell,
                                                        "text", COLUMN_LABEL,
                                                        NULL);
-	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width (column, 120);
-	gtk_tree_view_column_set_resizable(column, TRUE);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+    gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+    gtk_tree_view_column_set_fixed_width (column, 120);
+    gtk_tree_view_column_set_resizable(column, TRUE);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (_("Key bindings"), cell,
                                                        "text", COLUMN_VALUE,
                                                        NULL);
-	gtk_tree_view_column_set_fixed_width (column, 200);
-	gtk_tree_view_column_set_resizable(column, TRUE);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+    gtk_tree_view_column_set_fixed_width (column, 200);
+    gtk_tree_view_column_set_resizable(column, TRUE);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (_("Description"), cell,
                                                        "text", COLUMN_DESC,
                                                        NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
     GtkTreeSelection *selection;
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
@@ -1561,19 +1561,19 @@ setup_widget_value (void)
 static void
 load_style_files (const char *dirname)
 {
-	GDir *dir;
-	GError *error = NULL;
-	const gchar *entry;
+    GDir *dir;
+    GError *error = NULL;
+    const gchar *entry;
 
     // load system wide style files
-	dir = g_dir_open (dirname, 0, &error);
-	if (error)
-	{
-		//g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+    dir = g_dir_open (dirname, 0, &error);
+    if (error)
+    {
+        //g_warning ("%s", error->message);
+        g_error_free (error);
+    }
 
-	if (dir) {
+    if (dir) {
         while ((entry = g_dir_read_name (dir)))
         {
             String file = dirname;
