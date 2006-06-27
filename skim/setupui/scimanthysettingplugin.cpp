@@ -1442,7 +1442,6 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
     connect (editor->m_table_chooser_combo,
              SIGNAL (activated (int)),
              this, SLOT (set_thumb_shift_table_view ()));
-    editor->show ();
 
 #if 0
     // Don't use QDialog::exec() because toolbar of SKIM is freezed when use it.
@@ -1474,6 +1473,9 @@ void ScimAnthySettingPlugin::customize_nicola_table ()
     slotWidgetModified ();
 
     d->m_table_editor = NULL;
+#else
+    editor->setDestructive (true);
+    editor->show ();
 #endif
 }
 
