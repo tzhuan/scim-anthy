@@ -350,6 +350,16 @@ StringConfigData config_string_common [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT,
+        SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT_DEFAULT,
+        SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT_DEFAULT,
+        N_("_Behavior on focus out:"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY,
         SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY_DEFAULT,
         SCIM_ANTHY_CONFIG_LEFT_THUMB_SHIFT_KEY_DEFAULT,

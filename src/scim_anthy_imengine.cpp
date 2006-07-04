@@ -183,7 +183,7 @@ AnthyInstance::process_key_event_input (const KeyEvent &key)
                                is_single_segment ());
             m_preedit.select_segment (-1);
         }
-       show_preedit_string ();
+        show_preedit_string ();
         m_preedit_string_visible = true;
         set_preedition ();
     }
@@ -439,6 +439,15 @@ void
 AnthyInstance::focus_out ()
 {
     SCIM_DEBUG_IMENGINE(2) << "focus_out.\n";
+
+    if (m_preedit.is_preediting ()) {
+        if (m_factory->m_behavior_on_focus_out == "Clear")
+            reset ();
+        else if (m_factory->m_behavior_on_focus_out == "Commit")
+            action_commit (m_factory->m_learn_on_auto_commit);
+        else
+            action_commit (m_factory->m_learn_on_auto_commit);
+    }
 
     Transaction send;
     send.put_command (SCIM_TRANS_CMD_REQUEST);

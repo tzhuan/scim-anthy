@@ -266,6 +266,13 @@ static ComboConfigCandidate behavior_on_period[] =
     {NULL, NULL},
 };
 
+static ComboConfigCandidate behavior_on_focus_out[] =
+{
+    {N_("Commit"), "Commit"},
+    {N_("Clear"),  "Clear"},
+    {NULL, NULL},
+};
+
 
 static ComboConfigCandidate preedit_style[] =
 {
@@ -783,6 +790,11 @@ create_common_page (void)
     widget = create_combo (SCIM_ANTHY_CONFIG_CONVERSION_MODE,
                            (gpointer) &conversion_modes,
                            GTK_TABLE (table), 2);
+
+    /* behavior on focus out */
+    widget = create_combo (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT,
+                           (gpointer) &behavior_on_focus_out,
+                           GTK_TABLE (table), 3);
 
     return vbox;
 }

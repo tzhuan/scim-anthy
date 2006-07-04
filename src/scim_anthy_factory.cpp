@@ -112,6 +112,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_space_type                  (SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT),
       m_ten_key_type                (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
       m_behavior_on_period          (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT),
+      m_behavior_on_focus_out       (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT_DEFAULT),
       m_show_candidates_label       (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL_DEFAULT),
       m_close_cand_win_on_select    (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT),
       m_cand_win_page_size          (SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE_DEFAULT),
@@ -454,6 +455,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_behavior_on_period
             = config->read (String (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD),
                             String (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT));
+
+        m_behavior_on_focus_out
+            = config->read (String (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT),
+                            String (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT_DEFAULT));
 
         m_cand_win_page_size
             = config->read (String (SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE),

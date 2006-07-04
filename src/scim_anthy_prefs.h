@@ -30,6 +30,7 @@
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE                  "/IMEngine/Anthy/SpaceType"
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE                "/IMEngine/Anthy/TenKeyType"
 #define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD          "/IMEngine/Anthy/BehaviorOnPeriod"
+#define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT       "/IMEngine/Anthy/BehaviorOnFocusOut"
 
 #define SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE           "/IMEngine/Anthy/RomajiThemeFile"
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL          "/IMEngine/Anthy/RomajiHalfSymbol"
@@ -163,6 +164,7 @@
 #define SCIM_ANTHY_CONFIG_SPACE_TYPE_DEFAULT                  "FollowMode"
 #define SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT                "FollowMode"
 #define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT          "None"
+#define SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT_DEFAULT       "Commit"
 
 #define SCIM_ANTHY_CONFIG_ROMAJI_THEME_FILE_DEFAULT           ""
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_SYMBOL_DEFAULT          false

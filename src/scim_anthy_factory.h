@@ -79,6 +79,7 @@ public:
     String         m_space_type;
     String         m_ten_key_type;
     String         m_behavior_on_period;
+    String         m_behavior_on_focus_out;
 
     bool           m_show_candidates_label;
     bool           m_close_cand_win_on_select;
