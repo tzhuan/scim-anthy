@@ -138,6 +138,18 @@
       </choices>
       <default>None</default>
     </entry>
+    <entry name="_IMEngine_Anthy_BehaviorOnFocusOut" key="/IMEngine/Anthy/BehaviorOnFocusOut" type="Enum">
+      <label>Specify behavior on focus out</label>
+      <choices>
+        <choice name="Commit">
+          <label>Commit</label>
+        </choice>
+        <choice name="Clear">
+          <label>Clear</label>
+        </choice>
+      </choices>
+      <default>Commit</default>
+    </entry>
 
 
     <entry name="_IMEngine_Anthy_RomajiThemeFile" key="/IMEngine/Anthy/RomajiThemeFile" type="String">
@@ -154,6 +166,10 @@
     </entry>
     <entry name="_IMEngine_Anthy_RomajiAllowSplit" key="/IMEngine/Anthy/RomajiAllowSplit" type="Bool">
       <label>Allow split syllable or not</label>
+      <default>true</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_RomajiPseudoAsciiMode" key="/IMEngine/Anthy/RomajiPseudoAsciiMode" type="Bool">
+      <label>_Entering the pseudo ASCII input mode with capital letters.</label>
       <default>true</default>
     </entry>
 
