@@ -1,6 +1,10 @@
 2006-07-07 Takuro Ashie <ashie@homa.ne.jp>
 
-	* setui/anthy.kcfg: Add some entries added in latest scim-anthy.
+	* setupui/anthyui.ui: Add UI for previous changes.
+
+2006-07-07 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/anthy.kcfg: Add some entries added in latest scim-anthy.
 
 2006-06-27 Takuro Ashie <ashie@homa.ne.jp>
 
