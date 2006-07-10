@@ -137,7 +137,7 @@ Conversion::convert (WideString source, CandidateType ctype,
     m_cur_segment = 0;
 
     // create segments
-    m_segments.clear ();
+    m_segments.clear();
     for (int i = m_start_id; i < conv_stat.nr_segment; i++) {
         struct anthy_segment_stat seg_stat;
         anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
@@ -182,10 +182,9 @@ Conversion::predict (void)
 void
 Conversion::clear (int segment_id)
 {
-    if (m_segments.size () <= 0)
-        return;
-
-    if (segment_id < 0 || segment_id >= (int) m_segments.size () - 1) {
+    if (segment_id < 0 || m_segments.size () <= 0 ||
+        segment_id >= (int) m_segments.size () - 1)
+    {
         // complete clear
 
         anthy_reset_context (m_anthy_context);
