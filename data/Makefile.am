@@ -34,5 +34,7 @@ style_DATA		= atok.sty \
 			  nicola-j.sty \
 			  oasys100j.sty \
 			  tron-dvorak.sty \
-			  tron-qwerty-jp.sty
+			  tron-qwerty-jp.sty \
+			  tsuki-2-203-101.sty \
+			  tsuki-2-203-106.sty
 EXTRA_DIST		= $(icon_DATA) $(style_DATA)
