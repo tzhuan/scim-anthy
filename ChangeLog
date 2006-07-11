@@ -1,3 +1,9 @@
+2006-07-11 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine.cpp: Enable reconversion feature on non-GTK+
+	application. But it's a ad-hoc solution.
+	Thank you for your patch > Takashi Nakamoto
+
 2006-07-10 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_conversion.cpp: Fix a bug that scim-anthy never

@@ -2135,6 +2135,8 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
     switch (cmd) {
     case SCIM_ANTHY_TRANS_CMD_GET_SELECTION:
     {
+        // For reconversion feature, but this code is ad-hoc solution.
+
         WideString selection, surround;
         if (!reader.get_data (selection) || selection.empty ())
             break;
@@ -2142,22 +2144,31 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
         int cursor;
         unsigned int len = selection.length ();
         if (!get_surrounding_text (surround, cursor, len, len))
-            break;
-
-        if (surround.length () - cursor >= len &&
-            surround.substr (cursor, len) == selection)
         {
-            delete_surrounding_text (0, len);
-            m_preedit.convert (selection);
-            set_preedition ();
-            set_lookup_table ();
-        } else if (cursor >= (int) len &&
-                   surround.substr (cursor - len, len) == selection)
+            // We expect application to delete selection text.
+            m_preedit.convert(selection);
+            set_preedition();
+            set_lookup_table();
+        }
+        else
         {
-            delete_surrounding_text (0 - len, len);
-            m_preedit.convert (selection);
-            set_preedition ();
-            set_lookup_table ();
+            // This code will conflict if same string exists at both before and
+            // after the caret.
+            if (surround.length () - cursor >= len &&
+                surround.substr (cursor, len) == selection)
+            {
+                delete_surrounding_text (0, len);
+                m_preedit.convert (selection);
+                set_preedition ();
+                set_lookup_table ();
+            } else if (cursor >= (int) len &&
+                       surround.substr (cursor - len, len) == selection)
+            {
+                delete_surrounding_text (0 - len, len);
+                m_preedit.convert (selection);
+                set_preedition ();
+                set_lookup_table ();
+            }
         }
         break;
     }
