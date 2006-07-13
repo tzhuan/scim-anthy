@@ -102,7 +102,16 @@ BoolConfigData config_bool_common [] =
         SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT,
         N_("_Entering the pseudo ASCII input mode with capital letters."),
         NULL,
-        N_("If this check is enabled, capital letters will becomes a trigger to enter the pseudo ASCII input mode during capital letters are in preedit."),
+        N_("If this check is enabled, capital letters will becomes a trigger to enter the pseudo ASCII input mode."),
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR,
+        SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR_DEFAULT,
+        SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR_DEFAULT,
+        N_("Insert a blank with a blank key."),
+        NULL,
+        N_("If this check is enabled, a blank key will works to insert a blank when entering the pseudo ASCII input mode."),
         false,
     },
     {
@@ -553,6 +562,16 @@ StringConfigData config_keyboards_mode [] =
         N_("Half katakana mode"),
         N_("Select half katakana mode keys"),
         N_("The key events to switch input mode to half katakana. "),
+        NULL,
+        false,
+    },
+    {
+        SCIM_ANTHY_CONFIG_CANCEL_PSEUDO_ASCII_MODE_KEY,
+        SCIM_ANTHY_CONFIG_CANCEL_PSEUDO_ASCII_MODE_KEY_DEFAULT,
+        SCIM_ANTHY_CONFIG_CANCEL_PSEUDO_ASCII_MODE_KEY_DEFAULT,
+        N_("pseudo ASCII mode cancel key"),
+        N_("Select pseudo ASCII mode cancel key"),
+        N_("The key events to cancel the pseudo ASCII mode."),
         NULL,
         false,
     },
@@ -1242,4 +1261,65 @@ ColorConfigData config_color_common [] =
         false,
     },
 };
+
+BoolConfigData *
+find_bool_config_entry (const char *config_key)
+{
+    if (!config_key)
+        return NULL;
+
+    for (unsigned int i = 0; config_bool_common[i].key; i++) {
+        BoolConfigData *entry = &config_bool_common[i];
+        if (entry->key && !strcmp (entry->key, config_key))
+            return entry;
+    }
+
+    return NULL;
+}
+
+IntConfigData *
+find_int_config_entry (const char *config_key)
+{
+    if (!config_key)
+        return NULL;
+
+    for (unsigned int i = 0; config_int_common[i].key; i++) {
+        IntConfigData *entry = &config_int_common[i];
+        if (entry->key && !strcmp (entry->key, config_key))
+            return entry;
+    }
+
+    return NULL;
+}
+
+StringConfigData *
+find_string_config_entry (const char *config_key)
+{
+    if (!config_key)
+        return NULL;
+
+    for (unsigned int i = 0; config_string_common[i].key; i++) {
+        StringConfigData *entry = &config_string_common[i];
+        if (entry->key && !strcmp (entry->key, config_key))
+            return entry;
+    }
+
+    return NULL;
+}
+
+ColorConfigData *
+find_color_config_entry (const char *config_key)
+{
+    if (!config_key)
+        return NULL;
+
+    for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
+        ColorConfigData *entry = &config_color_common[i];
+        if (entry->fg_key && !strcmp (entry->fg_key, config_key))
+            return entry;
+    }
+
+    return NULL;
+}
+
 }

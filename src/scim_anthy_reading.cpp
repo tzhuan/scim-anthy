@@ -330,6 +330,71 @@ Reading::split_segment (unsigned int seg_id)
     }
 }
 
+bool
+Reading::append (const KeyEvent & key,
+                 const String   & string)
+{
+    bool was_pending;
+    WideString result, pending;
+    bool need_commiting;
+
+    if (!m_kana.can_append (key, true) &&
+        !m_key2kana->can_append (key, true))
+        return false;
+
+    if (m_caret_offset != 0) {
+        split_segment (m_segment_pos);
+        reset_pending ();
+    }
+
+    if (m_kana.can_append (key))
+        was_pending = m_kana.is_pending ();
+    else
+        was_pending = m_key2kana->is_pending ();
+
+    if (m_kana.can_append (key))
+        need_commiting = m_kana.append (string, result, pending);
+    else
+        need_commiting = m_key2kana->append (string, result, pending);
+
+    ReadingSegments::iterator begin = m_segments.begin ();
+
+    // fix previous segment and prepare next segment if needed
+    if (!result.empty () || !pending.empty ()) {
+        if (!was_pending ||  // previous segment was already fixed
+            need_commiting)  // previous segment has been fixed
+        {
+            ReadingSegment c;
+            m_segments.insert (begin + m_segment_pos, c);
+            m_segment_pos++;
+        }
+    }
+
+    // fill segment
+    if (result.length() > 0 && pending.length () > 0) {
+        m_segments[m_segment_pos - 1].kana = result;
+
+        ReadingSegment c;
+        c.raw += string;
+        c.kana = pending;
+        m_segments.insert (begin + m_segment_pos, c);
+        m_segment_pos++;
+
+    } else if (result.length () > 0) {
+        m_segments[m_segment_pos - 1].raw += string;
+        m_segments[m_segment_pos - 1].kana = result;
+
+    } else if (pending.length () > 0) {
+        m_segments[m_segment_pos - 1].raw += string;
+        m_segments[m_segment_pos - 1].kana = pending;
+
+    } else {
+
+    }
+
+    return false;
+}
+
 void
 Reading::erase (unsigned int start, int len, bool allow_split)
 {
@@ -433,7 +498,7 @@ Reading::reset_pending (void)
                           m_segments[m_segment_pos - 1].raw);
     m_key2kana->reset_pseudo_ascii_mode();
     for (unsigned int i = 0; i < m_segment_pos; i++)
-        m_key2kana->compute_for_pseudo_ascii_mode(m_segments[i].kana);
+        m_key2kana->process_pseudo_ascii_mode(m_segments[i].kana);
 }
 
 unsigned int
@@ -655,7 +720,28 @@ Reading::get_number_width (void)
 }
 
 void
-Reading::use_pseudo_ascii_mode (bool flag)
+Reading::set_pseudo_ascii_mode (int mode)
 {
-    m_key2kana_normal.use_pseudo_ascii_mode (flag);
+    m_key2kana_normal.set_pseudo_ascii_mode (mode);
+}
+
+bool
+Reading::is_pseudo_ascii_mode (void)
+{
+    return m_key2kana_normal.is_pseudo_ascii_mode ();
+}
+
+void
+Reading::reset_pseudo_ascii_mode (void)
+{
+    if (m_key2kana_normal.is_pseudo_ascii_mode () &&
+        m_key2kana_normal.is_pending ()) {
+        ReadingSegment c;
+        ReadingSegments::iterator it = m_segments.begin ();
+
+        /* separate to another segment */
+        m_key2kana_normal.reset_pseudo_ascii_mode ();
+        m_segments.insert (it + m_segment_pos, c);
+        m_segment_pos++;
+    }
 }

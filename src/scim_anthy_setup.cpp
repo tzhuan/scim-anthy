@@ -328,51 +328,6 @@ static void     on_color_button_changed           (ScimColorButton  *button,
                                                    gpointer          user_data);
 
 
-static BoolConfigData *
-find_bool_config_entry (const char *config_key)
-{
-    if (!config_key)
-        return NULL;
-
-    for (unsigned int i = 0; config_bool_common[i].key; i++) {
-        BoolConfigData *entry = &config_bool_common[i];
-        if (entry->key && !strcmp (entry->key, config_key))
-            return entry;
-    }
-
-    return NULL;
-}
-
-static IntConfigData *
-find_int_config_entry (const char *config_key)
-{
-    if (!config_key)
-        return NULL;
-
-    for (unsigned int i = 0; config_int_common[i].key; i++) {
-        IntConfigData *entry = &config_int_common[i];
-        if (entry->key && !strcmp (entry->key, config_key))
-            return entry;
-    }
-
-    return NULL;
-}
-
-static StringConfigData *
-find_string_config_entry (const char *config_key)
-{
-    if (!config_key)
-        return NULL;
-
-    for (unsigned int i = 0; config_string_common[i].key; i++) {
-        StringConfigData *entry = &config_string_common[i];
-        if (entry->key && !strcmp (entry->key, config_key))
-            return entry;
-    }
-
-    return NULL;
-}
-
 static StringConfigData *
 find_key_config_entry (const char *config_key)
 {
@@ -382,21 +337,6 @@ find_key_config_entry (const char *config_key)
             if (entry->key && !strcmp (entry->key, config_key))
                 return entry;
         }
-    }
-
-    return NULL;
-}
-
-static ColorConfigData *
-find_color_config_entry (const char *config_key)
-{
-    if (!config_key)
-        return NULL;
-
-    for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
-        ColorConfigData *entry = &config_color_common[i];
-        if (entry->fg_key && !strcmp (entry->fg_key, config_key))
-            return entry;
     }
 
     return NULL;

@@ -78,3 +78,9 @@ Action::match_key_event (const KeyEvent &key)
 {
     return util_match_key_event (m_key_bindings, key, SCIM_KEY_CapsLockMask);
 }
+
+bool
+Action::match_action_name (const char *name)
+{
+    return (m_name.compare (name) == 0);
+}

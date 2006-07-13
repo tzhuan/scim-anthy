@@ -29,6 +29,9 @@
 #include "scim_anthy_reading.h"
 #include "scim_anthy_conversion.h"
 
+#define SCIM_ANTHY_PSEUDO_ASCII_TRIGGERED_CAPITALIZED			(1 << 0)
+#define SCIM_ANTHY_PSEUDO_ASCII_TRIGGERED_COUPLE_OF_CAPITAL		(1 << 1)
+
 using namespace scim;
 
 class AnthyInstance;
@@ -64,6 +67,8 @@ public:
     virtual bool          can_process_key_event  (const KeyEvent & key);
     // return true if commiting is needed.
     virtual bool          process_key_event      (const KeyEvent & key);
+    virtual bool          append                 (const KeyEvent & key,
+                                                  const String   & string);
     virtual void          erase                  (bool backward = true);
     virtual void          finish                 (void);
 
@@ -121,7 +126,9 @@ public:
     virtual bool          get_symbol_width       (void);
     virtual void          set_number_width       (bool           half);
     virtual bool          get_number_width       (void);
-    virtual void          use_pseudo_ascii_mode  (bool           flag);
+    virtual void          set_pseudo_ascii_mode  (int            mode);
+    virtual bool          is_pseudo_ascii_mode   (void);
+    virtual void          reset_pseudo_ascii_mode(void);
 
 private:
     void                  get_reading_substr     (WideString   & substr,

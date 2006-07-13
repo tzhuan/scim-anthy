@@ -123,6 +123,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_romaji_half_number          (SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT),
       m_romaji_allow_split          (SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT),
       m_romaji_pseudo_ascii_mode    (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT),
+      m_romaji_pseudo_ascii_blank_behavior (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR),
       m_nicola_time                 (SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT),
       m_dict_admin_command          (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
       m_add_word_command            (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
@@ -328,7 +329,7 @@ AnthyFactory::remove_config_listener (AnthyInstance *listener)
 #else
 #define APPEND_ACTION(key, func)                                               \
 {                                                                              \
-    String name = "func", str;                                                 \
+    String name = #key, str;                                                   \
     if (loaded) {                                                              \
         String str2, str3;                                                     \
         str2 = String (SCIM_ANTHY_CONFIG_##key##_KEY);                         \
@@ -415,6 +416,7 @@ ANTHY_DEFINE_ACTION (action_wide_latin_mode);
 ANTHY_DEFINE_ACTION (action_hiragana_mode);
 ANTHY_DEFINE_ACTION (action_katakana_mode);
 ANTHY_DEFINE_ACTION (action_half_katakana_mode);
+ANTHY_DEFINE_ACTION (action_cancel_pseudo_ascii_mode);
 ANTHY_DEFINE_ACTION (action_launch_dict_admin_tool);
 ANTHY_DEFINE_ACTION (action_add_word);
 
@@ -499,6 +501,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_romaji_pseudo_ascii_mode
             = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE),
                             SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT);
+
+        m_romaji_pseudo_ascii_blank_behavior
+            = config->read (String (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR),
+                            SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR_DEFAULT);
 
         m_nicola_time
             = config->read (String (SCIM_ANTHY_CONFIG_NICOLA_TIME),
@@ -693,6 +699,7 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     APPEND_ACTION (HIRAGANA_MODE,           action_hiragana_mode);
     APPEND_ACTION (KATAKANA_MODE,           action_katakana_mode);
     APPEND_ACTION (HALF_KATAKANA_MODE,      action_half_katakana_mode);
+    APPEND_ACTION (CANCEL_PSEUDO_ASCII_MODE,action_cancel_pseudo_ascii_mode);
 
     // dict keys
     APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);

@@ -37,6 +37,7 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER          "/IMEngine/Anthy/RomajiHalfNumber"
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT          "/IMEngine/Anthy/RomajiAllowSplit"
 #define SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE    "/IMEngine/Anthy/RomajiPseudoAsciiMode"
+#define SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR    "/IMEngine/Anthy/RomajiPseudoAsciiBlankBehavior"
 
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE            "/IMEngine/Anthy/KanaLayoutFile"
 
@@ -82,6 +83,7 @@
 #define SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY           "/IMEngine/Anthy/HiraganaModeKey"
 #define SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY           "/IMEngine/Anthy/KatakanaModeKey"
 #define SCIM_ANTHY_CONFIG_HALF_KATAKANA_MODE_KEY      "/IMEngine/Anthy/HalfKatakanaModeKey"
+#define SCIM_ANTHY_CONFIG_CANCEL_PSEUDO_ASCII_MODE_KEY  "/IMEngine/Anthy/CancelPseudoAsciiModeKey"
 
 #define SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY            "/IMEngine/Anthy/InsertSpaceKey"
 #define SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY        "/IMEngine/Anthy/InsertAltSpaceKey"
@@ -171,6 +173,7 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_HALF_NUMBER_DEFAULT          false
 #define SCIM_ANTHY_CONFIG_ROMAJI_ALLOW_SPLIT_DEFAULT          true
 #define SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT    true
+#define SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR_DEFAULT    true
 
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT            ""
 
@@ -216,6 +219,7 @@
 #define SCIM_ANTHY_CONFIG_HIRAGANA_MODE_KEY_DEFAULT           ""
 #define SCIM_ANTHY_CONFIG_KATAKANA_MODE_KEY_DEFAULT           ""
 #define SCIM_ANTHY_CONFIG_HALF_KATAKANA_MODE_KEY_DEFAULT      ""
+#define SCIM_ANTHY_CONFIG_CANCEL_PSEUDO_ASCII_MODE_KEY_DEFAULT ""
 
 #define SCIM_ANTHY_CONFIG_INSERT_SPACE_KEY_DEFAULT            "space"
 #define SCIM_ANTHY_CONFIG_INSERT_ALT_SPACE_KEY_DEFAULT        "Shift+space"
@@ -365,6 +369,11 @@ extern StringConfigData config_keyboards_direct_select [];
 extern StringConfigData config_keyboards_converting [];
 extern StringConfigData config_keyboards_dict [];
 extern ColorConfigData  config_color_common [];
+
+BoolConfigData   *find_bool_config_entry   (const char *config_key);
+IntConfigData    *find_int_config_entry    (const char *config_key);
+StringConfigData *find_string_config_entry (const char *config_key);
+ColorConfigData  *find_color_config_entry  (const char *config_key);
 
 }
 

@@ -93,7 +93,8 @@ KanaConvertor::~KanaConvertor ()
 }
 
 bool
-KanaConvertor::can_append (const KeyEvent & key)
+KanaConvertor::can_append (const KeyEvent & key,
+                           bool             ignore_space)
 {
     // ignore key release.
     if (key.is_key_release ())
@@ -196,8 +197,17 @@ KanaConvertor::append (const KeyEvent & key,
 
     String s;
     s += key.get_ascii_code ();
-    result = utf8_mbstowcs (s);
     raw    = s;
+
+    return append (raw, result, pending);
+}
+
+bool
+KanaConvertor::append (const String & str,
+                       WideString   & result,
+                       WideString   & pending)
+{
+    result = utf8_mbstowcs (str);
     m_pending = String ();
 
     return false;

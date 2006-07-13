@@ -60,23 +60,25 @@ static void     setup_romaji_window_value         (ScimAnthyTableEditor *editor)
 
 static bool     load_romaji_theme                 (void);
 
-static void     on_romaji_theme_menu_changed      (GtkOptionMenu        *omenu,
-                                                   gpointer              user_data);
-static void     on_romaji_customize_button_clicked(GtkWidget            *button,
-                                                   gpointer              data);
-static void     on_table_editor_add_entry         (ScimAnthyTableEditor *editor,
-                                                   gpointer              data);
-static void     on_table_editor_added_entry       (ScimAnthyTableEditor *editor,
-                                                   gpointer              data);
-static void     on_table_editor_remove_entry      (ScimAnthyTableEditor *editor,
-                                                   gpointer              data);
-static void     on_table_editor_removed_entry     (ScimAnthyTableEditor *editor,
-                                                   gpointer              data);
+static void     on_romaji_pseudo_ascii_mode_toggled(GtkToggleButton *togglebutton,
+                                                    gpointer         user_data);
+static void     on_romaji_theme_menu_changed       (GtkOptionMenu        *omenu,
+                                                    gpointer              user_data);
+static void     on_romaji_customize_button_clicked (GtkWidget            *button,
+                                                    gpointer              data);
+static void     on_table_editor_add_entry          (ScimAnthyTableEditor *editor,
+                                                    gpointer              data);
+static void     on_table_editor_added_entry        (ScimAnthyTableEditor *editor,
+                                                    gpointer              data);
+static void     on_table_editor_remove_entry       (ScimAnthyTableEditor *editor,
+                                                    gpointer              data);
+static void     on_table_editor_removed_entry      (ScimAnthyTableEditor *editor,
+                                                    gpointer              data);
 
 GtkWidget *
 romaji_page_create_ui (void)
 {
-    GtkWidget *vbox, *widget;
+    GtkWidget *vbox, *widget, *hbox, *label;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
@@ -95,15 +97,31 @@ romaji_page_create_ui (void)
 
     /* pseudo ascii mode */
     widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE);
+    g_signal_connect ((gpointer) widget, "toggled",
+                      G_CALLBACK (on_romaji_pseudo_ascii_mode_toggled),
+                      NULL);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
+    /* pseudo ascii: blank behavior */
+    hbox = gtk_hbox_new (FALSE, 0), *label;
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_widget_show (hbox);
+    label = gtk_label_new ("    ");
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+
+    widget = create_check_button (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR);
+    gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+    // set initial state
+    on_romaji_pseudo_ascii_mode_toggled (GTK_TOGGLE_BUTTON (widget), NULL);
+
     /* romaji table */
-    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
-    GtkWidget *label = gtk_label_new_with_mnemonic (_("Romaji _table:"));
+    label = gtk_label_new_with_mnemonic (_("Romaji _table:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
     gtk_widget_show (label);
 
@@ -404,6 +422,18 @@ load_romaji_theme (void)
         // error
         return false;
     }
+}
+
+static void
+on_romaji_pseudo_ascii_mode_toggled (GtkToggleButton *togglebutton,
+                                     gpointer         user_data)
+{
+    gboolean active = gtk_toggle_button_get_active (togglebutton);
+    BoolConfigData *entry;
+
+    entry = find_bool_config_entry (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR);
+    if (entry->widget)
+        gtk_widget_set_sensitive (GTK_WIDGET (entry->widget), active);
 }
 
 static void

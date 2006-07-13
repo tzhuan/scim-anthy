@@ -41,7 +41,8 @@ public:
                                               Key2KanaTableSet & tables);
     virtual ~Key2KanaConvertor               ();
 
-    bool       can_append                    (const KeyEvent   & key);
+    bool       can_append                    (const KeyEvent   & key,
+                                              bool               ignore_space = false);
     bool       append                        (const KeyEvent   & key,
                                               WideString       & result,
                                               WideString       & pending,
@@ -53,9 +54,11 @@ public:
     WideString flush_pending                 (void);
     void       reset_pending                 (const WideString & result,
                                               const String     & raw);
-    void       use_pseudo_ascii_mode         (bool               flag)
-        { m_pseudo_ascii_mode = flag; }
-    void       compute_for_pseudo_ascii_mode (const WideString & wstr);
+    void       set_pseudo_ascii_mode         (int                mode)
+        { m_pseudo_ascii_mode = mode; }
+    bool       is_pseudo_ascii_mode          (void)
+        { return m_is_in_pseudo_ascii_mode; }
+    bool       process_pseudo_ascii_mode     (const WideString & wstr);
     void       reset_pseudo_ascii_mode       (void);
 
 private:
@@ -70,8 +73,9 @@ private:
     // state
     WideString         m_pending;
     Key2KanaRule       m_exact_match;
-    bool               m_pseudo_ascii_mode;
+    int                m_pseudo_ascii_mode;
     bool               m_is_in_pseudo_ascii_mode;
+    bool               m_reset_pseudo_ascii_mode;
 };
 
 }

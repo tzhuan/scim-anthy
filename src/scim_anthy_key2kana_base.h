@@ -36,11 +36,15 @@ public:
         {};
     virtual ~Key2KanaConvertorBase        () {};
 
-    virtual bool       can_append         (const KeyEvent   & key)       = 0;
+    virtual bool       can_append         (const KeyEvent   & key,
+                                           bool               ignore_space = false) = 0;
     virtual bool       append             (const KeyEvent   & key,
                                            WideString       & result,
                                            WideString       & pending,
                                            String           & raw)       = 0;
+    virtual bool       append             (const String     & raw,
+                                           WideString       & result,
+                                           WideString       & pending)   = 0;
     virtual void       clear              (void)                         = 0;
 
     virtual bool       is_pending         (void)                         = 0;
@@ -51,7 +55,7 @@ public:
 
     virtual void       reset_pseudo_ascii_mode       (void)
         {}
-    virtual void       compute_for_pseudo_ascii_mode (const WideString & wstr)
+    virtual bool       process_pseudo_ascii_mode     (const WideString & wstr)
         {}
 
     virtual void       set_case_sensitive (bool               sensitive)

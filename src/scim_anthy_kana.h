@@ -40,11 +40,15 @@ public:
                KanaConvertor      (AnthyInstance    & anthy);
     virtual   ~KanaConvertor      ();
 
-    bool       can_append         (const KeyEvent   & key);
+    bool       can_append         (const KeyEvent   & key,
+                                   bool               ignore_space = false);
     bool       append             (const KeyEvent   & key,
                                    WideString       & result,
                                    WideString       & pending,
                                    String           & raw);
+    bool       append             (const String     & raw,
+                                   WideString       & result,
+                                   WideString       & pending);
     void       clear              (void);
 
     bool       is_pending         (void);

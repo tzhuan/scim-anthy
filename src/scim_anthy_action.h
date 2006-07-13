@@ -43,7 +43,8 @@ public:
     bool perform (AnthyInstance  *performer);
     bool perform (AnthyInstance  *performer,
                   const KeyEvent &key);
-    
+
+    bool match_action_name (const char *name);
 
 private:
     bool match_key_event (const KeyEvent &key);

@@ -43,7 +43,8 @@ NicolaConvertor::~NicolaConvertor ()
 }
 
 bool
-NicolaConvertor::can_append (const KeyEvent & key)
+NicolaConvertor::can_append (const KeyEvent & key,
+                             bool             ignore_space)
 {
     if (key == m_through_key_event) {
         m_through_key_event = KeyEvent ();
@@ -84,7 +85,7 @@ NicolaConvertor::can_append (const KeyEvent & key)
     }
 
     if (isprint (key.get_ascii_code ()) &&
-        !isspace (key.get_ascii_code ()))
+        (ignore_space || !isspace (key.get_ascii_code ())))
     {
         return true;
     }
@@ -581,6 +582,17 @@ NicolaConvertor::append (const KeyEvent & key,
     }
 
     return handle_voiced_consonant (result, pending);
+}
+
+bool
+NicolaConvertor::append (const String & str,
+                         WideString   & result,
+                         WideString   & pending)
+{
+    result = utf8_mbstowcs (str);
+    m_pending = WideString ();
+
+    return false;
 }
 
 void

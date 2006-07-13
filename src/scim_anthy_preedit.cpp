@@ -191,6 +191,13 @@ Preedit::process_key_event (const KeyEvent & key)
     return retval;
 }
 
+bool
+Preedit::append (const KeyEvent & key,
+                 const String   & string)
+{
+    return m_reading.append (key, string);
+}
+
 void
 Preedit::erase (bool backward)
 {
@@ -489,9 +496,21 @@ Preedit::get_number_width (void)
 }
 
 void
-Preedit::use_pseudo_ascii_mode (bool flag)
+Preedit::set_pseudo_ascii_mode (int mode)
 {
-    m_reading.use_pseudo_ascii_mode (flag);
+    m_reading.set_pseudo_ascii_mode (mode);
+}
+
+bool
+Preedit::is_pseudo_ascii_mode (void)
+{
+    return m_reading.is_pseudo_ascii_mode ();
+}
+
+void
+Preedit::reset_pseudo_ascii_mode (void)
+{
+    m_reading.reset_pseudo_ascii_mode ();
 }
 
 bool

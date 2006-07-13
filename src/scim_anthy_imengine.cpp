@@ -194,9 +194,25 @@ AnthyInstance::process_key_event_input (const KeyEvent &key)
 bool
 AnthyInstance::process_key_event_lookup_keybind (const KeyEvent& key)
 {
+    std::vector<Action>::iterator it;
+
     m_last_key = key;
 
-    std::vector<Action>::iterator it;
+    /* try to find a "insert a blank" action to be not stolen a blank key
+     * when entering the pseudo ascii mode.
+     */
+    if (get_pseudo_ascii_mode () != 0 &&
+        m_factory->m_romaji_pseudo_ascii_blank_behavior &&
+        m_preedit.is_pseudo_ascii_mode ()) {
+        for (it  = m_factory->m_actions.begin();
+             it != m_factory->m_actions.end();
+             it++) {
+            if (it->match_action_name ("INSERT_SPACE") &&
+                it->perform (this, key)) {
+                return true;
+            }
+        }
+    }
     for (it  = m_factory->m_actions.begin();
          it != m_factory->m_actions.end();
          it++)
@@ -829,16 +845,14 @@ AnthyInstance::set_typing_method (TypingMethod method)
 
     if (method != get_typing_method ()) {
         Key2KanaTable *fundamental_table = NULL;
-        bool pseudo_ascii = false;
 
         if (method == SCIM_ANTHY_TYPING_METHOD_ROMAJI) {
             fundamental_table = m_factory->m_custom_romaji_table;
-            pseudo_ascii = m_factory->m_romaji_pseudo_ascii_mode;
         } else if (method == SCIM_ANTHY_TYPING_METHOD_KANA) {
             fundamental_table = m_factory->m_custom_kana_table;
         }
         m_preedit.set_typing_method (method);
-        m_preedit.use_pseudo_ascii_mode (pseudo_ascii);
+        m_preedit.set_pseudo_ascii_mode (get_pseudo_ascii_mode ());
     }
 }
 
@@ -1125,10 +1139,11 @@ AnthyInstance::action_delete (void)
 bool
 AnthyInstance::action_insert_space (void)
 {
-    if (m_preedit.is_preediting ())
-        return false;
+    String str;
+    bool is_wide = false, retval = false;
 
-    bool is_wide = false;
+    if (m_preedit.is_preediting () && !m_factory->m_romaji_pseudo_ascii_blank_behavior)
+        return false;
 
     if (m_factory->m_space_type == "FollowMode") {
         InputMode mode = get_input_mode ();
@@ -1144,26 +1159,37 @@ AnthyInstance::action_insert_space (void)
     }
 
     if (is_wide) {
-        commit_string (utf8_mbstowcs ("\xE3\x80\x80"));
-        return true;
+        str = "\xE3\x80\x80";
+        retval = true;
     } else if (get_typing_method () == SCIM_ANTHY_TYPING_METHOD_NICOLA || // FIXME! it's a ad-hoc solution.
                (m_last_key.code != SCIM_KEY_space &&
                 m_last_key.code != SCIM_KEY_KP_Space))
     {
-        commit_string (utf8_mbstowcs (" "));
-        return true;
+        str = " ";
+        retval = true;
     }
 
-    return false;
+    if (retval) {
+        if (m_preedit.is_pseudo_ascii_mode ()) {
+            m_preedit.append (m_last_key, str);
+            show_preedit_string ();
+            m_preedit_string_visible = true;
+            set_preedition ();
+        } else {
+            commit_string (utf8_mbstowcs (str));
+        }
+    }
+
+    return retval;
 }
 
 bool 
 AnthyInstance::action_insert_alternative_space (void)
 {
+    bool is_wide = false;
+
     if (m_preedit.is_preediting ())
         return false;
-
-    bool is_wide = false;
 
     if (m_factory->m_space_type == "FollowMode") {
         InputMode mode = get_input_mode ();
@@ -1795,6 +1821,14 @@ AnthyInstance::action_half_katakana_mode (void)
 }
 
 bool
+AnthyInstance::action_cancel_pseudo_ascii_mode (void)
+{
+    m_preedit.reset_pseudo_ascii_mode ();
+
+    return true;
+}
+
+bool
 AnthyInstance::convert_kana (CandidateType type)
 {
     if (!m_preedit.is_preediting ())
@@ -2213,22 +2247,15 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     if (m_on_init || !m_factory->m_show_typing_method_label) {
         if (m_factory->m_typing_method == "NICOLA") {
             m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_NICOLA);
-            m_preedit.use_pseudo_ascii_mode(false);
         } else if (m_factory->m_typing_method == "Kana") {
             m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_KANA);
-            m_preedit.use_pseudo_ascii_mode(false);
         } else {
             m_preedit.set_typing_method (SCIM_ANTHY_TYPING_METHOD_ROMAJI);
-            m_preedit.use_pseudo_ascii_mode(m_factory->m_romaji_pseudo_ascii_mode);
         }
+        m_preedit.set_pseudo_ascii_mode (get_pseudo_ascii_mode ());
     } else {
-        TypingMethod m = m_preedit.get_typing_method ();
-
-        m_preedit.set_typing_method (m);
-        if (m == SCIM_ANTHY_TYPING_METHOD_ROMAJI)
-            m_preedit.use_pseudo_ascii_mode(m_factory->m_romaji_pseudo_ascii_mode);
-        else
-            m_preedit.use_pseudo_ascii_mode(false);
+        m_preedit.set_typing_method (get_typing_method ());
+        m_preedit.set_pseudo_ascii_mode (get_pseudo_ascii_mode ());
     }
 
     // set conversion mode
@@ -2313,6 +2340,21 @@ AnthyInstance::is_realtime_conversion (void)
     else
         return false;
 }
+
+int
+AnthyInstance::get_pseudo_ascii_mode (void)
+{
+    int retval = 0;
+    TypingMethod m = get_typing_method ();
+
+    if (m == SCIM_ANTHY_TYPING_METHOD_ROMAJI) {
+        if (m_factory->m_romaji_pseudo_ascii_mode)
+            retval |= SCIM_ANTHY_PSEUDO_ASCII_TRIGGERED_CAPITALIZED;
+    }
+
+    return retval;
+}
+
 /*
 vi:ts=4:nowrap:ai:expandtab
 */

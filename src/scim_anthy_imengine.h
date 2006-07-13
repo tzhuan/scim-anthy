@@ -184,6 +184,7 @@ public:
     bool   action_hiragana_mode               (void);
     bool   action_katakana_mode               (void);
     bool   action_half_katakana_mode          (void);
+    bool   action_cancel_pseudo_ascii_mode    (void);
 
     bool   action_add_word                    (void);
     bool   action_launch_dict_admin_tool      (void);
@@ -203,6 +204,7 @@ public:
                                                void         *data = NULL,
                                                delete_func   delete_fn = NULL);
     void   timeout_remove                     (uint32        id);
+    int    get_pseudo_ascii_mode              (void);
 
 private:
     /* processing key event */

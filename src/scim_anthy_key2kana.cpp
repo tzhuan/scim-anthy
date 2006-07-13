@@ -32,7 +32,7 @@ Key2KanaConvertor::Key2KanaConvertor (AnthyInstance    & anthy,
       m_is_in_pseudo_ascii_mode (false)
 {
     set_case_sensitive (false);
-    use_pseudo_ascii_mode (false);
+    set_pseudo_ascii_mode (0);
 }
 
 Key2KanaConvertor::~Key2KanaConvertor ()
@@ -40,7 +40,8 @@ Key2KanaConvertor::~Key2KanaConvertor ()
 }
 
 bool
-Key2KanaConvertor::can_append (const KeyEvent & key)
+Key2KanaConvertor::can_append (const KeyEvent & key,
+                               bool             ignore_space)
 {
     // ignore key release.
     if (key.is_key_release ())
@@ -53,7 +54,8 @@ Key2KanaConvertor::can_append (const KeyEvent & key)
         return false;
     }
 
-    if (isprint(key.get_ascii_code ()) && !isspace(key.get_ascii_code ()))
+    if (isprint(key.get_ascii_code ()) &&
+        (ignore_space || !isspace(key.get_ascii_code ())))
         return true;
 
     if (util_key_is_keypad (key))
@@ -126,9 +128,7 @@ Key2KanaConvertor::append (const String & str,
     bool has_partial_match = false;
     bool retval = false;
 
-    if (m_pseudo_ascii_mode)
-        compute_for_pseudo_ascii_mode(widestr);
-    if (m_is_in_pseudo_ascii_mode) {
+    if (m_pseudo_ascii_mode != 0 && process_pseudo_ascii_mode (widestr)) {
         m_pending += widestr;
         pending = m_pending;
         return false;
@@ -268,19 +268,26 @@ Key2KanaConvertor::reset_pending (const WideString &result, const String &raw)
     }
 }
 
-void
-Key2KanaConvertor::compute_for_pseudo_ascii_mode(const WideString & wstr)
+bool
+Key2KanaConvertor::process_pseudo_ascii_mode (const WideString & wstr)
 {
-    for (unsigned int i = 0; !m_is_in_pseudo_ascii_mode && i < wstr.length (); i++) {
-        if (wstr[i] >= 'A' && wstr[i] <= 'Z')
+    for (unsigned int i = 0; i < wstr.length (); i++) {
+        if ((wstr[i] >= 'A' && wstr[i] <= 'Z') ||
+            iswspace(wstr[i])) {
             m_is_in_pseudo_ascii_mode = true;
+        } else if (wstr[i] >= 0x80) {
+            m_is_in_pseudo_ascii_mode = false;
+        }
     }
+
+    return m_is_in_pseudo_ascii_mode;
 }
 
 void
 Key2KanaConvertor::reset_pseudo_ascii_mode (void)
 {
     m_is_in_pseudo_ascii_mode = false;
+    m_pending.clear();
 }
 
 /*
