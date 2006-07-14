@@ -215,7 +215,11 @@ AnthyFactory::get_credits () const
           "  Ryo Dairiki <ryo-dairiki@mbm.nifty.com>\n"
           "  Seiichi SATO\n"
           "  AWASHIRO Ikuya <ikuya@oooug.jp>\n"
-          "  Hatuka*nezumi <nezumi@jca.apc.org>"));
+          "  Hatuka*nezumi <nezumi@jca.apc.org>\n"
+          "  Teppei Tamra <tam-t@par.odn.ne.jp>\n"
+          "  Akira TAGOH <at@gclab.org>\n"
+          "  Tatsuki Sugiura <sugi@nemui.org>\n"
+          "  Takashi Nakamoto <bluedwarf@bpost.plala.or.jp>"));
 }
 
 WideString
