@@ -1,6 +1,7 @@
 Changes from skim-scim-anthy-0.9.0.1 to skim-scim-anthy-1.0.0
 =============================================================
 * Add some preferences added in scim-anthy-1.2.0.
+* Plug a memory leak.
 
 Changes from skim-scim-anthy-0.9.0.1 to skim-scim-anthy-1.0.0
 =============================================================
