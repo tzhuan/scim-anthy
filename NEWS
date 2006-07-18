@@ -1,5 +1,15 @@
 Overview of Changes from scim-anthy-1.0.0 to scim-anthy-1.2.0
 ==============================================================
+* Add pseudo ASCII input mode. It enables users to enter ASCII letter during
+  Japanese mode. Thanks Akira TAGOH for your patch.
+* Enable reconversion feature on non-GTK+ application (It's a ad-hoc solition).
+  Thanks Takashi Nakamoto.
+* Enable to choose behavior on focus out.
+* Add predict key into some key bindings themes. Thanks Ikuya Awashiro.
+* The bug that direct select keys doesn't work during predicting has been fixed.
+  Thanks TAGOH, UTUMI, Bando for your report.
+* Fix some wrong entries in Romaji tables. Thanks Jun Oizumi.
+* Fix a bug that commited clauses doesn't clear when the learning preferenece is  disabled. Thanks Jun Oizumi.
 
 Overview of Changes from scim-anthy-0.9.0 to scim-anthy-1.0.0
 ==============================================================
