@@ -169,7 +169,11 @@
       <default>true</default>
     </entry>
     <entry name="_IMEngine_Anthy_RomajiPseudoAsciiMode" key="/IMEngine/Anthy/RomajiPseudoAsciiMode" type="Bool">
-      <label>_Entering the pseudo ASCII input mode with capital letters.</label>
+      <label>Entering the pseudo ASCII input mode with capital letters.</label>
+      <default>true</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_RomajiPseudoAsciiBlankBehavior" key="/IMEngine/Anthy/RomajiPseudoAsciiBlankBehavior" type="Bool">
+      <label>Insert a blank with a blank key.</label>
       <default>true</default>
     </entry>
 
@@ -327,6 +331,10 @@
     </entry>
     <entry name="_IMEngine_Anthy_HalfKatakanaModeKey" key="/IMEngine/Anthy/HalfKatakanaModeKey" type="String">
       <label>The key events to switch input mode to half katakana</label>
+      <default></default>
+    </entry>
+    <entry name="_IMEngine_Anthy_CancelPseudoAsciiModeKey" key="/IMEngine/Anthy/CancelPseudoAsciiModeKey" type="String">
+      <label>The key events to cancel the pseudo ASCII mode.</label>
       <default></default>
     </entry>
     <entry name="_IMEngine_Anthy_CircleTypingMethodKey" key="/IMEngine/Anthy/CircleTypingMethodKey" type="String">

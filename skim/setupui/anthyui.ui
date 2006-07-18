@@ -1025,7 +1025,7 @@
                         <property name="sizeHint">
                             <size>
                                 <width>20</width>
-                                <height>40</height>
+                                <height>20</height>
                             </size>
                         </property>
                     </spacer>
@@ -1367,7 +1367,7 @@
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
-                            <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="4">
+                            <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="5">
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_RomajiAllowSplit</cstring>
                                 </property>
@@ -1378,7 +1378,7 @@
                                     <string>Alt+J</string>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="4">
+                            <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="5">
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_RomajiHalfSymbol</cstring>
                                 </property>
@@ -1389,7 +1389,18 @@
                                     <string>Alt+U</string>
                                 </property>
                             </widget>
-                            <widget class="QLabel" row="4" column="0">
+                            <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="5">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_RomajiHalfNumber</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Use half-&amp;width characters for numbers</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+W</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
                                 <property name="name">
                                     <cstring>textLabel12</cstring>
                                 </property>
@@ -1400,7 +1411,7 @@
                                     <cstring>RomajiComboBox</cstring>
                                 </property>
                             </widget>
-                            <widget class="KComboBox" row="4" column="1">
+                            <widget class="KComboBox" row="5" column="2">
                                 <property name="name">
                                     <cstring>RomajiComboBox</cstring>
                                 </property>
@@ -1413,7 +1424,7 @@
                                     </sizepolicy>
                                 </property>
                             </widget>
-                            <widget class="QPushButton" row="4" column="2">
+                            <widget class="QPushButton" row="5" column="3">
                                 <property name="name">
                                     <cstring>RomajiCustomizeButton</cstring>
                                 </property>
@@ -1432,7 +1443,7 @@
                                     <string>Alt+C</string>
                                 </property>
                             </widget>
-                            <spacer row="4" column="3">
+                            <spacer row="5" column="4">
                                 <property name="name">
                                     <cstring>spacer6_3</cstring>
                                 </property>
@@ -1449,23 +1460,40 @@
                                     </size>
                                 </property>
                             </spacer>
-                            <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="4">
+                            <spacer row="4" column="0">
                                 <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_RomajiHalfNumber</cstring>
+                                    <cstring>spacer122_2</cstring>
                                 </property>
-                                <property name="text">
-                                    <string>Use half-&amp;width characters for numbers</string>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
                                 </property>
-                                <property name="accel">
-                                    <string>Alt+W</string>
+                                <property name="sizeType">
+                                    <enum>Fixed</enum>
                                 </property>
-                            </widget>
-                            <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="4">
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>20</width>
+                                        <height>16</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="5">
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_RomajiPseudoAsciiMode</cstring>
                                 </property>
                                 <property name="text">
                                     <string>&amp;Enterring the pseudo ASCII input mode with capital letters</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+W</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="4" column="1" rowspan="1" colspan="4">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_RomajiPseudoAsciiBlankBehavior</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;Insert a blank with a blank key</string>
                                 </property>
                                 <property name="accel">
                                     <string>Alt+W</string>
