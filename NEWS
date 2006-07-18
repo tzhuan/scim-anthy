@@ -1,6 +1,6 @@
 Overview of Changes from scim-anthy-1.0.0 to scim-anthy-1.2.0
 ==============================================================
-* Add pseudo ASCII input mode. It enables users to enter ASCII letter during
+* Add pseudo ASCII input mode. It enables users to enter ASCII letters during
   Japanese mode. Thanks Akira TAGOH for your patch.
 * Enable reconversion feature on non-GTK+ application (It's a ad-hoc solition).
   Thanks Takashi Nakamoto.
