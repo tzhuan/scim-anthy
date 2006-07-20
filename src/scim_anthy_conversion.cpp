@@ -91,9 +91,13 @@ Conversion::Conversion (AnthyInstance &anthy, Reading &reading)
     anthy_context_set_encoding (m_anthy_context, ANTHY_EUC_JP_ENCODING);
 #endif /* HAS_ANTHY_CONTEXT_SET_ENCODING */
 
-    if (!m_iconv.set_encoding ("EUC-JP")) {
+#if 0
+    if (!m_iconv.set_encoding ("EUCJP-MS")) {
         // error
     }
+#else
+    set_dic_encoding (String ("EUC-JP"));
+#endif
 }
 
 Conversion::~Conversion ()
@@ -702,6 +706,21 @@ Conversion::select_candidate (int candidate_id, int segment_id)
                                                             candidate_id),
                                         candidate_id);
         }
+    }
+}
+
+
+
+//
+// preferences
+//
+bool
+Conversion::set_dic_encoding (String type)
+{
+    if (m_iconv.set_encoding (type.c_str ())) {
+        return true;
+    } else {
+        return m_iconv.set_encoding ("EUC-JP");
     }
 }
 

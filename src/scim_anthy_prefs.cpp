@@ -422,6 +422,18 @@ StringConfigData config_string_common [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_DIC_ENCODING,
+        SCIM_ANTHY_CONFIG_DIC_ENCODING_DEFAULT,
+        SCIM_ANTHY_CONFIG_DIC_ENCODING_DEFAULT,
+        N_("En_coding of dictionary:"),
+        NULL,
+        N_("If you choose \"EUCJP-MS\", interoperatability with "
+           "Microsoft Windows may improve, but it depends on "
+           "the implementation of your operating system."),
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
         SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,
         SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT,

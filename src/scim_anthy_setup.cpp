@@ -273,6 +273,13 @@ static ComboConfigCandidate behavior_on_focus_out[] =
     {NULL, NULL},
 };
 
+static ComboConfigCandidate dic_encoding[] =
+{
+    {N_("EUC-JP"),   "EUC-JP"},
+    {N_("EUCJP-MS"), "EUCJP-MS"},
+    {NULL, NULL},
+};
+
 
 static ComboConfigCandidate preedit_style[] =
 {
@@ -495,7 +502,8 @@ create_combo (const char *config_key, gpointer candidates_p,
     if (!__widget_tooltips)
         __widget_tooltips = gtk_tooltips_new();
     if (entry->tooltip)
-        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
+        gtk_tooltips_set_tip (__widget_tooltips,
+                              GTK_WIDGET (GTK_COMBO (entry->widget)->entry),
                               _(entry->tooltip), NULL);
 
     return GTK_WIDGET (entry->widget);
@@ -1031,17 +1039,22 @@ create_dict_page (void)
     GtkWidget *table, *button;
     StringConfigData *entry;
 
-    table = gtk_table_new (2, 3, FALSE);
+    table = gtk_table_new (3, 3, FALSE);
     gtk_widget_show (table);
+
+    // encoding of dictionary
+    create_combo (SCIM_ANTHY_CONFIG_DIC_ENCODING,
+                  (gpointer) &dic_encoding,
+                  GTK_TABLE (table), 0);
 
     // dict admin command
     create_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
-                  GTK_TABLE (table), 0);
+                  GTK_TABLE (table), 1);
     entry = find_string_config_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND);
 
     button = gtk_button_new_with_mnemonic (_("_Launch"));
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (button),
-                      2, 3, 0, 1,
+                      2, 3, 1, 2,
                       (GtkAttachOptions) 0,
                       (GtkAttachOptions) 0, 4, 4);
     g_signal_connect (G_OBJECT (button), "clicked",
@@ -1050,12 +1063,12 @@ create_dict_page (void)
 
     // add word command
     create_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND,
-                  GTK_TABLE (table), 1);
+                  GTK_TABLE (table), 2);
     entry = find_string_config_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND);
 
     button = gtk_button_new_with_mnemonic (_("_Launch"));
     gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (button),
-                      2, 3, 1, 2,
+                      2, 3, 2, 3,
                       (GtkAttachOptions) 0,
                       (GtkAttachOptions) 0, 4, 4);
     g_signal_connect (G_OBJECT (button), "clicked",

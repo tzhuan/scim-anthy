@@ -115,6 +115,9 @@ public:
     void          select_candidate       (int           candidate_id,
                                           int           segment_id = -1);
 
+    // prefereneces
+    bool          set_dic_encoding       (String        type);
+
 private:
     void          get_reading_substr     (WideString   &string,
                                           int           segment_id,

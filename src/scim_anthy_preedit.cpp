@@ -513,6 +513,12 @@ Preedit::reset_pseudo_ascii_mode (void)
     m_reading.reset_pseudo_ascii_mode ();
 }
 
+void
+Preedit::set_dic_encoding (String type)
+{
+    m_conversion.set_dic_encoding (type);
+}
+
 bool
 Preedit::is_comma_or_period (const String & str)
 {

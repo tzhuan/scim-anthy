@@ -2319,6 +2319,9 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     // setup toolbar
     m_properties.clear ();
     install_properties ();
+
+    // set encoding
+    m_preedit.set_dic_encoding (m_factory->m_dic_encoding);
 }
 
 bool

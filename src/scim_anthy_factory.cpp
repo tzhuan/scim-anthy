@@ -87,9 +87,10 @@ extern "C" {
         AnthyFactory *factory = 0;
 
         try {
-            factory = new AnthyFactory (String ("ja_JP"),
-                                        String ("065d7b20-dda2-47fb-8f94-3306d9a25e56"),
-                                        _scim_config);
+            factory = new AnthyFactory (
+                String ("ja_JP"),
+                String ("065d7b20-dda2-47fb-8f94-3306d9a25e56"),
+                _scim_config);
         } catch (...) {
             delete factory;
             factory = 0;
@@ -113,7 +114,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_ten_key_type                (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE_DEFAULT),
       m_behavior_on_period          (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD_DEFAULT),
       m_behavior_on_focus_out       (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT_DEFAULT),
-      m_show_candidates_label       (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL_DEFAULT),
+     m_show_candidates_label       (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL_DEFAULT),
       m_close_cand_win_on_select    (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT),
       m_cand_win_page_size          (SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE_DEFAULT),
       m_n_triggers_to_show_cand_win (SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN_DEFAULT),
@@ -125,6 +126,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_romaji_pseudo_ascii_mode    (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT),
       m_romaji_pseudo_ascii_blank_behavior (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR),
       m_nicola_time                 (SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT),
+      m_dic_encoding                (SCIM_ANTHY_CONFIG_DIC_ENCODING),
       m_dict_admin_command          (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
       m_add_word_command            (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
       m_predict_on_input            (SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT_DEFAULT),
@@ -521,6 +523,11 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         str = config->read (String (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY),
                             String (SCIM_ANTHY_CONFIG_RIGHT_THUMB_SHIFT_KEY_DEFAULT));
         scim_string_to_key_list (m_right_thumb_keys, str);
+
+
+        m_dic_encoding
+            = config->read (String (SCIM_ANTHY_CONFIG_DIC_ENCODING),
+                            String (SCIM_ANTHY_CONFIG_DIC_ENCODING_DEFAULT));
 
         m_dict_admin_command
             = config->read (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND),

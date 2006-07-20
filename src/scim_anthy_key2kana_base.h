@@ -56,7 +56,7 @@ public:
     virtual void       reset_pseudo_ascii_mode       (void)
         {}
     virtual bool       process_pseudo_ascii_mode     (const WideString & wstr)
-        {}
+        { return false; }
 
     virtual void       set_case_sensitive (bool               sensitive)
         { m_case_sensitive = sensitive; }
