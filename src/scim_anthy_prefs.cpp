@@ -427,9 +427,10 @@ StringConfigData config_string_common [] =
         SCIM_ANTHY_CONFIG_DIC_ENCODING_DEFAULT,
         N_("En_coding of dictionary:"),
         NULL,
-        N_("If you choose \"EUCJP-MS\", interoperatability with "
-           "Microsoft Windows may improve, but it depends on "
-           "the implementation of your operating system."),
+        N_("If you choose \"EUCJP-MS\", interoperatability of documents "
+           "created on this system with Microsoft Windows may improve, "
+           "but it depends on the implementation of your operating system "
+           "and actual encoding of your dictionary."),
         NULL,
         false,
     },
