@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2006-07-20 17:26+0900\n"
+"POT-Creation-Date: 2006-07-21 16:38+0900\n"
 "PO-Revision-Date: 2006-02-14 10:50+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -331,7 +331,8 @@ msgid "EUC-JP"
 msgstr "EUC-JP"
 
 #: src/scim_anthy_setup.cpp:279
-msgid "EUCJP-MS"
+#, fuzzy
+msgid "EUC-JP-MS"
 msgstr "EUCJP-MS"
 
 #: src/scim_anthy_setup.cpp:286
@@ -774,12 +775,12 @@ msgstr "辞書のエンコーディング(_C):"
 
 #: src/scim_anthy_prefs.cpp:430
 msgid ""
-"If you choose \"EUCJP-MS\", interoperatability of documents created on this "
+"If you choose \"EUC-JP-MS\", interoperatability of documents created on this "
 "system with Microsoft Windows may improve, but it depends on the "
 "implementation of your operating system and actual encoding of your "
 "dictionary."
 msgstr ""
-"\"EUCJP-MS\"を選択すると、このシステムで作成されたドキュメントのMicrosoft "
+"\"EUC-JP-MS\"を選択すると、このシステムで作成されたドキュメントのMicrosoft "
 "Windowsとの相互運用性が向上するかもしれません。しかし、これはオペレーティング"
 "システムの実装と、辞書の実際のエンコーディングに依存します。"
 

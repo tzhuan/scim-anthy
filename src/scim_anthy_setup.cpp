@@ -275,8 +275,8 @@ static ComboConfigCandidate behavior_on_focus_out[] =
 
 static ComboConfigCandidate dic_encoding[] =
 {
-    {N_("EUC-JP"),   "EUC-JP"},
-    {N_("EUCJP-MS"), "EUCJP-MS"},
+    {N_("EUC-JP"),    "EUC-JP"},
+    {N_("EUC-JP-MS"), "EUC-JP-MS"},
     {NULL, NULL},
 };
 
