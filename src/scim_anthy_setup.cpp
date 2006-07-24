@@ -282,7 +282,6 @@ static ComboConfigCandidate dict_encoding[] =
 };
 #endif
 
-
 static ComboConfigCandidate preedit_style[] =
 {
     {N_("No decoration"), "None"},
