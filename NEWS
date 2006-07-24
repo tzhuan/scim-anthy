@@ -6,11 +6,12 @@ Overview of Changes from scim-anthy-1.0.0 to scim-anthy-1.2.0
   Thanks Takashi Nakamoto.
 * Enable to choose behavior on focus out.
 * Add predict key into some key bindings themes. Thanks Ikuya Awashiro.
+* Try EUC-JP-MS first when convert characters from Anthy to Unicode.
 * The bug that direct select keys doesn't work during predicting has been fixed.
   Thanks TAGOH, UTUMI, Bando for your report.
 * Fix some wrong entries in Romaji tables. Thanks Jun Oizumi.
-* Fix a bug that commited clauses doesn't clear when the learning preferenece is
-  disabled. Thanks Jun Oizumi.
+* Fix a bug that commited clauses aren't cleared when the learning preferenece
+  is disabled. Thanks Jun Oizumi.
 
 Overview of Changes from scim-anthy-0.9.0 to scim-anthy-1.0.0
 ==============================================================
