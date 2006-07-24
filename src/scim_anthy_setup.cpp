@@ -273,12 +273,14 @@ static ComboConfigCandidate behavior_on_focus_out[] =
     {NULL, NULL},
 };
 
+#if 0
 static ComboConfigCandidate dict_encoding[] =
 {
     {N_("EUC-JP"),    "EUC-JP"},
     {N_("EUC-JP-MS"), "EUC-JP-MS"},
     {NULL, NULL},
 };
+#endif
 
 
 static ComboConfigCandidate preedit_style[] =
@@ -1042,10 +1044,12 @@ create_dict_page (void)
     table = gtk_table_new (3, 3, FALSE);
     gtk_widget_show (table);
 
+#if 0
     // encoding of dictionary
     create_combo (SCIM_ANTHY_CONFIG_DICT_ENCODING,
                   (gpointer) &dict_encoding,
                   GTK_TABLE (table), 0);
+#endif
 
     // dict admin command
     create_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
