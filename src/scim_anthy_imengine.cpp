@@ -2321,7 +2321,7 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     install_properties ();
 
     // set encoding
-    m_preedit.set_dic_encoding (m_factory->m_dic_encoding);
+    m_preedit.set_dict_encoding (m_factory->m_dict_encoding);
 }
 
 bool

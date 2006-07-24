@@ -514,9 +514,9 @@ Preedit::reset_pseudo_ascii_mode (void)
 }
 
 void
-Preedit::set_dic_encoding (String type)
+Preedit::set_dict_encoding (String type)
 {
-    m_conversion.set_dic_encoding (type);
+    m_conversion.set_dict_encoding (type);
 }
 
 bool

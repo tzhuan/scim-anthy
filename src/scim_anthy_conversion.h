@@ -116,7 +116,7 @@ public:
                                           int           segment_id = -1);
 
     // prefereneces
-    bool          set_dic_encoding       (String        type);
+    bool          set_dict_encoding      (String        type);
 
 private:
     void          get_reading_substr     (WideString   &string,

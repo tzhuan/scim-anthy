@@ -49,7 +49,7 @@
 #define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT      "/IMEngine/Anthy/LearnOnManualCommit"
 #define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT        "/IMEngine/Anthy/LearnOnAutoCommit"
 
-#define SCIM_ANTHY_CONFIG_DIC_ENCODING                "/IMEngine/Anthy/DicEncoding"
+#define SCIM_ANTHY_CONFIG_DICT_ENCODING               "/IMEngine/Anthy/DictEncoding"
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND          "/IMEngine/Anthy/DictAdminCommand"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND            "/IMEngine/Anthy/AddWordCommand"
 
@@ -186,7 +186,7 @@
 #define SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT_DEFAULT      true
 #define SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT_DEFAULT        true
 
-#define SCIM_ANTHY_CONFIG_DIC_ENCODING_DEFAULT                "EUC-JP-MS"
+#define SCIM_ANTHY_CONFIG_DICT_ENCODING_DEFAULT               "EUC-JP-MS"
 #define SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT          "kasumi"
 #define SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT            "kasumi --add"
 

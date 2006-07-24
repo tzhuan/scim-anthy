@@ -572,7 +572,7 @@ Reading::move_caret (int step, bool allow_split)
 
     if (allow_split) {
         unsigned int pos = get_caret_pos ();
-        if (step < 0 && pos < abs (step)) {
+        if (step < 0 && pos < (int) abs (step)) {
             // lower limit
             m_segment_pos = 0;
 
@@ -598,7 +598,7 @@ Reading::move_caret (int step, bool allow_split)
         }
 
     } else {
-        if (step < 0 && m_segment_pos < abs (step)) {
+        if (step < 0 && m_segment_pos < (int) abs (step)) {
             // lower limit
             m_segment_pos = 0;
 

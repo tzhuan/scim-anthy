@@ -100,7 +100,7 @@ public:
     KeyEventList   m_left_thumb_keys;
     KeyEventList   m_right_thumb_keys;
 
-    String         m_dic_encoding;
+    String         m_dict_encoding;
     String         m_dict_admin_command;
     String         m_add_word_command;
 

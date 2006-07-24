@@ -422,9 +422,9 @@ StringConfigData config_string_common [] =
         false,
     },
     {
-        SCIM_ANTHY_CONFIG_DIC_ENCODING,
-        SCIM_ANTHY_CONFIG_DIC_ENCODING_DEFAULT,
-        SCIM_ANTHY_CONFIG_DIC_ENCODING_DEFAULT,
+        SCIM_ANTHY_CONFIG_DICT_ENCODING,
+        SCIM_ANTHY_CONFIG_DICT_ENCODING_DEFAULT,
+        SCIM_ANTHY_CONFIG_DICT_ENCODING_DEFAULT,
         N_("En_coding of dictionary:"),
         NULL,
         N_("If you choose \"EUC-JP-MS\", interoperatability of documents "

@@ -129,7 +129,7 @@ public:
     virtual void          set_pseudo_ascii_mode  (int            mode);
     virtual bool          is_pseudo_ascii_mode   (void);
     virtual void          reset_pseudo_ascii_mode(void);
-    virtual void          set_dic_encoding       (String         type);
+    virtual void          set_dict_encoding      (String         type);
 
 private:
     void                  get_reading_substr     (WideString   & substr,

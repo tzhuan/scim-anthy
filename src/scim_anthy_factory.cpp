@@ -126,7 +126,7 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_romaji_pseudo_ascii_mode    (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_MODE_DEFAULT),
       m_romaji_pseudo_ascii_blank_behavior (SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR),
       m_nicola_time                 (SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT),
-      m_dic_encoding                (SCIM_ANTHY_CONFIG_DIC_ENCODING),
+      m_dict_encoding               (SCIM_ANTHY_CONFIG_DICT_ENCODING),
       m_dict_admin_command          (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND_DEFAULT),
       m_add_word_command            (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT),
       m_predict_on_input            (SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT_DEFAULT),
@@ -525,9 +525,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         scim_string_to_key_list (m_right_thumb_keys, str);
 
 
-        m_dic_encoding
-            = config->read (String (SCIM_ANTHY_CONFIG_DIC_ENCODING),
-                            String (SCIM_ANTHY_CONFIG_DIC_ENCODING_DEFAULT));
+        m_dict_encoding
+            = config->read (String (SCIM_ANTHY_CONFIG_DICT_ENCODING),
+                            String (SCIM_ANTHY_CONFIG_DICT_ENCODING_DEFAULT));
 
         m_dict_admin_command
             = config->read (String (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND),

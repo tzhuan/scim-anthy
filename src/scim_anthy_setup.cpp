@@ -273,7 +273,7 @@ static ComboConfigCandidate behavior_on_focus_out[] =
     {NULL, NULL},
 };
 
-static ComboConfigCandidate dic_encoding[] =
+static ComboConfigCandidate dict_encoding[] =
 {
     {N_("EUC-JP"),    "EUC-JP"},
     {N_("EUC-JP-MS"), "EUC-JP-MS"},
@@ -1043,8 +1043,8 @@ create_dict_page (void)
     gtk_widget_show (table);
 
     // encoding of dictionary
-    create_combo (SCIM_ANTHY_CONFIG_DIC_ENCODING,
-                  (gpointer) &dic_encoding,
+    create_combo (SCIM_ANTHY_CONFIG_DICT_ENCODING,
+                  (gpointer) &dict_encoding,
                   GTK_TABLE (table), 0);
 
     // dict admin command

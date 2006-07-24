@@ -103,7 +103,7 @@ romaji_page_create_ui (void)
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 4);
 
     /* pseudo ascii: blank behavior */
-    hbox = gtk_hbox_new (FALSE, 0), *label;
+    hbox = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
     gtk_widget_show (hbox);
     label = gtk_label_new ("    ");
