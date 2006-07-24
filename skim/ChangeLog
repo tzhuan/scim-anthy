@@ -4,6 +4,10 @@
 
 2006-07-18 Takuro Ashie <ashie@homa.ne.jp>
 
+	* setupui/anthy.kcfg: Add DictEncoding element.
+
+2006-07-18 Takuro Ashie <ashie@homa.ne.jp>
+
 	* setupui/anthy.kcfg, setupui/anthyui.ui,
 	  setupui/scimanthysettingplugin.cpp: Add blank key & cancel key
 	preference for pseudo ASCII mode.
