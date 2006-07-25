@@ -1825,6 +1825,11 @@ AnthyInstance::action_half_katakana_mode (void)
 bool
 AnthyInstance::action_cancel_pseudo_ascii_mode (void)
 {
+    if (!m_preedit.is_preediting ())
+        return false;
+    if (!m_preedit.is_pseudo_ascii_mode ())
+        return false;
+
     m_preedit.reset_pseudo_ascii_mode ();
 
     return true;

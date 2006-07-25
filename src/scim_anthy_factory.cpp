@@ -682,6 +682,9 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     APPEND_ACTION (CONV_TO_LATIN,           action_convert_to_latin);
     APPEND_ACTION (CONV_TO_WIDE_LATIN,      action_convert_to_wide_latin);
 
+    // pseudo ascii mode
+    APPEND_ACTION (CANCEL_PSEUDO_ASCII_MODE,action_cancel_pseudo_ascii_mode);
+
     // caret keys
     APPEND_ACTION (MOVE_CARET_FIRST,        action_move_caret_first);
     APPEND_ACTION (MOVE_CARET_LAST,         action_move_caret_last);
@@ -710,7 +713,6 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     APPEND_ACTION (HIRAGANA_MODE,           action_hiragana_mode);
     APPEND_ACTION (KATAKANA_MODE,           action_katakana_mode);
     APPEND_ACTION (HALF_KATAKANA_MODE,      action_half_katakana_mode);
-    APPEND_ACTION (CANCEL_PSEUDO_ASCII_MODE,action_cancel_pseudo_ascii_mode);
 
     // dict keys
     APPEND_ACTION (DICT_ADMIN,              action_launch_dict_admin_tool);

@@ -4,6 +4,15 @@
 
 2006-07-25 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_factory.cpp: Raise priority of "pseudo ascii mode
+	cancel" key.
+	* src/scim_anthy_imengine.cpp: Ignore key event without relation
+	at AnthyInstance::action_cancel_pseudo_ascii_mode().
+	* src/scim_anthy_prefs.h: Add "Escape" into
+	SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR_DEFAULT key.
+
+2006-07-25 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_imengine.cpp: Insert a half space on pressing space
 	key during pseudo ascii mode.
 
