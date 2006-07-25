@@ -339,7 +339,7 @@
     </entry>
     <entry name="_IMEngine_Anthy_CancelPseudoAsciiModeKey" key="/IMEngine/Anthy/CancelPseudoAsciiModeKey" type="String">
       <label>The key events to cancel the pseudo ASCII mode.</label>
-      <default></default>
+      <default>Escape</default>
     </entry>
     <entry name="_IMEngine_Anthy_CircleTypingMethodKey" key="/IMEngine/Anthy/CircleTypingMethodKey" type="String">
       <label>The key events to circle typing method</label>
