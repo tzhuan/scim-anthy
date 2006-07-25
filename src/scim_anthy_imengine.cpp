@@ -1148,7 +1148,8 @@ AnthyInstance::action_insert_space (void)
     if (m_factory->m_space_type == "FollowMode") {
         InputMode mode = get_input_mode ();
         if (mode == SCIM_ANTHY_MODE_LATIN ||
-            mode == SCIM_ANTHY_MODE_HALF_KATAKANA)
+            mode == SCIM_ANTHY_MODE_HALF_KATAKANA ||
+            m_preedit.is_pseudo_ascii_mode ())
         {
             is_wide = false;
         } else {
@@ -1162,6 +1163,7 @@ AnthyInstance::action_insert_space (void)
         str = "\xE3\x80\x80";
         retval = true;
     } else if (get_typing_method () == SCIM_ANTHY_TYPING_METHOD_NICOLA || // FIXME! it's a ad-hoc solution.
+               m_preedit.is_pseudo_ascii_mode () ||
                (m_last_key.code != SCIM_KEY_space &&
                 m_last_key.code != SCIM_KEY_KP_Space))
     {
