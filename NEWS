@@ -7,6 +7,7 @@ Overview of Changes from scim-anthy-1.0.0 to scim-anthy-1.2.0
 * Enable to choose behavior on focus out.
 * Add predict key into some key bindings themes. Thanks Ikuya Awashiro.
 * Try EUC-JP-MS first when convert characters from Anthy to Unicode.
+* Add tsuki layout into the list of kana typing layouts. Thanks Sugi.
 * The bug that direct select keys doesn't work during predicting has been fixed.
   Thanks TAGOH, UTUMI, Bando for your report.
 * Fix some wrong entries in Romaji tables. Thanks Jun Oizumi.
