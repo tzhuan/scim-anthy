@@ -214,7 +214,7 @@ AnthyFactory::get_credits () const
           "  Yukiko Bando <ybando@k6.dion.ne.jp>\n"
           "  Mike Fabian <mfabian@suse.de>\n"
           "  David Oftedal <david@start.no>\n"
-          "  Ryo Dairiki <ryo-dairiki@mbm.nifty.com>\n"
+          "  Ryo Dairiki <ryo-dairiki@users.sourceforge.net>\n"
           "  Seiichi SATO\n"
           "  AWASHIRO Ikuya <ikuya@oooug.jp>\n"
           "  Hatuka*nezumi <nezumi@jca.apc.org>\n"

@@ -1,3 +1,8 @@
+2006-09-11 Takuro Ashie <ashie@homa.ne.jp>
+
+	* README, src/scim_anthy_factory.cpp: Change Dairiki-san's mail address.
+	* po/ja.po: Update.
+
 2006-08-06 Takuro Ashie <ashie@homa.ne.jp>
 
 	* configure.ac: Add AC_SUBST(LIBTOOL_EXPORT_OPTIONS).
