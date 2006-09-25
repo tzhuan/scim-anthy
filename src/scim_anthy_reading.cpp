@@ -496,7 +496,9 @@ Reading::reset_pending (void)
                                m_segments[m_segment_pos - 1].raw);
     m_kana.reset_pending (m_segments[m_segment_pos - 1].kana,
                           m_segments[m_segment_pos - 1].raw);
-    m_key2kana->reset_pseudo_ascii_mode();
+
+    // FIXME! this code breaks pending state on normal input mode.
+    //m_key2kana->reset_pseudo_ascii_mode();
     for (unsigned int i = 0; i < m_segment_pos; i++)
         m_key2kana->process_pseudo_ascii_mode(m_segments[i].kana);
 }
@@ -735,7 +737,8 @@ void
 Reading::reset_pseudo_ascii_mode (void)
 {
     if (m_key2kana_normal.is_pseudo_ascii_mode () &&
-        m_key2kana_normal.is_pending ()) {
+        m_key2kana_normal.is_pending ())
+    {
         ReadingSegment c;
         ReadingSegments::iterator it = m_segments.begin ();
 

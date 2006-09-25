@@ -273,7 +273,8 @@ Key2KanaConvertor::process_pseudo_ascii_mode (const WideString & wstr)
 {
     for (unsigned int i = 0; i < wstr.length (); i++) {
         if ((wstr[i] >= 'A' && wstr[i] <= 'Z') ||
-            iswspace(wstr[i])) {
+            iswspace(wstr[i]))
+        {
             m_is_in_pseudo_ascii_mode = true;
         } else if (wstr[i] >= 0x80) {
             m_is_in_pseudo_ascii_mode = false;
