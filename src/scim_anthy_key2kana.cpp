@@ -287,8 +287,9 @@ Key2KanaConvertor::process_pseudo_ascii_mode (const WideString & wstr)
 void
 Key2KanaConvertor::reset_pseudo_ascii_mode (void)
 {
+    if (m_is_in_pseudo_ascii_mode)
+        m_pending.clear();
     m_is_in_pseudo_ascii_mode = false;
-    m_pending.clear();
 }
 
 /*

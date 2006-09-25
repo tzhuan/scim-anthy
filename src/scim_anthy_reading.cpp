@@ -498,7 +498,7 @@ Reading::reset_pending (void)
                           m_segments[m_segment_pos - 1].raw);
 
     // FIXME! this code breaks pending state on normal input mode.
-    //m_key2kana->reset_pseudo_ascii_mode();
+    m_key2kana->reset_pseudo_ascii_mode();
     for (unsigned int i = 0; i < m_segment_pos; i++)
         m_key2kana->process_pseudo_ascii_mode(m_segments[i].kana);
 }
