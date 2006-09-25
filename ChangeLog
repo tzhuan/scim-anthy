@@ -1,5 +1,10 @@
 2006-09-25 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_setup.cpp: Enable dictionary encoding prefs.
+	* src/scim_anthy_prefs.h: Revert default dictionary encoding to EUC-JP.
+
+2006-09-25 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_reading.cpp, src/scim_anthy_key2kana.cpp:
 	Apply TAGOH-san's solution for the previous problem. Thanks.
 
