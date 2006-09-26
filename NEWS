@@ -3,7 +3,7 @@ Overview of Changes from scim-anthy-1.2.0 to scim-anthy-1.2.1
 * Fix a problem that the romaji pending state aren't restored on pressing a
   backspace or moving the caret has been fixed.
 * Add a dictionary encoding preference into setup UI.
-* Revert default dictionary encoding preference to EUC-JP.
+* Revert the default dictionary encoding preference to EUC-JP.
 * Other minor fixes (Thanks Sutou).
 
 Overview of Changes from scim-anthy-1.0.0 to scim-anthy-1.2.0
