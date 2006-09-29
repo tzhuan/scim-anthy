@@ -16,7 +16,8 @@
 
 	* src/scim_anthy_reading.cpp: Give a first aid to the problem that
 	codes of pseudo ASCII mode breaks pending state of normal kana input
-	mode. Fix indent.
+	mode. Thanks Ryo Dairiki for your report.
+	Fix indent.
 	* src/scim_anthy_key2kana.cpp: Fix indent.
 
 2006-09-11 Takuro Ashie <ashie@homa.ne.jp>
