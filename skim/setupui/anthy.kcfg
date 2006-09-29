@@ -214,7 +214,7 @@
 
     <entry name="_IMEngine_Anthy_DictEncoding" key="/IMEngine/Anthy/DictEncoding" type="String">
       <label>Encoding of dictionary</label>
-      <default>EUC-JP-MS</default>
+      <default>EUC-JP</default>
     </entry>
     <entry name="_IMEngine_Anthy_DictAdminCommand" key="/IMEngine/Anthy/DictAdminCommand" type="String">
       <label>External command to administer the personal dictionary</label>

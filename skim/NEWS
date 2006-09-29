@@ -1,3 +1,7 @@
+Changes from skim-scim-anthy-1.2.0 to skim-scim-anthy-1.2.1
+===========================================================
+* Add dictionary encoding setting.
+
 Changes from skim-scim-anthy-1.0.0 to skim-scim-anthy-1.2.0
 ===========================================================
 * Add some preferences added in scim-anthy-1.2.0.

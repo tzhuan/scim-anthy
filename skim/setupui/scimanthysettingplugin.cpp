@@ -863,6 +863,9 @@ ScimAnthySettingPlugin::ScimAnthySettingPlugin (QWidget *parent,
 
     // Setup user interface.
     d->ui = new AnthySettingUI (this);
+    KComboBox *combo = d->ui->kcfg__IMEngine_Anthy_DictEncoding;
+    combo->insertItem (QString ("EUC-JP"));
+    combo->insertItem (QString ("EUC-JP-MS"));
     setMainWidget (d->ui);
 
     // Set default values to our custom widgets

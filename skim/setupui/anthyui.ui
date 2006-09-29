@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>575</width>
-            <height>525</height>
+            <height>560</height>
         </rect>
     </property>
     <property name="caption">
@@ -73,26 +73,7 @@
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
-                            <widget class="QLabel" row="0" column="0">
-                                <property name="name">
-                                    <cstring>textLabel8</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>"&amp;Edit dictionary" command:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg__IMEngine_Anthy_DictAdminCommand</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="1" column="0">
+                            <widget class="QLabel" row="2" column="0">
                                 <property name="name">
                                     <cstring>textLabel9</cstring>
                                 </property>
@@ -111,20 +92,7 @@
                                     <cstring>kcfg__IMEngine_Anthy_AddWordCommand</cstring>
                                 </property>
                             </widget>
-                            <widget class="KLineEdit" row="0" column="1">
-                                <property name="name">
-                                    <cstring>kcfg__IMEngine_Anthy_DictAdminCommand</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>7</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                            </widget>
-                            <widget class="KLineEdit" row="1" column="1">
+                            <widget class="KLineEdit" row="2" column="1">
                                 <property name="name">
                                     <cstring>kcfg__IMEngine_Anthy_AddWordCommand</cstring>
                                 </property>
@@ -137,9 +105,41 @@
                                     </sizepolicy>
                                 </property>
                             </widget>
-                            <widget class="QPushButton" row="0" column="2">
+                            <widget class="QLabel" row="1" column="0">
                                 <property name="name">
-                                    <cstring>LaunchDictAdminCommandButton</cstring>
+                                    <cstring>textLabel8</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>1</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="text">
+                                    <string>"&amp;Edit dictionary" command:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_DictAdminCommand</cstring>
+                                </property>
+                            </widget>
+                            <widget class="KLineEdit" row="1" column="1">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_DictAdminCommand</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>7</hsizetype>
+                                        <vsizetype>1</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="2" column="2">
+                                <property name="name">
+                                    <cstring>LaunchAddWordCommandButton</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -158,7 +158,7 @@
                             </widget>
                             <widget class="QPushButton" row="1" column="2">
                                 <property name="name">
-                                    <cstring>LaunchAddWordCommandButton</cstring>
+                                    <cstring>LaunchDictAdminCommandButton</cstring>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -173,6 +173,25 @@
                                 </property>
                                 <property name="accel">
                                     <string>Alt+U</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1_3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>En&amp;coding:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg__IMEngine_Anthy_DictEncoding</cstring>
+                                </property>
+                            </widget>
+                            <widget class="KComboBox" row="0" column="1" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>kcfg__IMEngine_Anthy_DictEncoding</cstring>
+                                </property>
+                                <property name="editable">
+                                    <bool>true</bool>
                                 </property>
                             </widget>
                         </grid>
@@ -2612,6 +2631,8 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcombobox.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>

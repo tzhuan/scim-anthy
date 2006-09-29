@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scim-anthy\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-18 14:30+0900\n"
+"POT-Creation-Date: 2006-09-29 11:01+0900\n"
 "PO-Revision-Date: 2006-02-17 11:11+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -15,521 +15,525 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../setupui/anthyui.cpp:248 ../setupui/anthyui.cpp:817
+#: ../setupui/anthyui.cpp:257 ../setupui/anthyui.cpp:828
 msgid "Feature"
 msgstr "機能"
 
-#: ../setupui/anthyui.cpp:249 ../setupui/anthyui.cpp:818
+#: ../setupui/anthyui.cpp:258 ../setupui/anthyui.cpp:829
 msgid "Key bindings"
 msgstr "キーバインド"
 
-#: ../setupui/anthyui.cpp:250 ../setupui/anthyui.cpp:819
+#: ../setupui/anthyui.cpp:259 ../setupui/anthyui.cpp:830
 msgid "Description"
 msgstr "説明"
 
-#: ../setupui/anthyui.cpp:743
+#: ../setupui/anthyui.cpp:753
 msgid "Anthy"
 msgstr "Anthy"
 
-#: ../setupui/anthyui.cpp:744
+#: ../setupui/anthyui.cpp:754
 msgid "Dictionary"
 msgstr "辞書"
 
-#: ../setupui/anthyui.cpp:745
-msgid "\"&Edit dictionary\" command:"
-msgstr "辞書編集コマンド(&E):"
-
-#: ../setupui/anthyui.cpp:746
+#: ../setupui/anthyui.cpp:755
 msgid "\"Add &word\" command:"
 msgstr "単語追加コマンド(&W):"
 
-#: ../setupui/anthyui.cpp:747 ../setupui/anthyui.cpp:749
+#: ../setupui/anthyui.cpp:756
+msgid "\"&Edit dictionary\" command:"
+msgstr "辞書編集コマンド(&E):"
+
+#: ../setupui/anthyui.cpp:757 ../setupui/anthyui.cpp:759
 msgid "La&unch"
 msgstr "起動(&U)"
 
-#: ../setupui/anthyui.cpp:748 ../setupui/anthyui.cpp:750
-#: ../setupui/anthyui.cpp:837 ../setupui/anthyui.cpp:851
-#: ../setupui/anthyui.cpp:857 ../setupui/anthyui.cpp:873
+#: ../setupui/anthyui.cpp:758 ../setupui/anthyui.cpp:760
+#: ../setupui/anthyui.cpp:848 ../setupui/anthyui.cpp:862
+#: ../setupui/anthyui.cpp:868 ../setupui/anthyui.cpp:884
 msgid "Alt+U"
 msgstr "Alt+U"
 
-#: ../setupui/anthyui.cpp:751
+#: ../setupui/anthyui.cpp:761
+msgid "En&coding:"
+msgstr "エンコーディング(&C):"
+
+#: ../setupui/anthyui.cpp:762
 msgid "Modes"
 msgstr "モード"
 
-#: ../setupui/anthyui.cpp:753
+#: ../setupui/anthyui.cpp:764
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: ../setupui/anthyui.cpp:754
+#: ../setupui/anthyui.cpp:765
 msgid "Katakana"
 msgstr "かたかな"
 
-#: ../setupui/anthyui.cpp:755
+#: ../setupui/anthyui.cpp:766
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: ../setupui/anthyui.cpp:756
+#: ../setupui/anthyui.cpp:767
 msgid "Latin"
 msgstr "英数"
 
-#: ../setupui/anthyui.cpp:757
+#: ../setupui/anthyui.cpp:768
 msgid "Wide Latin"
 msgstr "全角英数"
 
-#: ../setupui/anthyui.cpp:759
+#: ../setupui/anthyui.cpp:770
 msgid "Romaji typing method"
 msgstr "ローマ字入力方式"
 
-#: ../setupui/anthyui.cpp:760
+#: ../setupui/anthyui.cpp:771
 msgid "Kana typing method"
 msgstr "かな入力方式"
 
-#: ../setupui/anthyui.cpp:761
+#: ../setupui/anthyui.cpp:772
 msgid "Thumb shift typing method"
 msgstr "親指シフト入力方式"
 
-#: ../setupui/anthyui.cpp:763
+#: ../setupui/anthyui.cpp:774
 msgid "Multi segment"
 msgstr "連文節"
 
-#: ../setupui/anthyui.cpp:764
+#: ../setupui/anthyui.cpp:775
 msgid "Single segment"
 msgstr "単文節"
 
-#: ../setupui/anthyui.cpp:765
+#: ../setupui/anthyui.cpp:776
 msgid "Convert as you type (Multi segment)"
 msgstr "逐次変換(連文節)"
 
-#: ../setupui/anthyui.cpp:766
+#: ../setupui/anthyui.cpp:777
 msgid "Convert as you type (Single segment)"
 msgstr "逐次変換(単文節)"
 
-#: ../setupui/anthyui.cpp:767
+#: ../setupui/anthyui.cpp:778
 msgid "Con&version mode:"
 msgstr "変換モード(&V):"
 
-#: ../setupui/anthyui.cpp:768
+#: ../setupui/anthyui.cpp:779
 msgid "&Typing method:"
 msgstr "入力方式(&T):"
 
-#: ../setupui/anthyui.cpp:769
+#: ../setupui/anthyui.cpp:780
 msgid "&Input mode:"
 msgstr "入力モード(&I):"
 
-#: ../setupui/anthyui.cpp:770
+#: ../setupui/anthyui.cpp:781
 msgid "Input from ten &key:"
 msgstr "テンキーからの入力(&K):"
 
-#: ../setupui/anthyui.cpp:772 ../setupui/anthyui.cpp:776
+#: ../setupui/anthyui.cpp:783 ../setupui/anthyui.cpp:787
 msgid "Wide"
 msgstr "全角"
 
-#: ../setupui/anthyui.cpp:773 ../setupui/anthyui.cpp:777
+#: ../setupui/anthyui.cpp:784 ../setupui/anthyui.cpp:788
 msgid "Half"
 msgstr "半角"
 
-#: ../setupui/anthyui.cpp:774 ../setupui/anthyui.cpp:778
+#: ../setupui/anthyui.cpp:785 ../setupui/anthyui.cpp:789
 msgid "Follow input mode"
 msgstr "入力モードに従う"
 
-#: ../setupui/anthyui.cpp:779
+#: ../setupui/anthyui.cpp:790
 msgid "Style of &comma and period:"
 msgstr "句読点のスタイル(&C):"
 
-#: ../setupui/anthyui.cpp:781
+#: ../setupui/anthyui.cpp:792
 msgid "Japanese comma & period"
 msgstr "、。"
 
-#: ../setupui/anthyui.cpp:782
+#: ../setupui/anthyui.cpp:793
 msgid "Wide ASCII comma, Japanese period"
 msgstr "，。"
 
-#: ../setupui/anthyui.cpp:783
+#: ../setupui/anthyui.cpp:794
 msgid "Wide ASCII comma & period"
 msgstr "，．"
 
-#: ../setupui/anthyui.cpp:784
+#: ../setupui/anthyui.cpp:795
 msgid "ASCII comma & period"
 msgstr ", ."
 
-#: ../setupui/anthyui.cpp:786
+#: ../setupui/anthyui.cpp:797
 msgid "Corner bracket & Middle dot"
 msgstr "「」・"
 
-#: ../setupui/anthyui.cpp:787
+#: ../setupui/anthyui.cpp:798
 msgid "Wide bracket & Wide slash"
 msgstr "［］／"
 
-#: ../setupui/anthyui.cpp:788
+#: ../setupui/anthyui.cpp:799
 msgid "Corner bracket & Wide slash"
 msgstr "「」／"
 
-#: ../setupui/anthyui.cpp:789
+#: ../setupui/anthyui.cpp:800
 msgid "Wide bracket & Middle dot"
 msgstr "［］・"
 
-#: ../setupui/anthyui.cpp:790
+#: ../setupui/anthyui.cpp:801
 msgid "S&pace type:"
 msgstr "空白のタイプ(&P):"
 
-#: ../setupui/anthyui.cpp:791
+#: ../setupui/anthyui.cpp:802
 msgid "&Symbol input style:"
 msgstr "記号のスタイル(&S):"
 
-#: ../setupui/anthyui.cpp:792
+#: ../setupui/anthyui.cpp:803
 msgid "Beha&vior on comma and period:"
 msgstr "句読点入力時の挙動(&V):"
 
-#: ../setupui/anthyui.cpp:793
+#: ../setupui/anthyui.cpp:804
 msgid "Behavior on &focus out:"
 msgstr "フォーカスアウト時の挙動(&F):"
 
-#: ../setupui/anthyui.cpp:795 ../setupui/scimanthysettingplugin.cpp:152
+#: ../setupui/anthyui.cpp:806 ../setupui/scimanthysettingplugin.cpp:152
 msgid "Do nothing"
 msgstr "何もしない"
 
-#: ../setupui/anthyui.cpp:796
+#: ../setupui/anthyui.cpp:807
 msgid "Start conversion"
 msgstr "変換を開始する"
 
-#: ../setupui/anthyui.cpp:797 ../setupui/anthyui.cpp:799
+#: ../setupui/anthyui.cpp:808 ../setupui/anthyui.cpp:810
 #: ../setupui/scimanthysettingplugin.cpp:134
 msgid "Commit"
 msgstr "確定"
 
-#: ../setupui/anthyui.cpp:800
+#: ../setupui/anthyui.cpp:811
 msgid "Clear"
 msgstr "クリア"
 
-#: ../setupui/anthyui.cpp:801
+#: ../setupui/anthyui.cpp:812
 msgid "&General"
 msgstr "一般(&G)"
 
-#: ../setupui/anthyui.cpp:802
+#: ../setupui/anthyui.cpp:813
 msgid "Gro&up:"
 msgstr "グループ(&U):"
 
-#: ../setupui/anthyui.cpp:804
+#: ../setupui/anthyui.cpp:815
 msgid "All"
 msgstr "全て"
 
-#: ../setupui/anthyui.cpp:805
+#: ../setupui/anthyui.cpp:816
 msgid "Mode keys"
 msgstr "モードキー"
 
-#: ../setupui/anthyui.cpp:806
+#: ../setupui/anthyui.cpp:817
 msgid "Edit keys"
 msgstr "編集キー"
 
-#: ../setupui/anthyui.cpp:807
+#: ../setupui/anthyui.cpp:818
 msgid "Caret keys"
 msgstr "キャレットキー"
 
-#: ../setupui/anthyui.cpp:808
+#: ../setupui/anthyui.cpp:819
 msgid "Segments keys"
 msgstr "文節キー"
 
-#: ../setupui/anthyui.cpp:809
+#: ../setupui/anthyui.cpp:820
 msgid "Candidates keys"
 msgstr "候補キー"
 
-#: ../setupui/anthyui.cpp:810
+#: ../setupui/anthyui.cpp:821
 msgid "Direct select keys"
 msgstr "直接選択キー"
 
-#: ../setupui/anthyui.cpp:811
+#: ../setupui/anthyui.cpp:822
 msgid "Convert keys"
 msgstr "変換キー"
 
-#: ../setupui/anthyui.cpp:812
+#: ../setupui/anthyui.cpp:823
 msgid "Dictionary keys"
 msgstr "辞書関連キー"
 
-#: ../setupui/anthyui.cpp:813
+#: ../setupui/anthyui.cpp:824
 msgid "Search by key"
 msgstr "キーで検索"
 
-#: ../setupui/anthyui.cpp:814
+#: ../setupui/anthyui.cpp:825
 msgid "&Key bindings theme:"
 msgstr "キーバインドテーマ(&K):"
 
-#: ../setupui/anthyui.cpp:815
+#: ../setupui/anthyui.cpp:826
 msgid "&Choose keys..."
 msgstr "キーを選択(&C)..."
 
-#: ../setupui/anthyui.cpp:816 ../setupui/anthyui.cpp:842
-#: ../setupui/anthyui.cpp:849 ../setupui/anthyui.cpp:867
+#: ../setupui/anthyui.cpp:827 ../setupui/anthyui.cpp:853
+#: ../setupui/anthyui.cpp:860 ../setupui/anthyui.cpp:878
 msgid "Alt+C"
 msgstr "Alt+C"
 
-#: ../setupui/anthyui.cpp:820
+#: ../setupui/anthyui.cpp:831
 msgid "Key &bindings"
 msgstr "キーバインド(&B)"
 
-#: ../setupui/anthyui.cpp:821
+#: ../setupui/anthyui.cpp:832
 msgid "Thumb Shift Layout"
 msgstr "親指シフト配列"
 
-#: ../setupui/anthyui.cpp:822 ../setupui/anthyui.cpp:830
+#: ../setupui/anthyui.cpp:833 ../setupui/anthyui.cpp:841
 msgid "La&yout:"
 msgstr "レイアウト(&Y):"
 
-#: ../setupui/anthyui.cpp:823
+#: ../setupui/anthyui.cpp:834
 msgid "R&ight thumb shift keys:"
 msgstr "右親指シフトキー(&I):"
 
-#: ../setupui/anthyui.cpp:824
+#: ../setupui/anthyui.cpp:835
 msgid "Left thumb shift &keys:"
 msgstr "左親指シフトキー(&K):"
 
-#: ../setupui/anthyui.cpp:825
+#: ../setupui/anthyui.cpp:836
 msgid "&Simultaneous pressing time:"
 msgstr "同時打鍵時間(&S):"
 
-#: ../setupui/anthyui.cpp:826
+#: ../setupui/anthyui.cpp:837
 msgid "[msec]"
 msgstr "[ミリ秒]"
 
-#: ../setupui/anthyui.cpp:827 ../setupui/anthyui.cpp:831
+#: ../setupui/anthyui.cpp:838 ../setupui/anthyui.cpp:842
 msgid "Customi&ze..."
 msgstr "カスタム(&Z)..."
 
-#: ../setupui/anthyui.cpp:828 ../setupui/anthyui.cpp:832
+#: ../setupui/anthyui.cpp:839 ../setupui/anthyui.cpp:843
 msgid "Alt+Z"
 msgstr "Alt+Z"
 
-#: ../setupui/anthyui.cpp:829
+#: ../setupui/anthyui.cpp:840
 msgid "JIS Kana Layout"
 msgstr "JISかな配列"
 
-#: ../setupui/anthyui.cpp:833
+#: ../setupui/anthyui.cpp:844
 msgid "Romaji table"
 msgstr "ローマ字テーブル"
 
-#: ../setupui/anthyui.cpp:834
+#: ../setupui/anthyui.cpp:845
 msgid "Allow spliting roma&ji on editing preedit string"
 msgstr "文字列編集時にローマ字を分割できるようにする(&J)"
 
-#: ../setupui/anthyui.cpp:835
+#: ../setupui/anthyui.cpp:846
 msgid "Alt+J"
 msgstr "Alt+J"
 
-#: ../setupui/anthyui.cpp:836
+#: ../setupui/anthyui.cpp:847
 msgid "&Use half width character for symbols"
 msgstr "記号は半角で入力する(&U)"
 
-#: ../setupui/anthyui.cpp:838
+#: ../setupui/anthyui.cpp:849
 msgid "Use half-&width characters for numbers"
 msgstr "数字は半角で入力する(&W)"
 
-#: ../setupui/anthyui.cpp:839 ../setupui/anthyui.cpp:844
-#: ../setupui/anthyui.cpp:846 ../setupui/anthyui.cpp:885
+#: ../setupui/anthyui.cpp:850 ../setupui/anthyui.cpp:855
+#: ../setupui/anthyui.cpp:857 ../setupui/anthyui.cpp:896
 msgid "Alt+W"
 msgstr "Alt+W"
 
-#: ../setupui/anthyui.cpp:840
+#: ../setupui/anthyui.cpp:851
 msgid "&Romaji table:"
 msgstr "ローマ字テーブル(&R):"
 
-#: ../setupui/anthyui.cpp:841
+#: ../setupui/anthyui.cpp:852
 msgid "&Customize..."
 msgstr "カスタム(&C)..."
 
-#: ../setupui/anthyui.cpp:843
+#: ../setupui/anthyui.cpp:854
 msgid "&Enterring the pseudo ASCII input mode with capital letters"
 msgstr "大文字入力時に一時ASCIIモードに切り替える(&E)"
 
-#: ../setupui/anthyui.cpp:845
+#: ../setupui/anthyui.cpp:856
 msgid "&Insert a blank with a blank key"
 msgstr "空白キーで空白を挿入する(&I)"
 
-#: ../setupui/anthyui.cpp:847
+#: ../setupui/anthyui.cpp:858
 msgid "T&yping methods"
 msgstr "入力方式(&Y)"
 
-#: ../setupui/anthyui.cpp:848
+#: ../setupui/anthyui.cpp:859
 msgid "Show predicted &candidates while inputting letters"
 msgstr "文字入力中に予測候補を表示する(&C)"
 
-#: ../setupui/anthyui.cpp:850
+#: ../setupui/anthyui.cpp:861
 msgid "&Use direct select keys while predicting"
 msgstr "予測中に直接選択キーを使用する(&U)"
 
-#: ../setupui/anthyui.cpp:852
+#: ../setupui/anthyui.cpp:863
 msgid "Pre&diction"
 msgstr "予測(&D)"
 
-#: ../setupui/anthyui.cpp:853
+#: ../setupui/anthyui.cpp:864
 msgid "Enable/Disable learning"
 msgstr "学習の有効/無効"
 
-#: ../setupui/anthyui.cpp:854
+#: ../setupui/anthyui.cpp:865
 msgid "Learn on &manual commit"
 msgstr "手動確定時に学習する(&M)"
 
-#: ../setupui/anthyui.cpp:855 ../setupui/anthyui.cpp:879
+#: ../setupui/anthyui.cpp:866 ../setupui/anthyui.cpp:890
 msgid "Alt+M"
 msgstr "Alt+M"
 
-#: ../setupui/anthyui.cpp:856
+#: ../setupui/anthyui.cpp:867
 msgid "Learn on a&utocommit"
 msgstr "自動確定時に学習する(&U)"
 
-#: ../setupui/anthyui.cpp:858
+#: ../setupui/anthyui.cpp:869
 msgid "Key preferences to commit with reversing learning preference"
 msgstr "学習設定とは逆の方法で確定するキーの設定"
 
-#: ../setupui/anthyui.cpp:859
+#: ../setupui/anthyui.cpp:870
 msgid "Comm&it:"
 msgstr "確定(&I):"
 
-#: ../setupui/anthyui.cpp:860
+#: ../setupui/anthyui.cpp:871
 msgid "&Commit the first segment:"
 msgstr "最初の文節を確定(&C)"
 
-#: ../setupui/anthyui.cpp:861
+#: ../setupui/anthyui.cpp:872
 msgid "Commit the &selected segment:"
 msgstr "選択文節を確定(&S):"
 
-#: ../setupui/anthyui.cpp:862
+#: ../setupui/anthyui.cpp:873
 msgid "&Learning"
 msgstr "学習(&L)"
 
-#: ../setupui/anthyui.cpp:863
+#: ../setupui/anthyui.cpp:874
 msgid "Candidates window"
 msgstr "候補ウィンドウ"
 
-#: ../setupui/anthyui.cpp:864
+#: ../setupui/anthyui.cpp:875
 msgid "&Show \"Candidates\" label"
 msgstr "「候補一覧」ラベルを表示(&S)"
 
-#: ../setupui/anthyui.cpp:865 ../setupui/anthyui.cpp:875
-#: ../setupui/anthyui.cpp:883
+#: ../setupui/anthyui.cpp:876 ../setupui/anthyui.cpp:886
+#: ../setupui/anthyui.cpp:894
 msgid "Alt+S"
 msgstr "Alt+S"
 
-#: ../setupui/anthyui.cpp:866
+#: ../setupui/anthyui.cpp:877
 msgid "&Close candidates window when select a candidate directly"
 msgstr "候補を直接選択した時に候補ウィンドウを閉じる(&C)"
 
-#: ../setupui/anthyui.cpp:868
+#: ../setupui/anthyui.cpp:879
 msgid "Number of candidates to show &in a page:"
 msgstr "1ページに表示する候補数(&I):"
 
-#: ../setupui/anthyui.cpp:869
+#: ../setupui/anthyui.cpp:880
 msgid "[times]"
 msgstr "[回]"
 
-#: ../setupui/anthyui.cpp:870
+#: ../setupui/anthyui.cpp:881
 msgid "Number of &triggers until show:"
 msgstr "表示開始までの変換キー押下数(&T):"
 
-#: ../setupui/anthyui.cpp:871
+#: ../setupui/anthyui.cpp:882
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: ../setupui/anthyui.cpp:872
+#: ../setupui/anthyui.cpp:883
 msgid "Show inp&ut mode label"
 msgstr "入力モードラベルを表示(&U)"
 
-#: ../setupui/anthyui.cpp:874
+#: ../setupui/anthyui.cpp:885
 msgid "&Show typing method label"
 msgstr "入力方式ラベルを表示(&S)"
 
-#: ../setupui/anthyui.cpp:876
+#: ../setupui/anthyui.cpp:887
 msgid "Show con&version mode label"
 msgstr "変換モードラベルを表示(&V)"
 
-#: ../setupui/anthyui.cpp:877
+#: ../setupui/anthyui.cpp:888
 msgid "Alt+V"
 msgstr "Alt+V"
 
-#: ../setupui/anthyui.cpp:878
+#: ../setupui/anthyui.cpp:889
 msgid "Show dictionary &menu label"
 msgstr "辞書メニューラベルを表示(&M)"
 
-#: ../setupui/anthyui.cpp:880
+#: ../setupui/anthyui.cpp:891
 msgid "Show &period style label"
 msgstr "句読点スタイルラベルを表示(&P)"
 
-#: ../setupui/anthyui.cpp:881
+#: ../setupui/anthyui.cpp:892
 msgid "Alt+P"
 msgstr "Alt+P"
 
-#: ../setupui/anthyui.cpp:882
+#: ../setupui/anthyui.cpp:893
 msgid "Show &symbol style label"
 msgstr "記号スタイルラベルを表示(&S)"
 
-#: ../setupui/anthyui.cpp:884
+#: ../setupui/anthyui.cpp:895
 msgid "Show \"Add &word\" label"
 msgstr "単語追加ラベルを表示(&W)"
 
-#: ../setupui/anthyui.cpp:886
+#: ../setupui/anthyui.cpp:897
 msgid "Show \"&Edit dictionary\" label"
 msgstr "辞書編集ラベルを表示(&E)"
 
-#: ../setupui/anthyui.cpp:887
+#: ../setupui/anthyui.cpp:898
 msgid "Alt+E"
 msgstr "Alt+E"
 
-#: ../setupui/anthyui.cpp:888
+#: ../setupui/anthyui.cpp:899
 msgid "Pa&nel"
 msgstr "パネル(&N)"
 
-#: ../setupui/anthyui.cpp:889
+#: ../setupui/anthyui.cpp:900
 msgid "&Preedit string:"
 msgstr "編集文字列(&P):"
 
-#: ../setupui/anthyui.cpp:890
+#: ../setupui/anthyui.cpp:901
 msgid "&Selected segment:"
 msgstr "選択文節(&S):"
 
-#: ../setupui/anthyui.cpp:891
+#: ../setupui/anthyui.cpp:902
 msgid "&Conversion string:"
 msgstr "変換文字列(&C):"
 
-#: ../setupui/anthyui.cpp:893 ../setupui/anthyui.cpp:901
-#: ../setupui/anthyui.cpp:909
+#: ../setupui/anthyui.cpp:904 ../setupui/anthyui.cpp:912
+#: ../setupui/anthyui.cpp:920
 msgid "No decoration"
 msgstr "装飾無し"
 
-#: ../setupui/anthyui.cpp:894 ../setupui/anthyui.cpp:902
-#: ../setupui/anthyui.cpp:910
+#: ../setupui/anthyui.cpp:905 ../setupui/anthyui.cpp:913
+#: ../setupui/anthyui.cpp:921
 msgid "Underline"
 msgstr "下線"
 
-#: ../setupui/anthyui.cpp:895 ../setupui/anthyui.cpp:903
-#: ../setupui/anthyui.cpp:911
+#: ../setupui/anthyui.cpp:906 ../setupui/anthyui.cpp:914
+#: ../setupui/anthyui.cpp:922
 msgid "Reversed color"
 msgstr "反転色"
 
-#: ../setupui/anthyui.cpp:896 ../setupui/anthyui.cpp:904
-#: ../setupui/anthyui.cpp:912
+#: ../setupui/anthyui.cpp:907 ../setupui/anthyui.cpp:915
+#: ../setupui/anthyui.cpp:923
 msgid "Highlight"
 msgstr "強調"
 
-#: ../setupui/anthyui.cpp:897 ../setupui/anthyui.cpp:905
-#: ../setupui/anthyui.cpp:913
+#: ../setupui/anthyui.cpp:908 ../setupui/anthyui.cpp:916
+#: ../setupui/anthyui.cpp:924
 msgid "String color"
 msgstr "文字色"
 
-#: ../setupui/anthyui.cpp:898 ../setupui/anthyui.cpp:906
-#: ../setupui/anthyui.cpp:914
+#: ../setupui/anthyui.cpp:909 ../setupui/anthyui.cpp:917
+#: ../setupui/anthyui.cpp:925
 msgid "BG Color"
 msgstr "背景色"
 
-#: ../setupui/anthyui.cpp:899 ../setupui/anthyui.cpp:907
-#: ../setupui/anthyui.cpp:915
+#: ../setupui/anthyui.cpp:910 ../setupui/anthyui.cpp:918
+#: ../setupui/anthyui.cpp:926
 msgid "Both Color"
 msgstr "文字色/背景色"
 
-#: ../setupui/anthyui.cpp:916 ../setupui/anthyui.cpp:917
-#: ../setupui/anthyui.cpp:918
+#: ../setupui/anthyui.cpp:927 ../setupui/anthyui.cpp:928
+#: ../setupui/anthyui.cpp:929
 msgid "Color:"
 msgstr "色:"
 
-#: ../setupui/anthyui.cpp:919
+#: ../setupui/anthyui.cpp:930
 msgid "&Appearance"
 msgstr "外観(&A)"
 
