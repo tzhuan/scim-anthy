@@ -455,6 +455,16 @@ StringConfigData config_string_common [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_YOMI_OPTION,
+        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_YOMI_OPTION_DEFAULT,
+        SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_YOMI_OPTION_DEFAULT,
+        N_("\"_Yomi\" option for \"Add word\" command:"),
+        NULL,
+        NULL,
+        NULL,
+        false,
+    },
+    {
         SCIM_ANTHY_CONFIG_PREEDIT_STYLE,
         SCIM_ANTHY_CONFIG_PREEDIT_STYLE_DEFAULT,
         SCIM_ANTHY_CONFIG_PREEDIT_STYLE_DEFAULT,

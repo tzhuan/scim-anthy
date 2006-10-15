@@ -1038,7 +1038,7 @@ create_dict_page (void)
     GtkWidget *table, *button;
     StringConfigData *entry;
 
-    table = gtk_table_new (3, 3, FALSE);
+    table = gtk_table_new (4, 4, FALSE);
     gtk_widget_show (table);
 
     // encoding of dictionary
@@ -1073,6 +1073,11 @@ create_dict_page (void)
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_dict_launch_button_clicked), entry);
     gtk_widget_show (button);
+
+    // add yomi option
+    create_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_YOMI_OPTION,
+                  GTK_TABLE(table), 3);
+    entry = find_string_config_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_YOMI_OPTION);
 
     return table;
 }
