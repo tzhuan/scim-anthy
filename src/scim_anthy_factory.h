@@ -103,6 +103,7 @@ public:
     String         m_dict_encoding;
     String         m_dict_admin_command;
     String         m_add_word_command;
+    String         m_add_word_command_yomi_option;
 
     bool           m_predict_on_input;
     bool           m_use_direct_key_on_predict;

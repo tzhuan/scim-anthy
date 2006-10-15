@@ -2013,7 +2013,39 @@ AnthyInstance::action_reconvert (void)
 bool
 AnthyInstance::action_add_word (void)
 {
-    util_launch_program (m_factory->m_add_word_command.c_str ());
+    IConvert iconv(String("EUC-JP"));
+    String yomi;
+    CommonLookupTable candidates;
+
+    // get yomi
+    if(m_preedit.is_converting())
+    {
+        m_preedit.get_candidates(candidates, m_preedit.get_selected_segment () );
+        if( candidates.number_of_candidates() >= 2 )
+        {
+            iconv.convert(yomi,
+                          candidates.get_candidate( candidates.number_of_candidates()  - 2 ));
+        }
+    }
+    else if(m_preedit.is_preediting())
+    {
+        iconv.convert(yomi, m_preedit.get_string());
+        reset();
+    }
+
+    if( m_factory->m_add_word_command_yomi_option.length() > 0 &&
+        yomi.length() > 0)
+    {
+        String command = m_factory->m_add_word_command;
+        command += String(" ") + m_factory->m_add_word_command_yomi_option;
+        command += String(" ") + yomi;
+        util_launch_program( command.c_str() );
+    }
+    else
+    {
+        util_launch_program (m_factory->m_add_word_command.c_str ());
+    }
+
 
     return true;
 }

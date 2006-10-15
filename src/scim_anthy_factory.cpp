@@ -537,6 +537,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
             = config->read (String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND),
                             String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_DEFAULT));
 
+        m_add_word_command_yomi_option
+            = config->read (String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_YOMI_OPTION),
+                            String (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_YOMI_OPTION_DEFAULT));
+
         m_predict_on_input
             = config->read (String (SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT),
                             SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT_DEFAULT);
