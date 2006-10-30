@@ -87,7 +87,6 @@ public:
     void          clear                  (int           segment_id = -1);
     void          commit                 (int           segment_id = -1,
                                           bool          learn      = true);
-
     // getting status
     bool          is_converting          (void);
     bool          is_predicting          (void);
@@ -126,6 +125,7 @@ private:
                                           int           seg_len);
     WideString    get_prediction_string  (int           candidate_id);
     void          join_all_segments      (void);
+    bool          force_learn            (int           segment_id);
 
 private:
     AnthyInstance      &m_anthy;
