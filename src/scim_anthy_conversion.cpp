@@ -225,6 +225,18 @@ Conversion::commit (int segment_id, bool learn)
 {
     if (!is_converting ()) return;
 
+#ifdef HAS_ANTHY_COMMIT_PREDICTION
+    if (is_predicting ()) {
+        int id = m_segments[0].get_candidate_id ();
+        if (learn) {
+            anthy_commit_prediction (m_anthy_context,
+                                     m_segments[0].get_candidate_id ());
+        }
+        clear (0);
+        return;
+    }
+#endif /* HAS_ANTHY_COMMIT_PREDICTION */
+
     // learn
     for (unsigned int i = m_start_id;
          learn &&
