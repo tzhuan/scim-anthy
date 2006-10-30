@@ -1,5 +1,10 @@
 2006-10-30 Takuro Ashie <ashie@homa.ne.jp>
 
+	* src/scim_anthy_conversion.cpp: Use anthy_set_reconversion_mode() if
+	it is available. But I don't test it yet.
+
+2006-10-30 Takuro Ashie <ashie@homa.ne.jp>
+
 	* src/scim_anthy_conversion.cpp: Fix a bug that a wrong partial string
 	is converted on direct kana conversion after commiting a piece of
 	segments.
