@@ -285,6 +285,8 @@ Conversion::commit (int segment_id, bool learn)
 bool
 Conversion::force_learn (int segment_id)
 {
+    // Find same string with the commited string from candidates and learn it.
+
     struct anthy_conv_stat conv_stat;
     anthy_get_stat (m_anthy_context, &conv_stat);
 
