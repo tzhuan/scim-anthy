@@ -40,10 +40,13 @@ AC_SUBST(LIBTOOL_DEPS)
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
+AC_PROG_YACC
 AC_LANG(C++)
 
 AC_C_CONST
 AC_TYPE_SIZE_T
+AC_TYPE_PID_T
+AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for libraries.
 
@@ -71,10 +74,19 @@ AC_SUBST(SCIM_BUILD_SETUP)
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_FUNC_ALLOCA
-AC_CHECK_HEADERS([argz.h fcntl.h float.h inttypes.h langinfo.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h unistd.h wchar.h])
+AC_HEADER_SYS_WAIT
+AC_HEADER_TIME
+AC_HEADER_STDBOOL
+AC_CHECK_HEADERS([argz.h fcntl.h float.h inttypes.h langinfo.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h sys/time.h unistd.h wchar.h])
 
 # Checks for library functions.
+AC_FUNC_ALLOCA
+AC_FUNC_FORK
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_FUNC_VPRINTF
+AC_CHECK_FUNCS([gettimeofday isascii])
+AC_CHECK_FUNCS([nl_langinfo strcspn strstr ])
 AC_SUBST(ac_aux_dir)
 
 # Checks for anthy
