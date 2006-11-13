@@ -78,11 +78,8 @@ AC_CHECK_HEADERS([argz.h fcntl.h float.h inttypes.h langinfo.h libintl.h limits.
 AC_SUBST(ac_aux_dir)
 
 # Checks for anthy
-AC_CHECK_HEADER(anthy/anthy.h, [], [AC_MSG_ERROR(anthy/anthy.h was not found.)])
-ANTHY_LIBS="-lanthy -lanthydic"
-ANTHY_CFLAGS=""
-AC_SUBST(ANTHY_LIBS)
-AC_SUBST(ANTHY_CFLAGS)
+ANTHY_VERSION=7500
+PKG_CHECK_MODULES(ANTHY,[anthy >= $ANTHY_VERSION])
 
 # Check gtk2
 PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.4.0],
