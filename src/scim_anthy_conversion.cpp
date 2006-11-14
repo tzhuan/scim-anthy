@@ -362,7 +362,7 @@ Conversion::get_segment_string (int segment_id, int candidate_id)
 
     // character position of the head of segment.
     unsigned int real_seg_start = 0;
-    for (int i = 0; i < m_start_id + segment_id; i++) {
+    for (int i = m_start_id; i < m_start_id + segment_id; i++) {
         struct anthy_segment_stat seg_stat;
         anthy_get_segment_stat (m_anthy_context, i, &seg_stat);
         real_seg_start += seg_stat.seg_len;
