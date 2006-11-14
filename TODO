@@ -1,0 +1,8 @@
+* Add test program.
+* Add test cases.
+* Show credits on scim-setup.
+* Change keybord layout by using XKB & helper when the typing method is
+  changed.
+* Check the following issue and merge the style files if needed:
+  http://d.hatena.ne.jp/tree3yama/20061008
+  http://d.hatena.ne.jp/maple_magician/20060628
