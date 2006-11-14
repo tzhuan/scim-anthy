@@ -1,3 +1,7 @@
+Changes from skim-scim-anthy-1.2.1 to skim-scim-anthy-1.2.2
+===========================================================
+* Bump version number.
+
 Changes from skim-scim-anthy-1.2.0 to skim-scim-anthy-1.2.1
 ===========================================================
 * Add dictionary encoding setting.
