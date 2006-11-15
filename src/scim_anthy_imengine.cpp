@@ -743,6 +743,18 @@ AnthyInstance::set_input_mode (InputMode mode)
 {
     const char *label = "";
 
+    //Clear or commit current preedit text when exit Japanese mode.
+    if (m_preedit.is_preediting () &&
+        (mode == SCIM_ANTHY_MODE_LATIN || mode == SCIM_ANTHY_MODE_WIDE_LATIN))
+    {
+        if (m_factory->m_behavior_on_focus_out == "Clear")
+            reset ();
+        else if (m_factory->m_behavior_on_focus_out == "Commit")
+            action_commit (m_factory->m_learn_on_auto_commit);
+        else
+            action_commit (m_factory->m_learn_on_auto_commit);
+    }
+
     switch (mode) {
     case SCIM_ANTHY_MODE_HIRAGANA:
         label = "\xE3\x81\x82";
