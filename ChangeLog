@@ -1,3 +1,11 @@
+2006-11-23  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_imengine.cpp, src/scim_anthy_prefs.cpp:
+	Change the string "Conversion mode" to "Conversion method" to
+	avoid conflit the with different function with the same name of
+	MS-IME.
+	* po/ja.po: Update
+
 2006-11-15 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_imengine.cpp: Clear or commit the current preedit text

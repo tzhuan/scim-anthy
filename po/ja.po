@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2006-11-13 11:33+0900\n"
-"PO-Revision-Date: 2006-10-15 23:20+0900\n"
+"POT-Creation-Date: 2006-11-23 11:24+0900\n"
+"PO-Revision-Date: 2006-11-23 11:26+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -64,8 +64,8 @@ msgid "Thumb shift"
 msgstr "親指シフト"
 
 #: src/scim_anthy_imengine.cpp:603
-msgid "Conversion mode"
-msgstr "変換モード"
+msgid "Conversion method"
+msgstr "変換方式"
 
 #: src/scim_anthy_imengine.cpp:607 src/scim_anthy_imengine.cpp:608
 #: src/scim_anthy_setup.cpp:220
@@ -618,8 +618,8 @@ msgid "Show _input mode label"
 msgstr "入力モードラベルを表示(_I)"
 
 #: src/scim_anthy_prefs.cpp:149
-msgid "Show _conversion mode label"
-msgstr "変換モードラベルを表示(_C)"
+msgid "Show _conversion method label"
+msgstr "変換方式ラベルを表示(_C)"
 
 #: src/scim_anthy_prefs.cpp:159
 msgid "Show _typing method label"
@@ -691,8 +691,8 @@ msgid "Typing _method: "
 msgstr "入力方式(_M): "
 
 #: src/scim_anthy_prefs.cpp:305
-msgid "_Conversion mode: "
-msgstr "変換モード(_C):"
+msgid "_Conversion method: "
+msgstr "変換方式(_C):"
 
 #: src/scim_anthy_prefs.cpp:315
 msgid "St_yle of comma and period: "
