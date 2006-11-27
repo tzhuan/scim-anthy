@@ -36,6 +36,11 @@ using namespace scim;
 static gboolean   helper_agent_input_handler  (GIOChannel          *source,
                                                GIOCondition         condition,
                                                gpointer             user_data);
+static void       slot_update_spot_location   (const HelperAgent   *agent,
+                                               int                  ic,
+                                               const String        &uuid,
+                                               int                  x,
+                                               int                  y);
 static void       slot_imengine_event         (const HelperAgent   *agent,
                                                int                  ic,
                                                const String        &uuid,
@@ -52,7 +57,8 @@ HelperInfo helper_info (SCIM_ANTHY_HELPER_UUID,        // uuid
                         "",                            // name
                         "",                            // icon
                         "",
-                        SCIM_HELPER_NEED_SCREEN_INFO);
+                        SCIM_HELPER_NEED_SCREEN_INFO |
+                        SCIM_HELPER_NEED_SPOT_LOCATION_INFO);
 
 class TimeoutContext {
 public:
@@ -135,6 +141,24 @@ static void
 slot_exit (const HelperAgent *agent, int ic, const String &uuid)
 {
     gtk_main_quit ();
+}
+
+static void
+slot_update_spot_location   (const HelperAgent *agent,
+                             int ic, const String &uuid,
+                             int x, int y)
+{
+    static GtkWidget *window = NULL;
+
+    if (!window) {
+        window = gtk_window_new (GTK_WINDOW_POPUP);
+        gtk_window_set_default_size (GTK_WINDOW (window), 50, 100);
+        //gtk_window_set_policy (GTK_WINDOW (window), TRUE, TRUE, FALSE);
+        //gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
+	gtk_widget_show (window);
+    }
+
+    gtk_window_move (GTK_WINDOW (window), x, y);
 }
 
 static void
@@ -244,6 +268,7 @@ run (const String &display, const ConfigPointer &config)
     gtk_init (&argc, &argv);
 
     helper_agent.signal_connect_exit (slot (slot_exit));
+    helper_agent.signal_connect_update_spot_location (slot (slot_update_spot_location));
     helper_agent.signal_connect_process_imengine_event (slot (slot_imengine_event));
 
     // open connection

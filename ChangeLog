@@ -1,3 +1,8 @@
+2006-11-27 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_helper.cpp: Add a sample code for getting spot
+	location. It will be used for our custom lokkup window.
+
 2006-11-23  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_imengine.cpp, src/scim_anthy_prefs.cpp:
