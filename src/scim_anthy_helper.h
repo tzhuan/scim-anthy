@@ -60,6 +60,7 @@ private:
     GtkWidget *aux_string_window;
     GtkWidget *aux_string_label;
     GtkWidget *lookup_table_window;
+    GtkWidget *lookup_table_label;
     bool aux_string_window_visible;
     bool lookup_table_window_visible;
 
