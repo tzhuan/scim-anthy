@@ -1,7 +1,14 @@
+2006-12-06  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_helper.cpp, src/scim_anthy_helper.h
+	  src/scim_anthy_imengine.cpp, src/scim_anthy_imengine.h
+	  src/Makefile.am:
+	  The skelton of custom lookup window.
+
 2006-11-27 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_helper.cpp: Add a sample code for getting spot
-	location. It will be used for our custom lokkup window.
+	location. It will be used for our custom lookup window.
 
 2006-11-23  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 

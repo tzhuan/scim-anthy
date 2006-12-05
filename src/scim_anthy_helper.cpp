@@ -1,6 +1,7 @@
 /* -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
  *  Copyright (C) 2005 Takuro Ashie
+ *  Copyright (C) 2006 Takashi Nakamoto
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -51,6 +52,7 @@ static void       timeout_ctx_destroy_func    (gpointer             data);
 static void       run                         (const String        &display,
                                                const ConfigPointer &config);
 
+AnthyHelper helper;
 HelperAgent helper_agent;
 
 HelperInfo helper_info (SCIM_ANTHY_HELPER_UUID,        // uuid
@@ -148,17 +150,7 @@ slot_update_spot_location   (const HelperAgent *agent,
                              int ic, const String &uuid,
                              int x, int y)
 {
-    static GtkWidget *window = NULL;
-
-    if (!window) {
-        window = gtk_window_new (GTK_WINDOW_POPUP);
-        gtk_window_set_default_size (GTK_WINDOW (window), 50, 100);
-        //gtk_window_set_policy (GTK_WINDOW (window), TRUE, TRUE, FALSE);
-        //gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
-	gtk_widget_show (window);
-    }
-
-    gtk_window_move (GTK_WINDOW (window), x, y);
+    helper.update_spot_location (x,y);
 }
 
 static void
@@ -219,6 +211,42 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         }
         break;
     }
+    case SCIM_TRANS_CMD_SHOW_AUX_STRING:
+    {
+        helper.show_aux_string ();
+        break;
+    }
+    case SCIM_TRANS_CMD_SHOW_LOOKUP_TABLE:
+    {
+        helper.show_lookup_table ();
+        break;
+    }
+    case SCIM_TRANS_CMD_HIDE_AUX_STRING:
+    {
+        helper.hide_aux_string ();
+        break;
+    }
+    case SCIM_TRANS_CMD_HIDE_LOOKUP_TABLE:
+    {
+        helper.hide_lookup_table ();
+        break;
+    }
+    case SCIM_TRANS_CMD_UPDATE_AUX_STRING:
+    {
+        WideString str;
+        AttributeList attr;
+        reader.get_data (str);
+        reader.get_data (attr);
+        helper.update_aux_string (str, attr);
+        break;
+    }
+    case SCIM_TRANS_CMD_UPDATE_LOOKUP_TABLE:
+    {
+        CommonLookupTable table;
+        reader.get_data (table);
+        helper.update_lookup_table (table);
+        break;
+    }
     default:
         break;
     }
@@ -265,7 +293,7 @@ run (const String &display, const ConfigPointer &config)
  
     setenv ("DISPLAY", display.c_str (), 1);
 
-    gtk_init (&argc, &argv);
+    helper.init (argc, argv);
 
     helper_agent.signal_connect_exit (slot (slot_exit));
     helper_agent.signal_connect_update_spot_location (slot (slot_update_spot_location));
@@ -292,4 +320,183 @@ run (const String &display, const ConfigPointer &config)
     // close connection
     helper_agent.close_connection ();
     fd = -1;
+}
+
+AnthyHelper::AnthyHelper ()
+    : spot_location_x             (0),
+      spot_location_y             (0),
+      aux_string_window           (NULL),
+      aux_string_label            (NULL),
+      lookup_table_window         (NULL),
+      aux_string_window_visible   (false),
+      lookup_table_window_visible (false)
+{
+}
+
+AnthyHelper::~AnthyHelper ()
+{
+    if (aux_string_window)
+    {
+        gtk_widget_hide (aux_string_window);
+        gtk_widget_destroy (aux_string_window);
+    }
+
+    if (aux_string_label)
+    {
+        gtk_widget_hide (aux_string_label);
+        gtk_widget_destroy (aux_string_label);
+    }
+
+    if (lookup_table_window)
+    {
+        gtk_widget_hide (lookup_table_window);
+        gtk_widget_destroy (lookup_table_window);
+    }
+}
+
+void
+AnthyHelper::init (int argc, char **argv)
+{
+    gtk_init (&argc, &argv);
+
+    // aux string window
+    aux_string_window = gtk_window_new (GTK_WINDOW_POPUP);
+    gtk_window_set_default_size (GTK_WINDOW (aux_string_window), 100, 20);
+    gtk_window_set_policy (GTK_WINDOW (aux_string_window),
+                           TRUE, TRUE, FALSE);
+    gtk_window_set_resizable (GTK_WINDOW (aux_string_window), FALSE);
+    aux_string_window_visible = false;
+
+    aux_string_label = gtk_label_new ("");
+    gtk_container_add (GTK_CONTAINER (aux_string_window),
+                       aux_string_label);
+
+    // lookup table window
+    lookup_table_window = gtk_window_new (GTK_WINDOW_POPUP);
+    gtk_window_set_default_size (GTK_WINDOW (lookup_table_window), 50, 100);
+    gtk_window_set_policy (GTK_WINDOW (lookup_table_window),
+                           TRUE, TRUE, FALSE);
+    gtk_window_set_resizable (GTK_WINDOW (lookup_table_window), FALSE);
+    lookup_table_window_visible = false;
+
+    GtkWidget *tmp = gtk_label_new ("Lookup Window");
+    gtk_container_add (GTK_CONTAINER (lookup_table_window), tmp);
+    gtk_widget_show (tmp);
+}
+
+void
+AnthyHelper::show_aux_string (void)
+{
+    if (aux_string_window == NULL ||
+        aux_string_label == NULL)
+        return;
+
+    gtk_widget_show (aux_string_window);
+    gtk_widget_show (aux_string_label);
+    aux_string_window_visible = true;
+
+    relocate_windows ();
+}
+
+void
+AnthyHelper::show_lookup_table (void)
+{
+    if (lookup_table_window == NULL)
+        return;
+
+    gtk_widget_show (lookup_table_window);
+    lookup_table_window_visible = true;
+
+    relocate_windows ();
+}
+
+void
+AnthyHelper::hide_aux_string (void)
+{
+    if (aux_string_window == NULL ||
+        aux_string_label == NULL)
+        return;
+
+    gtk_widget_hide (aux_string_window);
+    gtk_widget_hide (aux_string_label);
+    aux_string_window_visible = false;
+}
+
+void
+AnthyHelper::hide_lookup_table (void)
+{
+    if (lookup_table_window == NULL)
+        return;
+
+    gtk_widget_hide (lookup_table_window);
+    lookup_table_window_visible = false;
+}
+
+void
+AnthyHelper::update_aux_string (const WideString &str,
+                                const AttributeList &attrs)
+{
+    if (aux_string_window == NULL ||
+        aux_string_label == NULL)
+        return;
+
+    String aux_string = utf8_wcstombs (str);
+    gtk_label_set_text (GTK_LABEL (aux_string_label),
+                        aux_string.c_str());
+
+    // ToDo: handle attrs
+}
+
+void
+AnthyHelper::update_lookup_table (const LookupTable &table)
+{
+    if (lookup_table_window == NULL)
+        return;
+
+    // ToDo: implement!
+}
+
+void
+AnthyHelper::update_spot_location (int x, int y)
+{
+    spot_location_x = x;
+    spot_location_y = y;
+
+    relocate_windows ();
+}
+
+void
+AnthyHelper::relocate_windows (void)
+{
+    if (aux_string_window == NULL ||
+        lookup_table_window == NULL)
+        return; // not initialized yet
+
+    // move aux string window and lookup table window
+    if (lookup_table_window_visible)
+    {
+        // move the lookup table window to the spot location and move the
+        // aux string window beneath it.
+        int lookup_table_window_width, lookup_table_window_height;
+        gtk_window_get_size (GTK_WINDOW (lookup_table_window),
+                             &lookup_table_window_width,
+                             &lookup_table_window_height);
+        gtk_window_move (GTK_WINDOW (lookup_table_window),
+                         spot_location_x,
+                         spot_location_y);
+
+        if (aux_string_window_visible)
+        {
+            gtk_window_move (GTK_WINDOW (aux_string_window),
+                             spot_location_x,
+                             spot_location_y + lookup_table_window_height);
+        }
+    }
+    else if (aux_string_window_visible)
+    {
+        // only the aux string window to move
+        gtk_window_move (GTK_WINDOW (aux_string_window),
+                         spot_location_x,
+                         spot_location_y);
+    }
 }

@@ -2,6 +2,7 @@
 /*
  *  Copyright (C) 2004 - 2005 Hiroyuki Ikezoe <poincare@ikezoe.net>
  *  Copyright (C) 2004 - 2005 Takuro Ashie <ashie@homa.ne.jp>
+ *  Copyright (C) 2006 Takashi Nakamoto <bluedwarf@bpost.plala.or.jp>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -2407,6 +2408,58 @@ AnthyInstance::get_pseudo_ascii_mode (void)
     }
 
     return retval;
+}
+
+void
+AnthyInstance::show_aux_string (void)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_SHOW_AUX_STRING);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+void
+AnthyInstance::show_lookup_table (void)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_SHOW_LOOKUP_TABLE);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+void
+AnthyInstance::hide_aux_string (void)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_HIDE_AUX_STRING);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+void
+AnthyInstance::hide_lookup_table (void)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_HIDE_LOOKUP_TABLE);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+void
+AnthyInstance::update_aux_string (const WideString &str,
+                                  const AttributeList &attrs)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_UPDATE_AUX_STRING);
+    send.put_data (str);
+    send.put_data (attrs);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+void
+AnthyInstance::update_lookup_table (const LookupTable &table)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_UPDATE_LOOKUP_TABLE);
+    send.put_data (table);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
 
 /*

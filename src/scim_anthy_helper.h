@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
  *  Copyright (C) 2005 Takuro Ashie <ashie@homa.ne.jp>
+ *  Copyright (C) 2006 Takashi Nakamoto <bluedwarf@bpost.plala.or.jp>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,6 +22,8 @@
 #define __SCIM_ANTHY_HELPER_H__
 
 #include <scim_trans_commands.h>
+#include <scim_helper.h>
+#include <gtk/gtk.h>
 
 #define SCIM_ANTHY_HELPER_UUID "24a65e2b-10a8-4d4c-adc9-266678cb1a38"
 
@@ -30,5 +33,39 @@
 #define SCIM_ANTHY_TRANS_CMD_TIMEOUT_ADD    SCIM_TRANS_CMD_USER_DEFINED + 4
 #define SCIM_ANTHY_TRANS_CMD_TIMEOUT_REMOVE SCIM_TRANS_CMD_USER_DEFINED + 5
 #define SCIM_ANTHY_TRANS_CMD_TIMEOUT_NOTIFY SCIM_TRANS_CMD_USER_DEFINED + 6
+
+using namespace scim;
+
+class AnthyHelper
+{
+public:
+    AnthyHelper ();
+    virtual ~AnthyHelper ();
+
+    void init (int argc, char **argv);
+
+    void show_aux_string      (void);
+    void show_lookup_table    (void);
+    void hide_aux_string      (void);
+    void hide_lookup_table    (void);
+    void update_aux_string    (const WideString &str,
+                               const AttributeList &attrs
+                               = AttributeList());
+    void update_lookup_table  (const LookupTable &table);
+    void update_spot_location (int x, int y);
+
+private:
+    int spot_location_x;
+    int spot_location_y;
+    GtkWidget *aux_string_window;
+    GtkWidget *aux_string_label;
+    GtkWidget *lookup_table_window;
+    bool aux_string_window_visible;
+    bool lookup_table_window_visible;
+
+private:
+    void relocate_windows     (void);
+    
+};
 
 #endif /* __SCIM_ANTHY_HELPER_H__ */

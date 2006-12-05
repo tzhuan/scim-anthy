@@ -2,6 +2,7 @@
 /*
  *  Copyright (C) 2004 Hiroyuki Ikezoe
  *  Copyright (C) 2004 Takuro Ashie
+ *  Copyright (C) 2006 Takashi Nakamoto
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -109,6 +110,17 @@ public:
                                                const Transaction &trans);
 
     virtual void reload_config                (const ConfigPointer &config);
+
+protected:
+    /* signal activation functions */
+    void show_aux_string                       (void);
+    void show_lookup_table                     (void);
+    void hide_aux_string                       (void);
+    void hide_lookup_table                     (void);
+    void update_aux_string                     (const WideString &str,
+                                                const AttributeList &attrs
+                                                = AttributeList());
+    void update_lookup_table                   (const LookupTable &table);
 
 public:
     /* actions */
