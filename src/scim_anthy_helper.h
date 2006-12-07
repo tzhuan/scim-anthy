@@ -49,7 +49,9 @@ public:
     AnthyHelper ();
     virtual ~AnthyHelper ();
 
-    void init (int argc, char **argv);
+    void init                 (int argc, char **argv,
+                               const ConfigPointer &config);
+    void reload_config        ();
 
     void show_aux_string      (void);
     void show_lookup_table    (void);
@@ -63,21 +65,34 @@ public:
     void update_screen (int screen_num);
 
 private:
+    /* config */
+    ConfigPointer m_config;
+
+    /* fundamental information of screen */
+    GdkDisplay *m_display;
+    GdkScreen *m_current_screen;
+
     int spot_location_x;
     int spot_location_y;
 
+    PangoFontDescription *m_font_desc;
+    GdkColor m_active_bg;
+    GdkColor m_active_text;
+    GdkColor m_normal_bg;
+    GdkColor m_normal_text;
+
+    /* aux string */
     bool aux_string_window_visible;
     GtkWidget *aux_string_window;
     GtkWidget *aux_string_label;
 
+    /* lookup table and candidates */
     GtkWidget *lookup_table_window;
     GtkWidget *lookup_table_vbox;
     CandidateLabel *candidates;
     int allocated_candidate_num;
     bool lookup_table_window_visible;
 
-    GdkDisplay *display;
-    GdkScreen *current_screen;
 private:
     void relocate_windows     (void);
     

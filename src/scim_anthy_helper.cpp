@@ -60,8 +60,7 @@ HelperInfo helper_info (SCIM_ANTHY_HELPER_UUID,        // uuid
                         "",                            // icon
                         "",
                         SCIM_HELPER_NEED_SCREEN_INFO |
-                        SCIM_HELPER_NEED_SPOT_LOCATION_INFO |
-                        SCIM_HELPER_NEED_SCREEN_INFO);
+                        SCIM_HELPER_NEED_SPOT_LOCATION_INFO);
 
 class TimeoutContext {
 public:
@@ -260,6 +259,12 @@ slot_update_screen (const HelperAgent *agent, int ic,
     helper.update_screen (screen_number);
 }
 
+static void
+slot_reload_config (const HelperAgent *agent, int ic, const String &ic_uuid)
+{
+    helper.reload_config ();
+}
+
 static gint
 timeout_func (gpointer data)
 {
@@ -301,12 +306,13 @@ run (const String &display, const ConfigPointer &config)
  
     setenv ("DISPLAY", display.c_str (), 1);
 
-    helper.init (argc, argv);
+    helper.init (argc, argv, config);
 
     helper_agent.signal_connect_exit (slot (slot_exit));
     helper_agent.signal_connect_update_spot_location (slot (slot_update_spot_location));
     helper_agent.signal_connect_process_imengine_event (slot (slot_imengine_event));
     helper_agent.signal_connect_update_screen(slot (slot_update_screen));
+    helper_agent.signal_connect_reload_config(slot (slot_reload_config));
 
     // open connection
     int fd = helper_agent.open_connection (helper_info, display);
@@ -332,23 +338,32 @@ run (const String &display, const ConfigPointer &config)
 }
 
 AnthyHelper::AnthyHelper ()
-    : spot_location_x             (0),
+    : m_config                    (NULL),
+      m_display                   (NULL),
+      m_current_screen              (NULL),
+      spot_location_x             (0),
       spot_location_y             (0),
+      m_font_desc                 (NULL),
       aux_string_window           (NULL),
       aux_string_label            (NULL),
       lookup_table_window         (NULL),
       lookup_table_vbox           (NULL),
       aux_string_window_visible   (false),
       lookup_table_window_visible (false),
-      display                     (NULL),
-      current_screen              (NULL),
       candidates                  (NULL),
       allocated_candidate_num     (0)
 {
+    m_active_bg.red = m_active_bg.green = m_active_bg.blue = 65535;
+    m_active_text.red = m_active_text.green = m_active_text.blue = 0;
+    m_normal_bg.red = m_normal_bg.green = m_normal_bg.blue = 65535;
+    m_normal_text.red = m_normal_text.green = m_normal_text.blue = 0;
 }
 
 AnthyHelper::~AnthyHelper ()
 {
+    if (m_font_desc)
+        pango_font_description_free (m_font_desc);
+
     if (aux_string_window)
     {
         gtk_widget_hide (aux_string_window);
@@ -372,19 +387,30 @@ AnthyHelper::~AnthyHelper ()
         gtk_widget_hide (lookup_table_vbox);
         gtk_widget_destroy (lookup_table_vbox);
     }
+
+    for (int i = 0; i < allocated_candidate_num; i++)
+    {
+        gtk_widget_hide (candidates[i].event_box);
+        gtk_widget_hide (candidates[i].label);
+        gtk_widget_destroy (candidates[i].event_box);
+        gtk_widget_destroy (candidates[i].label);
+    }
 }
 
 void
-AnthyHelper::init (int argc, char **argv)
+AnthyHelper::init (int argc, char **argv, const ConfigPointer &config)
 {
     gtk_init (&argc, &argv);
 
+    m_config = config;
+    reload_config ();
+
     // get display and screen
-    display = gdk_display_open (argv[2]);
-    if (display == NULL)
+    m_display = gdk_display_open (argv[2]);
+    if (m_display == NULL)
         return;
 
-    current_screen = gdk_display_get_default_screen (display);
+    m_current_screen = gdk_display_get_default_screen (m_display);
 
     // aux string window
     aux_string_window = gtk_window_new (GTK_WINDOW_POPUP);
@@ -409,6 +435,46 @@ AnthyHelper::init (int argc, char **argv)
     lookup_table_vbox = gtk_vbox_new (TRUE, 0);
     gtk_container_add (GTK_CONTAINER (lookup_table_window),
                       lookup_table_vbox);
+    gtk_container_set_border_width (GTK_CONTAINER (lookup_table_window), 1);
+}
+
+void
+AnthyHelper::reload_config ()
+{
+    String tmp;
+
+    tmp = m_config->read (String ("/Panel/Gtk/Color/ActiveBackground"),
+                          String ("light sky blue"));
+    if (gdk_color_parse (tmp.c_str(), &m_active_bg) == FALSE)
+    {
+        m_active_bg.red = 135 * 255;
+        m_active_bg.green = 206 * 255;
+        m_active_bg.blue = 250 * 255;
+    }
+
+    tmp = m_config->read (String ("/Panel/Gtk/Color/ActiveText"),
+                          String ("black"));
+    if (gdk_color_parse (tmp.c_str(), &m_active_text) == FALSE)
+        m_active_text.red = m_active_text.green = m_active_text.blue = 0;
+
+    tmp = m_config->read (String ("/Panel/Gtk/Color/NormalBackground"),
+                          String ("white"));
+    if (gdk_color_parse (tmp.c_str(), &m_normal_bg) == FALSE)
+        m_normal_bg.red = m_normal_bg.green = m_normal_bg.blue =65535;
+
+    tmp = m_config->read (String ("/Panel/Gtk/Color/NormalText"),
+                          String ("black"));
+    if (gdk_color_parse (tmp.c_str(), &m_normal_text) == FALSE)
+        m_normal_text.red = m_normal_text.green = m_normal_text.blue = 0;
+
+    tmp = m_config->read (String ("/Panel/Gtk/Font"),
+                          String ("Sans 12"));
+    if (m_font_desc)
+        pango_font_description_free (m_font_desc);
+    m_font_desc = pango_font_description_from_string (tmp.c_str ());
+
+    for (int i = 0; i < allocated_candidate_num; i++)
+        gtk_widget_modify_font (candidates[i].label, m_font_desc);
 }
 
 void
@@ -492,7 +558,8 @@ AnthyHelper::update_lookup_table (const LookupTable &table)
         {
             candidates[i].label = gtk_label_new ("");
             gtk_misc_set_alignment (GTK_MISC (candidates[i].label),
-                                    0.0, 0.5);　// to left
+                                    0.0, 0.5); // to left
+            gtk_widget_modify_font (candidates[i].label, m_font_desc);
 
             candidates[i].event_box = gtk_event_box_new ();
             gtk_container_add (GTK_CONTAINER (candidates[i].event_box),
@@ -509,21 +576,37 @@ AnthyHelper::update_lookup_table (const LookupTable &table)
     {
         String tmp;
 
-        if (table.is_cursor_visible () &&
-            i == table.get_cursor_pos_in_current_page ())
-            tmp += "* ";
-        else
-            tmp += "  ";
-
         tmp += utf8_wcstombs (table.get_candidate_label (i));
-        tmp += ":";
+        tmp += ". ";
         tmp += utf8_wcstombs (table.get_candidate (
                                   i + table.get_current_page_start ()));
 
         gtk_label_set_label (GTK_LABEL (candidates[i].label),
                              tmp.c_str ());
-        gtk_widget_show (candidates[i].event_box);
         gtk_widget_show (candidates[i].label);
+
+        gtk_widget_show (candidates[i].event_box);
+        if (table.is_cursor_visible () &&
+            i == table.get_cursor_pos_in_current_page ())
+        {
+            // selected candidate
+            gtk_widget_modify_bg (candidates[i].event_box,
+                                  GTK_STATE_NORMAL,
+                                  &m_active_bg);
+            gtk_widget_modify_text (candidates[i].event_box,
+                                    GTK_STATE_NORMAL,
+                                    &m_active_text);
+        }
+        else
+        {
+            // not selected candidate
+            gtk_widget_modify_bg (candidates[i].event_box,
+                                  GTK_STATE_NORMAL,
+                                  &m_normal_bg);
+            gtk_widget_modify_text (candidates[i].event_box,
+                                    GTK_STATE_NORMAL,
+                                    &m_normal_text);
+        }
     }
 
     for (int i = size; i < allocated_candidate_num; i++)
@@ -549,11 +632,11 @@ AnthyHelper::update_screen (int screen_num)
 {
     gint n_screens;
 
-    n_screens = gdk_display_get_n_screens (display);
+    n_screens = gdk_display_get_n_screens (m_display);
     if (screen_num < 0 || screen_num >= n_screens)
-        current_screen = gdk_display_get_default_screen (display);
+        m_current_screen = gdk_display_get_default_screen (m_display);
     else
-        current_screen = gdk_display_get_screen (display, screen_num);
+        m_current_screen = gdk_display_get_screen (m_display, screen_num);
 
     relocate_windows ();
 }
@@ -565,6 +648,10 @@ AnthyHelper::relocate_windows (void)
         lookup_table_window == NULL)
         return; // not initialized yet
 
+    // reset the size
+    gtk_widget_set_size_request (aux_string_window, -1, -1);
+    gtk_widget_set_size_request (lookup_table_window, -1, -1);
+
     // get the requested size of lookup table window and aux string window
     // Note:
     // if gtk_window_resize() is called then immediately gtk_window_get_size()
@@ -572,7 +659,7 @@ AnthyHelper::relocate_windows (void)
     // manager processes the resize request out of time. That is why
     // gtk_window_resize() is not used and gtk_widget_size_request() 
     // is used in the following code chunk. 
-
+  
     GtkRequisition req;
     gtk_widget_size_request (lookup_table_window,
                              &req);
@@ -586,10 +673,10 @@ AnthyHelper::relocate_windows (void)
 
     // get screen size
     gint screen_width, screen_height;
-    if (current_screen != NULL)
+    if (m_current_screen != NULL)
     {
-        screen_width = gdk_screen_get_width (current_screen);
-        screen_height = gdk_screen_get_height (current_screen);
+        screen_width = gdk_screen_get_width (m_current_screen);
+        screen_height = gdk_screen_get_height (m_current_screen);
     }
     else
     {
@@ -603,13 +690,23 @@ AnthyHelper::relocate_windows (void)
     // move aux string window and lookup table window
     if (lookup_table_window_visible && aux_string_window_visible)
     {
-        // confines two windows to screen size
+        // confines two windows to screen size and widen the narrower window
+        // along with the other
         gint sum_height, max_width;
         sum_height = lookup_table_window_height + aux_string_window_height;
-        if (lookup_table_window_width > aux_string_window_width)
+
+        if (lookup_table_window_width >= aux_string_window_width)
+        {
             max_width = lookup_table_window_width;
+            gtk_widget_set_size_request (aux_string_window,
+                                         max_width, -1);
+        }
         else
+        {
             max_width = aux_string_window_width;
+            gtk_widget_set_size_request (lookup_table_window,
+                                         max_width, -1);
+        }
 
         if ((spot_location_x + max_width) >= screen_width)
             fixed_x = screen_width - max_width;
