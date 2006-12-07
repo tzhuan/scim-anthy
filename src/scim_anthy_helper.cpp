@@ -337,11 +337,13 @@ AnthyHelper::AnthyHelper ()
       aux_string_window           (NULL),
       aux_string_label            (NULL),
       lookup_table_window         (NULL),
-      lookup_table_label          (NULL),
+      lookup_table_vbox           (NULL),
       aux_string_window_visible   (false),
       lookup_table_window_visible (false),
       display                     (NULL),
-      current_screen              (NULL)
+      current_screen              (NULL),
+      candidates                  (NULL),
+      allocated_candidate_num     (0)
 {
 }
 
@@ -365,10 +367,10 @@ AnthyHelper::~AnthyHelper ()
         gtk_widget_destroy (lookup_table_window);
     }
 
-    if (lookup_table_label)
+    if (lookup_table_vbox)
     {
-        gtk_widget_hide (lookup_table_label);
-        gtk_widget_destroy (lookup_table_label);
+        gtk_widget_hide (lookup_table_vbox);
+        gtk_widget_destroy (lookup_table_vbox);
     }
 }
 
@@ -404,9 +406,9 @@ AnthyHelper::init (int argc, char **argv)
     gtk_window_set_resizable (GTK_WINDOW (lookup_table_window), FALSE);
     lookup_table_window_visible = false;
 
-    lookup_table_label = gtk_label_new ("");
+    lookup_table_vbox = gtk_vbox_new (TRUE, 0);
     gtk_container_add (GTK_CONTAINER (lookup_table_window),
-                       lookup_table_label);
+                      lookup_table_vbox);
 }
 
 void
@@ -427,10 +429,10 @@ void
 AnthyHelper::show_lookup_table (void)
 {
     if (lookup_table_window == NULL ||
-        lookup_table_label == NULL)
+        lookup_table_vbox == NULL)
         return;
 
-    gtk_widget_show (lookup_table_label);
+    gtk_widget_show (lookup_table_vbox);
     gtk_widget_show (lookup_table_window);
     lookup_table_window_visible = true;
 
@@ -453,10 +455,10 @@ void
 AnthyHelper::hide_lookup_table (void)
 {
     if (lookup_table_window == NULL ||
-        lookup_table_label == NULL)
+        lookup_table_vbox == NULL)
         return;
 
-    gtk_widget_hide (lookup_table_label);
+    gtk_widget_hide (lookup_table_vbox);
     gtk_widget_hide (lookup_table_window);
     lookup_table_window_visible = false;
 }
@@ -479,30 +481,56 @@ AnthyHelper::update_aux_string (const WideString &str,
 void
 AnthyHelper::update_lookup_table (const LookupTable &table)
 {
-    if (lookup_table_label == NULL)
-        return;
-
     int size = table.get_current_page_size ();
-    String table_str;
+
+    // initialize not allocated candidate label
+    if (size > allocated_candidate_num)
+    {
+        candidates = (CandidateLabel *)realloc (candidates,
+                                                sizeof(CandidateLabel) * size);
+        for (int i = allocated_candidate_num; i < size; i++)
+        {
+            candidates[i].label = gtk_label_new ("");
+            gtk_misc_set_alignment (GTK_MISC (candidates[i].label),
+                                    0.0, 0.5);　// to left
+
+            candidates[i].event_box = gtk_event_box_new ();
+            gtk_container_add (GTK_CONTAINER (candidates[i].event_box),
+                               candidates[i].label);
+            gtk_box_pack_start (GTK_BOX (lookup_table_vbox),
+                                candidates[i].event_box,
+                                TRUE, TRUE, 0);
+        }
+
+        allocated_candidate_num = size;
+    }
 
     for (int i = 0; i < size; i++)
     {
+        String tmp;
+
         if (table.is_cursor_visible () &&
             i == table.get_cursor_pos_in_current_page ())
-            table_str += "* ";
+            tmp += "* ";
         else
-            table_str += "  ";
+            tmp += "  ";
 
-        table_str += utf8_wcstombs (table.get_candidate_label (i));
-        table_str += ":";
-        table_str += utf8_wcstombs (table.get_candidate (
-                                        i + table.get_current_page_start ()));
+        tmp += utf8_wcstombs (table.get_candidate_label (i));
+        tmp += ":";
+        tmp += utf8_wcstombs (table.get_candidate (
+                                  i + table.get_current_page_start ()));
 
-        if (i != size - 1)
-            table_str += "\n";
+        gtk_label_set_label (GTK_LABEL (candidates[i].label),
+                             tmp.c_str ());
+        gtk_widget_show (candidates[i].event_box);
+        gtk_widget_show (candidates[i].label);
     }
-    gtk_label_set_text (GTK_LABEL (lookup_table_label),
-                        table_str.c_str());
+
+    for (int i = size; i < allocated_candidate_num; i++)
+    {
+        gtk_widget_hide (candidates[i].event_box);
+        gtk_widget_hide (candidates[i].label);
+    }
 
     relocate_windows ();
 }
@@ -538,15 +566,23 @@ AnthyHelper::relocate_windows (void)
         return; // not initialized yet
 
     // get the requested size of lookup table window and aux string window
-    gint lookup_table_window_width, lookup_table_window_height;
-    gtk_window_get_size (GTK_WINDOW (lookup_table_window),
-                         &lookup_table_window_width,
-                         &lookup_table_window_height);
+    // Note:
+    // if gtk_window_resize() is called then immediately gtk_window_get_size()
+    // is called, the size won't have taken effect yet because the window
+    // manager processes the resize request out of time. That is why
+    // gtk_window_resize() is not used and gtk_widget_size_request() 
+    // is used in the following code chunk. 
 
-    gint aux_string_window_width, aux_string_window_height;
-    gtk_window_get_size (GTK_WINDOW (aux_string_window),
-                         &aux_string_window_width,
-                         &aux_string_window_height);
+    GtkRequisition req;
+    gtk_widget_size_request (lookup_table_window,
+                             &req);
+    gint lookup_table_window_width = req.width;
+    gint lookup_table_window_height = req.height;
+
+    gtk_widget_size_request (aux_string_window,
+                             &req);
+    gint aux_string_window_width = req.width;
+    gint aux_string_window_height = req.height;
 
     // get screen size
     gint screen_width, screen_height;

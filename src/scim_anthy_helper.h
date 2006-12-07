@@ -36,6 +36,13 @@
 
 using namespace scim;
 
+struct _scim_anthy_candidate_label
+{
+    GtkWidget *label;
+    GtkWidget *event_box;
+};
+typedef struct _scim_anthy_candidate_label CandidateLabel;
+
 class AnthyHelper
 {
 public:
@@ -58,15 +65,19 @@ public:
 private:
     int spot_location_x;
     int spot_location_y;
+
+    bool aux_string_window_visible;
     GtkWidget *aux_string_window;
     GtkWidget *aux_string_label;
+
     GtkWidget *lookup_table_window;
-    GtkWidget *lookup_table_label;
-    bool aux_string_window_visible;
+    GtkWidget *lookup_table_vbox;
+    CandidateLabel *candidates;
+    int allocated_candidate_num;
     bool lookup_table_window_visible;
+
     GdkDisplay *display;
     GdkScreen *current_screen;
-
 private:
     void relocate_windows     (void);
     
