@@ -53,6 +53,7 @@ public:
                                = AttributeList());
     void update_lookup_table  (const LookupTable &table);
     void update_spot_location (int x, int y);
+    void update_screen (int screen_num);
 
 private:
     int spot_location_x;
@@ -63,6 +64,8 @@ private:
     GtkWidget *lookup_table_label;
     bool aux_string_window_visible;
     bool lookup_table_window_visible;
+    GdkDisplay *display;
+    GdkScreen *current_screen;
 
 private:
     void relocate_windows     (void);

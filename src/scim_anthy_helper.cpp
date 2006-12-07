@@ -60,7 +60,8 @@ HelperInfo helper_info (SCIM_ANTHY_HELPER_UUID,        // uuid
                         "",                            // icon
                         "",
                         SCIM_HELPER_NEED_SCREEN_INFO |
-                        SCIM_HELPER_NEED_SPOT_LOCATION_INFO);
+                        SCIM_HELPER_NEED_SPOT_LOCATION_INFO |
+                        SCIM_HELPER_NEED_SCREEN_INFO);
 
 class TimeoutContext {
 public:
@@ -252,6 +253,13 @@ slot_imengine_event (const HelperAgent *agent, int ic,
     }
 }
 
+static void
+slot_update_screen (const HelperAgent *agent, int ic,
+                    const String &ic_uuid, int screen_number)
+{
+    helper.update_screen (screen_number);
+}
+
 static gint
 timeout_func (gpointer data)
 {
@@ -298,6 +306,7 @@ run (const String &display, const ConfigPointer &config)
     helper_agent.signal_connect_exit (slot (slot_exit));
     helper_agent.signal_connect_update_spot_location (slot (slot_update_spot_location));
     helper_agent.signal_connect_process_imengine_event (slot (slot_imengine_event));
+    helper_agent.signal_connect_update_screen(slot (slot_update_screen));
 
     // open connection
     int fd = helper_agent.open_connection (helper_info, display);
@@ -330,7 +339,9 @@ AnthyHelper::AnthyHelper ()
       lookup_table_window         (NULL),
       lookup_table_label          (NULL),
       aux_string_window_visible   (false),
-      lookup_table_window_visible (false)
+      lookup_table_window_visible (false),
+      display                     (NULL),
+      current_screen              (NULL)
 {
 }
 
@@ -365,6 +376,13 @@ void
 AnthyHelper::init (int argc, char **argv)
 {
     gtk_init (&argc, &argv);
+
+    // get display and screen
+    display = gdk_display_open (argv[2]);
+    if (display == NULL)
+        return;
+
+    current_screen = gdk_display_get_default_screen (display);
 
     // aux string window
     aux_string_window = gtk_window_new (GTK_WINDOW_POPUP);
@@ -499,37 +517,100 @@ AnthyHelper::update_spot_location (int x, int y)
 }
 
 void
+AnthyHelper::update_screen (int screen_num)
+{
+    gint n_screens;
+
+    n_screens = gdk_display_get_n_screens (display);
+    if (screen_num < 0 || screen_num >= n_screens)
+        current_screen = gdk_display_get_default_screen (display);
+    else
+        current_screen = gdk_display_get_screen (display, screen_num);
+
+    relocate_windows ();
+}
+
+void
 AnthyHelper::relocate_windows (void)
 {
     if (aux_string_window == NULL ||
         lookup_table_window == NULL)
         return; // not initialized yet
 
-    // move aux string window and lookup table window
-    if (lookup_table_window_visible)
+    // get the requested size of lookup table window and aux string window
+    gint lookup_table_window_width, lookup_table_window_height;
+    gtk_window_get_size (GTK_WINDOW (lookup_table_window),
+                         &lookup_table_window_width,
+                         &lookup_table_window_height);
+
+    gint aux_string_window_width, aux_string_window_height;
+    gtk_window_get_size (GTK_WINDOW (aux_string_window),
+                         &aux_string_window_width,
+                         &aux_string_window_height);
+
+    // get screen size
+    gint screen_width, screen_height;
+    if (current_screen != NULL)
     {
+        screen_width = gdk_screen_get_width (current_screen);
+        screen_height = gdk_screen_get_height (current_screen);
+    }
+    else
+    {
+        screen_width = screen_height = G_MAXINT;
+    }
+
+    // current spot location
+    gint fixed_x = spot_location_x;
+    gint fixed_y = spot_location_y;
+
+    // move aux string window and lookup table window
+    if (lookup_table_window_visible && aux_string_window_visible)
+    {
+        // confines two windows to screen size
+        gint sum_height, max_width;
+        sum_height = lookup_table_window_height + aux_string_window_height;
+        if (lookup_table_window_width > aux_string_window_width)
+            max_width = lookup_table_window_width;
+        else
+            max_width = aux_string_window_width;
+
+        if ((spot_location_x + max_width) >= screen_width)
+            fixed_x = screen_width - max_width;
+        if ((spot_location_y + sum_height) >= screen_height)
+            fixed_y = screen_height - sum_height;
+
         // move the lookup table window to the spot location and move the
         // aux string window beneath it.
-        int lookup_table_window_width, lookup_table_window_height;
         gtk_window_move (GTK_WINDOW (lookup_table_window),
-                         spot_location_x,
-                         spot_location_y);
-        gtk_window_get_size (GTK_WINDOW (lookup_table_window),
-                             &lookup_table_window_width,
-                             &lookup_table_window_height);
-
-        if (aux_string_window_visible)
-        {
-            gtk_window_move (GTK_WINDOW (aux_string_window),
-                             spot_location_x,
-                             spot_location_y + lookup_table_window_height);
-        }
+                         fixed_x, fixed_y);
+        gtk_window_move (GTK_WINDOW (aux_string_window),
+                         fixed_x, fixed_y + lookup_table_window_height);
     }
-    else if (aux_string_window_visible)
+    else if (lookup_table_window_visible)
+    {
+        // only the lookup table window to move
+
+        // confines lookup table window to screen size
+        if ((spot_location_x + lookup_table_window_width) >= screen_width)
+            fixed_x = screen_width - lookup_table_window_width;
+        if ((spot_location_y + lookup_table_window_height) >= screen_height)
+            fixed_y = screen_height - lookup_table_window_height;
+
+        gtk_window_move (GTK_WINDOW (lookup_table_window),
+                         fixed_x, fixed_y);
+    }
+    else if(aux_string_window_visible)
     {
         // only the aux string window to move
+
+        // confines lookup table window to screen size
+        if ((spot_location_x + aux_string_window_width) >= screen_width)
+            fixed_x = screen_width - aux_string_window_width;
+        if ((spot_location_y + aux_string_window_height) >= screen_height)
+            fixed_y = screen_height - aux_string_window_height;
+
         gtk_window_move (GTK_WINDOW (aux_string_window),
-                         spot_location_x,
-                         spot_location_y);
+                         fixed_x, fixed_y);
     }
 }
