@@ -443,6 +443,7 @@ AnthyHelper::reload_config ()
 {
     String tmp;
 
+    // change colors
     tmp = m_config->read (String ("/Panel/Gtk/Color/ActiveBackground"),
                           String ("light sky blue"));
     if (gdk_color_parse (tmp.c_str(), &m_active_bg) == FALSE)
@@ -467,6 +468,7 @@ AnthyHelper::reload_config ()
     if (gdk_color_parse (tmp.c_str(), &m_normal_text) == FALSE)
         m_normal_text.red = m_normal_text.green = m_normal_text.blue = 0;
 
+    // change font
     tmp = m_config->read (String ("/Panel/Gtk/Font"),
                           String ("Sans 12"));
     if (m_font_desc)
@@ -475,6 +477,7 @@ AnthyHelper::reload_config ()
 
     for (int i = 0; i < allocated_candidate_num; i++)
         gtk_widget_modify_font (candidates[i].label, m_font_desc);
+    gtk_widget_modify_font (aux_string_label, m_font_desc);
 }
 
 void
