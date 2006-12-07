@@ -33,6 +33,9 @@
 #define SCIM_ANTHY_TRANS_CMD_TIMEOUT_ADD    SCIM_TRANS_CMD_USER_DEFINED + 4
 #define SCIM_ANTHY_TRANS_CMD_TIMEOUT_REMOVE SCIM_TRANS_CMD_USER_DEFINED + 5
 #define SCIM_ANTHY_TRANS_CMD_TIMEOUT_NOTIFY SCIM_TRANS_CMD_USER_DEFINED + 6
+#define SCIM_ANTHY_TRANS_CMD_SHOW_NOTE      SCIM_TRANS_CMD_USER_DEFINED + 7
+#define SCIM_ANTHY_TRANS_CMD_HIDE_NOTE      SCIM_TRANS_CMD_USER_DEFINED + 8
+#define SCIM_ANTHY_TRANS_CMD_UPDATE_NOTE    SCIM_TRANS_CMD_USER_DEFINED + 9
 
 using namespace scim;
 
@@ -51,7 +54,7 @@ public:
 
     void init                 (int argc, char **argv,
                                const ConfigPointer &config);
-    void reload_config        ();
+    void reload_config        (void);
 
     void show_aux_string      (void);
     void show_lookup_table    (void);
@@ -61,6 +64,11 @@ public:
                                const AttributeList &attrs
                                = AttributeList());
     void update_lookup_table  (const LookupTable &table);
+
+    void show_note            (void);
+    void hide_note            (void);
+    void update_note          (const WideString &str);
+
     void update_spot_location (int x, int y);
     void update_screen (int screen_num);
 

@@ -247,6 +247,23 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         helper.update_lookup_table (table);
         break;
     }
+    case SCIM_ANTHY_TRANS_CMD_SHOW_NOTE:
+    {
+        helper.show_note ();
+        break;
+    }
+    case SCIM_ANTHY_TRANS_CMD_HIDE_NOTE:
+    {
+        helper.hide_note ();
+        break;
+    }
+    case SCIM_ANTHY_TRANS_CMD_UPDATE_NOTE:
+    {
+        WideString str;
+        reader.get_data (str);
+        helper.update_note (str);
+        break;
+    }
     default:
         break;
     }
@@ -628,6 +645,21 @@ AnthyHelper::update_spot_location (int x, int y)
     spot_location_y = y;
 
     relocate_windows ();
+}
+
+void
+AnthyHelper::show_note ()
+{
+}
+
+void
+AnthyHelper::hide_note ()
+{
+}
+
+void
+AnthyHelper::update_note (const WideString &str)
+{
 }
 
 void
