@@ -2467,7 +2467,7 @@ void
 AnthyInstance::show_note (void)
 {
     Transaction send;
-    send.put_command (SCIM_TRANS_CMD_SHOW_NOTE);
+    send.put_command (SCIM_ANTHY_TRANS_CMD_SHOW_NOTE);
     send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
 
@@ -2475,7 +2475,7 @@ void
 AnthyInstance::hide_note (void)
 {
     Transaction send;
-    send.put_command (SCIM_TRANS_CMD_HIDE_NOTE);
+    send.put_command (SCIM_ANTHY_TRANS_CMD_HIDE_NOTE);
     send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
 
@@ -2483,7 +2483,7 @@ void
 AnthyInstance::update_note (const WideString &str)
 {
     Transaction send;
-    send.put_command (SCIM_TRANS_CMD_UPDATE_NOTE);
+    send.put_command (SCIM_ANTHY_TRANS_CMD_UPDATE_NOTE);
     send.put_data (str);
     send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
