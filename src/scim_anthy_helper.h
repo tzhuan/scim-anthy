@@ -89,17 +89,19 @@ private:
     GdkColor m_normal_bg;
     GdkColor m_normal_text;
 
+    /* herlper main window */
+    GtkWidget *m_helper_window;
+    GtkWidget *m_helper_vbox;
+
     /* aux string */
-    bool aux_string_window_visible;
-    GtkWidget *aux_string_window;
+    bool aux_string_visible;
     GtkWidget *aux_string_label;
 
     /* lookup table and candidates */
-    GtkWidget *lookup_table_window;
+    bool lookup_table_visible;
     GtkWidget *lookup_table_vbox;
     CandidateLabel *candidates;
     int allocated_candidate_num;
-    bool lookup_table_window_visible;
 
 private:
     void relocate_windows     (void);
