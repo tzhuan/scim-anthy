@@ -103,6 +103,11 @@ private:
     CandidateLabel *candidates;
     int allocated_candidate_num;
 
+    /* note window */
+    bool m_note_visible;
+    GtkWidget *m_note_window;
+    GtkWidget *m_note_label;
+
 private:
     void relocate_windows     (void);
     

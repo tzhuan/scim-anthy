@@ -2419,26 +2419,10 @@ AnthyInstance::show_aux_string (void)
 }
 
 void
-AnthyInstance::show_lookup_table (void)
-{
-    Transaction send;
-    send.put_command (SCIM_TRANS_CMD_SHOW_LOOKUP_TABLE);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
-}
-
-void
 AnthyInstance::hide_aux_string (void)
 {
     Transaction send;
     send.put_command (SCIM_TRANS_CMD_HIDE_AUX_STRING);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
-}
-
-void
-AnthyInstance::hide_lookup_table (void)
-{
-    Transaction send;
-    send.put_command (SCIM_TRANS_CMD_HIDE_LOOKUP_TABLE);
     send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
 
@@ -2454,11 +2438,53 @@ AnthyInstance::update_aux_string (const WideString &str,
 }
 
 void
+AnthyInstance::show_lookup_table (void)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_SHOW_LOOKUP_TABLE);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+void
+AnthyInstance::hide_lookup_table (void)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_HIDE_LOOKUP_TABLE);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+
+void
 AnthyInstance::update_lookup_table (const LookupTable &table)
 {
     Transaction send;
     send.put_command (SCIM_TRANS_CMD_UPDATE_LOOKUP_TABLE);
     send.put_data (table);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+void
+AnthyInstance::show_note (void)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_SHOW_NOTE);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+void
+AnthyInstance::hide_note (void)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_HIDE_NOTE);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+}
+
+void
+AnthyInstance::update_note (const WideString &str)
+{
+    Transaction send;
+    send.put_command (SCIM_TRANS_CMD_UPDATE_NOTE);
+    send.put_data (str);
     send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
 

@@ -113,14 +113,19 @@ public:
 
 protected:
     /* signal activation functions */
-    void show_aux_string                       (void);
-    void show_lookup_table                     (void);
-    void hide_aux_string                       (void);
-    void hide_lookup_table                     (void);
-    void update_aux_string                     (const WideString &str,
-                                                const AttributeList &attrs
-                                                = AttributeList());
-    void update_lookup_table                   (const LookupTable &table);
+    void show_aux_string                      (void);
+    void hide_aux_string                      (void);
+    void update_aux_string                    (const WideString &str,
+                                               const AttributeList &attrs
+                                               = AttributeList());
+
+    void show_lookup_table                    (void);
+    void hide_lookup_table                    (void);
+    void update_lookup_table                  (const LookupTable &table);
+
+    void show_note                            (void);
+    void hide_note                            (void);
+    void update_note                          (const WideString &str);
 
 public:
     /* actions */

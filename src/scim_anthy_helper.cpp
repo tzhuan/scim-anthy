@@ -368,7 +368,10 @@ AnthyHelper::AnthyHelper ()
       lookup_table_visible        (false),
       lookup_table_vbox           (NULL),
       candidates                  (NULL),
-      allocated_candidate_num     (0)
+      allocated_candidate_num     (0),
+      m_note_visible              (false),
+      m_note_window               (NULL),
+      m_note_label                (NULL)
 {
     m_active_bg.red = m_active_bg.green = m_active_bg.blue = 65535;
     m_active_text.red = m_active_text.green = m_active_text.blue = 0;
@@ -411,6 +414,18 @@ AnthyHelper::~AnthyHelper ()
         gtk_widget_hide (candidates[i].label);
         gtk_widget_destroy (candidates[i].event_box);
         gtk_widget_destroy (candidates[i].label);
+    }
+
+    if (m_note_window)
+    {
+        gtk_widget_hide (m_note_window);
+        gtk_widget_destroy (m_note_window);
+    }
+
+    if (m_note_label)
+    {
+        gtk_widget_hide (m_note_label);
+        gtk_widget_destroy (m_note_label);
     }
 }
 
@@ -456,6 +471,20 @@ AnthyHelper::init (int argc, char **argv, const ConfigPointer &config)
     gtk_box_pack_end (GTK_BOX(m_helper_vbox),
                       lookup_table_vbox,
                       TRUE, TRUE, 0);
+
+    // note window
+    m_note_visible = false;
+
+    m_note_window = gtk_window_new (GTK_WINDOW_POPUP);
+    gtk_window_set_default_size (GTK_WINDOW (m_note_window), 100, 20);
+    gtk_window_set_policy (GTK_WINDOW (m_note_window),
+                           TRUE, TRUE, FALSE);
+    gtk_window_set_resizable (GTK_WINDOW (m_note_window), FALSE);
+    gtk_container_set_border_width (GTK_CONTAINER (m_note_window), 1);
+
+    m_note_label = gtk_label_new ("");
+    gtk_container_add (GTK_CONTAINER (m_note_window),
+                       m_note_label);
 }
 
 void
@@ -674,16 +703,38 @@ AnthyHelper::update_spot_location (int x, int y)
 void
 AnthyHelper::show_note ()
 {
+    if (m_note_window == NULL)
+        return;
+
+    gtk_widget_show (m_note_window);
+    m_note_visible = true;
+
+    relocate_windows();
 }
 
 void
 AnthyHelper::hide_note ()
 {
+    if (m_note_window == NULL)
+        return;
+
+    gtk_widget_hide (m_note_window);
+    m_note_visible = false;
+
+    relocate_windows();
 }
 
 void
 AnthyHelper::update_note (const WideString &str)
 {
+    if (m_note_label == NULL)
+        return;
+
+    String note = utf8_wcstombs (str);
+    gtk_label_set_text (GTK_LABEL (m_note_label),
+                        note.c_str());
+
+    relocate_windows ();
 }
 
 void
@@ -708,6 +759,7 @@ AnthyHelper::relocate_windows (void)
 
     // reset the size
     gtk_widget_set_size_request (m_helper_window, -1, -1);
+    gtk_widget_set_size_request (m_note_window, -1, -1);
 
     // get the requested size of lookup table window and aux string window
     // Note:
@@ -721,6 +773,10 @@ AnthyHelper::relocate_windows (void)
     gtk_widget_size_request (m_helper_window, &req);
     gint helper_window_width = req.width;
     gint helper_window_height = req.height;
+
+    gtk_widget_size_request (m_note_window, &req);
+    gint note_window_width = req.width;
+    gint note_window_height = req.height;
 
     // get screen size
     gint screen_width, screen_height;
@@ -748,6 +804,22 @@ AnthyHelper::relocate_windows (void)
             fixed_y = screen_height - helper_window_height;
 
         gtk_window_move (GTK_WINDOW (m_helper_window),
+                         fixed_x, fixed_y);
+    }
+
+    fixed_x = spot_location_x + helper_window_width;
+    fixed_y = spot_location_y;
+
+    // move note window
+    if (m_note_visible)
+    {
+        if ( (fixed_x + note_window_width) >= screen_width)
+            fixed_x = spot_location_x - note_window_width;
+            // left of the main helper window
+        if ( (fixed_y + note_window_height) >= screen_height)
+            fixed_y = screen_height - note_window_height;
+
+        gtk_window_move (GTK_WINDOW (m_note_window),
                          fixed_x, fixed_y);
     }
 }
