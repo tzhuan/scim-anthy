@@ -37,4 +37,8 @@ style_DATA		= atok.sty \
 			  tron-qwerty-jp.sty \
 			  tsuki-2-203-101.sty \
 			  tsuki-2-203-106.sty
-EXTRA_DIST		= $(icon_DATA) $(style_DATA)
+
+dictiondir		= $(SCIM_ANTHY_DATADIR)
+diction_DATA		= diction
+
+EXTRA_DIST		= $(icon_DATA) $(style_DATA) $(diction_DATA)

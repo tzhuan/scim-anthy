@@ -34,6 +34,7 @@
 #include <scim.h>
 #include "scim_anthy_preedit.h"
 #include "scim_anthy_key2kana_table.h"
+#include "scim_anthy_diction.h"
 
 using namespace scim;
 using namespace scim_anthy;
@@ -268,6 +269,9 @@ private:
     CommonLookupTable     m_lookup_table;
     bool                  m_lookup_table_visible;
     unsigned int          m_n_conv_key_pressed;
+
+    /* for diction */
+    AnthyDiction          m_diction;
 
     /* for toggling latin and wide latin */
     InputMode             m_prev_input_mode;

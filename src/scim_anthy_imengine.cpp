@@ -44,6 +44,7 @@
 #include "scim_anthy_intl.h"
 #include "scim_anthy_utils.h"
 #include "scim_anthy_helper.h"
+#include "scim_anthy_diction.h"
 
 #define SCIM_PROP_PREFIX                     "/IMEngine/Anthy"
 #define SCIM_PROP_INPUT_MODE                 "/IMEngine/Anthy/InputMode"
@@ -99,6 +100,7 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
       m_preedit                (*this),
       m_preedit_string_visible (false),
       m_lookup_table_visible   (false),
+      m_diction                (m_factory->m_config),
       m_n_conv_key_pressed     (0),
       m_prev_input_mode        (SCIM_ANTHY_MODE_HIRAGANA),
       m_conv_mode              (SCIM_ANTHY_CONVERSION_MULTI_SEGMENT),
@@ -426,6 +428,7 @@ AnthyInstance::focus_in ()
     SCIM_DEBUG_IMENGINE(2) << "focus_in.\n";
 
     hide_aux_string ();
+    hide_note ();
 
     if (m_preedit_string_visible) {
         set_preedition ();
@@ -529,6 +532,38 @@ AnthyInstance::set_lookup_table (void)
                      m_lookup_table.number_of_candidates ());
             update_aux_string (utf8_mbstowcs (buf));
             show_aux_string ();
+
+            // find diction
+            int start = m_lookup_table.get_current_page_start ();
+            int end = m_lookup_table.get_current_page_size ();
+            WideString word, diction, note;
+            for(int i = start; i < end; i++)
+            {
+                word = m_lookup_table.get_candidate (i);
+                diction = m_diction.get_diction (word);
+                if (diction.size () != 0)
+                {
+                    note += word;
+                    note += utf8_mbstowcs (":\n");
+                    note += diction;
+                    note += utf8_mbstowcs ("\n");
+                }
+            }
+
+            // show diction if it exists
+            if (note.size () != 0)
+            {
+                // strip the last line feed code
+                note.erase (note.size () - 1, WideString::npos);
+
+                update_note (note);
+                show_note ();
+            }
+            else
+            {
+                update_note (utf8_mbstowcs (""));
+                hide_note ();
+            }
         }
     } else if (!m_lookup_table_visible) {
         hide_lookup_table ();
@@ -545,6 +580,9 @@ AnthyInstance::unset_lookup_table (void)
 
     update_aux_string (utf8_mbstowcs (""));
     hide_aux_string ();
+    
+    update_note (utf8_mbstowcs (""));
+    hide_note ();
 }
 
 void
@@ -2374,6 +2412,9 @@ AnthyInstance::reload_config (const ConfigPointer &config)
 
     // set encoding
     m_preedit.set_dict_encoding (m_factory->m_dict_encoding);
+
+    // set diction
+    m_diction.reload_config (config);
 }
 
 bool

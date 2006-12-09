@@ -47,7 +47,8 @@ noinst_HEADERS = \
 	scim_anthy_table_editor.h \
 	scim_anthy_utils.h \
 	scim_color_button.h \
-	scim_anthy_helper.h
+	scim_anthy_helper.h \
+	scim_anthy_diction.h
 
 
 #
@@ -69,7 +70,8 @@ anthy_la_SOURCES = \
 	scim_anthy_nicola.cpp \
 	scim_anthy_default_tables.cpp \
 	scim_anthy_style_file.cpp \
-	scim_anthy_utils.cpp
+	scim_anthy_utils.cpp \
+	scim_anthy_diction.cpp
 
 anthy_la_CFLAGS   = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@ \
                     @GTK2_CFLAGS@

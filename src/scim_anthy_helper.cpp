@@ -371,6 +371,7 @@ AnthyHelper::AnthyHelper ()
       allocated_candidate_num     (0),
       m_note_visible              (false),
       m_note_window               (NULL),
+      m_note_event_box            (NULL),
       m_note_label                (NULL)
 {
     m_active_bg.red = m_active_bg.green = m_active_bg.blue = 65535;
@@ -420,6 +421,12 @@ AnthyHelper::~AnthyHelper ()
     {
         gtk_widget_hide (m_note_window);
         gtk_widget_destroy (m_note_window);
+    }
+
+    if (m_note_event_box)
+    {
+        gtk_widget_hide (m_note_event_box);
+        gtk_widget_destroy (m_note_event_box);
     }
 
     if (m_note_label)
@@ -482,8 +489,12 @@ AnthyHelper::init (int argc, char **argv, const ConfigPointer &config)
     gtk_window_set_resizable (GTK_WINDOW (m_note_window), FALSE);
     gtk_container_set_border_width (GTK_CONTAINER (m_note_window), 1);
 
-    m_note_label = gtk_label_new ("");
+    m_note_event_box = gtk_event_box_new ();
     gtk_container_add (GTK_CONTAINER (m_note_window),
+                       m_note_event_box);
+
+    m_note_label = gtk_label_new ("");
+    gtk_container_add (GTK_CONTAINER (m_note_event_box),
                        m_note_label);
 }
 
@@ -517,16 +528,19 @@ AnthyHelper::reload_config ()
     if (gdk_color_parse (tmp.c_str(), &m_normal_text) == FALSE)
         m_normal_text.red = m_normal_text.green = m_normal_text.blue = 0;
 
-    // change font
+
     tmp = m_config->read (String ("/Panel/Gtk/Font"),
                           String ("Sans 12"));
     if (m_font_desc)
         pango_font_description_free (m_font_desc);
     m_font_desc = pango_font_description_from_string (tmp.c_str ());
 
-    for (int i = 0; i < allocated_candidate_num; i++)
-        gtk_widget_modify_font (candidates[i].label, m_font_desc);
-    gtk_widget_modify_font (aux_string_label, m_font_desc);
+    // change colors
+    update_lookup_table_style ();
+    update_aux_string_style ();
+    update_note_style ();
+
+    // change font
 }
 
 void
@@ -543,6 +557,7 @@ AnthyHelper::show_aux_string (void)
     aux_string_visible = true;
 
     relocate_windows ();
+    update_aux_string_style ();
 }
 
 void
@@ -559,6 +574,7 @@ AnthyHelper::show_lookup_table (void)
     lookup_table_visible = true;
 
     relocate_windows ();
+    update_lookup_table_style ();
 }
 
 void
@@ -703,21 +719,30 @@ AnthyHelper::update_spot_location (int x, int y)
 void
 AnthyHelper::show_note ()
 {
-    if (m_note_window == NULL)
+    if (m_note_window == NULL ||
+        m_note_event_box == NULL ||
+        m_note_label == NULL)
         return;
 
+    gtk_widget_show (m_note_label);
+    gtk_widget_show (m_note_event_box);
     gtk_widget_show (m_note_window);
     m_note_visible = true;
 
     relocate_windows();
+    update_note_style ();
 }
 
 void
 AnthyHelper::hide_note ()
 {
-    if (m_note_window == NULL)
+    if (m_note_window == NULL ||
+        m_note_event_box == NULL ||
+        m_note_label == NULL)
         return;
 
+    gtk_widget_hide (m_note_label);
+    gtk_widget_hide (m_note_event_box);
     gtk_widget_hide (m_note_window);
     m_note_visible = false;
 
@@ -822,4 +847,50 @@ AnthyHelper::relocate_windows (void)
         gtk_window_move (GTK_WINDOW (m_note_window),
                          fixed_x, fixed_y);
     }
+}
+
+void
+AnthyHelper::update_lookup_table_style ()
+{
+    for (int i = 0; i < allocated_candidate_num; i++)
+    {
+        if (candidates[i].label != NULL)
+        {
+            gtk_widget_modify_font (candidates[i].label, m_font_desc);
+        }
+
+        if (candidates[i].event_box != NULL)
+        {
+            gtk_widget_modify_bg (candidates[i].event_box,
+                                  GTK_STATE_NORMAL,
+                                  &m_normal_bg);
+            gtk_widget_modify_text (candidates[i].event_box,
+                                    GTK_STATE_NORMAL,
+                                    &m_normal_text);
+        }
+    }
+}
+
+void
+AnthyHelper::update_aux_string_style ()
+{
+    if (aux_string_label != NULL)
+        gtk_widget_modify_font (aux_string_label, m_font_desc);
+}
+
+void
+AnthyHelper::update_note_style ()
+{
+    if (m_note_event_box != NULL)
+    {
+        gtk_widget_modify_bg (m_note_event_box,
+                              GTK_STATE_NORMAL,
+                              &m_normal_bg);
+        gtk_widget_modify_text (m_note_event_box,
+                                GTK_STATE_NORMAL,
+                                &m_normal_text);
+    }
+
+    if (m_note_label != NULL)
+        gtk_widget_modify_font (m_note_label, m_font_desc);
 }

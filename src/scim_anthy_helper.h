@@ -106,10 +106,14 @@ private:
     /* note window */
     bool m_note_visible;
     GtkWidget *m_note_window;
+    GtkWidget *m_note_event_box;
     GtkWidget *m_note_label;
 
 private:
-    void relocate_windows     (void);
+    void relocate_windows          (void);
+    void update_lookup_table_style (void);
+    void update_aux_string_style   (void);
+    void update_note_style         (void);
     
 };
 

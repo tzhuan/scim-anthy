@@ -158,6 +158,8 @@
 #define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_FG_COLOR   "/IMEngine/Anthy/SelectedSegmentFGColor"
 #define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_BG_COLOR   "/IMEngine/Anthy/SelectedSegmentBGColor"
 
+#define SCIM_ANTHY_CONFIG_DICTION_FILE                "/IMEngine/Anthy/DictionFile"
+#define SCIM_ANTHY_CONFIG_ENABLE_DICTION              "/IMEngine/Anthy/EnableDiction"
 
 /* default config values */
 #define SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT                  "Hiragana"
@@ -296,6 +298,8 @@
 #define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_FG_COLOR_DEFAULT   "#FFFFFF"
 #define SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_BG_COLOR_DEFAULT   "#0900A5"
 
+#define SCIM_ANTHY_CONFIG_DICTION_FILE_DEFAULT                SCIM_ANTHY_DATADIR"/diction"
+#define SCIM_ANTHY_CONFIG_ENABLE_DICTION_DEFAULT              true
 
 #ifdef SCIM_ANTHY_USE_GTK
 
