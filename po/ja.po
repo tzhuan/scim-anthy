@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2006-11-23 11:24+0900\n"
+"POT-Creation-Date: 2006-12-13 12:25+0900\n"
 "PO-Revision-Date: 2006-11-23 11:26+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,105 +13,105 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:347 src/scim_anthy_imengine.cpp:526
+#: src/scim_anthy_imengine.cpp:350 src/scim_anthy_imengine.cpp:530
 #, c-format
 msgid "Candidates (%d/%d)"
 msgstr "候補一覧 (%d/%d)"
 
-#: src/scim_anthy_imengine.cpp:557
+#: src/scim_anthy_imengine.cpp:596
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:561 src/scim_anthy_setup.cpp:202
+#: src/scim_anthy_imengine.cpp:600 src/scim_anthy_setup.cpp:202
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:565 src/scim_anthy_setup.cpp:203
+#: src/scim_anthy_imengine.cpp:604 src/scim_anthy_setup.cpp:203
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:569 src/scim_anthy_imengine.cpp:570
+#: src/scim_anthy_imengine.cpp:608 src/scim_anthy_imengine.cpp:609
 #: src/scim_anthy_setup.cpp:204
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:574 src/scim_anthy_setup.cpp:205
+#: src/scim_anthy_imengine.cpp:613 src/scim_anthy_setup.cpp:205
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:574
+#: src/scim_anthy_imengine.cpp:613
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:578 src/scim_anthy_setup.cpp:206
+#: src/scim_anthy_imengine.cpp:617 src/scim_anthy_setup.cpp:206
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:584
+#: src/scim_anthy_imengine.cpp:623
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:588
+#: src/scim_anthy_imengine.cpp:627
 msgid "Romaji"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:592
+#: src/scim_anthy_imengine.cpp:631
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:596
+#: src/scim_anthy_imengine.cpp:635
 msgid "Thumb shift"
 msgstr "親指シフト"
 
-#: src/scim_anthy_imengine.cpp:603
+#: src/scim_anthy_imengine.cpp:642
 msgid "Conversion method"
 msgstr "変換方式"
 
-#: src/scim_anthy_imengine.cpp:607 src/scim_anthy_imengine.cpp:608
+#: src/scim_anthy_imengine.cpp:646 src/scim_anthy_imengine.cpp:647
 #: src/scim_anthy_setup.cpp:220
 msgid "Multi segment"
 msgstr "連文節"
 
-#: src/scim_anthy_imengine.cpp:612 src/scim_anthy_imengine.cpp:613
+#: src/scim_anthy_imengine.cpp:651 src/scim_anthy_imengine.cpp:652
 #: src/scim_anthy_setup.cpp:221
 msgid "Single segment"
 msgstr "単文節"
 
-#: src/scim_anthy_imengine.cpp:617 src/scim_anthy_imengine.cpp:619
+#: src/scim_anthy_imengine.cpp:656 src/scim_anthy_imengine.cpp:658
 #: src/scim_anthy_setup.cpp:222
 msgid "Convert as you type (Multi segment)"
 msgstr "逐次変換(連文節)"
 
-#: src/scim_anthy_imengine.cpp:623 src/scim_anthy_imengine.cpp:625
+#: src/scim_anthy_imengine.cpp:662 src/scim_anthy_imengine.cpp:664
 #: src/scim_anthy_setup.cpp:223
 msgid "Convert as you type (Single segment)"
 msgstr "逐次変換(単文節)"
 
-#: src/scim_anthy_imengine.cpp:632
+#: src/scim_anthy_imengine.cpp:671
 msgid "Period style"
 msgstr "句読点のスタイル"
 
-#: src/scim_anthy_imengine.cpp:661
+#: src/scim_anthy_imengine.cpp:700
 msgid "Symbol style"
 msgstr "記号のスタイル"
 
-#: src/scim_anthy_imengine.cpp:709
+#: src/scim_anthy_imengine.cpp:748
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:714
+#: src/scim_anthy_imengine.cpp:753
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:716
+#: src/scim_anthy_imengine.cpp:755
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:722 src/scim_anthy_prefs.cpp:1214
+#: src/scim_anthy_imengine.cpp:761 src/scim_anthy_prefs.cpp:1214
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:724
+#: src/scim_anthy_imengine.cpp:763
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 

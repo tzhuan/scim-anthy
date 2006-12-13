@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include "scim_anthy_intl.h"
 #include "scim_anthy_helper.h"
+#include "scim_anthy_tray.h"
 
 using namespace scim;
 
@@ -53,6 +54,7 @@ static void       run                         (const String        &display,
                                                const ConfigPointer &config);
 
 AnthyHelper helper;
+AnthyTray tray;
 HelperAgent helper_agent;
 
 HelperInfo helper_info (SCIM_ANTHY_HELPER_UUID,        // uuid
@@ -280,6 +282,7 @@ static void
 slot_reload_config (const HelperAgent *agent, int ic, const String &ic_uuid)
 {
     helper.reload_config ();
+    tray.reload_config ();
 }
 
 static gint
@@ -323,7 +326,10 @@ run (const String &display, const ConfigPointer &config)
  
     setenv ("DISPLAY", display.c_str (), 1);
 
-    helper.init (argc, argv, config);
+    gtk_init (&argc, &argv);
+
+    helper.init (config, argv[2]);
+    tray.init (config);
 
     helper_agent.signal_connect_exit (slot (slot_exit));
     helper_agent.signal_connect_update_spot_location (slot (slot_update_spot_location));
@@ -437,15 +443,13 @@ AnthyHelper::~AnthyHelper ()
 }
 
 void
-AnthyHelper::init (int argc, char **argv, const ConfigPointer &config)
+AnthyHelper::init (const ConfigPointer &config, const char *dsp)
 {
-    gtk_init (&argc, &argv);
-
     m_config = config;
     reload_config ();
 
     // get display and screen
-    m_display = gdk_display_open (argv[2]);
+    m_display = gdk_display_open (dsp);
     if (m_display == NULL)
         return;
 
@@ -528,7 +532,7 @@ AnthyHelper::reload_config ()
     if (gdk_color_parse (tmp.c_str(), &m_normal_text) == FALSE)
         m_normal_text.red = m_normal_text.green = m_normal_text.blue = 0;
 
-
+    // change font
     tmp = m_config->read (String ("/Panel/Gtk/Font"),
                           String ("Sans 12"));
     if (m_font_desc)
@@ -539,8 +543,6 @@ AnthyHelper::reload_config ()
     update_lookup_table_style ();
     update_aux_string_style ();
     update_note_style ();
-
-    // change font
 }
 
 void

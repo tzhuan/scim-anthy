@@ -21,6 +21,7 @@
 #ifndef __SCIM_ANTHY_HELPER_H__
 #define __SCIM_ANTHY_HELPER_H__
 
+#define Uses_SCIM_CONFIG_BASE
 #include <scim_trans_commands.h>
 #include <scim_helper.h>
 #include <gtk/gtk.h>
@@ -52,8 +53,7 @@ public:
     AnthyHelper ();
     virtual ~AnthyHelper ();
 
-    void init                 (int argc, char **argv,
-                               const ConfigPointer &config);
+    void init                 (const ConfigPointer &config, const char *dsp);
     void reload_config        (void);
 
     void show_aux_string      (void);

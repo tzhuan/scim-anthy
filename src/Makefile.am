@@ -48,8 +48,8 @@ noinst_HEADERS = \
 	scim_anthy_utils.h \
 	scim_color_button.h \
 	scim_anthy_helper.h \
-	scim_anthy_diction.h
-
+	scim_anthy_diction.h \
+	scim_anthy_tray.h 
 
 #
 # IMEngine Module
@@ -132,7 +132,8 @@ endif
 helpermoduledir          = @SCIM_MODULEDIR@/Helper
 helpermodule_LTLIBRARIES = $(HELPER_MODULE)
 
-anthy_imengine_helper_la_SOURCES  = scim_anthy_helper.cpp
+anthy_imengine_helper_la_SOURCES  = scim_anthy_helper.cpp \
+				    scim_anthy_tray.cpp
 anthy_imengine_helper_la_CFLAGS   = @GTK2_CFLAGS@ \
 				    @SCIM_CFLAGS@ \
 				    @SCIM_DEBUG_FLAGS@

@@ -73,6 +73,15 @@
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL       "/IMEngine/Anthy/ShowDictAdminLabel"
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL         "/IMEngine/Anthy/ShowAddWordLabel"
 
+#define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_TRAY        "/IMEngine/Anthy/ShowInputModeTray"
+#define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_TRAY     "/IMEngine/Anthy/ShowTypingMethodTray"
+#define SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_TRAY   "/IMEngine/Anthy/ShowConversionModeTray"
+#define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_TRAY      "/IMEngine/Anthy/ShowPeriodStyleTray"
+#define SCIM_ANTHY_CONFIG_SHOW_SYMBOL_STYLE_TRAY      "/IMEngine/Anthy/ShowSymbolStyleTray"
+#define SCIM_ANTHY_CONFIG_SHOW_DICT_TRAY              "/IMEngine/Anthy/ShowDictTray"
+#define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_TRAY        "/IMEngine/Anthy/ShowDictAdminTray"
+#define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_TRAY          "/IMEngine/Anthy/ShowAddWordTray"
+
 #define SCIM_ANTHY_CONFIG_KEY_THEME                   "/IMEngine/Anthy/KeyTheme"
 #define SCIM_ANTHY_CONFIG_KEY_THEME_FILE              "/IMEngine/Anthy/KeyThemeFile"
 
@@ -212,6 +221,15 @@
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT             true
 #define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT       true
 #define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT         true
+
+#define SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_TRAY_DEFAULT        true
+#define SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_TRAY_DEFAULT     false
+#define SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_TRAY_DEFAULT   true
+#define SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_TRAY_DEFAULT      false
+#define SCIM_ANTHY_CONFIG_SHOW_SYMBOL_STYLE_TRAY_DEFAULT      false
+#define SCIM_ANTHY_CONFIG_SHOW_DICT_TRAY_DEFAULT              true
+#define SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_TRAY_DEFAULT        true
+#define SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_TRAY_DEFAULT          true
 
 #define SCIM_ANTHY_CONFIG_KEY_THEME_DEFAULT                   "Default"
 #define SCIM_ANTHY_CONFIG_KEY_THEME_FILE_DEFAULT              ""
