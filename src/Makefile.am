@@ -146,4 +146,5 @@ anthy_imengine_helper_la_LDFLAGS  = -avoid-version \
 				    @LIBTOOL_EXPORT_OPTIONS@ \
 				    @GTK2_LIBS@ \
 				    @INTLLIBS@ \
-				    @SCIM_LIBS@
+				    @SCIM_LIBS@ \
+				    @SCIM_GTKUTILS_LIBS@

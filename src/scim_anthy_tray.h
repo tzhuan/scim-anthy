@@ -27,11 +27,12 @@
 
 using namespace scim;
 
-#define SCIM_ANTHY_TRAY_ID_INPUT_MODE                             1
+#define SCIM_ANTHY_TRAY_ID_INPUT_MODE                             0
+#define SCIM_ANTHY_TRAY_ID_CONV_MODE                              1
 #define SCIM_ANTHY_TRAY_ID_TYPING_MODE                            2
-#define SCIM_ANTHY_TRAY_ID_CONV_MODE                              3
-#define SCIM_ANTHY_TRAY_ID_PERIOD_STYLE                           4
-#define SCIM_ANTHY_TRAY_ID_PERIOD_SYMBOL_STYLE                    5
+#define SCIM_ANTHY_TRAY_ID_PERIOD_STYLE                           3
+#define SCIM_ANTHY_TRAY_ID_SYMBOL_STYLE                           4
+#define SCIM_ANTHY_NUMBER_OF_TRAY                                 5
 
 #define SCIM_ANTHY_ITEM_ID_INPUT_MODE_HIRAGANA                    1
 #define SCIM_ANTHY_ITEM_ID_INPUT_MODE_KATAKANA                    2
@@ -65,14 +66,25 @@ struct _TrayMenuItem
     gchar *short_label;
     gchar *label;
     gchar *tooltip;
+    GtkWidget *widget;
 };
 
 typedef struct _TrayMenu TrayMenu;
 struct _TrayMenu
 {
-    guint id;
-    gchar *tooltip;
+    guint         id;
+    gchar        *tooltip;
+    gchar        *default_label_text;
+
+    int           num_of_items;
     TrayMenuItem *items;
+
+    GtkWidget    *menu;
+    ScimTrayIcon *tray;
+    GtkWidget    *label;
+    GtkWidget    *event_box;
+
+    bool          visible;
 };
 
 class AnthyTray
@@ -86,17 +98,7 @@ public:
 private:
     ConfigPointer m_config;
 
-    bool m_show_input_mode;
-    bool m_show_conversion_mode;
-    bool m_show_typing_method;
-    bool m_show_period_style;
-    bool m_show_symbol_style;
-
-    ScimTrayIcon *m_input_mode_tray;
-    ScimTrayIcon *m_conversion_mode_tray;
-    ScimTrayIcon *m_typing_method_tray;
-    ScimTrayIcon *m_period_styll_tray;
-    ScimTrayIcon *m_symbol_style_tray;
+    TrayMenu          m_tray_menus[SCIM_ANTHY_NUMBER_OF_TRAY];
 };
 
 #endif /* __SCIM_ANTHY_TRAY_H__ */

@@ -1,3 +1,10 @@
+2006-12-15  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_helper.cpp, src/scim_anthy_imengine.cpp,
+	  src/scim_anthy_tray.cpp, src/scim_anthy_tray.h,
+	  src/Makefile.am:
+	Add tray icons but they has not been effective yet.
+
 2006-12-13  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_helper.cpp, src/scim_anthy_helper.h,

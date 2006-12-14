@@ -33,6 +33,8 @@
   #include <config.h>
 #endif
 
+#include <gdk/gdkx.h> // to avoid name confliction (ad-hoc)
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>

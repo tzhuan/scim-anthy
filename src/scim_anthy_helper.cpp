@@ -20,6 +20,9 @@
 
 #define Uses_SCIM_HELPER
 #define Uses_SCIM_CONFIG_BASE
+
+#include <gdk/gdkx.h> // to avoid name confliction (ad-hoc)
+
 #include <map>
 #include <scim.h>
 #include <gtk/gtk.h>
