@@ -1,3 +1,15 @@
+2006-12-18  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_tray.cpp, src/scim_anthy_tray.h,
+	  src/scim_anthy_helper.cpp, src/scim_anthy_helper.h,
+	  src/scim_anthy_imengine.cpp:
+	Complete tray icons.
+
+2006-12-17  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_tray.cpp, src/scim_anthy_tray.h
+	Add tooltips of tray icons and menu items.
+
 2006-12-15  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_helper.cpp, src/scim_anthy_imengine.cpp,

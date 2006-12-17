@@ -20,85 +20,59 @@
 #ifndef __SCIM_ANTHY_TRAY_H__
 #define __SCIM_ANTHY_TRAY_H__
 
+#define Uses_SCIM_HELPER
 #define Uses_SCIM_CONFIG_BASE
+#define Uses_STL_MAP
 #include <gtk/scimtrayicon.h>
-#include <scim_config_base.h>
 #include <gtk/gtk.h>
 
 using namespace scim;
 
-#define SCIM_ANTHY_TRAY_ID_INPUT_MODE                             0
-#define SCIM_ANTHY_TRAY_ID_CONV_MODE                              1
-#define SCIM_ANTHY_TRAY_ID_TYPING_MODE                            2
-#define SCIM_ANTHY_TRAY_ID_PERIOD_STYLE                           3
-#define SCIM_ANTHY_TRAY_ID_SYMBOL_STYLE                           4
-#define SCIM_ANTHY_NUMBER_OF_TRAY                                 5
+class AnthyTray; // pre definition
 
-#define SCIM_ANTHY_ITEM_ID_INPUT_MODE_HIRAGANA                    1
-#define SCIM_ANTHY_ITEM_ID_INPUT_MODE_KATAKANA                    2
-#define SCIM_ANTHY_ITEM_ID_INPUT_MODE_HALF_KATAKANA               3
-#define SCIM_ANTHY_ITEM_ID_INPUT_MODE_LATIN                       4
-#define SCIM_ANTHY_ITEM_ID_INPUT_MODE_WIDE_LATIN                  5
-
-#define SCIM_ANTHY_ITEM_ID_CONV_MODE_MULTI_SEG                    6
-#define SCIM_ANTHY_ITEM_ID_CONV_MODE_SINGLE_SEG                   7
-#define SCIM_ANTHY_ITEM_ID_CONV_MODE_MULTI_REAL_TIME              8
-#define SCIM_ANTHY_ITEM_ID_CONV_MODE_SINGLE_REAL_TIME             9
-
-#define SCIM_ANTHY_ITEM_ID_TYPING_METHOD_ROMAJI                  10
-#define SCIM_ANTHY_ITEM_ID_TYPING_METHOD_KANA                    11
-#define SCIM_ANTHY_ITEM_ID_TYPING_METHOD_NICOLA                  12
-
-#define SCIM_ANTHY_ITEM_ID_PERIOD_STYLE_JAPANESE                 13
-#define SCIM_ANTHY_ITEM_ID_PERIOD_STYLE_WIDE_LATIN               14
-#define SCIM_ANTHY_ITEM_ID_PERIOD_STYLE_LATIN                    15
-#define SCIM_ANTHY_ITEM_ID_PERIOD_STYLE_WIDE_LATIN_JAPANESE      16
-
-#define SCIM_ANTHY_ITEM_ID_SYMBOL_STYLE_JAPANESE                 17
-#define SCIM_ANTHY_ITEM_ID_SYMBOL_STYLE_BRACKET_SLASH            18
-#define SCIM_ANTHY_ITEM_ID_SYMBOL_STYLE_CORNER_BRACKET_SLASH     19
-#define SCIM_ANTHY_ITEM_ID_SYMBOL_STYLE_BRACKET_MIDDLE_DOT       20
-
-typedef struct _TrayMenuItem TrayMenuItem;
-struct _TrayMenuItem
+typedef struct _TrayMenuItem
 {
-    guint id;
-    gchar *short_label;
-    gchar *label;
-    gchar *tooltip;
-    GtkWidget *widget;
-};
+    GtkWidget *item;
+    GtkWidget *label;
+} TrayMenuItem;
 
-typedef struct _TrayMenu TrayMenu;
-struct _TrayMenu
+typedef struct _ActivateEvent
 {
-    guint         id;
-    gchar        *tooltip;
-    gchar        *default_label_text;
+    char      *key;
+    AnthyTray *owner;
+} ActivateEvent;
 
-    int           num_of_items;
-    TrayMenuItem *items;
-
-    GtkWidget    *menu;
-    ScimTrayIcon *tray;
-    GtkWidget    *label;
-    GtkWidget    *event_box;
-
-    bool          visible;
-};
+typedef struct _TrayMenu
+{
+    GtkWidget *button;
+    GtkWidget *menu;
+} TrayMenu;
 
 class AnthyTray
 {
 public:
     AnthyTray ();
     ~AnthyTray ();
-    void init (const ConfigPointer &config);
-    void reload_config ();
+    void init_properties        (const PropertyList &properties);
+    void update_property        (const Property     &property);
+    void activated_item         (GtkMenuItem *menuitem);
+    void attach_input_context   (const HelperAgent  *agent,
+                                 int                 ic,
+                                 const String       &ic_uuid);
 
 private:
-    ConfigPointer m_config;
+    void destroy_current_tray   (void);
 
-    TrayMenu          m_tray_menus[SCIM_ANTHY_NUMBER_OF_TRAY];
+private:
+    const HelperAgent           *m_agent;
+    int                          m_ic;
+    String                       m_ic_uuid;
+
+    ScimTrayIcon                *m_tray;
+    GtkWidget                   *m_hbox;
+    GtkTooltips                 *m_tooltips;
+    std::map< String, TrayMenu >      m_menus;
+    std::map< String, TrayMenuItem >  m_items;
 };
 
 #endif /* __SCIM_ANTHY_TRAY_H__ */

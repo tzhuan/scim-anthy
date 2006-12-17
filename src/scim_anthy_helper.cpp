@@ -50,14 +50,17 @@ static void       slot_imengine_event         (const HelperAgent   *agent,
                                                int                  ic,
                                                const String        &uuid,
                                                const Transaction   &trans);
+static void       slot_attach_input_context   (const HelperAgent   *agent,
+                                               int                  ic,
+                                               const String        &ic_uuid);
 static gint       timeout_func                (gpointer             data);
 static void       timeout_ctx_destroy_func    (gpointer             data);
 
 static void       run                         (const String        &display,
                                                const ConfigPointer &config);
 
-AnthyHelper helper;
-AnthyTray tray;
+AnthyHelper *helper;
+AnthyTray *tray;
 HelperAgent helper_agent;
 
 HelperInfo helper_info (SCIM_ANTHY_HELPER_UUID,        // uuid
@@ -147,6 +150,12 @@ helper_agent_input_handler (GIOChannel *source,
 static void
 slot_exit (const HelperAgent *agent, int ic, const String &uuid)
 {
+    if (tray != NULL)
+        free (tray);
+
+    if (helper != NULL)
+    free (helper);
+
     gtk_main_quit ();
 }
 
@@ -155,7 +164,7 @@ slot_update_spot_location   (const HelperAgent *agent,
                              int ic, const String &uuid,
                              int x, int y)
 {
-    helper.update_spot_location (x,y);
+    helper->update_spot_location (x,y);
 }
 
 static void
@@ -218,22 +227,22 @@ slot_imengine_event (const HelperAgent *agent, int ic,
     }
     case SCIM_TRANS_CMD_SHOW_AUX_STRING:
     {
-        helper.show_aux_string ();
+        helper->show_aux_string ();
         break;
     }
     case SCIM_TRANS_CMD_SHOW_LOOKUP_TABLE:
     {
-        helper.show_lookup_table ();
+        helper->show_lookup_table ();
         break;
     }
     case SCIM_TRANS_CMD_HIDE_AUX_STRING:
     {
-        helper.hide_aux_string ();
+        helper->hide_aux_string ();
         break;
     }
     case SCIM_TRANS_CMD_HIDE_LOOKUP_TABLE:
     {
-        helper.hide_lookup_table ();
+        helper->hide_lookup_table ();
         break;
     }
     case SCIM_TRANS_CMD_UPDATE_AUX_STRING:
@@ -242,32 +251,46 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         AttributeList attr;
         reader.get_data (str);
         reader.get_data (attr);
-        helper.update_aux_string (str, attr);
+        helper->update_aux_string (str, attr);
         break;
     }
     case SCIM_TRANS_CMD_UPDATE_LOOKUP_TABLE:
     {
         CommonLookupTable table;
         reader.get_data (table);
-        helper.update_lookup_table (table);
+        helper->update_lookup_table (table);
         break;
     }
     case SCIM_ANTHY_TRANS_CMD_SHOW_NOTE:
     {
-        helper.show_note ();
+        helper->show_note ();
         break;
     }
     case SCIM_ANTHY_TRANS_CMD_HIDE_NOTE:
     {
-        helper.hide_note ();
+        helper->hide_note ();
         break;
     }
     case SCIM_ANTHY_TRANS_CMD_UPDATE_NOTE:
     {
         WideString str;
         reader.get_data (str);
-        helper.update_note (str);
+        helper->update_note (str);
         break;
+    }
+    case SCIM_ANTHY_TRANS_CMD_INSTALL_PROPERTIES:
+    {
+        PropertyList props;
+        reader.get_data (props);
+        if (tray)
+            tray->init_properties (props);
+    }
+    case SCIM_ANTHY_TRANS_CMD_UPDATE_PROPERTY:
+    {
+        Property prop;
+        reader.get_data (prop);
+        if (tray)
+            tray->update_property (prop);
     }
     default:
         break;
@@ -278,14 +301,28 @@ static void
 slot_update_screen (const HelperAgent *agent, int ic,
                     const String &ic_uuid, int screen_number)
 {
-    helper.update_screen (screen_number);
+    helper->update_screen (screen_number);
 }
 
 static void
 slot_reload_config (const HelperAgent *agent, int ic, const String &ic_uuid)
 {
-    helper.reload_config ();
-    tray.reload_config ();
+    helper->reload_config ();
+}
+
+static void
+slot_attach_input_context   (const HelperAgent   *agent,
+                             int                  ic,
+                             const String        &ic_uuid)
+{
+    if (tray != NULL)
+    {
+        tray->attach_input_context (agent, ic, ic_uuid);
+
+        Transaction send;
+        send.put_command (SCIM_ANTHY_TRANS_CMD_ATTACHMENT_SUCCESS);
+        helper_agent.send_imengine_event (ic, ic_uuid, send);
+    }    
 }
 
 static gint
@@ -331,14 +368,17 @@ run (const String &display, const ConfigPointer &config)
 
     gtk_init (&argc, &argv);
 
-    helper.init (config, argv[2]);
-    tray.init (config);
+    helper = new AnthyHelper;
+    tray = new AnthyTray;
+
+    helper->init (config, argv[2]);
 
     helper_agent.signal_connect_exit (slot (slot_exit));
     helper_agent.signal_connect_update_spot_location (slot (slot_update_spot_location));
     helper_agent.signal_connect_process_imengine_event (slot (slot_imengine_event));
     helper_agent.signal_connect_update_screen(slot (slot_update_screen));
     helper_agent.signal_connect_reload_config(slot (slot_reload_config));
+    helper_agent.signal_connect_attach_input_context(slot (slot_attach_input_context));
 
     // open connection
     int fd = helper_agent.open_connection (helper_info, display);

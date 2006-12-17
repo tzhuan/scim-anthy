@@ -28,15 +28,22 @@
 
 #define SCIM_ANTHY_HELPER_UUID "24a65e2b-10a8-4d4c-adc9-266678cb1a38"
 
-#define SCIM_ANTHY_TRANS_CMD_NEW_IC         SCIM_TRANS_CMD_USER_DEFINED + 1
-#define SCIM_ANTHY_TRANS_CMD_DELETE_IC      SCIM_TRANS_CMD_USER_DEFINED + 2
-#define SCIM_ANTHY_TRANS_CMD_GET_SELECTION  SCIM_TRANS_CMD_USER_DEFINED + 3
-#define SCIM_ANTHY_TRANS_CMD_TIMEOUT_ADD    SCIM_TRANS_CMD_USER_DEFINED + 4
-#define SCIM_ANTHY_TRANS_CMD_TIMEOUT_REMOVE SCIM_TRANS_CMD_USER_DEFINED + 5
-#define SCIM_ANTHY_TRANS_CMD_TIMEOUT_NOTIFY SCIM_TRANS_CMD_USER_DEFINED + 6
-#define SCIM_ANTHY_TRANS_CMD_SHOW_NOTE      SCIM_TRANS_CMD_USER_DEFINED + 7
-#define SCIM_ANTHY_TRANS_CMD_HIDE_NOTE      SCIM_TRANS_CMD_USER_DEFINED + 8
-#define SCIM_ANTHY_TRANS_CMD_UPDATE_NOTE    SCIM_TRANS_CMD_USER_DEFINED + 9
+// transaction commands from IMEngine instance
+#define SCIM_ANTHY_TRANS_CMD_NEW_IC             (SCIM_TRANS_CMD_USER_DEFINED + 1)
+#define SCIM_ANTHY_TRANS_CMD_DELETE_IC          (SCIM_TRANS_CMD_USER_DEFINED + 2)
+#define SCIM_ANTHY_TRANS_CMD_GET_SELECTION      (SCIM_TRANS_CMD_USER_DEFINED + 3)
+#define SCIM_ANTHY_TRANS_CMD_TIMEOUT_ADD        (SCIM_TRANS_CMD_USER_DEFINED + 4)
+#define SCIM_ANTHY_TRANS_CMD_TIMEOUT_REMOVE     (SCIM_TRANS_CMD_USER_DEFINED + 5)
+#define SCIM_ANTHY_TRANS_CMD_TIMEOUT_NOTIFY     (SCIM_TRANS_CMD_USER_DEFINED + 6)
+#define SCIM_ANTHY_TRANS_CMD_SHOW_NOTE          (SCIM_TRANS_CMD_USER_DEFINED + 7)
+#define SCIM_ANTHY_TRANS_CMD_HIDE_NOTE          (SCIM_TRANS_CMD_USER_DEFINED + 8)
+#define SCIM_ANTHY_TRANS_CMD_UPDATE_NOTE        (SCIM_TRANS_CMD_USER_DEFINED + 9)
+#define SCIM_ANTHY_TRANS_CMD_INSTALL_PROPERTIES (SCIM_TRANS_CMD_USER_DEFINED + 10)
+#define SCIM_ANTHY_TRANS_CMD_UPDATE_PROPERTY    (SCIM_TRANS_CMD_USER_DEFINED + 11)
+
+// transaction command to IMEngine instance
+#define SCIM_ANTHY_TRANS_CMD_ATTACHMENT_SUCCESS (SCIM_TRANS_CMD_USER_DEFINED + 20)
+#define SCIM_ANTHY_TRANS_CMD_TRIGGER_PROPERTY   (SCIM_TRANS_CMD_USER_DEFINED + 21)
 
 using namespace scim;
 
@@ -53,24 +60,24 @@ public:
     AnthyHelper ();
     virtual ~AnthyHelper ();
 
-    void init                 (const ConfigPointer &config, const char *dsp);
-    void reload_config        (void);
+    void init                   (const ConfigPointer &config, const char *dsp);
+    void reload_config          (void);
 
-    void show_aux_string      (void);
-    void show_lookup_table    (void);
-    void hide_aux_string      (void);
-    void hide_lookup_table    (void);
-    void update_aux_string    (const WideString &str,
-                               const AttributeList &attrs
-                               = AttributeList());
-    void update_lookup_table  (const LookupTable &table);
+    void show_aux_string        (void);
+    void show_lookup_table      (void);
+    void hide_aux_string        (void);
+    void hide_lookup_table      (void);
+    void update_aux_string      (const WideString &str,
+                                 const AttributeList &attrs
+                                 = AttributeList());
+    void update_lookup_table    (const LookupTable &table);
 
-    void show_note            (void);
-    void hide_note            (void);
-    void update_note          (const WideString &str);
+    void show_note              (void);
+    void hide_note              (void);
+    void update_note            (const WideString &str);
 
-    void update_spot_location (int x, int y);
-    void update_screen (int screen_num);
+    void update_spot_location   (int x, int y);
+    void update_screen          (int screen_num);
 
 private:
     /* config */

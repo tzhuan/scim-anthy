@@ -777,6 +777,11 @@ AnthyInstance::install_properties (void)
                       m_preedit.get_slash_style ());
 
     register_properties (m_properties);
+
+    Transaction send;
+    send.put_command (SCIM_ANTHY_TRANS_CMD_INSTALL_PROPERTIES);
+    send.put_data (m_properties);
+    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
 }
 
 void
@@ -823,6 +828,11 @@ AnthyInstance::set_input_mode (InputMode mode)
         if (it != m_properties.end ()) {
             it->set_label (label);
             update_property (*it);
+
+            Transaction send;
+            send.put_command (SCIM_ANTHY_TRANS_CMD_UPDATE_PROPERTY);
+            send.put_data (*it);
+            send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
         }
     }
 
@@ -861,6 +871,11 @@ AnthyInstance::set_conversion_mode (ConversionMode mode)
         if (it != m_properties.end ()) {
             it->set_label (label);
             update_property (*it);
+
+            Transaction send;
+            send.put_command (SCIM_ANTHY_TRANS_CMD_UPDATE_PROPERTY);
+            send.put_data (*it);
+            send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
         }
     }
 
@@ -893,6 +908,11 @@ AnthyInstance::set_typing_method (TypingMethod method)
         if (it != m_properties.end ()) {
             it->set_label (label);
             update_property (*it);
+
+            Transaction send;
+            send.put_command (SCIM_ANTHY_TRANS_CMD_UPDATE_PROPERTY);
+            send.put_data (*it);
+            send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
         }
     }
 
@@ -950,6 +970,11 @@ AnthyInstance::set_period_style (PeriodStyle period,
         if (it != m_properties.end ()) {
             it->set_label (label.c_str ());
             update_property (*it);
+
+            Transaction send;
+            send.put_command (SCIM_ANTHY_TRANS_CMD_UPDATE_PROPERTY);
+            send.put_data (*it);
+            send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
         }
     }
 
@@ -994,6 +1019,11 @@ AnthyInstance::set_symbol_style (BracketStyle bracket,
         if (it != m_properties.end ()) {
             it->set_label (label.c_str ());
             update_property (*it);
+
+            Transaction send;
+            send.put_command (SCIM_ANTHY_TRANS_CMD_UPDATE_PROPERTY);
+            send.put_data (*it);
+            send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
         }
     }
 
@@ -2309,8 +2339,25 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
         }
         break;
     }
-    default:
+    case SCIM_ANTHY_TRANS_CMD_ATTACHMENT_SUCCESS:
+    {
+        Transaction send;
+        send.put_command (SCIM_ANTHY_TRANS_CMD_INSTALL_PROPERTIES);
+        send.put_data (m_properties);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
         break;
+    }
+    case SCIM_ANTHY_TRANS_CMD_TRIGGER_PROPERTY:
+    {
+        String key;
+        if (reader.get_data (key))
+            trigger_property (key);
+        break;
+    }
+    default:
+    {
+        break;
+    }
     }
 }
 
