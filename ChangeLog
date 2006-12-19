@@ -1,7 +1,8 @@
 2006-12-19  Takuro Ashie  <ashie@homa.ne.jp>
 
-	* src/scim_anthy_helper.cpp: Use "delete" for objects allocated by
-	"new".
+	* src/scim_anthy_helper.cpp:
+	  - Use "delete" for objects allocated by "new".
+	  - Initialize global variables.
 
 2006-12-18  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 

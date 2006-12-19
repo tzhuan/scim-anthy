@@ -59,9 +59,9 @@ static void       timeout_ctx_destroy_func    (gpointer             data);
 static void       run                         (const String        &display,
                                                const ConfigPointer &config);
 
-AnthyHelper *helper;
-AnthyTray *tray;
-HelperAgent helper_agent;
+AnthyHelper *helper = NULL;
+AnthyTray   *tray   = NULL;
+HelperAgent  helper_agent;
 
 HelperInfo helper_info (SCIM_ANTHY_HELPER_UUID,        // uuid
                         "",                            // name
@@ -151,12 +151,12 @@ static void
 slot_exit (const HelperAgent *agent, int ic, const String &uuid)
 {
     if (tray != NULL) {
-        delete (tray);
+        delete tray;
         tray = NULL;
     }
 
     if (helper != NULL) {
-        delete (helper);
+        delete helper;
         helper = NULL;
     }
 
