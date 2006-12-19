@@ -150,11 +150,15 @@ helper_agent_input_handler (GIOChannel *source,
 static void
 slot_exit (const HelperAgent *agent, int ic, const String &uuid)
 {
-    if (tray != NULL)
-        free (tray);
+    if (tray != NULL) {
+        delete (tray);
+        tray = NULL;
+    }
 
-    if (helper != NULL)
-    free (helper);
+    if (helper != NULL) {
+        delete (helper);
+        helper = NULL;
+    }
 
     gtk_main_quit ();
 }
