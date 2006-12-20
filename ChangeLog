@@ -1,3 +1,12 @@
+2006-12-20  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_diction.cpp, src/scim_anthy_diction.h,
+	  src/scim_anthy_imengine.cpp, src/scim_anthy_imengine.h:
+	Change matching function for finding diction of conjugated words.
+
+	* data/diction:
+	 Add part of speech lines and new examples.
+
 2006-12-19  Takuro Ashie  <ashie@homa.ne.jp>
 
 	* src/scim_anthy_helper.cpp:

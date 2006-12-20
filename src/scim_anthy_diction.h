@@ -29,20 +29,51 @@ using namespace scim;
 class AnthyDiction
 {
 public:
-    AnthyDiction (const ConfigPointer &config);
-    ~AnthyDiction();
+    AnthyDiction (const WideString &base,
+                  const WideString &pos,
+                  const WideString &diction);
+    AnthyDiction (const AnthyDiction &a);
+    ~AnthyDiction ();
+
+    WideString get_base ();
+    WideString get_pos ();
+    WideString get_end_form ();
+    WideString get_diction ();
+    bool       has_diction ();
+private:
+    WideString m_base;
+    WideString m_pos;
+    WideString m_ending;
+    WideString m_diction;
+};
+
+class AnthyDictionService
+{
+public:
+    AnthyDictionService (const ConfigPointer &config);
+    ~AnthyDictionService();
     
     void reload_config             (const ConfigPointer &config);
-    WideString get_diction         (const WideString &word);
+    AnthyDiction get_diction       (const WideString &segment);
 private:
-    String m_diction_file;
-    bool   m_enable_diction;
-    FILE  *m_diction_file_ptr;
-    std::map< WideString, WideString > m_hash;
-    // ToDo: use buffered cache to reduce memory usage
+    String                       m_diction_file;
+    bool                         m_enable_diction;
+    FILE                        *m_diction_file_ptr;
+    std::map< WideString, long > m_hash;
 
 private:
-    void reload_diction_file ();
+    void load_diction_file ();
+
+    long read_one_chunk (WideString &word,
+                         WideString &pos,
+                         WideString &diction,
+                         long position);
+    void append_word    (const WideString &word,
+                         const WideString &pos,
+                         long position);
+
+    void close_diction_file ();
+    bool open_diction_file ();
 };
 
 #endif /* __SCIM_ANTHY_DICTION_H__ */

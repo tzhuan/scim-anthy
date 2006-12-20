@@ -271,7 +271,7 @@ private:
     unsigned int          m_n_conv_key_pressed;
 
     /* for diction */
-    AnthyDiction          m_diction;
+    AnthyDictionService   m_diction_service;
 
     /* for toggling latin and wide latin */
     InputMode             m_prev_input_mode;

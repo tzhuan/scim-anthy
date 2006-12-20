@@ -29,6 +29,9 @@
 #define Uses_SCIM_LOOKUP_TABLE
 #define Uses_SCIM_CONFIG_BASE
 
+#define Uses_STD_LIST
+#define Uses_STD_ALGORITHM
+
 #ifdef HAVE_CONFIG_H
   #include <config.h>
 #endif
@@ -102,7 +105,7 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
       m_preedit                (*this),
       m_preedit_string_visible (false),
       m_lookup_table_visible   (false),
-      m_diction                (m_factory->m_config),
+      m_diction_service        (m_factory->m_config),
       m_n_conv_key_pressed     (0),
       m_prev_input_mode        (SCIM_ANTHY_MODE_HIRAGANA),
       m_conv_mode              (SCIM_ANTHY_CONVERSION_MULTI_SEGMENT),
@@ -538,17 +541,23 @@ AnthyInstance::set_lookup_table (void)
             // find diction
             int start = m_lookup_table.get_current_page_start ();
             int end = m_lookup_table.get_current_page_size ();
-            WideString word, diction, note;
+            WideString note;
+            std::list< WideString > appended_word; // to avoid showing the same word
             for(int i = start; i < end; i++)
             {
-                word = m_lookup_table.get_candidate (i);
-                diction = m_diction.get_diction (word);
-                if (diction.size () != 0)
+                WideString segment = m_lookup_table.get_candidate (i);
+                AnthyDiction diction = m_diction_service.get_diction (segment);
+                if (diction.has_diction () &&
+                    std::find (appended_word.begin(),
+                               appended_word.end (),
+                               diction.get_end_form ()) == appended_word.end ())
                 {
-                    note += word;
+                    note += diction.get_end_form ();
                     note += utf8_mbstowcs (":\n");
-                    note += diction;
+                    note += diction.get_diction ();
                     note += utf8_mbstowcs ("\n");
+
+                    appended_word.push_back (diction.get_end_form ());
                 }
             }
 
@@ -2463,7 +2472,7 @@ AnthyInstance::reload_config (const ConfigPointer &config)
     m_preedit.set_dict_encoding (m_factory->m_dict_encoding);
 
     // set diction
-    m_diction.reload_config (config);
+    m_diction_service.reload_config (config);
 }
 
 bool
