@@ -99,6 +99,14 @@ AnthyTray::init_properties (const PropertyList &properties)
         gtk_container_add (GTK_CONTAINER (m_tray), m_hbox);
     }
 
+    if (properties.size () == 0)
+    {
+        // hide all tray icons but a dummy widget
+        GtkWidget *dummy = gtk_label_new ("");
+        gtk_box_pack_start (GTK_BOX (m_hbox), dummy,
+                            TRUE, TRUE, 0);
+    }
+
     for(int i = 0; i < properties.size (); i++)
     {
         String key = properties[i].get_key ();

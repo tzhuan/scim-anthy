@@ -298,6 +298,15 @@ slot_imengine_event (const HelperAgent *agent, int ic,
             tray->update_property (prop);
         break;
     }
+    case SCIM_TRANS_CMD_REQUEST:
+    {
+        int cmd2;
+        reader.get_command (cmd2);
+        if (cmd2 == SCIM_TRANS_CMD_FOCUS_OUT && tray != NULL)
+            tray->init_properties (PropertyList ());
+
+        break;
+    }
     default:
         break;
     }
