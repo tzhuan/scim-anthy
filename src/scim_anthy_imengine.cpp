@@ -29,8 +29,8 @@
 #define Uses_SCIM_LOOKUP_TABLE
 #define Uses_SCIM_CONFIG_BASE
 
-#define Uses_STD_LIST
-#define Uses_STD_ALGORITHM
+#define Uses_STL_VECTOR
+#define Uses_STL_ALGORITHM
 
 #ifdef HAVE_CONFIG_H
   #include <config.h>
@@ -542,23 +542,19 @@ AnthyInstance::set_lookup_table (void)
             int start = m_lookup_table.get_current_page_start ();
             int end = m_lookup_table.get_current_page_size ();
             WideString note;
-            std::list< WideString > appended_word; // to avoid showing the same word
-            for(int i = start; i < end; i++)
-            {
-                WideString segment = m_lookup_table.get_candidate (i);
-                AnthyDiction diction = m_diction_service.get_diction (segment);
-                if (diction.has_diction () &&
-                    std::find (appended_word.begin(),
-                               appended_word.end (),
-                               diction.get_end_form ()) == appended_word.end ())
-                {
-                    note += diction.get_end_form ();
-                    note += utf8_mbstowcs (":\n");
-                    note += diction.get_diction ();
-                    note += utf8_mbstowcs ("\n");
+            std::vector< WideString > candidates;
+            std::vector< AnthyDiction > dictions;
+            for (int i = start; i < end; i++)
+                candidates.push_back (m_lookup_table.get_candidate (i));
 
-                    appended_word.push_back (diction.get_end_form ());
-                }
+            m_diction_service.get_dictions (candidates, dictions);
+            
+            for (int i = 0; i < dictions.size (); i++)
+            {
+                note += dictions[i].get_end_form ();
+                note += utf8_mbstowcs (":\n");
+                note += dictions[i].get_diction ();
+                note += utf8_mbstowcs ("\n");
             }
 
             // show diction if it exists

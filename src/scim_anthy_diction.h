@@ -21,6 +21,7 @@
 #define __SCIM_ANTHY_DICTION_H__
 
 #define Uses_SCIM_CONFIG_BASE
+#define Uses_STD_VECTOR
 
 #include <scim.h>
 
@@ -54,26 +55,31 @@ public:
     ~AnthyDictionService();
     
     void reload_config             (const ConfigPointer &config);
-    AnthyDiction get_diction       (const WideString &segment);
+    void get_dictions              (std::vector< WideString > &segments,
+                                    std::vector< AnthyDiction > &dictions);
 private:
     String                       m_diction_file;
     bool                         m_enable_diction;
-    FILE                        *m_diction_file_ptr;
+    time_t                       m_diction_file_mtime;
     std::map< WideString, long > m_hash;
 
 private:
+    void reset ();
     void load_diction_file ();
 
-    long read_one_chunk (WideString &word,
+    long read_one_chunk (FILE *f,
+                         long position,
+                         WideString &word,
                          WideString &pos,
-                         WideString &diction,
-                         long position);
+                         WideString &diction);
     void append_word    (const WideString &word,
                          const WideString &pos,
                          long position);
 
-    void close_diction_file ();
-    bool open_diction_file ();
+    void close_diction_file (FILE *f);
+    FILE *open_diction_file ();
+
+    bool is_diction_file_modified ();
 };
 
 #endif /* __SCIM_ANTHY_DICTION_H__ */

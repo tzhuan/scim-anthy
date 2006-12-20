@@ -18,6 +18,8 @@
  */
 
 #define Uses_SCIM_UTILITY
+#define Uses_STL_MAP
+#define Uses_STL_VECTOR
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -25,9 +27,10 @@
 
 #include <stdio.h>
 #include <sys/file.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <scim.h>
-#include <map>
 #include "scim_anthy_diction.h"
 #include "scim_anthy_prefs.h"
 
@@ -54,7 +57,7 @@ AnthyDiction::AnthyDiction (const AnthyDiction &a)
     m_base = a.m_base;
     m_ending = a.m_ending;
     m_pos = a.m_pos;
-    m_diction = m_diction;
+    m_diction = a.m_diction;
 }
 
 AnthyDiction::~AnthyDiction ()
@@ -94,15 +97,13 @@ AnthyDiction::has_diction ()
 AnthyDictionService::AnthyDictionService (const ConfigPointer &config)
   : m_diction_file              (String("")),
     m_enable_diction            (false),
-    m_diction_file_ptr          (NULL)
+    m_diction_file_mtime        (0)
 {
     reload_config (config);
 }
 
 AnthyDictionService::~AnthyDictionService ()
 {
-    m_hash.clear ();
-    close_diction_file ();
 }
 
 void
@@ -117,52 +118,80 @@ AnthyDictionService::reload_config (const ConfigPointer &config)
     m_enable_diction = config->read (String (SCIM_ANTHY_CONFIG_ENABLE_DICTION),
                                      SCIM_ANTHY_CONFIG_ENABLE_DICTION_DEFAULT);
 
-    // close previously loaded file
-    close_diction_file ();
-    m_hash.clear ();
-
     if (m_enable_diction)
         load_diction_file ();
+    else
+        reset ();
 }
 
-
-AnthyDiction
-AnthyDictionService::get_diction (const WideString &segment)
+void
+AnthyDictionService::get_dictions (std::vector< WideString > &segments,
+                                   std::vector< AnthyDiction > &dictions)
 {
-    if (m_enable_diction == false ||
-        m_diction_file_ptr == NULL)
-        return AnthyDiction (WideString (), WideString (), WideString ());
+    dictions.clear ();
 
+    if (m_enable_diction == false)
+        return;
+
+    if (is_diction_file_modified ())
+        load_diction_file (); // reload the diction file
+
+    FILE *f = open_diction_file ();
+
+    if (f == NULL)
+    {
+        // failed to open the diction file
+        reset ();
+        m_enable_diction = false;
+        return;
+    }
+
+    std::vector< WideString >::iterator seg = segments.begin ();
     WideString base;
     WideString pos;
     WideString diction;
 
-    // prefix search?
-    for(int i = 1; i <= segment.size (); i++)
+    while (seg != segments.end ())
     {
-        WideString key = segment.substr (0, i);
-        
-        std::map< WideString, long >::iterator p = m_hash.find (key);
-        if (p != m_hash.end ())
+        for (int i = 1; i <= segments.size (); i++)
         {
-            // ToDo: chache
-            read_one_chunk (base, pos, diction, p->second);
-            return AnthyDiction (base, pos, diction);
+            WideString key = seg->substr (0, i);
+            std::map< WideString, long >::iterator p = m_hash.find (key);
+            if (p != m_hash.end ())
+            {
+                // ToDo: cache
+                read_one_chunk (f, p->second, base, pos, diction);
+                dictions.push_back (AnthyDiction (base, pos, diction));
+                break;
+            }
         }
+        seg++;
     }
 
-    return AnthyDiction (WideString (), WideString (), WideString ());
+    close_diction_file (f);
+}
+
+void
+AnthyDictionService::reset ()
+{
+    m_diction_file_mtime = 0;
+    m_hash.clear ();
 }
 
 void
 AnthyDictionService::load_diction_file ()
 {
-    int fd;
+    FILE *f;
 
-    m_enable_diction = open_diction_file ();
+    // clear previously loaded data
+    reset ();
 
-    if (m_enable_diction == false)
+    f = open_diction_file ();
+    if (f == NULL)
+    {
+        m_enable_diction = false;
         return; // failed to open diction file
+    }
 
     long position = 0;
     long next_position;
@@ -170,30 +199,34 @@ AnthyDictionService::load_diction_file ()
     WideString pos;
     WideString diction;
 
-    while ((next_position = read_one_chunk (base, pos, diction, position)) >= 0)
+    while ((next_position = read_one_chunk (f, position, base, pos, diction))
+           >= 0)
     {
         append_word (base, pos, position);
         position = next_position;
     }
 
-    if (position == WRONG_SYNTAX)
+    if (next_position == WRONG_SYNTAX)
     {
-        close_diction_file ();
-        m_hash.clear ();
+        close_diction_file (f);
+        reset ();
         m_enable_diction = false;
         return;
     }
+
+    close_diction_file (f);
 }
 
 // return
 //   >=0: means next word position
-//   -1:  means wrong syntax
-//   -2:  means reaching EOF
+//   -1:  means wrong syntax (WRONG_SYNTAX)
+//   -2:  means reaching EOF (REACHING_EOF)
 long
-AnthyDictionService::read_one_chunk (WideString &base,
+AnthyDictionService::read_one_chunk (FILE *f,
+                                     long position,
+                                     WideString &base,
                                      WideString &pos,
-                                     WideString &diction,
-                                     long position)
+                                     WideString &diction)
 {
     int state = READING_BASE_STATE;
     int i;
@@ -202,9 +235,9 @@ AnthyDictionService::read_one_chunk (WideString &base,
     String pos_buffer = String ();
     String diction_buffer = String ();
 
-    fseek (m_diction_file_ptr, position, SEEK_SET);
+    fseek (f, position, SEEK_SET);
 
-    while ((i = fgetc (m_diction_file_ptr)) != EOF)
+    while ((i = fgetc (f)) != EOF)
     {
         c = (i >= 0x80) ? (i - 0x100) : i;
         switch(state)
@@ -251,7 +284,7 @@ AnthyDictionService::read_one_chunk (WideString &base,
                 diction.clear ();
                 diction.append (utf8_mbstowcs (diction_buffer));
 
-                return ftell (m_diction_file_ptr);
+                return ftell (f);
             }
             else
             {
@@ -275,34 +308,47 @@ AnthyDictionService::append_word (const WideString &base,
 
 
 void
-AnthyDictionService::close_diction_file ()
+AnthyDictionService::close_diction_file (FILE *f)
 {
-    if (m_diction_file_ptr)
+    if (f)
     {
-        int fd = fileno (m_diction_file_ptr);
-        flock (fd, LOCK_UN);
-        fclose (m_diction_file_ptr);
-
-        m_diction_file_ptr = NULL;
+        fclose (f);
     }
-
-
 }
 
-bool
+FILE *
 AnthyDictionService::open_diction_file ()
 {
-    m_diction_file_ptr = fopen (m_diction_file.c_str (), "r");
+    FILE *f =fopen (m_diction_file.c_str (), "r");
 
-    if (m_diction_file_ptr == NULL)
-        return false;
-    else
+    if (f == NULL)
+        return NULL;
+
+    struct stat buf;
+    int fd = fileno (f);
+
+    // lock and get status
+    if (flock (fd, LOCK_SH | LOCK_NB) == -1 ||
+        fstat (fd, &buf) == -1)
     {
-        int fd = fileno (m_diction_file_ptr);
-//        flock (fd, LOCK_EX);
-
-        return true;
+        close_diction_file (f);
+        return NULL;
     }
+    m_diction_file_mtime = buf.st_mtime;
+
+    return f;
+}
+
+// returns true if the diction file is modified since the last time the
+// file is modified
+bool
+AnthyDictionService::is_diction_file_modified ()
+{
+    struct stat buf;
+    if (stat (m_diction_file.c_str (), &buf) == -1)
+        return true;
+
+    return (buf.st_mtime > m_diction_file_mtime);
 }
 
 /*
