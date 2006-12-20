@@ -288,6 +288,7 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         reader.get_data (props);
         if (tray)
             tray->init_properties (props);
+        break;
     }
     case SCIM_ANTHY_TRANS_CMD_UPDATE_PROPERTY:
     {
@@ -295,6 +296,7 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         reader.get_data (prop);
         if (tray)
             tray->update_property (prop);
+        break;
     }
     default:
         break;
