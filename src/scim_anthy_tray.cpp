@@ -135,8 +135,8 @@ AnthyTray::init_properties (const PropertyList &properties)
                                   tip.c_str(), tip.c_str());
             gtk_container_add (GTK_CONTAINER (a_item.item),
                                a_item.label);
-            gtk_menu_append (GTK_MENU (menu_it->second.menu),
-                             a_item.item);
+            gtk_menu_shell_append (GTK_MENU_SHELL (menu_it->second.menu),
+                                   a_item.item);
             g_signal_connect (G_OBJECT (a_item.item), "activate",
                               G_CALLBACK (activate), this);
             
@@ -149,7 +149,9 @@ AnthyTray::init_properties (const PropertyList &properties)
 
             // create a menu widget for popup
             a_menu.menu = gtk_menu_new ();
-
+            gtk_menu_shell_set_take_focus (GTK_MENU_SHELL (a_menu.menu),
+                                           false);
+            
             // create a button in tray
             a_menu.button = gtk_button_new_with_label (label.c_str());
             gtk_tooltips_set_tip (m_tooltips, a_menu.button,
