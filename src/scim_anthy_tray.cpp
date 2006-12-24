@@ -85,10 +85,6 @@ AnthyTray::activated_item (GtkMenuItem *item)
         GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (item),
                                             "scim-anthy-item-command-data"));
 
-    std::ofstream fout ("/home/bluedwarf/scimanthydebug");
-    fout << command << "\n" << command_data << endl;
-    fout.close ();
-
     Transaction send;
     send.put_command (command);
     send.put_data    (command_data);
