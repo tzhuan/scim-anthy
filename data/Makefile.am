@@ -39,6 +39,6 @@ style_DATA		= atok.sty \
 			  tsuki-2-203-106.sty
 
 dictiondir		= $(SCIM_ANTHY_DATADIR)
-diction_DATA		= diction
+diction_DATA		= diction conjugation
 
 EXTRA_DIST		= $(icon_DATA) $(style_DATA) $(diction_DATA)

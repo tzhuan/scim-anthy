@@ -28,6 +28,7 @@
 #include <scim.h>
 #include "scim_anthy_reading.h"
 #include "scim_anthy_conversion.h"
+#include "scim_anthy_const.h"
 
 #define SCIM_ANTHY_PSEUDO_ASCII_TRIGGERED_CAPITALIZED			(1 << 0)
 #define SCIM_ANTHY_PSEUDO_ASCII_TRIGGERED_COUPLE_OF_CAPITAL		(1 << 1)
@@ -37,14 +38,6 @@ using namespace scim;
 class AnthyInstance;
 
 namespace scim_anthy {
-
-typedef enum {
-    SCIM_ANTHY_MODE_HIRAGANA,
-    SCIM_ANTHY_MODE_KATAKANA,
-    SCIM_ANTHY_MODE_HALF_KATAKANA,
-    SCIM_ANTHY_MODE_LATIN,
-    SCIM_ANTHY_MODE_WIDE_LATIN,
-} InputMode;
 
 class Preedit
 {

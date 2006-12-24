@@ -29,6 +29,7 @@
 #include "scim_anthy_intl.h"
 #include "scim_anthy_helper.h"
 #include "scim_anthy_tray.h"
+#include "scim_anthy_const.h"
 
 using namespace scim;
 
@@ -282,20 +283,13 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         helper->update_note (str);
         break;
     }
-    case SCIM_ANTHY_TRANS_CMD_INSTALL_PROPERTIES:
+    case SCIM_ANTHY_TRANS_CMD_SET_INPUT_MODE:
     {
-        PropertyList props;
-        reader.get_data (props);
+        uint32 mode;
+        reader.get_data (mode);
         if (tray)
-            tray->init_properties (props);
-        break;
-    }
-    case SCIM_ANTHY_TRANS_CMD_UPDATE_PROPERTY:
-    {
-        Property prop;
-        reader.get_data (prop);
-        if (tray)
-            tray->update_property (prop);
+            tray->set_input_mode ((InputMode)mode);
+
         break;
     }
     case SCIM_TRANS_CMD_REQUEST:
@@ -303,7 +297,7 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         int cmd2;
         reader.get_command (cmd2);
         if (cmd2 == SCIM_TRANS_CMD_FOCUS_OUT && tray != NULL)
-            tray->init_properties (PropertyList ());
+            tray->hide ();
 
         break;
     }

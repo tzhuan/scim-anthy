@@ -25,42 +25,36 @@
 #define Uses_STL_MAP
 #include <gtk/scimtrayicon.h>
 #include <gtk/gtk.h>
+#include "scim_anthy_const.h"
 
 using namespace scim;
 
 class AnthyTray; // pre definition
 
-typedef struct _TrayMenuItem
+typedef struct _MenuItemProperties
 {
-    GtkWidget *item;
-    GtkWidget *label;
-} TrayMenuItem;
-
-typedef struct _ActivateEvent
-{
-    char      *key;
-    AnthyTray *owner;
-} ActivateEvent;
-
-typedef struct _TrayMenu
-{
-    GtkWidget *button;
-    GtkWidget *menu;
-} TrayMenu;
+    const char *label;
+    const char *tips;
+          int   command;
+          int   command_data;
+} MenuItemProperties;
 
 class AnthyTray
 {
 public:
     AnthyTray ();
     ~AnthyTray ();
-    void init_properties        (const PropertyList &properties);
-    void update_property        (const Property     &property);
-    void activated_item         (GtkMenuItem *menuitem);
+    void activated_item         (GtkMenuItem        *item);
     void attach_input_context   (const HelperAgent  *agent,
                                  int                 ic,
                                  const String       &ic_uuid);
 
+    void set_input_mode         (InputMode           mode);
+    void show                   (void);
+    void hide                   (void);
+
 private:
+    void create_tray            (void);
     void destroy_current_tray   (void);
 
 private:
@@ -68,11 +62,16 @@ private:
     int                          m_ic;
     String                       m_ic_uuid;
 
+    bool                         m_initialized;
+    bool                         m_visible;
+
     ScimTrayIcon                *m_tray;
-    GtkWidget                   *m_hbox;
+    GtkWidget                   *m_box;
+    GtkWidget                   *m_tray_button;
+    GtkWidget                   *m_dummy;
+
+    GtkWidget                   *m_input_mode_menu;
     GtkTooltips                 *m_tooltips;
-    std::map< String, TrayMenu >      m_menus;
-    std::map< String, TrayMenuItem >  m_items;
 };
 
 #endif /* __SCIM_ANTHY_TRAY_H__ */

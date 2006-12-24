@@ -23,40 +23,11 @@
 #define Uses_SCIM_TYPES
 #include <scim.h>
 #include "scim_anthy_default_tables.h"
+#include "scim_anthy_const.h"
 
 using namespace scim;
 
 namespace scim_anthy {
-
-typedef enum {
-    SCIM_ANTHY_PERIOD_JAPANESE,
-    SCIM_ANTHY_PERIOD_WIDE,
-    SCIM_ANTHY_PERIOD_HALF,
-} PeriodStyle;
-
-typedef enum {
-    SCIM_ANTHY_COMMA_JAPANESE,
-    SCIM_ANTHY_COMMA_WIDE,
-    SCIM_ANTHY_COMMA_HALF,
-} CommaStyle;
-
-typedef enum {
-    SCIM_ANTHY_BRACKET_JAPANESE,
-    SCIM_ANTHY_BRACKET_WIDE,
-} BracketStyle;
-
-typedef enum {
-    SCIM_ANTHY_SLASH_JAPANESE,
-    SCIM_ANTHY_SLASH_WIDE,
-} SlashStyle;
-
-typedef enum {
-    SCIM_ANTHY_TYPING_METHOD_ROMAJI,
-    SCIM_ANTHY_TYPING_METHOD_KANA,
-    SCIM_ANTHY_TYPING_METHOD_NICOLA,
-    SCIM_ANTHY_TYPING_METHOD_CUSTOM,
-} TypingMethod;
-
 
 class Key2KanaRule;
 class Key2KanaTable;

@@ -34,12 +34,57 @@
 #include "scim_anthy_diction.h"
 #include "scim_anthy_prefs.h"
 
+#define CONJUGATION_FILE SCIM_ANTHY_DATADIR"/conjugation"
+
 #define READING_BASE_STATE 1
 #define READING_POS_STATE 2
 #define READING_DICTION_STATE 3
 
 #define WRONG_SYNTAX -1
 #define REACHING_EOF -2
+
+static void
+read_conjugation_file ()
+{
+    char line[256];
+    char element[256];
+
+    FILE *f = fopen (CONJUGATION_FILE, "r");
+    if (f == NULL)
+        return;
+//ToDo: read csv file
+/*
+    char *p, *p2;
+    int i = 0;
+    while (fgets (line, 256, f) != NULL)
+    {
+        len = strlen (line);
+        if (len > 0 && line[len - 1] == '\n')
+            line[len - 1] = '\0';
+
+        int j = 0;
+        p = line;
+        while (*p != '\0')
+        {
+            p2 = strchr (p, ',');
+            if (p2 != NULL)
+            {
+                p2 = strnchr(element, p, p2 - p);
+                element[p2 - p] = '\0';
+                p = ++p2;
+            }
+            else
+            {
+                strcpy (element, p);
+                *p = '\0';
+            }
+            j++;
+        }
+        i++;
+    }
+*/
+    fclose (f);
+}
 
 AnthyDiction::AnthyDiction (const WideString &base,
                             const WideString &pos,

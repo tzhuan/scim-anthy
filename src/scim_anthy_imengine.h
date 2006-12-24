@@ -35,6 +35,7 @@
 #include "scim_anthy_preedit.h"
 #include "scim_anthy_key2kana_table.h"
 #include "scim_anthy_diction.h"
+#include "scim_anthy_const.h"
 
 using namespace scim;
 using namespace scim_anthy;
@@ -42,13 +43,6 @@ using namespace scim_anthy;
 class AnthyFactory;
 
 namespace scim_anthy {
-
-typedef enum {
-    SCIM_ANTHY_CONVERSION_MULTI_SEGMENT,
-    SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT,
-    SCIM_ANTHY_CONVERSION_MULTI_SEGMENT_IMMEDIATE,
-    SCIM_ANTHY_CONVERSION_SINGLE_SEGMENT_IMMEDIATE,
-} ConversionMode;
 
 typedef void (*timeout_func) (void *data);
 typedef void (*delete_func)  (void *data);

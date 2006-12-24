@@ -49,7 +49,8 @@ noinst_HEADERS = \
 	scim_color_button.h \
 	scim_anthy_helper.h \
 	scim_anthy_diction.h \
-	scim_anthy_tray.h 
+	scim_anthy_tray.h \
+	scim_anthy_const.h
 
 #
 # IMEngine Module
