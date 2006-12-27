@@ -76,6 +76,29 @@ AnthyTray::~AnthyTray ()
 }
 
 void
+AnthyTray::popup_input_mode_menu (GdkEventButton *event)
+{
+    guint button = 0;
+    if (event != NULL)
+        button = event->button;
+
+    gtk_widget_show_all (m_input_mode_menu);
+    gtk_menu_popup (GTK_MENU (m_input_mode_menu),
+                    NULL, NULL, NULL,
+                    NULL, button,
+                    gtk_get_current_event_time ());
+}
+
+void
+AnthyTray::popup_general_menu (GdkEventButton *event)
+{
+    guint button = 0;
+    if (event != NULL)
+        button = event->button;
+
+}
+
+void
 AnthyTray::activated_item (GtkMenuItem *item)
 {
     const uint32 command =
@@ -157,13 +180,14 @@ activate (GtkMenuItem *menuitem, gpointer user_data)
 static gboolean
 popup (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
-    GtkWidget *menu = (GtkWidget *) user_data;
-    
-    gtk_widget_show_all (menu);
-    gtk_menu_popup (GTK_MENU (menu),
-                    NULL, NULL, NULL,
-                    NULL, event->button,
-                    gtk_get_current_event_time ());                    
+    AnthyTray *anthy_tray = (AnthyTray *) user_data;
+
+    if (event->button  == 1) // left button
+        anthy_tray->popup_input_mode_menu (event);
+    else if (event->button == 3) // right button
+        anthy_tray->popup_general_menu (event);
+
+    return TRUE;
 }
 
 void
@@ -239,10 +263,23 @@ AnthyTray::create_tray (void)
     gtk_tooltips_set_tip (m_tooltips, m_tray_button,
                           _("Input mode"), _("Input mode"));
     g_signal_connect (G_OBJECT (m_tray_button), "button-release-event",
-                      G_CALLBACK (popup), m_input_mode_menu);
+                      G_CALLBACK (popup), this);
     gtk_box_pack_start (GTK_BOX (m_box), m_tray_button,
                         TRUE, TRUE, 0);
     gtk_widget_show (m_tray_button);
+
+    // configure the button padding to be 0
+    gtk_rc_parse_string (
+        "\n"
+        "   style \"scim-anthy-button-style\"\n"
+        "   {\n"
+        "      GtkWidget::focus-line-width=0\n"
+        "      GtkWidget::focus-padding=0\n"
+        "   }\n"
+        "\n"
+        "    widget \"*.scim-anthy-button\" style \"scim-anthy-button-style\"\n"
+        "\n");
+    gtk_widget_set_name (m_tray_button, "scim-anthy-button");
 
     // dummy
     m_dummy = gtk_label_new ("");

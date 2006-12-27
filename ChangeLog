@@ -1,3 +1,7 @@
+2006-12-27  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_tray.cpp, src/scim_anthy_tray.h
+
 2006-12-24  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_tray.cpp, src/scim_anthy_tray.h,

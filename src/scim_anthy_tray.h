@@ -44,6 +44,9 @@ class AnthyTray
 public:
     AnthyTray ();
     ~AnthyTray ();
+
+    void popup_input_mode_menu  (GdkEventButton *event);
+    void popup_general_menu     (GdkEventButton *event);
     void activated_item         (GtkMenuItem        *item);
     void attach_input_context   (const HelperAgent  *agent,
                                  int                 ic,
