@@ -42,9 +42,12 @@ AnthyTray::AnthyTray ()
       m_ic                 (0),
       m_ic_uuid            (String ()),
       m_initialized        (false),
-      m_visible            (false),
       m_tray               (NULL),
+#ifdef USE_GTK_BUTTON_FOR_TRAY
       m_tray_button        (NULL),
+#else
+      m_tray_event_box     (NULL),
+#endif
       m_input_mode_menu    (NULL),
       m_tooltips           (NULL),
       m_dummy              (NULL)
@@ -55,8 +58,16 @@ AnthyTray::~AnthyTray ()
 {
     if (m_initialized)
     {
+#ifdef USE_GTK_BUTTON_FOR_TRAY
         if (m_tray_button)
             gtk_widget_destroy (m_tray_button);
+#else
+        if (m_tray_event_box)
+            gtk_widget_destroy (m_tray_event_box);
+
+        if (m_tray_label)
+            gtk_widget_destroy (m_tray_label);
+#endif
 
         if (m_input_mode_menu)
             gtk_widget_destroy (m_input_mode_menu);
@@ -150,8 +161,13 @@ AnthyTray::set_input_mode (InputMode mode)
         break;
     }
 
+#ifdef  USE_GTK_BUTTON_FOR_TRAY
     gtk_button_set_label (GTK_BUTTON (m_tray_button),
                           label);
+#else
+    gtk_label_set_text (GTK_LABEL (m_tray_label),
+                        label);
+#endif
     gtk_widget_show_all (GTK_WIDGET (m_tray));
 }
 
@@ -161,11 +177,11 @@ AnthyTray::hide (void)
     if (m_initialized == false)
         return;
 
-    if (m_visible == false)
-        return;
-
+#ifdef  USE_GTK_BUTTON_FOR_TRAY
     gtk_widget_hide (m_tray_button);
-    m_visible = false;
+#else
+    gtk_widget_hide (m_tray_label);
+#endif
 }
 
 static gboolean
@@ -256,6 +272,7 @@ AnthyTray::create_tray (void)
     gtk_container_add (GTK_CONTAINER (m_tray), m_box);
     gtk_widget_show (m_box);
 
+#ifdef USE_GTK_BUTTON_FOR_TRAY
     // tray button
     m_tray_button = gtk_button_new_with_label ("\xE3\x81\x82");
     gtk_button_set_relief (GTK_BUTTON (m_tray_button),
@@ -280,6 +297,20 @@ AnthyTray::create_tray (void)
         "    widget \"*.scim-anthy-button\" style \"scim-anthy-button-style\"\n"
         "\n");
     gtk_widget_set_name (m_tray_button, "scim-anthy-button");
+#else
+    // event box for tray icon
+    m_tray_event_box = gtk_event_box_new ();
+    g_signal_connect (G_OBJECT (m_tray_event_box), "button-release-event",
+                      G_CALLBACK (popup), this);
+    gtk_box_pack_start (GTK_BOX (m_box), m_tray_event_box,
+                        TRUE, TRUE, 0);
+    gtk_widget_show (m_tray_event_box);
+
+    // label for tray icon
+    m_tray_label = gtk_label_new ("\xE3\x81\x82");
+    gtk_container_add (GTK_CONTAINER (m_tray_event_box), m_tray_label);
+    gtk_widget_show (m_tray_label);
+#endif
 
     // dummy
     m_dummy = gtk_label_new ("");
@@ -288,5 +319,4 @@ AnthyTray::create_tray (void)
     gtk_widget_show (m_dummy);
 
     m_initialized = true;
-    m_visible = true;
 }

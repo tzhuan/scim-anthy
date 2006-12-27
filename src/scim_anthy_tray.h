@@ -27,6 +27,8 @@
 #include <gtk/gtk.h>
 #include "scim_anthy_const.h"
 
+//#define USE_GTK_BUTTON_FOR_TRAY
+
 using namespace scim;
 
 class AnthyTray; // pre definition
@@ -70,7 +72,14 @@ private:
 
     ScimTrayIcon                *m_tray;
     GtkWidget                   *m_box;
+
+#ifdef USE_GTK_BUTTON_FOR_TRAY
     GtkWidget                   *m_tray_button;
+#else
+    GtkWidget                   *m_tray_event_box;
+    GtkWidget                   *m_tray_label;
+#endif
+
     GtkWidget                   *m_dummy;
 
     GtkWidget                   *m_input_mode_menu;

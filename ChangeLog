@@ -1,6 +1,13 @@
 2006-12-27  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
-	* src/scim_anthy_tray.cpp, src/scim_anthy_tray.h
+	* src/scim_anthy_tray.cpp, src/scim_anthy_tray.h:
+	  - Configure the tray button padding to be 0.
+	  - Reserve the right button click on the tray button for showing
+	    a general menu to change various modes.
+	  - Implement the tray icon with GtkEventBox + GtkLabel
+	    alternative to the GtkButton.
+	    (see USE_GTK_BUTTON_FOR_TRAY macro in src/scim_anthy_tray.h)
+	  - Fix the problem that the tray icon cannot be hidden properly.
 
 2006-12-24  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
