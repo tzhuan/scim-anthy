@@ -77,10 +77,16 @@ private:
     GtkWidget                   *m_tray_button;
 #else
     GtkWidget                   *m_tray_event_box;
-    GtkWidget                   *m_tray_label;
 #endif
 
-    GtkWidget                   *m_dummy;
+    GtkWidget                   *m_tray_image;
+
+    GdkPixbuf                   *m_hiragana_pixbuf;
+    GdkPixbuf                   *m_katakana_pixbuf;
+    GdkPixbuf                   *m_halfkana_pixbuf;
+    GdkPixbuf                   *m_latin_pixbuf;
+    GdkPixbuf                   *m_wide_latin_pixbuf;
+    GdkPixbuf                   *m_direct_pixbuf;
 
     GtkWidget                   *m_input_mode_menu;
     GtkTooltips                 *m_tooltips;

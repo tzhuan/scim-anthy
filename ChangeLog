@@ -8,6 +8,8 @@
 	    alternative to the GtkButton.
 	    (see USE_GTK_BUTTON_FOR_TRAY macro in src/scim_anthy_tray.h)
 	  - Fix the problem that the tray icon cannot be hidden properly.
+	  - Use the input methods icons, available from
+	    http://code.google.com/p/inputmethod-icons/, for tray.
 
 2006-12-24  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 

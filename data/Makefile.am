@@ -20,7 +20,13 @@ MAINTAINERCLEANFILES	= Makefile.in
 icondir			= $(SCIM_ICONDIR)
 icon_DATA		= scim-anthy.png \
 			  scim-anthy-dict.png \
-			  scim-anthy-swap-colors.png
+			  scim-anthy-swap-colors.png \
+			  scim-anthy-hiragana.png \
+			  scim-anthy-katakana.png \
+			  scim-anthy-halfkana.png \
+			  scim-anthy-halfwidth-alnum.png \
+			  scim-anthy-fullwidth-alnum.png \
+			  scim-anthy-direct.png
 
 styledir		= $(SCIM_ANTHY_DATADIR)/style
 style_DATA		= atok.sty \

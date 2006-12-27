@@ -48,9 +48,15 @@ AnthyTray::AnthyTray ()
 #else
       m_tray_event_box     (NULL),
 #endif
+      m_tray_image         (NULL),
+      m_hiragana_pixbuf    (NULL),
+      m_katakana_pixbuf    (NULL),
+      m_halfkana_pixbuf    (NULL),
+      m_latin_pixbuf       (NULL),
+      m_wide_latin_pixbuf  (NULL),
+      m_direct_pixbuf      (NULL),
       m_input_mode_menu    (NULL),
-      m_tooltips           (NULL),
-      m_dummy              (NULL)
+      m_tooltips           (NULL)
 {
 }
 
@@ -59,30 +65,22 @@ AnthyTray::~AnthyTray ()
     if (m_initialized)
     {
 #ifdef USE_GTK_BUTTON_FOR_TRAY
-        if (m_tray_button)
-            gtk_widget_destroy (m_tray_button);
+        gtk_widget_destroy (m_tray_button);
 #else
-        if (m_tray_event_box)
-            gtk_widget_destroy (m_tray_event_box);
-
-        if (m_tray_label)
-            gtk_widget_destroy (m_tray_label);
+        gtk_widget_destroy (m_tray_event_box);
 #endif
 
-        if (m_input_mode_menu)
-            gtk_widget_destroy (m_input_mode_menu);
+        gtk_widget_destroy (m_tray_image);
+        g_object_unref (G_OBJECT (m_hiragana_pixbuf));
+        g_object_unref (G_OBJECT (m_katakana_pixbuf));
+        g_object_unref (G_OBJECT (m_halfkana_pixbuf));
+        g_object_unref (G_OBJECT (m_latin_pixbuf));
+        g_object_unref (G_OBJECT (m_wide_latin_pixbuf));
+        g_object_unref (G_OBJECT (m_direct_pixbuf));
 
-        if (m_dummy)
-            gtk_widget_destroy (m_dummy);
-
-        if (m_box)
-            gtk_widget_destroy (m_box);
-        
-        if (m_tray)
-            gtk_object_destroy (GTK_OBJECT (m_tray));
-
-        if (m_tooltips)
-            gtk_object_destroy (GTK_OBJECT (m_tooltips));
+        gtk_widget_destroy (m_input_mode_menu);
+        gtk_object_destroy (GTK_OBJECT (m_tray));
+        gtk_object_destroy (GTK_OBJECT (m_tooltips));
     }
 }
 
@@ -141,34 +139,24 @@ AnthyTray::set_input_mode (InputMode mode)
     if (m_initialized == false)
         create_tray ();
 
-    char *label = "a";
     switch (mode)
     {
     case SCIM_ANTHY_MODE_HIRAGANA:
-        label = "\xE3\x81\x82";
+        gtk_image_set_from_pixbuf (GTK_IMAGE (m_tray_image), m_hiragana_pixbuf);
         break;
     case SCIM_ANTHY_MODE_KATAKANA:
-        label = "\xE3\x82\xA2";
+        gtk_image_set_from_pixbuf (GTK_IMAGE (m_tray_image), m_katakana_pixbuf);
         break;
     case SCIM_ANTHY_MODE_HALF_KATAKANA:
-        label = "_\xEF\xBD\xB1";
+        gtk_image_set_from_pixbuf (GTK_IMAGE (m_tray_image), m_halfkana_pixbuf);
         break;
     case SCIM_ANTHY_MODE_LATIN:
-        label = "_A";
+        gtk_image_set_from_pixbuf (GTK_IMAGE (m_tray_image), m_latin_pixbuf);
         break;
     case SCIM_ANTHY_MODE_WIDE_LATIN:
-        label = "\xEF\xBC\xA1";
+        gtk_image_set_from_pixbuf (GTK_IMAGE (m_tray_image), m_wide_latin_pixbuf);
         break;
     }
-
-#ifdef  USE_GTK_BUTTON_FOR_TRAY
-    gtk_button_set_label (GTK_BUTTON (m_tray_button),
-                          label);
-#else
-    gtk_label_set_text (GTK_LABEL (m_tray_label),
-                        label);
-#endif
-    gtk_widget_show_all (GTK_WIDGET (m_tray));
 }
 
 void
@@ -177,11 +165,7 @@ AnthyTray::hide (void)
     if (m_initialized == false)
         return;
 
-#ifdef  USE_GTK_BUTTON_FOR_TRAY
-    gtk_widget_hide (m_tray_button);
-#else
-    gtk_widget_hide (m_tray_label);
-#endif
+    gtk_image_set_from_pixbuf (GTK_IMAGE (m_tray_image), m_direct_pixbuf);
 }
 
 static gboolean
@@ -267,22 +251,16 @@ AnthyTray::create_tray (void)
     m_tray = scim_tray_icon_new ("scim-anthy-input-mode-tray");
     gtk_widget_show (GTK_WIDGET (m_tray));
 
-    // box of tray
-    m_box = gtk_hbox_new (FALSE, 0);
-    gtk_container_add (GTK_CONTAINER (m_tray), m_box);
-    gtk_widget_show (m_box);
-
 #ifdef USE_GTK_BUTTON_FOR_TRAY
     // tray button
-    m_tray_button = gtk_button_new_with_label ("\xE3\x81\x82");
+    m_tray_button = gtk_button_new ();
     gtk_button_set_relief (GTK_BUTTON (m_tray_button),
                            GTK_RELIEF_NONE);
     gtk_tooltips_set_tip (m_tooltips, m_tray_button,
                           _("Input mode"), _("Input mode"));
     g_signal_connect (G_OBJECT (m_tray_button), "button-release-event",
                       G_CALLBACK (popup), this);
-    gtk_box_pack_start (GTK_BOX (m_box), m_tray_button,
-                        TRUE, TRUE, 0);
+    gtk_container_add (GTK_CONTAINER (m_tray), m_tray_button);
     gtk_widget_show (m_tray_button);
 
     // configure the button padding to be 0
@@ -300,23 +278,43 @@ AnthyTray::create_tray (void)
 #else
     // event box for tray icon
     m_tray_event_box = gtk_event_box_new ();
+    gtk_tooltips_set_tip (m_tooltips, m_tray_event_box,
+                          _("Input mode"), _("Input mode"));
     g_signal_connect (G_OBJECT (m_tray_event_box), "button-release-event",
                       G_CALLBACK (popup), this);
-    gtk_box_pack_start (GTK_BOX (m_box), m_tray_event_box,
-                        TRUE, TRUE, 0);
+    gtk_container_add (GTK_CONTAINER (m_tray), m_tray_event_box);
     gtk_widget_show (m_tray_event_box);
-
-    // label for tray icon
-    m_tray_label = gtk_label_new ("\xE3\x81\x82");
-    gtk_container_add (GTK_CONTAINER (m_tray_event_box), m_tray_label);
-    gtk_widget_show (m_tray_label);
 #endif
 
-    // dummy
-    m_dummy = gtk_label_new ("");
-    gtk_box_pack_start (GTK_BOX (m_box), m_dummy,
-                        TRUE, TRUE, 0);
-    gtk_widget_show (m_dummy);
+    // images for tray icon
+    m_hiragana_pixbuf = gdk_pixbuf_scale_simple (
+        gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-hiragana.png", NULL),
+        20, 20, GDK_INTERP_BILINEAR);
+    m_katakana_pixbuf = gdk_pixbuf_scale_simple (
+        gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-katakana.png", NULL),
+        20, 20, GDK_INTERP_BILINEAR);
+    m_halfkana_pixbuf = gdk_pixbuf_scale_simple (
+        gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-halfkana.png", NULL),
+        20, 20, GDK_INTERP_BILINEAR);
+    m_latin_pixbuf = gdk_pixbuf_scale_simple (
+        gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-halfwidth-alnum.png", NULL),
+        20, 20, GDK_INTERP_BILINEAR);
+    m_wide_latin_pixbuf = gdk_pixbuf_scale_simple (
+        gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-fullwidth-alnum.png", NULL),
+        20, 20, GDK_INTERP_BILINEAR);
+    m_direct_pixbuf = gdk_pixbuf_scale_simple (
+        gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-direct.png", NULL),
+        20, 20, GDK_INTERP_BILINEAR);
+    m_tray_image = gtk_image_new_from_pixbuf (m_direct_pixbuf);
+
+#ifdef USE_GTK_BUTTON_FOR_TRAY
+    gtk_container_add (GTK_CONTAINER (m_tray_button), m_tray_image);
+#else
+    gtk_container_add (GTK_CONTAINER (m_tray_event_box), m_tray_image);
+    gtk_misc_set_alignment (GTK_MISC (m_tray_image), 0.5, 0.5);
+    gtk_widget_set_size_request (m_tray_image, 24, 24);
+#endif
+    gtk_widget_show (m_tray_image);
 
     m_initialized = true;
 }
