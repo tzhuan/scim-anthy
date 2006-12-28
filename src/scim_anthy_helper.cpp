@@ -292,12 +292,30 @@ slot_imengine_event (const HelperAgent *agent, int ic,
 
         break;
     }
+    case SCIM_ANTHY_TRANS_CMD_INIT_TRAY_MENU:
+    {
+        PropertyList props;
+        reader.get_data (props);
+        if (tray)
+            tray->create_general_menu (props);
+
+        break;
+    }
+    case SCIM_ANTHY_TRANS_CMD_UPDATE_TRAY_MENU:
+    {
+        Property prop;
+        reader.get_data (prop);
+        if (tray)
+            tray->update_general_menu (prop);
+
+        break;
+    }
     case SCIM_TRANS_CMD_REQUEST:
     {
         int cmd2;
         reader.get_command (cmd2);
         if (cmd2 == SCIM_TRANS_CMD_FOCUS_OUT && tray != NULL)
-            tray->hide ();
+            tray->disable ();
 
         break;
     }

@@ -34,6 +34,8 @@
 #include "scim_anthy_helper.h"
 #include "scim_anthy_const.h"
 
+#define SCIM_PROP_IMENGINE_ANTHY_PREFIX  "/IMEngine/Anthy/"
+
 using namespace scim;
 using namespace std;
 
@@ -56,12 +58,15 @@ AnthyTray::AnthyTray ()
       m_wide_latin_pixbuf  (NULL),
       m_direct_pixbuf      (NULL),
       m_input_mode_menu    (NULL),
+      m_general_menu       (NULL),
       m_tooltips           (NULL)
 {
 }
 
 AnthyTray::~AnthyTray ()
 {
+    destroy_general_menu ();
+
     if (m_initialized)
     {
 #ifdef USE_GTK_BUTTON_FOR_TRAY
@@ -79,14 +84,31 @@ AnthyTray::~AnthyTray ()
         g_object_unref (G_OBJECT (m_direct_pixbuf));
 
         gtk_widget_destroy (m_input_mode_menu);
+
         gtk_object_destroy (GTK_OBJECT (m_tray));
         gtk_object_destroy (GTK_OBJECT (m_tooltips));
     }
 }
 
+static gboolean
+popup (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+{
+    AnthyTray *anthy_tray = (AnthyTray *) user_data;
+
+    if (event->button  == 1) // left button
+        anthy_tray->popup_input_mode_menu (event);
+    else if (event->button == 3) // right button
+        anthy_tray->popup_general_menu (event);
+
+    return TRUE;
+}
+
 void
 AnthyTray::popup_input_mode_menu (GdkEventButton *event)
 {
+    if (m_input_mode_menu == NULL)
+        return;
+
     guint button = 0;
     if (event != NULL)
         button = event->button;
@@ -98,17 +120,17 @@ AnthyTray::popup_input_mode_menu (GdkEventButton *event)
                     gtk_get_current_event_time ());
 }
 
-void
-AnthyTray::popup_general_menu (GdkEventButton *event)
+static gboolean
+activate_input_mode_menu_item (GtkMenuItem *menuitem, gpointer user_data)
 {
-    guint button = 0;
-    if (event != NULL)
-        button = event->button;
+    AnthyTray *anthy_tray = (AnthyTray *) user_data;
+    anthy_tray->activated_input_mode_menu_item (menuitem);
 
+    return TRUE;
 }
 
 void
-AnthyTray::activated_item (GtkMenuItem *item)
+AnthyTray::activated_input_mode_menu_item (GtkMenuItem *item)
 {
     const uint32 command =
         GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (item),
@@ -124,6 +146,47 @@ AnthyTray::activated_item (GtkMenuItem *item)
 }
 
 void
+AnthyTray::popup_general_menu (GdkEventButton *event)
+{
+    if (m_general_menu == NULL)
+        return;
+
+    guint button = 0;
+    if (event != NULL)
+        button = event->button;
+
+    gtk_widget_show_all (m_general_menu);
+    gtk_menu_popup (GTK_MENU (m_general_menu),
+                    NULL, NULL, NULL,
+                    NULL, button,
+                    gtk_get_current_event_time ());
+}
+
+static gboolean
+activate_general_menu_item (GtkMenuItem *menuitem, gpointer user_data)
+{
+    AnthyTray *anthy_tray = (AnthyTray *) user_data;
+    anthy_tray->activated_general_menu_item (menuitem);
+
+    return TRUE;
+}
+
+void
+AnthyTray::activated_general_menu_item (GtkMenuItem *item)
+{
+    String key = String (SCIM_PROP_IMENGINE_ANTHY_PREFIX);
+    char *suffix =
+        (char *) g_object_get_data (G_OBJECT (item),
+                                    "scim-anthy-property-key");
+    key += suffix;
+
+    Transaction send;
+    send.put_command (SCIM_ANTHY_TRANS_CMD_TRIGGER_PROPERTY);
+    send.put_data    (String (key));
+    m_agent->send_imengine_event (m_ic, m_ic_uuid, send);
+}
+
+void
 AnthyTray::attach_input_context   (const HelperAgent  *agent,
                                    int                 ic,
                                    const String       &ic_uuid)
@@ -131,6 +194,15 @@ AnthyTray::attach_input_context   (const HelperAgent  *agent,
     m_agent   = agent;
     m_ic      = ic;
     m_ic_uuid = ic_uuid;
+}
+
+void
+AnthyTray::disable (void)
+{
+    if (m_initialized == false)
+        return;
+
+    gtk_image_set_from_pixbuf (GTK_IMAGE (m_tray_image), m_direct_pixbuf);
 }
 
 void
@@ -160,40 +232,192 @@ AnthyTray::set_input_mode (InputMode mode)
 }
 
 void
-AnthyTray::hide (void)
+AnthyTray::create_general_menu (PropertyList &props)
 {
-    if (m_initialized == false)
+    destroy_general_menu ();
+
+    // general menu
+    m_general_menu = gtk_menu_new ();
+    gtk_menu_shell_set_take_focus (GTK_MENU_SHELL (m_general_menu),
+                                   false);
+
+    // general menu items
+    PropertyList::iterator it = props.begin ();
+    while (it != props.end ())
+    {
+        String key = it->get_key ();
+        String label = it->get_label ();
+        String tip = it->get_tip ();
+
+        if (key.find (SCIM_PROP_IMENGINE_ANTHY_PREFIX) != 0)
+            continue;
+        key.erase (0, strlen(SCIM_PROP_IMENGINE_ANTHY_PREFIX));
+
+        int pos;
+        if ((pos = key.find ("/")) == String::npos)
+        {
+            GtkWidget *item = gtk_menu_item_new ();
+            GtkWidget *item_label = gtk_label_new (label.c_str ());
+
+            gtk_misc_set_alignment (GTK_MISC (item_label),
+                                    0.0, 0.5); // to left
+
+            if (m_tooltips == NULL)
+                m_tooltips = gtk_tooltips_new ();
+
+            gtk_tooltips_set_tip (m_tooltips, item,
+                                  tip.c_str(), tip.c_str());
+            gtk_container_add (GTK_CONTAINER (item),
+                               item_label);
+            g_object_set_data (G_OBJECT (item),
+                               "scim-anthy-property-key",
+                               strdup (key.c_str ()));
+            gtk_menu_shell_append (GTK_MENU_SHELL (m_general_menu),
+                                   item);
+
+            GtkWidget *submenu = gtk_menu_new ();
+
+            gtk_menu_shell_set_take_focus (GTK_MENU_SHELL (submenu),
+                                           false);
+            gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
+        }
+        else
+        {
+            String parent_key = key.substr (0, pos);
+
+            GtkWidget *item = gtk_menu_item_new ();
+            GtkWidget *item_label = gtk_label_new (label.c_str ());
+
+            gtk_misc_set_alignment (GTK_MISC (item_label),
+                                    0.0, 0.5); // to left
+
+            if (m_tooltips == NULL)
+                m_tooltips = gtk_tooltips_new ();
+
+            gtk_tooltips_set_tip (m_tooltips, item,
+                                  tip.c_str (), tip.c_str ());
+            gtk_container_add (GTK_CONTAINER (item),
+                               item_label);
+            g_object_set_data (G_OBJECT (item),
+                               "scim-anthy-property-key",
+                               strdup (key.c_str ()));
+            GtkWidget *parent_menu_item = find_menu_item (m_general_menu, parent_key);
+            if (parent_menu_item == NULL)
+                continue;
+
+            GtkWidget *parent_menu =
+                gtk_menu_item_get_submenu (GTK_MENU_ITEM (parent_menu_item));
+            if (parent_menu == NULL)
+                continue;
+
+            gtk_menu_shell_append (GTK_MENU_SHELL (parent_menu),
+                                   item);
+            g_signal_connect (G_OBJECT (item), "activate",
+                              G_CALLBACK (activate_general_menu_item), this);
+        }
+
+        it++;
+    }
+}
+
+void
+AnthyTray::update_general_menu (Property &prop)
+{
+    String key = prop.get_key ();
+    String label = prop.get_label ();
+    String tip = prop.get_tip ();
+
+    if (key.find (SCIM_PROP_IMENGINE_ANTHY_PREFIX) != 0)
+        return;
+    key.erase (0, strlen(SCIM_PROP_IMENGINE_ANTHY_PREFIX));
+
+    GtkWidget *item = find_menu_item (m_general_menu, key);
+    GtkWidget *item_label = gtk_bin_get_child (GTK_BIN (item));
+
+    gtk_tooltips_set_tip (m_tooltips, item,
+                          tip.c_str (), tip.c_str ());
+    gtk_label_set_text (GTK_LABEL (item_label), label.c_str ());
+}
+
+GtkWidget *
+AnthyTray::find_menu_item (GtkWidget *menu, const String &key)
+{
+    char *tmp;
+    GList *list = gtk_container_get_children (GTK_CONTAINER (menu));
+
+    while (list != NULL)
+    {
+        GtkWidget *item = (GtkWidget *) (list->data);
+        GtkWidget *submenu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (item));
+
+        tmp = (char *) g_object_get_data (G_OBJECT(item),
+                                          "scim-anthy-property-key");
+        if (key == tmp)
+            return item;
+
+        GList *sublist =
+            gtk_container_get_children (GTK_CONTAINER (submenu));
+        while (sublist != NULL)
+        {
+            GtkWidget *subitem = (GtkWidget *) (sublist->data);
+            tmp = (char *) g_object_get_data (G_OBJECT (subitem),
+                                              "scim-anthy-property-key");
+
+            if (key == tmp)
+                return subitem;
+
+            sublist = g_list_next (sublist);
+        }
+
+        list = g_list_next (list);
+    }
+
+    return NULL;
+}
+
+void
+AnthyTray::destroy_general_menu (void)
+{
+    if (m_general_menu == NULL)
         return;
 
-    gtk_image_set_from_pixbuf (GTK_IMAGE (m_tray_image), m_direct_pixbuf);
-}
+    GList *list = gtk_container_get_children (GTK_CONTAINER (m_general_menu));
+    char *tmp;
 
-static gboolean
-activate (GtkMenuItem *menuitem, gpointer user_data)
-{
-    AnthyTray *anthy_tray = (AnthyTray *) user_data;
-    anthy_tray->activated_item (menuitem);
+    while (list != NULL)
+    {
+        GtkWidget *item = (GtkWidget *) (list->data);
+        GtkWidget *submenu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (item));
 
-    return TRUE;
-}
+        tmp = (char *) g_object_get_data (G_OBJECT(item),
+                                          "scim-anthy-property-key");
+        if (tmp != NULL)
+            free (tmp);
 
-static gboolean
-popup (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
-{
-    AnthyTray *anthy_tray = (AnthyTray *) user_data;
+        GList *sublist =
+            gtk_container_get_children (GTK_CONTAINER (submenu));
+        while (sublist != NULL)
+        {
+            GtkWidget *subitem = (GtkWidget *) (sublist->data);
+            tmp = (char *) g_object_get_data (G_OBJECT (subitem),
+                                              "scim-anthy-property-key");
+            if (tmp != NULL)
+                free (tmp);
+            sublist = g_list_next (sublist);
+        }
 
-    if (event->button  == 1) // left button
-        anthy_tray->popup_input_mode_menu (event);
-    else if (event->button == 3) // right button
-        anthy_tray->popup_general_menu (event);
+        list = g_list_next (list);
+    }
 
-    return TRUE;
+    gtk_widget_destroy (m_general_menu);
+    m_general_menu = NULL;
 }
 
 void
 AnthyTray::create_tray (void)
 {
-    m_tooltips = gtk_tooltips_new ();
+    if (m_tooltips == NULL)
+        m_tooltips = gtk_tooltips_new ();
 
     // input mode menu
     m_input_mode_menu = gtk_menu_new ();
@@ -201,7 +425,7 @@ AnthyTray::create_tray (void)
                                    false);
 
     // input mode menu items
-    MenuItemProperties props[5];
+    InputModeMenuItemProperties props[5];
 
     props[0].label = props[0].tips = _("Hiragana");
     props[0].command = SCIM_ANTHY_TRANS_CMD_CHANGE_INPUT_MODE;
@@ -215,8 +439,7 @@ AnthyTray::create_tray (void)
     props[2].command = SCIM_ANTHY_TRANS_CMD_CHANGE_INPUT_MODE;
     props[2].command_data = SCIM_ANTHY_MODE_HALF_KATAKANA;
 
-    props[3].label = _("Latin");
-    props[3].tips = _("Direct input");
+    props[3].label = props[3].tips =  _("Latin");
     props[3].command = SCIM_ANTHY_TRANS_CMD_CHANGE_INPUT_MODE;
     props[3].command_data = SCIM_ANTHY_MODE_LATIN;
 
@@ -244,7 +467,7 @@ AnthyTray::create_tray (void)
                            "scim-anthy-item-command-data",
                            GUINT_TO_POINTER(props[i].command_data));
         g_signal_connect (G_OBJECT (item), "activate",
-                          G_CALLBACK (activate), this);
+                          G_CALLBACK (activate_input_mode_menu_item), this);
     }
 
     // tray

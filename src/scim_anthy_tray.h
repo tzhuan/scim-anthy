@@ -33,13 +33,13 @@ using namespace scim;
 
 class AnthyTray; // pre definition
 
-typedef struct _MenuItemProperties
+typedef struct _InputModeMenuItemProperties
 {
     const char *label;
     const char *tips;
           int   command;
           int   command_data;
-} MenuItemProperties;
+} InputModeMenuItemProperties;
 
 class AnthyTray
 {
@@ -48,19 +48,25 @@ public:
     ~AnthyTray ();
 
     void popup_input_mode_menu  (GdkEventButton *event);
+    void activated_input_mode_menu_item (GtkMenuItem *item);
+
     void popup_general_menu     (GdkEventButton *event);
-    void activated_item         (GtkMenuItem        *item);
+    void activated_general_menu_item (GtkMenuItem *item);
+
     void attach_input_context   (const HelperAgent  *agent,
                                  int                 ic,
                                  const String       &ic_uuid);
+    void disable                (void);
 
     void set_input_mode         (InputMode           mode);
-    void show                   (void);
-    void hide                   (void);
+
+    void create_general_menu    (PropertyList &props);
+    void update_general_menu    (Property &prop);
 
 private:
+    GtkWidget *find_menu_item   (GtkWidget *menu, const String &key);
+    void destroy_general_menu   (void);
     void create_tray            (void);
-    void destroy_current_tray   (void);
 
 private:
     const HelperAgent           *m_agent;
@@ -89,6 +95,8 @@ private:
     GdkPixbuf                   *m_direct_pixbuf;
 
     GtkWidget                   *m_input_mode_menu;
+    GtkWidget                   *m_general_menu;
+
     GtkTooltips                 *m_tooltips;
 };
 
