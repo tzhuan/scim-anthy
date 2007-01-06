@@ -18,6 +18,8 @@
  */
 
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "scim_anthy_utils.h"
 #include "scim_anthy_default_tables.h"
