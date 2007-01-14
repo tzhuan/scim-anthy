@@ -784,9 +784,175 @@ AnthyInstance::install_properties (void)
     register_properties (m_properties);
 
     // for tray menu
+    if (m_tray_properties.size () <= 0) {
+        Property prop;
+
+        // input mode
+        prop = Property (SCIM_PROP_INPUT_MODE,
+                         _("Input mode"), String (""), _("Input mode"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_INPUT_MODE_HIRAGANA,
+                         _("Hiragana"), String (""), _("Hiragana"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_INPUT_MODE_KATAKANA,
+                         _("Katakana"), String (""), _("Katakana"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_INPUT_MODE_HALF_KATAKANA,
+                         _("Half width katakana"), String (""),
+                         _("Half width katakana"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_INPUT_MODE_LATIN,
+                         _("Latin"), String (""), _("Direct input"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_INPUT_MODE_WIDE_LATIN,
+                         _("Wide latin"), String (""), _("Wide latin"));
+        m_tray_properties.push_back (prop);
+
+        // typing method
+        prop = Property (SCIM_PROP_TYPING_METHOD,
+                         _("Typing method"), String (""), _("Typing method"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_TYPING_METHOD_ROMAJI,
+                         _("Romaji"), String (""), _("Romaji"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_TYPING_METHOD_KANA,
+                         _("Kana"), String (""), _("Kana"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_TYPING_METHOD_NICOLA,
+                         _("Thumb shift"), String (""), _("Thumb shift"));
+        m_tray_properties.push_back (prop);
+
+        // conversion method
+        prop = Property (SCIM_PROP_CONV_MODE,
+                         _("Conversion method"), String (""),
+                         _("Conversion method"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_CONV_MODE_MULTI_SEG,
+                         _("Multi segment"), String (""),
+                         _("Multi segment"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_CONV_MODE_SINGLE_SEG,
+                         _("Single segment"), String (""),
+                         _("Single segment"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_CONV_MODE_MULTI_REAL_TIME,
+                         _("Convert as you type (Multi segment)"),
+                         String (""),
+                         _("Convert as you type (Multi segment)"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_CONV_MODE_SINGLE_REAL_TIME,
+                         _("Convert as you type (Single segment)"),
+                         String (""),
+                         _("Convert as you type (Single segment)"));
+        m_tray_properties.push_back (prop);
+
+        // period style
+        prop = Property (SCIM_PROP_PERIOD_STYLE,
+                         _("Period style"), String (""),
+                         _("Period style"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_PERIOD_STYLE_JAPANESE,
+                         "\xE3\x80\x81\xE3\x80\x82", String (""),
+                         "\xE3\x80\x81\xE3\x80\x82");
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_PERIOD_STYLE_WIDE_LATIN_JAPANESE,
+                         "\xEF\xBC\x8C\xE3\x80\x82", String (""),
+                         "\xEF\xBC\x8C\xE3\x80\x82");
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_PERIOD_STYLE_WIDE_LATIN,
+                         "\xEF\xBC\x8C\xEF\xBC\x8E", String (""),
+                         "\xEF\xBC\x8C\xEF\xBC\x8E");
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_PERIOD_STYLE_LATIN,
+                         ",.", String (""), ",.");
+        m_tray_properties.push_back (prop);
+
+        // symbol style
+        prop = Property (SCIM_PROP_SYMBOL_STYLE,
+                         _("Symbol style"),
+                         String (""),
+                         _("Symbol style"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_SYMBOL_STYLE_JAPANESE,
+                         UTF8_BRACKET_CORNER_BEGIN
+                         UTF8_BRACKET_CORNER_END
+                         UTF8_MIDDLE_DOT,
+                         String (""),
+                         UTF8_BRACKET_CORNER_BEGIN
+                         UTF8_BRACKET_CORNER_END
+                         UTF8_MIDDLE_DOT);
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_SYMBOL_STYLE_CORNER_BRACKET_SLASH,
+                         UTF8_BRACKET_CORNER_BEGIN
+                         UTF8_BRACKET_CORNER_END
+                         UTF8_SLASH_WIDE,
+                         String (""),
+                         UTF8_BRACKET_CORNER_BEGIN
+                         UTF8_BRACKET_CORNER_END
+                         UTF8_SLASH_WIDE);
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_SYMBOL_STYLE_BRACKET_MIDDLE_DOT,
+                         UTF8_BRACKET_WIDE_BEGIN
+                         UTF8_BRACKET_WIDE_END
+                         UTF8_MIDDLE_DOT,
+                         String (""),
+                         UTF8_BRACKET_WIDE_BEGIN
+                         UTF8_BRACKET_WIDE_END
+                         UTF8_MIDDLE_DOT);
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_SYMBOL_STYLE_BRACKET_SLASH,
+                         UTF8_BRACKET_WIDE_BEGIN
+                         UTF8_BRACKET_WIDE_END
+                         UTF8_SLASH_WIDE,
+                         String (""),
+                         UTF8_BRACKET_WIDE_BEGIN
+                         UTF8_BRACKET_WIDE_END
+                         UTF8_SLASH_WIDE);
+        m_tray_properties.push_back (prop);
+
+        // dictionary
+        prop = Property (SCIM_PROP_DICT,
+                         _("Dictionary"),
+                         String (SCIM_ICONDIR "/" "scim-anthy-dict.png"),
+                         _("Dictionary menu"));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_DICT_LAUNCH_ADMIN_TOOL,
+                         _("Edit the dictionary"),
+                         String (SCIM_ICONDIR "/" "scim-anthy-dict.png"),
+                         _("Launch the dictionary administration tool."));
+        m_tray_properties.push_back (prop);
+
+        prop = Property (SCIM_PROP_DICT_ADD_WORD,
+                         _("Add a word"),
+                         String (SCIM_ICONDIR "/" "scim-anthy-dict.png"),
+                         _("Add a word to the dictorinay."));
+        m_tray_properties.push_back (prop);
+    }
+
     Transaction send;
     send.put_command (SCIM_ANTHY_TRANS_CMD_INIT_TRAY_MENU);
-    send.put_data (m_properties);
+    send.put_data (m_tray_properties);
     send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
 }
 
@@ -839,11 +1005,6 @@ AnthyInstance::set_input_mode (InputMode mode)
             send.put_command (SCIM_ANTHY_TRANS_CMD_SET_INPUT_MODE);
             send.put_data (mode);
             send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
-
-            Transaction send2;
-            send2.put_command (SCIM_ANTHY_TRANS_CMD_UPDATE_TRAY_MENU);
-            send2.put_data (*it);
-            send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send2);
         }
     }
 
@@ -2339,7 +2500,7 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
 
         Transaction send2;
         send2.put_command (SCIM_ANTHY_TRANS_CMD_INIT_TRAY_MENU);
-        send2.put_data (m_properties);
+        send2.put_data (m_tray_properties);
         send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send2);
 
         break;
@@ -2462,6 +2623,7 @@ AnthyInstance::reload_config (const ConfigPointer &config)
 
     // setup toolbar
     m_properties.clear ();
+    m_tray_properties.clear ();
     install_properties ();
 
     // set encoding

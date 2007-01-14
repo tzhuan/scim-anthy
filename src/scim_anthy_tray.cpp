@@ -151,14 +151,10 @@ AnthyTray::popup_general_menu (GdkEventButton *event)
     if (m_general_menu == NULL)
         return;
 
-    guint button = 0;
-    if (event != NULL)
-        button = event->button;
-
     gtk_widget_show_all (m_general_menu);
     gtk_menu_popup (GTK_MENU (m_general_menu),
                     NULL, NULL, NULL,
-                    NULL, button,
+                    NULL, 0,
                     gtk_get_current_event_time ());
 }
 

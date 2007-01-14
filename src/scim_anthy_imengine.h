@@ -273,6 +273,9 @@ private:
     /* for toolbar */
     PropertyList          m_properties;
 
+    /* for tray icon */
+    PropertyList          m_tray_properties;
+
     /*  */
     ConversionMode        m_conv_mode;
 
