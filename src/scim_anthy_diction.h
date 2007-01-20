@@ -27,11 +27,27 @@
 
 using namespace scim;
 
+class AnthyConjugation
+{
+public:
+    AnthyConjugation (const WideString &pos,
+                      const WideString &end_form_ending,
+                      const std::vector <WideString > endings);
+    WideString        get_end_form_ending ();
+    std::vector< WideString >::iterator begin_endings ();
+    std::vector< WideString >::iterator end_endings ();
+private:
+    WideString m_pos;
+    WideString m_end_form_ending;
+    std::vector< WideString > m_endings;
+};
+
 class AnthyDiction
 {
 public:
     AnthyDiction (const WideString &base,
                   const WideString &pos,
+                  const WideString &end_form_ending,
                   const WideString &diction);
     AnthyDiction (const AnthyDiction &a);
     ~AnthyDiction ();
@@ -44,7 +60,7 @@ public:
 private:
     WideString m_base;
     WideString m_pos;
-    WideString m_ending;
+    WideString m_end_form_ending;
     WideString m_diction;
 };
 
@@ -80,6 +96,8 @@ private:
     FILE *open_diction_file ();
 
     bool is_diction_file_modified ();
+
+    void load_conjugation_file ();
 };
 
 #endif /* __SCIM_ANTHY_DICTION_H__ */

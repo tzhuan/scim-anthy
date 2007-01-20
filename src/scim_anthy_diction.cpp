@@ -43,56 +43,41 @@
 #define WRONG_SYNTAX -1
 #define REACHING_EOF -2
 
-static void
-read_conjugation_file ()
+static std::map< WideString, AnthyConjugation > conjugations;
+
+AnthyConjugation::AnthyConjugation (const WideString &pos,
+                                    const WideString &end_form_ending,
+                                    const std::vector <WideString > endings)
 {
-    char line[256];
-    char element[256];
+    m_pos = pos;
+    m_end_form_ending = end_form_ending;
+    m_endings = endings;
+}
 
-    FILE *f = fopen (CONJUGATION_FILE, "r");
-    if (f == NULL)
-        return;
-//ToDo: read csv file
-/*
-    char *p, *p2;
-    int i = 0;
-    while (fgets (line, 256, f) != NULL)
-    {
-        len = strlen (line);
-        if (len > 0 && line[len - 1] == '\n')
-            line[len - 1] = '\0';
+WideString
+AnthyConjugation::get_end_form_ending ()
+{
+    return m_end_form_ending;
+}
 
-        int j = 0;
-        p = line;
-        while (*p != '\0')
-        {
-            p2 = strchr (p, ',');
-            if (p2 != NULL)
-            {
-                p2 = strnchr(element, p, p2 - p);
-                element[p2 - p] = '\0';
-                p = ++p2;
-            }
-            else
-            {
-                strcpy (element, p);
-                *p = '\0';
-            }
-            j++;
-        }
-        i++;
-    }
-*/
-    fclose (f);
+std::vector< WideString >::iterator AnthyConjugation::begin_endings ()
+{
+    return m_endings.begin ();
+}
+
+std::vector< WideString >::iterator AnthyConjugation::end_endings ()
+{
+    return m_endings.end ();
 }
 
 AnthyDiction::AnthyDiction (const WideString &base,
                             const WideString &pos,
+                            const WideString &end_form_ending,
                             const WideString &diction)
 {
     m_base = base;
-    m_ending = WideString (); // ToDo: specify ending from pos
     m_pos = pos;
+    m_end_form_ending = end_form_ending;
     m_diction = diction;
 
 }
@@ -100,7 +85,7 @@ AnthyDiction::AnthyDiction (const WideString &base,
 AnthyDiction::AnthyDiction (const AnthyDiction &a)
 {
     m_base = a.m_base;
-    m_ending = a.m_ending;
+    m_end_form_ending = a.m_end_form_ending;
     m_pos = a.m_pos;
     m_diction = a.m_diction;
 }
@@ -124,7 +109,7 @@ AnthyDiction::get_pos ()
 WideString
 AnthyDiction::get_end_form ()
 {
-    return m_base + m_ending;
+    return m_base + m_end_form_ending;
 }
 
 WideString
@@ -145,6 +130,7 @@ AnthyDictionService::AnthyDictionService (const ConfigPointer &config)
     m_diction_file_mtime        (0)
 {
     reload_config (config);
+    load_conjugation_file ();
 }
 
 AnthyDictionService::~AnthyDictionService ()
@@ -198,7 +184,7 @@ AnthyDictionService::get_dictions (std::vector< WideString > &segments,
 
     while (seg != segments.end ())
     {
-        for (int i = 1; i <= segments.size (); i++)
+        for (int i = 1; i <= seg->size (); i++)
         {
             WideString key = seg->substr (0, i);
             std::map< WideString, long >::iterator p = m_hash.find (key);
@@ -206,7 +192,18 @@ AnthyDictionService::get_dictions (std::vector< WideString > &segments,
             {
                 // ToDo: cache
                 read_one_chunk (f, p->second, base, pos, diction);
-                dictions.push_back (AnthyDiction (base, pos, diction));
+
+                // get end form ending
+                WideString end_form_ending;
+                std::map< WideString, AnthyConjugation >::iterator q = conjugations.find (pos);
+                if (q != conjugations.end ())
+                {
+                    end_form_ending = q->second.get_end_form_ending ();
+                }
+
+                // ToDo: don't add the same diction
+                dictions.push_back (AnthyDiction (base, pos, end_form_ending, diction));
+
                 break;
             }
         }
@@ -348,7 +345,22 @@ AnthyDictionService::append_word (const WideString &base,
                                   const WideString &pos,
                                   const long position)
 {
-	m_hash.insert (std::make_pair (base, position));
+    std::map< WideString, AnthyConjugation >::iterator p = conjugations.find (pos);
+    if (p != conjugations.end ())
+    {
+        // declinable word
+        std::vector< WideString >::iterator q = p->second.begin_endings ();
+        while (q != p->second.end_endings ())
+        {
+            m_hash.insert (std::make_pair (base + (*q), position));
+            q++;
+        }
+    }
+    else
+    {
+        // indeclinable word
+        m_hash.insert (std::make_pair (base, position));
+    }
 }
 
 
@@ -394,6 +406,64 @@ AnthyDictionService::is_diction_file_modified ()
         return true;
 
     return (buf.st_mtime > m_diction_file_mtime);
+}
+
+void
+AnthyDictionService::load_conjugation_file ()
+{
+    int len;
+    char line[256];
+    char *p, *p2;
+
+    conjugations.clear ();
+
+    FILE *f = fopen (CONJUGATION_FILE, "r");
+    if (f == NULL)
+        return;
+
+    while (fgets (line, 256, f) != NULL)
+    {
+        len = strlen (line);
+        if (len == 0 ||       // empty line
+            line[0] == '#')   // comment line
+        {
+            continue;
+        }
+        else
+        {
+            WideString pos;
+            WideString end_form;
+            std::vector< WideString > endings;
+
+            p = line;
+
+            // read part of speech
+            p2 = strchr (p, ',');
+            if (p2 == NULL)
+                continue; // invalid line
+            pos = utf8_mbstowcs (p, p2 - p);
+
+            // read the end form
+            p = p2 + 1;
+            p2 = strchr (p, ',');
+            if (p2 == NULL)
+                continue; // invalid line
+            end_form = utf8_mbstowcs (p, p2 - p);
+            
+            // read endings
+            p = p2 + 1;
+            while ( (p2 = strchr (p, ',')) != NULL)
+            {
+                endings.push_back (utf8_mbstowcs (p, p2 - p));
+                p = p2 + 1;
+            }
+
+            AnthyConjugation conj (pos, end_form, endings);
+            conjugations.insert (std::make_pair (pos, conj));
+        }
+    }
+
+    fclose (f);
 }
 
 /*

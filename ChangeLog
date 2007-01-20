@@ -1,3 +1,9 @@
+2007-01-21  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* data/conjugation, src/scim_anthy_diction.cpp,
+	  src/scim_anthy_diction.h:
+	Support declinable words for diction.
+
 2007-01-14  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_imengine.cpp, src/scim_anthy_imengine.h,
