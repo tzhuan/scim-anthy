@@ -1,3 +1,10 @@
+2007-02-03  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* data/conjugation, data/diction, src/scim_anthy_diction.cpp
+	 - Imported most of diction data from prime-dict.
+	   Thanks to the authors of prime-dict.
+	 - Improved conjugation file.
+
 2007-01-21  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* data/conjugation, src/scim_anthy_diction.cpp,

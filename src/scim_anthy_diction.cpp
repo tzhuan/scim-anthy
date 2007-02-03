@@ -235,7 +235,21 @@ AnthyDictionService::load_diction_file ()
         return; // failed to open diction file
     }
 
-    long position = 0;
+    // comment lines
+    char buf[256];
+    do
+    {
+        if( fgets(buf, 256, f) == NULL )
+        {
+            // failed to find "EOC" line and actual contents
+            close_diction_file (f);
+            reset ();
+            m_enable_diction = false;
+            return;
+        }
+    }while( strcmp(buf, "EOC") == 0);
+
+    long position = ftell(f);
     long next_position;
     WideString base;
     WideString pos;
