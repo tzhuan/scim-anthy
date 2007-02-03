@@ -1,3 +1,8 @@
+2007-02-04  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_diction.cpp, src/scim_anthy_imengine.cpp
+	Changes about the line feed code at the end of diction text.
+
 2007-02-03  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* data/conjugation, data/diction, src/scim_anthy_diction.cpp

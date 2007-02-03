@@ -554,15 +554,13 @@ AnthyInstance::set_lookup_table (void)
                 note += dictions[i].get_end_form ();
                 note += utf8_mbstowcs (":\n");
                 note += dictions[i].get_diction ();
-                note += utf8_mbstowcs ("\n");
+                if( (i+1) != dictions.size() )
+                    note += utf8_mbstowcs ("\n\n");
             }
 
             // show diction if it exists
             if (note.size () != 0)
             {
-                // strip the last line feed code
-                note.erase (note.size () - 1, WideString::npos);
-
                 update_note (note);
                 show_note ();
             }

@@ -337,6 +337,9 @@ AnthyDictionService::read_one_chunk (FILE *f,
                 base.append (utf8_mbstowcs (base_buffer));
                 pos.clear ();
                 pos.append (utf8_mbstowcs (pos_buffer));
+
+                // strip the last line feed code
+                diction_buffer[diction_buffer.size() - 1] = '\0';
                 diction.clear ();
                 diction.append (utf8_mbstowcs (diction_buffer));
 
