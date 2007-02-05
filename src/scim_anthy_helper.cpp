@@ -1015,6 +1015,11 @@ AnthyHelper::update_lookup_table_style ()
                                     GTK_STATE_NORMAL,
                                     &tmp_color);
         }
+
+        if (candidates[i].label != NULL)
+        {
+            gtk_misc_set_padding (GTK_MISC (candidates[i].label), 4, 1);
+        }
     }
 }
 

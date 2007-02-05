@@ -1,7 +1,8 @@
 2007-02-05  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_helper.cpp, src/scim_anthy_helper.h
-	Fundamental changes around the colors.
+	 - Fundamental changes around the colors.
+	 - Change the padding size of each candidate for good-looking.
 
 2007-02-04  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
