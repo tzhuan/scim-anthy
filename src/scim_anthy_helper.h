@@ -25,11 +25,13 @@
 #include <scim_trans_commands.h>
 #include <scim_helper.h>
 #include <gtk/gtk.h>
+#include <map>
 #include "scim_anthy_const.h"
 
 #define SCIM_ANTHY_HELPER_UUID "24a65e2b-10a8-4d4c-adc9-266678cb1a38"
 
 using namespace scim;
+using std::map;
 
 struct _scim_anthy_candidate_label
 {
@@ -75,18 +77,17 @@ private:
     int spot_location_y;
 
     PangoFontDescription *m_font_desc;
-    GdkColor m_active_bg;
-    GdkColor m_active_text;
-    GdkColor m_normal_bg;
-    GdkColor m_normal_text;
+    map< String, GdkColor > m_colors;
+    map< String, String > m_default_colors;
 
     /* herlper main window */
     GtkWidget *m_helper_window;
     GtkWidget *m_helper_vbox;
 
     /* aux string */
-    bool aux_string_visible;
-    GtkWidget *aux_string_label;
+    bool m_aux_string_visible;
+    GtkWidget *m_aux_event_box;
+    GtkWidget *m_aux_string_label;
 
     /* lookup table and candidates */
     bool lookup_table_visible;
@@ -101,6 +102,8 @@ private:
     GtkWidget *m_note_label;
 
 private:
+    GdkColor get_color_from_key (const String &key);
+
     void relocate_windows          (void);
     void update_lookup_table_style (void);
     void update_aux_string_style   (void);
