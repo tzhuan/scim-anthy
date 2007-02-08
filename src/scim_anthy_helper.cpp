@@ -441,13 +441,15 @@ run (const String &display, const ConfigPointer &config)
 #define AUX_TEXT_COLOR      "/IMEngine/Anthy/Color/AuxText"
 #define AUX_BG_COLOR        "/IMEngine/Anthy/Color/AuxBackground"
 
+#define LOOKUP_FONT         "/Panel/Gtk/Font"
+#define NOTE_FONT           "/IMEngine/Anthy/Font/Note"
+
 AnthyHelper::AnthyHelper ()
     : m_config                    (NULL),
       m_display                   (NULL),
       m_current_screen            (NULL),
       spot_location_x             (0),
       spot_location_y             (0),
-      m_font_desc                 (NULL),
       m_helper_window             (NULL),
       m_helper_vbox               (NULL),
       m_aux_string_visible        (false),
@@ -462,7 +464,6 @@ AnthyHelper::AnthyHelper ()
       m_note_event_box            (NULL),
       m_note_label                (NULL)
 {
-
 // default colors
 #define REGISTER_DEFAULT_COLOR( key, color ) \
     m_default_colors.insert (make_pair (String (key), String(color)));
@@ -471,18 +472,23 @@ AnthyHelper::AnthyHelper ()
     REGISTER_DEFAULT_COLOR(ACTIVE_TEXT_COLOR, "black");
     REGISTER_DEFAULT_COLOR(NORMAL_BG_COLOR, "white");
     REGISTER_DEFAULT_COLOR(NORMAL_TEXT_COLOR, "black");
-    REGISTER_DEFAULT_COLOR(LOOKUP_BORDER_COLOR, "black");
-    REGISTER_DEFAULT_COLOR(NOTE_BORDER_COLOR, "black");
-    REGISTER_DEFAULT_COLOR(NOTE_BG_COLOR, "powder blue");
+    REGISTER_DEFAULT_COLOR(LOOKUP_BORDER_COLOR, "gray");
+    REGISTER_DEFAULT_COLOR(NOTE_BORDER_COLOR, "gray");
+    REGISTER_DEFAULT_COLOR(NOTE_BG_COLOR, "misty rose");
     REGISTER_DEFAULT_COLOR(NOTE_TEXT_COLOR, "black");
     REGISTER_DEFAULT_COLOR(AUX_TEXT_COLOR, "black");
-    REGISTER_DEFAULT_COLOR(AUX_BG_COLOR, "gray");
+    REGISTER_DEFAULT_COLOR(AUX_BG_COLOR, "light gray");
+
+#define REGISTER_DEFAULT_FONT( key, font )\
+    m_default_fonts.insert (make_pair (String (key), String(font)));
+
+    REGISTER_DEFAULT_FONT(LOOKUP_FONT, "Sans 12");
+    REGISTER_DEFAULT_FONT(NOTE_FONT, "Sans 10");
 }
 
 AnthyHelper::~AnthyHelper ()
 {
-    if (m_font_desc)
-        pango_font_description_free (m_font_desc);
+    free_all_font_descs ();
 
     if (m_helper_window)
     {
@@ -539,6 +545,19 @@ AnthyHelper::~AnthyHelper ()
         gtk_widget_hide (m_note_label);
         gtk_widget_destroy (m_note_label);
     }
+}
+
+void
+AnthyHelper::free_all_font_descs(void)
+{
+    map< String, PangoFontDescription* >::iterator p = m_fonts.begin ();
+    while (p != m_fonts.end ())
+    {
+        if (p->second)
+            pango_font_description_free (p->second);
+    }
+
+    m_fonts.clear ();
 }
 
 void
@@ -614,11 +633,12 @@ AnthyHelper::reload_config ()
 {
     String tmp_str;
     GdkColor tmp_color;
+    PangoFontDescription *tmp_desc;
 
     // change colors
     m_colors.clear ();
     map< String, String >::iterator p = m_default_colors.begin ();
-    while(p != m_default_colors.end ())
+    while (p != m_default_colors.end ())
     {
         tmp_str = m_config->read (p->first, p->second);
         if (gdk_color_parse (tmp_str.c_str(), &tmp_color) == FALSE)
@@ -636,11 +656,33 @@ AnthyHelper::reload_config ()
     }
 
     // change font
-    tmp_str = m_config->read (String ("/Panel/Gtk/Font"),
-                              String ("Sans 12"));
-    if (m_font_desc)
-        pango_font_description_free (m_font_desc);
-    m_font_desc = pango_font_description_from_string (tmp_str.c_str ());
+    free_all_font_descs ();
+    p = m_default_fonts.begin ();
+    while (p != m_default_fonts.end ())
+    {
+        tmp_str = m_config->read (p->first, p->second);
+        tmp_desc = pango_font_description_from_string (tmp_str.c_str ());
+        // ToDo: check the validity of the tmp_desc
+        
+        m_fonts.insert (make_pair (p->first, tmp_desc));
+
+        p++;
+    }
+}
+
+PangoFontDescription *
+AnthyHelper::get_font_desc_from_key (const String &key)
+{
+    map< String, PangoFontDescription* >::iterator p = m_fonts.find (key);
+    if (p == m_fonts.end ())
+    {
+        // use a system default font
+        PangoFontDescription *tmp_desc = pango_font_description_new ();
+        m_fonts.insert (make_pair (key, tmp_desc));
+        return tmp_desc;
+    }
+
+    return p->second;
 }
 
 GdkColor
@@ -755,6 +797,7 @@ AnthyHelper::update_lookup_table (const LookupTable &table)
         return;
 
     int size = table.get_current_page_size ();
+    PangoFontDescription *tmp_desc;
 
     // initialize not allocated candidate label
     if (size > allocated_candidate_num)
@@ -766,7 +809,8 @@ AnthyHelper::update_lookup_table (const LookupTable &table)
             candidates[i].label = gtk_label_new ("");
             gtk_misc_set_alignment (GTK_MISC (candidates[i].label),
                                     0.0, 0.5); // to left
-            gtk_widget_modify_font (candidates[i].label, m_font_desc);
+            tmp_desc = get_font_desc_from_key (String (LOOKUP_FONT));
+            gtk_widget_modify_font (candidates[i].label, tmp_desc);
 
             candidates[i].event_box = gtk_event_box_new ();
             gtk_container_add (GTK_CONTAINER (candidates[i].event_box),
@@ -805,9 +849,9 @@ AnthyHelper::update_lookup_table (const LookupTable &table)
                                   &tmp_color);
             tmp_color
                 = get_color_from_key (String (ACTIVE_TEXT_COLOR));
-            gtk_widget_modify_text (candidates[i].event_box,
-                                    GTK_STATE_NORMAL,
-                                    &tmp_color);
+            gtk_widget_modify_fg (candidates[i].label,
+                                  GTK_STATE_NORMAL,
+                                  &tmp_color);
         }
         else
         {
@@ -819,9 +863,9 @@ AnthyHelper::update_lookup_table (const LookupTable &table)
                                   &tmp_color);
             tmp_color
                 = get_color_from_key (String (NORMAL_TEXT_COLOR));
-            gtk_widget_modify_text (candidates[i].event_box,
-                                    GTK_STATE_NORMAL,
-                                    &tmp_color);
+            gtk_widget_modify_fg (candidates[i].label,
+                                  GTK_STATE_NORMAL,
+                                  &tmp_color);
         }
     }
 
@@ -980,6 +1024,7 @@ void
 AnthyHelper::update_lookup_table_style ()
 {
     GdkColor tmp_color;
+    PangoFontDescription *tmp_desc;
 
     if (m_helper_window != NULL)
     {
@@ -999,7 +1044,8 @@ AnthyHelper::update_lookup_table_style ()
     {
         if (candidates[i].label != NULL)
         {
-            gtk_widget_modify_font (candidates[i].label, m_font_desc);
+            tmp_desc = get_font_desc_from_key (String (LOOKUP_FONT));
+            gtk_widget_modify_font (candidates[i].label, tmp_desc);
         }
 
         if (candidates[i].event_box != NULL)
@@ -1011,9 +1057,9 @@ AnthyHelper::update_lookup_table_style ()
                                   &tmp_color);
             tmp_color
                 = get_color_from_key (String (NORMAL_TEXT_COLOR));
-            gtk_widget_modify_text (candidates[i].event_box,
-                                    GTK_STATE_NORMAL,
-                                    &tmp_color);
+            gtk_widget_modify_fg (candidates[i].label,
+                                  GTK_STATE_NORMAL,
+                                  &tmp_color);
         }
 
         if (candidates[i].label != NULL)
@@ -1036,13 +1082,15 @@ AnthyHelper::update_aux_string_style ()
                               &tmp_color);
         tmp_color
             = get_color_from_key (String (AUX_TEXT_COLOR));
-        gtk_widget_modify_text (m_aux_event_box,
-                                GTK_STATE_NORMAL,
-                                &tmp_color);
+        gtk_widget_modify_fg (m_aux_string_label,
+                              GTK_STATE_NORMAL,
+                              &tmp_color);
     }
 
+    PangoFontDescription *tmp_desc;
+    tmp_desc = get_font_desc_from_key (String (LOOKUP_FONT));
     if (m_aux_string_label != NULL)
-        gtk_widget_modify_font (m_aux_string_label, m_font_desc);
+        gtk_widget_modify_font (m_aux_string_label, tmp_desc);
 }
 
 void
@@ -1067,13 +1115,15 @@ AnthyHelper::update_note_style ()
                               &tmp_color);
         tmp_color
             = get_color_from_key (String (NOTE_TEXT_COLOR));
-        gtk_widget_modify_text (m_note_event_box,
-                                GTK_STATE_NORMAL,
-                                &tmp_color);
+        gtk_widget_modify_fg (m_note_label,
+                              GTK_STATE_NORMAL,
+                              &tmp_color);
 
         gtk_container_set_border_width (GTK_CONTAINER (m_note_event_box), 1);
     }
 
+    PangoFontDescription *tmp_desc;
+    tmp_desc = get_font_desc_from_key (String (NOTE_FONT));
     if (m_note_label != NULL)
-        gtk_widget_modify_font (m_note_label, m_font_desc);
+        gtk_widget_modify_font (m_note_label, tmp_desc);
 }

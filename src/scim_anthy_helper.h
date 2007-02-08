@@ -76,9 +76,11 @@ private:
     int spot_location_x;
     int spot_location_y;
 
-    PangoFontDescription *m_font_desc;
     map< String, GdkColor > m_colors;
     map< String, String > m_default_colors;
+
+    map< String, PangoFontDescription* > m_fonts;
+    map< String, String > m_default_fonts;
 
     /* herlper main window */
     GtkWidget *m_helper_window;
@@ -102,7 +104,9 @@ private:
     GtkWidget *m_note_label;
 
 private:
-    GdkColor get_color_from_key (const String &key);
+    void free_all_font_descs       (void);
+    PangoFontDescription *get_font_desc_from_key (const String &key);
+    GdkColor get_color_from_key    (const String &key);
 
     void relocate_windows          (void);
     void update_lookup_table_style (void);

@@ -1,3 +1,9 @@
+2007-02-09  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_helper.cpp, src/scim_anthy_helper.h
+	 - Added a new option to determine the face font to show a note.
+	 - Some default colors are changed according to my favorite.
+
 2007-02-05  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_helper.cpp, src/scim_anthy_helper.h
