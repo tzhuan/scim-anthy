@@ -1,3 +1,12 @@
+2007-02-14  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_factory.cpp
+	 - Added my copyright notice.
+
+	* src/scim_anthy_helper.cpp
+	 - Fixed the bug that the note window is displayed above
+	   the lookup window.
+
 2007-02-09  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_helper.cpp, src/scim_anthy_helper.h

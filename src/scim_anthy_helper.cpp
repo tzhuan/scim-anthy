@@ -987,36 +987,36 @@ AnthyHelper::relocate_windows (void)
     }
 
     // current spot location
-    gint fixed_x = spot_location_x;
-    gint fixed_y = spot_location_y;
+    gint fixed_lookup_x = spot_location_x;
+    gint fixed_lookup_y = spot_location_y;
 
     // move helper window
     if (lookup_table_visible || m_aux_string_visible)
     {
         // confines lookup table window to screen size
         if ((spot_location_x + helper_window_width) >= screen_width)
-            fixed_x = screen_width - helper_window_width;
+            fixed_lookup_x = screen_width - helper_window_width;
         if ((spot_location_y + helper_window_height) >= screen_height)
-            fixed_y = screen_height - helper_window_height;
+            fixed_lookup_y = screen_height - helper_window_height;
 
         gtk_window_move (GTK_WINDOW (m_helper_window),
-                         fixed_x, fixed_y);
+                         fixed_lookup_x, fixed_lookup_y);
     }
 
-    fixed_x = spot_location_x + helper_window_width;
-    fixed_y = spot_location_y;
+    gint fixed_note_x = spot_location_x + helper_window_width;
+    gint fixed_note_y = spot_location_y;
 
     // move note window
     if (m_note_visible)
     {
-        if ( (fixed_x + note_window_width) >= screen_width)
-            fixed_x = spot_location_x - note_window_width;
+        if ( (fixed_note_x + note_window_width) >= screen_width)
+            fixed_note_x = fixed_lookup_x - note_window_width;
             // left of the main helper window
-        if ( (fixed_y + note_window_height) >= screen_height)
-            fixed_y = screen_height - note_window_height;
+        if ( (fixed_note_y + note_window_height) >= screen_height)
+            fixed_note_y = screen_height - note_window_height;
 
         gtk_window_move (GTK_WINDOW (m_note_window),
-                         fixed_x, fixed_y);
+                         fixed_note_x, fixed_note_y);
     }
 }
 

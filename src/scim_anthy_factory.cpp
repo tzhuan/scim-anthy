@@ -194,6 +194,7 @@ AnthyFactory::get_authors () const
         _("Authors of scim-anthy:\n"
           "  Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>\n"
           "  Copyright (C) 2004,2005 Hiroyuki Ikezoe <poincare@ikezoe.net>\n"
+          "  Copyright (C) 2006,2007 Takashi Nakamoto <bluedwarf@bpost.plala.or.jp>\n"
           "  \n"
           "Authors of Anthy:\n"
           "  Copyright (C) 2000-2005 Yusuke TABATA <yusuke@w5.dion.ne.jp>\n"
