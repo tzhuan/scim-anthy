@@ -2,7 +2,7 @@
 /*
  *  Copyright (C) 2004 - 2005 Hiroyuki Ikezoe <poincare@ikezoe.net>
  *  Copyright (C) 2004 - 2005 Takuro Ashie <ashie@homa.ne.jp>
- *  Copyright (C) 2006 Takashi Nakamoto <bluedwarf@bpost.plala.or.jp>
+ *  Copyright (C) 2006 - 2007 Takashi Nakamoto <bluedwarf@bpost.plala.or.jp>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -155,10 +155,10 @@ AnthyInstance::process_key_event_input (const KeyEvent &key)
         m_preedit.get_candidates (table);
         if (table.number_of_candidates () > 0) {
             table.show_cursor (false);
-            update_lookup_table (table);
-            show_lookup_table ();
+            update_lookup_table_advanced (table);
+            show_lookup_table_advanced ();
         } else {
-            hide_lookup_table ();
+            hide_lookup_table_advanced ();
         }
     }
 
@@ -343,7 +343,7 @@ AnthyInstance::select_candidate_no_direct (unsigned int item)
 
     // update lookup table
     m_lookup_table.set_cursor_pos_in_current_page (item);
-    update_lookup_table (m_lookup_table);
+    update_lookup_table_advanced (m_lookup_table);
 
     // update preedit
     m_preedit.select_candidate (m_lookup_table.get_cursor_pos ());
@@ -393,7 +393,7 @@ AnthyInstance::lookup_table_page_up ()
 
     m_lookup_table.page_up ();
 
-    update_lookup_table (m_lookup_table);
+    update_lookup_table_advanced (m_lookup_table);
 }
 
 void
@@ -410,7 +410,7 @@ AnthyInstance::lookup_table_page_down ()
 
     m_lookup_table.page_down ();
 
-    update_lookup_table (m_lookup_table);
+    update_lookup_table_advanced (m_lookup_table);
 }
 
 void
@@ -432,7 +432,7 @@ AnthyInstance::focus_in ()
 {
     SCIM_DEBUG_IMENGINE(2) << "focus_in.\n";
 
-    hide_aux_string ();
+    hide_aux_string_advanced ();
     hide_note ();
 
     if (m_preedit_string_visible) {
@@ -443,10 +443,10 @@ AnthyInstance::focus_in ()
     }
 
     if (m_lookup_table_visible && is_selecting_candidates ()) {
-        update_lookup_table (m_lookup_table);
-        show_lookup_table ();
+        update_lookup_table_advanced (m_lookup_table);
+        show_lookup_table_advanced ();
     } else {
-        hide_lookup_table ();
+        hide_lookup_table_advanced ();
     }
 
     install_properties ();
@@ -511,7 +511,7 @@ AnthyInstance::set_lookup_table (void)
             return;
 
         // set position
-        update_lookup_table (m_lookup_table);
+        update_lookup_table_advanced (m_lookup_table);
 
         // update preedit
         m_preedit.select_candidate (m_lookup_table.get_cursor_pos ());
@@ -526,7 +526,7 @@ AnthyInstance::set_lookup_table (void)
     if (!m_lookup_table_visible &&
         (m_preedit.is_predicting () || beyond_threshold))
     {
-        show_lookup_table ();
+        show_lookup_table_advanced ();
         m_lookup_table_visible = true;
         m_n_conv_key_pressed = 0;
 
@@ -535,8 +535,8 @@ AnthyInstance::set_lookup_table (void)
             sprintf (buf, _("Candidates (%d/%d)"),
                      m_lookup_table.get_cursor_pos () + 1,
                      m_lookup_table.number_of_candidates ());
-            update_aux_string (utf8_mbstowcs (buf));
-            show_aux_string ();
+            update_aux_string_advanced (utf8_mbstowcs (buf));
+            show_aux_string_advanced ();
 
             // find diction
             int start = m_lookup_table.get_current_page_start ();
@@ -571,7 +571,7 @@ AnthyInstance::set_lookup_table (void)
             }
         }
     } else if (!m_lookup_table_visible) {
-        hide_lookup_table ();
+        hide_lookup_table_advanced ();
     }
 }
 
@@ -579,12 +579,12 @@ void
 AnthyInstance::unset_lookup_table (void)
 {
     m_lookup_table.clear ();
-    hide_lookup_table ();
+    hide_lookup_table_advanced ();
     m_lookup_table_visible = false;
     m_n_conv_key_pressed = 0;
 
-    update_aux_string (utf8_mbstowcs (""));
-    hide_aux_string ();
+    update_aux_string_advanced (utf8_mbstowcs (""));
+    hide_aux_string_advanced ();
     
     update_note (utf8_mbstowcs (""));
     hide_note ();
@@ -2666,81 +2666,111 @@ AnthyInstance::get_pseudo_ascii_mode (void)
 }
 
 void
-AnthyInstance::show_aux_string (void)
+AnthyInstance::show_aux_string_advanced (void)
 {
-    Transaction send;
-    send.put_command (SCIM_TRANS_CMD_SHOW_AUX_STRING);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    if (m_factory->m_use_custom_lookup_window) {
+        Transaction send;
+        send.put_command (SCIM_TRANS_CMD_SHOW_AUX_STRING);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    } else {
+        show_aux_string ();
+    }
 }
 
 void
-AnthyInstance::hide_aux_string (void)
+AnthyInstance::hide_aux_string_advanced (void)
 {
-    Transaction send;
-    send.put_command (SCIM_TRANS_CMD_HIDE_AUX_STRING);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    if (m_factory->m_use_custom_lookup_window) {
+        Transaction send;
+        send.put_command (SCIM_TRANS_CMD_HIDE_AUX_STRING);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    } else {
+        hide_aux_string ();
+    }
 }
 
 void
-AnthyInstance::update_aux_string (const WideString &str,
-                                  const AttributeList &attrs)
+AnthyInstance::update_aux_string_advanced (const WideString &str,
+                                           const AttributeList &attrs)
 {
-    Transaction send;
-    send.put_command (SCIM_TRANS_CMD_UPDATE_AUX_STRING);
-    send.put_data (str);
-    send.put_data (attrs);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    if (m_factory->m_use_custom_lookup_window) {
+        Transaction send;
+        send.put_command (SCIM_TRANS_CMD_UPDATE_AUX_STRING);
+        send.put_data (str);
+        send.put_data (attrs);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    } else {
+        update_aux_string (str, attrs);
+    }
 }
 
 void
-AnthyInstance::show_lookup_table (void)
+AnthyInstance::show_lookup_table_advanced (void)
 {
-    Transaction send;
-    send.put_command (SCIM_TRANS_CMD_SHOW_LOOKUP_TABLE);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    if (m_factory->m_use_custom_lookup_window) {
+        Transaction send;
+        send.put_command (SCIM_TRANS_CMD_SHOW_LOOKUP_TABLE);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    } else {
+        show_lookup_table ();
+    }
 }
 
 void
-AnthyInstance::hide_lookup_table (void)
+AnthyInstance::hide_lookup_table_advanced (void)
 {
-    Transaction send;
-    send.put_command (SCIM_TRANS_CMD_HIDE_LOOKUP_TABLE);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    if (m_factory->m_use_custom_lookup_window) {
+        Transaction send;
+        send.put_command (SCIM_TRANS_CMD_HIDE_LOOKUP_TABLE);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    } else {
+        hide_lookup_table ();
+    }
 }
 
 
 void
-AnthyInstance::update_lookup_table (const LookupTable &table)
+AnthyInstance::update_lookup_table_advanced (const LookupTable &table)
 {
-    Transaction send;
-    send.put_command (SCIM_TRANS_CMD_UPDATE_LOOKUP_TABLE);
-    send.put_data (table);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    if (m_factory->m_use_custom_lookup_window) {
+        Transaction send;
+        send.put_command (SCIM_TRANS_CMD_UPDATE_LOOKUP_TABLE);
+        send.put_data (table);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    } else {
+        update_lookup_table (table);
+    }
 }
 
 void
 AnthyInstance::show_note (void)
 {
-    Transaction send;
-    send.put_command (SCIM_ANTHY_TRANS_CMD_SHOW_NOTE);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    if (m_factory->m_use_custom_lookup_window) {
+        Transaction send;
+        send.put_command (SCIM_ANTHY_TRANS_CMD_SHOW_NOTE);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    }
 }
 
 void
 AnthyInstance::hide_note (void)
 {
-    Transaction send;
-    send.put_command (SCIM_ANTHY_TRANS_CMD_HIDE_NOTE);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    if (m_factory->m_use_custom_lookup_window) {
+        Transaction send;
+        send.put_command (SCIM_ANTHY_TRANS_CMD_HIDE_NOTE);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    }
 }
 
 void
 AnthyInstance::update_note (const WideString &str)
 {
-    Transaction send;
-    send.put_command (SCIM_ANTHY_TRANS_CMD_UPDATE_NOTE);
-    send.put_data (str);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    if (m_factory->m_use_custom_lookup_window) {
+        Transaction send;
+        send.put_command (SCIM_ANTHY_TRANS_CMD_UPDATE_NOTE);
+        send.put_data (str);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    }
 }
 
 /*

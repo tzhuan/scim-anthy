@@ -2,6 +2,7 @@
 /*
  *  Copyright (C) 2004 Hiroyuki Ikezoe
  *  Copyright (C) 2004 Takuro Ashie
+ *  Copyright (C) 2007 Takashi Nakamoto
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -116,6 +117,8 @@ public:
     bool           m_show_dict_label;
     bool           m_show_dict_admin_label;
     bool           m_show_add_word_label;
+
+    bool           m_use_custom_lookup_window;
 
     String         m_preedit_style;
     unsigned int   m_preedit_fg_color;

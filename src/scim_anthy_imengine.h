@@ -2,7 +2,7 @@
 /*
  *  Copyright (C) 2004 Hiroyuki Ikezoe
  *  Copyright (C) 2004 Takuro Ashie
- *  Copyright (C) 2006 Takashi Nakamoto
+ *  Copyright (C) 2006 - 2007 Takashi Nakamoto
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -108,15 +108,15 @@ public:
 
 protected:
     /* signal activation functions */
-    void show_aux_string                      (void);
-    void hide_aux_string                      (void);
-    void update_aux_string                    (const WideString &str,
+    void show_aux_string_advanced             (void);
+    void hide_aux_string_advanced             (void);
+    void update_aux_string_advanced           (const WideString &str,
                                                const AttributeList &attrs
                                                = AttributeList());
 
-    void show_lookup_table                    (void);
-    void hide_lookup_table                    (void);
-    void update_lookup_table                  (const LookupTable &table);
+    void show_lookup_table_advanced           (void);
+    void hide_lookup_table_advanced           (void);
+    void update_lookup_table_advanced         (const LookupTable &table);
 
     void show_note                            (void);
     void hide_note                            (void);

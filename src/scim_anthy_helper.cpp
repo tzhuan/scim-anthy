@@ -30,6 +30,7 @@
 #include "scim_anthy_helper.h"
 #include "scim_anthy_tray.h"
 #include "scim_anthy_const.h"
+#include "scim_anthy_prefs.h"
 
 using namespace scim;
 
@@ -434,15 +435,8 @@ run (const String &display, const ConfigPointer &config)
 #define ACTIVE_TEXT_COLOR   "/Panel/Gtk/Color/ActiveText"
 #define NORMAL_BG_COLOR     "/Panel/Gtk/Color/NormalBackground"
 #define NORMAL_TEXT_COLOR   "/Panel/Gtk/Color/NormalText"
-#define LOOKUP_BORDER_COLOR "/IMEngine/Anthy/Color/LookupBorder"
-#define NOTE_BORDER_COLOR   "/IMEngine/Anthy/Color/NoteBorder"
-#define NOTE_BG_COLOR       "/IMEngine/Anthy/Color/NoteBackground"
-#define NOTE_TEXT_COLOR     "/IMEngine/Anthy/Color/NoteText"
-#define AUX_TEXT_COLOR      "/IMEngine/Anthy/Color/AuxText"
-#define AUX_BG_COLOR        "/IMEngine/Anthy/Color/AuxBackground"
 
 #define LOOKUP_FONT         "/Panel/Gtk/Font"
-#define NOTE_FONT           "/IMEngine/Anthy/Font/Note"
 
 AnthyHelper::AnthyHelper ()
     : m_config                    (NULL),
@@ -472,18 +466,25 @@ AnthyHelper::AnthyHelper ()
     REGISTER_DEFAULT_COLOR(ACTIVE_TEXT_COLOR, "black");
     REGISTER_DEFAULT_COLOR(NORMAL_BG_COLOR, "white");
     REGISTER_DEFAULT_COLOR(NORMAL_TEXT_COLOR, "black");
-    REGISTER_DEFAULT_COLOR(LOOKUP_BORDER_COLOR, "gray");
-    REGISTER_DEFAULT_COLOR(NOTE_BORDER_COLOR, "gray");
-    REGISTER_DEFAULT_COLOR(NOTE_BG_COLOR, "misty rose");
-    REGISTER_DEFAULT_COLOR(NOTE_TEXT_COLOR, "black");
-    REGISTER_DEFAULT_COLOR(AUX_TEXT_COLOR, "black");
-    REGISTER_DEFAULT_COLOR(AUX_BG_COLOR, "light gray");
+    REGISTER_DEFAULT_COLOR(SCIM_ANTHY_CONFIG_LOOKUP_BORDER_COLOR,
+                           SCIM_ANTHY_CONFIG_LOOKUP_BORDER_COLOR_DEFAULT);
+    REGISTER_DEFAULT_COLOR(SCIM_ANTHY_CONFIG_NOTE_BORDER_COLOR,
+                           SCIM_ANTHY_CONFIG_NOTE_BORDER_COLOR_DEFAULT);
+    REGISTER_DEFAULT_COLOR(SCIM_ANTHY_CONFIG_NOTE_BG_COLOR,
+                           SCIM_ANTHY_CONFIG_NOTE_BG_COLOR_DEFAULT);
+    REGISTER_DEFAULT_COLOR(SCIM_ANTHY_CONFIG_NOTE_TEXT_COLOR,
+                           SCIM_ANTHY_CONFIG_NOTE_TEXT_COLOR_DEFAULT);
+    REGISTER_DEFAULT_COLOR(SCIM_ANTHY_CONFIG_AUX_TEXT_COLOR,
+                           SCIM_ANTHY_CONFIG_AUX_TEXT_COLOR_DEFAULT);
+    REGISTER_DEFAULT_COLOR(SCIM_ANTHY_CONFIG_AUX_BG_COLOR,
+                           SCIM_ANTHY_CONFIG_AUX_BG_COLOR_DEFAULT);
 
 #define REGISTER_DEFAULT_FONT( key, font )\
     m_default_fonts.insert (make_pair (String (key), String(font)));
 
     REGISTER_DEFAULT_FONT(LOOKUP_FONT, "Sans 12");
-    REGISTER_DEFAULT_FONT(NOTE_FONT, "Sans 10");
+    REGISTER_DEFAULT_FONT(SCIM_ANTHY_CONFIG_NOTE_FONT,
+                          SCIM_ANTHY_CONFIG_NOTE_FONT_DEFAULT);
 }
 
 AnthyHelper::~AnthyHelper ()
@@ -1029,7 +1030,7 @@ AnthyHelper::update_lookup_table_style ()
     if (m_helper_window != NULL)
     {
         tmp_color
-            = get_color_from_key (String (LOOKUP_BORDER_COLOR));
+            = get_color_from_key (String (SCIM_ANTHY_CONFIG_LOOKUP_BORDER_COLOR));
         gtk_widget_modify_bg (m_helper_window,
                               GTK_STATE_NORMAL,
                               &tmp_color);
@@ -1076,12 +1077,12 @@ AnthyHelper::update_aux_string_style ()
     if (m_aux_string_label != NULL)
     {
         tmp_color
-            = get_color_from_key (String (AUX_BG_COLOR));
+            = get_color_from_key (String (SCIM_ANTHY_CONFIG_AUX_BG_COLOR));
         gtk_widget_modify_bg (m_aux_event_box,
                               GTK_STATE_NORMAL,
                               &tmp_color);
         tmp_color
-            = get_color_from_key (String (AUX_TEXT_COLOR));
+            = get_color_from_key (String (SCIM_ANTHY_CONFIG_AUX_TEXT_COLOR));
         gtk_widget_modify_fg (m_aux_string_label,
                               GTK_STATE_NORMAL,
                               &tmp_color);
@@ -1100,7 +1101,7 @@ AnthyHelper::update_note_style ()
     if (m_note_window != NULL)
     {
         tmp_color
-            = get_color_from_key (String (NOTE_BORDER_COLOR));
+            = get_color_from_key (String (SCIM_ANTHY_CONFIG_NOTE_BORDER_COLOR));
         gtk_widget_modify_bg (m_note_window,
                               GTK_STATE_NORMAL,
                               &tmp_color);
@@ -1109,12 +1110,12 @@ AnthyHelper::update_note_style ()
     if (m_note_event_box != NULL)
     {
         tmp_color
-            = get_color_from_key (String (NOTE_BG_COLOR));
+            = get_color_from_key (String (SCIM_ANTHY_CONFIG_NOTE_BG_COLOR));
         gtk_widget_modify_bg (m_note_event_box,
                               GTK_STATE_NORMAL,
                               &tmp_color);
         tmp_color
-            = get_color_from_key (String (NOTE_TEXT_COLOR));
+            = get_color_from_key (String (SCIM_ANTHY_CONFIG_NOTE_TEXT_COLOR));
         gtk_widget_modify_fg (m_note_label,
                               GTK_STATE_NORMAL,
                               &tmp_color);
@@ -1123,7 +1124,7 @@ AnthyHelper::update_note_style ()
     }
 
     PangoFontDescription *tmp_desc;
-    tmp_desc = get_font_desc_from_key (String (NOTE_FONT));
+    tmp_desc = get_font_desc_from_key (String (SCIM_ANTHY_CONFIG_NOTE_FONT));
     if (m_note_label != NULL)
         gtk_widget_modify_font (m_note_label, tmp_desc);
 }

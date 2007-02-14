@@ -2,6 +2,7 @@
 /*
  *  Copyright (C) Hiroyuki Ikezoe <poincare@ikezoe.net>
  *  Copyright (C) 2004 Takuro Ashie <ashie@homa.ne.jp>
+ *  Copyright (C) 2007 Takashi Nakamoto <bluedwarf@bpost.plala.or.jp>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -581,6 +582,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_show_add_word_label
             = config->read (String (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL),
                             SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT);
+
+        m_use_custom_lookup_window
+            = config->read (String (SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW),
+                            SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT);
 
     	// color settings
         int red, green, blue;

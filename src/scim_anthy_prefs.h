@@ -2,6 +2,7 @@
 /*
  *  Copyright (C) 2004 Hiroyuki Ikezoe
  *  Copyright (C) 2004 Takuro Ashie
+ *  Copyright (C) 2006 - 2007 Takashi Nakamoto <bluedwarf@bpost.plala.or.jp>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -170,6 +171,17 @@
 #define SCIM_ANTHY_CONFIG_DICTION_FILE                "/IMEngine/Anthy/DictionFile"
 #define SCIM_ANTHY_CONFIG_ENABLE_DICTION              "/IMEngine/Anthy/EnableDiction"
 
+#define SCIM_ANTHY_CONFIG_LOOKUP_BORDER_COLOR          "/IMEngine/Anthy/Color/LookupBorder"
+#define SCIM_ANTHY_CONFIG_NOTE_BORDER_COLOR            "/IMEngine/Anthy/Color/NoteBorder"
+#define SCIM_ANTHY_CONFIG_NOTE_BG_COLOR                "/IMEngine/Anthy/Color/NoteBackground"
+#define SCIM_ANTHY_CONFIG_NOTE_TEXT_COLOR              "/IMEngine/Anthy/Color/NoteText"
+#define SCIM_ANTHY_CONFIG_AUX_TEXT_COLOR               "/IMEngine/Anthy/Color/AuxText"
+#define SCIM_ANTHY_CONFIG_AUX_BG_COLOR                 "/IMEngine/Anthy/Color/AuxBackground"
+
+#define SCIM_ANTHY_CONFIG_NOTE_FONT                    "/IMEngine/Anthy/Font/Note"
+
+#define SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW     "/IMEngine/Anthy/UseCustomLookupWindow"
+
 /* default config values */
 #define SCIM_ANTHY_CONFIG_INPUT_MODE_DEFAULT                  "Hiragana"
 #define SCIM_ANTHY_CONFIG_TYPING_METHOD_DEFAULT               "Romaji"
@@ -318,6 +330,17 @@
 
 #define SCIM_ANTHY_CONFIG_DICTION_FILE_DEFAULT                SCIM_ANTHY_DATADIR"/diction"
 #define SCIM_ANTHY_CONFIG_ENABLE_DICTION_DEFAULT              true
+
+#define SCIM_ANTHY_CONFIG_LOOKUP_BORDER_COLOR_DEFAULT          "gray"
+#define SCIM_ANTHY_CONFIG_NOTE_BORDER_COLOR_DEFAULT            "gray"
+#define SCIM_ANTHY_CONFIG_NOTE_BG_COLOR_DEFAULT                "misty rose"
+#define SCIM_ANTHY_CONFIG_NOTE_TEXT_COLOR_DEFAULT              "black"
+#define SCIM_ANTHY_CONFIG_AUX_TEXT_COLOR_DEFAULT               "black"
+#define SCIM_ANTHY_CONFIG_AUX_BG_COLOR_DEFAULT                 "light gray"
+
+#define SCIM_ANTHY_CONFIG_NOTE_FONT_DEFAULT                    "Sans 10"
+
+#define SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT     true
 
 #ifdef SCIM_ANTHY_USE_GTK
 
