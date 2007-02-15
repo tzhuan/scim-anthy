@@ -1,3 +1,9 @@
+2007-02-15  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* configure.ac
+	increase the requirement version of gtk+-2.0 to 2.8.0 due to the
+	funciton "gtk_menu_shell_set_take_focus".
+
 2007-02-14  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_factory.cpp, src/scim_anthy_factory.h,

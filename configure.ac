@@ -94,7 +94,7 @@ ANTHY_VERSION=7500
 PKG_CHECK_MODULES(ANTHY,[anthy >= $ANTHY_VERSION])
 
 # Check gtk2
-PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.4.0],
+PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.8.0],
                         [HAS_GTK=yes],
                         [HAS_GTK=no])
 
