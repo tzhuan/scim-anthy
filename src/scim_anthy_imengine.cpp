@@ -948,10 +948,12 @@ AnthyInstance::install_properties (void)
         m_tray_properties.push_back (prop);
     }
 
-    Transaction send;
-    send.put_command (SCIM_ANTHY_TRANS_CMD_INIT_TRAY_MENU);
-    send.put_data (m_tray_properties);
-    send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
+    if (m_factory->m_show_tray_icon) {
+        Transaction send;
+        send.put_command (SCIM_ANTHY_TRANS_CMD_INIT_TRAY_MENU);
+        send.put_data (m_tray_properties);
+        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+    }
 }
 
 void
@@ -999,10 +1001,13 @@ AnthyInstance::set_input_mode (InputMode mode)
             it->set_label (label);
             update_property (*it);
 
-            Transaction send;
-            send.put_command (SCIM_ANTHY_TRANS_CMD_SET_INPUT_MODE);
-            send.put_data (mode);
-            send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+            if (m_factory->m_show_tray_icon)
+            {
+                Transaction send;
+                send.put_command (SCIM_ANTHY_TRANS_CMD_SET_INPUT_MODE);
+                send.put_data (mode);
+                send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
+            }
         }
     }
 
@@ -2491,15 +2496,18 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
     }
     case SCIM_ANTHY_TRANS_CMD_ATTACHMENT_SUCCESS:
     {
-        Transaction send;
-        send.put_command (SCIM_ANTHY_TRANS_CMD_SET_INPUT_MODE);
-        send.put_data (get_input_mode ());
-        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
+        if (m_factory->m_show_tray_icon)
+        {
+            Transaction send;
+            send.put_command (SCIM_ANTHY_TRANS_CMD_SET_INPUT_MODE);
+            send.put_data (get_input_mode ());
+            send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);    
 
-        Transaction send2;
-        send2.put_command (SCIM_ANTHY_TRANS_CMD_INIT_TRAY_MENU);
-        send2.put_data (m_tray_properties);
-        send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send2);
+            Transaction send2;
+            send2.put_command (SCIM_ANTHY_TRANS_CMD_INIT_TRAY_MENU);
+            send2.put_data (m_tray_properties);
+            send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send2);
+        }
 
         break;
     }

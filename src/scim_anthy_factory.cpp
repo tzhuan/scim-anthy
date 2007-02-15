@@ -140,6 +140,8 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_show_dict_label             (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL_DEFAULT),
       m_show_dict_admin_label       (SCIM_ANTHY_CONFIG_SHOW_DICT_ADMIN_LABEL_DEFAULT),
       m_show_add_word_label         (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT),
+      m_show_tray_icon              (SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON_DEFAULT),
+      m_use_custom_lookup_window    (SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT),
       m_preedit_style               (SCIM_ANTHY_CONFIG_PREEDIT_STYLE_DEFAULT),
       m_conversion_style            (SCIM_ANTHY_CONFIG_CONVERSION_STYLE_DEFAULT),
       m_selected_segment_style      (SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_STYLE_DEFAULT),
@@ -582,6 +584,10 @@ AnthyFactory::reload_config (const ConfigPointer &config)
         m_show_add_word_label
             = config->read (String (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL),
                             SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL_DEFAULT);
+
+        m_show_tray_icon
+            = config->read (String (SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON),
+                            SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON_DEFAULT);
 
         m_use_custom_lookup_window
             = config->read (String (SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW),

@@ -74,7 +74,6 @@ private:
     String                       m_ic_uuid;
 
     bool                         m_initialized;
-    bool                         m_visible;
 
     ScimTrayIcon                *m_tray;
     GtkWidget                   *m_box;

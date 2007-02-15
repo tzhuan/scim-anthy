@@ -118,6 +118,8 @@ public:
     bool           m_show_dict_admin_label;
     bool           m_show_add_word_label;
 
+    bool           m_show_tray_icon;
+
     bool           m_use_custom_lookup_window;
 
     String         m_preedit_style;
