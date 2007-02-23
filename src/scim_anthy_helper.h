@@ -28,8 +28,6 @@
 #include <map>
 #include "scim_anthy_const.h"
 
-#define SCIM_ANTHY_HELPER_UUID "24a65e2b-10a8-4d4c-adc9-266678cb1a38"
-
 using namespace scim;
 using std::map;
 

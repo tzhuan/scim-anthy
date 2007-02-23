@@ -74,10 +74,8 @@ anthy_la_SOURCES = \
 	scim_anthy_utils.cpp \
 	scim_anthy_diction.cpp
 
-anthy_la_CFLAGS   = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@ \
-                    @GTK2_CFLAGS@
-anthy_la_CXXFLAGS = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@ \
-                    @GTK2_CFLAGS@
+anthy_la_CFLAGS   = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@
+anthy_la_CXXFLAGS = @SCIM_CFLAGS@ @SCIM_DEBUG_FLAGS@ @ANTHY_CFLAGS@
 
 anthy_la_LDFLAGS = \
 	-avoid-version \

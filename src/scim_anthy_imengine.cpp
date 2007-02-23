@@ -36,8 +36,6 @@
   #include <config.h>
 #endif
 
-#include <gdk/gdkx.h> // to avoid name confliction (ad-hoc)
-
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -48,7 +46,6 @@
 #include "scim_anthy_prefs.h"
 #include "scim_anthy_intl.h"
 #include "scim_anthy_utils.h"
-#include "scim_anthy_helper.h"
 #include "scim_anthy_diction.h"
 
 #define SCIM_PROP_PREFIX                     "/IMEngine/Anthy"

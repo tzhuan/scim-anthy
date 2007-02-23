@@ -24,6 +24,8 @@
 
 using namespace scim;
 
+#define SCIM_ANTHY_HELPER_UUID "24a65e2b-10a8-4d4c-adc9-266678cb1a38"
+
 // transaction commands from IMEngine to Helper
 #define SCIM_ANTHY_TRANS_CMD_NEW_IC                (SCIM_TRANS_CMD_USER_DEFINED + 1)
 #define SCIM_ANTHY_TRANS_CMD_DELETE_IC             (SCIM_TRANS_CMD_USER_DEFINED + 2)
