@@ -1094,6 +1094,10 @@ create_candidates_window_page (void)
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
+    /* show diction */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_ENABLE_DICTION);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
     /* close candidate window on select */
     widget = create_check_button (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
@@ -1226,6 +1230,10 @@ create_appearance_page (void)
 
     g_signal_connect ((gpointer) GTK_OPTION_MENU (omenu), "changed",
                       G_CALLBACK (on_preedit_style_menu_changed), hbox);
+
+    /* tray icon */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     return vbox;
 }
