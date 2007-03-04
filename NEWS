@@ -1,5 +1,7 @@
 Overview of Changes from scim-anthy-1.2.x to scim-anthy-1.3.0
 ==============================================================
+* Add a system tray icon for displaying Anthy's input mode.
+* Add a custom lookup window to show additional informations.
 * Enable to launch a dictionary tool with yomi option.
 * Learn result of prediction and direct kana conversion.
 * Clear or commit current preedit text when exit Japanese mode.

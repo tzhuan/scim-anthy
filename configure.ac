@@ -1,18 +1,24 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59)
 
-AC_INIT(scim-anthy, 1.2.2, ashie@homa.ne.jp)
+m4_define([scim_anthy_major_version], [1])
+m4_define([scim_anthy_minor_version], [3])
+m4_define([scim_anthy_micro_version], [0])
+m4_define([scim_anthy_version],
+          [scim_anthy_major_version.scim_anthy_minor_version.scim_anthy_micro_version])
+
+AC_INIT(scim-anthy, scim_anthy_version, ashie@homa.ne.jp)
 AC_CONFIG_SRCDIR([configure.ac])
 
 # Save this value here, since automake will set cflags and cxxflags later
 cflags_set=${CFLAGS+set}
 cppflags_set=${CPPFLAGS+set}
 
-SCIM_ANTHY_MAJOR_VERSION=1
-SCIM_ANTHY_MINOR_VERSION=2
-SCIM_ANTHY_MICRO_VERSION=2
+SCIM_ANTHY_MAJOR_VERSION=scim_anthy_major_version
+SCIM_ANTHY_MINOR_VERSION=scim_anthy_minor_version
+SCIM_ANTHY_MICRO_VERSION=scim_anthy_micro_version
 
-SCIM_ANTHY_VERSION=$SCIM_ANTHY_MAJOR_VERSION.$SCIM_ANTHY_MINOR_VERSION.$SCIM_ANTHY_MICRO_VERSION
+SCIM_ANTHY_VERSION=scim_anthy_version
 
 AC_SUBST(SCIM_ANTHY_MAJOR_VERSION)
 AC_SUBST(SCIM_ANTHY_MINOR_VERSION)
