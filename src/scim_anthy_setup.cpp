@@ -330,6 +330,9 @@ static void     on_choose_keys_button_clicked     (GtkWidget        *button,
                                                    gpointer          data);
 static void     on_dict_launch_button_clicked     (GtkButton        *button,
                                                    gpointer          user_data);
+static void     on_use_custom_lookup_window_toggled
+                                                  (GtkToggleButton  *button,
+                                                   gpointer          user_data);
 static void     on_color_button_changed           (ScimColorButton  *button,
                                                    gpointer          user_data);
 
@@ -1085,7 +1088,7 @@ create_dict_page (void)
 static GtkWidget *
 create_candidates_window_page (void)
 {
-    GtkWidget *vbox, *widget, *table;
+    GtkWidget *vbox, *widget, *widget2, *table, *alignment;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
@@ -1095,8 +1098,20 @@ create_candidates_window_page (void)
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     /* show diction */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_ENABLE_DICTION);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 2);
+    gtk_widget_show (alignment);
+
+    widget2 = create_check_button (SCIM_ANTHY_CONFIG_ENABLE_DICTION);
+    gtk_container_add (GTK_CONTAINER (alignment), widget2);
+    gtk_widget_set_sensitive (
+        widget2,
+        SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT);
+
+    g_signal_connect (G_OBJECT (widget), "toggled",
+                      G_CALLBACK (on_use_custom_lookup_window_toggled),
+                      widget2);
 
     /* show candidates label */
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL);
@@ -2094,6 +2109,15 @@ on_dict_launch_button_clicked (GtkButton *button, gpointer user_data)
         if (command && *command)
             util_launch_program (command);
     }
+}
+
+static void
+on_use_custom_lookup_window_toggled (GtkToggleButton *toggle_button,
+                                     gpointer user_data)
+{
+    GtkWidget *widget = GTK_WIDGET (user_data);
+    gboolean active = gtk_toggle_button_get_active (toggle_button);
+    gtk_widget_set_sensitive (widget, active);
 }
 
 static void
