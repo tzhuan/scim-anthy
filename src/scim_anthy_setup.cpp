@@ -1061,7 +1061,7 @@ create_dict_page (void)
                       (GtkAttachOptions) 0, 4, 4);
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_dict_launch_button_clicked), entry);
-    gtk_widget_show (button);
+    //gtk_widget_show (button);
 
     // add word command
     create_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND,
@@ -1075,7 +1075,7 @@ create_dict_page (void)
                       (GtkAttachOptions) 0, 4, 4);
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_dict_launch_button_clicked), entry);
-    gtk_widget_show (button);
+    //gtk_widget_show (button);
 
     // add yomi option
     create_entry (SCIM_ANTHY_CONFIG_ADD_WORD_COMMAND_YOMI_OPTION,
