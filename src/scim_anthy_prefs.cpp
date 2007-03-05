@@ -213,6 +213,15 @@ BoolConfigData config_bool_common [] =
         false,
     },
     {
+        SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW,
+        SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT,
+        SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT,
+        N_("Use custom lookup _window"),
+        NULL,
+        NULL,
+        NULL,
+    },
+    {
         SCIM_ANTHY_CONFIG_ENABLE_DICTION,
         SCIM_ANTHY_CONFIG_ENABLE_DICTION_DEFAULT,
         SCIM_ANTHY_CONFIG_ENABLE_DICTION_DEFAULT,

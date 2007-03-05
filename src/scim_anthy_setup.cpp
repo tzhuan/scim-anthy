@@ -1090,12 +1090,16 @@ create_candidates_window_page (void)
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
-    /* show candidates label */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL);
+    /* use custom lookup window */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     /* show diction */
     widget = create_check_button (SCIM_ANTHY_CONFIG_ENABLE_DICTION);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+
+    /* show candidates label */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     /* close candidate window on select */
