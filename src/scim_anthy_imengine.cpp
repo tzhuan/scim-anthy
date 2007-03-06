@@ -352,7 +352,7 @@ AnthyInstance::select_candidate_no_direct (unsigned int item)
         sprintf (buf, _("Candidates (%d/%d)"),
                  m_lookup_table.get_cursor_pos () + 1,
                  m_lookup_table.number_of_candidates ());
-        update_aux_string (utf8_mbstowcs (buf));
+        update_aux_string_advanced (utf8_mbstowcs (buf));
     }
 }
 

@@ -1,3 +1,9 @@
+2007-03-06  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_imengine.cpp:
+	Fix the bug that the aux string is not updated on the custom
+	lookup window.
+
 2007-03-05  Takuro Ashie  <ashie@homa.ne.jp>
 
 	* src/scim_anthy_setup.cpp:
