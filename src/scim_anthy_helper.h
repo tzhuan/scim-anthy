@@ -61,9 +61,11 @@ public:
     void update_note            (const WideString &str);
 
     void update_spot_location   (int x, int y);
-    void update_screen          (int screen_num);
+    void updated_screen          (int screen_num);
 
 private:
+    bool m_initialized;
+
     /* config */
     ConfigPointer m_config;
 
@@ -83,6 +85,8 @@ private:
     /* herlper main window */
     GtkWidget *m_helper_window;
     GtkWidget *m_helper_vbox;
+    int m_helper_window_x;
+    int m_helper_window_y;
 
     /* aux string */
     bool m_aux_string_visible;
@@ -90,10 +94,11 @@ private:
     GtkWidget *m_aux_string_label;
 
     /* lookup table and candidates */
-    bool lookup_table_visible;
-    GtkWidget *lookup_table_vbox;
-    CandidateLabel *candidates;
-    int allocated_candidate_num;
+    int m_current_lookup_table_page_size;
+    bool m_lookup_table_visible;
+    GtkWidget *m_lookup_table_vbox;
+    CandidateLabel *m_candidates;
+    int m_allocated_candidate_num;
 
     /* note window */
     bool m_note_visible;
@@ -106,7 +111,11 @@ private:
     PangoFontDescription *get_font_desc_from_key (const String &key);
     GdkColor get_color_from_key    (const String &key);
 
-    void relocate_windows          (void);
+    void allocate_candidates_label(int size);
+
+    void move_helper_window_to_spot_location (void);
+    void rearrange_helper_window    (void);
+    void rearrange_note_window      (void);
     void update_lookup_table_style (void);
     void update_aux_string_style   (void);
     void update_note_style         (void);
