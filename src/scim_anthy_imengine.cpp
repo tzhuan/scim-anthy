@@ -2523,6 +2523,16 @@ AnthyInstance::process_helper_event (const String &helper_uuid,
 
         break;
     }
+    case SCIM_ANTHY_TRANS_CMD_SELECT_CANDIDATE:
+    {
+        uint32 n;
+        if (reader.get_data (n))
+        {
+            select_candidate (n);
+        }
+
+        break;
+    }
     default:
     {
         break;

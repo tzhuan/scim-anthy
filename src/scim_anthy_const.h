@@ -1,6 +1,6 @@
 /* -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
- *  Copyright (C) 2006 Takashi Nakamoto
+ *  Copyright (C) 2006 - 2007 Takashi Nakamoto
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ using namespace scim;
 #define SCIM_ANTHY_TRANS_CMD_CHANGE_INPUT_MODE     (SCIM_TRANS_CMD_USER_DEFINED + 20)
 #define SCIM_ANTHY_TRANS_CMD_TRIGGER_PROPERTY      (SCIM_TRANS_CMD_USER_DEFINED + 21)
 #define SCIM_ANTHY_TRANS_CMD_ATTACHMENT_SUCCESS    (SCIM_TRANS_CMD_USER_DEFINED + 22)
+#define SCIM_ANTHY_TRANS_CMD_SELECT_CANDIDATE      (SCIM_TRANS_CMD_USER_DEFINED + 23)
 
 typedef uint32 InputMode;
 #define SCIM_ANTHY_MODE_HIRAGANA      0

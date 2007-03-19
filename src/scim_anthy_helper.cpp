@@ -347,6 +347,12 @@ slot_attach_input_context   (const HelperAgent   *agent,
     {
         tray->attach_input_context (agent, ic, ic_uuid);
 
+        InputContext input_context;
+        input_context.agent = agent;
+        input_context.ic = ic;
+        input_context.ic_uuid = ic_uuid;
+        helper->attach_input_context (input_context);
+
         Transaction send;
         send.put_command (SCIM_ANTHY_TRANS_CMD_ATTACHMENT_SUCCESS);
         helper_agent.send_imengine_event (ic, ic_uuid, send);
@@ -460,6 +466,11 @@ AnthyHelper::AnthyHelper ()
       m_note_event_box            (NULL),
       m_note_label                (NULL)
 {
+// input context
+    m_input_context.agent   = NULL;
+    m_input_context.ic      = 0;
+    m_input_context.ic_uuid = String ();
+
 // default colors
 #define REGISTER_DEFAULT_COLOR( key, color ) \
     m_default_colors.insert (make_pair (String (key), String(color)));
@@ -529,6 +540,7 @@ AnthyHelper::~AnthyHelper ()
         gtk_widget_hide (m_candidates[i].label);
         gtk_widget_destroy (m_candidates[i].event_box);
         gtk_widget_destroy (m_candidates[i].label);
+        free (m_candidates[i].index);
     }
 
     if (m_note_window)
@@ -548,6 +560,20 @@ AnthyHelper::~AnthyHelper ()
         gtk_widget_hide (m_note_label);
         gtk_widget_destroy (m_note_label);
     }
+}
+
+void
+AnthyHelper::attach_input_context (InputContext input_context)
+{
+    m_input_context.agent   = input_context.agent;
+    m_input_context.ic      = input_context.ic;
+    m_input_context.ic_uuid = input_context.ic_uuid;
+}
+
+InputContext
+AnthyHelper::get_input_context ()
+{
+    return m_input_context;
 }
 
 void
@@ -1017,6 +1043,24 @@ AnthyHelper::updated_screen (int screen_num)
     rearrange_helper_window ();
 }
 
+static gboolean
+select_candidate (GtkWidget *widget, 
+                  GdkEventButton *event,
+                  gpointer data)
+{
+    InputContext input_context = helper->get_input_context ();
+    int *index = (int *) data;
+
+    Transaction send;
+    send.put_command (SCIM_ANTHY_TRANS_CMD_SELECT_CANDIDATE);
+    send.put_data ((uint32) *(index));
+    helper_agent.send_imengine_event (input_context.ic,
+                                      input_context.ic_uuid,
+                                      send);
+
+    return FALSE;
+}
+
 void
 AnthyHelper::allocate_candidates_label(int size)
 {
@@ -1041,6 +1085,14 @@ AnthyHelper::allocate_candidates_label(int size)
             gtk_box_pack_start (GTK_BOX (m_lookup_table_vbox),
                                 m_candidates[i].event_box,
                                 TRUE, TRUE, 0);
+
+            m_candidates[i].index = (int *)malloc (sizeof(int));
+            *(m_candidates[i].index) = i;
+
+            g_signal_connect (G_OBJECT (m_candidates[i].event_box),
+                              "button-press-event",
+                              G_CALLBACK (select_candidate),
+                              (gpointer) (m_candidates[i].index));
         }
 
         m_allocated_candidate_num = size;

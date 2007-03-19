@@ -31,10 +31,19 @@
 using namespace scim;
 using std::map;
 
+struct _scim_anthy_input_context
+{
+    const HelperAgent *agent;
+    int          ic;
+    String       ic_uuid;
+};
+typedef struct _scim_anthy_input_context InputContext;
+
 struct _scim_anthy_candidate_label
 {
     GtkWidget *label;
     GtkWidget *event_box;
+    int       *index;
 };
 typedef struct _scim_anthy_candidate_label CandidateLabel;
 
@@ -44,6 +53,8 @@ public:
     AnthyHelper ();
     virtual ~AnthyHelper ();
 
+    void attach_input_context   (InputContext input_context);
+    InputContext get_input_context ();
     void init                   (const ConfigPointer &config, const char *dsp);
     void reload_config          (void);
 
@@ -65,6 +76,9 @@ public:
 
 private:
     bool m_initialized;
+
+    /* input context */
+    InputContext  m_input_context;
 
     /* config */
     ConfigPointer m_config;

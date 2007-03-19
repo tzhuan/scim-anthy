@@ -1,3 +1,9 @@
+2007-03-20  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_helper.cpp, src/scim_anthy_helper.h
+	  src/scim_anthy_const.h, src/scim_anthy_imengine.cpp:
+	Enable selecting candidates by mouse click.
+
 2007-03-11  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_helper.cpp, src/scim_anthy_helper.h:
