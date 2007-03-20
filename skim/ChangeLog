@@ -1,5 +1,10 @@
 2007-03-20 Takuro Ashie <ashie@homa.ne.jp>
 
+	* setupui/anthyui.ui: Add new config items.
+	* po/ja.po: Update.
+
+2007-03-20 Takuro Ashie <ashie@homa.ne.jp>
+
 	* setupui/anthy.kcfg: Remove unused "label" elements.
 
 2007-03-20 Takuro Ashie <ashie@homa.ne.jp>
