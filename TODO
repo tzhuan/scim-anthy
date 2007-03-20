@@ -1,8 +1,8 @@
-* Add preferences for our original candidates window and tray icon.
-* Add test program.
-* Add test cases.
-* Show credits on scim-setup.
-* Change keybord layout by using XKB & helper when the typing method is
+* Transparency of tray icon
+* Remove the diction file path setting.
+* Add test suite.
+* Show credits on the scim-setup.
+* Change the keybord layout by using XKB & helper when the typing method is
   changed.
 * Check the following issue and merge the style files if needed:
   http://d.hatena.ne.jp/tree3yama/20061008
