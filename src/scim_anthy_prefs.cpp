@@ -216,7 +216,7 @@ BoolConfigData config_bool_common [] =
         SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW,
         SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT,
         SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT,
-        N_("Use scim-anthy's custom lookup _window instead of SCIM's one"),
+        N_("Use the scim-anthy's custom lookup _window instead of SCIM's one"),
         NULL,
         NULL,
         NULL,

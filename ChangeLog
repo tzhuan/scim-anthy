@@ -1,5 +1,12 @@
 2007-03-20  Takuro Ashie  <ashie@homa.ne.jp>
 
+	* src/scim_anthy_setup.cpp: Remove some needless config items.
+	Move tray icon config to toolbar page.
+	* src/scim_anthy_prefs.cpp: Fix a label.
+	* po/ja.po: Update.
+
+2007-03-20  Takuro Ashie  <ashie@homa.ne.jp>
+
 	* src/scim_anthy_prefs.h: Remove categories from new config items.
 
 2007-03-20  Takuro Ashie  <ashie@homa.ne.jp>

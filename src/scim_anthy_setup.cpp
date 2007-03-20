@@ -1139,10 +1139,14 @@ create_candidates_window_page (void)
 static GtkWidget *
 create_toolbar_page (void)
 {
-    GtkWidget *vbox, *hbox, *label, *widget;
+    GtkWidget *vbox, /* *hbox, *label,*/ *widget;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
+
+    /* tray icon */
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     /* show/hide toolbar label */
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL);
@@ -1167,6 +1171,7 @@ create_toolbar_page (void)
                       NULL);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
+#if 0
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 2);
     gtk_widget_show (hbox);
@@ -1180,6 +1185,7 @@ create_toolbar_page (void)
     gtk_widget_show (label);
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_ADD_WORD_LABEL);
     gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+#endif
 
     // set initial state
     on_dict_menu_label_toggled (GTK_TOGGLE_BUTTON (widget), NULL);
@@ -1188,7 +1194,7 @@ create_toolbar_page (void)
 }
 
 static GtkWidget *
-create_appearance_page (void)
+create_colors_page (void)
 {
     GtkWidget *vbox, *table, *omenu, *widget, *hbox; 
 
@@ -1249,10 +1255,6 @@ create_appearance_page (void)
 
     g_signal_connect ((gpointer) GTK_OPTION_MENU (omenu), "changed",
                       G_CALLBACK (on_preedit_style_menu_changed), hbox);
-
-    /* tray icon */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
     return vbox;
 }
@@ -1362,13 +1364,13 @@ create_setup_window (void)
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
-        // Create the appearance  page.
-        page = create_appearance_page ();
-        label = gtk_label_new (_("Appearance"));
+        // Create the colors page.
+        page = create_colors_page ();
+        label = gtk_label_new (_("Colors"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
-        // Create the appearance  page.
+        // Create the about page.
         page = create_about_page ();
         label = gtk_label_new (_("About"));
         gtk_widget_show (label);
