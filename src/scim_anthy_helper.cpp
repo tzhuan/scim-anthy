@@ -311,11 +311,13 @@ slot_imengine_event (const HelperAgent *agent, int ic,
 
         break;
     }
-    case SCIM_TRANS_CMD_REQUEST:
+    case SCIM_TRANS_CMD_FOCUS_IN:
     {
-        int cmd2;
-        reader.get_command (cmd2);
-        if (cmd2 == SCIM_TRANS_CMD_FOCUS_OUT && tray != NULL)
+        break;
+    }
+    case SCIM_TRANS_CMD_FOCUS_OUT:
+    {
+        if (tray != NULL)
             tray->disable ();
 
         break;
@@ -739,7 +741,7 @@ AnthyHelper::get_color_from_key (const String &key)
     if (p == m_colors.end ())
     {
         GdkColor ret;
-        ret.red = ret.green = ret.blue = 0;
+        ret.pixel = ret.red = ret.green = ret.blue = 0;
         return ret;
     }
 

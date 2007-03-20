@@ -452,7 +452,6 @@ AnthyInstance::focus_in ()
         start_helper (String (SCIM_ANTHY_HELPER_UUID));
 
     Transaction send;
-    send.put_command (SCIM_TRANS_CMD_REQUEST);
     send.put_command (SCIM_TRANS_CMD_FOCUS_IN);
     send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
@@ -472,7 +471,6 @@ AnthyInstance::focus_out ()
     }
 
     Transaction send;
-    send.put_command (SCIM_TRANS_CMD_REQUEST);
     send.put_command (SCIM_TRANS_CMD_FOCUS_OUT);
     send_helper_event (String (SCIM_ANTHY_HELPER_UUID), send);
 }
