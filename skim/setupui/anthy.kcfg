@@ -242,6 +242,18 @@
     </entry>
 
 
+    <entry name="_IMEngine_Anthy_UseCustomLookupWindow" key="/IMEngine/Anthy/UseCustomLookupWindow" type="Bool">
+      <label>Use the scim-anthy's custom lookup _window instead of SCIM's one</label>
+      <default>true</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_EnableDiction" key="/IMEngine/Anthy/EnableDiction" type="Bool">
+      <label>Whether show _dictions of candidates or not</label>
+      <default>true</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_DictionFile" key="/IMEngine/Anthy/DictionFile" type="String">
+      <label>Specify a diction file to load</label>
+      <default></default>
+    </entry>
     <entry name="_IMEngine_Anthy_ShowCandidatesLabel" key="/IMEngine/Anthy/ShowCandidatesLabel" type="Bool">
       <label>Whether show the title of the candidates window or not</label>
       <default>true</default>
@@ -463,6 +475,10 @@
       <label>The key events to commit the selected segment with reversing the preference of learning</label>
       <default></default>
     </entry>
+    <entry name="_IMEngine_Anthy_ShowTrayIcon" key="/IMEngine/Anthy/ShowTrayIcon" type="Bool">
+      <label>Whether show the tray icon or not</label>
+      <default>true</default>
+    </entry>
 
 
     <entry name="_IMEngine_Anthy_SelectFirstCandidateKey" key="/IMEngine/Anthy/SelectFirstCandidateKey" type="String">
@@ -679,6 +695,36 @@
     <entry name="_IMEngine_Anthy_SelectedSegmentBGColor" key="/IMEngine/Anthy/SelectedSegmentBGColor" type="String">
       <label>Background color of the selected segment string</label>
       <default>#0900A5</default>
+    </entry>
+
+
+    <entry name="_IMEngine_Anthy_LookupBorderColor" key="/IMEngine/Anthy/LookupBorderColor" type="String">
+      <label></label>
+      <default>gray</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_NoteBorderColor" key="/IMEngine/Anthy/NoteBorderColor" type="String">
+      <label></label>
+      <default>gray</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_NoteBackgroundColor" key="/IMEngine/Anthy/NoteBackgroundColor" type="String">
+      <label></label>
+      <default>misty rose</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_NoteTextColor" key="/IMEngine/Anthy/NoteTextColor" type="String">
+      <label></label>
+      <default>black</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_AuxTextColor" key="/IMEngine/Anthy/AuxTextColor" type="String">
+      <label></label>
+      <default>black</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_AuxBackgroundColor" key="/IMEngine/Anthy/AuxBackgroundColor" type="String">
+      <label></label>
+      <default>light gray</default>
+    </entry>
+    <entry name="_IMEngine_Anthy_NoteFont" key="/IMEngine/Anthy/NoteFont" type="String">
+      <label></label>
+      <default>Sans 10</default>
     </entry>
   </group>
 </kcfg>
