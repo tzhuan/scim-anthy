@@ -165,13 +165,13 @@
 #define SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON              "/IMEngine/Anthy/ShowTrayIcon"
 
 
-#define SCIM_ANTHY_CONFIG_LOOKUP_BORDER_COLOR         "/IMEngine/Anthy/Color/LookupBorder"
-#define SCIM_ANTHY_CONFIG_NOTE_BORDER_COLOR           "/IMEngine/Anthy/Color/NoteBorder"
-#define SCIM_ANTHY_CONFIG_NOTE_BG_COLOR               "/IMEngine/Anthy/Color/NoteBackground"
-#define SCIM_ANTHY_CONFIG_NOTE_TEXT_COLOR             "/IMEngine/Anthy/Color/NoteText"
-#define SCIM_ANTHY_CONFIG_AUX_TEXT_COLOR              "/IMEngine/Anthy/Color/AuxText"
-#define SCIM_ANTHY_CONFIG_AUX_BG_COLOR                "/IMEngine/Anthy/Color/AuxBackground"
-#define SCIM_ANTHY_CONFIG_NOTE_FONT                   "/IMEngine/Anthy/Font/Note"
+#define SCIM_ANTHY_CONFIG_LOOKUP_BORDER_COLOR         "/IMEngine/Anthy/LookupBorderColor"
+#define SCIM_ANTHY_CONFIG_NOTE_BORDER_COLOR           "/IMEngine/Anthy/NoteBorderColor"
+#define SCIM_ANTHY_CONFIG_NOTE_BG_COLOR               "/IMEngine/Anthy/NoteBackgroundColor"
+#define SCIM_ANTHY_CONFIG_NOTE_TEXT_COLOR             "/IMEngine/Anthy/NoteTextColor"
+#define SCIM_ANTHY_CONFIG_AUX_TEXT_COLOR              "/IMEngine/Anthy/AuxTextColor"
+#define SCIM_ANTHY_CONFIG_AUX_BG_COLOR                "/IMEngine/Anthy/AuxBackgroundColor"
+#define SCIM_ANTHY_CONFIG_NOTE_FONT                   "/IMEngine/Anthy/NoteFont"
 
 
 /* default config values */
