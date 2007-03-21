@@ -1,3 +1,7 @@
+2007-03-21 Takuro Ashie <ashie@homa.ne.jp>
+
+	* setupui/anthy.kcfg: Remove _IMEngine_Anthy_DictionFile.
+
 2007-03-20 Takuro Ashie <ashie@homa.ne.jp>
 
 	* setupui/anthyui.ui: Add new config items.

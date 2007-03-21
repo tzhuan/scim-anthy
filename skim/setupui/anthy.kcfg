@@ -220,9 +220,6 @@
     <entry name="_IMEngine_Anthy_EnableDiction" key="/IMEngine/Anthy/EnableDiction" type="Bool">
       <default>true</default>
     </entry>
-    <entry name="_IMEngine_Anthy_DictionFile" key="/IMEngine/Anthy/DictionFile" type="String">
-      <default></default>
-    </entry>
     <entry name="_IMEngine_Anthy_ShowCandidatesLabel" key="/IMEngine/Anthy/ShowCandidatesLabel" type="Bool">
       <default>true</default>
     </entry>
