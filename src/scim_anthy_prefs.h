@@ -63,7 +63,6 @@
 
 #define SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW    "/IMEngine/Anthy/UseCustomLookupWindow"
 #define SCIM_ANTHY_CONFIG_ENABLE_DICTION              "/IMEngine/Anthy/EnableDiction"
-#define SCIM_ANTHY_CONFIG_DICTION_FILE                "/IMEngine/Anthy/DictionFile"
 #define SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL       "/IMEngine/Anthy/ShowCandidatesLabel"
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT    "/IMEngine/Anthy/CloseCandWinOnSelect"
 #define SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE          "/IMEngine/Anthy/CandWinPageSize"
@@ -215,7 +214,6 @@
 
 #define SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT    true
 #define SCIM_ANTHY_CONFIG_ENABLE_DICTION_DEFAULT              true
-#define SCIM_ANTHY_CONFIG_DICTION_FILE_DEFAULT                SCIM_ANTHY_DATADIR"/diction"
 #define SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL_DEFAULT       true
 #define SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT_DEFAULT    true
 #define SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE_DEFAULT          10

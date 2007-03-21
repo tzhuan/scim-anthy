@@ -1,3 +1,9 @@
+2007-03-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* src/scim_anthy_prefs.cpp: Remove SCIM_ANTHY_CONFIG_DICTION_FILE.
+	* src/scim_anthy_diction.cpp: Ditto. And load ~/.scim/Anthy/diction
+	instead of the system wide diction file if it exists.
+
 2007-03-20  Takuro Ashie  <ashie@homa.ne.jp>
 
 	* src/scim_anthy_setup.cpp: Remove some needless config items.

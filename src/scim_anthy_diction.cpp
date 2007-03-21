@@ -26,6 +26,7 @@
 #endif
 
 #include <stdio.h>
+#include <unistd.h>
 #include <sys/file.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -34,7 +35,8 @@
 #include "scim_anthy_diction.h"
 #include "scim_anthy_prefs.h"
 
-#define CONJUGATION_FILE SCIM_ANTHY_DATADIR"/conjugation"
+#define SYSTEM_DICTION_FILE     SCIM_ANTHY_DATADIR"/diction"
+#define SYSTEM_CONJUGATION_FILE SCIM_ANTHY_DATADIR"/conjugation"
 
 #define READING_BASE_STATE 1
 #define READING_POS_STATE 2
@@ -125,10 +127,13 @@ AnthyDiction::has_diction ()
 }
 
 AnthyDictionService::AnthyDictionService (const ConfigPointer &config)
-  : m_diction_file              (String("")),
+  : m_diction_file              (String(SYSTEM_DICTION_FILE)),
     m_enable_diction            (false),
     m_diction_file_mtime        (0)
 {
+    String user_diction = scim_get_user_data_dir() + String("/Anthy/diction");
+    if (access (user_diction.c_str(), R_OK) == 0)
+        m_diction_file = user_diction;
     reload_config (config);
     load_conjugation_file ();
 }
@@ -140,12 +145,6 @@ AnthyDictionService::~AnthyDictionService ()
 void
 AnthyDictionService::reload_config (const ConfigPointer &config)
 {
-    String tmp;
-
-    tmp = config->read (String (SCIM_ANTHY_CONFIG_DICTION_FILE),
-                        String (SCIM_ANTHY_CONFIG_DICTION_FILE_DEFAULT));
-    m_diction_file = tmp;
-
     m_enable_diction = config->read (String (SCIM_ANTHY_CONFIG_ENABLE_DICTION),
                                      SCIM_ANTHY_CONFIG_ENABLE_DICTION_DEFAULT);
 
@@ -184,7 +183,7 @@ AnthyDictionService::get_dictions (std::vector< WideString > &segments,
 
     while (seg != segments.end ())
     {
-        for (int i = 1; i <= seg->size (); i++)
+        for (unsigned int i = 1; i <= seg->size (); i++)
         {
             WideString key = seg->substr (0, i);
             std::map< WideString, long >::iterator p = m_hash.find (key);
@@ -434,7 +433,7 @@ AnthyDictionService::load_conjugation_file ()
 
     conjugations.clear ();
 
-    FILE *f = fopen (CONJUGATION_FILE, "r");
+    FILE *f = fopen (SYSTEM_CONJUGATION_FILE, "r");
     if (f == NULL)
         return;
 
