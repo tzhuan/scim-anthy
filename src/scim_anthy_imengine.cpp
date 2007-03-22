@@ -2246,7 +2246,7 @@ AnthyInstance::action_reconvert (void)
 bool
 AnthyInstance::action_add_word (void)
 {
-    IConvert iconv(m_factory->m_dict_encoding);
+    IConvert iconv("EUC-JP");
     String yomi;
     CommonLookupTable candidates;
 

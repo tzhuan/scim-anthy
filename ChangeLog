@@ -1,5 +1,8 @@
 2007-03-23  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
+	* src/scim_anthy_imengine.cpp: Set "EUC-JP" for the character
+	encoding of the string to pass Kasumi.
+
 	* data/diction: Add one empty line to read the first chunk
 	correctly.
 	* src/scim_anthy_diction.cpp: disable diction fuction if the
