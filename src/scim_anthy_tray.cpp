@@ -508,22 +508,22 @@ AnthyTray::create_tray (void)
     // images for tray icon
     m_hiragana_pixbuf = gdk_pixbuf_scale_simple (
         gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-hiragana.png", NULL),
-        20, 20, GDK_INTERP_BILINEAR);
+        18, 18, GDK_INTERP_BILINEAR);
     m_katakana_pixbuf = gdk_pixbuf_scale_simple (
         gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-katakana.png", NULL),
-        20, 20, GDK_INTERP_BILINEAR);
+        18, 18, GDK_INTERP_BILINEAR);
     m_halfkana_pixbuf = gdk_pixbuf_scale_simple (
         gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-halfkana.png", NULL),
-        20, 20, GDK_INTERP_BILINEAR);
+        18, 18, GDK_INTERP_BILINEAR);
     m_latin_pixbuf = gdk_pixbuf_scale_simple (
         gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-halfwidth-alnum.png", NULL),
-        20, 20, GDK_INTERP_BILINEAR);
+        18, 18, GDK_INTERP_BILINEAR);
     m_wide_latin_pixbuf = gdk_pixbuf_scale_simple (
         gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-fullwidth-alnum.png", NULL),
-        20, 20, GDK_INTERP_BILINEAR);
+        18, 18, GDK_INTERP_BILINEAR);
     m_direct_pixbuf = gdk_pixbuf_scale_simple (
         gdk_pixbuf_new_from_file (SCIM_ICONDIR"/scim-anthy-direct.png", NULL),
-        20, 20, GDK_INTERP_BILINEAR);
+        18, 18, GDK_INTERP_BILINEAR);
     m_tray_image = gtk_image_new_from_pixbuf (m_direct_pixbuf);
 
 #ifdef USE_GTK_BUTTON_FOR_TRAY
