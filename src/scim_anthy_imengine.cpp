@@ -102,8 +102,8 @@ AnthyInstance::AnthyInstance (AnthyFactory   *factory,
       m_preedit                (*this),
       m_preedit_string_visible (false),
       m_lookup_table_visible   (false),
-      m_diction_service        (m_factory->m_config),
       m_n_conv_key_pressed     (0),
+      m_diction_service        (m_factory->m_config),
       m_prev_input_mode        (SCIM_ANTHY_MODE_HIRAGANA),
       m_conv_mode              (SCIM_ANTHY_CONVERSION_MULTI_SEGMENT),
       m_helper_started         (false),
@@ -543,8 +543,8 @@ AnthyInstance::set_lookup_table (void)
                 candidates.push_back (m_lookup_table.get_candidate (i));
 
             m_diction_service.get_dictions (candidates, dictions);
-            
-            for (int i = 0; i < dictions.size (); i++)
+
+            for (unsigned int i = 0; i < dictions.size (); i++)
             {
                 note += dictions[i].get_end_form ();
                 note += utf8_mbstowcs (":\n");
@@ -580,7 +580,7 @@ AnthyInstance::unset_lookup_table (void)
 
     update_aux_string_advanced (utf8_mbstowcs (""));
     hide_aux_string_advanced ();
-    
+
     update_note (utf8_mbstowcs (""));
     hide_note ();
 }
