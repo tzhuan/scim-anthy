@@ -23,7 +23,6 @@
 	* src/scim_anthy_imengine.cpp: Suppress compile time warnings.
 	* src/scim_anthy_tray.cpp: Ditto.
 
->>>>>>> 1.504
 2007-03-21  Takuro Ashie  <ashie@homa.ne.jp>
 
 	* src/scim_anthy_prefs.cpp: Remove SCIM_ANTHY_CONFIG_DICTION_FILE.
@@ -79,7 +78,7 @@
 	* src/scim_anthy_setup.cpp: Set sensitivity of dition check button.
 	* src/scim_anthy_prefs.cpp: Fix some messages.
 	* po/ja.po: Update.
-_
+
 2007-03-05  Takuro Ashie  <ashie@homa.ne.jp>
 
 	* src/scim_anthy_prefs.cpp, src/scim_anthy_setup.cpp:
