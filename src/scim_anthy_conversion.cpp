@@ -87,15 +87,11 @@ Conversion::Conversion (AnthyInstance &anthy, Reading &reading)
       m_cur_segment        (-1),
       m_predicting         (false)
 {
-#ifdef HAS_ANTHY_CONTEXT_SET_ENCODING
-    anthy_context_set_encoding (m_anthy_context, ANTHY_EUC_JP_ENCODING);
-#endif /* HAS_ANTHY_CONTEXT_SET_ENCODING */
+    set_dict_encoding (String ("EUC-JP"));
 
 #ifdef HAS_ANTHY_SET_RECONVERSION_MODE
     anthy_set_reconversion_mode (m_anthy_context, ANTHY_RECONVERT_DISABLE);
 #endif /* HAS_ANTHY_SET_RECONVERSION_MODE */
-
-    set_dict_encoding (String ("EUC-JP"));
 }
 
 Conversion::~Conversion ()
@@ -801,6 +797,16 @@ Conversion::select_candidate (int candidate_id, int segment_id)
 bool
 Conversion::set_dict_encoding (String type)
 {
+#ifdef HAS_ANTHY_CONTEXT_SET_ENCODING
+    if (!strcasecmp (type.c_str (), "UTF-8") ||
+        !strcasecmp (type.c_str (), "UTF8"))
+    {
+        anthy_context_set_encoding (m_anthy_context, ANTHY_UTF8_ENCODING);
+    } else {
+        anthy_context_set_encoding (m_anthy_context, ANTHY_EUC_JP_ENCODING);
+    }
+#endif /* HAS_ANTHY_CONTEXT_SET_ENCODING */
+
     if (m_iconv.set_encoding (type.c_str ())) {
         return true;
     } else {
