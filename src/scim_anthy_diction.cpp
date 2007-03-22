@@ -134,6 +134,7 @@ AnthyDictionService::AnthyDictionService (const ConfigPointer &config)
     String user_diction = scim_get_user_data_dir() + String("/Anthy/diction");
     if (access (user_diction.c_str(), R_OK) == 0)
         m_diction_file = user_diction;
+
     reload_config (config);
     load_conjugation_file ();
 }
@@ -164,7 +165,11 @@ AnthyDictionService::get_dictions (std::vector< WideString > &segments,
         return;
 
     if (is_diction_file_modified ())
+    {
         load_diction_file (); // reload the diction file
+        if (m_enable_diction == false)
+            return;
+    }
 
     FILE *f = open_diction_file ();
 
