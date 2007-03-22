@@ -249,7 +249,7 @@ AnthyTray::create_general_menu (PropertyList &props)
             continue;
         key.erase (0, strlen(SCIM_PROP_IMENGINE_ANTHY_PREFIX));
 
-        int pos;
+        unsigned int pos;
         if ((pos = key.find ("/")) == String::npos)
         {
             GtkWidget *item = gtk_menu_item_new ();
