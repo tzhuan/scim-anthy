@@ -434,8 +434,8 @@ make_transparent (GtkWidget *widget)
   gdk_window_set_back_pixmap (widget->window, NULL, TRUE);
   g_signal_connect (widget, "expose_event",
                     G_CALLBACK (transparent_expose_event), NULL);
-  g_signal_connect_after (widget, "style_set",
-                          G_CALLBACK (make_transparent_again), NULL);
+  g_signal_connect (widget, "style_set",
+                    G_CALLBACK (make_transparent_again), NULL);
 }
 
 void
@@ -528,6 +528,8 @@ AnthyTray::create_tray (void)
 #else
     // event box for tray icon
     m_tray_event_box = gtk_event_box_new ();
+    g_signal_connect (G_OBJECT (m_tray_event_box), "realize",
+                      G_CALLBACK (make_transparent), NULL);
     gtk_tooltips_set_tip (m_tooltips, m_tray_event_box,
                           _("Input mode"), _("Input mode"));
     g_signal_connect (G_OBJECT (m_tray_event_box), "button-release-event",
