@@ -1,5 +1,4 @@
 * Transparency of tray icon
-* Remove the diction file path setting.
 * Add test suite.
 * Show credits on the scim-setup.
 * Change the keybord layout by using XKB & helper when the typing method is
