@@ -409,6 +409,35 @@ AnthyTray::destroy_general_menu (void)
     m_general_menu = NULL;
 }
 
+static gboolean
+transparent_expose_event (GtkWidget *widget, GdkEventExpose *event)
+{
+  gdk_window_clear_area (widget->window, event->area.x, event->area.y,
+                         event->area.width, event->area.height);
+  return FALSE;
+}
+
+static void
+make_transparent_again (GtkWidget *widget, GtkStyle *previous_style)
+{
+  gdk_window_set_back_pixmap (widget->window, NULL, TRUE);
+}
+
+static void
+make_transparent (GtkWidget *widget)
+{
+  if (GTK_WIDGET_NO_WINDOW (widget) || GTK_WIDGET_APP_PAINTABLE (widget))
+    return;
+
+  gtk_widget_set_app_paintable (widget, TRUE);
+  gtk_widget_set_double_buffered (widget, FALSE);
+  gdk_window_set_back_pixmap (widget->window, NULL, TRUE);
+  g_signal_connect (widget, "expose_event",
+                    G_CALLBACK (transparent_expose_event), NULL);
+  g_signal_connect_after (widget, "style_set",
+                          G_CALLBACK (make_transparent_again), NULL);
+}
+
 void
 AnthyTray::create_tray (void)
 {
@@ -468,6 +497,8 @@ AnthyTray::create_tray (void)
 
     // tray
     m_tray = scim_tray_icon_new ("scim-anthy-input-mode-tray");
+    g_signal_connect (G_OBJECT (m_tray), "realize",
+                      G_CALLBACK (make_transparent), NULL);
     gtk_widget_show (GTK_WIDGET (m_tray));
 
 #ifdef USE_GTK_BUTTON_FOR_TRAY
