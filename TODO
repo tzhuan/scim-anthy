@@ -1,7 +1,7 @@
 * Add test suite.
-* Show credits on the scim-setup.
+* Show credits onto the scim-setup.
 * Change the keybord layout by using XKB & helper when the typing method is
   changed.
-* Check the following issue and merge the style files if needed:
+* Check the following issue and merge these style files if needed:
   http://d.hatena.ne.jp/tree3yama/20061008
   http://d.hatena.ne.jp/maple_magician/20060628
