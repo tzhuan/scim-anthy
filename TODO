@@ -1,4 +1,3 @@
-* Transparency of tray icon
 * Add test suite.
 * Show credits on the scim-setup.
 * Change the keybord layout by using XKB & helper when the typing method is
