@@ -148,6 +148,9 @@ Conversion::convert (WideString source, CandidateType ctype,
 void
 Conversion::convert (CandidateType ctype, bool single_segment)
 {
+#ifdef HAS_ANTHY_SET_RECONVERSION_MODE
+    anthy_set_reconversion_mode (m_anthy_context, ANTHY_RECONVERT_DISABLE);
+#endif /* HAS_ANTHY_SET_RECONVERSION_MODE */
     convert (m_reading.get (), ctype, single_segment);
 }
 
@@ -196,10 +199,6 @@ Conversion::clear (int segment_id)
         m_start_id    = 0;
         m_cur_segment = -1;
         m_predicting  = false;
-
-#ifdef HAS_ANTHY_SET_RECONVERSION_MODE
-        anthy_set_reconversion_mode (m_anthy_context, ANTHY_RECONVERT_DISABLE);
-#endif /* HAS_ANTHY_SET_RECONVERSION_MODE */
 
     } else {
         // partial clear

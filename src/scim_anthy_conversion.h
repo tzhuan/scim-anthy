@@ -75,9 +75,6 @@ public:
     virtual ~Conversion ();
 
     // starting and finishing
-    void          convert                (WideString    source,
-                                          CandidateType ctype,
-                                          bool          single_segment);
     void          convert                (CandidateType type
                                           = SCIM_ANTHY_CANDIDATE_DEFAULT,
                                           bool          single_segment = false);
@@ -118,6 +115,9 @@ public:
     bool          set_dict_encoding      (String        type);
 
 private:
+    void          convert                (WideString    source,
+                                          CandidateType ctype,
+                                          bool          single_segment);
     void          get_reading_substr     (WideString   &string,
                                           int           segment_id,
                                           int           candidate_id,
