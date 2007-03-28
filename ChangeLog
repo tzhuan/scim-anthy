@@ -1,3 +1,8 @@
+2007-03-28  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* src/scim_anthy_conversion.cpp: Fix a bug that ANTHY_RECONVERT_ALWAYS
+	was used on normal conversion.
+
 2007-03-23  Takuro Ashie  <ashie@homa.ne.jp>
 
 	* src/scim_anthy_tray.cpp: Set transparency of tray icon.

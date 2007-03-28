@@ -113,10 +113,6 @@ Conversion::convert (WideString source, CandidateType ctype,
 
     clear ();
 
-#ifdef HAS_ANTHY_SET_RECONVERSION_MODE
-    anthy_set_reconversion_mode (m_anthy_context, ANTHY_RECONVERT_ALWAYS);
-#endif /* HAS_ANTHY_SET_RECONVERSION_MODE */
-
     String dest;
 
     // convert
@@ -158,6 +154,10 @@ Conversion::convert (CandidateType ctype, bool single_segment)
 void
 Conversion::convert (const WideString &source, bool single_segment)
 {
+
+#ifdef HAS_ANTHY_SET_RECONVERSION_MODE
+    anthy_set_reconversion_mode (m_anthy_context, ANTHY_RECONVERT_ALWAYS);
+#endif /* HAS_ANTHY_SET_RECONVERSION_MODE */
     convert (source, SCIM_ANTHY_CANDIDATE_DEFAULT, single_segment);
 }
 
