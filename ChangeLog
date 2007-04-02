@@ -1,3 +1,9 @@
+2007-04-02  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_imengine.cpp
+	Fix the bug that helper windows remain as a garbage window
+	even after reset() is called.
+
 2007-03-30  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* configure.ac, bootstrap:

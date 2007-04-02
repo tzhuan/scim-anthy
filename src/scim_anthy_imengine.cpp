@@ -414,6 +414,10 @@ AnthyInstance::reset ()
     m_lookup_table.clear ();
     unset_lookup_table ();
 
+    hide_lookup_table_advanced ();
+    hide_aux_string_advanced ();
+    hide_note ();
+
     hide_preedit_string ();
     m_preedit_string_visible = false;
     set_preedition ();
