@@ -28,9 +28,12 @@
 #include <gtk/gtk.h>
 #include "scim_anthy_intl.h"
 #include "scim_anthy_helper.h"
-#include "scim_anthy_tray.h"
 #include "scim_anthy_const.h"
 #include "scim_anthy_prefs.h"
+
+#ifdef SCIM_BUILD_TRAY
+#include "scim_anthy_tray.h"
+#endif
 
 using namespace scim;
 
@@ -61,9 +64,11 @@ static void       timeout_ctx_destroy_func    (gpointer             data);
 static void       run                         (const String        &display,
                                                const ConfigPointer &config);
 
-AnthyHelper *helper = NULL;
-AnthyTray   *tray   = NULL;
 HelperAgent  helper_agent;
+AnthyHelper *helper = NULL;
+#ifdef SCIM_BUILD_TRAY
+AnthyTray   *tray   = NULL;
+#endif
 
 HelperInfo helper_info (SCIM_ANTHY_HELPER_UUID,        // uuid
                         "",                            // name
@@ -152,10 +157,12 @@ helper_agent_input_handler (GIOChannel *source,
 static void
 slot_exit (const HelperAgent *agent, int ic, const String &uuid)
 {
+#ifdef SCIM_BUILD_TRAY
     if (tray != NULL) {
         delete tray;
         tray = NULL;
     }
+#endif
 
     if (helper != NULL) {
         delete helper;
@@ -284,6 +291,7 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         helper->update_note (str);
         break;
     }
+#ifdef SCIM_BUILD_TRAY
     case SCIM_ANTHY_TRANS_CMD_SET_INPUT_MODE:
     {
         uint32 mode;
@@ -322,6 +330,7 @@ slot_imengine_event (const HelperAgent *agent, int ic,
 
         break;
     }
+#endif // SCIM_BUILD_TRAY
     default:
         break;
     }
@@ -345,20 +354,22 @@ slot_attach_input_context   (const HelperAgent   *agent,
                              int                  ic,
                              const String        &ic_uuid)
 {
+#ifdef SCIM_BUILD_TRAY
     if (tray != NULL)
     {
         tray->attach_input_context (agent, ic, ic_uuid);
+    }
+#endif
 
-        InputContext input_context;
-        input_context.agent = agent;
-        input_context.ic = ic;
-        input_context.ic_uuid = ic_uuid;
-        helper->attach_input_context (input_context);
+    InputContext input_context;
+    input_context.agent = agent;
+    input_context.ic = ic;
+    input_context.ic_uuid = ic_uuid;
+    helper->attach_input_context (input_context);
 
-        Transaction send;
-        send.put_command (SCIM_ANTHY_TRANS_CMD_ATTACHMENT_SUCCESS);
-        helper_agent.send_imengine_event (ic, ic_uuid, send);
-    }    
+    Transaction send;
+    send.put_command (SCIM_ANTHY_TRANS_CMD_ATTACHMENT_SUCCESS);
+    helper_agent.send_imengine_event (ic, ic_uuid, send);
 }
 
 static gint
@@ -405,7 +416,9 @@ run (const String &display, const ConfigPointer &config)
     gtk_init (&argc, &argv);
 
     helper = new AnthyHelper;
+#ifdef SCIM_BUILD_TRAY
     tray = new AnthyTray;
+#endif
 
     helper->init (config, argv[2]);
 
