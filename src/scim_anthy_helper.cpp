@@ -820,8 +820,8 @@ AnthyHelper::hide_aux_string (void)
     else
     {
         // hide the helper window
-        gtk_widget_show (m_helper_vbox);
-        gtk_widget_show (m_helper_window);
+        gtk_widget_hide (m_helper_vbox);
+        gtk_widget_hide (m_helper_window);
     }
 }
 
@@ -854,8 +854,8 @@ AnthyHelper::hide_lookup_table (void)
     else
     {
         // hide the helper window
-        gtk_widget_show (m_helper_vbox);
-        gtk_widget_show (m_helper_window);
+        gtk_widget_hide (m_helper_vbox);
+        gtk_widget_hide (m_helper_window);
     }
 }
 

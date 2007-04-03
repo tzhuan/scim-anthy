@@ -1,3 +1,9 @@
+2007-04-04  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* src/scim_anthy_helper.cpp
+	Fix the bug that the helper window remains as a garbage window
+	even after hide_*() is called.
+
 2007-04-02  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
 	* src/scim_anthy_imengine.cpp
