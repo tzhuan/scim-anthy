@@ -1,5 +1,9 @@
 2007-04-04  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
 
+	* configure.ac
+	Fix the bug that tray is not built even if the SCIM supports
+	gtkutils.
+
 	* configure.ac, src/scim_anthy_helper.cpp
 	The tray icon won't be built if SCIM doesn't have gtkutils.
 
