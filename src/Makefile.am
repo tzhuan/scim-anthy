@@ -131,8 +131,13 @@ endif
 helpermoduledir          = @SCIM_MODULEDIR@/Helper
 helpermodule_LTLIBRARIES = $(HELPER_MODULE)
 
+if SCIM_BUILD_TRAY
 anthy_imengine_helper_la_SOURCES  = scim_anthy_helper.cpp \
 				    scim_anthy_tray.cpp
+else
+anthy_imengine_helper_la_SOURCES  = scim_anthy_helper.cpp
+endif
+
 anthy_imengine_helper_la_CFLAGS   = @GTK2_CFLAGS@ \
 				    @SCIM_CFLAGS@ \
 				    @SCIM_DEBUG_FLAGS@

@@ -1,3 +1,13 @@
+2007-04-05  Takashi Nakamoto  <bluedwarf@bpost.plala.or.jp>
+
+	* configure.ac, src/scim_anthy_helper.cpp,
+	  src/scim_anthy_setup.cpp
+	Rename SCIM_BUILD_TRAY SCIM_ANTHY_BUILD_TRAY.
+
+	* configure.ac, src/Makefile.am
+	SCIM_BUILD_TRAY is used to determine whether scim_anthy_tray.cpp
+	will be compiled.
+
 2007-04-04  Takuro Ashie  <ashie@homa.ne.jp>
 
 	* src/scim_anthy_setup.{cpp,h}, src/scim_anthy_setup_kana.cpp:

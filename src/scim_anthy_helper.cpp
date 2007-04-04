@@ -31,7 +31,7 @@
 #include "scim_anthy_const.h"
 #include "scim_anthy_prefs.h"
 
-#ifdef SCIM_BUILD_TRAY
+#ifdef SCIM_ANTHY_BUILD_TRAY
 #include "scim_anthy_tray.h"
 #endif
 
@@ -66,7 +66,7 @@ static void       run                         (const String        &display,
 
 HelperAgent  helper_agent;
 AnthyHelper *helper = NULL;
-#ifdef SCIM_BUILD_TRAY
+#ifdef SCIM_ANTHY_BUILD_TRAY
 AnthyTray   *tray   = NULL;
 #endif
 
@@ -157,7 +157,7 @@ helper_agent_input_handler (GIOChannel *source,
 static void
 slot_exit (const HelperAgent *agent, int ic, const String &uuid)
 {
-#ifdef SCIM_BUILD_TRAY
+#ifdef SCIM_ANTHY_BUILD_TRAY
     if (tray != NULL) {
         delete tray;
         tray = NULL;
@@ -291,7 +291,7 @@ slot_imengine_event (const HelperAgent *agent, int ic,
         helper->update_note (str);
         break;
     }
-#ifdef SCIM_BUILD_TRAY
+#ifdef SCIM_ANTHY_BUILD_TRAY
     case SCIM_ANTHY_TRANS_CMD_SET_INPUT_MODE:
     {
         uint32 mode;
@@ -330,7 +330,7 @@ slot_imengine_event (const HelperAgent *agent, int ic,
 
         break;
     }
-#endif // SCIM_BUILD_TRAY
+#endif // SCIM_ANTHY_BUILD_TRAY
     default:
         break;
     }
@@ -354,7 +354,7 @@ slot_attach_input_context   (const HelperAgent   *agent,
                              int                  ic,
                              const String        &ic_uuid)
 {
-#ifdef SCIM_BUILD_TRAY
+#ifdef SCIM_ANTHY_BUILD_TRAY
     if (tray != NULL)
     {
         tray->attach_input_context (agent, ic, ic_uuid);
@@ -416,7 +416,7 @@ run (const String &display, const ConfigPointer &config)
     gtk_init (&argc, &argv);
 
     helper = new AnthyHelper;
-#ifdef SCIM_BUILD_TRAY
+#ifdef SCIM_ANTHY_BUILD_TRAY
     tray = new AnthyTray;
 #endif
 

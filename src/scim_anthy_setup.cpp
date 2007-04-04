@@ -1192,7 +1192,7 @@ create_toolbar_page (void)
     gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
-#ifdef SCIM_BUILD_TRAY
+#ifdef SCIM_ANTHY_BUILD_TRAY
     /* tray icon */
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
