@@ -131,8 +131,18 @@ scim_anthy_table_editor_init (ScimAnthyTableEditor *editor)
     gtk_window_set_position (GTK_WINDOW (editor),
                              GTK_WIN_POS_CENTER_ON_PARENT);
 
-    // edit area
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), hbox,
+                        TRUE, TRUE, 0);
+    gtk_widget_show (hbox);
+
+    GtkWidget *label = gtk_label_new_with_mnemonic (_("Table _entries:"));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+
+    // edit area
+    hbox = gtk_hbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), hbox,
                         TRUE, TRUE, 0);
@@ -152,6 +162,8 @@ scim_anthy_table_editor_init (ScimAnthyTableEditor *editor)
     editor->treeview = treeview;
     gtk_container_add (GTK_CONTAINER (scrwin), treeview);
     gtk_widget_show (treeview);
+
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), treeview);
 
     GtkTreeSelection *selection;
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));

@@ -852,6 +852,16 @@ create_keyboard_page (void)
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 2);
     gtk_widget_show (button);
 
+    // key bindings label
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    label = gtk_label_new_with_mnemonic (_("_Key bindings:"));
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
+
     // key bindings view
     GtkWidget *scrwin = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrwin),
@@ -869,8 +879,11 @@ create_keyboard_page (void)
                                               G_TYPE_POINTER);
     GtkWidget *treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
     __widget_key_list_view = treeview;
+    gtk_widget_set_size_request (treeview, -1, 130);
     gtk_container_add (GTK_CONTAINER (scrwin), treeview);
     gtk_widget_show (treeview);
+
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), treeview);
 
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
