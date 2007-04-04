@@ -411,7 +411,7 @@ msgstr "説明"
 
 #: src/scim_anthy_setup.cpp:919
 msgid "Key bindings _theme:"
-msgstr "キーバインドテーマ:"
+msgstr "キーバインドテーマ(_T):"
 
 #: src/scim_anthy_setup.cpp:933
 msgid "_Choose keys..."
