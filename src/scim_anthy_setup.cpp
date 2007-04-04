@@ -382,13 +382,16 @@ create_spin_button (const char *config_key, GtkTable *table, int idx)
     if (!entry)
         return NULL;
 
+    GtkWidget *alignment = gtk_alignment_new (0.0, 0.5, 1.0, 1.0);
+    gtk_table_attach (GTK_TABLE (table), alignment, 0, 1, idx, idx + 1,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
+    gtk_widget_show (alignment);
+
     GtkWidget *label = gtk_label_new_with_mnemonic (_(entry->label));
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
     gtk_misc_set_padding (GTK_MISC (label), 4, 0);
-    gtk_table_attach (GTK_TABLE (table), label, 0, 1, idx, idx + 1,
-                      (GtkAttachOptions) (GTK_FILL),
-                      (GtkAttachOptions) (GTK_FILL),
-                      4, 4);
+    gtk_container_add (GTK_CONTAINER (alignment), label);
     gtk_widget_show (GTK_WIDGET (label));
 
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
@@ -409,6 +412,11 @@ create_spin_button (const char *config_key, GtkTable *table, int idx)
                       G_CALLBACK (on_default_spin_button_changed),
                       entry);
     gtk_widget_show (GTK_WIDGET (entry->widget));
+
+    g_object_set_data (G_OBJECT (entry->widget), "alignment-widget",
+                       (gpointer) alignment);
+    g_object_set_data (G_OBJECT (entry->widget), "label-widget",
+                       (gpointer) label);
 
     if (entry->unit) {
         label = gtk_label_new_with_mnemonic (_(entry->unit));
@@ -435,14 +443,18 @@ create_entry (const char *config_key, GtkTable *table, int idx)
     if (!entry)
         return NULL;
 
+    GtkWidget *alignment = gtk_alignment_new (0.0, 0.5, 1.0, 1.0);
+    gtk_table_attach (GTK_TABLE (table), alignment, 0, 1, idx, idx + 1,
+                      (GtkAttachOptions) (GTK_FILL),
+                      (GtkAttachOptions) (GTK_FILL), 4, 4);
+    gtk_widget_show (alignment);
+
     GtkWidget *label = gtk_label_new (NULL);
     gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(entry->label));
     gtk_widget_show (label);
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
     gtk_misc_set_padding (GTK_MISC (label), 4, 0);
-    gtk_table_attach (GTK_TABLE (table), label, 0, 1, idx, idx + 1,
-                      (GtkAttachOptions) (GTK_FILL),
-                      (GtkAttachOptions) (GTK_FILL), 4, 4);
+    gtk_container_add (GTK_CONTAINER (alignment), label);
     (entry)->widget = gtk_entry_new ();
     gtk_label_set_mnemonic_widget (GTK_LABEL (label),
                                    GTK_WIDGET (entry->widget));
@@ -455,6 +467,11 @@ create_entry (const char *config_key, GtkTable *table, int idx)
                       (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
                       (GtkAttachOptions) (GTK_FILL), 4, 4);
 
+    g_object_set_data (G_OBJECT (entry->widget), "alignment-widget",
+                       (gpointer) alignment);
+    g_object_set_data (G_OBJECT (entry->widget), "label-widget",
+                       (gpointer) label);
+
     if (!__widget_tooltips)
         __widget_tooltips = gtk_tooltips_new();
     if (entry->tooltip)
@@ -462,6 +479,15 @@ create_entry (const char *config_key, GtkTable *table, int idx)
                               _(entry->tooltip), NULL);
 
     return GTK_WIDGET (entry->widget);
+}
+
+void
+set_left_padding (GtkWidget *widget, gint padding)
+{
+    GtkWidget *alignment = GTK_WIDGET(g_object_get_data (G_OBJECT (widget),
+                                                     "alignment-widget"));
+    g_return_if_fail (alignment);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, padding, 0);
 }
 
 GtkWidget *

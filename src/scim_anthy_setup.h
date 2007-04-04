@@ -53,6 +53,8 @@ GtkWidget *create_color_button      (const char *config_key);
 GtkWidget *create_key_select_button (const char *config_key,
                                      GtkTable   *table,
                                      int         idx);
+void       set_left_padding         (GtkWidget  *widget,
+                                     gint        padding);
 
 extern StyleFiles __style_list;
 extern StyleFile  __user_style_file;
