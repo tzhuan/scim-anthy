@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2007-04-04 01:17+0900\n"
+"POT-Creation-Date: 2007-04-04 14:55+0900\n"
 "PO-Revision-Date: 2006-11-23 11:26+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -128,7 +128,7 @@ msgstr "単語を追加"
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
-#: src/scim_anthy_imengine.cpp:942 src/scim_anthy_setup.cpp:1352
+#: src/scim_anthy_imengine.cpp:942 src/scim_anthy_setup.cpp:1363
 msgid "Dictionary"
 msgstr "辞書"
 
@@ -355,7 +355,7 @@ msgstr "EUC-JP-MS"
 
 #: src/scim_anthy_setup.cpp:280
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: src/scim_anthy_setup.cpp:286
 msgid "No decoration"
@@ -385,51 +385,51 @@ msgstr "背景色"
 msgid "Both color"
 msgstr "文字色/背景色"
 
-#: src/scim_anthy_setup.cpp:807
+#: src/scim_anthy_setup.cpp:810
 msgid "_Group:"
 msgstr "グループ(_G):"
 
-#: src/scim_anthy_setup.cpp:828
+#: src/scim_anthy_setup.cpp:831
 msgid "Search by key"
 msgstr "キーで検索"
 
-#: src/scim_anthy_setup.cpp:832
+#: src/scim_anthy_setup.cpp:835
 msgid "all"
 msgstr "全て"
 
-#: src/scim_anthy_setup.cpp:875
+#: src/scim_anthy_setup.cpp:878
 msgid "Feature"
 msgstr "機能"
 
-#: src/scim_anthy_setup.cpp:884 src/scim_anthy_setup.cpp:1322
-msgid "Key bindings"
+#: src/scim_anthy_setup.cpp:887 src/scim_anthy_setup.cpp:1333
+msgid "Key Bindings"
 msgstr "キーバインド"
 
-#: src/scim_anthy_setup.cpp:892
+#: src/scim_anthy_setup.cpp:895
 msgid "Description"
 msgstr "説明"
 
-#: src/scim_anthy_setup.cpp:916
+#: src/scim_anthy_setup.cpp:919
 msgid "Key bindings _theme:"
 msgstr "キーバインドテーマ:"
 
-#: src/scim_anthy_setup.cpp:930
+#: src/scim_anthy_setup.cpp:933
 msgid "_Choose keys..."
 msgstr "キーを設定...(_C)"
 
-#: src/scim_anthy_setup.cpp:957
-msgid "<b>Enable/Disable learning</b>"
+#: src/scim_anthy_setup.cpp:961
+msgid "<b>Enable/Disable Learning</b>"
 msgstr "<b>学習の有効/無効</b>"
 
-#: src/scim_anthy_setup.cpp:984
-msgid "<b>Key preferences to commit with reversing learning preference</b>"
+#: src/scim_anthy_setup.cpp:988
+msgid "<b>Key Preferences to Commit with Reversing Learning Preference</b>"
 msgstr "<b>学習設定とは逆の方法で確定するキーの設定</b>"
 
-#: src/scim_anthy_setup.cpp:1058 src/scim_anthy_setup.cpp:1072
+#: src/scim_anthy_setup.cpp:1064 src/scim_anthy_setup.cpp:1078
 msgid "_Launch"
 msgstr "起動(_L)"
 
-#: src/scim_anthy_setup.cpp:1274
+#: src/scim_anthy_setup.cpp:1285
 #, c-format
 msgid ""
 "<span size=\"20000\">%s-%s</span>\n"
@@ -452,119 +452,119 @@ msgstr ""
 "<span size=\"12000\">Copyright 2005-2006, Takuro Ashie &lt;ashie@homa.ne."
 "jp&gt;</span>"
 
-#: src/scim_anthy_setup.cpp:1310
+#: src/scim_anthy_setup.cpp:1321
 msgid "Common"
 msgstr "一般"
 
-#: src/scim_anthy_setup.cpp:1316
+#: src/scim_anthy_setup.cpp:1327
 msgid "Symbols"
 msgstr "記号等"
 
-#: src/scim_anthy_setup.cpp:1328
-msgid "Romaji typing"
+#: src/scim_anthy_setup.cpp:1339
+msgid "Romaji Typing"
 msgstr "ローマ字入力"
 
-#: src/scim_anthy_setup.cpp:1334
-msgid "Kana typing"
+#: src/scim_anthy_setup.cpp:1345
+msgid "Kana Typing"
 msgstr "かな入力"
 
-#: src/scim_anthy_setup.cpp:1340
+#: src/scim_anthy_setup.cpp:1351
 msgid "Prediction"
 msgstr "予測"
 
-#: src/scim_anthy_setup.cpp:1346
+#: src/scim_anthy_setup.cpp:1357
 msgid "Learning"
 msgstr "学習"
 
-#: src/scim_anthy_setup.cpp:1358
-msgid "Candidates window"
+#: src/scim_anthy_setup.cpp:1369
+msgid "Candidates Window"
 msgstr "候補ウィンドウ"
 
-#: src/scim_anthy_setup.cpp:1364
+#: src/scim_anthy_setup.cpp:1375
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: src/scim_anthy_setup.cpp:1370
+#: src/scim_anthy_setup.cpp:1381
 msgid "Colors"
 msgstr "配色"
 
-#: src/scim_anthy_setup.cpp:1376
+#: src/scim_anthy_setup.cpp:1387
 msgid "About"
 msgstr "情報"
 
-#: src/scim_anthy_setup.cpp:1438 src/scim_anthy_setup_romaji.cpp:255
-#: src/scim_anthy_setup_kana.cpp:413 src/scim_anthy_setup_kana.cpp:480
+#: src/scim_anthy_setup.cpp:1449 src/scim_anthy_setup_romaji.cpp:256
+#: src/scim_anthy_setup_kana.cpp:414 src/scim_anthy_setup_kana.cpp:481
 msgid "User defined"
 msgstr "ユーザー定義"
 
-#: src/scim_anthy_setup.cpp:1441 src/scim_anthy_setup_romaji.cpp:258
-#: src/scim_anthy_setup_kana.cpp:416 src/scim_anthy_setup_kana.cpp:483
+#: src/scim_anthy_setup.cpp:1452 src/scim_anthy_setup_romaji.cpp:259
+#: src/scim_anthy_setup_kana.cpp:417 src/scim_anthy_setup_kana.cpp:484
 msgid "Default"
 msgstr "標準設定"
 
-#: src/scim_anthy_setup.cpp:2018
+#: src/scim_anthy_setup.cpp:2029
 msgid "Set key filter"
 msgstr "キ-フィルタ-をセット"
 
-#: src/scim_anthy_setup_romaji.cpp:124 src/scim_anthy_setup_romaji.cpp:195
+#: src/scim_anthy_setup_romaji.cpp:125 src/scim_anthy_setup_romaji.cpp:196
 msgid "Romaji _table:"
 msgstr "ローマ字テーブル(_T):"
 
-#: src/scim_anthy_setup_romaji.cpp:137 src/scim_anthy_setup_kana.cpp:143
-#: src/scim_anthy_setup_kana.cpp:188
+#: src/scim_anthy_setup_romaji.cpp:138 src/scim_anthy_setup_kana.cpp:144
+#: src/scim_anthy_setup_kana.cpp:189
 msgid "_Customize..."
 msgstr "カスタマイズ...(_C)"
 
-#: src/scim_anthy_setup_romaji.cpp:177
+#: src/scim_anthy_setup_romaji.cpp:178
 msgid "Sequence"
 msgstr "入力文字列"
 
-#: src/scim_anthy_setup_romaji.cpp:178 src/scim_anthy_setup_kana.cpp:263
+#: src/scim_anthy_setup_romaji.cpp:179 src/scim_anthy_setup_kana.cpp:264
 msgid "Result"
 msgstr "出力文字列"
 
-#: src/scim_anthy_setup_romaji.cpp:185
-msgid "Customize romaji table"
+#: src/scim_anthy_setup_romaji.cpp:186
+msgid "Customize Romaji Table"
 msgstr "ローマ字テーブルのカスタマイズ"
 
-#: src/scim_anthy_setup_kana.cpp:114
+#: src/scim_anthy_setup_kana.cpp:115
 msgid "<b>JIS Kana Layout</b>"
 msgstr "<b>JISかな配列</b>"
 
-#: src/scim_anthy_setup_kana.cpp:130 src/scim_anthy_setup_kana.cpp:175
+#: src/scim_anthy_setup_kana.cpp:131 src/scim_anthy_setup_kana.cpp:176
 msgid "La_yout:"
 msgstr "レイアウト(_Y):"
 
-#: src/scim_anthy_setup_kana.cpp:155
+#: src/scim_anthy_setup_kana.cpp:156
 msgid "<b>Thumb Shift Layout</b>"
 msgstr "<b>親指シフト配列</b>"
 
-#: src/scim_anthy_setup_kana.cpp:262 src/scim_anthy_setup_kana.cpp:332
+#: src/scim_anthy_setup_kana.cpp:263 src/scim_anthy_setup_kana.cpp:333
 msgid "Key"
 msgstr "キー"
 
-#: src/scim_anthy_setup_kana.cpp:270
-msgid "Customize kana layout table"
+#: src/scim_anthy_setup_kana.cpp:271
+msgid "Customize Kana Layout Table"
 msgstr "かなレイアウトテーブルのカスタマイズ"
 
-#: src/scim_anthy_setup_kana.cpp:280 src/scim_anthy_setup_kana.cpp:352
+#: src/scim_anthy_setup_kana.cpp:281 src/scim_anthy_setup_kana.cpp:353
 msgid "Layout _table:"
 msgstr "レイアウトテーブル(_T):"
 
-#: src/scim_anthy_setup_kana.cpp:333
+#: src/scim_anthy_setup_kana.cpp:334
 msgid "Single press"
 msgstr "単独打鍵"
 
-#: src/scim_anthy_setup_kana.cpp:334
+#: src/scim_anthy_setup_kana.cpp:335
 msgid "Left thumb shift"
 msgstr "左親指シフト"
 
-#: src/scim_anthy_setup_kana.cpp:335
+#: src/scim_anthy_setup_kana.cpp:336
 msgid "Right thumb shift"
 msgstr "右親指シフト"
 
-#: src/scim_anthy_setup_kana.cpp:342
-msgid "Customize thumb shift layout table"
+#: src/scim_anthy_setup_kana.cpp:343
+msgid "Customize Thumb Shift Layout Table"
 msgstr "親指シフトレイアウトテーブルのカスタマイズ"
 
 #: src/scim_anthy_prefs.cpp:34
