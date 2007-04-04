@@ -1,3 +1,4 @@
+* Comply with Gnome HIG.
 * Add test suite.
 * Show credits onto the scim-setup.
 * Change the keybord layout by using XKB & helper when the typing method is

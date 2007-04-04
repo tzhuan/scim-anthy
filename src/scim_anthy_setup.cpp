@@ -1145,9 +1145,11 @@ create_toolbar_page (void)
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox);
 
+#ifdef SCIM_BUILD_TRAY
     /* tray icon */
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON);
     gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+#endif
 
     /* show/hide toolbar label */
     widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL);
