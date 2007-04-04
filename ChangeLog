@@ -1,5 +1,10 @@
 2007-04-04  Takuro Ashie  <ashie@homa.ne.jp>
 
+	* src/scim_anthy_set.cpp: Use GtkOptionMenu for non editable dropdown
+	list (although GtkOptionMenu is deplecated on latest GTK+...).
+
+2007-04-04  Takuro Ashie  <ashie@homa.ne.jp>
+
 	* src/scim_anthy_setup.cpp, src/scim_anthy_setup_kana.cpp,
 	src/scim_anthy_setup_romaji.cpp:
 	Fix padding of most outer containers and fix capitalization of title

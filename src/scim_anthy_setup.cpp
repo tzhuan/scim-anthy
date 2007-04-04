@@ -729,24 +729,24 @@ create_common_page (void)
     gtk_widget_show (table);
 
     /* input mode */
-    widget = create_combo (SCIM_ANTHY_CONFIG_INPUT_MODE,
-                           (gpointer) &input_modes,
-                           GTK_TABLE (table), 0);
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_INPUT_MODE,
+                                 (gpointer) &input_modes,
+                                 GTK_TABLE (table), 0);
 
     /* typing method */
-    widget = create_combo (SCIM_ANTHY_CONFIG_TYPING_METHOD,
-                           (gpointer) &typing_methods,
-                           GTK_TABLE (table), 1);
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_TYPING_METHOD,
+                                 (gpointer) &typing_methods,
+                                 GTK_TABLE (table), 1);
 
     /* conversion mode */
-    widget = create_combo (SCIM_ANTHY_CONFIG_CONVERSION_MODE,
-                           (gpointer) &conversion_modes,
-                           GTK_TABLE (table), 2);
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_CONVERSION_MODE,
+                                 (gpointer) &conversion_modes,
+                                 GTK_TABLE (table), 2);
 
     /* behavior on focus out */
-    widget = create_combo (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT,
-                           (gpointer) &behavior_on_focus_out,
-                           GTK_TABLE (table), 3);
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT,
+                                 (gpointer) &behavior_on_focus_out,
+                                 GTK_TABLE (table), 3);
 
     return vbox;
 }
@@ -765,29 +765,29 @@ create_symbols_page (void)
     gtk_widget_show (table);
 
     /* period style */
-    widget = create_combo (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
-                           (gpointer) &period_styles,
-                           GTK_TABLE (table), 3);
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_PERIOD_STYLE,
+                                 (gpointer) &period_styles,
+                                 GTK_TABLE (table), 3);
 
     /* symbol style */
-    widget = create_combo (SCIM_ANTHY_CONFIG_SYMBOL_STYLE,
-                           (gpointer) &symbol_styles,
-                           GTK_TABLE (table), 4);
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_SYMBOL_STYLE,
+                                 (gpointer) &symbol_styles,
+                                 GTK_TABLE (table), 4);
 
     /* space_style */
-    widget = create_combo (SCIM_ANTHY_CONFIG_SPACE_TYPE,
-                           (gpointer) &space_types,
-                           GTK_TABLE (table), 5);
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_SPACE_TYPE,
+                                 (gpointer) &space_types,
+                                 GTK_TABLE (table), 5);
 
     /* ten key_style */
-    widget = create_combo (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
-                           (gpointer) &ten_key_types,
-                           GTK_TABLE (table), 6);
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_TEN_KEY_TYPE,
+                                 (gpointer) &ten_key_types,
+                                 GTK_TABLE (table), 6);
 
     /* behavior on period */
-    widget = create_combo (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
-                           (gpointer) &behavior_on_period,
-                           GTK_TABLE (table), 7);
+    widget = create_option_menu (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_PERIOD,
+                                 (gpointer) &behavior_on_period,
+                                 GTK_TABLE (table), 7);
 
     return vbox;
 }
@@ -1052,9 +1052,9 @@ create_dict_page (void)
     gtk_widget_show (table);
 
     // encoding of dictionary
-    create_combo (SCIM_ANTHY_CONFIG_DICT_ENCODING,
-                  (gpointer) &dict_encoding,
-                  GTK_TABLE (table), 0);
+    create_option_menu (SCIM_ANTHY_CONFIG_DICT_ENCODING,
+                        (gpointer) &dict_encoding,
+                        GTK_TABLE (table), 0);
 
     // dict admin command
     create_entry (SCIM_ANTHY_CONFIG_DICT_ADMIN_COMMAND,
