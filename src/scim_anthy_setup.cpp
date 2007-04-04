@@ -721,6 +721,7 @@ create_common_page (void)
     GtkWidget *vbox, *table, *widget;
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
     table = gtk_table_new (7, 2, FALSE);
@@ -756,6 +757,7 @@ create_symbols_page (void)
     GtkWidget *vbox, *table, *widget;
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
     table = gtk_table_new (7, 2, FALSE);
@@ -796,6 +798,7 @@ create_keyboard_page (void)
     GtkWidget *vbox, *hbox;
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
     hbox = gtk_hbox_new (FALSE, 0);
@@ -881,7 +884,7 @@ create_keyboard_page (void)
     gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Key bindings"), cell,
+    column = gtk_tree_view_column_new_with_attributes (_("Key Bindings"), cell,
                                                        "text", COLUMN_VALUE,
                                                        NULL);
     gtk_tree_view_column_set_fixed_width (column, 200);
@@ -948,13 +951,14 @@ create_learning_page ()
     GtkWidget *widget, *label;
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
     hbox = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
     gtk_widget_show (hbox);
 
-    label = gtk_label_new (_("<b>Enable/Disable learning</b>"));
+    label = gtk_label_new (_("<b>Enable/Disable Learning</b>"));
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
     gtk_widget_show (label);
@@ -981,8 +985,8 @@ create_learning_page ()
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
     gtk_widget_show (hbox);
 
-    label = gtk_label_new (_("<b>Key preferences to commit "
-                             "with reversing learning preference</b>"));
+    label = gtk_label_new (_("<b>Key Preferences to Commit "
+                             "with Reversing Learning Preference</b>"));
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
     gtk_widget_show (label);
@@ -1023,6 +1027,7 @@ create_prediction_page ()
     GtkWidget *vbox, *widget;
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
     /* predict while inputting */
@@ -1043,6 +1048,7 @@ create_dict_page (void)
     StringConfigData *entry;
 
     table = gtk_table_new (4, 4, FALSE);
+    gtk_container_set_border_width (GTK_CONTAINER(table), 8);
     gtk_widget_show (table);
 
     // encoding of dictionary
@@ -1092,6 +1098,7 @@ create_candidates_window_page (void)
     GtkWidget *vbox, *widget, *widget2, *table, *alignment;
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
     /* use custom lookup window */
@@ -1143,6 +1150,7 @@ create_toolbar_page (void)
     GtkWidget *vbox, /* *hbox, *label,*/ *widget;
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
 #ifdef SCIM_BUILD_TRAY
@@ -1202,6 +1210,7 @@ create_colors_page (void)
     GtkWidget *vbox, *table, *omenu, *widget, *hbox; 
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
     table = gtk_table_new (2, 3, FALSE);
@@ -1321,19 +1330,19 @@ create_setup_window (void)
 
         // Create the key bind page.
         page = create_keyboard_page ();
-        label = gtk_label_new (_("Key bindings"));
+        label = gtk_label_new (_("Key Bindings"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
         // Create the romaji page.
         page = romaji_page_create_ui ();
-        label = gtk_label_new (_("Romaji typing"));
+        label = gtk_label_new (_("Romaji Typing"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
         // Create the kana page.
         page = kana_page_create_ui ();
-        label = gtk_label_new (_("Kana typing"));
+        label = gtk_label_new (_("Kana Typing"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
@@ -1357,7 +1366,7 @@ create_setup_window (void)
 
         // Create the candidates widnow page.
         page = create_candidates_window_page ();
-        label = gtk_label_new (_("Candidates window"));
+        label = gtk_label_new (_("Candidates Window"));
         gtk_widget_show (label);
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 

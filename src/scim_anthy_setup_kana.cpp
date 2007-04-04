@@ -104,6 +104,7 @@ kana_page_create_ui (void)
     GtkWidget *vbox;
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
     // JIS Kana Layout
@@ -267,7 +268,7 @@ create_kana_window (GtkWindow *parent)
     gtk_window_set_transient_for (GTK_WINDOW (dialog),
                                   GTK_WINDOW (parent));
     gtk_window_set_title (GTK_WINDOW (dialog),
-                          _("Customize kana layout table"));
+                          _("Customize Kana Layout Table"));
 
     // option menu area
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
@@ -339,7 +340,7 @@ create_nicola_window (GtkWindow *parent)
     gtk_window_set_transient_for (GTK_WINDOW (dialog),
                                   GTK_WINDOW (parent));
     gtk_window_set_title (GTK_WINDOW (dialog),
-                          _("Customize thumb shift layout table"));
+                          _("Customize Thumb Shift Layout Table"));
 
     // option menu area
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);

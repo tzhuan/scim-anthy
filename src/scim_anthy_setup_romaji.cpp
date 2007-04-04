@@ -81,6 +81,7 @@ romaji_page_create_ui (void)
     GtkWidget *vbox, *widget, *hbox, *label;
 
     vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
     /* romaji splitting */
@@ -182,7 +183,7 @@ create_romaji_window (GtkWindow *parent)
     gtk_window_set_transient_for (GTK_WINDOW (dialog),
                                   GTK_WINDOW (parent));
     gtk_window_set_title (GTK_WINDOW (dialog),
-                          _("Customize romaji table"));
+                          _("Customize Romaji Table"));
 
     // option menu area
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
