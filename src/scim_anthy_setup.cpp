@@ -968,12 +968,12 @@ create_learning_page ()
     gtk_widget_show (vbox);
 
     hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 8);
     gtk_widget_show (hbox);
 
     label = gtk_label_new (_("<b>Enable/Disable Learning</b>"));
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 8);
     gtk_widget_show (label);
 
     alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
@@ -995,13 +995,13 @@ create_learning_page ()
 
     /* key preference */
     hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 8);
     gtk_widget_show (hbox);
 
     label = gtk_label_new (_("<b>Key Preferences to Commit "
                              "with Reversing Learning Preference</b>"));
     gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 8);
     gtk_widget_show (label);
 
     alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);

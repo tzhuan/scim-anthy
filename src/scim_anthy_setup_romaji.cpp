@@ -130,7 +130,7 @@ romaji_page_create_ui (void)
     __widget_romaji_theme_menu = omenu;
     g_signal_connect (G_OBJECT (omenu), "changed",
                       G_CALLBACK (on_romaji_theme_menu_changed), NULL);
-    gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 2);
+    gtk_box_pack_start (GTK_BOX (hbox), omenu, TRUE, TRUE, 2);
     gtk_widget_show (omenu);
 
     gtk_label_set_mnemonic_widget (GTK_LABEL(label), omenu);
