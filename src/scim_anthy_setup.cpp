@@ -191,8 +191,9 @@ static struct KeyboardConfigPage __key_conf_pages[] =
 };
 static unsigned int __key_conf_pages_num = sizeof (__key_conf_pages) / sizeof (KeyboardConfigPage);
 
-const int KEY_CATEGORY_INDEX_SEARCH_BY_KEY = __key_conf_pages_num;
-const int KEY_CATEGORY_INDEX_ALL           = __key_conf_pages_num + 1;
+const int KEY_CATEGORY_INDEX_OFFSET        = 1;
+const int KEY_CATEGORY_INDEX_ALL           = 0;
+const int KEY_CATEGORY_INDEX_SEARCH_BY_KEY = __key_conf_pages_num + 1;
 
 const int KEY_THEME_INDEX_USER_DEFINED = 0;
 const int KEY_THEME_INDEX_DEFAULT      = 1;
@@ -958,6 +959,10 @@ create_keyboard_page (void)
 
     GtkWidget *menuitem;
 
+    menuitem = gtk_menu_item_new_with_label (_("All"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    gtk_widget_show (menuitem);
+
     for (unsigned int i = 0; i < __key_conf_pages_num; i++) {
         menuitem = gtk_menu_item_new_with_label (_(__key_conf_pages[i].label));
         gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
@@ -965,10 +970,6 @@ create_keyboard_page (void)
     }
 
     menuitem = gtk_menu_item_new_with_label (_("Search by key"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
-    gtk_widget_show (menuitem);
-
-    menuitem = gtk_menu_item_new_with_label (_("all"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
     gtk_widget_show (menuitem);
 
@@ -2067,8 +2068,10 @@ on_key_category_menu_changed (GtkOptionMenu *omenu, gpointer user_data)
 
     bool use_filter = false;
 
-    if (idx >= 0 && idx < (gint) __key_conf_pages_num) {
-        append_key_bindings (treeview, idx, NULL);
+    if (idx - KEY_CATEGORY_INDEX_OFFSET >= 0 &&
+        idx - KEY_CATEGORY_INDEX_OFFSET < (gint) __key_conf_pages_num)
+    {
+        append_key_bindings (treeview, idx - KEY_CATEGORY_INDEX_OFFSET, NULL);
 
     } else if (idx == KEY_CATEGORY_INDEX_SEARCH_BY_KEY) {
         // search by key
