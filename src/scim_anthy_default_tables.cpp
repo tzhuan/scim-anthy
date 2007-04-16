@@ -431,7 +431,7 @@ ConvRule scim_anthy_kana_typing_rule[] = {
 {",",	"ね",	""},
 {".",	"る",	""},
 {"/",	"め",	""},
-{"\\",	"ろ",	""},
+{"\\",	"ー",	""},
 
 // shift modifiered keys
 {"!",	"ぬ",	""},

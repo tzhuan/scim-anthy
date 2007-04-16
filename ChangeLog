@@ -1,3 +1,10 @@
+2007-04-16 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_factory.{cpp,h}, src/scim_anthy_key2kana.{cpp,h},
+	  src/scim_anthy_prefs.h, src/scim_anthy_default_table.cpp:
+	Add spcial treatment for "RO" key of JIS kana layout. It requires
+	scim-1.4.6 or later (it is not released yet).
+
 2007-04-06  Takuro Ashie  <ashie@homa.ne.jp>
 
 	* src/scim_anthy_setup.cpp: Move "All" item in the key category menu to

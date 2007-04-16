@@ -71,6 +71,7 @@ private:
     Key2KanaTableSet  &m_tables;
 
     // state
+    KeyEvent           m_last_key;
     WideString         m_pending;
     Key2KanaRule       m_exact_match;
     int                m_pseudo_ascii_mode;

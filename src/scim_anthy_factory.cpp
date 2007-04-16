@@ -147,7 +147,8 @@ AnthyFactory::AnthyFactory (const String &lang,
       m_selected_segment_style      (SCIM_ANTHY_CONFIG_SELECTED_SEGMENT_STYLE_DEFAULT),
       m_custom_romaji_table         (NULL),
       m_custom_kana_table           (NULL),
-      m_custom_nicola_table         (NULL)
+      m_custom_nicola_table         (NULL),
+      m_kana_layout_ro_key          (SCIM_ANTHY_CONFIG_KANA_LAYOUT_RO_KEY)
 {
     SCIM_DEBUG_IMENGINE(1) << "Create Anthy Factory :\n";
     SCIM_DEBUG_IMENGINE(1) << "  Lang : " << lang << "\n";
@@ -775,6 +776,11 @@ AnthyFactory::reload_config (const ConfigPointer &config)
     if (!file.empty () && style.load (file.c_str ())) {
         m_custom_nicola_table = style.get_key2kana_table (section_nicola);
     }
+
+    // special kana keys
+    m_kana_layout_ro_key
+        = config->read (String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_RO_KEY),
+                        String (SCIM_ANTHY_CONFIG_KANA_LAYOUT_RO_KEY_DEFAULT));
 
 
     // reload config for all instance

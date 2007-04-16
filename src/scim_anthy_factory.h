@@ -136,6 +136,8 @@ public:
     Key2KanaTable *m_custom_kana_table;
     Key2KanaTable *m_custom_nicola_table;
 
+    String         m_kana_layout_ro_key;
+
     /* for key bindings */
     std::vector<Action> m_actions;
 };

@@ -42,6 +42,7 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR    "/IMEngine/Anthy/RomajiPseudoAsciiBlankBehavior"
 
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE            "/IMEngine/Anthy/KanaLayoutFile"
+#define SCIM_ANTHY_CONFIG_KANA_LAYOUT_RO_KEY          "/IMEngine/ANthy/KanaLayoutRoKey"
 
 #define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE          "/IMEngine/Anthy/NICOLALayoutFile"
 #define SCIM_ANTHY_CONFIG_NICOLA_TIME                 "/IMEngine/Anthy/NICOLATime"
@@ -193,6 +194,7 @@
 #define SCIM_ANTHY_CONFIG_ROMAJI_PSEUDO_ASCII_BLANK_BEHAVIOR_DEFAULT    true
 
 #define SCIM_ANTHY_CONFIG_KANA_LAYOUT_FILE_DEFAULT            ""
+#define SCIM_ANTHY_CONFIG_KANA_LAYOUT_RO_KEY_DEFAULT          "\xE3\x82\x8D"
 
 #define SCIM_ANTHY_CONFIG_NICOLA_LAYOUT_FILE_DEFAULT          ""
 #define SCIM_ANTHY_CONFIG_NICOLA_TIME_DEFAULT                 200
