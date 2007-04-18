@@ -356,32 +356,28 @@ find_key_config_entry (const char *config_key)
 }
 
 GtkWidget *
-create_check_button (const char *config_key)
+create_subgroup_label (const char *text, GtkTable *table, gint idx)
 {
-    BoolConfigData *entry = find_bool_config_entry (config_key);
-    if (!entry)
-        return NULL;
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
+    gtk_table_attach (GTK_TABLE (table), hbox,
+                      0, 4, idx, idx + 1,
+                      (GtkAttachOptions) GTK_FILL,
+                      (GtkAttachOptions) GTK_FILL,
+                      4, 4);
+    gtk_widget_show (hbox);
 
-    entry->widget = gtk_check_button_new_with_mnemonic (_(entry->label));
-    gtk_container_set_border_width (GTK_CONTAINER (entry->widget), 4);
-    g_signal_connect (G_OBJECT (entry->widget), "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      entry);
-    gtk_widget_show (GTK_WIDGET (entry->widget));
+    GtkWidget *label = gtk_label_new (text);
+    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_widget_show (label);
 
-    if (!__widget_tooltips)
-        __widget_tooltips = gtk_tooltips_new();
-    if (entry->tooltip)
-        gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
-                              _(entry->tooltip), NULL);
-
-    return GTK_WIDGET (entry->widget);
+    return hbox;
 }
 
 /* all check buttons will be migrated to this function */
 GtkWidget *
-create_check_button_with_table (const char *config_key,
-                                GtkTable *table, int idx)
+create_check_button (const char *config_key, GtkTable *table, int idx)
 {
     BoolConfigData *entry = find_bool_config_entry (config_key);
     if (!entry)
@@ -402,7 +398,7 @@ create_check_button_with_table (const char *config_key,
     gtk_container_add (GTK_CONTAINER (alignment), GTK_WIDGET (entry->widget));
     gtk_widget_show (GTK_WIDGET (entry->widget));
 
-    g_object_set_data (G_OBJECT (alignment), "alignment-widget",
+    g_object_set_data (G_OBJECT (entry->widget), "alignment-widget",
                        (gpointer) alignment);
 
     if (!__widget_tooltips)
@@ -411,7 +407,7 @@ create_check_button_with_table (const char *config_key,
         gtk_tooltips_set_tip (__widget_tooltips, GTK_WIDGET (entry->widget),
                               _(entry->tooltip), NULL);
 
-    return GTK_WIDGET (alignment);
+    return GTK_WIDGET (entry->widget);
 }
 
 GtkWidget *
@@ -800,7 +796,7 @@ key_list_view_popup_key_selection (GtkTreeView *treeview)
 static GtkWidget *
 create_common_page (void)
 {
-    GtkWidget *vbox, *table, *widget;
+    GtkWidget *vbox, *table, *widget, *label;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
@@ -811,19 +807,7 @@ create_common_page (void)
     gtk_widget_show (table);
 
     /* default modes label */
-    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
-    gtk_container_set_border_width (GTK_CONTAINER (hbox), 4);
-    gtk_table_attach (GTK_TABLE (table), hbox,
-                      0, 4, 0, 1,
-                      (GtkAttachOptions) GTK_FILL,
-                      (GtkAttachOptions) GTK_FILL,
-                      4, 4);
-    gtk_widget_show (hbox);
-
-    GtkWidget *label = gtk_label_new (_("<b>Default Modes</b>"));
-    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
+    create_subgroup_label (_("<b>Default Modes</b>"), GTK_TABLE (table), 0);
 
     /* input mode */
     widget = create_option_menu (SCIM_ANTHY_CONFIG_INPUT_MODE,
@@ -848,8 +832,9 @@ create_common_page (void)
     widget = create_option_menu (SCIM_ANTHY_CONFIG_BEHAVIOR_ON_FOCUS_OUT,
                                  (gpointer) &behavior_on_focus_out,
                                  GTK_TABLE (table), 4);
-#else
-    //label = gtk_label_new ("");
+#endif
+
+    // padding
     label = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
     gtk_alignment_set_padding (GTK_ALIGNMENT (label), 2, 2, 0, 0);
     gtk_table_attach (GTK_TABLE (table), label,
@@ -858,31 +843,18 @@ create_common_page (void)
                       (GtkAttachOptions) GTK_FILL,
                       4, 4);
     gtk_widget_show (label);
-#endif
 
     /* Prediction label */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_container_set_border_width (GTK_CONTAINER (hbox), 0);
-    gtk_table_attach (GTK_TABLE (table), hbox,
-                      0, 4, 5, 6,
-                      (GtkAttachOptions) GTK_FILL,
-                      (GtkAttachOptions) GTK_FILL,
-                      4, 4);
-    gtk_widget_show (hbox);
-
-    label = gtk_label_new (_("<b>Input Prediction</b>"));
-    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 4);
-    gtk_widget_show (label);
+    create_subgroup_label (_("<b>Input Prediction</b>"), GTK_TABLE (table), 5);
 
     /* predict while inputting */
-    widget = create_check_button_with_table (SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT,
-                                             GTK_TABLE (table), 6);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_PREDICT_ON_INPUT,
+                                  GTK_TABLE (table), 6);
     set_left_padding (widget, 20);
 
     /* use direct select keys */
-    widget = create_check_button_with_table (SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT,
-                                             GTK_TABLE (table), 7);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_USE_DIRECT_KEY_ON_PREDICT,
+                                  GTK_TABLE (table), 7);
     set_left_padding (widget, 20);
 
     return vbox;
@@ -1097,58 +1069,43 @@ create_keyboard_page (void)
 static GtkWidget *
 create_learning_page ()
 {
-    GtkWidget *vbox, *vbox2, *hbox, *alignment, *table;
-    GtkWidget *widget, *label;
+    GtkWidget *vbox, *table, *widget, *label;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 8);
-    gtk_widget_show (hbox);
+    table = gtk_table_new (8, 4, FALSE);
+    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
+    gtk_widget_show (table);
 
-    label = gtk_label_new (_("<b>Enable/Disable Learning</b>"));
-    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 8);
-    gtk_widget_show (label);
-
-    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
-    gtk_widget_show (alignment);
-
-    vbox2 = gtk_vbox_new (FALSE, 0);
-    gtk_container_add (GTK_CONTAINER (alignment), vbox2);
-    gtk_widget_show (vbox2);
+    create_subgroup_label (_("<b>Enable/Disable Learning</b>"),
+                           GTK_TABLE (table), 0);
 
     /* maual commit */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT);
-    gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, FALSE, 4);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_MANUAL_COMMIT,
+                                  GTK_TABLE (table), 1);
+    set_left_padding (widget, 20);
 
     /* auto commit */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT);
-    gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, FALSE, 4);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_LEARN_ON_AUTO_COMMIT,
+                                  GTK_TABLE (table), 2);
+    set_left_padding (widget, 20);
 
-    /* key preference */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 8);
-    gtk_widget_show (hbox);
-
-    label = gtk_label_new (_("<b>Key Preferences to Commit "
-                             "with Reversing Learning Preference</b>"));
-    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 8);
+    // padding
+    label = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (label), 2, 2, 0, 0);
+    gtk_table_attach (GTK_TABLE (table), label,
+                      0, 4, 3, 4,
+                      (GtkAttachOptions) GTK_FILL,
+                      (GtkAttachOptions) GTK_FILL,
+                      4, 4);
     gtk_widget_show (label);
 
-    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
-    gtk_widget_show (alignment);
-
-    table = gtk_table_new (3, 3, FALSE);
-    gtk_container_add (GTK_CONTAINER (alignment), table);
-    gtk_widget_show (table);
+    /* key preference */
+    create_subgroup_label (_("<b>Key Preferences to Commit "
+                             "with Reversing Learning Preference</b>"),
+                           GTK_TABLE (table), 4);
 
     StringConfigData *entries[3];
     entries [0] = find_string_config_entry (
@@ -1163,9 +1120,10 @@ create_learning_page ()
          i++)
     {
         StringConfigData *entry = entries[i];
-        widget = create_entry (entry->key, GTK_TABLE (table), i);
+        widget = create_entry (entry->key, GTK_TABLE (table), i + 5);
+        set_left_padding (widget, 20);
         gtk_entry_set_editable (GTK_ENTRY (widget), FALSE);
-        create_key_select_button (entry->key, GTK_TABLE (table), i);
+        create_key_select_button (entry->key, GTK_TABLE (table), i + 5);
     }
 
     return vbox;
@@ -1226,24 +1184,24 @@ create_dict_page (void)
 static GtkWidget *
 create_candidates_window_page (void)
 {
-    GtkWidget *vbox, *widget, *widget2, *table, *alignment;
+    GtkWidget *vbox, *widget, *widget2, *table;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
+    table = gtk_table_new (2, 2, FALSE);
+    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
+    gtk_widget_show (table);
+
     /* use custom lookup window */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW,
+                                  GTK_TABLE (table), 0);
 
     /* show diction */
-    alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 2);
-    gtk_widget_show (alignment);
-
-    widget2 = create_check_button (SCIM_ANTHY_CONFIG_ENABLE_DICTION);
-    gtk_container_add (GTK_CONTAINER (alignment), widget2);
+    widget2 = create_check_button (SCIM_ANTHY_CONFIG_ENABLE_DICTION,
+                                   GTK_TABLE (table), 1);
+    set_left_padding (widget2, 20);
     gtk_widget_set_sensitive (
         widget2,
         SCIM_ANTHY_CONFIG_USE_CUSTOM_LOOKUP_WINDOW_DEFAULT);
@@ -1253,24 +1211,20 @@ create_candidates_window_page (void)
                       widget2);
 
     /* show candidates label */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    create_check_button (SCIM_ANTHY_CONFIG_SHOW_CANDIDATES_LABEL,
+                         GTK_TABLE (table), 2);
 
     /* close candidate window on select */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
-
-    table = gtk_table_new (2, 2, FALSE);
-    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
-    gtk_widget_show (table);
+    create_check_button (SCIM_ANTHY_CONFIG_CLOSE_CAND_WIN_ON_SELECT,
+                         GTK_TABLE (table), 3);
 
     /* number of triggers until show candidates window */
     create_spin_button (SCIM_ANTHY_CONFIG_CAND_WIN_PAGE_SIZE,
-                        GTK_TABLE (table), 0);
+                        GTK_TABLE (table), 4);
 
     /* number of triggers until show candidates window */
     create_spin_button (SCIM_ANTHY_CONFIG_N_TRIGGERS_TO_SHOW_CAND_WIN,
-                        GTK_TABLE (table), 1);
+                        GTK_TABLE (table), 5);
 
     return vbox;
 }
@@ -1278,40 +1232,44 @@ create_candidates_window_page (void)
 static GtkWidget *
 create_toolbar_page (void)
 {
-    GtkWidget *vbox, /* *hbox, *label,*/ *widget;
+    GtkWidget *vbox, *table, /* *hbox, *label,*/ *widget;
 
     vbox = gtk_vbox_new (FALSE, 0);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), 8);
     gtk_widget_show (vbox);
 
+    table = gtk_table_new (2, 2, FALSE);
+    gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
+    gtk_widget_show (table);
+
 #ifdef SCIM_ANTHY_BUILD_TRAY
     /* tray icon */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    create_check_button (SCIM_ANTHY_CONFIG_SHOW_TRAY_ICON,
+                         GTK_TABLE (table), 0);
 #endif
 
     /* show/hide toolbar label */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    create_check_button (SCIM_ANTHY_CONFIG_SHOW_INPUT_MODE_LABEL,
+                         GTK_TABLE (table), 1);
 
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    create_check_button (SCIM_ANTHY_CONFIG_SHOW_TYPING_METHOD_LABEL,
+                         GTK_TABLE (table), 2);
 
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    create_check_button (SCIM_ANTHY_CONFIG_SHOW_CONVERSION_MODE_LABEL,
+                         GTK_TABLE (table), 3);
 
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    create_check_button (SCIM_ANTHY_CONFIG_SHOW_PERIOD_STYLE_LABEL,
+                         GTK_TABLE (table), 4);
 
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_SYMBOL_STYLE_LABEL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
+    create_check_button (SCIM_ANTHY_CONFIG_SHOW_SYMBOL_STYLE_LABEL,
+                         GTK_TABLE (table), 5);
 
     /* dictionary menu */
-    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL);
+    widget = create_check_button (SCIM_ANTHY_CONFIG_SHOW_DICT_LABEL,
+                                  GTK_TABLE (table), 6);
     g_signal_connect ((gpointer) widget, "toggled",
                       G_CALLBACK (on_dict_menu_label_toggled),
                       NULL);
-    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 2);
 
 #if 0
     hbox = gtk_hbox_new (FALSE, 0);

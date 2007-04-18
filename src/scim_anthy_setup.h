@@ -34,7 +34,12 @@
 
 namespace scim_anthy {
 
-GtkWidget *create_check_button      (const char *config_key);
+GtkWidget *create_subgroup_label    (const char *text,
+                                     GtkTable   *table,
+                                     gint        idx);
+GtkWidget *create_check_button      (const char *config_key,
+                                     GtkTable   *table,
+                                     int         idx);
 GtkWidget *create_spin_button       (const char *config_key,
                                      GtkTable   *table,
                                      int         idx);
