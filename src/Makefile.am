@@ -125,7 +125,7 @@ anthy_imengine_setup_la_LDFLAGS = -avoid-version \
 if SCIM_BUILD_HELPER
 HELPER_MODULE = anthy-imengine-helper.la
 endif
-helpermoduledir          = @SCIM_MODULEDIR@/`pkg-config --variable=scim_binary_version scim`/Helper
+helpermoduledir          = @SCIM_MODULEDIR@/Helper
 helpermodule_LTLIBRARIES = $(HELPER_MODULE)
 
 anthy_imengine_helper_la_SOURCES  = scim_anthy_helper.cpp

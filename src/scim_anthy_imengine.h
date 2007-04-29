@@ -215,6 +215,7 @@ private:
 
     /* utility */
     void   set_preedition                     (void);
+    void   set_aux_string                     (void);
     void   set_lookup_table                   (void);
     void   unset_lookup_table                 (void);
     void   install_properties                 (void);

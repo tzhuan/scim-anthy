@@ -1,3 +1,33 @@
+2007-04-16 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/Makefile.am: Remove binary version from the install path of the
+	helper module.
+	* src/scim_anthy_factory.{cpp,h}, src/scim_anthy_key2kana.{cpp,h},
+	  src/scim_anthy_prefs.h, src/scim_anthy_default_table.cpp:
+	Add spcial treatment for "RO" key of JIS kana layout. It requires
+	scim-1.4.6 or later (it is not released yet).
+
+2007-03-28 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_imengine.{cpp,h}: Show aux string again if the lookup
+	table is activated on focus in event.
+	Thanks TAGOH-san and somebody who contributes the patch.
+
+2007-01-06  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* src/scim_anthy_utils.h: Include missing header files.
+	Thanks Gregor Waltz.
+
+2006-11-14 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.ac; Version-1.2.2.
+
+2006-10-30 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_conversion.cpp: Fix a bug that a wrong partial string
+	is converted on direct kana conversion after commiting a piece of
+	segments.
+
 2006-09-29 Takuro Ashie <ashie@homa.ne.jp>
 
 	* configure.ac: Version-1.2.1.

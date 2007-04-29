@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2006-09-25 18:12+0900\n"
+"POT-Creation-Date: 2007-04-19 10:35+0900\n"
 "PO-Revision-Date: 2006-02-14 10:50+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,109 +13,109 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/scim_anthy_imengine.cpp:347 src/scim_anthy_imengine.cpp:526
+#: src/scim_anthy_imengine.cpp:488
 #, c-format
 msgid "Candidates (%d/%d)"
 msgstr "候補一覧 (%d/%d)"
 
-#: src/scim_anthy_imengine.cpp:557
+#: src/scim_anthy_imengine.cpp:565
 msgid "Input mode"
 msgstr "入力モード"
 
-#: src/scim_anthy_imengine.cpp:561 src/scim_anthy_setup.cpp:202
+#: src/scim_anthy_imengine.cpp:569 src/scim_anthy_setup.cpp:202
 msgid "Hiragana"
 msgstr "ひらがな"
 
-#: src/scim_anthy_imengine.cpp:565 src/scim_anthy_setup.cpp:203
+#: src/scim_anthy_imengine.cpp:573 src/scim_anthy_setup.cpp:203
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/scim_anthy_imengine.cpp:569 src/scim_anthy_imengine.cpp:570
+#: src/scim_anthy_imengine.cpp:577 src/scim_anthy_imengine.cpp:578
 #: src/scim_anthy_setup.cpp:204
 msgid "Half width katakana"
 msgstr "半角カタカナ"
 
-#: src/scim_anthy_imengine.cpp:574 src/scim_anthy_setup.cpp:205
+#: src/scim_anthy_imengine.cpp:582 src/scim_anthy_setup.cpp:205
 msgid "Latin"
 msgstr "英数"
 
-#: src/scim_anthy_imengine.cpp:574
+#: src/scim_anthy_imengine.cpp:582
 msgid "Direct input"
 msgstr "直接入力"
 
-#: src/scim_anthy_imengine.cpp:578 src/scim_anthy_setup.cpp:206
+#: src/scim_anthy_imengine.cpp:586 src/scim_anthy_setup.cpp:206
 msgid "Wide latin"
 msgstr "全角英数"
 
-#: src/scim_anthy_imengine.cpp:584
+#: src/scim_anthy_imengine.cpp:592
 msgid "Typing method"
 msgstr "入力方式"
 
-#: src/scim_anthy_imengine.cpp:588
+#: src/scim_anthy_imengine.cpp:596
 msgid "Romaji"
 msgstr "ローマ字"
 
-#: src/scim_anthy_imengine.cpp:592
+#: src/scim_anthy_imengine.cpp:600
 msgid "Kana"
 msgstr "かな"
 
-#: src/scim_anthy_imengine.cpp:596
+#: src/scim_anthy_imengine.cpp:604
 msgid "Thumb shift"
 msgstr "親指シフト"
 
-#: src/scim_anthy_imengine.cpp:603
+#: src/scim_anthy_imengine.cpp:611
 msgid "Conversion mode"
 msgstr "変換モード"
 
-#: src/scim_anthy_imengine.cpp:607 src/scim_anthy_imengine.cpp:608
+#: src/scim_anthy_imengine.cpp:615 src/scim_anthy_imengine.cpp:616
 #: src/scim_anthy_setup.cpp:220
 msgid "Multi segment"
 msgstr "連文節"
 
-#: src/scim_anthy_imengine.cpp:612 src/scim_anthy_imengine.cpp:613
+#: src/scim_anthy_imengine.cpp:620 src/scim_anthy_imengine.cpp:621
 #: src/scim_anthy_setup.cpp:221
 msgid "Single segment"
 msgstr "単文節"
 
-#: src/scim_anthy_imengine.cpp:617 src/scim_anthy_imengine.cpp:619
+#: src/scim_anthy_imengine.cpp:625 src/scim_anthy_imengine.cpp:627
 #: src/scim_anthy_setup.cpp:222
 msgid "Convert as you type (Multi segment)"
 msgstr "逐次変換(連文節)"
 
-#: src/scim_anthy_imengine.cpp:623 src/scim_anthy_imengine.cpp:625
+#: src/scim_anthy_imengine.cpp:631 src/scim_anthy_imengine.cpp:633
 #: src/scim_anthy_setup.cpp:223
 msgid "Convert as you type (Single segment)"
 msgstr "逐次変換(単文節)"
 
-#: src/scim_anthy_imengine.cpp:632
+#: src/scim_anthy_imengine.cpp:640
 msgid "Period style"
 msgstr "句読点のスタイル"
 
-#: src/scim_anthy_imengine.cpp:661
+#: src/scim_anthy_imengine.cpp:669
 msgid "Symbol style"
 msgstr "記号のスタイル"
 
-#: src/scim_anthy_imengine.cpp:709
+#: src/scim_anthy_imengine.cpp:717
 msgid "Dictionary menu"
 msgstr "辞書メニュー"
 
-#: src/scim_anthy_imengine.cpp:714
+#: src/scim_anthy_imengine.cpp:722
 msgid "Edit the dictionary"
 msgstr "辞書を編集"
 
-#: src/scim_anthy_imengine.cpp:716
+#: src/scim_anthy_imengine.cpp:724
 msgid "Launch the dictionary administration tool."
 msgstr "辞書管理ツールを起動"
 
-#: src/scim_anthy_imengine.cpp:722 src/scim_anthy_prefs.cpp:1204
+#: src/scim_anthy_imengine.cpp:730 src/scim_anthy_prefs.cpp:1204
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:724
+#: src/scim_anthy_imengine.cpp:732
 msgid "Add a word to the dictorinay."
 msgstr "単語を辞書に追加"
 
-#: src/scim_anthy_factory.cpp:194
+#: src/scim_anthy_factory.cpp:195
 msgid ""
 "Authors of scim-anthy:\n"
 "  Copyright (C) 2004,2005 Takuro Ashie <ashie@homa.ne.jp>\n"
@@ -136,7 +136,7 @@ msgstr ""
 "  Anthyの全てのクレジットはAnthyパッケージのAUTHORSファイルを参照して下さ"
 "い。\n"
 
-#: src/scim_anthy_factory.cpp:210
+#: src/scim_anthy_factory.cpp:211
 msgid ""
 "Art work:\n"
 "  SHIMODA Hiroshi <piro@p.club.ne.jp>\n"
@@ -170,7 +170,7 @@ msgstr ""
 "  Tatsuki Sugiura <sugi@nemui.org>\n"
 "  Takashi Nakamoto <bluedwarf@bpost.plala.or.jp>"
 
-#: src/scim_anthy_factory.cpp:231
+#: src/scim_anthy_factory.cpp:232
 msgid ""
 "Basic operation:\n"
 "  \n"
@@ -178,7 +178,7 @@ msgstr ""
 "基本操作:\n"
 "  \n"
 
-#: src/scim_anthy_factory.cpp:235
+#: src/scim_anthy_factory.cpp:236
 msgid ""
 "1. Switch input mode:\n"
 "  You can switch on/off Japanese input mode by pressing Zenkaku_Hankaku key\n"
@@ -193,7 +193,7 @@ msgstr ""
 "  順次切り替えることができます。\n"
 "  \n"
 
-#: src/scim_anthy_factory.cpp:242
+#: src/scim_anthy_factory.cpp:243
 msgid ""
 "2. Input Japanese hiragana and katakana:\n"
 "  You can input Japanese hiragana and katakana by inputting romaji.\n"
@@ -212,7 +212,7 @@ msgstr ""
 "  下さい。\n"
 "  \n"
 
-#: src/scim_anthy_factory.cpp:251
+#: src/scim_anthy_factory.cpp:252
 msgid ""
 "3. Convert hiragana or katakana to Japanese kanji\n"
 "  After inputting hiragana or katakana, you can convert it to Japanese\n"
@@ -235,7 +235,7 @@ msgstr ""
 "  ことができます。\n"
 "  \n"
 
-#: src/scim_anthy_factory.cpp:263
+#: src/scim_anthy_factory.cpp:264
 msgid ""
 "4. Other key bindings:\n"
 "  You can find out all key bindings definition of scim-anthy from \"Anthy\"\n"

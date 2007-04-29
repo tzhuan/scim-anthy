@@ -1,3 +1,15 @@
+Overview of Changes from scim-anthy-1.2.2 to scim-anthy-1.2.3
+==============================================================
+* Fix install path of helper module.
+* Distinguish two backslash key of jp106 keybord. It requires scim-1.4.6.
+  Please clear ~/.scim/config after install scim-1.4.6.
+* Some minor fixes.
+
+Overview of Changes from scim-anthy-1.2.1 to scim-anthy-1.2.2
+==============================================================
+* Fix a bug that a wrong partial string is converted on direct kana conversion
+  after commiting a piece of segments.
+
 Overview of Changes from scim-anthy-1.2.0 to scim-anthy-1.2.1
 ==============================================================
 * Fix a problem that the romaji pending state aren't restored on pressing a

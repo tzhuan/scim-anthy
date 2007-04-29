@@ -342,13 +342,8 @@ AnthyInstance::select_candidate_no_direct (unsigned int item)
     set_preedition ();
 
     // update aux string
-    if (m_factory->m_show_candidates_label) {
-        char buf[256];
-        sprintf (buf, _("Candidates (%d/%d)"),
-                 m_lookup_table.get_cursor_pos () + 1,
-                 m_lookup_table.number_of_candidates ());
-        update_aux_string (utf8_mbstowcs (buf));
-    }
+    if (m_factory->m_show_candidates_label)
+        set_aux_string ();
 }
 
 void
@@ -424,8 +419,6 @@ AnthyInstance::focus_in ()
 {
     SCIM_DEBUG_IMENGINE(2) << "focus_in.\n";
 
-    hide_aux_string ();
-
     if (m_preedit_string_visible) {
         set_preedition ();
         show_preedit_string ();
@@ -434,9 +427,18 @@ AnthyInstance::focus_in ()
     }
 
     if (m_lookup_table_visible && is_selecting_candidates ()) {
+        if (m_factory->m_show_candidates_label &&
+            m_lookup_table.number_of_candidates() > 0)
+        {
+            set_aux_string ();
+            show_aux_string ();
+        } else {
+            hide_aux_string ();
+        }
         update_lookup_table (m_lookup_table);
         show_lookup_table ();
     } else {
+        hide_aux_string ();
         hide_lookup_table ();
     }
 
@@ -477,6 +479,16 @@ AnthyInstance::set_preedition (void)
     update_preedit_string (m_preedit.get_string (),
                            m_preedit.get_attribute_list ());
     update_preedit_caret (m_preedit.get_caret_pos());
+}
+
+void
+AnthyInstance::set_aux_string (void)
+{
+    char buf[256];
+    sprintf (buf, _("Candidates (%d/%d)"),
+             m_lookup_table.get_cursor_pos () + 1,
+             m_lookup_table.number_of_candidates ());
+    update_aux_string (utf8_mbstowcs (buf));
 }
 
 void
@@ -522,11 +534,7 @@ AnthyInstance::set_lookup_table (void)
         m_n_conv_key_pressed = 0;
 
         if (m_factory->m_show_candidates_label) {
-            char buf[256];
-            sprintf (buf, _("Candidates (%d/%d)"),
-                     m_lookup_table.get_cursor_pos () + 1,
-                     m_lookup_table.number_of_candidates ());
-            update_aux_string (utf8_mbstowcs (buf));
+            set_aux_string ();
             show_aux_string ();
         }
     } else if (!m_lookup_table_visible) {

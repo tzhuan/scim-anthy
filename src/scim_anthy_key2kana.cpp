@@ -73,6 +73,8 @@ Key2KanaConvertor::append (const KeyEvent & key,
     if (!can_append (key))
         return false;
 
+    m_last_key = key;
+
     util_keypad_to_string (raw, key);
 
     if (util_key_is_keypad (key)) {
@@ -141,28 +143,38 @@ Key2KanaConvertor::append (const String & str,
     }
 
     /* find matched table */
-    std::vector<Key2KanaTable*> &tables = m_tables.get_tables();
-    for (unsigned int j = 0; j < tables.size(); j++) {
-        if (!tables[j])
-            continue;
+    if (m_anthy.get_typing_method () == SCIM_ANTHY_TYPING_METHOD_KANA &&
+        m_last_key.mask & /*SCIM_KEY_QuirkKanaRoMask*/ (1<<14))
+    {
+        std::vector<String> kana_ro_result;
+        scim_split_string_list (kana_ro_result,
+                                m_anthy.get_factory()->m_kana_layout_ro_key);
+        Key2KanaRule kana_ro_rule("\\", kana_ro_result);
+        exact_match = kana_ro_rule;
+    } else {
+        std::vector<Key2KanaTable*> &tables = m_tables.get_tables();
+        for (unsigned int j = 0; j < tables.size(); j++) {
+            if (!tables[j])
+                continue;
 
-        Key2KanaRules &rules = tables[j]->get_table ();
+            Key2KanaRules &rules = tables[j]->get_table ();
 
-        for (unsigned int i = 0; i < rules.size(); i++) {
-            /* matching */
-            String seq = rules[i].get_sequence ();
-            if (!m_case_sensitive) {
-                for (unsigned int j = 0; j < seq.length (); j++)
-                    seq[j] = tolower (seq[j]);
-            }
-            WideString romaji = utf8_mbstowcs(seq);
-            if (romaji.find (matching_str) == 0) {
-                if (romaji.length () == matching_str.length ()) {
-                    /* exact match */
-                    exact_match = rules[i];
-                } else {
-                    /* partial match */
-                    has_partial_match = true;
+            for (unsigned int i = 0; i < rules.size(); i++) {
+                /* matching */
+                String seq = rules[i].get_sequence ();
+                if (!m_case_sensitive) {
+                    for (unsigned int j = 0; j < seq.length (); j++)
+                        seq[j] = tolower (seq[j]);
+                }
+                WideString romaji = utf8_mbstowcs(seq);
+                if (romaji.find (matching_str) == 0) {
+                    if (romaji.length () == matching_str.length ()) {
+                        /* exact match */
+                        exact_match = rules[i];
+                    } else {
+                        /* partial match */
+                        has_partial_match = true;
+                    }
                 }
             }
         }
@@ -262,6 +274,8 @@ Key2KanaConvertor::flush_pending (void)
 void
 Key2KanaConvertor::reset_pending (const WideString &result, const String &raw)
 {
+    m_last_key = KeyEvent ();
+
     for (unsigned int i = 0; i < raw.length (); i++) {
         WideString res, pend;
         append (raw.substr(i, 1), res, pend);
