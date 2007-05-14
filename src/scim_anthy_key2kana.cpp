@@ -245,6 +245,7 @@ Key2KanaConvertor::clear (void)
 {
     m_pending.clear ();
     m_exact_match.clear ();
+    m_last_key = KeyEvent ();
     reset_pseudo_ascii_mode();
 }
 
