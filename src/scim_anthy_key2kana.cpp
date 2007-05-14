@@ -143,14 +143,25 @@ Key2KanaConvertor::append (const String & str,
     }
 
     /* find matched table */
-    if (m_anthy.get_typing_method () == SCIM_ANTHY_TYPING_METHOD_KANA &&
-        m_last_key.mask & /*SCIM_KEY_QuirkKanaRoMask*/ (1<<14))
+    if ((m_anthy.get_typing_method () == SCIM_ANTHY_TYPING_METHOD_KANA) &&
+        (m_last_key.mask & /*SCIM_KEY_QuirkKanaRoMask*/ (1<<14)) &&
+        (m_anthy.get_factory()->m_kana_layout_ro_key.length () > 0))
     {
+        // Special treatment for Kana "Ro" key.
+        // This code is a temporary solution. It doesn't care some minor cases.
         std::vector<String> kana_ro_result;
         scim_split_string_list (kana_ro_result,
                                 m_anthy.get_factory()->m_kana_layout_ro_key);
         Key2KanaRule kana_ro_rule("\\", kana_ro_result);
-        exact_match = kana_ro_rule;
+        result = utf8_mbstowcs (kana_ro_rule.get_result (0));
+        m_pending.clear ();
+        m_exact_match.clear ();
+        if (matching_str == utf8_mbstowcs ("\\")) {
+            return false;
+        } else {
+            return true;
+        }
+
     } else {
         std::vector<Key2KanaTable*> &tables = m_tables.get_tables();
         for (unsigned int j = 0; j < tables.size(); j++) {
