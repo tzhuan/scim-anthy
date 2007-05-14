@@ -7,6 +7,11 @@ Overview of Changes from scim-anthy-1.2.x to scim-anthy-1.3.0
 * Clear or commit current preedit text when exit Japanese mode.
 * Other minor fixes.
 
+Overview of Changes from scim-anthy-1.2.3 to scim-anthy-1.2.4
+==============================================================
+* Fix a bug that a character which is possible to become a voiced consonant is
+  gone after inputing "Ro" has been fixed.
+
 Overview of Changes from scim-anthy-1.2.2 to scim-anthy-1.2.3
 ==============================================================
 * Fix install path of helper module.
