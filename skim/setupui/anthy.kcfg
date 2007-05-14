@@ -166,6 +166,9 @@
     <entry name="_IMEngine_Anthy_KanaLayoutFile" key="/IMEngine/Anthy/KanaLayoutFile" type="String">
       <default></default>
     </entry>
+    <entry name="_IMEngine_Anthy_KanaLayoutRoKey" key="/IMEngine/Anthy/KanaLayoutRoKey" type="String">
+      <default>ろ</default>
+    </entry>
 
 
     <entry name="_IMEngine_Anthy_NICOLALayoutFile" key="/IMEngine/Anthy/NICOLALayoutFile" type="String">
