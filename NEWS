@@ -9,8 +9,10 @@ Overview of Changes from scim-anthy-1.2.x to scim-anthy-1.3.0
 
 Overview of Changes from scim-anthy-1.2.3 to scim-anthy-1.2.4
 ==============================================================
-* Fix a bug that a character which is possible to become a voiced consonant is
-  gone after inputing "Ro" has been fixed.
+* Fixed a bug that a character which is possible to become a voiced consonant
+  is gone after inputing "Ro" has been fixed.
+* Fixed a name collision issue of ScimColorButton. Now you can use scim-anthy
+  with scim-chewing, maybe.
 
 Overview of Changes from scim-anthy-1.2.2 to scim-anthy-1.2.3
 ==============================================================

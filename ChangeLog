@@ -4,10 +4,11 @@
 
 2007-05-21 Takuro Ashie <ashie@homa.ne.jp>
 
-	* src/scim_color_button.{cpp,h}: Renamed to scim_anthy_color_button.{cpp,h}.
+	* src/scim_color_button.{cpp,h}: Renamed to
+	scim_anthy_color_button.{cpp,h}.
 	* src/scim_anthy_color_button.{cpp.h]: Added.
-	* src/Makefile.am, scim_anthy_setup.cpp: Renamed to scim_anthy_color_button* and
-	ScimAnthyColorButton*.
+	* src/Makefile.am, scim_anthy_setup.cpp: Renamed to
+	scim_anthy_color_button* and ScimAnthyColorButton*.
 
 2007-05-14 Takuro Ashie <ashie@homa.ne.jp>
 
