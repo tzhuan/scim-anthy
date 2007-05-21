@@ -43,7 +43,7 @@
 #include "scim_anthy_setup_romaji.h"
 #include "scim_anthy_setup_kana.h"
 #include "scim_anthy_utils.h"
-#include "scim_color_button.h"
+#include "scim_anthy_color_button.h"
 
 using namespace scim;
 using namespace scim_anthy;
@@ -337,8 +337,8 @@ static void     on_dict_launch_button_clicked     (GtkButton        *button,
 static void     on_use_custom_lookup_window_toggled
                                                   (GtkToggleButton  *button,
                                                    gpointer          user_data);
-static void     on_color_button_changed           (ScimColorButton  *button,
-                                                   gpointer          user_data);
+static void     on_color_button_changed           (ScimAnthyColorButton *button,
+                                                   gpointer              user_data);
 
 
 static StringConfigData *
@@ -681,7 +681,7 @@ create_color_button (const char *config_key)
         gtk_widget_show (label);
     }
 
-    entry->widget = scim_color_button_new ();
+    entry->widget = scim_anthy_color_button_new ();
     gtk_widget_set_size_request (GTK_WIDGET (entry->widget), 32, 24);
     g_signal_connect (G_OBJECT (entry->widget), "color-changed",
                       G_CALLBACK (on_color_button_changed),
@@ -1631,8 +1631,8 @@ setup_widget_value (void)
     for (unsigned int i = 0; config_color_common[i].fg_key; i++) {
         ColorConfigData &entry = config_color_common[i];
         if (entry.widget) {
-            scim_color_button_set_colors (SCIM_COLOR_BUTTON (entry.widget),
-                                          entry.fg_value, entry.bg_value);
+            scim_anthy_color_button_set_colors (SCIM_ANTHY_COLOR_BUTTON (entry.widget),
+                                                entry.fg_value, entry.bg_value);
         }
     }
 
@@ -2220,13 +2220,13 @@ on_use_custom_lookup_window_toggled (GtkToggleButton *toggle_button,
 }
 
 static void
-on_color_button_changed (ScimColorButton *button,
-                         gpointer         user_data)
+on_color_button_changed (ScimAnthyColorButton *button,
+                         gpointer              user_data)
 {
     ColorConfigData *entry = static_cast <ColorConfigData*> (user_data);
 
     if (entry->widget) {
-        scim_color_button_get_colors (button, &entry->fg_value, &entry->bg_value);
+        scim_anthy_color_button_get_colors (button, &entry->fg_value, &entry->bg_value);
         entry->changed = true;
         __config_changed = true;
     }

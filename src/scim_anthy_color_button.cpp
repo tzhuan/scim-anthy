@@ -26,7 +26,7 @@
 
 #include <string.h>
 
-#include "scim_color_button.h"
+#include "scim_anthy_color_button.h"
 #include "scim_anthy_intl.h"
 
 
@@ -55,16 +55,16 @@ typedef enum
 #define WIDGET_WIDTH 32
 #define WIDGET_HEIGHT 32
 
-static void     scim_color_button_class_init (ScimColorButtonClass *klass);
-static void     scim_color_button_init       (ScimColorButton      *object);
+static void     scim_anthy_color_button_class_init     (ScimAnthyColorButtonClass *klass);
+static void     scim_anthy_color_button_init           (ScimAnthyColorButton      *object);
 
-static void     scim_color_button_destroy         (GtkObject      *object);
-static gboolean scim_color_button_expose          (GtkWidget      *widget,
-                                                   GdkEventExpose *eevent);
-static gboolean scim_color_button_button_press    (GtkWidget      *widget,
-                                                   GdkEventButton *bevent);
-static gboolean scim_color_button_button_release  (GtkWidget      *widget,
-                                                   GdkEventButton *bevent);
+static void     scim_anthy_color_button_destroy        (GtkObject      *object);
+static gboolean scim_anthy_color_button_expose         (GtkWidget      *widget,
+							GdkEventExpose *eevent);
+static gboolean scim_anthy_color_button_button_press   (GtkWidget      *widget,
+							GdkEventButton *bevent);
+static gboolean scim_anthy_color_button_button_release (GtkWidget      *widget,
+							GdkEventButton *bevent);
 
 
 static guint  button_signals[LAST_SIGNAL] = { 0 };
@@ -72,25 +72,25 @@ static guint  button_signals[LAST_SIGNAL] = { 0 };
 static GtkDrawingAreaClass *parent_class = NULL;
 
 GType
-scim_color_button_get_type (void)
+scim_anthy_color_button_get_type (void)
 {
     static GType type = 0;
 
     if (!type) {
         static const GTypeInfo info = {
-            sizeof (ScimColorButtonClass),
+            sizeof (ScimAnthyColorButtonClass),
             NULL,           /* base_init */
             NULL,           /* base_finalize */
-            (GClassInitFunc) scim_color_button_class_init,
+            (GClassInitFunc) scim_anthy_color_button_class_init,
             NULL,           /* class_finalize */
             NULL,           /* class_data */
-            sizeof (ScimColorButton),
+            sizeof (ScimAnthyColorButton),
             0,              /* n_preallocs */
-            (GInstanceInitFunc) scim_color_button_init,
+            (GInstanceInitFunc) scim_anthy_color_button_init,
         };
 
         type = g_type_register_static (GTK_TYPE_DRAWING_AREA,
-                                       "ScimColorButton",
+                                       "ScimAnthyColorButton",
                                        &info, (GTypeFlags) 0);
     }
 
@@ -98,7 +98,7 @@ scim_color_button_get_type (void)
 }
 
 static void
-scim_color_button_class_init (ScimColorButtonClass *klass)
+scim_anthy_color_button_class_init (ScimAnthyColorButtonClass *klass)
 {
     GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
     GtkWidgetClass *widget_class     = GTK_WIDGET_CLASS (klass);
@@ -109,20 +109,20 @@ scim_color_button_class_init (ScimColorButtonClass *klass)
       g_signal_new ("color-changed",
   		  G_TYPE_FROM_CLASS (klass),
   		  G_SIGNAL_RUN_FIRST,
-  		  G_STRUCT_OFFSET (ScimColorButtonClass, color_changed),
+  		  G_STRUCT_OFFSET (ScimAnthyColorButtonClass, color_changed),
   		  NULL, NULL,
   		  g_cclosure_marshal_VOID__VOID,
   		  G_TYPE_NONE, 0);
   
-    gtk_object_class->destroy          = scim_color_button_destroy;
+    gtk_object_class->destroy          = scim_anthy_color_button_destroy;
   
-    widget_class->expose_event         = scim_color_button_expose;
-    widget_class->button_press_event   = scim_color_button_button_press;
-    widget_class->button_release_event = scim_color_button_button_release;
+    widget_class->expose_event         = scim_anthy_color_button_expose;
+    widget_class->button_press_event   = scim_anthy_color_button_button_press;
+    widget_class->button_release_event = scim_anthy_color_button_button_release;
 }
 
 static void
-scim_color_button_init (ScimColorButton *object)
+scim_anthy_color_button_init (ScimAnthyColorButton *object)
 {
     /*set default color */ 
     gdk_color_parse ("#000000", &object->fg_color);
@@ -135,9 +135,9 @@ scim_color_button_init (ScimColorButton *object)
 
 
 static void
-scim_color_button_destroy (GtkObject *object)
+scim_anthy_color_button_destroy (GtkObject *object)
 {
-    ScimColorButton *button = SCIM_COLOR_BUTTON (object);
+    ScimAnthyColorButton *button = SCIM_ANTHY_COLOR_BUTTON (object);
 
     if (button->render_buf) {
         g_free (button->render_buf);
@@ -154,7 +154,7 @@ scim_color_button_destroy (GtkObject *object)
 }
 
 static void
-scim_color_button_draw_rect (ScimColorButton *button,
+scim_anthy_color_button_draw_rect (ScimAnthyColorButton *button,
                              GdkDrawable    *drawable,
                              GdkGC          *gc,
                              gint            x,
@@ -204,10 +204,10 @@ scim_color_button_draw_rect (ScimColorButton *button,
 }
 
 static gboolean
-scim_color_button_expose (GtkWidget      *widget,
+scim_anthy_color_button_expose (GtkWidget      *widget,
                           GdkEventExpose *eevent)
 {
-    ScimColorButton *button = SCIM_COLOR_BUTTON (widget);
+    ScimAnthyColorButton *button = SCIM_ANTHY_COLOR_BUTTON (widget);
     gint            width, height;
     gint            swap_w = 0, swap_h = 0;
     gint            rect_w, rect_h;
@@ -251,7 +251,7 @@ scim_color_button_expose (GtkWidget      *widget,
   
   
     /*  draw the background area  */
-    scim_color_button_draw_rect (button,
+    scim_anthy_color_button_draw_rect (button,
                                  widget->window,
                                  widget->style->fg_gc[0],
                                  (width - rect_w),
@@ -268,7 +268,7 @@ scim_color_button_expose (GtkWidget      *widget,
   
   
     /*  draw the foreground area  */
-    scim_color_button_draw_rect (button,
+    scim_anthy_color_button_draw_rect (button,
                                  widget->window,
                                  widget->style->fg_gc[0],
                                  0, 0,
@@ -285,7 +285,7 @@ scim_color_button_expose (GtkWidget      *widget,
 }
 
 static FgBgTarget
-scim_color_button_target (ScimColorButton *button,
+scim_anthy_color_button_target (ScimAnthyColorButton *button,
                           gint            x,
                           gint            y)
 {
@@ -310,7 +310,7 @@ scim_color_button_target (ScimColorButton *button,
 }
 
 static void
-scim_color_button_open_color_dialog (ScimColorButton *button, gboolean fg)
+scim_anthy_color_button_open_color_dialog (ScimAnthyColorButton *button, gboolean fg)
 {
     GtkWidget *dialog;
     const gchar *title;
@@ -343,7 +343,7 @@ scim_color_button_open_color_dialog (ScimColorButton *button, gboolean fg)
 }
 
 static void
-scim_color_button_swap_color (ScimColorButton *button)
+scim_anthy_color_button_swap_color (ScimAnthyColorButton *button)
 {
     GdkColor tmp;
     tmp.red   = button->fg_color.red;
@@ -361,12 +361,12 @@ scim_color_button_swap_color (ScimColorButton *button)
 }
 
 static gboolean
-scim_color_button_button_press (GtkWidget      *widget,
+scim_anthy_color_button_button_press (GtkWidget      *widget,
                                 GdkEventButton *bevent)
 {
-    ScimColorButton *button = SCIM_COLOR_BUTTON (widget);
+    ScimAnthyColorButton *button = SCIM_ANTHY_COLOR_BUTTON (widget);
     if (bevent->button == 1 && bevent->type == GDK_BUTTON_PRESS) {
-        FgBgTarget target = scim_color_button_target (button,
+        FgBgTarget target = scim_anthy_color_button_target (button,
                                                       (gint) bevent->x, (gint) bevent->y);
   
         button->click_target = INVALID_AREA;
@@ -374,16 +374,16 @@ scim_color_button_button_press (GtkWidget      *widget,
         switch (target) {
             case FOREGROUND_AREA:
               button->click_target = FOREGROUND_AREA;
-              scim_color_button_open_color_dialog (button, TRUE);
+              scim_anthy_color_button_open_color_dialog (button, TRUE);
               break;
     
             case BACKGROUND_AREA:
               button->click_target = BACKGROUND_AREA;
-              scim_color_button_open_color_dialog (button, FALSE);
+              scim_anthy_color_button_open_color_dialog (button, FALSE);
               break;
   
             case SWAP_AREA:
-              scim_color_button_swap_color (button);
+              scim_anthy_color_button_swap_color (button);
               gtk_widget_queue_draw (GTK_WIDGET (button));
               break;
     
@@ -399,13 +399,13 @@ scim_color_button_button_press (GtkWidget      *widget,
 }
 
 static gboolean
-scim_color_button_button_release (GtkWidget      *widget,
+scim_anthy_color_button_button_release (GtkWidget      *widget,
                                   GdkEventButton *bevent)
 {
-    ScimColorButton *button = SCIM_COLOR_BUTTON (widget);
+    ScimAnthyColorButton *button = SCIM_ANTHY_COLOR_BUTTON (widget);
   
     if (bevent->button == 1) {
-        FgBgTarget target = scim_color_button_target (button,
+        FgBgTarget target = scim_anthy_color_button_target (button,
                                                       (gint) bevent->x, (gint) bevent->y);
   
         if (target == button->click_target) {
@@ -432,14 +432,14 @@ scim_color_button_button_release (GtkWidget      *widget,
 /*  public functions  */
 
 GtkWidget *
-scim_color_button_new (void)
+scim_anthy_color_button_new (void)
 {
-    return GTK_WIDGET(g_object_new (SCIM_TYPE_COLOR_BUTTON,
+    return GTK_WIDGET(g_object_new (SCIM_ANTHY_TYPE_COLOR_BUTTON,
                                     NULL));
 }
 
 gboolean
-scim_color_button_get_colors (ScimColorButton *button,
+scim_anthy_color_button_get_colors (ScimAnthyColorButton *button,
                               String *fg_value,
                               String *bg_value)
 {
@@ -462,9 +462,9 @@ scim_color_button_get_colors (ScimColorButton *button,
 }
 
 gboolean
-scim_color_button_set_colors (ScimColorButton *button,
-                              const String &fg_value,
-                              const String &bg_value)
+scim_anthy_color_button_set_colors (ScimAnthyColorButton *button,
+				    const String &fg_value,
+				    const String &bg_value)
 {
     GdkColor fg_color, bg_color;
     gdk_color_parse (fg_value.c_str (), &fg_color);
