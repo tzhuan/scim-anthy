@@ -26,3 +26,13 @@ if test "$1" = "release"; then
   find -name \CVS | xargs rm -rf
   rm autom4te.cache scim_panel_kde.kdevelop stamp*.in -fr
 fi
+
+cd setupui
+scim_anthy_dir=../..
+ln -sf ${scim_anthy_dir}/src/scim_anthy_default_tables.cpp ./
+ln -sf ${scim_anthy_dir}/src/scim_anthy_default_tables.h   ./
+ln -sf ${scim_anthy_dir}/src/scim_anthy_key2kana_table.cpp ./
+ln -sf ${scim_anthy_dir}/src/scim_anthy_key2kana_table.h   ./
+ln -sf ${scim_anthy_dir}/src/scim_anthy_style_file.cpp     ./
+ln -sf ${scim_anthy_dir}/src/scim_anthy_style_file.h       ./
+ln -sf ${scim_anthy_dir}/src/scim_anthy_const.h            ./
