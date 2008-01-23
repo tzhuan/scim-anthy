@@ -17,6 +17,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <string.h>
+
 #include "scim_anthy_factory.h"
 #include "scim_anthy_imengine.h"
 #include "scim_anthy_conversion.h"

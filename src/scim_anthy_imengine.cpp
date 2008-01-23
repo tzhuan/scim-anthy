@@ -543,7 +543,6 @@ AnthyInstance::set_lookup_table (void)
         m_n_conv_key_pressed = 0;
 
         if (m_factory->m_show_candidates_label) {
-            char buf[256];
             set_aux_string ();
             show_aux_string_advanced ();
 

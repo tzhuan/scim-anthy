@@ -21,6 +21,8 @@
   #include <config.h>
 #endif
 
+#include <string.h>
+
 #include "scim_anthy_factory.h"
 #include "scim_anthy_imengine.h"
 #include "scim_anthy_preedit.h"

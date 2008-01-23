@@ -25,6 +25,7 @@
   #include <config.h>
 #endif
 
+#include <string.h>
 #include <scim.h>
 #include <gtk/scimtrayicon.h>
 #include <gtk/gtk.h>

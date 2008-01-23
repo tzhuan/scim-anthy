@@ -19,6 +19,7 @@
  */
 
 #define SCIM_ANTHY_USE_GTK
+#include <string.h>
 #include <scim.h>
 #include "scim_anthy_prefs.h"
 #include "scim_anthy_intl.h"

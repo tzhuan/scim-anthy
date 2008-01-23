@@ -1,3 +1,12 @@
+2008-01-23 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/scim_anthy_conversion.cpp, src/scim_anthy_diction.cpp,
+	  src/scim_anthy_imengine.cpp, src/scim_anthy_kana.cpp,
+	  src/scim_anthy_preedit.cpp, src/scim_anthy_prefs.cpp,
+	  src/scim_anthy_setup.cpp, src/scim_anthy_tray.cpp,
+	  src/scim_anthy_utils.cpp:
+	Added missing include files to build against gcc-4.3.
+
 2007-10-12 Takuro Ashie <ashie@homa.ne.jp>
 
 	* po/de.po: Added.
