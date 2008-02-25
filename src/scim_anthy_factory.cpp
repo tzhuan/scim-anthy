@@ -214,6 +214,10 @@ AnthyFactory::get_credits () const
     return utf8_mbstowcs (
         _("Art work:\n"
           "  SHIMODA Hiroshi <piro@p.club.ne.jp>\n"
+          "\n"
+          "Translate:\n"
+          "  Gerrit Sangel <z0idberg@gmx.de>"
+          "\n"
           "Special thanks:\n"
           "  UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
           "  Yukiko Bando <ybando@k6.dion.ne.jp>\n"
