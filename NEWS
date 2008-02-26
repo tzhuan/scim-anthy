@@ -16,6 +16,7 @@ Overview of Changes from scim-anthy-1.2.4 to scim-anthy-1.2.5
 * Fixed a build problem against gcc-4.3.
 * Addd de.po (Thanks Gerrit Sangel).
 * Added a style file for NICOLA-F layout (Thanks MORIYAMA Masayuki).
+* Sort style list by name.
 
 Overview of Changes from scim-anthy-1.2.3 to scim-anthy-1.2.4
 ==============================================================
