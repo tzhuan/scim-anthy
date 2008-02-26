@@ -5,4 +5,4 @@ src/scim_anthy_setup_romaji.cpp
 src/scim_anthy_setup_kana.cpp
 src/scim_anthy_table_editor.cpp
 src/scim_anthy_prefs.cpp
-src/scim_color_button.cpp
+src/scim_anthy_color_button.cpp
