@@ -1,6 +1,9 @@
 Overview of Changes from scim-anthy-1.3.0 to scim-anthy-1.3.1
 ==============================================================
 * Add the NICOLA-F style file to 1.3 series.
+* Kill a garbage window.
+* Modify preference UI to ensure to comply with GNOME HIG.
+* Fix some compile time issues.
 
 Overview of Changes from scim-anthy-1.2.x to scim-anthy-1.3.0
 ==============================================================

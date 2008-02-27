@@ -3,7 +3,7 @@ AC_PREREQ(2.59)
 
 m4_define([scim_anthy_major_version], [1])
 m4_define([scim_anthy_minor_version], [3])
-m4_define([scim_anthy_micro_version], [0])
+m4_define([scim_anthy_micro_version], [1])
 m4_define([scim_anthy_version],
           [scim_anthy_major_version.scim_anthy_minor_version.scim_anthy_micro_version])
 

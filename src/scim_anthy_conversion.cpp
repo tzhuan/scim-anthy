@@ -26,6 +26,8 @@
 
 using namespace scim_anthy;
 
+static unsigned int anthy_ref_count = 0;
+
 static void rotate_case (String &str);
 
 
@@ -89,6 +91,13 @@ Conversion::Conversion (AnthyInstance &anthy, Reading &reading)
       m_cur_segment        (-1),
       m_predicting         (false)
 {
+    if (!anthy_ref_count) {
+        if (anthy_init()) {
+            SCIM_DEBUG_IMENGINE(1) << "Failed to initialize Anthy Library!\n";
+        }
+    }
+    anthy_ref_count++;
+
     set_dict_encoding (String ("EUC-JP"));
 
 #ifdef HAS_ANTHY_SET_RECONVERSION_MODE
@@ -99,6 +108,11 @@ Conversion::Conversion (AnthyInstance &anthy, Reading &reading)
 Conversion::~Conversion ()
 {
     anthy_release_context (m_anthy_context);
+
+    if (anthy_ref_count)
+        anthy_ref_count--;
+    if (!anthy_ref_count)
+        anthy_quit();
 }
 
 

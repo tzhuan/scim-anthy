@@ -65,21 +65,13 @@ extern "C" {
 
     void scim_module_exit (void)
     {
-        anthy_quit ();
         _scim_config.reset ();
     }
 
     uint32 scim_imengine_module_init (const ConfigPointer &config)
     {
         SCIM_DEBUG_IMENGINE(1) << "Initialize Anthy Engine.\n";
-
         _scim_config = config;
-
-        if (anthy_init ()) {
-            SCIM_DEBUG_IMENGINE(1) << "Failed to initialize Anthy Library!\n";
-            return 0;
-        }
-
         return 1;
     }
 
