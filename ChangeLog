@@ -6,6 +6,12 @@
 
 	* configure.ac: Version-1.2.5 (BRANCH_1_2).
 
+2008-02-27 Takuro Ashie <ashie@homa.ne.jp>
+
+	*  src/scim_anthy_imengine.h, src/scim_anthy_preedit.h,
+	   src/scim_anthy_factory.h:
+	Removed needless includes.
+
 2008-02-26 Takuro Ashie <ashie@homa.ne.jp>
 
 	* src/scim_anthy_factory.cpp, src/scim_anthy_conversion.cpp:

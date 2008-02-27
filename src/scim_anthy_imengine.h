@@ -30,7 +30,6 @@
 #define Uses_SCIM_IMENGINE
 #define Uses_SCIM_CONFIG_BASE
 #include <map>
-#include <anthy/anthy.h>
 #include <scim.h>
 #include "scim_anthy_preedit.h"
 #include "scim_anthy_key2kana_table.h"

@@ -29,7 +29,6 @@
 
 #define Uses_SCIM_IMENGINE
 #define Uses_SCIM_CONFIG_BASE
-#include <anthy/anthy.h>
 #include <scim.h>
 #include "scim_anthy_action.h"
 #include "scim_anthy_style_file.h"

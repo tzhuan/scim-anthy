@@ -24,7 +24,6 @@
 #define Uses_SCIM_EVENT
 #define Uses_SCIM_ATTRIBUTE
 #define Uses_SCIM_LOOKUP_TABLE
-#include <anthy/anthy.h>
 #include <scim.h>
 #include "scim_anthy_reading.h"
 #include "scim_anthy_conversion.h"
