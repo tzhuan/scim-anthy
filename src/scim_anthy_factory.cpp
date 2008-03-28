@@ -242,8 +242,8 @@ AnthyFactory::get_help () const
     const char *text2 = 
         _("2. Input Japanese hiragana and katakana:\n"
           "  You can input Japanese hiragana and katakana by inputting romaji.\n"
-          "  Romaji table will be find out from \"Anthy\" section on a setup window of\n"
-          "  SCIM or SKIM.\n"
+          "  The Romaji table can be found out from the \"Anthy\" section of the setup\n"
+          "  window in SCIM or SKIM.\n"
           "  If you want to hiragana and katakana directly by using Japanese keyboard,\n"
           "  please press Alt + Romaji key or Conrol+\\ key to switch typing method.\n"
           "  \n");
@@ -252,10 +252,10 @@ AnthyFactory::get_help () const
         _("3. Convert hiragana or katakana to Japanese kanji\n"
           "  After inputting hiragana or katakana, you can convert it to Japanese\n"
           "  kanji by pressing Space key. Then it will show some candidates. You can\n"
-          "  select a next candidate by pressing Space key, and can commit it by\n"
+          "  select the next candidate by pressing Space key, and can commit it by\n"
           "  pressing Enter key.\n"
           "  If you input a sentense, Anthy will split it to some segments. You can\n"
-          "  select a next or previous segment by pressing left or right cursor key,\n"
+          "  select the next or previous segment by pressing left or right cursor key,\n"
           "  and can extend or shrink the selected segment by pressing Shift + left or\n"
           "  right cursor key.\n"
           "  \n");

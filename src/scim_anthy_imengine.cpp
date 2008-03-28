@@ -773,7 +773,7 @@ AnthyInstance::install_properties (void)
                 prop = Property (SCIM_PROP_DICT_ADD_WORD,
                                  _("Add a word"),
                                  String (SCIM_ICONDIR "/" "scim-anthy-dict.png"),
-                                 _("Add a word to the dictorinay."));
+                                 _("Add a word to the dictionary."));
                 m_properties.push_back (prop);
             }
         }

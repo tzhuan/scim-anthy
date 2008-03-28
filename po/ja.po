@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anthy\n"
 "Report-Msgid-Bugs-To: ashie@homa.ne.jp\n"
-"POT-Creation-Date: 2008-02-27 13:35+0900\n"
+"POT-Creation-Date: 2008-03-28 21:54+0900\n"
 "PO-Revision-Date: 2006-11-23 11:26+0900\n"
 "Last-Translator: Takuro Ashie <ashie@homa.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -124,13 +124,17 @@ msgstr "辞書管理ツールを起動"
 msgid "Add a word"
 msgstr "単語を追加"
 
-#: src/scim_anthy_imengine.cpp:776 src/scim_anthy_imengine.cpp:955
-msgid "Add a word to the dictorinay."
+#: src/scim_anthy_imengine.cpp:776
+msgid "Add a word to the dictionary."
 msgstr "単語を辞書に追加"
 
 #: src/scim_anthy_imengine.cpp:941 src/scim_anthy_setup.cpp:1447
 msgid "Dictionary"
 msgstr "辞書"
+
+#: src/scim_anthy_imengine.cpp:955
+msgid "Add a word to the dictorinay."
+msgstr "単語を辞書に追加"
 
 #: src/scim_anthy_factory.cpp:190
 msgid ""
@@ -156,7 +160,6 @@ msgstr ""
 "い。\n"
 
 #: src/scim_anthy_factory.cpp:207
-#, fuzzy
 msgid ""
 "Art work:\n"
 "  SHIMODA Hiroshi <piro@p.club.ne.jp>\n"
@@ -179,6 +182,9 @@ msgid ""
 msgstr ""
 "Art work:\n"
 "  SHIMODA Hiroshi <piro@p.club.ne.jp>\n"
+"\n"
+"Translate:\n"
+"  Gerrit Sangel <z0idberg@gmx.de>\n"
 "Special thanks:\n"
 "  UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "  Yukiko Bando <ybando@k6.dion.ne.jp>\n"
@@ -220,8 +226,8 @@ msgstr ""
 msgid ""
 "2. Input Japanese hiragana and katakana:\n"
 "  You can input Japanese hiragana and katakana by inputting romaji.\n"
-"  Romaji table will be find out from \"Anthy\" section on a setup window of\n"
-"  SCIM or SKIM.\n"
+"  The Romaji table can be found out from the \"Anthy\" section of the setup\n"
+"  window in SCIM or SKIM.\n"
 "  If you want to hiragana and katakana directly by using Japanese keyboard,\n"
 "  please press Alt + Romaji key or Conrol+\\ key to switch typing method.\n"
 "  \n"
@@ -240,10 +246,10 @@ msgid ""
 "3. Convert hiragana or katakana to Japanese kanji\n"
 "  After inputting hiragana or katakana, you can convert it to Japanese\n"
 "  kanji by pressing Space key. Then it will show some candidates. You can\n"
-"  select a next candidate by pressing Space key, and can commit it by\n"
+"  select the next candidate by pressing Space key, and can commit it by\n"
 "  pressing Enter key.\n"
 "  If you input a sentense, Anthy will split it to some segments. You can\n"
-"  select a next or previous segment by pressing left or right cursor key,\n"
+"  select the next or previous segment by pressing left or right cursor key,\n"
 "  and can extend or shrink the selected segment by pressing Shift + left or\n"
 "  right cursor key.\n"
 "  \n"
@@ -1148,27 +1154,27 @@ msgid "The key events to move the caret to the last of the preedit string. "
 msgstr "キャレットを文字列の最後に移動するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:822
-msgid "Move to forward"
+msgid "Move forward"
 msgstr "前方へ移動"
 
 #: src/scim_anthy_prefs.cpp:823
-msgid "Select move caret to forward keys"
+msgid "Select move caret forward keys"
 msgstr "前方へ移動するキーの設定"
 
 #: src/scim_anthy_prefs.cpp:824
-msgid "The key events to move the caret to forward. "
+msgid "The key events to move the caret forward. "
 msgstr "キャレットを前方に移動するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:832
-msgid "Move to backward"
+msgid "Move backward"
 msgstr "後方へ移動"
 
 #: src/scim_anthy_prefs.cpp:833
-msgid "Select move caret to backward keys"
+msgid "Select move caret backward keys"
 msgstr "後方へ移動するキーの設定"
 
 #: src/scim_anthy_prefs.cpp:834
-msgid "The key events to move the caret to backward. "
+msgid "The key events to move the caret backward. "
 msgstr "キャレットを後方へ移動するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:856
@@ -1452,11 +1458,11 @@ msgid "The key events to select the 10th candidate. "
 msgstr "10番目の候補を選択するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:1138
-msgid "Convert character type to forward"
+msgid "Convert character type forward"
 msgstr "次の文字種に変換"
 
 #: src/scim_anthy_prefs.cpp:1139
-msgid "Select keys to convert character type to forward"
+msgid "Select keys to convert character type forward"
 msgstr "次の文字種に変換するキーの設定"
 
 #: src/scim_anthy_prefs.cpp:1140
@@ -1464,11 +1470,11 @@ msgid "Rotate character type forward."
 msgstr "文字種を次に変換"
 
 #: src/scim_anthy_prefs.cpp:1148
-msgid "Convert character type to backward"
+msgid "Convert character type backward"
 msgstr "前の文字種に変換"
 
 #: src/scim_anthy_prefs.cpp:1149
-msgid "Select keys to convert character type to backward"
+msgid "Select keys to convert character type backward"
 msgstr "前の文字種に変換するキーの設定"
 
 #: src/scim_anthy_prefs.cpp:1150
