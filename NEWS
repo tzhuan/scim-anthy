@@ -14,6 +14,10 @@ Overview of Changes from scim-anthy-1.2.x to scim-anthy-1.3.0
 * Clear or commit current preedit text when exit Japanese mode.
 * Other minor fixes.
 
+Overview of Changes from scim-anthy-1.2.6 to scim-anthy-1.2.7
+==============================================================
+* Set NICOLA engine as case sensitive.
+
 Overview of Changes from scim-anthy-1.2.5 to scim-anthy-1.2.6
 ==============================================================
 * Fix packaging misstake.
