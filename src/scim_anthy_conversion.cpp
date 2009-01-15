@@ -817,11 +817,7 @@ Conversion::set_dict_encoding (String type)
     if (!strcasecmp (type.c_str (), "UTF-8") ||
         !strcasecmp (type.c_str (), "UTF8"))
     {
-#ifdef ANTHY_UTF8_ENCODING
         anthy_context_set_encoding (m_anthy_context, ANTHY_UTF8_ENCODING);
-#else /* ANTHY_UTF8_ENCODING */
-        anthy_context_set_encoding (m_anthy_context, ANTHY_EUC_JP_ENCODING);
-#endif /* ANTHY_UTF8_ENCODING */
     } else {
         anthy_context_set_encoding (m_anthy_context, ANTHY_EUC_JP_ENCODING);
     }
