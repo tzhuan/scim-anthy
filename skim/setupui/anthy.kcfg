@@ -194,7 +194,7 @@
 
 
     <entry name="_IMEngine_Anthy_DictEncoding" key="/IMEngine/Anthy/DictEncoding" type="String">
-      <default>EUC-JP</default>
+      <default>UTF-8</default>
     </entry>
     <entry name="_IMEngine_Anthy_DictAdminCommand" key="/IMEngine/Anthy/DictAdminCommand" type="String">
       <default>kasumi</default>

@@ -23,6 +23,7 @@
 #include "scim_anthy_imengine.h"
 #include "scim_anthy_conversion.h"
 #include "scim_anthy_utils.h"
+#include "scim_anthy_prefs.h"
 
 using namespace scim_anthy;
 
@@ -98,7 +99,7 @@ Conversion::Conversion (AnthyInstance &anthy, Reading &reading)
     }
     anthy_ref_count++;
 
-    set_dict_encoding (String ("EUC-JP"));
+    set_dict_encoding (String (SCIM_ANTHY_CONFIG_DICT_ENCODING_DEFAULT));
 
 #ifdef HAS_ANTHY_SET_RECONVERSION_MODE
     anthy_set_reconversion_mode (m_anthy_context, ANTHY_RECONVERT_DISABLE);
@@ -816,7 +817,11 @@ Conversion::set_dict_encoding (String type)
     if (!strcasecmp (type.c_str (), "UTF-8") ||
         !strcasecmp (type.c_str (), "UTF8"))
     {
+#ifdef ANTHY_UTF8_ENCODING
         anthy_context_set_encoding (m_anthy_context, ANTHY_UTF8_ENCODING);
+#else /* ANTHY_UTF8_ENCODING */
+        anthy_context_set_encoding (m_anthy_context, ANTHY_EUC_JP_ENCODING);
+#endif /* ANTHY_UTF8_ENCODING */
     } else {
         anthy_context_set_encoding (m_anthy_context, ANTHY_EUC_JP_ENCODING);
     }

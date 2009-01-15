@@ -279,9 +279,9 @@ static ComboConfigCandidate behavior_on_focus_out[] =
 
 static ComboConfigCandidate dict_encoding[] =
 {
+    {N_("UTF-8"),     "UTF-8"},
     {N_("EUC-JP"),    "EUC-JP"},
     {N_("EUC-JP-MS"), "EUC-JP-MS"},
-    {N_("UTF-8"),     "UTF-8"},
     {NULL, NULL},
 };
 
