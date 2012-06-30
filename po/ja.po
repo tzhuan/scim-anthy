@@ -1114,7 +1114,7 @@ msgid "Select reconvert keys"
 msgstr "再変換キーの設定"
 
 #: src/scim_anthy_prefs.cpp:769
-msgid "The key events to reconvert the commited string in selection. "
+msgid "The key events to reconvert the committed string in selection. "
 msgstr "セレクション内の確定済み文字列を再変換するキーイベント"
 
 #: src/scim_anthy_prefs.cpp:778

@@ -766,7 +766,7 @@ StringConfigData config_keyboards_edit [] =
         SCIM_ANTHY_CONFIG_RECONVERT_KEY_DEFAULT,
         N_("Reconvert"),
         N_("Select reconvert keys"),
-        N_("The key events to reconvert the commited string in selection. "),
+        N_("The key events to reconvert the committed string in selection. "),
         NULL,
         false,
     },

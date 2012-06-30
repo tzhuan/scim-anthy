@@ -1162,7 +1162,7 @@ msgid "Select reconvert keys"
 msgstr "Tasten zum zurückkonvertieren wählen"
 
 #: src/scim_anthy_prefs.cpp:769
-msgid "The key events to reconvert the commited string in selection. "
+msgid "The key events to reconvert the committed string in selection. "
 msgstr ""
 "Die Tastatureignisse, die die übergebene Zeichenkette wieder in eine Auswahl "
 "zurückkonvertieren"
