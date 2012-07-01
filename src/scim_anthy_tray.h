@@ -96,7 +96,10 @@ private:
     GtkWidget                   *m_input_mode_menu;
     GtkWidget                   *m_general_menu;
 
+#if GTK_CHECK_VERSION(2, 12, 0)
+#else
     GtkTooltips                 *m_tooltips;
+#endif
 };
 
 #endif /* __SCIM_ANTHY_TRAY_H__ */

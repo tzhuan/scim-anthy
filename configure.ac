@@ -106,12 +106,16 @@ PKG_CHECK_MODULES(ANTHY,[anthy >= $ANTHY_VERSION])
 
 # Check gtk2
 PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.8.0],
-                        [HAS_GTK=yes],
-                        [HAS_GTK=no])
+                        [HAS_GTK2=yes],
+                        [HAS_GTK2=no])
 
-AM_CONDITIONAL(SCIM_BUILD_HELPER, [test "$HAS_GTK" = "yes"])
+PKG_CHECK_MODULES(GTK3, [gtk+-3.0 >= 3.0.0],
+                        [HAS_GTK3=yes],
+                        [HAS_GTK3=no])
 
-if test "$HAS_GTK" = "yes"; then
+AM_CONDITIONAL(SCIM_BUILD_HELPER, [test "$HAS_GTK2" = "yes" -o "$HAS_GTK3" = "yes"])
+
+if test "$HAS_GTK2" = "yes" -o "$HAS_GTK3" = "yes"; then
   SCIM_BUILD_HELPER=1
 else
   SCIM_BUILD_HELPER=0
@@ -132,6 +136,61 @@ AC_ARG_ENABLE(debug,
 	       no)  debug=no ;;
 	       *) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
        	      esac],[debug=no])
+
+#AC_ARG_WITH([gtk-version],
+#    [AS_HELP_STRING([--with-gtk-version=2 or 3],
+#        [Select gtk version if both gtk2 and gtk3 are available (default is 3)]),
+#	[WANT_GTK_VERSION=$withval],
+#    [WANT_GTK_VERSION=3])
+
+AC_ARG_WITH([gtk-version],
+    [--with-gtk-version=2 or 3		Select gtk version if both gtk2 and gtk3 are available (default is 3)],
+	[WANT_GTK_VERSION=$withval],
+    [WANT_GTK_VERSION=3])
+
+if test "$HAS_GTK3" = "yes" -a "$HAS_GTK2" = "yes"; then
+  if test "$WANT_GTK_VERSION" = "2"; then
+    USE_GTK_VERSION="2"
+  else
+    USE_GTK_VERSION="3"
+  fi
+elif test "$HAS_GTK3" = "yes"; then
+  USE_GTK_VERSION="3"
+elif test "$HAS_GTK2" = "yes"; then
+  USE_GTK_VERSION="2"
+fi
+
+if test "$USE_GTK_VERSION" = "3"; then
+  HAS_GTK=yes
+  GTK_LIBDIR=$GTK3_LIBDIR
+  GTK_VERSION=$GTK3_VERSION
+  GTK_MAJOR_VERSION=3
+  GTK_BINARY_VERSION=$GTK3_BINARY_VERSION
+  GTK_CFLAGS=$GTK3_CFLAGS
+  GTK_LIBS=$GTK3_LIBS
+  AC_SUBST(GTK_LIBDIR)
+  AC_SUBST(GTK_VERSION)
+  AC_SUBST(GTK_MAJOR_VERSION)
+  AC_SUBST(GTK_BINARY_VERSION)
+  AC_SUBST(GTK_CFLAGS)
+  AC_SUBST(GTK_LIBS)
+elif test "$USE_GTK_VERSION" = "2"; then
+  HAS_GTK=yes
+  GTK_LIBDIR=$GTK2_LIBDIR
+  GTK_VERSION=$GTK2_VERSION
+  GTK_MAJOR_VERSION=2
+  GTK_BINARY_VERSION=$GTK2_BINARY_VERSION
+  GTK_CFLAGS=$GTK2_CFLAGS
+  GTK_LIBS=$GTK2_LIBS
+  AC_SUBST(GTK_LIBDIR)
+  AC_SUBST(GTK_VERSION)
+  AC_SUBST(GTK_MAJOR_VERSION)
+  AC_SUBST(GTK_BINARY_VERSION)
+  AC_SUBST(GTK_CFLAGS)
+  AC_SUBST(GTK_LIBS)
+else
+  HAS_GTK=no
+fi
 
 if test "x$debug" = "xyes"; then
   test "$cflags_set" = set || CFLAGS="$CFLAGS -g"

@@ -138,17 +138,16 @@ else
 anthy_imengine_helper_la_SOURCES  = scim_anthy_helper.cpp
 endif
 
-anthy_imengine_helper_la_CFLAGS   = @GTK2_CFLAGS@ \
+anthy_imengine_helper_la_CFLAGS   = @GTK_CFLAGS@ \
 				    @SCIM_CFLAGS@ \
 				    @SCIM_DEBUG_FLAGS@
-anthy_imengine_helper_la_CXXFLAGS = @GTK2_CFLAGS@ \
+anthy_imengine_helper_la_CXXFLAGS = @GTK_CFLAGS@ \
 				    @SCIM_CFLAGS@ \
 				    @SCIM_DEBUG_FLAGS@
 anthy_imengine_helper_la_LDFLAGS  = -avoid-version \
                                     -rpath $(setupmoduledir) \
                                     -module \
 				    @LIBTOOL_EXPORT_OPTIONS@ \
-				    @GTK2_LIBS@ \
 				    @INTLLIBS@ \
 				    @SCIM_LIBS@ \
 				    @SCIM_GTKUTILS_LIBS@

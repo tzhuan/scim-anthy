@@ -60,8 +60,11 @@ AnthyTray::AnthyTray ()
       m_wide_latin_pixbuf  (NULL),
       m_direct_pixbuf      (NULL),
       m_input_mode_menu    (NULL),
-      m_general_menu       (NULL),
-      m_tooltips           (NULL)
+      m_general_menu       (NULL)
+#if GTK_CHECK_VERSION(2, 12, 0)
+#else
+      ,m_tooltips           (NULL)
+#endif
 {
 }
 
@@ -87,8 +90,15 @@ AnthyTray::~AnthyTray ()
 
         gtk_widget_destroy (m_input_mode_menu);
 
+#if GTK_CHECK_VERSION(2, 24, 0)
+        gtk_widget_destroy (GTK_WIDGET (m_tray));
+#else
         gtk_object_destroy (GTK_OBJECT (m_tray));
+#endif
+#if GTK_CHECK_VERSION(2, 12, 0)
+#else
         gtk_object_destroy (GTK_OBJECT (m_tooltips));
+#endif
     }
 }
 
@@ -260,11 +270,16 @@ AnthyTray::create_general_menu (PropertyList &props)
             gtk_misc_set_alignment (GTK_MISC (item_label),
                                     0.0, 0.5); // to left
 
+#if GTK_CHECK_VERSION(2, 12, 0)
+            gtk_widget_set_tooltip_text (item, tip.c_str());
+#else
             if (m_tooltips == NULL)
                 m_tooltips = gtk_tooltips_new ();
 
             gtk_tooltips_set_tip (m_tooltips, item,
                                   tip.c_str(), tip.c_str());
+#endif
+
             gtk_container_add (GTK_CONTAINER (item),
                                item_label);
             g_object_set_data (G_OBJECT (item),
@@ -289,11 +304,15 @@ AnthyTray::create_general_menu (PropertyList &props)
             gtk_misc_set_alignment (GTK_MISC (item_label),
                                     0.0, 0.5); // to left
 
+#if GTK_CHECK_VERSION(2, 12, 0)
+            gtk_widget_set_tooltip_text (item, tip.c_str ());
+#else
             if (m_tooltips == NULL)
                 m_tooltips = gtk_tooltips_new ();
 
             gtk_tooltips_set_tip (m_tooltips, item,
                                   tip.c_str (), tip.c_str ());
+#endif
             gtk_container_add (GTK_CONTAINER (item),
                                item_label);
             g_object_set_data (G_OBJECT (item),
@@ -332,8 +351,12 @@ AnthyTray::update_general_menu (Property &prop)
     GtkWidget *item = find_menu_item (m_general_menu, key);
     GtkWidget *item_label = gtk_bin_get_child (GTK_BIN (item));
 
+#if GTK_CHECK_VERSION(2, 12, 0)
+    gtk_widget_set_tooltip_text (item, tip.c_str ());
+#else
     gtk_tooltips_set_tip (m_tooltips, item,
                           tip.c_str (), tip.c_str ());
+#endif
     gtk_label_set_text (GTK_LABEL (item_label), label.c_str ());
 }
 
@@ -414,26 +437,60 @@ AnthyTray::destroy_general_menu (void)
 static gboolean
 transparent_expose_event (GtkWidget *widget, GdkEventExpose *event)
 {
-  gdk_window_clear_area (widget->window, event->area.x, event->area.y,
-                         event->area.width, event->area.height);
+#if GTK_CHECK_VERSION(3, 0, 0)
+  // FIXME
+#else
+  gdk_window_clear_area (
+#if GTK_CHECK_VERSION(2, 14, 0)
+	gtk_widget_get_window (widget),
+#else
+	widget->window,
+#endif
+	event->area.x, event->area.y,
+	event->area.width, event->area.height);
+#endif
   return FALSE;
 }
 
 static void
 make_transparent_again (GtkWidget *widget, GtkStyle *previous_style)
 {
-  gdk_window_set_back_pixmap (widget->window, NULL, TRUE);
+#if GTK_CHECK_VERSION(3, 0, 0)
+  // FIXME
+#else
+  gdk_window_set_back_pixmap (
+#if GTK_CHECK_VERSION(2, 14, 0)
+	gtk_widget_get_window (widget),
+#else
+	widget->window,
+#endif
+	NULL, TRUE);
+#endif
 }
 
 static void
 make_transparent (GtkWidget *widget)
 {
+#if GTK_CHECK_VERSION(2, 18, 0)
+  if (!gtk_widget_get_has_window (widget) || gtk_widget_get_app_paintable (widget))
+#else
   if (GTK_WIDGET_NO_WINDOW (widget) || GTK_WIDGET_APP_PAINTABLE (widget))
+#endif
     return;
 
   gtk_widget_set_app_paintable (widget, TRUE);
   gtk_widget_set_double_buffered (widget, FALSE);
-  gdk_window_set_back_pixmap (widget->window, NULL, TRUE);
+#if GTK_CHECK_VERSION(3, 0, 0)
+  // FIXME
+#else
+  gdk_window_set_back_pixmap (
+#if GTK_CHECK_VERSION(2, 14, 0)
+	gtk_widget_get_window (widget),
+#else
+	widget->window,
+#endif
+	NULL, TRUE);
+#endif
   g_signal_connect (widget, "expose_event",
                     G_CALLBACK (transparent_expose_event), NULL);
   g_signal_connect (widget, "style_set",
@@ -443,8 +500,11 @@ make_transparent (GtkWidget *widget)
 void
 AnthyTray::create_tray (void)
 {
+#if GTK_CHECK_VERSION(2, 12, 0)
+#else
     if (m_tooltips == NULL)
         m_tooltips = gtk_tooltips_new ();
+#endif
 
     // input mode menu
     m_input_mode_menu = gtk_menu_new ();
@@ -481,8 +541,12 @@ AnthyTray::create_tray (void)
         
         gtk_misc_set_alignment (GTK_MISC (item_label),
                                 0.0, 0.5); // to left
+#if GTK_CHECK_VERSION(2, 12, 0)
+        gtk_widget_set_tooltip_text (item, props[i].tips);
+#else
         gtk_tooltips_set_tip (m_tooltips, item,
                               props[i].tips, props[i].tips);
+#endif
         gtk_container_add (GTK_CONTAINER (item),
                            item_label);
         gtk_menu_shell_append (GTK_MENU_SHELL (m_input_mode_menu),
@@ -508,8 +572,12 @@ AnthyTray::create_tray (void)
     m_tray_button = gtk_button_new ();
     gtk_button_set_relief (GTK_BUTTON (m_tray_button),
                            GTK_RELIEF_NONE);
+#if GTK_CHECK_VERSION(2, 12, 0)
+    gtk_widget_set_tooltip_text (m_tray_button, _("Input mode"));
+#else
     gtk_tooltips_set_tip (m_tooltips, m_tray_button,
                           _("Input mode"), _("Input mode"));
+#endif
     g_signal_connect (G_OBJECT (m_tray_button), "button-release-event",
                       G_CALLBACK (popup), this);
     gtk_container_add (GTK_CONTAINER (m_tray), m_tray_button);
@@ -532,8 +600,12 @@ AnthyTray::create_tray (void)
     m_tray_event_box = gtk_event_box_new ();
     g_signal_connect (G_OBJECT (m_tray_event_box), "realize",
                       G_CALLBACK (make_transparent), NULL);
+#if GTK_CHECK_VERSION(2, 12, 0)
+    gtk_widget_set_tooltip_text(m_tray_event_box, _("Input mode"));
+#else
     gtk_tooltips_set_tip (m_tooltips, m_tray_event_box,
                           _("Input mode"), _("Input mode"));
+#endif
     g_signal_connect (G_OBJECT (m_tray_event_box), "button-release-event",
                       G_CALLBACK (popup), this);
     gtk_container_add (GTK_CONTAINER (m_tray), m_tray_event_box);
