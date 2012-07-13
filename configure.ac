@@ -70,18 +70,22 @@ AC_SUBST(SCIM_VERSION)
 
 AM_CONDITIONAL(SCIM_BUILD_SETUP, [test "$SCIM_HAS_GTKUTILS" = "yes"])
 AM_CONDITIONAL(SCIM_BUILD_TRAY, [test "$SCIM_HAS_GTKUTILS" = "yes"])
+AM_CONDITIONAL(SCIM_BUILD_HELPER, [test "$SCIM_HAS_GTKUTILS" = "yes"])
 
 if test "$SCIM_HAS_GTKUTILS" = "yes"; then
   SCIM_BUILD_SETUP=1
   SCIM_BUILD_TRAY=1
+  SCIM_BUILD_HELPER=1
   AC_DEFINE([SCIM_ANTHY_BUILD_TRAY], [], [build tray icon])
 else
   SCIM_BUILD_SETUP=0
   SCIM_BUILD_TRAY=0
+  SCIM_BUILD_HELPER=0
 fi
 
 AC_SUBST(SCIM_BUILD_SETUP)
 AC_SUBST(SCIM_BUILD_TRAY)
+AC_SUBST(SCIM_BUILD_HELPER)
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -104,25 +108,6 @@ AC_SUBST(ac_aux_dir)
 ANTHY_VERSION=7500
 PKG_CHECK_MODULES(ANTHY,[anthy >= $ANTHY_VERSION])
 
-# Check gtk2
-PKG_CHECK_MODULES(GTK2, [gtk+-2.0 >= 2.8.0],
-                        [HAS_GTK2=yes],
-                        [HAS_GTK2=no])
-
-PKG_CHECK_MODULES(GTK3, [gtk+-3.0 >= 3.0.0],
-                        [HAS_GTK3=yes],
-                        [HAS_GTK3=no])
-
-AM_CONDITIONAL(SCIM_BUILD_HELPER, [test "$HAS_GTK2" = "yes" -o "$HAS_GTK3" = "yes"])
-
-if test "$HAS_GTK2" = "yes" -o "$HAS_GTK3" = "yes"; then
-  SCIM_BUILD_HELPER=1
-else
-  SCIM_BUILD_HELPER=0
-fi
-
-AC_SUBST(SCIM_BUILD_HELPER)
-
 # libtool option to control which symbols are exported
 # right now, symbols starting with _ are not exported
 LIBTOOL_EXPORT_OPTIONS='-export-symbols-regex "^[[^_]].*"'
@@ -136,61 +121,6 @@ AC_ARG_ENABLE(debug,
 	       no)  debug=no ;;
 	       *) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
        	      esac],[debug=no])
-
-#AC_ARG_WITH([gtk-version],
-#    [AS_HELP_STRING([--with-gtk-version=2 or 3],
-#        [Select gtk version if both gtk2 and gtk3 are available (default is 3)]),
-#	[WANT_GTK_VERSION=$withval],
-#    [WANT_GTK_VERSION=3])
-
-AC_ARG_WITH([gtk-version],
-    [--with-gtk-version=2 or 3		Select gtk version if both gtk2 and gtk3 are available (default is 3)],
-	[WANT_GTK_VERSION=$withval],
-    [WANT_GTK_VERSION=3])
-
-if test "$HAS_GTK3" = "yes" -a "$HAS_GTK2" = "yes"; then
-  if test "$WANT_GTK_VERSION" = "2"; then
-    USE_GTK_VERSION="2"
-  else
-    USE_GTK_VERSION="3"
-  fi
-elif test "$HAS_GTK3" = "yes"; then
-  USE_GTK_VERSION="3"
-elif test "$HAS_GTK2" = "yes"; then
-  USE_GTK_VERSION="2"
-fi
-
-if test "$USE_GTK_VERSION" = "3"; then
-  HAS_GTK=yes
-  GTK_LIBDIR=$GTK3_LIBDIR
-  GTK_VERSION=$GTK3_VERSION
-  GTK_MAJOR_VERSION=3
-  GTK_BINARY_VERSION=$GTK3_BINARY_VERSION
-  GTK_CFLAGS=$GTK3_CFLAGS
-  GTK_LIBS=$GTK3_LIBS
-  AC_SUBST(GTK_LIBDIR)
-  AC_SUBST(GTK_VERSION)
-  AC_SUBST(GTK_MAJOR_VERSION)
-  AC_SUBST(GTK_BINARY_VERSION)
-  AC_SUBST(GTK_CFLAGS)
-  AC_SUBST(GTK_LIBS)
-elif test "$USE_GTK_VERSION" = "2"; then
-  HAS_GTK=yes
-  GTK_LIBDIR=$GTK2_LIBDIR
-  GTK_VERSION=$GTK2_VERSION
-  GTK_MAJOR_VERSION=2
-  GTK_BINARY_VERSION=$GTK2_BINARY_VERSION
-  GTK_CFLAGS=$GTK2_CFLAGS
-  GTK_LIBS=$GTK2_LIBS
-  AC_SUBST(GTK_LIBDIR)
-  AC_SUBST(GTK_VERSION)
-  AC_SUBST(GTK_MAJOR_VERSION)
-  AC_SUBST(GTK_BINARY_VERSION)
-  AC_SUBST(GTK_CFLAGS)
-  AC_SUBST(GTK_LIBS)
-else
-  HAS_GTK=no
-fi
 
 if test "x$debug" = "xyes"; then
   test "$cflags_set" = set || CFLAGS="$CFLAGS -g"

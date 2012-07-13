@@ -138,10 +138,10 @@ else
 anthy_imengine_helper_la_SOURCES  = scim_anthy_helper.cpp
 endif
 
-anthy_imengine_helper_la_CFLAGS   = @GTK_CFLAGS@ \
+anthy_imengine_helper_la_CFLAGS   = @SCIM_GTKUTILS_CFLAGS@ \
 				    @SCIM_CFLAGS@ \
 				    @SCIM_DEBUG_FLAGS@
-anthy_imengine_helper_la_CXXFLAGS = @GTK_CFLAGS@ \
+anthy_imengine_helper_la_CXXFLAGS = @SCIM_GTKUTILS_CFLAGS@ \
 				    @SCIM_CFLAGS@ \
 				    @SCIM_DEBUG_FLAGS@
 anthy_imengine_helper_la_LDFLAGS  = -avoid-version \
